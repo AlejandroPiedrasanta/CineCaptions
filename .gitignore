@@ -1,0 +1,11 @@
+6_compilacion/
+6_compilacion_mac/
+__pycache__/
+*.pyc
+*.exe
+*.dmg
+*.pkg
+4_diseno/
+5_licencias/
+.mcp.json
+.claude/
