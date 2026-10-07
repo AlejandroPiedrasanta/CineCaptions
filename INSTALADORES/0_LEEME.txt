@@ -1,0 +1,22 @@
+==============================================================================
+ INSTALADORES\  —  LO QUE SE ENTREGA
+ CineCaptions · By Cinema Productions
+==============================================================================
+
+Aquí quedan SOLO los instaladores listos para dar a un cliente, uno por sistema y
+siempre con la versión en el nombre. Los de versiones anteriores se borran solos.
+
+    Windows\   Instalar_CineCaptions_<versión>.exe
+               (instalador + programa + desinstalador, sin internet; Windows 10/11 x64)
+    Mac\       CineCaptions_Mac_AppleSilicon_<versión>.dmg
+               CineCaptions_Mac_Intel_<versión>.dmg
+               (cada .dmg trae Instalar_CineCaptions.pkg + Desinstalar_CineCaptions.command)
+
+CÓMO SE ACTUALIZAN (después de CUALQUIER mejora del programa; salen del mismo código):
+
+    powershell -ExecutionPolicy Bypass -File Actualizar_Windows.ps1            Windows (sube la versión si el código cambió)
+    powershell -ExecutionPolicy Bypass -File Actualizar_Windows.ps1 -Comprobar ¿está al día?
+    powershell -ExecutionPolicy Bypass -File Actualizar_Mac.ps1                Mac (los compila GitHub Actions y los baja aquí)
+
+Se corren desde la raíz del proyecto. Los .exe / .dmg no se suben a git (.gitignore).
+El instalador del ADMINISTRADOR de licencias es otro producto y vive en 5_licencias\.

@@ -84,6 +84,8 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         la «isla dinámica»: el menú de navegación flotante de arriba, los controles de la ventana y el borde.
     licencia.py
         la licencia (Lemon Squeezy / Gumroad): activar, verificar, desactivar, estado firmado, 7 días sin internet.
+    mapa_codigo.py
+        consulta el código y la documentación POR TEMA sin leer archivos enteros (mapa, símbolo, módulo, cambios); lo usan el MCP y la línea de comandos.
     mcp_cinecaptions.py
         servidor MCP (stdio, sin dependencias) de CineCaptions: estado, packs, transcribir, planificar, colocar, renderizar y comparar.
     medir_texto.py
@@ -149,7 +151,7 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
     version.py
         la versión del programa (APP_VERSION) y el autor, en un solo sitio.
     vigilancia.py
-        guardián de las tareas largas (GO, Generar), chequeos periódicos y detección de arranque atascado. Windows y Mac.
+        guardián de tareas largas (GO, Generar): detecta atascos, destraba motores, chequeos periódicos y arranque atascado.
     vistas_guia.py
         las vistas REALES (renderizadas por Resolve) de los ejemplos de «Crea tu estilo»: se piden, se reducen y se guardan en caché.
     vistas_reales.py

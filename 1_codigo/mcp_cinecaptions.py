@@ -5,6 +5,8 @@ mcp_cinecaptions.py  (v5.9)
 ---------------------------
 El MCP del programa: deja que Claude (u otro cliente MCP) hable con CineCaptions sin abrir la interfaz. Sirve sobre todo para PROBAR estilos:
 
+    mapa / simbolo / modulo / cambios / resumen   CONSULTAR el proyecto sin leer archivos (v5.3.2): temas con archivos y símbolos, el código de UNA función, qué es un archivo,
+                      los últimos cambios y la página de resumen (usan 1_codigo/mapa_codigo.py y DOCUMENTACION/)
     estado            Resolve (proyecto, timeline, fps), versión del programa, banco de pruebas
     packs             los packs de estilos (variantes, formatos, si son de estilo «guion»)
     transcribir       video/audio -> palabras con tiempos (el mismo motor de voz de la app)
@@ -496,6 +498,32 @@ def t_evaluar(a):
     return {'texto': texto}
 
 
+# ---------------------------------------------------------------------------------------------------------------------------------- documentación y código por temas (v5.3.2)
+def _mc():
+    import mapa_codigo
+    return mapa_codigo
+
+
+def t_mapa(a):
+    return _mc().mapa(a.get('consulta', ''), a.get('id', ''), bool(a.get('completo')), int(a.get('maximo', 5)))
+
+
+def t_simbolo(a):
+    return _mc().simbolo(a['nombre'], int(a.get('lineas', 70)), a.get('archivo', ''))
+
+
+def t_modulo(a):
+    return _mc().modulo(a['nombre'])
+
+
+def t_cambios(a):
+    return _mc().cambios(int(a.get('n', 6)))
+
+
+def t_resumen(a):
+    return _mc().resumen()
+
+
 def t_registro(a):
     ruta = Path.home() / 'DaVinciSubtitles' / 'cinecaptions.log'
     try:
@@ -518,6 +546,13 @@ _PLAN = {'palabras': {'description': 'ruta de un .json de palabras [{word,start,
          'estilos': {'type': 'object', 'description': '{"índice de bloque": n de variante} para forzar el estilo de un bloque'},
          'fin_video': _N, 'idioma': _S}
 HERRAMIENTAS = {
+    'mapa': ('USAR ANTES DE ABRIR ARCHIVOS. Busca por palabras qué tema del programa tiene lo que buscas y devuelve sus archivos y símbolos (compacto); con id="go-inicio" da el detalle de ese tema; '
+             'con completo=true incluye el texto. Sin argumentos lista los grupos.', _esq({'consulta': _S, 'id': _S, 'completo': {'type': 'boolean'}, 'maximo': _N}), t_mapa),
+    'simbolo': ('Devuelve SOLO el código de una función, clase o método (p. ej. "_go_generar", "WordTagWindow._continuar", "Instalacion.Desinstalar") con archivo:líneas; las clases grandes dan la lista de métodos. '
+                'Evita leer el script principal (12 000 líneas).', _esq({'nombre': _S, 'lineas': _N, 'archivo': _S}, ['nombre']), t_simbolo),
+    'modulo': ('Qué es un archivo de código (descripción, clases y funciones con su línea), p. ej. "vigilancia", "sfx_rules", "principal".', _esq({'nombre': _S}, ['nombre']), t_modulo),
+    'cambios': ('Las últimas n entradas EXPLICADAS del registro de cambios (el porqué de cada cambio reciente).', _esq({'n': _N}), t_cambios),
+    'resumen': ('Una página: qué es CineCaptions, flujo de GO, pantallas, quién decide qué y reglas que no se rompen.', _esq({}), t_resumen),
     'estado': ('Estado de CineCaptions: versión, Resolve (proyecto, timeline, fps), packs y banco de pruebas.', _esq({}), t_estado),
     'packs': ('Lista los packs de estilos (variantes, formatos, estilo «guion»). Con «pack» añade el tipo de letra y tamaño del principal de cada variante.',
               _esq({'pack': _S}), t_packs),
@@ -583,7 +618,7 @@ def _responder(id_, resultado=None, error=None):
     _SALIDA.flush()
 
 
-_MODULOS_VIVOS = ('guion_captions', 'guion_planificador', 'guion_referencia', 'banco_pruebas')    # en orden de dependencia
+_MODULOS_VIVOS = ('guion_captions', 'guion_planificador', 'guion_referencia', 'banco_pruebas', 'mapa_codigo')    # en orden de dependencia
 _MTIMES = {}
 
 

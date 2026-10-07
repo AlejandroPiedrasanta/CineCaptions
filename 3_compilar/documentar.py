@@ -5,13 +5,13 @@ documentar.py
 -------------
 Mantiene al día la documentación SIN trabajo a mano:
 
-  1. LEEME.txt, entre las marcas «INDICE AUTOMATICO» y «MAPA AUTOMATICO»:
-       - el ÍNDICE DE ARCHIVOS (sale de la 2.ª línea de cada archivo, ver encabezados.py);
-       - el MAPA DEL CÓDIGO: cada clase, método y función con su línea y lo que hace.
-     El resto del LEEME (lo escrito a mano) no se toca.
+  1. LEEME.txt: la cabecera con la versión al día (el índice de archivos y el mapa del código que antes se escribían aquí —267 KB, nadie
+     los puede leer enteros— se quitaron: ahora se consultan por tema con 1_codigo/mapa_codigo.py / el MCP; cada carpeta ya trae su 0_LEEME.txt).
+     Además reescribe el mapa de CLAUDE.md desde DOCUMENTACION/mapa.json y avisa de archivos o símbolos que ya no existen.
   2. REGISTRO_DE_CAMBIOS.txt: compara la huella SHA-256 de cada archivo con la de la vez anterior
      (3_compilar/huellas.json) y, si algo cambió, añade ARRIBA una entrada con la fecha, la versión y
-     los archivos nuevos / modificados / quitados.
+     los archivos nuevos / modificados / quitados (máx. 12 por lista). El registro NO crece sin fin: pasado de 45 KB lo antiguo rota a
+     DOCUMENTACION/historial/REGISTRO_<aaaa-mm>.txt y aquí quedan las entradas más nuevas (~30 KB).
   3. El 0_LEEME.txt de cada carpeta numerada: qué es la carpeta y qué hay dentro (cada archivo
      de código con su descripción; cada subcarpeta con lo que guarda).
   4. Avisa si algún archivo de código no tiene el encabezado de autor o si reaparece el nombre
@@ -147,23 +147,26 @@ def reemplazar_entre(texto, inicio, fin, lineas):
 
 
 def actualizar_leeme():
+    """Pone la versión en la cabecera del LEEME y quita (una sola vez) las secciones 13 y 14 que se escribían aquí (índice de archivos y mapa de código)."""
     if not LEEME.exists():
         print('  (no hay LEEME.txt)')
         return
     t = LEEME.read_text(encoding='utf-8')
     hoy = datetime.date.today().isoformat()
-    try:
-        t = reemplazar_entre(t, '<<< INDICE AUTOMATICO (lo escribe 3_compilar/documentar.py) >>>',
-                             '<<< FIN DEL INDICE >>>', indice())
-        t = reemplazar_entre(t, '<<< MAPA AUTOMATICO (lo escribe 3_compilar/documentar.py) >>>',
-                             '<<< FIN DEL MAPA >>>',
-                             [f'  Generado el {hoy} para la v{version()}. Formato: línea  clase / .método() / función()  — qué hace.', ''] + mapa())
-    except ValueError:
-        print('  AVISO: el LEEME no tiene las marcas del índice o del mapa: no se actualizó')
-        return
-    t = re.sub(r'(Índice y mapa del código actualizados el )\S+', r'\g<1>' + hoy, t)
+    corte = re.search(r'(?m)^13\. ÍNDICE DE ARCHIVOS', t)
+    if corte:
+        t = (t[:corte.start()].rstrip() + '\n\n\n13. ÍNDICE DE ARCHIVOS Y MAPA DEL CÓDIGO: ya no se escriben aquí (eran 267 KB).\n' + '-' * 80 + '\n'
+             'Qué es cada archivo: el 0_LEEME.txt de su carpeta o «modulo(nombre)» del MCP. Dónde está algo: «mapa(consulta)». El código de una función: «simbolo(nombre)».\n'
+             'Sin MCP: 6_compilacion\\venv314\\Scripts\\python.exe 1_codigo\\mapa_codigo.py mapa|simbolo|modulo <palabras>. Una página de todo: DOCUMENTACION\\RESUMEN.md.\n')
+    t = re.sub(r'(?m)^\s+13\. Índice de archivos.*\n', '', t)
+    t = re.sub(r'(?m)^\s+14\. Mapa del código.*\n', '', t)
+    t = re.sub(r'(CINECAPTIONS )[\d.]+', r'\g<1>' + version(), t, count=1)
+    t = re.sub(r'(?m)^ (?:Índice y mapa del código actualizados|Documentación al día) el \S+.*$', lambda m: f' Documentación al día el {hoy} (la rehace 3_compilar\\documentar.py)', t)
+    aviso = 'LEEME.txt es para PERSONAS (~30 KB). Un asistente NO debe leerlo entero: DOCUMENTACION/RESUMEN.md + mapa()/simbolo() del MCP.'
+    if aviso not in t:
+        t = t.replace('Este archivo explica TODO el programa', aviso + '\n\nEste archivo explica TODO el programa', 1)
     LEEME.write_text(t, encoding='utf-8')
-    print('  LEEME.txt: índice y mapa del código al día')
+    print('  LEEME.txt: versión al día')
 
 
 # ---------------------------------------------------------------- el 0_LEEME.txt de cada carpeta
@@ -178,7 +181,7 @@ CARPETAS = {
         'nombres de las subcarpetas los usa el código: NO se renombran. El logo va suelto aquí',
         'porque así queda también dentro del .exe.']),
     '3_compilar': ('COMPILAR EL .EXE', [
-        'Construir_Instalador.ps1 lo hace todo y deja Instalar_CineCaptions.exe en la raíz:',
+        'Construir_Instalador.ps1 lo hace todo y deja Instalar_CineCaptions_<versión>.exe en INSTALADORES/Windows:',
         '    powershell -ExecutionPolicy Bypass -File 3_compilar\\Construir_Instalador.ps1',
         'Ver LEEME.txt, sección 7.']),
     '4_diseno': ('DISEÑO', [
@@ -329,9 +332,9 @@ def anotar(nota=''):
                 lista = cambios[clave]
                 if lista:
                     entrada.append(f'    {clave} ({len(lista)}):')
-                    entrada += [f'      {signo} {r}' for r in lista[:80]]
-                    if len(lista) > 80:
-                        entrada.append(f'      … y {len(lista) - 80} más')
+                    entrada += [f'      {signo} {r}' for r in lista[:12]]
+                    if len(lista) > 12:
+                        entrada.append(f'      … y {len(lista) - 12} más')
         t = REGISTRO.read_text(encoding='utf-8') if REGISTRO.exists() else MARCA_REGISTRO + '\n'
         if MARCA_REGISTRO not in t:
             t += '\n' + MARCA_REGISTRO + '\n'
@@ -343,6 +346,38 @@ def anotar(nota=''):
     else:
         print('  REGISTRO_DE_CAMBIOS.txt: sin cambios desde la última vez')
     HUELLAS.write_text(json.dumps(nuevas, indent=0, sort_keys=True), encoding='utf-8')
+    rotar_registro()
+
+
+def rotar_registro(maximo=45_000, conservar=30_000):
+    """El registro de cambios no crece sin fin: si pasa de `maximo` bytes, lo antiguo se archiva por mes en DOCUMENTACION/historial/."""
+    if not REGISTRO.exists() or REGISTRO.stat().st_size <= maximo:
+        return
+    t = REGISTRO.read_text(encoding='utf-8')
+    a = t.index(MARCA_REGISTRO) + len(MARCA_REGISTRO)
+    cabecera, cuerpo = t[:a], t[a:]
+    entradas = [e for e in re.split(r'(?m)^(?=\d{4}-\d\d-\d\d \d\d:\d\d  ·)', cuerpo) if e.strip()]
+    quedan, peso = [], 0
+    for e in entradas:
+        if peso + len(e) > conservar and len(quedan) >= 12:
+            break
+        quedan.append(e)
+        peso += len(e)
+    movidas = entradas[len(quedan):]
+    if not movidas:
+        return
+    carpeta = RAIZ / 'DOCUMENTACION' / 'historial'
+    carpeta.mkdir(parents=True, exist_ok=True)
+    por_mes = {}
+    for e in movidas:
+        por_mes.setdefault(e[:7], []).append(e)
+    for mes, lista in por_mes.items():
+        destino = carpeta / f'REGISTRO_{mes}.txt'
+        previo = destino.read_text(encoding='utf-8') if destino.exists() else f'REGISTRO DE CAMBIOS ARCHIVADO · {mes} (la entrada más nueva arriba)\n\n'
+        cab, _, resto = previo.partition('\n\n')
+        destino.write_text(cab + '\n\n' + ''.join(lista) + resto, encoding='utf-8')
+    REGISTRO.write_text(cabecera + '\n\n' + ''.join(quedan) + '\n(Lo anterior está archivado por mes en DOCUMENTACION/historial/REGISTRO_<aaaa-mm>.txt)\n', encoding='utf-8')
+    print(f'  REGISTRO_DE_CAMBIOS.txt: {len(movidas)} entradas antiguas archivadas en DOCUMENTACION/historial/')
 
 
 # ---------------------------------------------------------------- comprobaciones
@@ -372,6 +407,15 @@ def main(argv):
     actualizar_leeme()
     leemes_de_carpeta()
     anotar(nota)
+    try:
+        sys.path.insert(0, str(RAIZ / '1_codigo'))
+        import mapa_codigo
+        avisos_mapa = mapa_codigo.generar()
+        print('  CLAUDE.md: mapa de temas al día' + (f' — {len(avisos_mapa)} aviso/s:' if avisos_mapa else ''))
+        for a in avisos_mapa:
+            print('    AVISO mapa:', a)
+    except Exception as e:                      # la documentación nunca debe romper la compilación
+        print('  (no se pudo regenerar el mapa de CLAUDE.md:', e, ')')
     avisos = revisar()
     print('  revisión:', 'todo en orden' if not avisos else f'{avisos} aviso/s')
     return 0

@@ -1,7 +1,7 @@
 # CineCaptions - By Cinema Productions
-# 3_compilar/Construir_Instalador.ps1 - arma Instalar_CineCaptions.exe de principio a fin (PyInstaller + autoprueba + C#).
+# 3_compilar/Construir_Instalador.ps1 - arma el instalador de Windows de principio a fin (PyInstaller + autoprueba + C#).
 # ============================================================================
-# Construye Instalar_CineCaptions.exe a partir del codigo fuente
+# Construye Instalar_CineCaptions_<version>.exe a partir del codigo fuente (Actualizar_Windows.ps1 lo llama y sube la version si hace falta)
 #   powershell -ExecutionPolicy Bypass -File 3_compilar\Construir_Instalador.ps1
 #
 # Usa (todo dentro de CineCaptions\):
@@ -15,7 +15,7 @@
 #     banner.jpg ................. la foto del banner del instalador (va dentro del .exe)
 # Deja:
 #   _compilacion\ ................ Python 3.14, venv314, build de PyInstaller (se puede borrar: se rehace)
-#   Instalar_CineCaptions.exe ........ lo unico que se entrega
+#   INSTALADORES\Windows\Instalar_CineCaptions_<version>.exe  lo unico que se entrega (con la version en el nombre; los anteriores se borran)
 # -SoloInstalador: reusa el programa ya compilado en 6_compilacion\dist (solo rehace el instalador)
 # ============================================================================
 param([switch]$SoloInstalador, [switch]$Limpio)
@@ -48,7 +48,15 @@ function Documentar {
     & $vpy (Join-Path $aqui 'documentar.py')
     if ($LASTEXITCODE -ne 0) { Write-Host '    (no se pudo actualizar la documentacion: se sigue compilando)' -ForegroundColor Yellow }
 }
+# 0b) UNA sola version: version.py manda y los scripts de Resolve / el Puente se ponen a la misma (si no, el programa avisa de "otra version instalada") ----------
+function SincronizarVersion {
+    if (-not (Test-Path $vpy)) { return }
+    Paso 'Version del programa y de los scripts de Resolve'
+    & $vpy (Join-Path $aqui 'sincronizar_version.py')
+    if ($LASTEXITCODE -ne 0) { throw 'No pude sincronizar la version de los scripts de Resolve' }
+}
 if ($SoloInstalador) {
+    SincronizarVersion
     Documentar
     if (-not (Test-Path $appExe)) { throw 'No hay programa compilado en 6_compilacion\dist: corre el script sin -SoloInstalador' }
     $verPy = [IO.File]::ReadAllText((Join-Path $codigo 'version.py'), $utf8)
@@ -91,6 +99,7 @@ if ($LASTEXITCODE -ne 0) { throw 'pip install -r requirements.txt fallo' }
 if ($LASTEXITCODE -ne 0) { throw 'pip install argostranslate fallo' }
 & $vpy -c "import sys; assert sys.version_info[:2] == (3, 14), sys.version"
 if ($LASTEXITCODE -ne 0) { throw 'El venv de compilacion no es Python 3.14' }
+SincronizarVersion
 Documentar
 
 # 2) fuentes preparadas ----------------------------------------------------------------
@@ -167,8 +176,13 @@ try {
     }
     Write-Host "    $n archivos"
 } finally { $zip.Dispose() }
-$exe = Join-Path $raiz 'Instalar_CineCaptions.exe'
-$sal = [IO.File]::Open($exe, 'Create')
+# v5.3.2: el instalador lleva la VERSION en el nombre (como los de Mac) y los anteriores se borran: asi se ve de un vistazo cual es el ultimo y nunca queda uno viejo
+# haciendose pasar por el actual. Se arma con otro nombre y solo al verificarlo se quitan los demas.
+$salida = Join-Path $raiz 'INSTALADORES\Windows'
+New-Item -ItemType Directory -Force -Path $salida | Out-Null
+$exe = Join-Path $salida ("Instalar_CineCaptions_{0}.exe" -f $version)
+$parcial = $exe + '.parcial'
+$sal = [IO.File]::Open($parcial, 'Create')
 try {
     $b = [IO.File]::ReadAllBytes($base); $sal.Write($b, 0, $b.Length)
     $ini = [long]$sal.Position
@@ -177,4 +191,37 @@ try {
     $sal.Write($pie, 0, 16)
 } finally { $sal.Dispose() }
 [IO.File]::Delete($zipRuta)
+# verificacion: la version del .exe es la de version.py y el paquete pegado se abre con todo dentro
+$vi = (Get-Item $parcial).VersionInfo.FileVersion
+if ($vi -ne $partes) { [IO.File]::Delete($parcial); throw "El instalador dice version $vi y version.py dice $version" }
+try {
+    $chk = [IO.File]::OpenRead($parcial)
+    try {
+        [void]$chk.Seek(-16, [IO.SeekOrigin]::End)
+        $pieLeido = New-Object byte[] 16
+        [void]$chk.Read($pieLeido, 0, 16)
+        if ([Text.Encoding]::ASCII.GetString($pieLeido, 8, 8) -ne 'CINECAP1') { throw 'El instalador no trae la firma del paquete' }
+        $posZip = [BitConverter]::ToInt64($pieLeido, 0)
+        $largoZip = $chk.Length - 16 - $posZip
+        [void]$chk.Seek($posZip, [IO.SeekOrigin]::Begin)
+        $buf = New-Object byte[] $largoZip
+        $leido = 0
+        while ($leido -lt $largoZip) { $n = $chk.Read($buf, $leido, [int][Math]::Min(64MB, $largoZip - $leido)); if ($n -le 0) { break }; $leido += $n }
+    } finally { $chk.Dispose() }
+    $mem = New-Object IO.MemoryStream(, $buf)
+    $sub = New-Object IO.Compression.ZipArchive($mem)
+    $nombres = @($sub.Entries | ForEach-Object { $_.FullName })
+    $sub.Dispose(); $mem.Dispose()
+    foreach ($necesario in @('Desinstalar.exe', 'programa/CineCaptions.exe')) {
+        if ($nombres -notcontains $necesario) { throw "El paquete no trae $necesario" }
+    }
+    Write-Host ("    paquete verificado: {0} archivos, version {1}" -f $nombres.Count, $vi)
+} catch { [IO.File]::Delete($parcial); throw }
+if (Test-Path -LiteralPath $exe) { [IO.File]::Delete($exe) }
+[IO.File]::Move($parcial, $exe)
+foreach ($viejo in (@(Get-ChildItem -LiteralPath $salida -Filter 'Instalar_CineCaptions*.exe' -File) + @(Get-ChildItem -LiteralPath $raiz -Filter 'Instalar_CineCaptions*.exe' -File))) {
+    if ($viejo.FullName -ne $exe) { [IO.File]::Delete($viejo.FullName); Write-Host "    (version anterior quitada: $($viejo.Name))" }
+}
+$huella = (Get-FileHash -LiteralPath $exe -Algorithm SHA256).Hash
+[IO.File]::WriteAllText((Join-Path $obra 'ultima_compilacion.json'), ('{{"version": "{0}", "archivo": "{1}", "sha256": "{2}", "fecha": "{3}"}}' -f $version, (Split-Path $exe -Leaf), $huella, (Get-Date -Format 'yyyy-MM-dd HH:mm:ss')), $utf8)
 Paso ("LISTO  {0}  ({1:N1} MB)" -f $exe, ((Get-Item $exe).Length / 1MB))

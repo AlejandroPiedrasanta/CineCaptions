@@ -1,0 +1,1340 @@
+REGISTRO DE CAMBIOS ARCHIVADO · 2026-10 (la entrada más nueva arriba)
+
+2026-10-06 19:08  ·  v5.3.0  ·  (automático)
+    nuevos (69):
+      + 2_recursos/generador_sfx_emoji/reales/FUENTES.json
+      + 2_recursos/generador_sfx_emoji/reales/abeja.wav
+      + 2_recursos/generador_sfx_emoji/reales/acierto.wav
+      + 2_recursos/generador_sfx_emoji/reales/alarma.wav
+      + 2_recursos/generador_sfx_emoji/reales/aplauso.wav
+      + 2_recursos/generador_sfx_emoji/reales/avion.wav
+      + 2_recursos/generador_sfx_emoji/reales/beso.wav
+      + 2_recursos/generador_sfx_emoji/reales/burbuja.wav
+      + 2_recursos/generador_sfx_emoji/reales/calavera.wav
+      + 2_recursos/generador_sfx_emoji/reales/camara.wav
+      + 2_recursos/generador_sfx_emoji/reales/campana.wav
+      + 2_recursos/generador_sfx_emoji/reales/candado.wav
+      + 2_recursos/generador_sfx_emoji/reales/cerdo.wav
+      + 2_recursos/generador_sfx_emoji/reales/claxon.wav
+      + 2_recursos/generador_sfx_emoji/reales/cohete.wav
+      + 2_recursos/generador_sfx_emoji/reales/corazon.wav
+      + 2_recursos/generador_sfx_emoji/reales/crunch.wav
+      + 2_recursos/generador_sfx_emoji/reales/diana.wav
+      + 2_recursos/generador_sfx_emoji/reales/dinero.wav
+      + 2_recursos/generador_sfx_emoji/reales/ding.wav
+      + 2_recursos/generador_sfx_emoji/reales/dormir.wav
+      + 2_recursos/generador_sfx_emoji/reales/enojo.wav
+      + 2_recursos/generador_sfx_emoji/reales/error.wav
+      + 2_recursos/generador_sfx_emoji/reales/estrella.wav
+      + 2_recursos/generador_sfx_emoji/reales/explosion.wav
+      + 2_recursos/generador_sfx_emoji/reales/fanfarria.wav
+      + 2_recursos/generador_sfx_emoji/reales/fantasma.wav
+      + 2_recursos/generador_sfx_emoji/reales/fuego.wav
+      + 2_recursos/generador_sfx_emoji/reales/gato.wav
+      + 2_recursos/generador_sfx_emoji/reales/golpe.wav
+      + 2_recursos/generador_sfx_emoji/reales/gota.wav
+      + 2_recursos/generador_sfx_emoji/reales/guitarra.wav
+      + 2_recursos/generador_sfx_emoji/reales/hielo.wav
+      + 2_recursos/generador_sfx_emoji/reales/leon.wav
+      + 2_recursos/generador_sfx_emoji/reales/libro.wav
+      + 2_recursos/generador_sfx_emoji/reales/llave.wav
+      + 2_recursos/generador_sfx_emoji/reales/lluvia.wav
+      + 2_recursos/generador_sfx_emoji/reales/magia.wav
+      + 2_recursos/generador_sfx_emoji/reales/martillo.wav
+      + 2_recursos/generador_sfx_emoji/reales/motor.wav
+      + 2_recursos/generador_sfx_emoji/reales/musculo.wav
+      + 2_recursos/generador_sfx_emoji/reales/ok.wav
+      + 2_recursos/generador_sfx_emoji/reales/olas.wav
+      + 2_recursos/generador_sfx_emoji/reales/pajaro.wav
+      + 2_recursos/generador_sfx_emoji/reales/patada.wav
+      + 2_recursos/generador_sfx_emoji/reales/pensando.wav
+      + 2_recursos/generador_sfx_emoji/reales/perro.wav
+      + 2_recursos/generador_sfx_emoji/reales/pop_a.wav
+      + 2_recursos/generador_sfx_emoji/reales/pop_b.wav
+      + 2_recursos/generador_sfx_emoji/reales/pop_d.wav
+      + 2_recursos/generador_sfx_emoji/reales/pregunta.wav
+      + 2_recursos/generador_sfx_emoji/reales/pulgar_abajo.wav
+      + 2_recursos/generador_sfx_emoji/reales/rana.wav
+      + 2_recursos/generador_sfx_emoji/reales/rayo.wav
+      + 2_recursos/generador_sfx_emoji/reales/risa.wav
+      + 2_recursos/generador_sfx_emoji/reales/robot.wav
+      + 2_recursos/generador_sfx_emoji/reales/salpicadura.wav
+      + 2_recursos/generador_sfx_emoji/reales/saludo.wav
+      + 2_recursos/generador_sfx_emoji/reales/serpiente.wav
+      + 2_recursos/generador_sfx_emoji/reales/silbato.wav
+      + 2_recursos/generador_sfx_emoji/reales/sirena.wav
+      + 2_recursos/generador_sfx_emoji/reales/tambor.wav
+      + 2_recursos/generador_sfx_emoji/reales/telefono.wav
+      + 2_recursos/generador_sfx_emoji/reales/tren.wav
+      + 2_recursos/generador_sfx_emoji/reales/triste.wav
+      + 2_recursos/generador_sfx_emoji/reales/trueno.wav
+      + 2_recursos/generador_sfx_emoji/reales/vaca.wav
+      + 2_recursos/generador_sfx_emoji/reales/viento.wav
+      + 2_recursos/sfx_emoji/LICENCIAS.txt
+    modificados (70):
+      ~ 2_recursos/generador_sfx_emoji/generar_sfx_emoji.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_Subtitulos.lua
+      ~ 2_recursos/sfx_emoji/abeja.wav
+      ~ 2_recursos/sfx_emoji/acierto.wav
+      ~ 2_recursos/sfx_emoji/alarma.wav
+      ~ 2_recursos/sfx_emoji/aplauso.wav
+      ~ 2_recursos/sfx_emoji/avion.wav
+      ~ 2_recursos/sfx_emoji/beso.wav
+      ~ 2_recursos/sfx_emoji/burbuja.wav
+      ~ 2_recursos/sfx_emoji/calavera.wav
+      ~ 2_recursos/sfx_emoji/camara.wav
+      ~ 2_recursos/sfx_emoji/campana.wav
+      ~ 2_recursos/sfx_emoji/candado.wav
+      ~ 2_recursos/sfx_emoji/cerdo.wav
+      ~ 2_recursos/sfx_emoji/claxon.wav
+      ~ 2_recursos/sfx_emoji/cohete.wav
+      ~ 2_recursos/sfx_emoji/corazon.wav
+      ~ 2_recursos/sfx_emoji/crunch.wav
+      ~ 2_recursos/sfx_emoji/diana.wav
+      ~ 2_recursos/sfx_emoji/dinero.wav
+      ~ 2_recursos/sfx_emoji/ding.wav
+      ~ 2_recursos/sfx_emoji/dormir.wav
+      ~ 2_recursos/sfx_emoji/enojo.wav
+      ~ 2_recursos/sfx_emoji/error.wav
+      ~ 2_recursos/sfx_emoji/estrella.wav
+      ~ 2_recursos/sfx_emoji/explosion.wav
+      ~ 2_recursos/sfx_emoji/fanfarria.wav
+      ~ 2_recursos/sfx_emoji/fantasma.wav
+      ~ 2_recursos/sfx_emoji/fuego.wav
+      ~ 2_recursos/sfx_emoji/gato.wav
+      ~ 2_recursos/sfx_emoji/golpe.wav
+      ~ 2_recursos/sfx_emoji/gota.wav
+      ~ 2_recursos/sfx_emoji/guitarra.wav
+      ~ 2_recursos/sfx_emoji/hielo.wav
+      ~ 2_recursos/sfx_emoji/leon.wav
+      ~ 2_recursos/sfx_emoji/libro.wav
+      ~ 2_recursos/sfx_emoji/llave.wav
+      ~ 2_recursos/sfx_emoji/lluvia.wav
+      ~ 2_recursos/sfx_emoji/magia.wav
+      ~ 2_recursos/sfx_emoji/martillo.wav
+      ~ 2_recursos/sfx_emoji/motor.wav
+      ~ 2_recursos/sfx_emoji/musculo.wav
+      ~ 2_recursos/sfx_emoji/ok.wav
+      ~ 2_recursos/sfx_emoji/olas.wav
+      ~ 2_recursos/sfx_emoji/pajaro.wav
+      ~ 2_recursos/sfx_emoji/patada.wav
+      ~ 2_recursos/sfx_emoji/pensando.wav
+      ~ 2_recursos/sfx_emoji/perro.wav
+      ~ 2_recursos/sfx_emoji/pop_a.wav
+      ~ 2_recursos/sfx_emoji/pop_b.wav
+      ~ 2_recursos/sfx_emoji/pop_d.wav
+      ~ 2_recursos/sfx_emoji/pregunta.wav
+      ~ 2_recursos/sfx_emoji/pulgar_abajo.wav
+      ~ 2_recursos/sfx_emoji/rana.wav
+      ~ 2_recursos/sfx_emoji/rayo.wav
+      ~ 2_recursos/sfx_emoji/risa.wav
+      ~ 2_recursos/sfx_emoji/robot.wav
+      ~ 2_recursos/sfx_emoji/salpicadura.wav
+      ~ 2_recursos/sfx_emoji/saludo.wav
+      ~ 2_recursos/sfx_emoji/serpiente.wav
+      ~ 2_recursos/sfx_emoji/silbato.wav
+      ~ 2_recursos/sfx_emoji/sirena.wav
+      ~ 2_recursos/sfx_emoji/tambor.wav
+      ~ 2_recursos/sfx_emoji/telefono.wav
+      ~ 2_recursos/sfx_emoji/tren.wav
+      ~ 2_recursos/sfx_emoji/triste.wav
+      ~ 2_recursos/sfx_emoji/trueno.wav
+      ~ 2_recursos/sfx_emoji/vaca.wav
+      ~ 2_recursos/sfx_emoji/viento.wav
+
+2026-10-06 17:24  ·  v5.3.0  ·  (automático)
+    nuevos (102):
+      + 1_codigo/emojis_sfx.py
+      + 2_recursos/generador_sfx_emoji/generar_sfx_emoji.py
+      + 2_recursos/sfx_emoji/abeja.wav
+      + 2_recursos/sfx_emoji/acierto.wav
+      + 2_recursos/sfx_emoji/alarma.wav
+      + 2_recursos/sfx_emoji/alerta.wav
+      + 2_recursos/sfx_emoji/alien.wav
+      + 2_recursos/sfx_emoji/aplauso.wav
+      + 2_recursos/sfx_emoji/avion.wav
+      + 2_recursos/sfx_emoji/beso.wav
+      + 2_recursos/sfx_emoji/boing.wav
+      + 2_recursos/sfx_emoji/buho.wav
+      + 2_recursos/sfx_emoji/burbuja.wav
+      + 2_recursos/sfx_emoji/calavera.wav
+      + 2_recursos/sfx_emoji/camara.wav
+      + 2_recursos/sfx_emoji/campana.wav
+      + 2_recursos/sfx_emoji/candado.wav
+      + 2_recursos/sfx_emoji/censura.wav
+      + 2_recursos/sfx_emoji/cerdo.wav
+      + 2_recursos/sfx_emoji/champan.wav
+      + 2_recursos/sfx_emoji/claqueta.wav
+      + 2_recursos/sfx_emoji/claxon.wav
+      + 2_recursos/sfx_emoji/clink.wav
+      + 2_recursos/sfx_emoji/cohete.wav
+      + 2_recursos/sfx_emoji/corazon.wav
+      + 2_recursos/sfx_emoji/crunch.wav
+      + 2_recursos/sfx_emoji/diana.wav
+      + 2_recursos/sfx_emoji/dinero.wav
+      + 2_recursos/sfx_emoji/ding.wav
+      + 2_recursos/sfx_emoji/dormir.wav
+      + 2_recursos/sfx_emoji/enojo.wav
+      + 2_recursos/sfx_emoji/error.wav
+      + 2_recursos/sfx_emoji/estrella.wav
+      + 2_recursos/sfx_emoji/exclamacion.wav
+      + 2_recursos/sfx_emoji/explosion.wav
+      + 2_recursos/sfx_emoji/fanfarria.wav
+      + 2_recursos/sfx_emoji/fantasma.wav
+      + 2_recursos/sfx_emoji/fiesta.wav
+      + 2_recursos/sfx_emoji/fuego.wav
+      + 2_recursos/sfx_emoji/fuegos_artificiales.wav
+      + 2_recursos/sfx_emoji/gato.wav
+      + 2_recursos/sfx_emoji/golpe.wav
+      + 2_recursos/sfx_emoji/gota.wav
+      + 2_recursos/sfx_emoji/guitarra.wav
+      + 2_recursos/sfx_emoji/hielo.wav
+      + 2_recursos/sfx_emoji/idea.wav
+      + 2_recursos/sfx_emoji/leon.wav
+      + 2_recursos/sfx_emoji/libro.wav
+      + 2_recursos/sfx_emoji/llave.wav
+      + 2_recursos/sfx_emoji/lluvia.wav
+      + 2_recursos/sfx_emoji/luna.wav
+      + 2_recursos/sfx_emoji/magia.wav
+      + 2_recursos/sfx_emoji/martillo.wav
+      + 2_recursos/sfx_emoji/mensaje.wav
+      + 2_recursos/sfx_emoji/mente_explota.wav
+      + 2_recursos/sfx_emoji/meta.wav
+      + 2_recursos/sfx_emoji/micro.wav
+      + 2_recursos/sfx_emoji/motor.wav
+      + 2_recursos/sfx_emoji/musculo.wav
+      + 2_recursos/sfx_emoji/notificacion.wav
+      + 2_recursos/sfx_emoji/ojos.wav
+      + 2_recursos/sfx_emoji/ok.wav
+      + 2_recursos/sfx_emoji/olas.wav
+      + 2_recursos/sfx_emoji/pajaro.wav
+      + 2_recursos/sfx_emoji/patada.wav
+      + 2_recursos/sfx_emoji/pato.wav
+      + 2_recursos/sfx_emoji/pensando.wav
+      + 2_recursos/sfx_emoji/perro.wav
+      + 2_recursos/sfx_emoji/piano.wav
+      + 2_recursos/sfx_emoji/pop_a.wav
+      + 2_recursos/sfx_emoji/pop_b.wav
+      + 2_recursos/sfx_emoji/pop_c.wav
+      + 2_recursos/sfx_emoji/pop_d.wav
+      + 2_recursos/sfx_emoji/pregunta.wav
+      + 2_recursos/sfx_emoji/pulgar_abajo.wav
+      + 2_recursos/sfx_emoji/pulgar_arriba.wav
+      + 2_recursos/sfx_emoji/rana.wav
+      + 2_recursos/sfx_emoji/rayo.wav
+      + 2_recursos/sfx_emoji/rebote.wav
+      + 2_recursos/sfx_emoji/regalo.wav
+      … y 22 más
+    modificados (12):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/dynamic_subtitles.py
+      ~ 1_codigo/sfx_studio.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_Subtitulos.lua
+      ~ 3_compilar/cinecaptions.spec
+      ~ 3_compilar/encabezados.py
+
+2026-10-06 16:52  ·  v5.3.0  ·  (automático)
+    modificados (9):
+      ~ 1_codigo/dynamic_subtitles.py
+      ~ 1_codigo/emojis.py
+      ~ 1_codigo/motor_voz.py
+      ~ 1_codigo/sfx_rules.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+
+2026-10-06 16:36  ·  v5.3.0  ·  (automático)
+    modificados (5):
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+
+2026-10-06 15:41  ·  v5.3.0  ·  (automático)
+    nuevos (1):
+      + 1_codigo/archivos_seguros.py
+    modificados (12):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/editor_ui.py
+      ~ 1_codigo/proyectos.py
+      ~ 1_codigo/qt_kit.py
+      ~ 1_codigo/sidecar_lua.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 3_compilar/encabezados.py
+
+2026-10-06 14:48  ·  v5.3.0  ·  (automático)
+    modificados (7):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/editor_ui.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+
+2026-10-06 14:33  ·  v5.3.0  ·  (automático)
+    modificados (9):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/editor_ui.py
+      ~ 1_codigo/ia_texto.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+
+2026-10-06 14:17  ·  v5.3.0  ·  (automático)
+    modificados (2):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/editor_ui.py
+
+2026-10-06 14:02  ·  v5.3.0  ·  (automático)
+    modificados (1):
+      ~ 1_codigo/CineCaptions (script principal).py
+
+2026-10-06 13:46  ·  v5.3.0  ·  (automático)
+    modificados (2):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/dynamic_subtitles.py
+
+2026-10-06 13:33  ·  v5.3.0  ·  (automático)
+    modificados (2):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/dynamic_subtitles.py
+
+2026-10-06 13:20  ·  v5.3.0  ·  (automático)
+    nuevos (1):
+      + 1_codigo/editor_ui.py
+    modificados (2):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/dynamic_subtitles.py
+
+2026-10-06 12:57  ·  v5.3.0  ·  (automático)
+    modificados (2):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/qt_kit.py
+
+2026-10-06 12:49  ·  v5.3.0  ·  (automático)
+    modificados (1):
+      ~ 3_compilar/Instalador.cs
+
+2026-10-06 12:49  ·  v5.3.0  ·  (automático)
+    modificados (1):
+      ~ 3_compilar/Instalador.cs
+
+2026-10-06 12:43  ·  v5.3.0  ·  (automático)
+    modificados (4):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/efectos_ui.py
+      ~ 1_codigo/qt_kit.py
+
+2026-10-06 12:17  ·  v5.3.0  ·  (automático)
+    modificados (2):
+      ~ 1_codigo/efectos_ui.py
+      ~ 3_compilar/Instalador.cs
+
+2026-10-06 12:15  ·  v5.3.0  ·  (automático)
+    modificados (1):
+      ~ 3_compilar/Instalador.cs
+
+2026-10-06 12:13  ·  v5.3.0  ·  (automático)
+    nuevos (5):
+      + 1_codigo/estilos_inicio.py
+      + 3_compilar/banner_capas/astro_engr.png
+      + 3_compilar/banner_capas/astro_fili.png
+      + 3_compilar/banner_capas/astro_nucleo.png
+      + 3_compilar/banner_capas/astro_runas.png
+    modificados (11):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/efectos_ui.py
+      ~ 1_codigo/escena_go.py
+      ~ 1_codigo/orbe_mecanica.py
+      ~ 1_codigo/qt_kit.py
+      ~ 1_codigo/un_clic_ui.py
+      ~ 3_compilar/Construir_Instalador.ps1
+      ~ 3_compilar/Instalador.cs
+      ~ 3_compilar/banner.jpg
+      ~ 4_diseno/banner/crear_banner.py
+
+2026-10-06 11:47  ·  v5.3.0  ·  (automático)
+    modificados (3):
+      ~ 1_codigo/escena_go.py
+      ~ 1_codigo/orbe_mecanica.py
+      ~ 1_codigo/un_clic_ui.py
+
+2026-10-06 11:34  ·  v5.3.0  ·  (automático)
+    modificados (5):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/escena_go.py
+      ~ 1_codigo/orbe_mecanica.py
+      ~ 1_codigo/un_clic_ui.py
+
+2026-10-06 11:14  ·  v5.3.0  ·  (automático)
+    modificados (6):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/escena_go.py
+      ~ 1_codigo/mograf_ui.py
+      ~ 1_codigo/qt_kit.py
+      ~ 1_codigo/registro.py
+      ~ 1_codigo/registro_ui.py
+
+2026-10-06 10:58  ·  v5.3.0  ·  (automático)
+    modificados (5):
+      ~ 1_codigo/escena_go.py
+      ~ 1_codigo/isla_ui.py
+      ~ 1_codigo/orbe_mecanica.py
+      ~ 1_codigo/qt_kit.py
+      ~ 1_codigo/un_clic_ui.py
+
+2026-10-06 10:38  ·  v5.3.0  ·  (automático)
+    nuevos (1):
+      + 1_codigo/registro_ayuda.py
+    modificados (4):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/escena_go.py
+      ~ 1_codigo/isla_ui.py
+      ~ 1_codigo/registro_ui.py
+
+2026-10-06 02:29  ·  v5.3.0  ·  (automático)
+    nuevos (1):
+      + 1_codigo/orbe_mecanica.py
+    modificados (10):
+      ~ 1_codigo/dynamic_subtitles.py
+      ~ 1_codigo/efectos_ui.py
+      ~ 1_codigo/escena_go.py
+      ~ 1_codigo/qt_kit.py
+      ~ 1_codigo/un_clic_ui.py
+      ~ 2_recursos/generador_packs/generar_comps.py
+      ~ 2_recursos/generador_packs/luxe_macro.py
+      ~ 2_recursos/guia_estilo/Crea tu estilo.drb
+      ~ 2_recursos/plantillas_incluidas/Viral Inferior/Viral Inferior vertical.drb
+      ~ 2_recursos/plantillas_incluidas/Viral Superior/Viral Superior vertical.drb
+
+2026-10-06 01:54  ·  v5.3.0  ·  (automático)
+    nuevos (1):
+      + 1_codigo/isla_ui.py
+    modificados (6):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/brillo_ui.py
+      ~ 1_codigo/efectos_ui.py
+      ~ 1_codigo/mograf_ui.py
+      ~ 1_codigo/qt_kit.py
+
+2026-10-06 01:35  ·  v5.3.0  ·  (automático)
+    nuevos (69):
+      + 5_licencias/administrador/acciones.py
+      + 5_licencias/administrador/build/administrador/Administrador de Licencias.pkg
+      + 5_licencias/administrador/build/administrador/Analysis-00.toc
+      + 5_licencias/administrador/build/administrador/COLLECT-00.toc
+      + 5_licencias/administrador/build/administrador/EXE-00.toc
+      + 5_licencias/administrador/build/administrador/PKG-00.toc
+      + 5_licencias/administrador/build/administrador/PYZ-00.pyz
+      + 5_licencias/administrador/build/administrador/PYZ-00.toc
+      + 5_licencias/administrador/build/administrador/base_library.zip
+      + 5_licencias/administrador/build/administrador/warn-administrador.txt
+      + 5_licencias/administrador/build/administrador/xref-administrador.html
+      + 5_licencias/administrador/dialogos_nuevos.py
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/PySide6/MSVCP140.dll
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/PySide6/MSVCP140_1.dll
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/PySide6/MSVCP140_2.dll
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/PySide6/Qt6Core.dll
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/PySide6/Qt6Gui.dll
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/PySide6/Qt6Qml.dll
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/PySide6/Qt6QmlMeta.dll
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/PySide6/Qt6QmlModels.dll
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/PySide6/Qt6QmlWorkerScript.dll
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/PySide6/Qt6Quick.dll
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/PySide6/Qt6Widgets.dll
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/PySide6/QtCore.pyd
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/PySide6/QtGui.pyd
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/PySide6/QtWidgets.pyd
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/PySide6/VCRUNTIME140.dll
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/PySide6/VCRUNTIME140_1.dll
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/PySide6/plugins/generic/qtuiotouchplugin.dll
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/PySide6/plugins/platforminputcontexts/qtvirtualkeyboardplugin.dll
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/PySide6/plugins/platforms/qminimal.dll
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/PySide6/plugins/platforms/qoffscreen.dll
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/PySide6/plugins/platforms/qwindows.dll
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/PySide6/plugins/styles/qmodernwindowsstyle.dll
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/PySide6/pyside6.abi3.dll
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/VCRUNTIME140.dll
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/VCRUNTIME140_1.dll
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/_bz2.pyd
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/_ctypes.pyd
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/_decimal.pyd
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/_hashlib.pyd
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/_lzma.pyd
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/_socket.pyd
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/_ssl.pyd
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/_uuid.pyd
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/_wmi.pyd
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/_zstd.pyd
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/base_library.zip
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/cinema_licencias/recursos/cinema_productions.png
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/libcrypto-3.dll
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/libffi-8.dll
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/libssl-3.dll
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/python3.dll
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/python314.dll
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/select.pyd
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/servidor/gumroad_webhook.ts
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/servidor/supabase_cinema.sql
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/shiboken6/MSVCP140.dll
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/shiboken6/Shiboken.pyd
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/shiboken6/VCRUNTIME140.dll
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/shiboken6/VCRUNTIME140_1.dll
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/shiboken6/shiboken6.abi3.dll
+      + 5_licencias/administrador/dist/Administrador de Licencias/_internal/unicodedata.pyd
+      + 5_licencias/administrador/paginas_productos.py
+      + 5_licencias/administrador/plataformas_extra.py
+      + 5_licencias/administrador/vidrio.py
+      + 5_licencias/pruebas/simulador_extra.py
+      + 5_licencias/pruebas/test_multicuenta.py
+      + 5_licencias/servidor/gumroad_webhook.ts
+    modificados (26):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/efectos_ui.py
+      ~ 1_codigo/mograf_ui.py
+      ~ 1_codigo/qt_kit.py
+      ~ 1_codigo/sfx_studio.py
+      ~ 5_licencias/LEEME.md
+      ~ 5_licencias/administrador/CONSTRUIR_EXE.bat
+      ~ 5_licencias/administrador/administrador.spec
+      ~ 5_licencias/administrador/administrador_licencias.py
+      ~ 5_licencias/administrador/control.py
+      ~ 5_licencias/administrador/dialogos.py
+      ~ 5_licencias/administrador/icono.ico
+      ~ 5_licencias/administrador/interfaz.py
+      ~ 5_licencias/administrador/modelo.py
+      ~ 5_licencias/administrador/paginas.py
+      ~ 5_licencias/administrador/plataformas.py
+      ~ 5_licencias/administrador/version_info.txt
+      ~ 5_licencias/instalador/CONSTRUIR_INSTALADOR.bat
+      ~ 5_licencias/instalador/crear_imagenes.py
+      ~ 5_licencias/instalador/imagenes/bienvenida.bmp
+      ~ 5_licencias/instalador/imagenes/cabecera.bmp
+      ~ 5_licencias/instalador/imagenes/icono.ico
+      ~ 5_licencias/instalador/instalador.nsi
+      ~ 5_licencias/programa/cinema_licencias/config.py
+      ~ 5_licencias/programa/cinema_licencias/tiendas.py
+      ~ 5_licencias/pruebas/simulador.py
+
+2026-10-05 23:12  ·  v5.3.0  ·  (automático)
+    modificados (1):
+      ~ 1_codigo/CineCaptions (script principal).py
+
+2026-10-05 22:38  ·  v5.3.0  ·  (automático)
+    nuevos (9):
+      + 1_codigo/ducking.py
+      + 1_codigo/energia.py
+      + 1_codigo/estilo_desde_imagen.py
+      + 2_recursos/generador_packs/construir_pack.py
+      + 2_recursos/generador_packs/generar_comps.py
+      + 2_recursos/generador_packs/luxe_macro.py
+      + 2_recursos/generador_packs/luxe_shine_base.lua
+      + 2_recursos/generador_packs/luxe_shine_cabecera.txt
+      + 4_diseno/packs_nuevos/LEEME.txt
+    modificados (11):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/emojis.py
+      ~ 1_codigo/escena_go.py
+      ~ 1_codigo/ia_texto.py
+      ~ 1_codigo/packs_drt.py
+      ~ 1_codigo/qt_kit.py
+      ~ 1_codigo/sfx_rules.py
+      ~ 1_codigo/sfx_studio.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 3_compilar/Construir_Instalador.ps1
+      ~ 3_compilar/cinecaptions.spec
+    quitados (5):
+      - 4_diseno/packs_nuevos/construir_pack.py
+      - 4_diseno/packs_nuevos/generar_comps.py
+      - 4_diseno/packs_nuevos/luxe_macro.py
+      - 4_diseno/packs_nuevos/luxe_shine_base.lua
+      - 4_diseno/packs_nuevos/luxe_shine_cabecera.txt
+
+2026-10-05 22:03  ·  v5.3.0  ·  (automático)
+    nuevos (1):
+      + 2_recursos/guia_estilo/Crea tu estilo.variantes.json
+    modificados (9):
+      ~ 1_codigo/dynamic_subtitles.py
+      ~ 1_codigo/emojis.py
+      ~ 1_codigo/emojis_animados.py
+      ~ 1_codigo/ia_texto.py
+      ~ 2_recursos/guia_estilo/Crea tu estilo.drb
+      ~ 2_recursos/plantillas_incluidas/Viral Inferior/Viral Inferior vertical.drb
+      ~ 2_recursos/plantillas_incluidas/Viral Superior/Viral Superior vertical.drb
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 4_diseno/packs_nuevos/luxe_macro.py
+
+2026-10-05 21:37  ·  v5.3.0  ·  (automático)
+    nuevos (2):
+      + 2_recursos/plantillas_incluidas/Viral Inferior/Viral Inferior vertical.variantes.json
+      + 2_recursos/plantillas_incluidas/Viral Superior/Viral Superior vertical.variantes.json
+    modificados (6):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/qt_kit.py
+      ~ 2_recursos/plantillas_incluidas/Viral Inferior/Viral Inferior vertical.drb
+      ~ 2_recursos/plantillas_incluidas/Viral Superior/Viral Superior vertical.drb
+      ~ 4_diseno/packs_nuevos/construir_pack.py
+
+2026-10-05 21:32  ·  v5.3.0  ·  (automático)
+    nuevos (3):
+      + 4_diseno/packs_nuevos/luxe_macro.py
+      + 4_diseno/packs_nuevos/luxe_shine_base.lua
+      + 4_diseno/packs_nuevos/luxe_shine_cabecera.txt
+    modificados (8):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/sfx_rules.py
+      ~ 1_codigo/sfx_studio.py
+      ~ 2_recursos/guia_estilo/Crea tu estilo.drb
+      ~ 2_recursos/plantillas_incluidas/Viral Inferior/Viral Inferior vertical.drb
+      ~ 2_recursos/plantillas_incluidas/Viral Superior/Viral Superior vertical.drb
+      ~ 4_diseno/packs_nuevos/construir_pack.py
+      ~ 4_diseno/packs_nuevos/generar_comps.py
+
+2026-10-05 20:55  ·  v5.3.0  ·  (automático)
+    modificados (3):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_Subtitulos.lua
+
+2026-10-05 20:27  ·  v5.3.0  ·  (automático)
+    nuevos (57):
+      + 2_recursos/guia_estilo/Crea tu estilo.drb
+      + 2_recursos/plantillas_incluidas/Viral Inferior/Viral Inferior vertical.drb
+      + 2_recursos/plantillas_incluidas/Viral Inferior/Viral Inferior vertical.posiciones.json
+      + 2_recursos/plantillas_incluidas/Viral Inferior/pack.json
+      + 2_recursos/plantillas_incluidas/Viral Superior/Viral Superior vertical.drb
+      + 2_recursos/plantillas_incluidas/Viral Superior/Viral Superior vertical.posiciones.json
+      + 2_recursos/plantillas_incluidas/Viral Superior/pack.json
+      + 4_diseno/packs_anteriores/Guia crea tu estilo.drt
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Amro centro/Plantillas virales cinema Amro centro horizontal.drb
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Amro centro/Plantillas virales cinema Amro centro horizontal.drt
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Amro centro/Plantillas virales cinema Amro centro horizontal.posiciones.json
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Amro centro/Plantillas virales cinema Amro centro vertical.drb
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Amro centro/Plantillas virales cinema Amro centro vertical.drt
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Amro centro/Plantillas virales cinema Amro centro vertical.posiciones.json
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Amro centro/pack.json
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Amro inferior/Plantillas virales cinema Amro inferior horizontal.drb
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Amro inferior/Plantillas virales cinema Amro inferior horizontal.drt
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Amro inferior/Plantillas virales cinema Amro inferior horizontal.posiciones.json
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Amro inferior/Plantillas virales cinema Amro inferior vertical.drb
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Amro inferior/Plantillas virales cinema Amro inferior vertical.drt
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Amro inferior/Plantillas virales cinema Amro inferior vertical.posiciones.json
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Amro inferior/pack.json
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Amro superior/Plantillas virales cinema Amro superior horizontal.drb
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Amro superior/Plantillas virales cinema Amro superior horizontal.drt
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Amro superior/Plantillas virales cinema Amro superior horizontal.posiciones.json
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Amro superior/Plantillas virales cinema Amro superior vertical.drb
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Amro superior/Plantillas virales cinema Amro superior vertical.drt
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Amro superior/Plantillas virales cinema Amro superior vertical.posiciones.json
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Amro superior/pack.json
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Luxe centro/Plantillas virales cinema Luxe centro horizontal.drb
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Luxe centro/Plantillas virales cinema Luxe centro horizontal.drt
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Luxe centro/Plantillas virales cinema Luxe centro horizontal.posiciones.json
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Luxe centro/Plantillas virales cinema Luxe centro vertical.drb
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Luxe centro/Plantillas virales cinema Luxe centro vertical.drt
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Luxe centro/Plantillas virales cinema Luxe centro vertical.posiciones.json
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Luxe centro/pack.json
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Luxe inferior/Plantillas virales cinema Luxe inferior horizontal.drb
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Luxe inferior/Plantillas virales cinema Luxe inferior horizontal.drt
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Luxe inferior/Plantillas virales cinema Luxe inferior horizontal.posiciones.json
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Luxe inferior/Plantillas virales cinema Luxe inferior vertical.drb
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Luxe inferior/Plantillas virales cinema Luxe inferior vertical.drt
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Luxe inferior/Plantillas virales cinema Luxe inferior vertical.posiciones.json
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Luxe inferior/pack.json
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Luxe superior/Plantillas virales cinema Luxe superior horizontal.drb
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Luxe superior/Plantillas virales cinema Luxe superior horizontal.drt
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Luxe superior/Plantillas virales cinema Luxe superior horizontal.posiciones.json
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Luxe superior/Plantillas virales cinema Luxe superior vertical.drb
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Luxe superior/Plantillas virales cinema Luxe superior vertical.drt
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Luxe superior/Plantillas virales cinema Luxe superior vertical.posiciones.json
+      + 4_diseno/packs_anteriores/Plantillas virales cinema Luxe superior/pack.json
+      + 4_diseno/packs_anteriores/Subtitulos basicos/Subtitulos basicos horizontal.drb
+      + 4_diseno/packs_anteriores/Subtitulos basicos/Subtitulos basicos horizontal.posiciones.json
+      + 4_diseno/packs_anteriores/Subtitulos basicos/Subtitulos basicos vertical.drb
+      + 4_diseno/packs_anteriores/Subtitulos basicos/Subtitulos basicos vertical.posiciones.json
+      + 4_diseno/packs_anteriores/Subtitulos basicos/pack.json
+      + 4_diseno/packs_nuevos/construir_pack.py
+      + 4_diseno/packs_nuevos/generar_comps.py
+    modificados (4):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/resolve_mcp.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_Subtitulos.lua
+    quitados (48):
+      - 2_recursos/guia_estilo/Guia crea tu estilo.drt
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro centro/Plantillas virales cinema Amro centro horizontal.drb
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro centro/Plantillas virales cinema Amro centro horizontal.drt
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro centro/Plantillas virales cinema Amro centro horizontal.posiciones.json
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro centro/Plantillas virales cinema Amro centro vertical.drb
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro centro/Plantillas virales cinema Amro centro vertical.drt
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro centro/Plantillas virales cinema Amro centro vertical.posiciones.json
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro centro/pack.json
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro inferior/Plantillas virales cinema Amro inferior horizontal.drb
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro inferior/Plantillas virales cinema Amro inferior horizontal.drt
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro inferior/Plantillas virales cinema Amro inferior horizontal.posiciones.json
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro inferior/Plantillas virales cinema Amro inferior vertical.drb
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro inferior/Plantillas virales cinema Amro inferior vertical.drt
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro inferior/Plantillas virales cinema Amro inferior vertical.posiciones.json
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro inferior/pack.json
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro superior/Plantillas virales cinema Amro superior horizontal.drb
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro superior/Plantillas virales cinema Amro superior horizontal.drt
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro superior/Plantillas virales cinema Amro superior horizontal.posiciones.json
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro superior/Plantillas virales cinema Amro superior vertical.drb
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro superior/Plantillas virales cinema Amro superior vertical.drt
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro superior/Plantillas virales cinema Amro superior vertical.posiciones.json
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro superior/pack.json
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe centro/Plantillas virales cinema Luxe centro horizontal.drb
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe centro/Plantillas virales cinema Luxe centro horizontal.drt
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe centro/Plantillas virales cinema Luxe centro horizontal.posiciones.json
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe centro/Plantillas virales cinema Luxe centro vertical.drb
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe centro/Plantillas virales cinema Luxe centro vertical.drt
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe centro/Plantillas virales cinema Luxe centro vertical.posiciones.json
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe centro/pack.json
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe inferior/Plantillas virales cinema Luxe inferior horizontal.drb
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe inferior/Plantillas virales cinema Luxe inferior horizontal.drt
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe inferior/Plantillas virales cinema Luxe inferior horizontal.posiciones.json
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe inferior/Plantillas virales cinema Luxe inferior vertical.drb
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe inferior/Plantillas virales cinema Luxe inferior vertical.drt
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe inferior/Plantillas virales cinema Luxe inferior vertical.posiciones.json
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe inferior/pack.json
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe superior/Plantillas virales cinema Luxe superior horizontal.drb
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe superior/Plantillas virales cinema Luxe superior horizontal.drt
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe superior/Plantillas virales cinema Luxe superior horizontal.posiciones.json
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe superior/Plantillas virales cinema Luxe superior vertical.drb
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe superior/Plantillas virales cinema Luxe superior vertical.drt
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe superior/Plantillas virales cinema Luxe superior vertical.posiciones.json
+      - 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe superior/pack.json
+      - 2_recursos/plantillas_incluidas/Subtitulos basicos/Subtitulos basicos horizontal.drb
+      - 2_recursos/plantillas_incluidas/Subtitulos basicos/Subtitulos basicos horizontal.posiciones.json
+      - 2_recursos/plantillas_incluidas/Subtitulos basicos/Subtitulos basicos vertical.drb
+      - 2_recursos/plantillas_incluidas/Subtitulos basicos/Subtitulos basicos vertical.posiciones.json
+      - 2_recursos/plantillas_incluidas/Subtitulos basicos/pack.json
+
+2026-10-05 17:48  ·  v5.3.0  ·  (automático)
+    modificados (7):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/dynamic_subtitles.py
+      ~ 1_codigo/ia_texto.py
+      ~ 1_codigo/sfx_rules.py
+      ~ 1_codigo/sfx_studio.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_Subtitulos.lua
+
+2026-10-05 17:25  ·  v5.3.0  ·  (automático)
+    modificados (7):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/emojis_animados.py
+      ~ 1_codigo/ia_texto.py
+      ~ 1_codigo/ortografia.py
+      ~ 1_codigo/qt_kit.py
+      ~ 1_codigo/registro.py
+      ~ 2_recursos/motor_qwen/motor_texto.py
+
+2026-10-05 17:01  ·  v5.3.0  ·  (automático)
+    modificados (5):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/emojis_animados.py
+      ~ 1_codigo/sfx_rules.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_Subtitulos.lua
+
+2026-10-05 16:45  ·  v5.3.0  ·  (automático)
+    nuevos (1):
+      + 1_codigo/emojis_animados.py
+    modificados (4):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/sfx_rules.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_Subtitulos.lua
+
+2026-10-05 16:14  ·  v5.3.0  ·  (automático)
+    modificados (11):
+      ~ 1_codigo/escena_go.py
+      ~ 1_codigo/mograf_ui.py
+      ~ 1_codigo/un_clic_ui.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_InsertarSFX.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_SfxMarcadores.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_SfxReemplazar.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Subtitulos.lua
+
+2026-10-05 15:39  ·  v5.3.0  ·  (automático)
+    modificados (9):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/dynamic_subtitles.py
+      ~ 1_codigo/efectos_ui.py
+      ~ 1_codigo/escena_go.py
+      ~ 1_codigo/fuentes_sistema.py
+      ~ 1_codigo/instalador_scripts.py
+      ~ 1_codigo/mograf_ui.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/qt_kit.py
+
+2026-10-05 14:32  ·  v5.3.0  ·  cambio explicado
+    Arranque y GO mas rapidos: regulador de fotogramas (ritmo_ui), motores de voz e IA cargados en paralelo y por lotes, sin barrido de luz entre paginas, selector Audio (IA o Whisper), packs Titulos dinamicos II eliminados, flechas en la composicion del bloque.
+    nuevos (3):
+      + 1_codigo/ritmo_ui.py
+      + 2_recursos/plantillas_incluidas/Base titulos dinamicos Horizontal.variantes.json
+      + 2_recursos/plantillas_incluidas/Base titulos dinamicos vertical.variantes.json
+    modificados (22):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/efectos_ui.py
+      ~ 1_codigo/emojis.py
+      ~ 1_codigo/escena_go.py
+      ~ 1_codigo/ia_texto.py
+      ~ 1_codigo/mograf_ui.py
+      ~ 1_codigo/motor_voz.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/subtitle_transcriber.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/motor_qwen/motor_qwen.py
+      ~ 2_recursos/motor_qwen/motor_texto.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_Subtitulos.lua
+      ~ 3_compilar/documentar.py
+      ~ 3_compilar/encabezados.py
+      ~ 4_diseno/plantilla_base_cinema/generar.py
+    quitados (11):
+      - 2_recursos/plantillas_incluidas/Titulos dinamicos II inferior/Horizontal 2.drb
+      - 2_recursos/plantillas_incluidas/Titulos dinamicos II inferior/Horizontal 2.posiciones.json
+      - 2_recursos/plantillas_incluidas/Titulos dinamicos II inferior/Vertical Inferior 2.drb
+      - 2_recursos/plantillas_incluidas/Titulos dinamicos II inferior/Vertical Inferior 2.posiciones.json
+      - 2_recursos/plantillas_incluidas/Titulos dinamicos II inferior/pack.json
+      - 2_recursos/plantillas_incluidas/Titulos dinamicos II superior/Horizontal 2.drb
+      - 2_recursos/plantillas_incluidas/Titulos dinamicos II superior/Horizontal 2.posiciones.json
+      - 2_recursos/plantillas_incluidas/Titulos dinamicos II superior/Vertical superior 2.drb
+      - 2_recursos/plantillas_incluidas/Titulos dinamicos II superior/Vertical superior 2.posiciones.json
+      - 2_recursos/plantillas_incluidas/Titulos dinamicos II superior/pack.json
+      - 4_diseno/plantillas_virales/estado.json
+
+2026-10-05 10:40  ·  v5.3.0  ·  (automático)
+    modificados (1):
+      ~ 1_codigo/CineCaptions (script principal).py
+
+2026-10-05 10:37  ·  v5.3.0  ·  cambio explicado
+    v5.3.0 — Estructura nueva de los packs (.drb): principal · arriba · abajo · imagen (+ simple), variantes 1-3, nombres viejos aceptados; bloque 'imagen' = dónde cae el emoji (si no hay, debajo del texto), leído del propio .drb; lectores de nombres gemelos (app, .py y .lua) probados con 36 casos; plantilla base nueva solo con Luxe Slide/Luxe Shine (cian, rosa, fuego) validada en Resolve 21.1.1 (importación, Pan/Tilt/Zoom y colocación real de emojis en vertical y horizontal); Proyecto: 'Fuente' -> 'Audio' con 'Obtener' por MCP, 'Crea tu estilo' abre la guía .drt en Resolve, mosaicos con la estructura, composición y vistas con el espacio de imagen; Motion Graphics nativos en todas las pantallas e Inicio (mograf_ui.py).
+    nuevos (27):
+      + 1_codigo/mograf_ui.py
+      + 2_recursos/fonts/Poppins-Regular.ttf
+      + 2_recursos/guia_estilo/Guia crea tu estilo.drt
+      + 4_diseno/plantilla_base_cinema/PLANTILLA BASE - como se hizo.txt
+      + 4_diseno/plantilla_base_cinema/anteriores/Base titulos dinamicos Horizontal.drb
+      + 4_diseno/plantilla_base_cinema/anteriores/Base titulos dinamicos Horizontal.drt
+      + 4_diseno/plantilla_base_cinema/anteriores/Base titulos dinamicos Horizontal.posiciones.json
+      + 4_diseno/plantilla_base_cinema/anteriores/Base titulos dinamicos vertical.drb
+      + 4_diseno/plantilla_base_cinema/anteriores/Base titulos dinamicos vertical.drt
+      + 4_diseno/plantilla_base_cinema/anteriores/Base titulos dinamicos vertical.posiciones.json
+      + 4_diseno/plantilla_base_cinema/apilados/Base titulos dinamicos Horizontal.drt
+      + 4_diseno/plantilla_base_cinema/apilados/Base titulos dinamicos vertical.drt
+      + 4_diseno/plantilla_base_cinema/diseno.json
+      + 4_diseno/plantilla_base_cinema/diseno_base.py
+      + 4_diseno/plantilla_base_cinema/disenos/Base titulos dinamicos Horizontal.drt
+      + 4_diseno/plantilla_base_cinema/disenos/Base titulos dinamicos vertical.drt
+      + 4_diseno/plantilla_base_cinema/generar.py
+      + 4_diseno/plantilla_base_cinema/guia.py
+      + 4_diseno/plantilla_base_cinema/hoja.py
+      + 4_diseno/plantilla_base_cinema/medir_png.py
+      + 4_diseno/plantilla_base_cinema/provisionales/Base titulos dinamicos Horizontal.drb
+      + 4_diseno/plantilla_base_cinema/provisionales/Base titulos dinamicos vertical.drb
+      + 4_diseno/plantilla_base_cinema/taller_base.py
+      + 4_diseno/plantilla_base_cinema/ver/HOJA h.png
+      + 4_diseno/plantilla_base_cinema/ver/HOJA v.png
+      + 4_diseno/plantilla_base_cinema/ver_guia/HOJA guia.png
+      + 4_diseno/plantillas_virales/estado.json
+    modificados (39):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/efectos_ui.py
+      ~ 1_codigo/emojis.py
+      ~ 1_codigo/escena_go.py
+      ~ 1_codigo/packs_drt.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/qt_kit.py
+      ~ 1_codigo/resolve_mcp.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/fonts/LICENCIAS.txt
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/plantillas_incluidas/Base titulos dinamicos Horizontal.drb
+      ~ 2_recursos/plantillas_incluidas/Base titulos dinamicos Horizontal.drt
+      ~ 2_recursos/plantillas_incluidas/Base titulos dinamicos Horizontal.posiciones.json
+      ~ 2_recursos/plantillas_incluidas/Base titulos dinamicos vertical.drb
+      ~ 2_recursos/plantillas_incluidas/Base titulos dinamicos vertical.drt
+      ~ 2_recursos/plantillas_incluidas/Base titulos dinamicos vertical.posiciones.json
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_InsertarSFX.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Puente.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_SfxMarcadores.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_SfxReemplazar.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Subtitulos.lua
+      ~ 3_compilar/cinecaptions.spec
+      ~ 3_compilar/encabezados.py
+      ~ 4_diseno/plantillas_virales/sintetizar_drb.py
+
+2026-10-05 04:57  ·  v5.2.1  ·  (automático)
+    nuevos (5):
+      + 1_codigo/brillo_ui.py
+      + 1_codigo/escena_go.py
+      + 1_codigo/registro.py
+      + 1_codigo/registro_ui.py
+      + 2_recursos/fondo_esfera.jpg
+    modificados (8):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/qt_kit.py
+      ~ 1_codigo/sfx_editor.py
+      ~ 1_codigo/sfx_studio.py
+      ~ 1_codigo/ui_toast.py
+      ~ 1_codigo/un_clic_ui.py
+      ~ 3_compilar/cinecaptions.spec
+      ~ 3_compilar/encabezados.py
+
+2026-10-05 04:10  ·  v5.2.1  ·  (automático)
+    nuevos (1):
+      + 1_codigo/sfx_editor.py
+    modificados (3):
+      ~ 1_codigo/sfx_rules.py
+      ~ 1_codigo/sfx_studio.py
+      ~ 3_compilar/encabezados.py
+
+2026-10-05 03:51  ·  v5.2.1  ·  (automático)
+    modificados (1):
+      ~ 1_codigo/sfx_studio.py
+
+2026-10-05 03:38  ·  v5.2.1  ·  (automático)
+    modificados (2):
+      ~ 1_codigo/sfx_rules.py
+      ~ 1_codigo/sfx_studio.py
+
+2026-10-05 08:00  ·  v5.2.1  ·  cambio explicado
+    Registro de errores y avisos (registro.py, registro_ui.py): todo lo que falla o se avisa se guarda en
+    ~/DaVinciSubtitles/cinecaptions.log (rota a 1 MB) y sale en la barra de título de cada pantalla (en Inicio, en una
+    fila arriba) con su icono y un barrido de luz; el botón con contador abre el historial (filtros, copiar, abrir el
+    archivo, limpiar). Llegan solos las excepciones sin atrapar, las de los hilos, los avisos de Qt, los cuadros de
+    error/aviso, los «listo» y las notas del proceso. Sonido: se quitó «Listo.», el enlace «Editar reglas a mano» y se
+    corrigieron espacios (alto mínimo con la barra de categorías de 2 filas, columnas que se apilan si no caben, notas
+    sin recortar). Animaciones en toda la interfaz (brillo_ui.py): barrido de luz al pasar el cursor, onda al pulsar y
+    destello periódico de los botones azules; menú lateral con icono que crece, halo al activarse y barra que se
+    estira; chips con hover suave; iconos de estado que aparecen con rebote; barra de título con barrido cada 11 s.
+    Ventana Editar: lupa del cursor sobre la onda, respiración de la selección, rebote de las asas, entrada
+    escalonada, «Guardado ✓» y fundido de salida. Inicio rediseñado (escena_go.py): esfera de partículas 3D
+    giratoria sobre la imagen de referencia (2_recursos/fondo_esfera.jpg), botón GO neón con ondas de sonar; al pulsar
+    GO la esfera gira rápido y absorbe textos neón, cámaras, lentes, estrellas, notas e iconos de volumen; cada paso
+    cae como cometa y se estrella con onda expansiva y chispas; en «Efectos de sonido» se hipercarga con rayos; al
+    100 % estalla y en ese instante se coloca todo directo en el timeline (sin vista previa; vuelve con la
+    preferencia go_vista_previa). Sonidos sintéticos suaves de impacto/boom (preferencia go_sonidos).
+
+2026-10-05 07:00  ·  v5.2.1  ·  cambio explicado
+    Sonido: botón «Editar» junto al ▶ de cada sonido (Simple) y en cada regla (Avanzado). Abre una ventana
+    con la onda del sonido y dos asas para elegir de forma visual la parte que se usa, un deslizador de
+    volumen del efecto, «Escuchar selección» con cabezal animado y «Todo el sonido». El recorte y el
+    volumen se guardan (sfx_recortes.json / sfx_volumenes.json) y se hornean en el WAV que va a la línea
+    de tiempo. En Avanzado cada regla puede usar UN sonido concreto de su categoría (o «variado»).
+    Se quitó la barra de abajo (nombre, Escuchar, Favorito, volumen) y el texto de ayuda, y en Avanzado el
+    panel «Cuándo y cuánto suena»: las 12 reglas ocupan toda la zona (los ajustes quedan con sus valores).
+    Animaciones: tarjetas que se iluminan al pasar el cursor, iconos que entran con rebote y se
+    encienden/apagan suave, estela y chispitas en las escenas, destello al guardar un sonido, y en la
+    ventana Editar barras que suben, asas que crecen, burbujas con el tiempo, altavoz que sigue al volumen.
+
+2026-10-05 06:00  ·  v5.2.1  ·  cambio explicado
+    Sonido, iconos y animaciones más profesionales: baldosas con degradado, brillo y borde; en Simple
+    cada sección lleva una ESCENA animada (línea de tiempo con bloques, cabezal, y la onda del efecto
+    en el punto donde suena: en cada bloque / riser que crece en el primero / boom con onda expansiva
+    en el último; lo que ya sonó se enciende y lo que falta se ve tenue). En Avanzado los iconos
+    llenan cada tarjeta y los ajustes quedan agrupados (cuándo suena, zonas que se saltan, volumen,
+    comportamiento) y repartidos en toda la altura.
+
+2026-10-05 05:00  ·  v5.2.1  ·  cambio explicado
+    Sonido, modo Simple en 3 secciones (2 sonidos cambiables en cada una, para variar): «Al inicio de
+    cada palabra» (alterna), «Introducción» (riser en el primer bloque) y «Final» (boom en el último;
+    al azar entre los dos). Se guardan en ~/DaVinciSubtitles/sfx_modo.json (sonidos / intro / final).
+    Se quitó la lista «Sonidos · todas las categorías»: ahora, al escribir en el buscador o elegir una
+    categoría, los chips de arriba pasan a ser los SONIDOS. Modo Avanzado: cada regla con icono
+    animado que muestra qué pasará; sin lista de sonidos, las reglas ocupan todo el espacio.
+
+2026-10-05 03:23  ·  v5.2.1  ·  (automático)
+    modificados (3):
+      ~ 1_codigo/sfx_rules.py
+      ~ 1_codigo/sfx_studio.py
+      ~ 3_compilar/Instalador.cs
+
+2026-10-05 04:00  ·  v5.2.1  ·  cambio explicado
+    Pantalla Sonido: se quitó el estudio (tono, velocidad, enviar, guardar WAV) y las reglas
+    automáticas por bloque ocupan esa zona en horizontal. Cada sonido tiene su volumen (barra
+    «Volumen del efecto»): se guarda y se hornea en un WAV (~/DaVinciSubtitles/sfx_volumen) que es
+    el que viaja a la línea de tiempo. Modo Avanzado: 12 reglas con interruptor y categoría,
+    probabilidad, separación mínima, máximo por minuto, saltar inicio/final, no repetir
+    categoría, volumen general (dB) y condiciones nuevas (mayúsculas, palabras, duración, pausa
+    después, cada N bloques). El instalador refresca la caché de iconos de Windows.
+
+2026-10-05 03:09  ·  v5.2.1  ·  (automático)
+    nuevos (1):
+      + 4_diseno/icono/muestra_iconos.png
+    modificados (7):
+      ~ 1_codigo/efectos_ui.py
+      ~ 1_codigo/resolve_bridge.py
+      ~ 1_codigo/un_clic_ui.py
+      ~ 2_recursos/logo_cinecaptions.ico
+      ~ 2_recursos/logo_cinecaptions.png
+      ~ 4_diseno/icono/crear_icono.py
+      ~ 4_diseno/icono/logo_original.jpg
+
+2026-10-05 03:00  ·  v5.2.1  ·  cambio explicado
+    Licencia solo Gumroad (producto CineCaptions, enlace /l/Cinecaptions). Interfaz sin tirones:
+    resolve_bridge ya no llama a scriptapp() con Resolve cerrado (congelaba la ventana ~4 s,
+    reteniendo el GIL); el fondo animado baja de 60 a 30 fps, dibuja solo la zona repintada y
+    guarda la aurora y la viñeta; el botón GO y las frases a 30 fps. Icono nuevo (4 barras de
+    colores, 4_diseno/icono/crear_icono.py). Librerías: ya en la última versión compatible
+    (av 19 rompe faster-whisper; sacremoses 0.2 rompe argostranslate; se dejan fijas).
+
+2026-10-05 02:41  ·  v5.2.1  ·  (automático)
+    modificados (1):
+      ~ 1_codigo/licencia.py
+
+2026-10-05 02:32  ·  v5.2.1  ·  (automático)
+    modificados (2):
+      ~ 1_codigo/licencia.py
+      ~ 1_codigo/ventana_licencia.py
+
+2026-10-04 21:13  ·  v5.2.1  ·  cambio explicado
+    Sonido: aplicado el diseno C (barra de biblioteca con buscador y categorias arriba, estudio al centro sin pad XY ni onda con tarjetas de Tono Velocidad Volumen, ajustes rapidos, lista de sonidos con Favoritos y Recientes, reglas y marcadores a la derecha; pantalla angosta apila reglas y marcadores).
+    modificados (1):
+      ~ 1_codigo/sfx_studio.py
+
+2026-10-04 21:00  ·  v5.2.1  ·  (automático)
+    modificados (1):
+      ~ 3_compilar/documentar.py
+
+2026-10-04 21:00  ·  v5.2.1  ·  cambio explicado
+    Propuesta de la pantalla Sonido sin el pad XY (3 imagenes) y lista de 100 mejoras de rendimiento e interfaz en 4_diseno/propuesta_sonido.
+    nuevos (4):
+      + 4_diseno/propuesta_sonido/100 MEJORAS - rendimiento e interfaz.md
+      + 4_diseno/propuesta_sonido/A_sonido_nuevo_modo_simple.png
+      + 4_diseno/propuesta_sonido/B_sonido_nuevo_modo_avanzado.png
+      + 4_diseno/propuesta_sonido/C_sonido_nuevo_pantalla_pequena_1600.png
+
+2026-10-04 20:45  ·  v5.2.1  ·  cambio explicado
+    Sonido: se quito el visualizador de onda y se reparten mejor las zonas; Efectos en los marcadores con mas realce; Reglas automaticas por bloque con modo Simple (un efecto al principio de cada bloque alternando dos sonidos, de fabrica TAP_POP y typewriter, cambiables) y modo Avanzado (las reglas de siempre). Nueva carpeta sfx_library/Modo simple y el flag al_inicio en los scripts de Resolve (Python y Lua).
+    nuevos (2):
+      + 2_recursos/sfx_library/Modo simple/TAP_POP.mp3
+      + 2_recursos/sfx_library/Modo simple/typewriter copy.mp3
+    modificados (11):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/sfx_rules.py
+      ~ 1_codigo/sfx_studio.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_Subtitulos.lua
+      ~ 2_recursos/resolve_scripts/sfx_rules.json
+
+2026-10-04 20:17  ·  v5.2.1  ·  cambio explicado
+    Interfaz: Proyecto, Creativo y Sonido tienen barra de titulo numerada (insignia naranja 01/02/03, titulo, linea de apoyo y signo de ayuda). Editor de palabras pasa a llamarse Creativo y SFX Lab pasa a llamarse Sonido (menu, ajustes y atajos), con traducciones en en/pt/fr/de/it.
+    modificados (7):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+
+2026-10-04 20:02  ·  v5.2.1  ·  cambio explicado
+    Proyecto: se quitó la pantalla «Nuevo proyecto» (vista previa, receta, Generar) y el conmutador; «Proyecto» abre directamente «Estilos y composición» (con la tarjeta Fuente). Generar se hace con GO en Inicio.
+    modificados (1):
+      ~ 1_codigo/CineCaptions (script principal).py
+
+2026-10-04 19:54  ·  v5.2.1  ·  cambio explicado
+    Proyecto: «Idioma hablado en el video» y «Formato de los subtítulos» ya no se muestran en Nuevo proyecto (el idioma, los efectos y el formato del video se eligen con los chips de GO); la tarjeta «Fuente» (el video) pasó a Estilos y composición.
+    modificados (1):
+      ~ 1_codigo/CineCaptions (script principal).py
+
+2026-10-04 19:41  ·  v5.2.1  ·  cambio explicado
+    Nuevos packs «Plantillas virales cinema» (6 packs Luxe/Amro × superior/centro/inferior, vertical y horizontal, .drb + .drt) en 2_recursos/plantillas_incluidas; fuentes Poppins Bold, DM Serif Text Italic e Inter Black; scripts y documento en 4_diseno/plantillas_virales
+    nuevos (68):
+      + 2_recursos/fonts/DMSerifText-Italic.ttf
+      + 2_recursos/fonts/Inter-Black.ttf
+      + 2_recursos/fonts/Poppins-Bold.ttf
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro centro/Plantillas virales cinema Amro centro horizontal.drb
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro centro/Plantillas virales cinema Amro centro horizontal.drt
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro centro/Plantillas virales cinema Amro centro horizontal.posiciones.json
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro centro/Plantillas virales cinema Amro centro vertical.drb
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro centro/Plantillas virales cinema Amro centro vertical.drt
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro centro/Plantillas virales cinema Amro centro vertical.posiciones.json
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro centro/pack.json
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro inferior/Plantillas virales cinema Amro inferior horizontal.drb
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro inferior/Plantillas virales cinema Amro inferior horizontal.drt
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro inferior/Plantillas virales cinema Amro inferior horizontal.posiciones.json
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro inferior/Plantillas virales cinema Amro inferior vertical.drb
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro inferior/Plantillas virales cinema Amro inferior vertical.drt
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro inferior/Plantillas virales cinema Amro inferior vertical.posiciones.json
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro inferior/pack.json
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro superior/Plantillas virales cinema Amro superior horizontal.drb
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro superior/Plantillas virales cinema Amro superior horizontal.drt
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro superior/Plantillas virales cinema Amro superior horizontal.posiciones.json
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro superior/Plantillas virales cinema Amro superior vertical.drb
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro superior/Plantillas virales cinema Amro superior vertical.drt
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro superior/Plantillas virales cinema Amro superior vertical.posiciones.json
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Amro superior/pack.json
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe centro/Plantillas virales cinema Luxe centro horizontal.drb
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe centro/Plantillas virales cinema Luxe centro horizontal.drt
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe centro/Plantillas virales cinema Luxe centro horizontal.posiciones.json
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe centro/Plantillas virales cinema Luxe centro vertical.drb
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe centro/Plantillas virales cinema Luxe centro vertical.drt
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe centro/Plantillas virales cinema Luxe centro vertical.posiciones.json
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe centro/pack.json
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe inferior/Plantillas virales cinema Luxe inferior horizontal.drb
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe inferior/Plantillas virales cinema Luxe inferior horizontal.drt
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe inferior/Plantillas virales cinema Luxe inferior horizontal.posiciones.json
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe inferior/Plantillas virales cinema Luxe inferior vertical.drb
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe inferior/Plantillas virales cinema Luxe inferior vertical.drt
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe inferior/Plantillas virales cinema Luxe inferior vertical.posiciones.json
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe inferior/pack.json
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe superior/Plantillas virales cinema Luxe superior horizontal.drb
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe superior/Plantillas virales cinema Luxe superior horizontal.drt
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe superior/Plantillas virales cinema Luxe superior horizontal.posiciones.json
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe superior/Plantillas virales cinema Luxe superior vertical.drb
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe superior/Plantillas virales cinema Luxe superior vertical.drt
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe superior/Plantillas virales cinema Luxe superior vertical.posiciones.json
+      + 2_recursos/plantillas_incluidas/Plantillas virales cinema Luxe superior/pack.json
+      + 4_diseno/plantillas_virales/PLANTILLAS VIRALES CINEMA - como se hicieron.txt
+      + 4_diseno/plantillas_virales/cal_h.json
+      + 4_diseno/plantillas_virales/cal_v.json
+      + 4_diseno/plantillas_virales/diseno.json
+      + 4_diseno/plantillas_virales/diseno.py
+      + 4_diseno/plantillas_virales/generar_prov.py
+      + 4_diseno/plantillas_virales/hoja.py
+      + 4_diseno/plantillas_virales/instalar.py
+      + 4_diseno/plantillas_virales/medir.py
+      + 4_diseno/plantillas_virales/resolve_taller.py
+      + 4_diseno/plantillas_virales/sintetizar_drb.py
+      + 4_diseno/plantillas_virales/vistas/Plantillas virales cinema Amro centro horizontal.png
+      + 4_diseno/plantillas_virales/vistas/Plantillas virales cinema Amro centro vertical.png
+      + 4_diseno/plantillas_virales/vistas/Plantillas virales cinema Amro inferior horizontal.png
+      + 4_diseno/plantillas_virales/vistas/Plantillas virales cinema Amro inferior vertical.png
+      + 4_diseno/plantillas_virales/vistas/Plantillas virales cinema Amro superior horizontal.png
+      + 4_diseno/plantillas_virales/vistas/Plantillas virales cinema Amro superior vertical.png
+      + 4_diseno/plantillas_virales/vistas/Plantillas virales cinema Luxe centro horizontal.png
+      + 4_diseno/plantillas_virales/vistas/Plantillas virales cinema Luxe centro vertical.png
+      + 4_diseno/plantillas_virales/vistas/Plantillas virales cinema Luxe inferior horizontal.png
+      + 4_diseno/plantillas_virales/vistas/Plantillas virales cinema Luxe inferior vertical.png
+      + 4_diseno/plantillas_virales/vistas/Plantillas virales cinema Luxe superior horizontal.png
+      + 4_diseno/plantillas_virales/vistas/Plantillas virales cinema Luxe superior vertical.png
+    modificados (3):
+      ~ 2_recursos/fonts/LICENCIAS.txt
+      ~ 3_compilar/documentar.py
+      ~ 3_compilar/encabezados.py
+
+2026-10-04 15:10  ·  v5.2.1  ·  (automático)
+    modificados (1):
+      ~ 3_compilar/documentar.py
+
+2026-10-04 15:10  ·  v5.2.1  ·  cambio explicado
+    Carpetas ordenadas y clasificadas (pedido: «ordéname y clasifica todas las carpetas»): ahora van numeradas en el orden de uso: codigo -> 1_codigo, recursos -> 2_recursos, compilar -> 3_compilar, diseno -> 4_diseno, licencias -> 5_licencias, _compilacion -> 6_compilacion. Cada carpeta tiene un 0_LEEME.txt automático (qué es y qué hay dentro). Se corrigieron todas las rutas: compilación, encabezados, LEEME, scripts de diseño y la ruta del venv. Además, las 9 rutas de «sin compilar» de los módulos apuntan todas a 2_recursos (antes cada uno buscaba en un sitio distinto). Las subcarpetas de 2_recursos y 5_licencias conservan su nombre porque el programa y el Administrador las buscan así.
+    modificados (95):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/actualizaciones.py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/composicion.py
+      ~ 1_codigo/copias.py
+      ~ 1_codigo/dynamic_subtitles.py
+      ~ 1_codigo/efectos_ui.py
+      ~ 1_codigo/emojis.py
+      ~ 1_codigo/ensure_lang_pack.py
+      ~ 1_codigo/fuentes_sistema.py
+      ~ 1_codigo/i18n.py
+      ~ 1_codigo/ia_texto.py
+      ~ 1_codigo/instalador_scripts.py
+      ~ 1_codigo/instalar_fuentes.py
+      ~ 1_codigo/licencia.py
+      ~ 1_codigo/medir_texto.py
+      ~ 1_codigo/motor_voz.py
+      ~ 1_codigo/ortografia.py
+      ~ 1_codigo/packs_drt.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/proyectos.py
+      ~ 1_codigo/qt_kit.py
+      ~ 1_codigo/resolve_bridge.py
+      ~ 1_codigo/resolve_mcp.py
+      ~ 1_codigo/salud.py
+      ~ 1_codigo/sfx_audio.py
+      ~ 1_codigo/sfx_rules.py
+      ~ 1_codigo/sfx_studio.py
+      ~ 1_codigo/sidecar_lua.py
+      ~ 1_codigo/subtitle_transcriber.py
+      ~ 1_codigo/sugerencias_ia.py
+      ~ 1_codigo/tareas_instalador.py
+      ~ 1_codigo/tema.py
+      ~ 1_codigo/ui_toast.py
+      ~ 1_codigo/un_clic_ui.py
+      ~ 1_codigo/ventana_licencia.py
+      ~ 1_codigo/version.py
+      ~ 1_codigo/vistas_reales.py
+      ~ 2_recursos/motor_qwen/motor_qwen.py
+      ~ 2_recursos/motor_qwen/motor_texto.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Puente.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Exportar_PackDRB.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_InsertarSFX.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Prueba_MediaPool.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Puente.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_SfxMarcadores.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_SfxReemplazar.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Subtitulos.lua
+      ~ 3_compilar/Construir_Instalador.ps1
+      ~ 3_compilar/Instalador.cs
+      ~ 3_compilar/cinecaptions.spec
+      ~ 3_compilar/documentar.py
+      ~ 3_compilar/encabezados.py
+      ~ 3_compilar/rthook_stanza_stub.py
+      ~ 4_diseno/banner/crear_banner.py
+      ~ 4_diseno/icono/crear_icono.py
+      ~ 5_licencias/administrador/CONSTRUIR_EXE.bat
+      ~ 5_licencias/administrador/INICIAR_MAC_LINUX.sh
+      ~ 5_licencias/administrador/administrador.spec
+      ~ 5_licencias/administrador/administrador_licencias.py
+      ~ 5_licencias/administrador/control.py
+      ~ 5_licencias/administrador/dialogos.py
+      ~ 5_licencias/administrador/interfaz.py
+      ~ 5_licencias/administrador/modelo.py
+      ~ 5_licencias/administrador/paginas.py
+      ~ 5_licencias/administrador/plataformas.py
+      ~ 5_licencias/administrador/temas.py
+      ~ 5_licencias/instalador/CONSTRUIR_INSTALADOR.bat
+      ~ 5_licencias/instalador/crear_imagenes.py
+      ~ 5_licencias/instalador/instalador.nsi
+      ~ 5_licencias/programa/cinema_licencias/__init__.py
+      … y 15 más
+
+2026-10-04 14:56  ·  v5.2.1  ·  (automático)
+    Primera huella: 846 archivos vigilados (desde aquí se anota cada cambio).
+
+2026-10-04  ·  v5.2.1  ·  cambio explicado
+    Carpeta ordenada y documentada (pedido: «ordena la carpeta, un LEEME con
+    toda la estructura y la lógica, que cada cambio quede registrado, borra el
+    nombre anterior y que quede grabado el autor CineCaptions By Cinema
+    Productions»):
+      - El proyecto vive ahora en RECURSOS PREMIUN\CineCaptions (subió un
+        nivel); el venv de compilación se corrigió a la ruta nueva (y el
+        script de compilar lo corrige solo si se vuelve a mover).
+      - A la papelera de reciclaje (recuperables): la instalación de prueba
+        _compilacion\prueba (12,9 GB), las cachés __pycache__ (en recursos\
+        se habrían metido en el .exe), la copia repetida del instalador del
+        Administrador y su .zip, licencias\marca (logo repetido), los iconos y
+        el banner PNG repetidos de diseno\, restos de git, la carpeta interior
+        vacía. La ficha del programa de la v4.1 (desactualizada) la sustituye
+        el LEEME nuevo.
+      - La nota «Nuevo Documento de texto.txt» (pedido de packs Luxe / Amro)
+        salió de recursos\ (se habría metido en el .exe) a diseno\notas\.
+      - crear_icono.py escribe el icono directo en recursos\ y crear_banner.py
+        ya no deja un PNG repetido.
+      - Encabezado «CineCaptions · By Cinema Productions» + qué es el archivo
+        en los 95 archivos de código (compilar\encabezados.py lo mantiene).
+      - LEEME.txt nuevo: qué hace, la carpeta, la lógica de cada parte, dónde
+        cambiar qué, datos del usuario, compilar, licencias, reglas; el índice
+        de archivos y el mapa del código se regeneran solos.
+      - Este registro + compilar\documentar.py (entradas automáticas).
+      - Fuera el nombre anterior del programa de todo el código: el instalador
+        ya no busca ni quita la versión vieja (decisión del 04-10-2026: una
+        instalación vieja se desinstala a mano); kit y Administrador de
+        licencias renombrados a CineCaptions (sus 56 pruebas pasan; se arregló
+        además la prueba que fallaba por la zona horaria).
+      - La autoprueba del instalador comprueba también la ventana de licencia.
+      - version.py: APP_NOMBRE, APP_AUTOR y APP_CREDITO.
+
+2026-10-04  ·  v5.2.1  ·  cambio explicado
+    Licencias de Lemon Squeezy (pedido: «las licencias ahora son de Lemon
+    Squeezy, ya no de Hotmart; aprende todo de las licencias de CineSlide y
+    aplícalo en CineCaptions»):
+      - codigo\licencia.py reescrito con el sistema de CineSlide 9.20: tienda
+        488116, producto CineCaptions (por nombre hasta tener su ID), Gumroad
+        opcional, estado firmado por equipo, 7 días sin internet, verificación
+        cada 12 h, modo de pruebas activo (LIC_ACEPTAR_PRUEBA = True).
+      - codigo\ventana_licencia.py nuevo: la ventana con el formato de la de
+        CineSlide (panel animado, clave, tienda por el formato, confeti,
+        sacudida, ID del equipo; vista «licencia activa» con Desactivar).
+      - Se pide al abrir (antes de la ventana), en GO, Generar y Regenerar, y
+        el motor (_run_pipeline) se niega sin licencia. Ajustes > Acerca de y
+        la tarjeta de Inicio muestran el estado. --licencia-liberar.
+      - 105 textos traducidos a 5 idiomas; fuera los 17 textos de la licencia
+        vieja; inglés unificado a «license».
+      - Pruebas: lógica 32/32 sin red, integración 13/13, 49 clics sin errores,
+        capturas en los 6 idiomas.
+
+2026-10-04  ·  v5.2.0  ·  cambio explicado
+    GO abre Resolve y el proyecto más reciente por MCP; vistas previas REALES
+    renderizadas por Resolve (GO y Estilos, .drb animados); «Marcar con IA»
+    viral (signos fuera, palabra clave por frase, emojis) con la IA en modo
+    servidor; emojis dentro de las fichas; Inicio con fondo vivo, GO animado y
+    confeti; pestañas unificadas y chips de GO; interfaz adaptable; chequeo de
+    librerías; iconos Phosphor; el instalador salta la IA ya instalada; banner
+    nuevo; marca Cinema Productions.
+
+2026-10-03  ·  v5.1.0  ·  cambio explicado
+    Botón GO (todo con un clic, animado, con vista previa); IA local Qwen3 (voz
+    Qwen3-ASR + IA de texto que corrige y elige palabras); conexión por el MCP
+    oficial de Resolve 21.1; esquina del lateral y Ajustes nuevos (temas, color,
+    tamaño, copias, licencia, beta, actualizaciones); editor minimalista; menú
+    plegable; banner nuevo.
+
+2026-10-03  ·  v5.0.0  ·  cambio explicado
+    Nuevo nombre e icono: CineCaptions. Python 3.14.8 + PySide6; panel de 5
+    pantallas con menú lateral; editor y SFX Lab como pantallas; modo Destacados
+    visible (Hormozi / Gadzhi / Acumulativo / Pintado); recetas; estado del
+    sistema; textos en 6 idiomas. Se quitó la interfaz Tk.
+
+2026-10-03  ·  v3.0  ·  cambio explicado
+    Instalador .exe con librerías de versión fija; el código pasó a .py.

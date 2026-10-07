@@ -1,0 +1,1204 @@
+{
+ "version": 1,
+ "grupos": {
+  "general": "Visión general del programa",
+  "ui": "Interfaz Qt: ventana, diseño, rendimiento, ajustes",
+  "go": "GO e Inicio (botón, escena, arrastrar un video)",
+  "creativo": "Editor Creativo (palabras, Asistencia, Generar)",
+  "estilos": "Estilos y packs (.drb/.drt, Luxe, Crea tu estilo)",
+  "bloques": "Bloques de subtítulos (cerebro, estilo por bloque, pausas)",
+  "sonido": "Sonido y emojis (SFX Lab, reglas, emojis)",
+  "guion": "Estilo «guion» (pack Referencia, palabra a palabra)",
+  "voz-ia": "Voz e IA de texto",
+  "resolve": "Resolve (API, MCP, scripts, vistas reales)",
+  "compilar": "Compilar, versiones, instaladores (Windows y Mac)",
+  "vigilancia": "Vigilancia, logs y respaldo de modelos",
+  "datos": "Datos del usuario, licencia y ajustes",
+  "pruebas": "Pruebas y MCP del programa"
+ },
+ "temas": [
+  {
+   "id": "ventana-paginas",
+   "grupo": "ui",
+   "tema": "Ventana principal, páginas y cambio de pestaña",
+   "claves": [
+    "ventana",
+    "principal",
+    "paginas",
+    "pestaña",
+    "ir_a",
+    "SubtitleApp",
+    "build_ui"
+   ],
+   "archivos": [],
+   "simbolos": [
+    "ir_a",
+    "SubtitleApp",
+    "_build_ui",
+    "_nueva_pagina"
+   ],
+   "resumen": "SubtitleApp (script principal): _build_ui, _nueva_pagina, ir_a"
+  },
+  {
+   "id": "editor-palabras",
+   "grupo": "creativo",
+   "tema": "Editor de palabras (pintar roles)",
+   "claves": [
+    "editor",
+    "palabras",
+    "roles",
+    "pincel",
+    "lienzo",
+    "WordTagWindow",
+    "principal",
+    "arriba",
+    "abajo"
+   ],
+   "archivos": [],
+   "simbolos": [
+    "WordTagWindow",
+    "_poner_rol",
+    "_actualizar_contador_pronto",
+    "_bloques_actuales",
+    "LienzoPalabras"
+   ],
+   "resumen": "WordTagWindow: _poner_rol, _bloques_actuales; lienzo LienzoPalabras"
+  },
+  {
+   "id": "pantalla-estilos",
+   "grupo": "estilos",
+   "tema": "Pantalla Estilos / packs",
+   "claves": [
+    "estilos",
+    "packs",
+    "pantalla",
+    "PlantillasWindow"
+   ],
+   "archivos": [],
+   "simbolos": [
+    "PlantillasWindow",
+    "_asegurar_estilos",
+    "_fila_pack"
+   ],
+   "resumen": "PlantillasWindow: _asegurar_estilos, _fila_pack"
+  },
+  {
+   "id": "go-inicio",
+   "grupo": "go",
+   "tema": "GO / Inicio (botón, escena 3D, HUD)",
+   "claves": [
+    "go",
+    "inicio",
+    "boton",
+    "escena",
+    "hud",
+    "un",
+    "clic"
+   ],
+   "archivos": [
+    "un_clic_ui.py",
+    "escena_go.py",
+    "mograf_ui.py"
+   ],
+   "simbolos": [],
+   "resumen": "un_clic_ui (panel/botón), escena_go (3D), mograf_ui (HUD)"
+  },
+  {
+   "id": "fondo-animado",
+   "grupo": "ui",
+   "tema": "Fondo animado y entrada de tarjetas",
+   "claves": [
+    "fondo",
+    "animado",
+    "aurora",
+    "tarjetas",
+    "entrada"
+   ],
+   "archivos": [
+    "efectos_ui.py",
+    "mograf_ui.py"
+   ],
+   "simbolos": [
+    "FondoVivo",
+    "entrada_escalonada",
+    "_EfectoEntrada"
+   ],
+   "resumen": "efectos_ui.FondoVivo, mograf_ui.entrada_escalonada"
+  },
+  {
+   "id": "estilos-inicio",
+   "grupo": "go",
+   "tema": "10 estilos de Inicio (héroe, fondo, partículas, tema)",
+   "claves": [
+    "estilos",
+    "inicio",
+    "heroe",
+    "tema",
+    "acento",
+    "aurora",
+    "go_estilo"
+   ],
+   "archivos": [
+    "estilos_inicio.py"
+   ],
+   "simbolos": [
+    "ESTILOS",
+    "Estilo",
+    "heroe",
+    "fondo",
+    "frente",
+    "miniatura",
+    "EscenaGo",
+    "poner_estilo",
+    "BotonGo",
+    "_poner_estilo"
+   ],
+   "resumen": "estilos_inicio.ESTILOS; pref go_estilo; Ajustes > Interfaz"
+  },
+  {
+   "id": "instalador-cs",
+   "grupo": "compilar",
+   "tema": "Instalador C#: banner, rutas, pasos",
+   "claves": [
+    "instalador",
+    "banner",
+    "astrolabio",
+    "rutas",
+    "pasos",
+    "csharp"
+   ],
+   "archivos": [
+    "3_compilar/Instalador.cs",
+    "4_diseno/banner/crear_banner.py"
+   ],
+   "simbolos": [],
+   "resumen": "3_compilar/Instalador.cs (Banner, ListaPasos, ListaRutas)"
+  },
+  {
+   "id": "orbe-go",
+   "grupo": "go",
+   "tema": "Orbe GO (astrolabio mecánico)",
+   "claves": [
+    "orbe",
+    "astrolabio",
+    "mecanica",
+    "capas"
+   ],
+   "archivos": [
+    "orbe_mecanica.py"
+   ],
+   "simbolos": [
+    "OrbeMecanica",
+    "dibujar",
+    "avanzar",
+    "BotonGo",
+    "paintEvent"
+   ],
+   "resumen": "orbe_mecanica.OrbeMecanica (lo usa BotonGo.paintEvent)"
+  },
+  {
+   "id": "liquid-glass",
+   "grupo": "ui",
+   "tema": "Liquid Glass de tarjetas",
+   "claves": [
+    "liquid",
+    "glass",
+    "vidrio",
+    "tarjeta",
+    "aurora",
+    "muestra"
+   ],
+   "archivos": [
+    "qt_kit.py",
+    "efectos_ui.py"
+   ],
+   "simbolos": [
+    "Tarjeta",
+    "paintEvent",
+    "FondoVivo",
+    "muestra_aurora",
+    "_refrescar_tarjetas"
+   ],
+   "resumen": "qt_kit.Tarjeta.paintEvent + FondoVivo.muestra_aurora (vidrio FALSO a propósito)"
+  },
+  {
+   "id": "ritmo-fps",
+   "grupo": "ui",
+   "tema": "Regulador de fps",
+   "claves": [
+    "fps",
+    "ritmo",
+    "regulador",
+    "animaciones"
+   ],
+   "archivos": [
+    "ritmo_ui.py"
+   ],
+   "simbolos": [],
+   "resumen": "ritmo_ui.py"
+  },
+  {
+   "id": "qt-kit",
+   "grupo": "ui",
+   "tema": "Widgets base, hilos y Pila",
+   "claves": [
+    "widgets",
+    "hilos",
+    "correr_en_hilo",
+    "despues",
+    "pila",
+    "qt_kit"
+   ],
+   "archivos": [
+    "qt_kit.py"
+   ],
+   "simbolos": [
+    "correr_en_hilo",
+    "despues",
+    "Pila"
+   ],
+   "resumen": "qt_kit: correr_en_hilo, despues, Pila, Boton, Tarjeta"
+  },
+  {
+   "id": "sfx-lab",
+   "grupo": "sonido",
+   "tema": "Sonido / SFX Lab",
+   "claves": [
+    "sonido",
+    "sfx",
+    "lab",
+    "estudio"
+   ],
+   "archivos": [
+    "sfx_studio.py",
+    "sfx_rules.py",
+    "sfx_editor.py",
+    "sfx_audio.py"
+   ],
+   "simbolos": [],
+   "resumen": "sfx_studio, sfx_rules, sfx_editor, sfx_audio"
+  },
+  {
+   "id": "packs-drt",
+   "grupo": "estilos",
+   "tema": "Packs .drt/.drb (Pack y lector)",
+   "claves": [
+    "packs",
+    "drt",
+    "drb",
+    "pack",
+    "lector"
+   ],
+   "archivos": [
+    "plantillas.py",
+    "packs_drt.py"
+   ],
+   "simbolos": [],
+   "resumen": "plantillas.Pack (memo), packs_drt (lector)"
+  },
+  {
+   "id": "fuentes",
+   "grupo": "estilos",
+   "tema": "Fuentes del sistema",
+   "claves": [
+    "fuentes",
+    "tipografias",
+    "sistema",
+    "cache"
+   ],
+   "archivos": [
+    "fuentes_sistema.py",
+    "instalar_fuentes.py"
+   ],
+   "simbolos": [],
+   "resumen": "fuentes_sistema (índice+caché), instalar_fuentes"
+  },
+  {
+   "id": "resolve-api",
+   "grupo": "resolve",
+   "tema": "Resolve (API, puente, MCP, scripts)",
+   "claves": [
+    "resolve",
+    "api",
+    "puente",
+    "mcp",
+    "scripts",
+    "conexion"
+   ],
+   "archivos": [
+    "resolve_bridge.py",
+    "resolve_mcp.py",
+    "instalador_scripts.py"
+   ],
+   "simbolos": [],
+   "resumen": "resolve_bridge, resolve_mcp, instalador_scripts"
+  },
+  {
+   "id": "bloques",
+   "grupo": "bloques",
+   "tema": "Cerebro de bloques",
+   "claves": [
+    "bloques",
+    "cerebro",
+    "dynamic",
+    "subtitles",
+    "composicion",
+    "grupos"
+   ],
+   "archivos": [
+    "dynamic_subtitles.py",
+    "composicion.py"
+   ],
+   "simbolos": [],
+   "resumen": "dynamic_subtitles, composicion"
+  },
+  {
+   "id": "voz-ia",
+   "grupo": "voz-ia",
+   "tema": "Voz e IA de texto",
+   "claves": [
+    "voz",
+    "ia",
+    "transcripcion",
+    "whisper",
+    "qwen",
+    "modelo",
+    "texto"
+   ],
+   "archivos": [
+    "subtitle_transcriber.py",
+    "motor_voz.py",
+    "ia_texto.py"
+   ],
+   "simbolos": [],
+   "resumen": "subtitle_transcriber, motor_voz, ia_texto"
+  },
+  {
+   "id": "licencia",
+   "grupo": "datos",
+   "tema": "Licencia",
+   "claves": [
+    "licencia",
+    "activar",
+    "lemon",
+    "squeezy"
+   ],
+   "archivos": [
+    "licencia.py",
+    "ventana_licencia.py"
+   ],
+   "simbolos": [],
+   "resumen": "licencia.py, ventana_licencia.py"
+  },
+  {
+   "id": "ajustes-tema",
+   "grupo": "ui",
+   "tema": "Ajustes y tema",
+   "claves": [
+    "ajustes",
+    "tema",
+    "colores",
+    "preferencias"
+   ],
+   "archivos": [
+    "ajustes_ui.py",
+    "tema.py"
+   ],
+   "simbolos": [],
+   "resumen": "ajustes_ui.py, tema.py"
+  },
+  {
+   "id": "version",
+   "grupo": "compilar",
+   "tema": "Versión del programa",
+   "claves": [
+    "version",
+    "app_version"
+   ],
+   "archivos": [
+    "version.py"
+   ],
+   "simbolos": [],
+   "resumen": "version.py (APP_VERSION; se copia a los scripts con sincronizar_version.py)"
+  },
+  {
+   "id": "generador-packs",
+   "grupo": "estilos",
+   "tema": "Generador de packs (.drb con Luxe)",
+   "claves": [
+    "generador",
+    "packs",
+    "drb",
+    "luxe",
+    "mediaout",
+    "comp"
+   ],
+   "archivos": [
+    "generar_comps.py",
+    "luxe_macro.py",
+    "construir_pack.py"
+   ],
+   "simbolos": [],
+   "resumen": "2_recursos/generador_packs: generar_comps, luxe_macro, construir_pack"
+  },
+  {
+   "id": "ducking-energia",
+   "grupo": "sonido",
+   "tema": "Estilo desde imagen, ducking y curva de energía",
+   "claves": [
+    "imagen",
+    "estilo",
+    "ducking",
+    "musica",
+    "energia",
+    "curva"
+   ],
+   "archivos": [
+    "estilo_desde_imagen.py",
+    "ducking.py",
+    "energia.py"
+   ],
+   "simbolos": [],
+   "resumen": "estilo_desde_imagen, ducking, energia"
+  },
+  {
+   "id": "sonido-palabra",
+   "grupo": "sonido",
+   "tema": "Sonido por palabra (simple/avanzado)",
+   "claves": [
+    "sonido",
+    "palabra",
+    "simple",
+    "avanzado",
+    "reglas",
+    "eventos"
+   ],
+   "archivos": [
+    "sfx_rules.py"
+   ],
+   "simbolos": [
+    "asignar_eventos_por_palabra",
+    "_eventos_avanzados",
+    "REGLAS_PREDEFINIDAS"
+   ],
+   "resumen": "sfx_rules.asignar_eventos_por_palabra, _eventos_avanzados"
+  },
+  {
+   "id": "archivos-seguros",
+   "grupo": "datos",
+   "tema": "Guardar JSON/estado del usuario",
+   "claves": [
+    "guardar",
+    "json",
+    "estado",
+    "atomico",
+    "preferencias",
+    "marcas",
+    "manifiesto"
+   ],
+   "archivos": [
+    "archivos_seguros.py"
+   ],
+   "simbolos": [
+    "escribir_json",
+    "mezclar_json"
+   ],
+   "resumen": "archivos_seguros.escribir_json/mezclar_json (NUNCA write_text directo)"
+  },
+  {
+   "id": "creativo-ui",
+   "grupo": "creativo",
+   "tema": "Editor Creativo: barra, tarjeta, play, Asistencia, Generar",
+   "claves": [
+    "creativo",
+    "barra",
+    "tarjeta",
+    "play",
+    "asistencia",
+    "generar",
+    "avance",
+    "panel"
+   ],
+   "archivos": [
+    "editor_ui.py"
+   ],
+   "simbolos": [
+    "BarraHerramientas",
+    "MarcoPapel",
+    "ControlTamano",
+    "BotonPlay",
+    "PanelAsistencia",
+    "_receta_generar",
+    "_gen_abrir",
+    "_gen_fase",
+    "_gen_fin",
+    "_regenerar_marcas"
+   ],
+   "resumen": "editor_ui + script principal _receta_generar/_gen_abrir/_gen_fase/_gen_fin/_regenerar_marcas"
+  },
+  {
+   "id": "sonido-emojis",
+   "grupo": "sonido",
+   "tema": "Sonido de cada emoji",
+   "claves": [
+    "emoji",
+    "sonido",
+    "familia",
+    "sfx_emoji"
+   ],
+   "archivos": [
+    "emojis_sfx.py",
+    "generar_sfx_emoji.py",
+    "emojis_sfx_ui.py"
+   ],
+   "simbolos": [
+    "familia_de",
+    "sonido_de",
+    "asignar",
+    "agregar_eventos",
+    "reales",
+    "PanelEmojis"
+   ],
+   "resumen": "emojis_sfx (familia_de, sonido_de, agregar_eventos); emojis_sfx_ui.PanelEmojis"
+  },
+  {
+   "id": "crea-tu-estilo",
+   "grupo": "estilos",
+   "tema": "«Crea tu estilo» (48 ejemplos, vistas reales)",
+   "claves": [
+    "crea",
+    "tu",
+    "estilo",
+    "ejemplos",
+    "galeria",
+    "vista",
+    "real",
+    "amro",
+    "luxe",
+    "guia"
+   ],
+   "archivos": [
+    "ejemplos_estilo.py",
+    "vistas_guia.py",
+    "crea_estilo_ui.py",
+    "2_recursos/guia_estilo/construir_guia.py"
+   ],
+   "simbolos": [
+    "EJEMPLOS",
+    "miniatura",
+    "crear_pack",
+    "datos_guia",
+    "CUADROS_VISTA_S",
+    "rutas_vista",
+    "vistas",
+    "_Tarjeta",
+    "CreaEstiloDialogo",
+    "AyudaEstilo"
+   ],
+   "resumen": "ejemplos_estilo, crea_estilo_ui, vistas_guia; guia_estilo/construir_guia.py"
+  },
+  {
+   "id": "editar-quitar-pack",
+   "grupo": "estilos",
+   "tema": "Botones ✎ editar en Resolve y 🗑 quitar pack",
+   "claves": [
+    "editar",
+    "quitar",
+    "borrar",
+    "pack",
+    "boton",
+    "resolve"
+   ],
+   "archivos": [
+    "edicion_pack.py",
+    "2_recursos/guia_estilo/editar_pack.py"
+   ],
+   "simbolos": [
+    "PlantillasWindow",
+    "_acciones_de",
+    "_editar_en_resolve",
+    "_quitar_pack"
+   ],
+   "resumen": "edicion_pack.py, PlantillasWindow._acciones_de/_editar_en_resolve/_quitar_pack"
+  },
+  {
+   "id": "luxe-packs",
+   "grupo": "estilos",
+   "tema": "Packs de texto = solo macros reales Luxe",
+   "claves": [
+    "luxe",
+    "shine",
+    "slide",
+    "macro",
+    "pack",
+    "revision_bin"
+   ],
+   "archivos": [
+    "2_recursos/generador_packs/luxe_macro.py",
+    "construir_pack.py",
+    "plantillas.py"
+   ],
+   "simbolos": [
+    "comp_luxe",
+    "REVISION_BIN"
+   ],
+   "resumen": "generador_packs/luxe_macro.py; subir plantillas.REVISION_BIN al cambiar un pack"
+  },
+  {
+   "id": "anim-cortos",
+   "grupo": "bloques",
+   "tema": "Fix de animación de textos cortos",
+   "claves": [
+    "animacion",
+    "cortos",
+    "salto_anim"
+   ],
+   "archivos": [
+    "dynamic_subtitles.py",
+    "resolve_scripts/CineCaptions.py",
+    "CineCaptions_Subtitulos.lua"
+   ],
+   "simbolos": [
+    "proteger_animaciones",
+    "salto_anim"
+   ],
+   "resumen": "dynamic_subtitles.proteger_animaciones (marca salto_anim; gemelos py/lua)"
+  },
+  {
+   "id": "mac",
+   "grupo": "compilar",
+   "tema": "Instalador de Mac (.app/.pkg/.dmg)",
+   "claves": [
+    "mac",
+    "dmg",
+    "pkg",
+    "apple",
+    "silicon",
+    "intel",
+    "github",
+    "actions"
+   ],
+   "archivos": [
+    "Construir_Instalador_Mac.sh",
+    "cinecaptions_mac.spec"
+   ],
+   "simbolos": [
+    "scripts",
+    "fuentes"
+   ],
+   "resumen": "7_mac/Construir_Instalador_Mac.sh, cinecaptions_mac.spec; Actualizar_Mac.ps1"
+  },
+  {
+   "id": "isla-nav",
+   "grupo": "ui",
+   "tema": "Isla de navegación y controles de ventana",
+   "claves": [
+    "isla",
+    "navegacion",
+    "controles",
+    "ventana",
+    "borde"
+   ],
+   "archivos": [
+    "isla_ui.py"
+   ],
+   "simbolos": [
+    "IslaNav",
+    "ControlesVentana",
+    "BordesVentana",
+    "_build_isla",
+    "_accion_isla",
+    "_alternar_pop_estado",
+    "_build_lateral"
+   ],
+   "resumen": "isla_ui: IslaNav, ControlesVentana, BordesVentana"
+  },
+  {
+   "id": "aurora",
+   "grupo": "ui",
+   "tema": "Diseño «Aurora» (vidrio, neón, resortes)",
+   "claves": [
+    "aurora",
+    "vidrio",
+    "neon",
+    "resortes",
+    "spring"
+   ],
+   "archivos": [
+    "qt_kit.py",
+    "efectos_ui.py"
+   ],
+   "simbolos": [
+    "Resorte",
+    "motor_resortes",
+    "Tarjeta",
+    "paintEvent",
+    "Boton",
+    "Segmentado",
+    "Interruptor",
+    "BarraProgreso",
+    "PALETAS_PAGINA",
+    "poner_pagina"
+   ],
+   "resumen": "qt_kit.Resorte/motor_resortes; efectos_ui.PALETAS_PAGINA"
+  },
+  {
+   "id": "estilo-bloque",
+   "grupo": "bloques",
+   "tema": "Estilo (variante del pack) de cada bloque",
+   "claves": [
+    "estilo",
+    "bloque",
+    "variante",
+    "rueda",
+    "estilos_bloque",
+    "asignar"
+   ],
+   "archivos": [
+    "estilos_bloque.py"
+   ],
+   "simbolos": [
+    "asignar",
+    "orden_de_variantes",
+    "_estilos_de_bloques",
+    "WordTagWindow",
+    "_asignar_estilos",
+    "_pintar_estilo_bloque",
+    "_poner_estilo_de_bloque",
+    "MiniPosicion",
+    "ComposicionWindow",
+    "COMPOSICION_VISIBLE"
+   ],
+   "resumen": "estilos_bloque.asignar; WordTagWindow._asignar_estilos; ComposicionWindow (oculta)"
+  },
+  {
+   "id": "guion-planificador",
+   "grupo": "guion",
+   "tema": "Estilo «guion»: planificador y geometría",
+   "claves": [
+    "guion",
+    "planificador",
+    "referencia",
+    "palabra",
+    "a",
+    "palabra",
+    "frases",
+    "grande"
+   ],
+   "archivos": [
+    "guion_planificador.py",
+    "guion_referencia.py",
+    "guion_captions.py",
+    "2_recursos/generador_packs/pack_referencia.py"
+   ],
+   "simbolos": [
+    "planificar",
+    "frases",
+    "elegir_mains",
+    "_partir",
+    "_cabe",
+    "_estilo_para",
+    "evaluar",
+    "PALABRAS",
+    "construir_cues",
+    "distribuir"
+   ],
+   "resumen": "guion_planificador.planificar, guion_captions.construir_cues; place_guion_track"
+  },
+  {
+   "id": "creativo-guion",
+   "grupo": "guion",
+   "tema": "Creativo con el estilo «guion»",
+   "claves": [
+    "creativo",
+    "guion",
+    "planear",
+    "paridad",
+    "marcas",
+    "bloques"
+   ],
+   "archivos": [
+    "guion_editor.py",
+    "guion_vista.py",
+    "CineCaptions - Vista Real.py"
+   ],
+   "simbolos": [
+    "planear",
+    "_generar_con_guion",
+    "parametros_de_marcas",
+    "roles_automaticos",
+    "bloques_para_editor",
+    "MarcoVistaGuion",
+    "poner_cue",
+    "poner_real",
+    "fuente_qt",
+    "WordTagWindow"
+   ],
+   "resumen": "guion_editor.planear (única), guion_vista.MarcoVistaGuion"
+  },
+  {
+   "id": "banco-mcp",
+   "grupo": "pruebas",
+   "tema": "Banco de pruebas y MCP del programa",
+   "claves": [
+    "banco",
+    "pruebas",
+    "mcp",
+    "zz_banco",
+    "render",
+    "go_real",
+    "herramientas"
+   ],
+   "archivos": [
+    "banco_pruebas.py",
+    "mcp_cinecaptions.py",
+    "probar_go.py"
+   ],
+   "simbolos": [
+    "colocar_guion",
+    "renderizar",
+    "hoja",
+    "lado_a_lado",
+    "medir_texto",
+    "limpiar",
+    "estado",
+    "packs",
+    "transcribir",
+    "planificar"
+   ],
+   "resumen": "banco_pruebas.py, mcp_cinecaptions.py (.mcp.json)"
+  },
+  {
+   "id": "arrastrar-video",
+   "grupo": "go",
+   "tema": "Arrastrar un video a Inicio = GO con timeline nuevo",
+   "claves": [
+    "arrastrar",
+    "video",
+    "soltar",
+    "go",
+    "timeline",
+    "proyecto",
+    "pack",
+    "por",
+    "defecto"
+   ],
+   "archivos": [
+    "resolve_mcp.py"
+   ],
+   "simbolos": [
+    "_soltar_archivo",
+    "EXTENSIONES_MEDIO",
+    "medir_medio",
+    "_go_timeline_del_video",
+    "_run_pipeline",
+    "_esperar_vistas_reales",
+    "crear_timeline_con_video",
+    "_plantilla_un_clic",
+    "_menu_estilo_go",
+    "_dibujo_guion"
+   ],
+   "resumen": "_soltar_archivo, _go, resolve_mcp.preparar_proyecto/crear_timeline_con_video"
+  },
+  {
+   "id": "estilo-oracion",
+   "grupo": "guion",
+   "tema": "Estilo por oración y animación de Amro en «guion»",
+   "claves": [
+    "oracion",
+    "amro",
+    "estilo",
+    "salto",
+    "acento"
+   ],
+   "archivos": [
+    "guion_planificador.py",
+    "guion_captions.py"
+   ],
+   "simbolos": [
+    "ESTILOS_BASE",
+    "ESTILOS_ACENTO",
+    "_intencion",
+    "place_guion_track",
+    "salto"
+   ],
+   "resumen": "guion_planificador.ESTILOS_BASE/ESTILOS_ACENTO; guion_captions.AFINADO"
+  },
+  {
+   "id": "vigilancia",
+   "grupo": "vigilancia",
+   "tema": "Vigilancia, logs y respaldo de modelos",
+   "claves": [
+    "vigilancia",
+    "logs",
+    "errores",
+    "respaldo",
+    "modelo",
+    "atasco",
+    "arranque",
+    "soporte"
+   ],
+   "archivos": [
+    "vigilancia.py",
+    "registro.py"
+   ],
+   "simbolos": [
+    "iniciar",
+    "latido",
+    "terminar",
+    "pausar",
+    "UMBRALES",
+    "iniciar_monitor",
+    "vigilar_arranque",
+    "arranque_listo",
+    "revisar_salud_al_arrancar",
+    "_vigilar_tarea"
+   ],
+   "resumen": "vigilancia.py, registro.py, motor_voz.abortar, ia_texto.abortar"
+  },
+  {
+   "id": "compilar-win",
+   "grupo": "compilar",
+   "tema": "Compilar, versiones y desinstalador de Windows",
+   "claves": [
+    "compilar",
+    "windows",
+    "version",
+    "instalador",
+    "desinstalador",
+    "actualizar",
+    "exe"
+   ],
+   "archivos": [
+    "Actualizar_Windows.ps1",
+    "Construir_Instalador.ps1",
+    "3_compilar/sincronizar_version.py",
+    "3_compilar/Instalador.cs"
+   ],
+   "simbolos": [
+    "APP_VERSION",
+    "todo",
+    "scripts"
+   ],
+   "resumen": "Actualizar_Windows.ps1, Construir_Instalador.ps1, sincronizar_version.py, Instalador.cs"
+  },
+  {
+   "id": "recorrido",
+   "grupo": "ui",
+   "tema": "Recorrido visual por pasos",
+   "claves": [
+    "recorrido",
+    "tour",
+    "guia",
+    "pasos",
+    "primera",
+    "vez"
+   ],
+   "archivos": [
+    "recorrido_ui.py",
+    "ajustes_ui.py"
+   ],
+   "simbolos": [
+    "Paso",
+    "Recorrido",
+    "_pasos_recorrido",
+    "iniciar_recorrido",
+    "_recorrido_auto",
+    "_recorrido_fin",
+    "_recorrido_no_mostrar",
+    "PanelRapido",
+    "_guardar_recorrido"
+   ],
+   "resumen": "recorrido_ui.Recorrido; prefs recorrido_activo/recorrido_visto"
+  },
+  {
+   "id": "vista-real-previo",
+   "grupo": "resolve",
+   "tema": "Vista real cortada a medias",
+   "claves": [
+    "vista",
+    "real",
+    "temporal",
+    "previo",
+    "reparar",
+    "timeline"
+   ],
+   "archivos": [
+    "vistas_reales.py"
+   ],
+   "simbolos": [
+    "anotar_previo",
+    "reparar_pendiente",
+    "PREVIO",
+    "ejecutar_py",
+    "preparar_resolve",
+    "_reparar_vistas"
+   ],
+   "resumen": "vistas_reales.anotar_previo/reparar_pendiente"
+  },
+  {
+   "id": "colgantes",
+   "grupo": "bloques",
+   "tema": "Bloques que no acaban en artículo/preposición",
+   "claves": [
+    "colgantes",
+    "articulo",
+    "preposicion",
+    "bloque",
+    "cola"
+   ],
+   "archivos": [
+    "dynamic_subtitles.py"
+   ],
+   "simbolos": [
+    "COLGANTES",
+    "es_colgante",
+    "EVITAR_COLGANTES",
+    "grupos_estrictos"
+   ],
+   "resumen": "dynamic_subtitles.COLGANTES, es_colgante, grupos_estrictos"
+  },
+  {
+   "id": "reglas-rendimiento",
+   "grupo": "ui",
+   "tema": "Reglas de rendimiento de la interfaz (no romper)",
+   "claves": [
+    "rendimiento",
+    "reglas",
+    "hilo",
+    "ui",
+    "easing",
+    "opacidad",
+    "efecto",
+    "cache",
+    "freeze",
+    "lento"
+   ],
+   "archivos": [
+    "qt_kit.py"
+   ],
+   "simbolos": [],
+   "resumen": "No QEasingCurve.setCustomType con función Python; vidrio FALSO; nada de red/subprocess/sleep en el hilo UI; sin QGraphicsOpacityEffect sobre páginas"
+  },
+  {
+   "id": "pruebas-sin-pantalla",
+   "grupo": "pruebas",
+   "tema": "Probar la app sin pantalla (arneses Qt)",
+   "claves": [
+    "probar",
+    "pruebas",
+    "sin",
+    "pantalla",
+    "offscreen",
+    "arnes",
+    "headless",
+    "test",
+    "prefs"
+   ],
+   "archivos": [
+    "probar_go.py"
+   ],
+   "simbolos": [],
+   "resumen": "QT_QPA_PLATFORM=offscreen + licencia.vigente parcheada; los arneses escriben las prefs REALES: parchear guardar_prefs"
+  },
+  {
+   "id": "mac-actualizar",
+   "grupo": "compilar",
+   "tema": "Mantener el instalador de Mac al día",
+   "claves": [
+    "mac",
+    "actualizar",
+    "dmg",
+    "github",
+    "actions",
+    "solodescargar"
+   ],
+   "archivos": [
+    "Actualizar_Mac.ps1"
+   ],
+   "simbolos": [],
+   "resumen": "Tras CUALQUIER mejora: Actualizar_Mac.ps1 (sube a GitHub, compila arm64+Intel, baja los .dmg a INSTALADORES/Mac; ~15 min, en segundo plano)"
+  },
+  {
+   "id": "documentacion",
+   "grupo": "general",
+   "tema": "Cómo está ordenada la documentación (y cómo consultarla)",
+   "claves": [
+    "documentacion",
+    "docs",
+    "leeme",
+    "claude",
+    "mapa",
+    "temas",
+    "resumen",
+    "tokens",
+    "consultar",
+    "mcp"
+   ],
+   "archivos": [
+    "mapa_codigo.py"
+   ],
+   "simbolos": [],
+   "resumen": "RESUMEN.md (1 página) + mapa.json/temas/*.md (por tema) + MCP mapa/simbolo/modulo/cambios; LEEME.txt y REGISTRO son archivo, no se leen enteros"
+  },
+  {
+   "id": "fuente-unica",
+   "grupo": "go",
+   "tema": "Un solo dueño por ajuste (auditoría del flujo v5.3.2)",
+   "claves": [
+    "fuente",
+    "unica",
+    "dueño",
+    "pack",
+    "chip",
+    "estilos",
+    "go_pack",
+    "plantilla_sel",
+    "emojis",
+    "efectos",
+    "sfx_var",
+    "roles",
+    "marcas",
+    "guion",
+    "automatico",
+    "contradiccion",
+    "asistencia"
+   ],
+   "archivos": [
+    "CineCaptions (script principal).py"
+   ],
+   "simbolos": [
+    "_sincronizar_go_pack",
+    "_poner_go_pack",
+    "_sincronizar_sfx",
+    "_asegurar_pack_luxe"
+   ],
+   "resumen": "pack: go_pack⇄plantilla_sel; efectos: go_sfx(+sfx_var); emojis: go_emojis; GO con «guion» guarda los roles del planificador, no los de la IA"
+  },
+  {
+   "id": "carpetas-del-usuario",
+   "grupo": "datos",
+   "tema": "Dónde vive el estado del usuario (carpetas y archivos)",
+   "claves": [
+    "datos",
+    "carpetas",
+    "usuario",
+    "davincisubtitles",
+    "localappdata",
+    "cache",
+    "modelos",
+    "copias",
+    "lock",
+    "preferencias",
+    "marcas",
+    "logs"
+   ],
+   "archivos": [
+    "archivos_seguros.py",
+    "copias.py"
+   ],
+   "simbolos": [],
+   "resumen": "~/DaVinciSubtitles (prefs, marcas, manifiestos, logs), %LOCALAPPDATA%/CineCaptions/motor_qwen, ~/.cache/huggingface, copias en Documentos"
+  }
+ ]
+}

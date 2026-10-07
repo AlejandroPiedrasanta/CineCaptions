@@ -1,0 +1,19 @@
+==============================================================================
+ DOCUMENTACION\  —  EL MAPA DEL PROGRAMA, POR TEMAS (para no releer todo)
+ CineCaptions · By Cinema Productions
+==============================================================================
+
+EMPIEZA POR AQUÍ:   RESUMEN.md  (una página: qué hace el programa y dónde está cada cosa)
+
+    RESUMEN.md          qué es, flujo GO, pantallas, quién decide qué, reglas que no se rompen
+    mapa.json           un renglón por tema (id, grupo, claves, archivos, símbolos, resumen)
+    temas\<grupo>.md    el detalle de cada tema: «## id — tema» y «## nota — …» (lógica histórica)
+                        grupos: general ui go creativo estilos bloques sonido guion voz-ia resolve
+                                compilar vigilancia datos pruebas
+    historial\          auditorías y contexto antiguos (solo para buscar con Grep)
+
+CONSULTAR SIN LEER ARCHIVOS ENTEROS (MCP «cinecaptions», o por línea de comandos):
+    mapa(consulta)  mapa(id=…)  simbolo(nombre)  modulo(nombre)  cambios(n)  resumen()
+    6_compilacion/venv314/Scripts/python.exe 1_codigo/mapa_codigo.py mapa <palabras>
+La raíz sigue teniendo LEEME.txt (explicación humana, secciones 1-12) y REGISTRO_DE_CAMBIOS.txt:
+no se leen enteros; el registro viejo rota a historial\.

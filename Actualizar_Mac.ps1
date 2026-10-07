@@ -1,9 +1,9 @@
 # CineCaptions - By Cinema Productions
-# Actualizar_Mac.ps1 - sube el codigo a GitHub, compila los instaladores de Mac (Apple Silicon e Intel) y los deja AQUI, en la raiz.
+# Actualizar_Mac.ps1 - sube el codigo a GitHub, compila los instaladores de Mac (Apple Silicon e Intel) y los deja en INSTALADORES\Mac.
 # ============================================================================
 #   powershell -ExecutionPolicy Bypass -File Actualizar_Mac.ps1                 sube cambios + compila + descarga (10-15 min)
 #   powershell -ExecutionPolicy Bypass -File Actualizar_Mac.ps1 -SoloDescargar  solo baja los .dmg de la ultima compilacion buena
-# Deja: CineCaptions_Mac_AppleSilicon_<version>.dmg y CineCaptions_Mac_Intel_<version>.dmg (los viejos se borran).
+# Deja en INSTALADORES\Mac: CineCaptions_Mac_AppleSilicon_<version>.dmg y CineCaptions_Mac_Intel_<version>.dmg (los viejos se borran).
 # Requiere: git y gh (GitHub CLI) con sesion iniciada; repositorio privado AlejandroPiedrasanta/CineCaptions.
 # Correrlo despues de CUALQUIER mejora del programa (el .exe y el de Mac salen del mismo codigo).
 # ============================================================================
@@ -50,10 +50,13 @@ if (Test-Path $tmp) { Remove-Item -Recurse -Force $tmp }
 Nativo { gh run download $id -D $tmp }
 $nuevos = Get-ChildItem $tmp -Recurse -Filter 'CineCaptions_Mac_*.dmg'
 if (-not $nuevos) { throw 'La compilacion no dejo ningun .dmg' }
-Get-ChildItem . -Filter 'CineCaptions_Mac_*.dmg' | Remove-Item -Force
+$destino = Join-Path (Get-Location) 'INSTALADORES\Mac'
+New-Item -ItemType Directory -Force -Path $destino | Out-Null
+Get-ChildItem $destino -Filter 'CineCaptions_Mac_*.dmg' | Remove-Item -Force
+Get-ChildItem . -Filter 'CineCaptions_Mac_*.dmg' | Remove-Item -Force      # (los que quedaban sueltos en la raiz)
 foreach ($d in $nuevos) {
-    Move-Item $d.FullName . -Force
+    Move-Item $d.FullName $destino -Force
     Write-Host ('    {0}  ({1:N0} MB)' -f $d.Name, ($d.Length / 1MB))
 }
 Remove-Item -Recurse -Force $tmp
-Paso 'LISTO: instaladores de Mac al dia en esta carpeta'
+Paso 'LISTO: instaladores de Mac al dia en INSTALADORES\Mac'

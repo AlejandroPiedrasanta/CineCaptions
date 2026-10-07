@@ -49,6 +49,8 @@ DESCRIPCIONES = {
     '1_codigo/qt_kit.py': 'kit de interfaz Qt: colores, tipografía Inter, controles, mensajes, hilos (correr_en_hilo, despues).',
     '1_codigo/resolve_bridge.py': 'conexión con Resolve: API externa (Studio), Puente (Free) o paso manual; ejecuta los scripts.',
     '1_codigo/resolve_mcp.py': 'conexión con el MCP oficial de Resolve 21.1+: abrir Resolve, proyecto reciente, ejecutar scripts.',
+    '1_codigo/mapa_codigo.py': 'consulta el código y la documentación POR TEMA sin leer archivos enteros (mapa, símbolo, módulo, cambios); lo usan el MCP y la línea de comandos.',
+    '3_compilar/sincronizar_version.py': 'pone la versión de version.py en todos los sitios que la repiten (scripts de Resolve, Puente) y avisa si algo no cuadra.',
     '1_codigo/vigilancia.py': 'guardián de tareas largas (GO, Generar): detecta atascos, destraba motores, chequeos periódicos y arranque atascado.',
     '1_codigo/salud.py': 'chequeo de librerías al arrancar (versiones fijadas, motor de IA, MCP).',
     '1_codigo/sfx_audio.py': 'audio del SFX Lab: cargar, cambiar tono y velocidad, reproducir.',
@@ -105,7 +107,7 @@ DESCRIPCIONES = {
     '2_recursos/motor_qwen/motor_qwen.py': 'motor de voz Qwen3-ASR + alineador (corre en el Python 3.12 del motor).',
     '2_recursos/motor_qwen/motor_texto.py': 'IA de texto Qwen3 Instruct: correcciones, pesos y emojis por frase (modo servidor).',
     # ---------------------------------------------------------------- compilar
-    '3_compilar/Construir_Instalador.ps1': 'arma Instalar_CineCaptions.exe de principio a fin (PyInstaller + autoprueba + C#).',
+    '3_compilar/Construir_Instalador.ps1': 'arma el instalador de Windows de principio a fin (PyInstaller + autoprueba + C#).',
     '3_compilar/cinecaptions.spec': 'receta de PyInstaller del programa (qué módulos y recursos van dentro del .exe).',
     '3_compilar/rthook_stanza_stub.py': 'hook de arranque de PyInstaller (sustituye stanza para que Argos no arrastre torch).',
     '3_compilar/Instalador.cs': 'el instalador y desinstalador (C#, .NET Framework 4): pasos, banner, registro.',

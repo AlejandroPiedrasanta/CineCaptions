@@ -3,7 +3,7 @@
  CineCaptions · By Cinema Productions
 ==============================================================================
 
-Entrega: CineCaptions_Mac_AppleSilicon_<version>.dmg y CineCaptions_Mac_Intel_<version>.dmg  →  dentro, Instalar_CineCaptions.pkg
+Entrega (carpeta INSTALADORES/Mac): CineCaptions_Mac_AppleSilicon_<version>.dmg y CineCaptions_Mac_Intel_<version>.dmg  →  dentro, Instalar_CineCaptions.pkg
 (instala en Aplicaciones, deja los scripts en el menú de Resolve y las
 tipografías, igual que el instalador de Windows) + Desinstalar_CineCaptions.command.
 
@@ -11,7 +11,7 @@ IMPORTANTE: PyInstaller no compila para Mac desde Windows. Hay dos vías:
 
 A) En una Mac (compila para la arquitectura de ESA Mac; Python 3.14 en Apple Silicon, 3.13 en Intel):
        bash 7_mac/Construir_Instalador_Mac.sh
-   Deja CineCaptions_Mac_<version>.dmg en la raíz del proyecto.
+   Deja CineCaptions_Mac_<version>.dmg en INSTALADORES/Mac (el de la versión anterior se quita).
    (--solo-instalador reusa la app ya compilada y solo rehace .pkg y .dmg.)
 
 B) Sin Mac: GitHub Actions (ya configurado en .github\workflows\mac.yml).

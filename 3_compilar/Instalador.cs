@@ -625,7 +625,7 @@ class Instalacion
     volatile bool omitirModelo;
 
     Paso pPreparar, pCopiar, pVerificar, pScripts, pFuentes, pModelo, pMotorIA, pAccesos;
-    Paso dCerrar, dScripts, dAccesos, dArchivos;
+    Paso dCerrar, dLicencia, dScripts, dFuentes, dAccesos, dArchivos, dDatos, dRastros;
 
     public bool DescargarModelo = true, AccesoEscritorio = true;
 
@@ -637,10 +637,14 @@ class Instalacion
         AccesoEscritorio = !op.SinEscritorio;
         if (op.Desinstalar)
         {
-            dCerrar = Nuevo("Cerrar el programa si está abierto", "Cerrando el programa...", 1);
+            dCerrar = Nuevo("Cerrar el programa y sus motores", "Cerrando el programa y sus motores...", 1);
+            dLicencia = Nuevo("Liberar la licencia de este equipo", "Liberando la licencia...", 1);
             dScripts = Nuevo("Scripts del menú de DaVinci Resolve", "Quitando los scripts de Resolve...", 1);
+            dFuentes = Nuevo("Tipografías de las plantillas", "Quitando las tipografías...", 1);
             dAccesos = Nuevo("Accesos directos y registro", "Quitando los accesos directos...", 1);
-            dArchivos = Nuevo("Carpeta del programa", "Borrando los archivos del programa...", 3);
+            dArchivos = Nuevo("Programa y motor de voz e IA", "Borrando los archivos del programa...", 4);
+            dDatos = Nuevo("Tus datos y modelos descargados", "Borrando tus datos y modelos...", 4);
+            dRastros = Nuevo("Rastros y comprobación final", "Comprobando que no quede nada...", 1);
         }
         else
         {
@@ -800,11 +804,11 @@ class Instalacion
         {
             List<string> hechos = new List<string>();
             string exe = ExeInstalado;
-            string menu = Environment.GetFolderPath(Environment.SpecialFolder.Programs);
+            string menu = Sitio.MenuInicio;
             CrearAcceso(Path.Combine(menu, Programa.Nombre + ".lnk"), exe, op.Dir);
             hechos.Add("Menú Inicio");
             BorrarCarpetaSiExiste(Path.Combine(menu, Programa.Nombre));        // la del Setup original (subcarpeta)
-            string esc = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), Programa.Nombre + ".lnk");
+            string esc = Path.Combine(Sitio.Escritorio, Programa.Nombre + ".lnk");
             if (AccesoEscritorio) { CrearAcceso(esc, exe, op.Dir); hechos.Add("Escritorio"); }
             else if (File.Exists(esc) && ApuntaAInstalacionVieja(esc)) BorrarArchivo(esc);
             Detalle(pAccesos, "Registrando el desinstalador", -1);
@@ -849,11 +853,11 @@ class Instalacion
     /// Todas las rutas que toca la instalacion (la del programa se puede cambiar; las demas son las estandar de Windows).
     public static List<RutaInfo> Rutas(Opciones op)
     {
-        string user = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-        string roaming = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        string local = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-        string menu = Environment.GetFolderPath(Environment.SpecialFolder.Programs);
-        string escritorio = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+        string user = Sitio.Usuario;
+        string roaming = Sitio.Roaming;
+        string local = Sitio.Local;
+        string menu = Sitio.MenuInicio;
+        string escritorio = Sitio.Escritorio;
         List<RutaInfo> l = new List<RutaInfo>();
         long tam = TamanoPrograma();
         l.Add(new RutaInfo { Titulo = "Programa CineCaptions", Ruta = op.Dir, Editable = true,
@@ -868,29 +872,21 @@ class Instalacion
                              Ruta = Path.Combine(roaming, @"Blackmagic Design\DaVinci Resolve\Support\Fusion\Scripts\Utility"), Nota = "los copia el programa" });
         l.Add(new RutaInfo { Titulo = "Tipografias de las plantillas (solo para tu usuario)", Ruta = Path.Combine(local, @"Microsoft\Windows\Fonts"), Nota = "sin permisos de administrador" });
         l.Add(new RutaInfo { Titulo = "Acceso directo del Menu Inicio", Ruta = Path.Combine(menu, Programa.Nombre + ".lnk"), Nota = "" });
-        l.Add(new RutaInfo { Titulo = "Tus datos: proyectos, licencia y ajustes", Ruta = Path.Combine(user, "DaVinciSubtitles"), Nota = "no se tocan al instalar ni al desinstalar" });
+        l.Add(new RutaInfo { Titulo = "Tus datos: proyectos, licencia y ajustes", Ruta = Path.Combine(user, "DaVinciSubtitles"), Nota = "no se tocan al instalar; al desinstalar tú eliges" });
         l.Add(new RutaInfo { Titulo = "Registro de esta instalacion", Ruta = Registro.Ruta, Nota = "por si algo falla" });
         return l;
     }
 
     public static string CarpetaModelo()
     {
-        string hub = Environment.GetEnvironmentVariable("HF_HUB_CACHE");
-        if (string.IsNullOrEmpty(hub))
-        {
-            string home = Environment.GetEnvironmentVariable("HF_HOME");
-            if (string.IsNullOrEmpty(home))
-                home = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @".cache\huggingface");
-            hub = Path.Combine(home, "hub");
-        }
-        return Path.Combine(hub, "models--mobiuslabsgmbh--faster-whisper-large-v3-turbo");
+        return Path.Combine(Sitio.CacheModelos, "models--mobiuslabsgmbh--faster-whisper-large-v3-turbo");
     }
 
     // v5.2: el motor Qwen3 ya instalado (listo.json + su Python + los modelos en la cache de Hugging Face):
     // el paso se salta en el acto, sin abrir el programa ni pip.
     public static string CarpetaMotorIA()
     {
-        return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"CineCaptions\motor_qwen");
+        return Path.Combine(Sitio.Local, @"CineCaptions\motor_qwen");
     }
 
     static bool TieneSnapshot(string carpetaModelo, long minimo)
@@ -951,12 +947,18 @@ class Instalacion
     {
         int n = 0;
         List<Process> procesos = new List<Process>();
-        procesos.AddRange(Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Programa.ExePrograma)));
-        foreach (string nombre in new string[] { "pythonw", "python" })
-            foreach (Process p in Process.GetProcessesByName(nombre))
-            {
-                try { if (p.MainWindowTitle == Programa.Nombre) procesos.Add(p); } catch { }
-            }
+        // solo los CineCaptions.exe de ESTA instalacion (con la variable de prueba, nunca el programa real del usuario)
+        foreach (Process p in Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Programa.ExePrograma)))
+        {
+            string ruta = Borrado.RutaDe(p);
+            if (ruta != null ? Programa.DentroDe(ruta, op.Dir) : !Sitio.EsPrueba) procesos.Add(p);
+        }
+        if (!Sitio.EsPrueba)
+            foreach (string nombre in new string[] { "pythonw", "python" })
+                foreach (Process p in Process.GetProcessesByName(nombre))
+                {
+                    try { if (p.MainWindowTitle == Programa.Nombre) procesos.Add(p); } catch { }
+                }
         foreach (Process p in procesos)
         {
             try
@@ -969,6 +971,11 @@ class Instalacion
             }
             catch (Exception ex) { Log("No pude cerrar pid " + p.Id + ": " + ex.Message); }
         }
+        // sus motores y procesos hijos (Python de la voz / IA...) que sigan sosteniendo archivos de la carpeta del programa o del motor
+        List<string> carpetas = new List<string>();
+        carpetas.Add(op.Dir);
+        carpetas.Add(CarpetaMotorIA());
+        n += Borrado.CerrarEn(carpetas, Log, Application.ExecutablePath);
         return n;
     }
 
@@ -1060,6 +1067,11 @@ class Instalacion
     bool Tarea(Paso paso, string nombre, int timeoutSeg, EstadoPaso siFalla)
     {
         string exe = ExeInstalado;
+        if (Sitio.EsPrueba && (nombre == "fuentes" || nombre == "modelo" || nombre == "motor_ia"))      // pruebas del instalador: nada que toque el sistema real
+        {
+            Terminar(paso, EstadoPaso.Omitido, "Omitido en la prueba");
+            return true;
+        }
         string estado = Path.Combine(Path.GetTempPath(), "cinecaptions_tarea_" + nombre + "_" + Guid.NewGuid().ToString("N").Substring(0, 6) + ".txt");
         string final = null, finalTexto = "";
         try
@@ -1174,6 +1186,7 @@ class Instalacion
     {
         try
         {
+            try { Directory.CreateDirectory(Path.GetDirectoryName(lnk)); } catch { }          // el Menu Inicio / Escritorio pueden no existir aun (perfiles nuevos o redirigidos)
             Type t = Type.GetTypeFromProgID("WScript.Shell");
             object shell = Activator.CreateInstance(t);
             object acceso = t.InvokeMember("CreateShortcut", BindingFlags.InvokeMethod, null, shell, new object[] { lnk });
@@ -1211,7 +1224,7 @@ class Instalacion
     {
         try
         {
-            using (RegistryKey k = Registry.CurrentUser.CreateSubKey(Programa.ClaveDesinstalar))
+            using (RegistryKey k = Sitio.RaizRegistro().CreateSubKey(Programa.ClaveDesinstalar))
             {
                 string exe = ExeInstalado;
                 string des = Path.Combine(op.Dir, "Desinstalar.exe");
@@ -1240,71 +1253,289 @@ class Instalacion
         return t;
     }
 
-    void BorrarCarpetaSiExiste(string dir)
+    // Borra una carpeta entera (rutas largas, solo lectura, enlaces). Devuelve true si ya no existe; si no, la apunta para el proximo inicio de sesion.
+    bool BorrarCarpetaSiExiste(string dir)
     {
-        if (!Directory.Exists(dir)) return;
-        for (int i = 0; i < 5; i++)
-        {
-            try
-            {
-                foreach (string f in Directory.GetFiles(dir, "*", SearchOption.AllDirectories))
-                    File.SetAttributes(f, FileAttributes.Normal);
-                Directory.Delete(dir, true);
-                Log("Borrado: " + dir);
-                return;
-            }
-            catch (Exception ex)
-            {
-                if (i == 4) Log("No pude borrar " + dir + ": " + ex.Message);
-                Thread.Sleep(600);
-            }
-        }
+        if (!Borrado.Existe(dir)) return true;
+        if (Borrado.Arbol(dir, Log)) { Log("Borrado: " + dir); return true; }
+        Log("No pude borrar del todo " + dir + ": se intentará de nuevo al iniciar sesión");
+        pendientes.Add(dir);
+        return false;
     }
+    readonly List<string> pendientes = new List<string>();
 
     void BorrarArchivo(string f) { try { File.Delete(f); Log("Borrado: " + f); } catch { } }
 
     // ==========================================================================
+    // Las tipografias que el programa trae (las que instalo para tu usuario): la carpeta fonts del programa instalado.
+    List<string> CarpetasDeFuentes()
+    {
+        List<string> l = new List<string>();
+        foreach (string c in new string[] { Path.Combine(op.Dir, @"_internal\fonts"), Path.Combine(op.Dir, "fonts") })
+            if (Directory.Exists(c)) l.Add(c);
+        return l;
+    }
+
+    // Los nombres de los scripts que el programa dejo en el menu de Resolve (los de su carpeta resolve_scripts).
+    List<string> NombresDeScripts()
+    {
+        List<string> l = new List<string>();
+        foreach (string c in new string[] { Path.Combine(op.Dir, @"_internal\resolve_scripts"), Path.Combine(op.Dir, "resolve_scripts") })
+        {
+            if (!Directory.Exists(c)) continue;
+            try { foreach (string f in Directory.GetFiles(c)) l.Add(Path.GetFileName(f)); } catch { }
+        }
+        return l;
+    }
+
+    // Respaldo de la tarea del programa: barre las carpetas de scripts de Resolve y quita lo nuestro (por nombre conocido o por empezar con «CineCaptions»).
+    int QuitarScriptsDeResolve(List<string> nombres)
+    {
+        int n = 0;
+        List<string> raices = new List<string>();
+        raices.Add(Path.Combine(Sitio.Roaming, @"Blackmagic Design\DaVinci Resolve\Support\Fusion\Scripts"));
+        raices.Add(Path.Combine(Sitio.ProgramData, @"Blackmagic Design\DaVinci Resolve\Fusion\Scripts"));
+        foreach (string raiz in raices)
+            foreach (string sub in new string[] { "Utility", "Edit", "Comp", "Color", "Deliver" })
+            {
+                string c = Path.Combine(raiz, sub);
+                if (!Directory.Exists(c)) continue;
+                Log("Scripts de Resolve: reviso " + c);
+                try
+                {
+                    foreach (string f in Directory.GetFiles(c))
+                    {
+                        string nombre = Path.GetFileName(f);
+                        if (nombres.Contains(nombre) || nombre.StartsWith("CineCaptions", StringComparison.OrdinalIgnoreCase))
+                        {
+                            if (Borrado.Arbol(f, Log)) { Log("Borrado: " + f); n++; }
+                        }
+                    }
+                }
+                catch (Exception ex) { Log("No pude revisar " + c + ": " + ex.Message); }
+            }
+        return n;
+    }
+
+    int QuitarFuentes()
+    {
+        int n = 0;
+        string destino = Sitio.Fuentes;
+        if (!Directory.Exists(destino)) return 0;
+        List<string> rutasBorradas = new List<string>();
+        foreach (string carpeta in CarpetasDeFuentes())
+        {
+            foreach (string origen in Directory.GetFiles(carpeta))
+            {
+                try
+                {
+                    string copia = Path.Combine(destino, Path.GetFileName(origen));
+                    // solo la que es IGUAL a la del programa: una tipografia tuya con el mismo nombre pero otra no se toca
+                    if (!File.Exists(copia) || new FileInfo(copia).Length != new FileInfo(origen).Length) continue;
+                    if (!Sitio.EsPrueba) RemoveFontResourceExW(copia, 0, IntPtr.Zero);
+                    if (Borrado.Arbol(copia, Log)) { rutasBorradas.Add(copia); n++; }
+                }
+                catch (Exception ex) { Log("Tipografía " + Path.GetFileName(origen) + ": " + ex.Message); }
+            }
+        }
+        try
+        {
+            using (RegistryKey k = Sitio.RaizRegistro().OpenSubKey(@"Software\Microsoft\Windows NT\CurrentVersion\Fonts", true))
+            {
+                if (k != null)
+                    foreach (string nombre in k.GetValueNames())
+                    {
+                        object v = k.GetValue(nombre);
+                        if (v == null) continue;
+                        foreach (string r in rutasBorradas)
+                            if (string.Equals(v.ToString(), r, StringComparison.OrdinalIgnoreCase)) { k.DeleteValue(nombre, false); break; }
+                    }
+            }
+        }
+        catch (Exception ex) { Log("Registro de tipografías: " + ex.Message); }
+        if (n > 0 && !Sitio.EsPrueba) Borrado.AvisarFuentes();
+        return n;
+    }
+    [DllImport("gdi32.dll", CharSet = CharSet.Unicode)] static extern int RemoveFontResourceExW(string nombre, uint flags, IntPtr reservado);
+
+    // Libera la activacion de este equipo en la tienda (para poder usar la licencia en otro). Necesita internet; si falla, se avisa y se sigue.
+    bool LiberarLicencia()
+    {
+        if (!File.Exists(ExeInstalado)) return false;
+        try
+        {
+            ProcessStartInfo psi = new ProcessStartInfo(ExeInstalado, "--licencia-liberar");
+            psi.UseShellExecute = false; psi.CreateNoWindow = true; psi.RedirectStandardOutput = true;
+            psi.WorkingDirectory = op.Dir;
+            using (Process p = Process.Start(psi))
+            {
+                if (!p.WaitForExit(50000)) { try { p.Kill(); } catch { } Log("La liberación de la licencia no respondió"); return false; }
+                Log("Licencia: " + p.StandardOutput.ReadToEnd().Trim());
+                return p.ExitCode == 0;
+            }
+        }
+        catch (Exception ex) { Log("No pude liberar la licencia: " + ex.Message); return false; }
+    }
+
+    static readonly string[] ModelosDeCineCaptions = new string[] {
+        "models--mobiuslabsgmbh--faster-whisper-large-v3-turbo", "models--Systran--faster-whisper-large-v3", "models--Systran--faster-whisper-medium",
+        "models--Systran--faster-whisper-small", "models--Systran--faster-whisper-base", "models--Systran--faster-whisper-tiny",
+        "models--Qwen--Qwen3-ASR-1.7B", "models--Qwen--Qwen3-ASR-0.6B", "models--Qwen--Qwen3-ForcedAligner-0.6B",
+        "models--Qwen--Qwen3-4B-Instruct-2507", "models--Qwen--Qwen3-1.7B" };
+
+    public static List<string> RutasDeModelos()
+    {
+        List<string> l = new List<string>();
+        string hub = Sitio.CacheModelos;
+        foreach (string m in ModelosDeCineCaptions) l.Add(Path.Combine(hub, m));
+        foreach (string a in new string[] { @".local\share\argos-translate", @".local\cache\argos-translate", @".config\argos-translate" })
+            l.Add(Path.Combine(Sitio.Usuario, a));
+        return l;
+    }
+
+    // ---- la desinstalacion completa --------------------------------------------------------------
     void Desinstalar()
     {
+        bool completo = op.BorrarDatos || op.BorrarModelos;
+        List<string> prefijosRastro = new List<string>();
+        prefijosRastro.Add(op.Dir);
+        prefijosRastro.Add(CarpetaMotorIA());
+        prefijosRastro.Add(Path.Combine(Sitio.Local, "CineCaptions"));
+
+        // 1) cerrar el programa y todo lo que sostenga sus archivos (motores de voz / IA)
         Empezar(dCerrar, "");
         int n = CerrarPrograma();
-        Terminar(dCerrar, EstadoPaso.Hecho, n > 0 ? "Se cerró el programa que estaba abierto" : "No estaba abierto");
+        Terminar(dCerrar, EstadoPaso.Hecho, n > 0 ? "Se cerró el programa y sus motores (" + n + " procesos)" : "No estaba abierto");
 
+        // 2) la licencia de este equipo
+        Empezar(dLicencia, "");
+        if (!op.BorrarDatos) Terminar(dLicencia, EstadoPaso.Omitido, "Tu licencia se conserva (sigue activa en este equipo)");
+        else if (Sitio.EsPrueba) Terminar(dLicencia, EstadoPaso.Omitido, "Omitido en la prueba");
+        else if (LiberarLicencia()) Terminar(dLicencia, EstadoPaso.Hecho, "Este equipo quedó libre: puedes activarla en otro");
+        else Terminar(dLicencia, EstadoPaso.Aviso, "No pude liberarla (¿sin internet?). Libérala desde tu cuenta de la tienda si la vas a usar en otro equipo");
+
+        // 3) scripts de Resolve (la tarea del programa los conoce todos; el barrido propio cubre que el programa ya no abra)
         Empezar(dScripts, "");
-        if (File.Exists(ExeInstalado)) Tarea(dScripts, "quitar_scripts", 120, EstadoPaso.Aviso);
-        else Terminar(dScripts, EstadoPaso.Omitido, "El programa ya no estaba en " + op.Dir);
+        List<string> nombresScripts = NombresDeScripts();
+        int barridos = 0;
+        try { barridos = QuitarScriptsDeResolve(nombresScripts); } catch (Exception ex) { Log("Scripts: " + ex.Message); }
+        if (File.Exists(ExeInstalado) && !Sitio.EsPrueba) Tarea(dScripts, "quitar_scripts", 120, EstadoPaso.Aviso);
+        else Terminar(dScripts, EstadoPaso.Hecho, barridos + " scripts quitados del menú de Resolve");
 
+        // 4) tipografias
+        Empezar(dFuentes, "");
+        int fuentes = 0;
+        try { fuentes = QuitarFuentes(); } catch (Exception ex) { Log("Tipografías: " + ex.Message); }
+        Terminar(dFuentes, EstadoPaso.Hecho, fuentes > 0 ? fuentes + " tipografías quitadas" : "No había tipografías del programa");
+
+        // 5) accesos directos y claves del programa
         Empezar(dAccesos, "");
-        if (!op.SinAccesos)
+        List<string> quitados = new List<string>();
+        foreach (string lnk in new string[] { Path.Combine(Sitio.MenuInicio, Programa.Nombre + ".lnk"), Path.Combine(Sitio.Escritorio, Programa.Nombre + ".lnk") })
+            if (File.Exists(lnk) && Programa.DentroDe(LeerDestinoAcceso(lnk), op.Dir)) { BorrarArchivo(lnk); quitados.Add(Path.GetFileName(lnk)); }
+        // anclados a la barra de tareas / al menu Inicio
+        foreach (string ancla in new string[] { @"Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar", @"Microsoft\Internet Explorer\Quick Launch\User Pinned\StartMenu" })
         {
-            foreach (string lnk in new string[] {
-                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Programs), Programa.Nombre + ".lnk"),
-                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), Programa.Nombre + ".lnk") })
+            string carpeta = Path.Combine(Sitio.Roaming, ancla);
+            if (!Directory.Exists(carpeta)) continue;
+            try
             {
-                if (File.Exists(lnk) && Programa.DentroDe(LeerDestinoAcceso(lnk), op.Dir)) BorrarArchivo(lnk);
+                foreach (string lnk in Directory.GetFiles(carpeta, "*.lnk"))
+                    if (Programa.DentroDe(LeerDestinoAcceso(lnk), op.Dir)) { BorrarArchivo(lnk); quitados.Add("anclado"); }
             }
-            try { Registry.CurrentUser.DeleteSubKeyTree(Programa.ClaveDesinstalar, false); } catch { }
+            catch { }
         }
-        if (op.SinAccesos) Terminar(dAccesos, EstadoPaso.Omitido, "Omitido (/sinaccesos)");
-        else Terminar(dAccesos, EstadoPaso.Hecho, "Menú Inicio, Escritorio y Agregar o quitar programas");
-
-        Empezar(dArchivos, op.Dir);
-        if (!EsNuestra(op.Dir))
+        string subMenu = Path.Combine(Sitio.MenuInicio, Programa.Nombre);              // la carpeta del Setup original
+        if (Directory.Exists(subMenu)) BorrarCarpetaSiExiste(subMenu);
+        try
         {
-            Terminar(dArchivos, EstadoPaso.Aviso, "No borré " + op.Dir + ": tiene archivos que no son del programa");
+            string clave = Programa.ClaveDesinstalar;
+            string dir = Registro.LeerHKCU(clave, "InstallLocation");
+            if (dir == null || string.Equals(dir.TrimEnd('\\'), op.Dir.TrimEnd('\\'), StringComparison.OrdinalIgnoreCase))
+                Sitio.RaizRegistro().DeleteSubKeyTree(clave, false);
+        }
+        catch { }
+        RefrescarIconos();
+        Terminar(dAccesos, EstadoPaso.Hecho, quitados.Count > 0 ? "Menú Inicio, Escritorio y Agregar o quitar programas" : "Agregar o quitar programas");
+
+        // 6) el programa, su motor de voz / IA y la carpeta propia en AppData
+        Empezar(dArchivos, op.Dir);
+        bool ajena = !EsNuestra(op.Dir);
+        if (ajena)
+        {
+            Log("No borro " + op.Dir + ": tiene archivos que no son del programa");
         }
         else
         {
             BorrarCarpetaSiExiste(op.Dir);
-            // v5.1: el motor Qwen3 (Python 3.12 + PyTorch, varios GB) vive aparte
-            if (!op.SinAccesos)
-                BorrarCarpetaSiExiste(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                                                   @"CineCaptions\motor_qwen"));
-            if (Directory.Exists(op.Dir)) Terminar(dArchivos, EstadoPaso.Aviso, "Quedaron archivos en " + op.Dir + " (bórralos a mano)");
-            else Terminar(dArchivos, EstadoPaso.Hecho, "Tus proyectos, tu licencia y tus ajustes siguen en " +
-                         Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "DaVinciSubtitles"));
+            BorrarCarpetaSiExiste(op.Dir.TrimEnd('\\') + ".anterior");
         }
-        Resumen = HuboError ? "La desinstalación tuvo problemas. Mira los detalles." : "CineCaptions se desinstaló.";
+        BorrarCarpetaSiExiste(CarpetaMotorIA());
+        BorrarCarpetaSiExiste(Path.Combine(Sitio.Local, "CineCaptions"));
+        if (ajena) Terminar(dArchivos, EstadoPaso.Aviso, "No borré " + op.Dir + ": tiene archivos que no son del programa");
+        else if (Borrado.Existe(op.Dir)) Terminar(dArchivos, EstadoPaso.Aviso, "Algún archivo estaba en uso: se borra solo al iniciar sesión de nuevo");
+        else Terminar(dArchivos, EstadoPaso.Hecho, "Programa, motor de voz e IA y carpeta de AppData borrados");
+
+        // 7) tus datos y los modelos descargados (solo lo que se marco)
+        Empezar(dDatos, "");
+        List<string> hechosDatos = new List<string>();
+        if (op.BorrarDatos)
+        {
+            BorrarCarpetaSiExiste(Sitio.DatosUsuario);
+            BorrarCarpetaSiExiste(Path.Combine(Sitio.Usuario, ".cinecaptions.lock"));
+            string copias = Path.Combine(Sitio.Documentos, "CineCaptions");
+            if (Directory.Exists(copias)) BorrarCarpetaSiExiste(copias);
+            hechosDatos.Add("datos, licencia y ajustes");
+        }
+        if (op.BorrarModelos)
+        {
+            foreach (string m in RutasDeModelos()) if (Borrado.Existe(m)) BorrarCarpetaSiExiste(m);
+            hechosDatos.Add("modelos de voz e idioma");
+        }
+        // estas carpetas del sistema se quitan solo si quedaron vacias por nuestra causa
+        foreach (string vacia in new string[] { Path.Combine(Sitio.Usuario, @".cache\huggingface\hub"), Path.Combine(Sitio.Usuario, @".cache\huggingface"), Path.Combine(Sitio.Usuario, @".local\share"),
+                                                Path.Combine(Sitio.Usuario, @".local\cache"), Path.Combine(Sitio.Usuario, ".local") })
+        {
+            try { if (op.BorrarModelos && Directory.Exists(vacia) && Directory.GetFileSystemEntries(vacia).Length == 0) Directory.Delete(vacia); } catch { }
+        }
+        if (hechosDatos.Count == 0)
+            Terminar(dDatos, EstadoPaso.Omitido, "Se conservan tus datos en " + Sitio.DatosUsuario + " y los modelos descargados");
+        else if (op.BorrarDatos && Borrado.Existe(Sitio.DatosUsuario))
+            Terminar(dDatos, EstadoPaso.Aviso, "Quedaron archivos en uso en " + Sitio.DatosUsuario + ": se borran solos al iniciar sesión de nuevo");
+        else
+            Terminar(dDatos, EstadoPaso.Hecho, "Borrado: " + string.Join(" y ", hechosDatos.ToArray()) + (op.BorrarDatos && !op.BorrarModelos ? ". Se conservan los modelos descargados" : "")
+                                                 + (!op.BorrarDatos ? ". Se conservan tus datos en " + Sitio.DatosUsuario : ""));
+
+        // 8) rastros y comprobacion final
+        Empezar(dRastros, "");
+        int claves = 0;
+        try { claves = Borrado.LimpiarRastros(prefijosRastro, Log); } catch (Exception ex) { Log("Rastros: " + ex.Message); }
+        int temporales = 0;
+        try
+        {
+            foreach (string f in Directory.GetFileSystemEntries(Sitio.Temp, "cinecaptions_*"))
+            {
+                string nombre = Path.GetFileName(f);
+                if (nombre.StartsWith("cinecaptions_desinstalar_", StringComparison.OrdinalIgnoreCase)) continue;       // esta propia copia y su log
+                if (Borrado.Arbol(f, null)) temporales++;
+            }
+        }
+        catch { }
+        List<string> restos = new List<string>();
+        foreach (string p in new string[] { op.Dir, op.Dir.TrimEnd('\\') + ".anterior", CarpetaMotorIA(), Path.Combine(Sitio.Local, "CineCaptions") })
+            if (Borrado.Existe(p)) restos.Add(p);
+        if (op.BorrarDatos && Borrado.Existe(Sitio.DatosUsuario)) restos.Add(Sitio.DatosUsuario);
+        if (op.BorrarModelos) foreach (string m in RutasDeModelos()) if (Borrado.Existe(m)) restos.Add(m);
+        foreach (string p in pendientes) if (!restos.Contains(p) && Borrado.Existe(p)) restos.Add(p);
+        if (restos.Count > 0)
+        {
+            Borrado.ProgramarBorrado(restos, Log);
+            Terminar(dRastros, EstadoPaso.Aviso, restos.Count + " elemento/s en uso se borran solos al iniciar sesión de nuevo (cierra Resolve si lo tenías abierto)");
+        }
+        else Terminar(dRastros, EstadoPaso.Hecho, claves + " entradas de Windows y " + temporales + " temporales quitados; no queda nada del programa");
+
+        Resumen = HuboError ? "La desinstalación tuvo problemas. Mira los detalles."
+                            : (completo ? "CineCaptions se desinstaló por completo." : "CineCaptions se desinstaló.");
     }
 }
 
@@ -1989,6 +2220,7 @@ class Ventana : Form
     BarraModerna barra;
     BotonPildora boton;
     LinkLabel lnkDetalles, lnkOmitir;
+    CheckBox chkDatos, chkModelos;
     RichTextBox log;
 
     public Ventana(Opciones op)
@@ -2016,6 +2248,7 @@ class Ventana : Form
             Dibujo.Oscuro(log);
             Activate();
             Entrar();
+            if (op.Desinstalar) CalcularTamanos();
             if (!op.Desinstalar || op.Empezar) Empezar();     // doble clic = instala solo; desinstalar espera el boton (las rutas se ven con el enlace, sin cambiar el flujo)
         };
     }
@@ -2042,7 +2275,7 @@ class Ventana : Form
         banner.CapaNucleo = Recurso("astro_nucleo.png");
         banner.Titulo = op.Desinstalar ? "Desinstalar CineCaptions" : "Instalar CineCaptions";
         banner.Frase = "Subtítulos automáticos para DaVinci Resolve";
-        banner.Ficha = op.Desinstalar ? "tus proyectos, tu licencia y tus ajustes se conservan"
+        banner.Ficha = op.Desinstalar ? "limpieza completa  ·  tú eliges qué se conserva"
                                       : "v" + Programa.Version + "  ·  todo incluido  ·  no necesita Python";
         banner.MouseDown += delegate(object s, MouseEventArgs e) { if (e.Button == MouseButtons.Left) Dibujo.Arrastrar(this); };
         banner.DoubleClick += delegate { Maximizar(); };
@@ -2085,6 +2318,15 @@ class Ventana : Form
         lblInfo = Etiqueta(TextoInfo(), 9.5f, false, Tema.Suave);
         lblInfo.SetBounds(E(450), E(132), E(400), E(70));
         lblInfo.AutoEllipsis = true;
+        if (op.Desinstalar)
+        {
+            // las dos casillas de la limpieza completa (marcadas: «sin dejar rastro»); los tamaños se calculan aparte, sin frenar la ventana
+            chkDatos = Casilla("Borrar mis datos, licencia y ajustes", E(450), E(128), op.BorrarDatos || !op.Silencioso);
+            chkModelos = Casilla("Borrar los modelos de voz e idioma descargados", E(450), E(158), op.BorrarModelos || !op.Silencioso);
+            new ToolTip().SetToolTip(chkDatos, "DaVinciSubtitles: proyectos, marcas, ajustes, caches y copias de seguridad. También libera la licencia de este equipo.");
+            new ToolTip().SetToolTip(chkModelos, "Whisper, Qwen3 y los paquetes de traducción que bajó CineCaptions. Si otro programa usa los mismos modelos, los volverá a bajar.");
+            lblInfo.SetBounds(E(450), E(188), E(400), E(20));
+        }
 
         boton = new BotonPildora();
         boton.Text = op.Desinstalar ? "DESINSTALAR" : "INSTALAR";
@@ -2135,8 +2377,7 @@ class Ventana : Form
     {
         string carpeta = op.Dir.Replace(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "%USERPROFILE%");
         if (op.Desinstalar)
-            return "Se quita el programa de " + carpeta + ", sus accesos directos y sus scripts del menú de DaVinci Resolve. " +
-                   "Tus proyectos, tu licencia y tus ajustes no se tocan.";
+            return "Se quita el programa, sus motores, scripts, tipografías y accesos. Lo marcado arriba se borra para siempre.";
         string t = "Se instala solo para tu usuario (sin permisos de administrador) en " + carpeta +
                    ". Tus proyectos, tu licencia y tus ajustes no se tocan.";
         string v = Registro.LeerHKCU(Programa.ClaveDesinstalar, "DisplayVersion");
@@ -2163,6 +2404,58 @@ class Ventana : Form
         l.BackColor = Tema.Fondo;
         cuerpo.Controls.Add(l);
         return l;
+    }
+
+    CheckBox Casilla(string texto, int x, int y, bool marcada)
+    {
+        CheckBox c = new CheckBox();
+        c.Text = texto;
+        c.Checked = marcada;
+        c.Font = new Font("Segoe UI", 9.5f);
+        c.ForeColor = Color.White;
+        c.BackColor = Tema.Fondo;
+        c.FlatStyle = FlatStyle.Flat;
+        c.FlatAppearance.BorderColor = Color.FromArgb(110, 150, 200);
+        c.FlatAppearance.CheckedBackColor = Color.FromArgb(40, 80, 130);
+        c.SetBounds(x, y, E(402), E(26));
+        cuerpo.Controls.Add(c);
+        return c;
+    }
+
+    // Tamaño de lo que se borraria, para ponerlo en las casillas (en un hilo: son GB y miles de archivos)
+    void CalcularTamanos()
+    {
+        Thread t = new Thread(delegate()
+        {
+            long datos = 0, modelos = 0;
+            try { datos = Tamano(Sitio.DatosUsuario); } catch { }
+            try { foreach (string m in Instalacion.RutasDeModelos()) modelos += Tamano(m); } catch { }
+            try
+            {
+                BeginInvoke(new MethodInvoker(delegate
+                {
+                    if (chkDatos != null && datos > 0) chkDatos.Text = "Borrar mis datos, licencia y ajustes (" + GBtxt(datos) + ")";
+                    if (chkModelos != null && modelos > 0) chkModelos.Text = "Borrar los modelos de voz e idioma (" + GBtxt(modelos) + ")";
+                }));
+            }
+            catch { }
+        });
+        t.IsBackground = true;
+        t.Start();
+    }
+
+    static string GBtxt(long b) { return b >= 1073741824L ? string.Format("{0:N1} GB", b / 1073741824.0) : string.Format("{0:N0} MB", b / 1048576.0); }
+
+    static long Tamano(string dir)
+    {
+        long t = 0;
+        try
+        {
+            if (!Directory.Exists(dir)) return 0;
+            foreach (string f in Directory.GetFiles(dir, "*", SearchOption.AllDirectories)) { try { t += new FileInfo(f).Length; } catch { } }
+        }
+        catch { }
+        return t;
     }
 
     LinkLabel Enlace(string texto, int x, int y)
@@ -2308,6 +2601,13 @@ class Ventana : Form
         trabajando = true;
         terminado = false;
         if (verRutas) AlternarRutas();                    // al empezar se vuelve a los pasos
+        if (op.Desinstalar && chkDatos != null)
+        {
+            op.BorrarDatos = chkDatos.Checked;             // lo elegido al desinstalar (la copia en TEMP ya arranca con las casillas de la linea de comandos)
+            op.BorrarModelos = chkModelos.Checked;
+            chkDatos.Visible = false; chkModelos.Visible = false;
+            lblInfo.SetBounds(E(450), E(132), E(400), E(70));
+        }
         boton.Enabled = false;
         banner.Estado = 1;
         foreach (RutaInfo ri in rutas.Items) ri.Editable = false;      // ya no se cambia la carpeta
@@ -2354,7 +2654,7 @@ class Ventana : Form
         {
             foreach (string a in ins.Avisos) sb.AppendLine("•  " + a);
         }
-        else if (op.Desinstalar) sb.Append(ins.Resumen + " Tus proyectos, tu licencia y tus ajustes siguen en tu carpeta DaVinciSubtitles.");
+        else if (op.Desinstalar) sb.Append(ins.Resumen + (op.BorrarDatos ? " No queda nada del programa en este equipo." : " Tus proyectos, tu licencia y tus ajustes siguen en tu carpeta DaVinciSubtitles."));
         else sb.Append("En DaVinci Resolve los scripts están en  Área de trabajo > Scripts > Utility  (si Resolve estaba abierto, ciérralo y vuelve a abrirlo).");
         lblInfo.Text = sb.ToString().Trim();
         lblInfo.ForeColor = ins.HuboError ? Tema.Error : ins.Avisos.Count > 0 ? Tema.Aviso : Tema.Suave;
@@ -2394,14 +2694,8 @@ class Ventana : Form
     {
         FormClosed += delegate
         {
-            try
-            {
-                ProcessStartInfo psi = new ProcessStartInfo("cmd.exe", "/c ping 127.0.0.1 -n 4 > nul & del /f /q \"" + Application.ExecutablePath + "\"");
-                psi.CreateNoWindow = true;
-                psi.UseShellExecute = false;
-                Process.Start(psi);
-            }
-            catch { }
+            if (terminado && !ins.HuboError) Registro.Borrar();            // si todo salio bien no queda ni el registro de la desinstalacion
+            Programa.AutoBorrar();
         };
     }
 

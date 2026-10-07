@@ -36,5 +36,5 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: CineCaptions-Mac-${{ matrix.nombre }}
-          path: CineCaptions_Mac_*.dmg
+          path: INSTALADORES/Mac/CineCaptions_Mac_*.dmg
           if-no-files-found: error

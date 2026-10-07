@@ -8,7 +8,7 @@
 # Hace: venv -> PyInstaller (CineCaptions.app) -> autoprueba -> .pkg -> .dmg
 #   Apple Silicon (arm64):  Python 3.14, CineCaptions_Mac_AppleSilicon_<version>.dmg
 #   Intel (x86_64):         Python 3.13 + onnxruntime 1.23.2 (la ultima con version Intel), CineCaptions_Mac_Intel_<version>.dmg
-# Deja el .dmg en la raiz del proyecto (6_compilacion_mac\ se puede borrar).
+# Deja el .dmg en INSTALADORES/Mac (o en $CINECAPTIONS_SALIDA); 6_compilacion_mac/ se puede borrar.
 #
 # Variables opcionales:
 #   CINECAPTIONS_PYTHON     interprete Python a usar (por defecto python3.14 / python3.13 segun la Mac)
@@ -47,6 +47,8 @@ export PYTHONIOENCODING=utf-8 PIP_DISABLE_PIP_VERSION_CHECK=1
 VERSION="$(sed -n "s/^APP_VERSION = '\([0-9.]*\)'.*/\1/p" "$CODIGO/version.py" | head -1)"
 [ -n "$VERSION" ] || falla "No encontre APP_VERSION en 1_codigo/version.py"
 echo "CineCaptions $VERSION"
+# v5.3.2: una sola version: los scripts de Resolve y el Puente se ponen a la de version.py (si no, el programa avisa de "otra version instalada")
+"$VPY" "$RAIZ/3_compilar/sincronizar_version.py" || falla "No pude poner la version en los scripts de Resolve"
 
 if [ "$SOLO_INSTALADOR" = 0 ]; then
 # 1) Python 3.14 y el entorno ------------------------------------------------------------
@@ -177,7 +179,9 @@ CineCaptions $VERSION para Mac ($NOMBRE_ARQ) · By Cinema Productions
 
 En DaVinci Resolve: Preferencias > Sistema > General > Uso de scripting externo = Local.
 TXT
-DMG="$RAIZ/CineCaptions_Mac_${NOMBRE_ARQ}_$VERSION.dmg"; rm -f "$DMG"
+SALIDA="${CINECAPTIONS_SALIDA:-$RAIZ/INSTALADORES/Mac}"; mkdir -p "$SALIDA"
+rm -f "$SALIDA"/CineCaptions_Mac_${NOMBRE_ARQ}_*.dmg          # la version anterior de esta arquitectura se quita
+DMG="$SALIDA/CineCaptions_Mac_${NOMBRE_ARQ}_$VERSION.dmg"
 hdiutil create -volname "CineCaptions $VERSION" -srcfolder "$STAGE" -ov -format UDZO "$DMG" >/dev/null
 [ -n "${FIRMA_APP:-}" ] && codesign --sign "$FIRMA_APP" "$DMG"
 if [ -n "${NOTARIO_PERFIL:-}" ] && [ -n "${FIRMA_APP:-}" ]; then

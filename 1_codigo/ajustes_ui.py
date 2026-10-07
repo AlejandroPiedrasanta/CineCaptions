@@ -485,6 +485,13 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.3.2', [
+        'Vigilancia: GO y Generar avisan si algo se queda sin avanzar y cierran solos el motor de voz o de IA que no responde; si un modelo falla se cambia solo al de respaldo (Qwen 1.7B → 0.6B → CPU → Whisper; IA de texto → modelo ligero → reglas).',
+        'Registro: errores.log con todos los avisos y errores, informe de soporte (Windows y Mac) en «Copiar informe», aviso de si la sesión anterior no llegó a abrir y chequeo de librerías, disco y memoria al iniciar.',
+        'Flujo coherente: el pack de Estilos y el de GO son uno solo, «Emojis: no» y «Efectos» de Inicio se respetan en Creativo y Generar, y «Editar marcas» después de GO enseña lo mismo que se colocó.',
+        'Desinstalador a fondo: cierra los motores, quita scripts de Resolve, tipografías, accesos, claves de Windows y temporales, y puede borrar también tus datos, tu licencia y los modelos descargados. Lo que no se pueda borrar en ese momento se borra solo al reiniciar sesión.',
+        'Los instaladores salen con su versión en el nombre (Instalar_CineCaptions_5.3.2.exe) y los scripts de Resolve se ponen solos a la versión del programa.',
+    ]),
     ('5.3.0', [
         'Estructura nueva de los packs (.drb): arriba · principal · abajo · imagen, con hasta 3 variantes (se agrega 2 o 3 al final del nombre) y «simple» para las palabras sueltas. Los packs hechos antes siguen funcionando.',
         'Bloque «imagen»: el emoji o icono que eliges en Creativo va en ese bloque del pack (o debajo del texto si el pack no lo trae), y lo ves en la vista previa del bloque.',

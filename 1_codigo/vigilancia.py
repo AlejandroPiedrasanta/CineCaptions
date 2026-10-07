@@ -1,5 +1,5 @@
 # CineCaptions · By Cinema Productions
-# 1_codigo/vigilancia.py — guardián de las tareas largas (GO, Generar), chequeos periódicos y detección de arranque atascado. Windows y Mac.
+# 1_codigo/vigilancia.py — guardián de tareas largas (GO, Generar): detecta atascos, destraba motores, chequeos periódicos y arranque atascado.
 """
 vigilancia.py  (v5.11)
 ----------------------
