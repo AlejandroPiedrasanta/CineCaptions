@@ -49,6 +49,7 @@ DESCRIPCIONES = {
     '1_codigo/qt_kit.py': 'kit de interfaz Qt: colores, tipografía Inter, controles, mensajes, hilos (correr_en_hilo, despues).',
     '1_codigo/resolve_bridge.py': 'conexión con Resolve: API externa (Studio), Puente (Free) o paso manual; ejecuta los scripts.',
     '1_codigo/resolve_mcp.py': 'conexión con el MCP oficial de Resolve 21.1+: abrir Resolve, proyecto reciente, ejecutar scripts.',
+    '1_codigo/vigilancia.py': 'guardián de tareas largas (GO, Generar): detecta atascos, destraba motores, chequeos periódicos y arranque atascado.',
     '1_codigo/salud.py': 'chequeo de librerías al arrancar (versiones fijadas, motor de IA, MCP).',
     '1_codigo/sfx_audio.py': 'audio del SFX Lab: cargar, cambiar tono y velocidad, reproducir.',
     '1_codigo/sfx_editor.py': 'la ventana «Editar» de un sonido: elegir de forma visual qué parte suena (onda con asas) y su volumen.',

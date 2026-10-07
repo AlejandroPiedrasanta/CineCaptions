@@ -817,6 +817,8 @@ def ejecutar(accion, carpeta_scripts=None, datos=None, timeout=90, on_progreso=N
         puente_vivo = puente_activo() or _puente_trabajando()
         if puente_vivo and (not puente_incompatible()):
             ok, mensaje = _encolar(accion, datos=datos, timeout=timeout, on_progreso=on_progreso)
+            if (not ok) and _puente_perdido(mensaje) and lanzar_puente_mac():
+                ok, mensaje = _encolar(accion, datos=datos, timeout=timeout, on_progreso=on_progreso)       # Mac: el Puente se relanzo solo
             return _con_motivo_real(ok, mensaje, empezo)
         else:
             if disponible():
@@ -829,6 +831,9 @@ def ejecutar(accion, carpeta_scripts=None, datos=None, timeout=90, on_progreso=N
                 if puente_vivo:
                     return (False, MENSAJE_PUENTE_VIEJO)
                 else:
+                    if lanzar_puente_mac():             # Mac (Resolve Free): se pulsa solo Workspace > Scripts > Utility > CineCaptions_Puente
+                        ok, mensaje = _encolar(accion, datos=datos, timeout=timeout, on_progreso=on_progreso)
+                        return _con_motivo_real(ok, mensaje, empezo)
                     traer_resolve_al_frente()
                     return (False, mensaje_para_el_usuario())
 def ejecutar_script_o_menu(ruta_script, datos=None, timeout=90):
@@ -843,6 +848,80 @@ def ejecutar_script_o_menu(ruta_script, datos=None, timeout=90):
         return ejecutar_script(str(ruta))
     else:
         return ejecutar(accion, ruta.parent, datos=datos, timeout=timeout)
+def _puente_perdido(mensaje):
+    """True si el Puente contesto que perdio su conexion con Resolve (la caduca sola en la version gratuita) o que dejo de responder."""
+    t = str(mensaje or '').lower()
+    return 'puente perdio su conexion' in t or 'puente perdió su conexión' in t or 'caduca sola' in t or 'puente dejó de responder' in t         or 'bridge lost' in t or 'bridge stopped' in t
+
+
+_APPLESCRIPT_PUENTE = '''
+on buscar(m, nivel)
+    tell application "System Events"
+        repeat with it in (menu items of m)
+            set nm to ""
+            try
+                set nm to (name of it) as text
+            end try
+            if nm is "CineCaptions_Puente" then
+                click it
+                return true
+            end if
+            if nivel < 4 then
+                try
+                    if (count of menus of it) > 0 then
+                        if my buscar(menu 1 of it, nivel + 1) then return true
+                    end if
+                end try
+            end if
+        end repeat
+    end tell
+    return false
+end buscar
+
+tell application "System Events"
+    if not (exists process "DaVinci Resolve") then return "sin_resolve"
+    tell process "DaVinci Resolve"
+        repeat with b in (menu bar items of menu bar 1)
+            try
+                if my buscar(menu 1 of b, 1) then return "ok"
+            end try
+        end repeat
+    end tell
+end tell
+return "sin_menu"
+'''
+
+
+def lanzar_puente_mac(espera_s=25):
+    """Mac: pulsa solo el menu de Resolve (Workspace > Scripts > Utility > CineCaptions_Puente) por «System Events» y espera a que el Puente
+    lata. Hace falta el permiso de Accesibilidad para CineCaptions (macOS lo pide la primera vez). Devuelve True si el Puente quedo vivo.
+    Nunca lanza; si algo falla deja una linea en el Registro y se sigue con el aviso de siempre."""
+    if sys.platform != 'darwin':
+        return False
+    try:
+        import subprocess
+        import registro
+        r = subprocess.run(['osascript', '-e', _APPLESCRIPT_PUENTE], capture_output=True, text=True, timeout=30)
+        salida = (r.stdout or '').strip()
+        if r.returncode != 0 or salida != 'ok':
+            if '-25211' in (r.stderr or '') or '-1719' in (r.stderr or '') or 'asistencia' in (r.stderr or '').lower() or 'assistive' in (r.stderr or '').lower():
+                motivo = 'sin permiso de Accesibilidad para CineCaptions (Ajustes del Sistema > Privacidad y seguridad > Accesibilidad)'
+            else:
+                motivo = salida or (r.stderr or '').strip()[-200:] or 'sin respuesta'
+            registro.aviso('No pude lanzar el Puente en Resolve por el menu: ' + motivo, 'Puente · Mac')
+            return False
+        inicio = time.time()
+        while time.time() - inicio < espera_s:
+            if puente_activo():
+                registro.info('El Puente se lanzo solo desde el menu de Resolve.', 'Puente · Mac')
+                return True
+            time.sleep(0.5)
+        registro.aviso('Pulse el menu del Puente pero no empezo a latir en %d s.' % espera_s, 'Puente · Mac')
+    except Exception:
+        pass
+    return False
+
+
 def traer_resolve_al_frente():
     """Trae la ventana de Resolve al frente cuando no hay API disponible.\n\n    Es best-effort: si algo falla, no pasa nada, el usuario simplemente\n    tiene que hacer alt+tab.\n    """
     if not sys.platform.startswith('win'):

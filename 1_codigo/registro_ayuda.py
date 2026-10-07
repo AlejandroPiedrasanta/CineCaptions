@@ -18,6 +18,12 @@ Ayuda = namedtuple('Ayuda', 'titulo que pasos impacto tecnica')
 
 # (patrón sobre «origen | mensaje | detalle», título, qué pasó, pasos, impacto)
 _REGLAS = [
+    (r'Puente perdi|caduca sola|Puente dej[oó] de responder|puente no respondi|Bridge lost',
+     'El Puente de Resolve perdió la conexión',
+     'En la versión gratuita de Resolve el Puente (el script que deja trabajar a CineCaptions dentro de Resolve) pierde su conexión solo, cada cierto tiempo.',
+     ['En Resolve: Área de trabajo > Scripts > Utility > CineCaptions_Puente (en inglés: Workspace > Scripts > Utility). En Mac, CineCaptions intenta pulsarlo solo si le das el permiso de Accesibilidad.',
+      'Vuelve a pulsar GO.',
+      'Si sigue pasando, cierra DaVinci Resolve por completo y ábrelo otra vez.'], 'bloquea'),
     (r'sin_resolve|resolve.*(no está abierto|no responde|cerrado|no se (pudo|puede) conectar)|no (pude|se pudo) (abrir|conectar).*resolve|scripting.*(desactiv|disabled)',
      'Resolve no está listo',
      'CineCaptions habla con DaVinci Resolve a través de su API de scripting y no obtuvo respuesta.',
@@ -61,7 +67,7 @@ _REGLAS = [
       'Cierra los cuadros de diálogo abiertos dentro de Resolve.',
       'Vuelve a intentarlo.'], 'bloquea'),
     (r'PermissionError|Acceso denegado|Access is denied|WinError 5\b|WinError 32|being used by another process|otro proceso',
-     'Windows no dejó escribir o abrir el archivo',
+     'El sistema no dejó escribir o abrir el archivo',
      'El archivo está abierto en otro programa o la carpeta está protegida.',
      ['Cierra el archivo en el otro programa (Resolve, explorador, antivirus).',
       'Evita carpetas protegidas como Archivos de programa; usa Documentos o el escritorio.',

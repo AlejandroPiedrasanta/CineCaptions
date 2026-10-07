@@ -12,6 +12,21 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-07 15:49  ·  v5.3.1  ·  cambio explicado
+    Auditoría del flujo: un solo dueño del pack (Estilos <-> chip Estilo de GO; el editor se abre con el pack con el que se genera), GO con Referencia guarda los roles del planificador (no los de 3 líneas de la IA), el chip Emojis: no se respeta, Efectos sincroniza sfx_var, Asistencia usa el planificador en modo guion y los chips de posición/estilo fijo no salen con packs guion. Vigilancia v5.11 (vigilancia.py): guardián de GO/Generar (avisa y destraba motores sin señales), monitor de disco/memoria/escritura, arranque atascado, chequeo de librerías al iniciar; motores con tiempo máximo sin señal y respaldo automático de modelo (Qwen 1.7B->0.6B->CPU->Whisper, IA texto 4B->1.7B->reglas); errores.log persistente, entorno Windows/Mac e informe de soporte en Copiar informe
+    nuevos (1):
+      + 1_codigo/vigilancia.py
+    modificados (9):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ia_texto.py
+      ~ 1_codigo/motor_voz.py
+      ~ 1_codigo/registro.py
+      ~ 1_codigo/registro_ui.py
+      ~ 1_codigo/resolve_mcp.py
+      ~ 1_codigo/subtitle_transcriber.py
+      ~ 1_codigo/version.py
+      ~ 3_compilar/encabezados.py
+
 2026-10-07 12:02  ·  v5.3.0  ·  cambio explicado
     Creativo con el estilo «guion» (Referencia): «Así se verá este bloque» ahora dibuja EXACTAMENTE lo que Generar manda a Resolve (mismo plan: guion_editor.planear, nuevo guion_vista.py); Principal = palabra grande, Abajo = negrita, Arriba = fina, Simple = automático; botón «Auto (como GO)» y «Quitar mis marcas»; estilo (8 chips) y altura (Alta/Media/Baja/Alterna) por bloque; emojis y sonidos del bloque a la vista; botón «Comprobar en Resolve» (fotograma real renderizado por Resolve, sin cola de render). Prueba de paridad vista == .json de Generar en 20 escenarios, 0 diferencias.
 

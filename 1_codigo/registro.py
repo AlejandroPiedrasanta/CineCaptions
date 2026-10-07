@@ -16,6 +16,7 @@ Se puede usar desde cualquier hilo: la escritura va con candado y la señal viaj
 """
 import collections
 import datetime
+import os
 import sys
 import threading
 import time
@@ -27,6 +28,8 @@ from PySide6.QtCore import QObject, Signal
 CARPETA = Path.home() / 'DaVinciSubtitles'
 ARCHIVO = CARPETA / 'cinecaptions.log'
 MAXIMO_BYTES = 1_000_000
+ARCHIVO_ERRORES = CARPETA / 'errores.log'
+MAXIMO_ERRORES = 2_000_000
 NIVELES = ('info', 'ok', 'aviso', 'error')
 # los avisos de Qt que no sirven de nada al usuario (se quedan solo en el archivo, no se muestran)
 RUIDO_QT = ('QFont::', 'QWindowsContext', 'QPainter::', 'propagateSizeHints', 'QSslSocket', 'qt.qpa', 'QSocketNotifier',
@@ -106,6 +109,26 @@ class _Registro(QObject):
                 texto += ''.join(f'    {l}\n' for l in e.detalle.rstrip().splitlines())
             with open(ARCHIVO, 'a', encoding='utf-8') as f:
                 f.write(texto)
+            if e.nivel in ('aviso', 'error'):
+                self._a_disco_errores(fecha, texto)
+        except Exception:
+            pass
+
+    def _a_disco_errores(self, fecha, texto):
+        """errores.log: SOLO avisos y errores, con 3 copias de 2 MB. El log general rota a 1 MB y en una sesión larga empuja fuera los errores
+        de hace horas; este archivo es el que se manda para reportar algo que falló."""
+        try:
+            if ARCHIVO_ERRORES.is_file() and ARCHIVO_ERRORES.stat().st_size > MAXIMO_ERRORES:
+                for k in (3, 2, 1):
+                    origen = ARCHIVO_ERRORES.with_name(f'{ARCHIVO_ERRORES.name}.{k}')
+                    if origen.exists():
+                        if k == 3:
+                            origen.unlink()
+                        else:
+                            origen.replace(ARCHIVO_ERRORES.with_name(f'{ARCHIVO_ERRORES.name}.{k + 1}'))
+                ARCHIVO_ERRORES.replace(ARCHIVO_ERRORES.with_name(ARCHIVO_ERRORES.name + '.1'))
+            with open(ARCHIVO_ERRORES, 'a', encoding='utf-8') as f:
+                f.write(texto if texto.startswith(fecha) else f'{fecha} {texto}')
         except Exception:
             pass
 
@@ -251,7 +274,7 @@ def instalar_ganchos():
     except Exception:
         pass
     info('CineCaptions iniciado', 'registro')
-    for paso in (_cabecera_de_sesion, _revisar_cierre_anterior, _fallos_nativos, _gancho_unraisable):
+    for paso in (_cabecera_de_sesion, _revisar_cierre_anterior, _fallos_nativos, _gancho_unraisable, _entorno_en_hilo):
         try:
             paso()
         except Exception:
@@ -306,10 +329,156 @@ def _revisar_cierre_anterior():
                 extra = f' Hay un volcado del fallo en {FALLOS_NATIVOS.name}.'
         except OSError:
             pass
-        aviso('La sesión anterior de CineCaptions no se cerró bien (se colgó o se cayó).' + extra, 'sesión')
-    SESION.write_text(str(time.time()), encoding='utf-8')
+        estado = ''
+        try:
+            estado = SESION.read_text(encoding='utf-8').partition('|')[2].strip()
+        except OSError:
+            pass
+        corte = None
+        try:
+            import vigilancia
+            corte = vigilancia.tarea_cortada_anterior()
+        except Exception:
+            pass
+        if estado == 'abriendo':
+            error('La sesión anterior NO llegó a terminar de abrir: el programa se quedó atascado (o se cerró) durante el arranque.' + extra, 'sesión',
+                  detalle='Mira errores.log y fallo_nativo.log (carpeta DaVinciSubtitles): ahí queda dónde se quedó. Si se repite, usa «Copiar informe» en el Registro y mándalo.')
+        elif corte and corte[0]:
+            error(f'La sesión anterior se cortó en mitad de «{corte[0]}», en el paso «{corte[1] or "?"}» (hace {int(corte[2] // 60)} min).' + extra, 'sesión')
+        else:
+            aviso('La sesión anterior de CineCaptions no se cerró bien (se colgó o se cayó).' + extra, 'sesión')
+        _mac_informes_de_cierre()
+    SESION.write_text(f'{time.time()}|abriendo', encoding='utf-8')
     import atexit
     atexit.register(lambda: SESION.unlink(missing_ok=True))
+
+
+def _mac_informes_de_cierre():
+    """En Mac, el sistema deja un informe de cada caída en ~/Library/Logs/DiagnosticReports: si hay uno reciente de CineCaptions se anota cuál es."""
+    if sys.platform != 'darwin':
+        return
+    try:
+        carpeta = Path.home() / 'Library' / 'Logs' / 'DiagnosticReports'
+        limite = time.time() - 3 * 86400
+        recientes = sorted((p for p in carpeta.glob('*') if 'cinecaptions' in p.name.lower() and p.stat().st_mtime > limite),
+                           key=lambda p: p.stat().st_mtime, reverse=True)
+        if recientes:
+            aviso(f'macOS guardó {len(recientes)} informe(s) de caída reciente(s) de CineCaptions: {recientes[0].name}', 'sesión',
+                  detalle='Carpeta: ' + str(carpeta) + '\n' + '\n'.join(p.name for p in recientes[:5]))
+    except Exception:
+        pass
+
+
+def entorno_detallado():
+    """Líneas con el entorno real (Windows o Mac): sistema, arquitectura, Rosetta, memoria, GPU, si es el .exe/.app. Puede tardar unos segundos (subprocess):
+    llamar en un hilo."""
+    import locale
+    import platform
+    import subprocess
+    lineas = []
+    if sys.platform == 'darwin':
+        lineas.append(f'macOS {platform.mac_ver()[0]} · {platform.machine()}')
+        try:
+            r = subprocess.run(['sysctl', '-n', 'sysctl.proc_translated'], capture_output=True, text=True, timeout=3).stdout.strip()
+            if r == '1':
+                lineas.append('ATENCIÓN: corre bajo Rosetta (la versión Intel en un Mac Apple Silicon): los modelos irán mucho más lentos.')
+        except Exception:
+            pass
+        if platform.machine() == 'arm64':
+            lineas.append('GPU: Apple Silicon (Metal / MPS)')
+    elif sys.platform.startswith('win'):
+        lineas.append(f'Windows {platform.version()} · {platform.machine()}')
+    else:
+        lineas.append(platform.platform())
+    try:
+        import vigilancia
+        libre = vigilancia.memoria_libre_mb()
+        lineas.append(f'CPU {os.cpu_count()} núcleos · memoria libre {libre} MB' if libre is not None else f'CPU {os.cpu_count()} núcleos')
+    except Exception:
+        pass
+    if sys.platform.startswith('win') or sys.platform.startswith('linux'):
+        try:
+            r = subprocess.run(['nvidia-smi', '--query-gpu=name,memory.total,driver_version', '--format=csv,noheader'], capture_output=True, text=True,
+                               timeout=6, creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0)).stdout.strip()
+            lineas.append('GPU NVIDIA: ' + r if r else 'GPU NVIDIA: no detectada (voz e IA irán en CPU)')
+        except Exception:
+            lineas.append('GPU NVIDIA: no detectada (voz e IA irán en CPU)')
+    lineas.append(('programa empaquetado' if getattr(sys, 'frozen', False) else 'desde código') + f' · {sys.executable}')
+    try:
+        lineas.append(f'idioma del sistema {locale.getlocale()[0]} · datos en {CARPETA}')
+    except Exception:
+        pass
+    return lineas
+
+
+def _entorno_en_hilo():
+    def trabajo():
+        try:
+            info(' | '.join(entorno_detallado()), 'entorno')
+        except Exception:
+            pass
+    threading.Thread(target=trabajo, daemon=True, name='entorno').start()
+
+
+def _cola(ruta, n):
+    try:
+        return ''.join(Path(ruta).read_text(encoding='utf-8', errors='replace').splitlines(keepends=True)[-n:])
+    except Exception:
+        return '(no hay)\n'
+
+
+def reporte_soporte(lineas_log=150):
+    """El informe que se manda para reportar un fallo (Windows o Mac): entorno, estado de librerías y motores, tareas en curso, los últimos errores y avisos
+    (errores.log, que no se pierde con la rotación), el final del log y, si lo hay, el volcado del fallo nativo / los informes de caída de macOS."""
+    partes = [f'CineCaptions · informe de soporte · {datetime.datetime.now():%Y-%m-%d %H:%M:%S}']
+    try:
+        import version
+        partes.append(f'versión {version.APP_VERSION}')
+    except Exception:
+        pass
+    try:
+        partes.extend(entorno_detallado())
+    except Exception:
+        pass
+    try:
+        import salud
+        filas = salud.ultimo()          # (el chequeo de arranque ya lo dejó hecho; no se vuelve a correr aquí: puede estar en el hilo de la interfaz)
+        if filas:
+            partes.append('\n== Librerías y motores ==\n' + salud.informe(filas))
+    except Exception:
+        pass
+    try:
+        import vigilancia
+        partes.append('\n== Tareas en curso ==\n' + (', '.join(vigilancia.en_curso()) or 'ninguna'))
+    except Exception:
+        pass
+    partes.append('\n== Avisos y errores (errores.log) ==\n' + _cola(ARCHIVO_ERRORES, lineas_log))
+    partes.append('\n== Final del registro ==\n' + _cola(ARCHIVO, lineas_log))
+    try:
+        if FALLOS_NATIVOS.is_file() and FALLOS_NATIVOS.stat().st_size > 60:
+            partes.append('\n== Volcado de fallo nativo ==\n' + _cola(FALLOS_NATIVOS, 80))
+    except Exception:
+        pass
+    if sys.platform == 'darwin':
+        try:
+            carpeta = Path.home() / 'Library' / 'Logs' / 'DiagnosticReports'
+            hay = sorted((p for p in carpeta.glob('*') if 'cinecaptions' in p.name.lower()), key=lambda p: p.stat().st_mtime, reverse=True)[:3]
+            if hay:
+                partes.append('\n== Informes de caída de macOS ==\n' + '\n'.join(p.name for p in hay) + '\n' + _cola(hay[0], 60))
+        except Exception:
+            pass
+    return '\n'.join(partes)
+
+
+def guardar_reporte():
+    """Escribe reporte_soporte.txt en la carpeta de datos y devuelve su ruta (o None)."""
+    try:
+        ruta = CARPETA / 'reporte_soporte.txt'
+        CARPETA.mkdir(parents=True, exist_ok=True)
+        ruta.write_text(reporte_soporte(), encoding='utf-8')
+        return ruta
+    except Exception:
+        return None
 
 
 def _fallos_nativos():

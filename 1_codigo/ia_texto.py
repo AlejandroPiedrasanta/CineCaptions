@@ -41,6 +41,30 @@ import sugerencias_ia
 PESO_IA = 0.7          # cuanto manda el modelo frente al puntaje de siempre
 DENSIDAD_UN_CLIC = 0.9
 INACTIVO_S = 180       # segundos que el modelo queda cargado sin trabajo
+SIN_SENAL_S = 240      # v5.11: sin ninguna línea del modelo durante tanto = colgado
+FALLOS_SEGUIDOS_MAX = 2
+_FALLOS = {'n': 0, 'avisado': False}
+
+
+def _reg():
+    try:
+        import registro
+        return registro
+    except Exception:
+        return None
+
+
+def abortar():
+    """Mata la IA de texto SIN pedir el candado (quien lo tiene puede ser quien está colgado): el vigía lo usa; el pedido en curso falla y analizar()
+    prueba con el modelo de respaldo / el motor de reglas."""
+    s = _SRV.get('s')
+    if s is not None and s.vivo():
+        try:
+            s.p.kill()
+            return True
+        except Exception:
+            pass
+    return False
 # los signos que se quitan con «Asistencia» (pedido: «que quite . comillas
 # todos los signos»): el estilo de los subtitulos virales va sin puntuacion
 SIGNOS = '.,;:…"\'“”«»‘’()[]{}¡!¿?-–—'
@@ -61,6 +85,7 @@ def disponible():
 # ---------------------------------------------------------------------------
 class _Servidor:
     def __init__(self, modelo):
+        self.modelo = modelo
         entorno = dict(os.environ)
         entorno['PYTHONIOENCODING'] = 'utf-8'
         entorno['PYTHONUNBUFFERED'] = '1'
@@ -88,17 +113,23 @@ class _Servidor:
     def vivo(self):
         return self.p.poll() is None
 
-    def pedir(self, entrada, salida, linea_cb, timeout=900):
+    def pedir(self, entrada, salida, linea_cb, timeout=900, sin_senal=SIN_SENAL_S):
+        """v5.11: `sin_senal` = segundos sin ninguna línea del modelo tras los que se da por colgado, se mata y se devuelve el fallo (antes esperaba
+        hasta 15 min con el candado tomado)."""
         self.p.stdin.write((json.dumps({'entrada': entrada, 'salida': salida}) + '\n').encode('utf-8'))
         self.p.stdin.flush()
-        inicio = time.time()
+        inicio = ultima = time.time()
         while time.time() - inicio < timeout:
             try:
                 linea = self.lineas.get(timeout=1.0)
             except queue.Empty:
                 if not self.vivo():
                     break
+                if time.time() - ultima > sin_senal:
+                    self.cerrar()
+                    return False, f'la IA de texto se quedó sin responder {int(sin_senal)} s'
                 continue
+            ultima = time.time()
             if linea is None:
                 break
             tipo, _, resto = linea.partition('|')
@@ -178,20 +209,46 @@ def analizar(palabras, idioma='es', progreso=None, estado=None, modo=None):
     try:
         info = motor_voz.info_instalado() or {}
         modelo = info.get('modelo_texto') or 'auto'
-        with _LOCK:
-            s = _SRV['s']
-            if s is None or not s.vivo():
-                if estado:
-                    estado('Cargando la IA de texto (la primera vez tarda unos segundos)…')
-                s = _Servidor(modelo)
-                _SRV['s'] = s
-            ok, texto = s.pedir(entrada, salida, linea)
-            if not ok:
-                # un servidor muerto o colgado no se reutiliza
-                s.cerrar()
-                _SRV['s'] = None
+        r = _reg()
+        if _FALLOS['n'] >= FALLOS_SEGUIDOS_MAX:
+            # v5.11: dos fallos seguidos = no se vuelve a perder tiempo con la IA de texto en esta sesión (motor de reglas); reiniciar la reactiva
+            if not _FALLOS['avisado']:
+                _FALLOS['avisado'] = True
+                if r:
+                    r.error('La IA de texto falló %d veces seguidas: sigo con el motor de reglas (sin corrección por IA) hasta reiniciar el programa. '
+                            'Revisa Ajustes > General > Motor de voz > Reparar.' % _FALLOS['n'], 'IA de texto')
+            raise RuntimeError('la IA de texto está desactivada en esta sesión tras fallar varias veces')
+        # v5.11: si el modelo grande falla, se cambia SOLO al ligero (1.7B) antes de rendirse; cada intento queda en el Registro
+        modelos = [modelo] + (['1.7B'] if modelo != '1.7B' else [])
+        ok, texto = False, ''
+        for k, m in enumerate(modelos):
+            with _LOCK:
+                s = _SRV['s']
+                if s is None or not s.vivo() or (k and getattr(s, 'modelo', None) != m):
+                    if estado:
+                        estado('Cargando la IA de texto (la primera vez tarda unos segundos)…' if not k else 'La IA de texto falló; pruebo con el modelo ligero…')
+                    s = _Servidor(m)
+                    _SRV['s'] = s
+                try:
+                    ok, texto = s.pedir(entrada, salida, linea)
+                except Exception as e:                 # p. ej. el proceso murió antes de aceptar el pedido (tubería rota)
+                    ok, texto = False, f'{type(e).__name__}: {e}'
+                if not ok:
+                    # un servidor muerto o colgado no se reutiliza
+                    s.cerrar()
+                    _SRV['s'] = None
+            if ok:
+                if k and r:
+                    r.ok(f'La IA de texto funcionó con el modelo {m}.', 'IA de texto')
+                break
+            if r:
+                r.aviso(f'La IA de texto ({m}) falló: {str(texto)[:200]}', 'IA de texto')
         if not ok:
+            _FALLOS['n'] += 1
             raise RuntimeError(texto)
+        if _FALLOS['n'] and r:
+            r.ok('La IA de texto volvió a funcionar.', 'IA de texto')
+        _FALLOS['n'], _FALLOS['avisado'] = 0, False
         datos = json.loads(Path(salida).read_text(encoding='utf-8'))
         return {'correcciones': {int(k): v for k, v in (datos.get('correcciones') or {}).items()},
                 'pesos': {int(k): float(v) for k, v in (datos.get('pesos') or {}).items()},
@@ -544,6 +601,9 @@ def marcar_todo(palabras, idioma='es', progreso=None, estado=None, tamanos=None,
             resumen.update(ia=True, cambios=len(r['correcciones']), modelo=r.get('modelo'))
         except Exception as e:
             resumen['error'] = str(e)[:200]
+            r = _reg()
+            if r:
+                r.aviso(f'La IA de texto no pudo: {str(e)[:200]}. Sigo con el motor de reglas (sin corrección por IA).', 'IA de texto')
     # los roles se eligen CON la puntuacion (las reglas de siempre miran los
     # finales de frase); despues se quitan los signos: los indices no cambian
     roles = roles_inteligentes(palabras, idioma, pesos, tamanos, peso_conector)

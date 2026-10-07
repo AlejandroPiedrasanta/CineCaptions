@@ -7247,6 +7247,79 @@ class SubtitleApp(QWidget):
             pass
         self._sincronizar_sfx()
         self._pintar_opciones_go()
+    # -- v5.11: vigilancia de GO / Generar (ver vigilancia.py) -----------------------------
+    PISTAS_ATASCO = {
+        'timeline': 'Revisa que DaVinci Resolve esté abierto con un proyecto y con el control externo en «Local» (Preferencias > General).',
+        'voz': 'Si el modelo de voz no responde, cambio al de respaldo solo.',
+        'ia': 'Si la IA de texto no responde, sigo con el motor de reglas.',
+        'resolve': 'Mira si Resolve tiene un diálogo abierto o está ocupado.',
+        'colocar': 'Mira si Resolve tiene un diálogo abierto o está ocupado.',
+    }
+    def _vigilar_tarea(self, nombre, paso='', hilo=None):
+        try:
+            import vigilancia
+            self._vig_nombre = nombre
+            def al_aviso(texto):
+                pista = self.PISTAS_ATASCO.get(getattr(self, '_go_paso_actual', '') or paso or '', '')
+                self.msg_queue.put(('vigia', (texto + ' ' + pista).strip()))          # (kind 'vigia' no cuenta como señal de vida)
+            vigilancia.iniciar(nombre, hilo=hilo, paso=paso, al_aviso=al_aviso, al_atasco=self._destrabar)
+        except Exception:
+            registro.excepcion(origen='vigilancia · iniciar')
+    def _fin_tarea(self, ok=True, motivo=''):
+        nombre = getattr(self, '_vig_nombre', None)
+        if not nombre:
+            return
+        self._vig_nombre = None
+        try:
+            import vigilancia
+            vigilancia.terminar(nombre, ok, motivo)
+        except Exception:
+            pass
+    def _esperando_al_usuario(self, esperando):
+        """El editor de palabras o un diálogo tienen detenido el trabajo A PROPÓSITO: el vigía no debe contarlo como atasco."""
+        nombre = getattr(self, '_vig_nombre', None)
+        if not nombre:
+            return
+        try:
+            import vigilancia
+            (vigilancia.pausar if esperando else vigilancia.reanudar)(nombre)
+        except Exception:
+            pass
+    def _destrabar(self, paso):
+        """El vigía decidió que `paso` está atascado: se matan los motores (voz / IA de texto) o el puente con Resolve para que la llamada colgada FALLE y
+        el flujo siga solo con el respaldo (Whisper, motor de reglas) o termine con un mensaje claro en vez de quedarse esperando. Corre en el hilo del vigía."""
+        try:
+            if paso in ('voz', 'ia', 'diseno', ''):
+                import motor_voz
+                import ia_texto
+                cerrado = (ia_texto if paso == 'ia' else motor_voz).abortar()
+                if cerrado:
+                    registro.aviso(f'Destrabado: cerré el motor de {"IA de texto" if paso == "ia" else "voz"} que no respondía; sigue el modelo de respaldo.', 'vigilancia')
+                else:
+                    registro.aviso('No hay ningún motor externo que cerrar: el paso corre dentro del programa (Whisper en CPU/GPU). Si de verdad está colgado, cierra y '
+                                   'vuelve a abrir CineCaptions; el Registro tiene la pila del hilo para diagnosticarlo.', 'vigilancia')
+            elif paso in ('timeline', 'resolve', 'colocar', 'sfx'):
+                import resolve_mcp
+                resolve_mcp.cerrar()
+                registro.aviso('Destrabado: cerré la conexión con Resolve que no respondía; se reintenta al siguiente paso.', 'vigilancia')
+        except Exception:
+            registro.excepcion(origen='vigilancia · destrabar')
+    def _chequeo_de_arranque(self):
+        """Unos segundos después de abrir: librerías, motores, MCP, disco y memoria. Cada falla queda en el Registro (errores.log) y se avisa en pantalla."""
+        def trabajo():
+            import vigilancia
+            vigilancia.revisar_ahora()
+            return vigilancia.revisar_salud_al_arrancar()
+        def fin(fallas, error):
+            if error is not None or not fallas:
+                return
+            try:
+                import ui_toast
+                ui_toast.mostrar(self, tr('Hay {n} falla(s) al iniciar: {lista}. Mira el Registro para ver qué hacer.', n=len(fallas), lista=', '.join(f[0] for f in fallas[:3])),
+                                 duracion_ms=10000, color='#3A1414')
+            except Exception:
+                pass
+        _correr_en_hilo(self, trabajo, fin)
     def _sincronizar_sfx(self):
         """Auditoría v5.11: «Efectos» de Inicio (go_sfx) manda sobre la casilla vieja (sfx_var), que es la que miran los puntos de sonido del editor."""
         try:
@@ -7348,6 +7421,7 @@ class SubtitleApp(QWidget):
         self._go_corriendo = True
         self._un_clic = True
         self._go_paso_actual = 'timeline'
+        self._vigilar_tarea('go', 'timeline')          # v5.11: desde el primer paso (Resolve apagado / sin responder) hay alguien mirando
         self._resumen_ia = None
         self._ultimos_bloques = None
         self.go_panel.empezar()
@@ -7395,7 +7469,11 @@ class SubtitleApp(QWidget):
                 self.msg_queue.put(('status', tr('Resolve listo · proyecto «{p}» · timeline «{t}». Exportando el audio…',
                                                  p=prep.get('proyecto') or '—', t=prep.get('timeline') or '—')))
             elif resolve_bridge.modo_actual() == 'manual':
-                return ('sin_resolve', '')
+                if sys.platform != 'darwin':
+                    return ('sin_resolve', '')
+                self.msg_queue.put(('status', tr('Lanzando el Puente en Resolve…')))
+                if not resolve_bridge.lanzar_puente_mac():          # Mac (Resolve Free): se pulsa solo el menu del Puente
+                    return ('sin_resolve', '')
             ok, err = resolve_bridge.ejecutar('detectar', timeout=600)
             return ('ok' if ok else 'error', err)
         def fin(r, error):
@@ -7531,6 +7609,7 @@ class SubtitleApp(QWidget):
         self.worker.start()
     def _go_fallo(self, clave, mensaje):
         registro.error(str(mensaje).splitlines()[0][:200] if mensaje else tr('GO no pudo terminar'), f'GO · {clave}', detalle=str(mensaje or ''))
+        self._fin_tarea(False, str(mensaje).splitlines()[0][:160] if mensaje else '')
         self.go_panel.paso(clave, 'error')
         self.go_panel.terminar(False, str(mensaje).splitlines()[0][:160] if mensaje else '')
         self._go_corriendo = False
@@ -7650,6 +7729,7 @@ class SubtitleApp(QWidget):
             registro.ok(texto or tr('GO terminó: ya está en tu timeline.'), 'GO')
         else:
             registro.error(texto or tr('GO no pudo colocar los subtítulos.'), 'GO · resolve')
+        self._fin_tarea(ok, '' if ok else str(texto or '')[:160])
         self.go_panel.paso('resolve', 'hecho' if ok else 'error')
         self.go_panel.terminar(ok, texto or (tr('Ya está en tu timeline. Pulsa GO para otro.') if ok else ''), self._go_estadisticas() if ok else None)
         self._go_corriendo = False
@@ -11497,6 +11577,8 @@ class SubtitleApp(QWidget):
                       max_lines, modo='dinamico', con_sfx=False,
                       fuentes=None, reusar=None):
         ui.prioridad_hilo(-1)            # el trabajo pesado cede el paso a la interfaz
+        if not getattr(self, '_un_clic', False):
+            self._vigilar_tarea('generar', 'voz', hilo=threading.current_thread())          # v5.11 (GO ya se vigila desde _go)
         """Corre en un hilo aparte. NO toca widgets: solo escribe en la cola.
 
         Ojo: subtitle_transcriber usa `raise SystemExit(msg)` para reportar
@@ -11741,7 +11823,21 @@ class SubtitleApp(QWidget):
             while True:
                 kind, payload = self.msg_queue.get_nowait()
                 un_clic = getattr(self, '_un_clic', False)
-                if kind == 'progress':
+                nombre_vig = getattr(self, '_vig_nombre', None)
+                if nombre_vig and kind != 'vigia':
+                    # v5.11: cada mensaje del trabajo es una señal de vida para el vigía (vigilancia.py); si dejan de llegar avisa y destraba
+                    try:
+                        import vigilancia
+                        paso_vig = getattr(self, '_go_paso_actual', None) if un_clic else (payload if kind in ('paso', 'gen_fase') else None)
+                        vigilancia.latido(nombre_vig, paso=paso_vig, detalle=str(payload)[:120] if kind == 'status' else '')
+                    except Exception:
+                        pass
+                if kind == 'vigia':
+                    self.status_var.set(str(payload))
+                    self._gen_detalle(payload)
+                    if un_clic and getattr(self, '_go_corriendo', False):
+                        self.go_panel.linea.configure(text=str(payload))
+                elif kind == 'progress':
                     self.progress.set(payload)
                     try:
                         self.porcentaje_lbl.configure(text=f'{int(round(float(payload) * 100))} %')
@@ -11761,6 +11857,11 @@ class SubtitleApp(QWidget):
                         self._go_paso_actual = payload
                         self.go_panel.paso(payload)
                 elif kind == 'status':
+                    try:
+                        from i18n import tr_libre
+                        payload = tr_libre(payload)          # un mensaje armado en otro modulo o por un script de Resolve (en español) sale en el idioma elegido
+                    except Exception:
+                        pass
                     self.status_var.set(payload)
                     self._anotar_estado(payload)
                     self._gen_detalle(payload)
@@ -11816,6 +11917,10 @@ class SubtitleApp(QWidget):
                 elif kind == 'colocado_en_resolve':
                     ok, err, extra, n_cues, langs = payload
                     era_go = getattr(self, '_go_corriendo', False)
+                    if not era_go:
+                        self._fin_tarea(bool(ok), '' if ok else str(err).strip().splitlines()[0][:160] if str(err).strip() else '')
+                    if not ok and not era_go:          # (GO ya lo anota en _go_fin)
+                        registro.error(str(err).strip().splitlines()[0][:200] if str(err).strip() else 'No se pudo colocar en Resolve', 'colocar en Resolve', detalle=str(err))
                     self._gen_fin(ok, tr('{n} bloques colocados en tu timeline', n=n_cues) if ok else '')
                     if era_go:
                         # v5.2: GO ya enseña el resultado en su pantalla (sin el aviso encima)
@@ -11853,6 +11958,9 @@ class SubtitleApp(QWidget):
                         self._al_terminar_generacion(n_cues, langs, folder)
                 elif kind == 'error':
                     self._gen_fin(False)
+                    self._fin_tarea(False, str(payload).strip().splitlines()[0][:160] if str(payload).strip() else '')
+                    registro.error(str(payload).strip().splitlines()[0][:200] if str(payload).strip() else 'Error sin mensaje', 'GO' if un_clic else 'generar',
+                                   detalle=str(payload))                     # v5.11: todo error que llega a la pantalla queda también en errores.log
                     self._parar_reloj()
                     self.progress.stop()
                     self.progress.configure(mode='determinate')
@@ -11887,6 +11995,7 @@ class SubtitleApp(QWidget):
                     if usar:
                         palabras, sugeridos = guardadas
         self._tag_result = None
+        self._esperando_al_usuario(True)          # v5.11: el trabajo espera al usuario a propósito: el vigía no lo cuenta
         try:
             if self._modo() == 'dinamico':
                 self._asegurar_pack_luxe()      # auditoría v5.11: el editor se construye con el MISMO pack con el que luego se genera
@@ -11894,6 +12003,7 @@ class SubtitleApp(QWidget):
             ventana = WordTagWindow(self, palabras, sugeridos, proyecto, idioma=self._codigo_idioma())
             self._tag_result = self._sesion_editor(ventana)
         finally:
+            self._esperando_al_usuario(False)
             self._tag_event.set()
     def _abrir_ventana_texto(self, palabras, proyecto, idioma):
         """El mismo editor, en modo texto, para los subtitulos normales.
@@ -11912,10 +12022,12 @@ class SubtitleApp(QWidget):
                     if usar:
                         palabras, roles = guardadas
         self._tag_result = None
+        self._esperando_al_usuario(True)
         try:
             ventana = WordTagWindow(self, palabras, roles, proyecto, modo=WordTagWindow.MODO_TEXTO, idioma=idioma)
             self._tag_result = self._sesion_editor(ventana)
         finally:
+            self._esperando_al_usuario(False)
             self._tag_event.set()
     def _codigo_idioma(self):
         """El codigo del idioma elegido ('es', 'en'...). 'auto' se devuelve
@@ -12191,11 +12303,16 @@ def main():
     ui.AL_ERROR = guardar_log_de_error
     registro.instalar_ganchos()
     _vigia_ui = registro.vigilar_congelaciones()      # v5.4: anota cuando la interfaz se queda sin responder y donde
+    import vigilancia
+    vigilancia.iniciar_monitor()                      # v5.11: disco, memoria y escritura cada 60 s (solo anota lo que cambia)
     ui.poner_icono_app(LOGO_PATH)
     if not prueba_caducada() and not _licencia_al_abrir():
         return
+    vigilancia.vigilar_arranque(45)                   # v5.11: si la ventana no termina de abrir en 45 s queda el error con la pila de todos los hilos
     ventana = SubtitleApp(initial_video=initial)
     ventana.show()
+    vigilancia.arranque_listo()
+    ui.despues(3000, ventana._chequeo_de_arranque, ventana)      # v5.11: librerías / motores / MCP: lo que falle queda en el Registro y se avisa
     ui.despues(4000, ui.congelar_gc, ventana)          # con todo ya cargado: el recolector de basura deja de recorrerlo (menos microcortes)
     app.exec()
     try:

@@ -350,7 +350,7 @@ class TarjetaEntrada(QFrame):
         veces = f'  ×{entrada.veces}' if entrada.veces > 1 else ''
         hc.addWidget(Etiqueta(entrada.hora() + veces, 12, color='#7F8DA8'))
         v.addWidget(self._cab)
-        resumen = entrada.mensaje.replace('\n', ' ')
+        resumen = __import__('i18n').tr_libre(entrada.mensaje).replace('\n', ' ')
         if len(resumen) > 160:
             resumen = resumen[:157] + '…'
         self._resumen = Etiqueta(resumen, 12, color='#8D9BB5', envolver=True)
@@ -576,7 +576,13 @@ class DialogoRegistro(Dialogo):
             return 'CineCaptions'
 
     def _copiar(self):
-        ui.copiar_al_portapapeles(self._cabecera() + '\n\n' + '\n\n'.join(self._bloque(e) for e in reversed(self._datos())))
+        # v5.11: además de lo que se ve en pantalla, el informe de soporte (entorno Windows/Mac, librerías, errores.log, fallo nativo): lo que se necesita
+        # para diagnosticar sin pedir nada más
+        try:
+            soporte = registro.reporte_soporte(80)
+        except Exception:
+            soporte = ''
+        ui.copiar_al_portapapeles(self._cabecera() + '\n\n' + '\n\n'.join(self._bloque(e) for e in reversed(self._datos())) + ('\n\n' + soporte if soporte else ''))
 
     def _abrir(self):
         try:

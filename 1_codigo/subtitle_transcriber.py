@@ -210,6 +210,15 @@ def _duracion_segundos(ruta):
         return 0.0
 
 
+def _al_registro(nivel, texto, origen=''):
+    """v5.11: lo que antes solo salía por print() (invisible en el programa instalado) también va al Registro de la app, con su archivo errores.log."""
+    try:
+        import registro
+        getattr(registro, nivel)(str(texto), origen)
+    except Exception:
+        pass
+
+
 ESCALERA_MODELOS_MEMORIA = ('small', 'base')
 _TAMANO_DESCARGA = {'small': '~460 MB', 'base': '~140 MB'}
 def transcribe(media_path: str, source_lang: str, model_size: str, progress_callback=None, model_loaded_callback=None, status_callback=None):
@@ -232,6 +241,8 @@ def transcribe(media_path: str, source_lang: str, model_size: str, progress_call
 
     def _avisar(texto):
         print(texto)
+        malo = any(p in str(texto).lower() for p in ('falló', 'fallo', 'memoria', 'pequeñ', 'no devolvió', 'no está descargado', 'poca '))
+        _al_registro('aviso' if malo else 'info', texto, 'voz')               # v5.11: antes solo iba a la consola (invisible en el programa instalado) y a la barra de estado
         if status_callback:
             status_callback(texto)
 
@@ -295,6 +306,7 @@ def transcribe(media_path: str, source_lang: str, model_size: str, progress_call
             if progress_callback and total > 0:
                 progress_callback(min(1.0, seg.end / total))
         print(f'Idioma detectado/usado: {info.language}  ({len(palabras)} palabras)')
+        _al_registro('info', f'Voz: Whisper {tamano} en {device.upper()} · idioma {info.language} · {len(palabras)} palabras', 'voz')
         return palabras
 
     if _hay_cuda_usable():
@@ -304,15 +316,26 @@ def transcribe(media_path: str, source_lang: str, model_size: str, progress_call
             _CUDA_FALLO['v'] = True
             liberar_whisper()
             print(f'CUDA falló durante la transcripción ({e}). Repito en CPU...')
+            _al_registro('aviso', f'La GPU (CUDA) falló en la transcripción: {str(e)[:200]}. Cambio automáticamente a la CPU (más lenta).', 'voz')
+            if status_callback:
+                status_callback(tr('La GPU falló; sigo con la CPU (más lento)…'))
             if progress_callback:
                 progress_callback(0.0)
 
+    primer_error = None
     try:
         return _transcribir_con('cpu', 'int8')
     except Exception as e:
         if not _es_error_de_memoria(e):
-            raise
-        _avisar(tr('Se acabó la memoria RAM para el modelo de voz; pruebo con uno más pequeño...'))
+            # v5.11: un modelo que no carga (archivos dañados, descarga a medias...) ya no tumba GO: se anota y se prueba con los más pequeños.
+            # Si ninguno sirve, se lanza ESTE error (el original), no el de la escalera.
+            if isinstance(e, SystemExit):
+                raise
+            primer_error = e
+            _al_registro('error', f"Whisper '{model_size}' no pudo con la transcripción: {type(e).__name__}: {str(e)[:200]}. Pruebo con un modelo más pequeño.", 'voz')
+            _avisar(tr("El modelo de voz falló; pruebo con uno más pequeño..."))
+        else:
+            _avisar(tr('Se acabó la memoria RAM para el modelo de voz; pruebo con uno más pequeño...'))
 
     for tamano in ESCALERA_MODELOS_MEMORIA:
         if progress_callback:
@@ -335,6 +358,8 @@ def transcribe(media_path: str, source_lang: str, model_size: str, progress_call
             if _es_error_de_memoria(e):
                 continue
             raise
+    if primer_error is not None:
+        raise primer_error
     raise SystemExit(tr(
         'El equipo se quedó sin memoria RAM para el modelo de voz (ni la versión pequeña entró).\n\nCierra otros programas y pestañas del navegador y vuelve a intentar — DaVinci Resolve puede seguir abierto.\nSi pasa siempre, reinicia el equipo antes de generar.'))
 def build_cues(words, max_chars_per_line: int, max_lines: int, max_duration: float=6.0, min_duration: float=1.0, gap_break: float=0.5) -> list:

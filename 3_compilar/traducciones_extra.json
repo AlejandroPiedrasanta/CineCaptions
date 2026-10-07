@@ -1,0 +1,2655 @@
+{
+ "{nombre} · estilo palabra a palabra: marca la palabra GRANDE (Principal) y la negrita (Abajo); lo demás se arma solo": {
+  "en": "{nombre} · word-by-word style: mark the BIG word (Main) and the bold one (Below); the rest is built automatically",
+  "pt": "{nombre} · estilo palavra a palavra: marque a palavra GRANDE (Principal) e a negrito (Abaixo); o resto é montado sozinho",
+  "fr": "{nombre} · style mot par mot : marquez le GRAND mot (Principal) et le gras (Dessous) ; le reste se construit tout seul",
+  "de": "{nombre} · Wort-für-Wort-Stil: Markiere das GROSSE Wort (Haupt) und das fette (Unten); der Rest entsteht automatisch",
+  "it": "{nombre} · stile parola per parola: segna la parola GRANDE (Principale) e il grassetto (Sotto); il resto si costruisce da solo"
+ },
+ "Alta": {
+  "en": "High",
+  "pt": "Alta",
+  "fr": "Haute",
+  "de": "Hoch",
+  "it": "Alta"
+ },
+ "Media": {
+  "en": "Middle",
+  "pt": "Média",
+  "fr": "Moyenne",
+  "de": "Mittel",
+  "it": "Media"
+ },
+ "Baja": {
+  "en": "Low",
+  "pt": "Baixa",
+  "fr": "Basse",
+  "de": "Niedrig",
+  "it": "Bassa"
+ },
+ "Alterna": {
+  "en": "Alternate",
+  "pt": "Alternada",
+  "fr": "Alternée",
+  "de": "Abwechselnd",
+  "it": "Alternata"
+ },
+ "Dónde cae la pila de texto en el cuadro: alta, media, baja o alternando. Vale para todos los bloques.": {
+  "en": "Where the text stack sits in the frame: high, middle, low or alternating. Applies to all blocks.",
+  "pt": "Onde fica a pilha de texto no quadro: alta, média, baixa ou alternada. Vale para todos os blocos.",
+  "fr": "Où se place la pile de texte dans l'image : haute, moyenne, basse ou en alternance. Valable pour tous les blocs.",
+  "de": "Wo der Textstapel im Bild sitzt: hoch, mittig, tief oder abwechselnd. Gilt für alle Blöcke.",
+  "it": "Dove cade la pila di testo nell'inquadratura: alta, media, bassa o alternata. Vale per tutti i blocchi."
+ },
+ "Auto (como GO)": {
+  "en": "Auto (like GO)",
+  "pt": "Auto (como o GO)",
+  "fr": "Auto (comme GO)",
+  "de": "Auto (wie GO)",
+  "it": "Auto (come GO)"
+ },
+ "Pinta lo que el programa elegiría solo (Principal y Abajo). No cambia el resultado: lo deja a la vista para que lo retoques. Ctrl+Z deshace.": {
+  "en": "Paints what the program would pick on its own (Main and Below). It does not change the result: it just shows it so you can tweak it. Ctrl+Z undoes.",
+  "pt": "Pinta o que o programa escolheria sozinho (Principal e Abaixo). Não muda o resultado: deixa à vista para você ajustar. Ctrl+Z desfaz.",
+  "fr": "Peint ce que le programme choisirait seul (Principal et Dessous). Ne change pas le résultat : le met en évidence pour que vous le retouchiez. Ctrl+Z annule.",
+  "de": "Färbt, was das Programm selbst wählen würde (Haupt und Unten). Das Ergebnis ändert sich nicht: es wird sichtbar, damit du nachbessern kannst. Strg+Z macht es rückgängig.",
+  "it": "Colora ciò che il programma sceglierebbe da solo (Principale e Sotto). Non cambia il risultato: lo rende visibile per ritoccarlo. Ctrl+Z annulla."
+ },
+ "Quitar mis marcas": {
+  "en": "Clear my marks",
+  "pt": "Limpar minhas marcas",
+  "fr": "Effacer mes marques",
+  "de": "Meine Markierungen löschen",
+  "it": "Rimuovi i miei segni"
+ },
+ "Deja TODAS las palabras en «Simple»: el programa decide solo, igual que GO. Ctrl+Z deshace.": {
+  "en": "Sets ALL words to “Simple”: the program decides on its own, just like GO. Ctrl+Z undoes.",
+  "pt": "Deixa TODAS as palavras em “Simples”: o programa decide sozinho, igual ao GO. Ctrl+Z desfaz.",
+  "fr": "Remet TOUS les mots sur « Simple » : le programme décide seul, comme GO. Ctrl+Z annule.",
+  "de": "Setzt ALLE Wörter auf „Einfach“: das Programm entscheidet selbst, genau wie GO. Strg+Z macht es rückgängig.",
+  "it": "Rimette TUTTE le parole su «Semplice»: il programma decide da solo, come GO. Ctrl+Z annulla."
+ },
+ "Renderizando en Resolve…": {
+  "en": "Rendering in Resolve…",
+  "pt": "Renderizando no Resolve…",
+  "fr": "Rendu dans Resolve…",
+  "de": "Rendern in Resolve…",
+  "it": "Rendering in Resolve…"
+ },
+ "Más estilos y vista real…": {
+  "en": "More styles and real preview…",
+  "pt": "Mais estilos e prévia real…",
+  "fr": "Plus de styles et aperçu réel…",
+  "de": "Mehr Stile und echte Vorschau…",
+  "it": "Altri stili e anteprima reale…"
+ },
+ "Estilo «{p}»: {n} bloques, {m} con palabra grande · {s} sonidos · {e} emojis.": {
+  "en": "Style “{p}”: {n} blocks, {m} with a big word · {s} sounds · {e} emojis.",
+  "pt": "Estilo “{p}”: {n} blocos, {m} com palavra grande · {s} sons · {e} emojis.",
+  "fr": "Style « {p} » : {n} blocs, {m} avec un grand mot · {s} sons · {e} emojis.",
+  "de": "Stil „{p}“: {n} Blöcke, {m} mit großem Wort · {s} Sounds · {e} Emojis.",
+  "it": "Stile «{p}»: {n} blocchi, {m} con parola grande · {s} suoni · {e} emoji."
+ },
+ "Comprobar en Resolve (render real)": {
+  "en": "Check in Resolve (real render)",
+  "pt": "Verificar no Resolve (render real)",
+  "fr": "Vérifier dans Resolve (rendu réel)",
+  "de": "In Resolve prüfen (echtes Rendering)",
+  "it": "Verifica in Resolve (render reale)"
+ },
+ "Resolve coloca ESTE bloque con el mismo script que «Generar» sobre un timeline temporal y te enseña su fotograma real aquí mismo. No toca tu timeline ni tu cola de render.": {
+  "en": "Resolve places THIS block with the same script as “Generate” on a temporary timeline and shows you its real frame right here. It does not touch your timeline or your render queue.",
+  "pt": "O Resolve coloca ESTE bloco com o mesmo script do “Gerar” em uma timeline temporária e mostra o quadro real aqui mesmo. Não mexe na sua timeline nem na fila de render.",
+  "fr": "Resolve place CE bloc avec le même script que « Générer » sur une timeline temporaire et vous montre son image réelle ici même. Il ne touche ni à votre timeline ni à votre file de rendu.",
+  "de": "Resolve platziert DIESEN Block mit demselben Skript wie „Generieren“ auf einer temporären Timeline und zeigt dir sein echtes Bild gleich hier. Deine Timeline und deine Render-Warteschlange bleiben unberührt.",
+  "it": "Resolve posiziona QUESTO blocco con lo stesso script di «Genera» su una timeline temporanea e ti mostra qui il suo fotogramma reale. Non tocca la tua timeline né la coda di render."
+ },
+ "Cómo se arma el bloque": {
+  "en": "How the block is built",
+  "pt": "Como o bloco é montado",
+  "fr": "Comment le bloc est construit",
+  "de": "So wird der Block aufgebaut",
+  "it": "Come si costruisce il blocco"
+ },
+ "Principal = la palabra GRANDE · Abajo = palabra en NEGRITA · Arriba = palabra FINA · Simple = lo decide el programa. Cada palabra entra justo cuando se dice y la pila se va toda junta. El estilo de cada bloque se elige con los chips de arriba.": {
+  "en": "Main = the BIG word · Below = word in BOLD · Above = word in THIN · Simple = the program decides. Each word enters exactly when it is spoken and the whole stack leaves together. The style of each block is chosen with the chips above.",
+  "pt": "Principal = a palavra GRANDE · Abaixo = palavra em NEGRITO · Acima = palavra FINA · Simples = o programa decide. Cada palavra entra exatamente quando é dita e a pilha sai toda junta. O estilo de cada bloco é escolhido nos chips acima.",
+  "fr": "Principal = le GRAND mot · Dessous = mot en GRAS · Dessus = mot FIN · Simple = le programme décide. Chaque mot entre exactement quand il est prononcé et toute la pile part ensemble. Le style de chaque bloc se choisit avec les pastilles du haut.",
+  "de": "Haupt = das GROSSE Wort · Unten = Wort in FETT · Oben = Wort in DÜNN · Einfach = das Programm entscheidet. Jedes Wort erscheint genau dann, wenn es gesprochen wird, und der ganze Stapel verschwindet gemeinsam. Den Stil jedes Blocks wählst du mit den Chips oben.",
+  "it": "Principale = la parola GRANDE · Sotto = parola in GRASSETTO · Sopra = parola SOTTILE · Semplice = decide il programma. Ogni parola entra esattamente quando viene detta e tutta la pila se ne va insieme. Lo stile di ogni blocco si sceglie con i chip qui sopra."
+ },
+ "Altura de los captions": {
+  "en": "Caption height",
+  "pt": "Altura das legendas",
+  "fr": "Hauteur des sous-titres",
+  "de": "Höhe der Captions",
+  "it": "Altezza dei sottotitoli"
+ },
+ "Clic: elegir el estilo de GO (Referencia = captions palabra a palabra, línea fina y negrita + palabra grande; Diseño automático = 3 líneas).": {
+  "en": "Click: choose the GO style (Reference = word-by-word captions, thin line and bold + big word; Automatic design = 3 lines).",
+  "pt": "Clique: escolher o estilo do GO (Referência = legendas palavra a palavra, linha fina e negrito + palavra grande; Design automático = 3 linhas).",
+  "fr": "Clic : choisir le style de GO (Référence = sous-titres mot par mot, ligne fine et gras + grand mot ; Design automatique = 3 lignes).",
+  "de": "Klick: GO-Stil wählen (Referenz = Wort-für-Wort-Captions, dünne Zeile und fett + großes Wort; Automatisches Design = 3 Zeilen).",
+  "it": "Clic: scegli lo stile di GO (Riferimento = sottotitoli parola per parola, riga sottile e grassetto + parola grande; Design automatico = 3 righe)."
+ },
+ "Proyecto: {p}": {
+  "en": "Project: {p}",
+  "pt": "Projeto: {p}",
+  "fr": "Projet : {p}",
+  "de": "Projekt: {p}",
+  "it": "Progetto: {p}"
+ },
+ "Al soltar un video en Inicio: se arma en el proyecto «CineCaptions» de Resolve (se abre o se crea solo) o en el proyecto que tengas abierto. Clic: cambiar.": {
+  "en": "When you drop a video on Home: it is built in the “CineCaptions” project in Resolve (opened or created automatically) or in the project you have open. Click: change.",
+  "pt": "Ao soltar um vídeo no Início: é montado no projeto “CineCaptions” do Resolve (aberto ou criado sozinho) ou no projeto que você tiver aberto. Clique: mudar.",
+  "fr": "En déposant une vidéo sur Accueil : elle se monte dans le projet « CineCaptions » de Resolve (ouvert ou créé automatiquement) ou dans le projet que vous avez ouvert. Clic : changer.",
+  "de": "Wenn du ein Video auf Start ziehst: es wird im Projekt „CineCaptions“ in Resolve aufgebaut (automatisch geöffnet oder erstellt) oder im gerade geöffneten Projekt. Klick: ändern.",
+  "it": "Trascinando un video su Home: viene montato nel progetto «CineCaptions» di Resolve (aperto o creato da solo) o nel progetto che hai aperto. Clic: cambia."
+ },
+ "  (solo vertical)": {
+  "en": "  (vertical only)",
+  "pt": "  (somente vertical)",
+  "fr": "  (vertical uniquement)",
+  "de": "  (nur Hochformat)",
+  "it": "  (solo verticale)"
+ },
+ "Diseño automático · 3 líneas": {
+  "en": "Automatic design · 3 lines",
+  "pt": "Design automático · 3 linhas",
+  "fr": "Design automatique · 3 lignes",
+  "de": "Automatisches Design · 3 Zeilen",
+  "it": "Design automatico · 3 righe"
+ },
+ "No pude armar el proyecto con tu video en Resolve ({m}).\nNo toqué ningún otro timeline. Abre Resolve y vuelve a soltar el video.": {
+  "en": "I couldn't build the project with your video in Resolve ({m}).\nI didn't touch any other timeline. Open Resolve and drop the video again.",
+  "pt": "Não consegui montar o projeto com o seu vídeo no Resolve ({m}).\nNão mexi em nenhuma outra timeline. Abra o Resolve e solte o vídeo de novo.",
+  "fr": "Je n'ai pas pu monter le projet avec votre vidéo dans Resolve ({m}).\nJe n'ai touché à aucune autre timeline. Ouvrez Resolve et redéposez la vidéo.",
+  "de": "Ich konnte das Projekt mit deinem Video in Resolve nicht aufbauen ({m}).\nIch habe keine andere Timeline angefasst. Öffne Resolve und ziehe das Video erneut hinein.",
+  "it": "Non sono riuscito a montare il progetto con il tuo video in Resolve ({m}).\nNon ho toccato nessun'altra timeline. Apri Resolve e trascina di nuovo il video."
+ },
+ "Timeline «{t}» armado con tu video en el proyecto «{p}» ({w}×{h}, {f:g} fps).": {
+  "en": "Timeline “{t}” built with your video in project “{p}” ({w}×{h}, {f:g} fps).",
+  "pt": "Timeline “{t}” montada com o seu vídeo no projeto “{p}” ({w}×{h}, {f:g} fps).",
+  "fr": "Timeline « {t} » montée avec votre vidéo dans le projet « {p} » ({w}×{h}, {f:g} i/s).",
+  "de": "Timeline „{t}“ mit deinem Video im Projekt „{p}“ aufgebaut ({w}×{h}, {f:g} fps).",
+  "it": "Timeline «{t}» montata con il tuo video nel progetto «{p}» ({w}×{h}, {f:g} fps)."
+ },
+ "Atajos:  1 fina · 2 GRANDE · 3 negrita · 4 automático · 5 emoji · doble clic corrige la palabra en TODO el texto · Ctrl+Z deshace · Ctrl+Y rehace": {
+  "en": "Shortcuts:  1 thin · 2 BIG · 3 bold · 4 automatic · 5 emoji · double-click fixes the word in ALL the text · Ctrl+Z undo · Ctrl+Y redo",
+  "pt": "Atalhos:  1 fina · 2 GRANDE · 3 negrito · 4 automático · 5 emoji · duplo clique corrige a palavra em TODO o texto · Ctrl+Z desfaz · Ctrl+Y refaz",
+  "fr": "Raccourcis :  1 fin · 2 GRAND · 3 gras · 4 automatique · 5 emoji · double-clic corrige le mot dans TOUT le texte · Ctrl+Z annule · Ctrl+Y rétablit",
+  "de": "Tastenkürzel:  1 dünn · 2 GROSS · 3 fett · 4 automatisch · 5 Emoji · Doppelklick korrigiert das Wort im GANZEN Text · Strg+Z rückgängig · Strg+Y wiederholen",
+  "it": "Scorciatoie:  1 sottile · 2 GRANDE · 3 grassetto · 4 automatico · 5 emoji · doppio clic corregge la parola in TUTTO il testo · Ctrl+Z annulla · Ctrl+Y ripristina"
+ },
+ "Estilo palabra a palabra": {
+  "en": "Word-by-word style",
+  "pt": "Estilo palavra a palavra",
+  "fr": "Style mot par mot",
+  "de": "Wort-für-Wort-Stil",
+  "it": "Stile parola per parola"
+ },
+ "GO está trabajando: espera a que termine para comprobar en Resolve.": {
+  "en": "GO is working: wait for it to finish before checking in Resolve.",
+  "pt": "O GO está trabalhando: espere terminar para verificar no Resolve.",
+  "fr": "GO travaille : attendez qu'il termine pour vérifier dans Resolve.",
+  "de": "GO arbeitet: warte, bis es fertig ist, um in Resolve zu prüfen.",
+  "it": "GO sta lavorando: aspetta che finisca per verificare in Resolve."
+ },
+ "Hay {n} falla(s) al iniciar: {lista}. Mira el Registro para ver qué hacer.": {
+  "en": "{n} failure(s) at startup: {lista}. Check the Log to see what to do.",
+  "pt": "{n} falha(s) ao iniciar: {lista}. Veja o Registro para saber o que fazer.",
+  "fr": "{n} échec(s) au démarrage : {lista}. Consultez le Journal pour savoir quoi faire.",
+  "de": "{n} Fehler beim Start: {lista}. Sieh im Protokoll nach, was zu tun ist.",
+  "it": "{n} errore/i all'avvio: {lista}. Controlla il Registro per sapere cosa fare."
+ },
+ "tu video, en un timeline nuevo": {
+  "en": "your video, on a new timeline",
+  "pt": "seu vídeo, em uma nova timeline",
+  "fr": "votre vidéo, sur une nouvelle timeline",
+  "de": "dein Video, auf einer neuen Timeline",
+  "it": "il tuo video, su una nuova timeline"
+ },
+ "No pude preparar Resolve para tu video ({m}): GO se detiene (no se toca ningún otro timeline).": {
+  "en": "I couldn't prepare Resolve for your video ({m}): GO stops (no other timeline is touched).",
+  "pt": "Não consegui preparar o Resolve para o seu vídeo ({m}): o GO para (nenhuma outra timeline é tocada).",
+  "fr": "Je n'ai pas pu préparer Resolve pour votre vidéo ({m}) : GO s'arrête (aucune autre timeline n'est touchée).",
+  "de": "Ich konnte Resolve nicht für dein Video vorbereiten ({m}): GO hält an (keine andere Timeline wird angefasst).",
+  "it": "Non sono riuscito a preparare Resolve per il tuo video ({m}): GO si ferma (nessun'altra timeline viene toccata)."
+ },
+ "Armando en Resolve un timeline con tu video…": {
+  "en": "Building a timeline with your video in Resolve…",
+  "pt": "Montando no Resolve uma timeline com o seu vídeo…",
+  "fr": "Montage dans Resolve d'une timeline avec votre vidéo…",
+  "de": "Resolve baut eine Timeline mit deinem Video auf…",
+  "it": "Sto montando in Resolve una timeline con il tuo video…"
+ },
+ "Resolve no armó el timeline con tu video ({m}): GO se detiene (no se toca ningún otro timeline).": {
+  "en": "Resolve didn't build the timeline with your video ({m}): GO stops (no other timeline is touched).",
+  "pt": "O Resolve não montou a timeline com o seu vídeo ({m}): o GO para (nenhuma outra timeline é tocada).",
+  "fr": "Resolve n'a pas monté la timeline avec votre vidéo ({m}) : GO s'arrête (aucune autre timeline n'est touchée).",
+  "de": "Resolve hat die Timeline mit deinem Video nicht aufgebaut ({m}): GO hält an (keine andere Timeline wird angefasst).",
+  "it": "Resolve non ha montato la timeline con il tuo video ({m}): GO si ferma (nessun'altra timeline viene toccata)."
+ },
+ "Palabra pequeña en letra FINA. Úsalo para que una palabra NO salga en negrita.": {
+  "en": "Small word in THIN type. Use it so a word does NOT come out bold.",
+  "pt": "Palavra pequena em letra FINA. Use para que uma palavra NÃO saia em negrito.",
+  "fr": "Petit mot en caractère FIN. Utilisez-le pour qu'un mot ne sorte PAS en gras.",
+  "de": "Kleines Wort in DÜNNER Schrift. Damit ein Wort NICHT fett erscheint.",
+  "it": "Parola piccola in carattere SOTTILE. Usalo perché una parola NON esca in grassetto."
+ },
+ "La palabra GRANDE del bloque (varias seguidas = una sola palabra grande). El estilo del bloque se elige en la vista de la derecha.": {
+  "en": "The BIG word of the block (several in a row = one single big word). The block style is chosen in the view on the right.",
+  "pt": "A palavra GRANDE do bloco (várias seguidas = uma única palavra grande). O estilo do bloco é escolhido na vista da direita.",
+  "fr": "Le GRAND mot du bloc (plusieurs à la suite = un seul grand mot). Le style du bloc se choisit dans la vue de droite.",
+  "de": "Das GROSSE Wort des Blocks (mehrere hintereinander = ein einziges großes Wort). Den Blockstil wählst du in der Ansicht rechts.",
+  "it": "La parola GRANDE del blocco (più di seguito = una sola parola grande). Lo stile del blocco si sceglie nella vista a destra."
+ },
+ "Palabra pequeña en NEGRITA (la que se resalta en su línea).": {
+  "en": "Small word in BOLD (the one highlighted on its line).",
+  "pt": "Palavra pequena em NEGRITO (a que é destacada na sua linha).",
+  "fr": "Petit mot en GRAS (celui qui ressort sur sa ligne).",
+  "de": "Kleines Wort in FETT (das in seiner Zeile hervorgehobene).",
+  "it": "Parola piccola in GRASSETTO (quella evidenziata nella sua riga)."
+ },
+ "Sin marca: lo decide el planificador, igual que GO (la palabra grande por su peso, la negrita por el ritmo).": {
+  "en": "No mark: the planner decides, just like GO (the big word by its weight, the bold one by rhythm).",
+  "pt": "Sem marca: o planejador decide, igual ao GO (a palavra grande pelo peso, o negrito pelo ritmo).",
+  "fr": "Sans marque : le planificateur décide, comme GO (le grand mot selon son poids, le gras selon le rythme).",
+  "de": "Ohne Markierung: der Planer entscheidet, genau wie GO (das große Wort nach Gewicht, das fette nach Rhythmus).",
+  "it": "Senza segno: decide il pianificatore, come GO (la parola grande in base al peso, il grassetto in base al ritmo)."
+ },
+ "Toca una palabra para dejarla AUTOMÁTICA (la decide el planificador). Arrastra para elegir varias.": {
+  "en": "Tap a word to set it to AUTOMATIC (the planner decides). Drag to select several.",
+  "pt": "Toque em uma palavra para deixá-la AUTOMÁTICA (o planejador decide). Arraste para escolher várias.",
+  "fr": "Touchez un mot pour le laisser AUTOMATIQUE (le planificateur décide). Faites glisser pour en choisir plusieurs.",
+  "de": "Tippe ein Wort an, um es auf AUTOMATISCH zu setzen (der Planer entscheidet). Ziehe, um mehrere auszuwählen.",
+  "it": "Tocca una parola per lasciarla AUTOMATICA (decide il pianificatore). Trascina per sceglierne più di una."
+ },
+ "Toca una palabra para hacerla la GRANDE del bloque. Arrastra para varias seguidas (una sola palabra grande).": {
+  "en": "Tap a word to make it the BIG one of the block. Drag for several in a row (one single big word).",
+  "pt": "Toque em uma palavra para torná-la a GRANDE do bloco. Arraste para várias seguidas (uma única palavra grande).",
+  "fr": "Touchez un mot pour en faire le GRAND du bloc. Faites glisser pour plusieurs à la suite (un seul grand mot).",
+  "de": "Tippe ein Wort an, um es zum GROSSEN des Blocks zu machen. Ziehe für mehrere hintereinander (ein einziges großes Wort).",
+  "it": "Tocca una parola per renderla la GRANDE del blocco. Trascina per più parole di seguito (una sola parola grande)."
+ },
+ "No pude comprobarlo en Resolve: {m}": {
+  "en": "I couldn't check it in Resolve: {m}",
+  "pt": "Não consegui verificar no Resolve: {m}",
+  "fr": "Je n'ai pas pu vérifier dans Resolve : {m}",
+  "de": "Ich konnte es in Resolve nicht prüfen: {m}",
+  "it": "Non sono riuscito a verificare in Resolve: {m}"
+ },
+ "«{n}» no parece un video ni un audio.": {
+  "en": "“{n}” doesn't look like a video or an audio file.",
+  "pt": "“{n}” não parece um vídeo nem um áudio.",
+  "fr": "« {n} » ne ressemble ni à une vidéo ni à un audio.",
+  "de": "„{n}“ sieht weder nach Video noch nach Audio aus.",
+  "it": "«{n}» non sembra un video né un audio."
+ },
+ " · o suelta un video aquí": {
+  "en": " · or drop a video here",
+  "pt": " · ou solte um vídeo aqui",
+  "fr": " · ou déposez une vidéo ici",
+  "de": " · oder ziehe ein Video hierher",
+  "it": " · o trascina qui un video"
+ },
+ "Resolve conectado: pulsa GO con tu timeline abierto, o suelta un video aquí": {
+  "en": "Resolve connected: press GO with your timeline open, or drop a video here",
+  "pt": "Resolve conectado: pressione GO com a sua timeline aberta, ou solte um vídeo aqui",
+  "fr": "Resolve connecté : appuyez sur GO avec votre timeline ouverte, ou déposez une vidéo ici",
+  "de": "Resolve verbunden: drücke GO mit geöffneter Timeline oder ziehe ein Video hierher",
+  "it": "Resolve connesso: premi GO con la timeline aperta, oppure trascina qui un video"
+ },
+ "{n} · captions palabra a palabra": {
+  "en": "{n} · word-by-word captions",
+  "pt": "{n} · legendas palavra a palavra",
+  "fr": "{n} · sous-titres mot par mot",
+  "de": "{n} · Wort-für-Wort-Captions",
+  "it": "{n} · sottotitoli parola per parola"
+ },
+ "Esperando a que Resolve termine la vista real de los estilos…": {
+  "en": "Waiting for Resolve to finish the real style preview…",
+  "pt": "Esperando o Resolve terminar a prévia real dos estilos…",
+  "fr": "En attente que Resolve termine l'aperçu réel des styles…",
+  "de": "Warte, bis Resolve die echte Stilvorschau beendet…",
+  "it": "In attesa che Resolve termini l'anteprima reale degli stili…"
+ },
+ "Esperando a que Resolve termine el timeline con tu video…": {
+  "en": "Waiting for Resolve to finish the timeline with your video…",
+  "pt": "Esperando o Resolve terminar a timeline com o seu vídeo…",
+  "fr": "En attente que Resolve termine la timeline avec votre vidéo…",
+  "de": "Warte, bis Resolve die Timeline mit deinem Video fertigstellt…",
+  "it": "In attesa che Resolve termini la timeline con il tuo video…"
+ },
+ "Toca una palabra pequeña para ponerla en NEGRITA. Arrastra para elegir varias a la vez.": {
+  "en": "Tap a small word to make it BOLD. Drag to select several at once.",
+  "pt": "Toque em uma palavra pequena para pô-la em NEGRITO. Arraste para escolher várias de uma vez.",
+  "fr": "Touchez un petit mot pour le mettre en GRAS. Faites glisser pour en choisir plusieurs à la fois.",
+  "de": "Tippe ein kleines Wort an, um es FETT zu machen. Ziehe, um mehrere gleichzeitig auszuwählen.",
+  "it": "Tocca una parola piccola per metterla in GRASSETTO. Trascina per sceglierne più di una insieme."
+ },
+ "Suelta un video aquí y le pongo los captions · o abre DaVinci Resolve con tu timeline": {
+  "en": "Drop a video here and I'll add the captions · or open DaVinci Resolve with your timeline",
+  "pt": "Solte um vídeo aqui e eu coloco as legendas · ou abra o DaVinci Resolve com a sua timeline",
+  "fr": "Déposez une vidéo ici et j'ajoute les sous-titres · ou ouvrez DaVinci Resolve avec votre timeline",
+  "de": "Ziehe ein Video hierher und ich setze die Captions · oder öffne DaVinci Resolve mit deiner Timeline",
+  "it": "Trascina qui un video e ci metto i sottotitoli · oppure apri DaVinci Resolve con la tua timeline"
+ },
+ "el abierto": {
+  "en": "the open one",
+  "pt": "o aberto",
+  "fr": "celui qui est ouvert",
+  "de": "das geöffnete",
+  "it": "quello aperto"
+ },
+ "Toca una palabra pequeña para dejarla en letra FINA. Arrastra para elegir varias a la vez.": {
+  "en": "Tap a small word to keep it in THIN type. Drag to select several at once.",
+  "pt": "Toque em uma palavra pequena para deixá-la em letra FINA. Arraste para escolher várias de uma vez.",
+  "fr": "Touchez un petit mot pour le laisser en caractère FIN. Faites glisser pour en choisir plusieurs à la fois.",
+  "de": "Tippe ein kleines Wort an, um es in DÜNNER Schrift zu lassen. Ziehe, um mehrere gleichzeitig auszuwählen.",
+  "it": "Tocca una parola piccola per lasciarla in carattere SOTTILE. Trascina per sceglierne più di una insieme."
+ },
+ "Estilo «palabra a palabra» (como el pack Referencia)": {
+  "en": "“Word-by-word” style (like the Reference pack)",
+  "pt": "Estilo “palavra a palavra” (como o pack Referência)",
+  "fr": "Style « mot par mot » (comme le pack Référence)",
+  "de": "Stil „Wort für Wort“ (wie das Referenz-Pack)",
+  "it": "Stile «parola per parola» (come il pack Riferimento)"
+ },
+ "Los captions virales no son una pila fija de 3 líneas: cada PALABRA es su propio clip y entra justo cuando se dice; al acabar la frase se va toda la pila a la vez. Se arma con los mismos nombres, pero con otro papel:": {
+  "en": "Viral captions are not a fixed stack of 3 lines: each WORD is its own clip and enters exactly when it is spoken; when the sentence ends the whole stack leaves at once. It is built with the same names, but with a different role:",
+  "pt": "As legendas virais não são uma pilha fixa de 3 linhas: cada PALAVRA é o seu próprio clipe e entra exatamente quando é dita; ao acabar a frase a pilha toda sai de uma vez. É montado com os mesmos nomes, mas com outro papel:",
+  "fr": "Les sous-titres viraux ne sont pas une pile fixe de 3 lignes : chaque MOT est son propre clip et entre exactement quand il est prononcé ; à la fin de la phrase, toute la pile part d'un coup. On la construit avec les mêmes noms, mais avec un autre rôle :",
+  "de": "Virale Captions sind kein fester Stapel aus 3 Zeilen: Jedes WORT ist ein eigener Clip und erscheint genau, wenn es gesprochen wird; am Satzende verschwindet der ganze Stapel auf einmal. Er wird mit denselben Namen aufgebaut, aber mit anderer Rolle:",
+  "it": "I sottotitoli virali non sono una pila fissa di 3 righe: ogni PAROLA è una clip a sé e entra esattamente quando viene detta; alla fine della frase se ne va tutta la pila insieme. Si costruisce con gli stessi nomi, ma con un altro ruolo:"
+ },
+ "«arriba» = las palabras en letra FINA (regular), «abajo» = las palabras en NEGRITA (aquí no quiere decir «debajo») y «principal» = la palabra grande. Dónde cae cada palabra y qué peso lleva lo decide GO al leer tu voz (una palabra en negrita por línea, una o dos grandes por frase); el pack solo pone el aspecto de cada papel.": {
+  "en": "“above” = the words in THIN (regular) type, “below” = the words in BOLD (here it does not mean “underneath”) and “main” = the big word. Where each word falls and what weight it gets is decided by GO when it reads your voice (one bold word per line, one or two big ones per sentence); the pack only sets the look of each role.",
+  "pt": "“acima” = as palavras em letra FINA (regular), “abaixo” = as palavras em NEGRITO (aqui não quer dizer “embaixo”) e “principal” = a palavra grande. Onde cai cada palavra e que peso leva é decidido pelo GO ao ler a sua voz (uma palavra em negrito por linha, uma ou duas grandes por frase); o pack só define o visual de cada papel.",
+  "fr": "« dessus » = les mots en caractère FIN (regular), « dessous » = les mots en GRAS (ici cela ne veut pas dire « en bas ») et « principal » = le grand mot. Où tombe chaque mot et quel poids il porte est décidé par GO en lisant votre voix (un mot en gras par ligne, un ou deux grands par phrase) ; le pack ne fixe que l'aspect de chaque rôle.",
+  "de": "„oben“ = die Wörter in DÜNNER (regulärer) Schrift, „unten“ = die Wörter in FETT (hier heißt es nicht „darunter“) und „Haupt“ = das große Wort. Wo jedes Wort landet und welches Gewicht es bekommt, entscheidet GO beim Lesen deiner Stimme (ein fettes Wort pro Zeile, ein oder zwei große pro Satz); das Pack legt nur das Aussehen jeder Rolle fest.",
+  "it": "«sopra» = le parole in carattere SOTTILE (regular), «sotto» = le parole in GRASSETTO (qui non significa «in basso») e «principale» = la parola grande. Dove cade ogni parola e che peso ha lo decide GO leggendo la tua voce (una parola in grassetto per riga, una o due grandi per frase); il pack definisce solo l'aspetto di ogni ruolo."
+ },
+ "Un pack funciona así cuando su pack.json lleva «guion» (el pack «Referencia» ya viene así, con 8 estilos de palabra grande: 4 de Luxe Shine y 4 de Amro). Los packs que armas aquí usan el diseño de 3 líneas de arriba. En Inicio, el chip «Estilo» de GO elige uno u otro.": {
+  "en": "A pack works this way when its pack.json carries “guion” (the “Reference” pack already comes like that, with 8 big-word styles: 4 from Luxe Shine and 4 from Amro). The packs you build here use the 3-line design above. On Home, the GO “Style” chip picks one or the other.",
+  "pt": "Um pack funciona assim quando o seu pack.json traz “guion” (o pack “Referência” já vem assim, com 8 estilos de palavra grande: 4 de Luxe Shine e 4 de Amro). Os packs que você monta aqui usam o design de 3 linhas acima. No Início, o chip “Estilo” do GO escolhe um ou outro.",
+  "fr": "Un pack fonctionne ainsi quand son pack.json contient « guion » (le pack « Référence » est déjà ainsi, avec 8 styles de grand mot : 4 de Luxe Shine et 4 d'Amro). Les packs que vous montez ici utilisent le design à 3 lignes ci-dessus. Sur Accueil, la pastille « Style » de GO choisit l'un ou l'autre.",
+  "de": "Ein Pack funktioniert so, wenn sein pack.json „guion“ enthält (das Pack „Referenz“ kommt bereits so, mit 8 Stilen für das große Wort: 4 von Luxe Shine und 4 von Amro). Die Packs, die du hier baust, nutzen das 3-Zeilen-Design oben. Auf Start wählt der GO-Chip „Stil“ das eine oder das andere.",
+  "it": "Un pack funziona così quando il suo pack.json contiene «guion» (il pack «Riferimento» è già così, con 8 stili di parola grande: 4 di Luxe Shine e 4 di Amro). I pack che costruisci qui usano il design a 3 righe qui sopra. In Home, il chip «Stile» di GO sceglie l'uno o l'altro."
+ },
+ "El modelo de voz falló; pruebo con uno más ligero…": {
+  "en": "The voice model failed; trying a lighter one…",
+  "pt": "O modelo de voz falhou; tentando um mais leve…",
+  "fr": "Le modèle vocal a échoué ; essai avec un plus léger…",
+  "de": "Das Sprachmodell ist fehlgeschlagen; versuche ein leichteres…",
+  "it": "Il modello vocale è fallito; provo con uno più leggero…"
+ },
+ "Creando un proyecto nuevo «{p}» en Resolve…": {
+  "en": "Creating a new project “{p}” in Resolve…",
+  "pt": "Criando um projeto novo “{p}” no Resolve…",
+  "fr": "Création d'un nouveau projet « {p} » dans Resolve…",
+  "de": "Neues Projekt „{p}“ in Resolve wird erstellt…",
+  "it": "Creo un nuovo progetto «{p}» in Resolve…"
+ },
+ "Resolve no creó el proyecto «{p}» ({a}).": {
+  "en": "Resolve did not create the project “{p}” ({a}).",
+  "pt": "O Resolve não criou o projeto “{p}” ({a}).",
+  "fr": "Resolve n'a pas créé le projet « {p} » ({a}).",
+  "de": "Resolve hat das Projekt „{p}“ nicht erstellt ({a}).",
+  "it": "Resolve non ha creato il progetto «{p}» ({a})."
+ },
+ "Resolve termina de arrancar…": {
+  "en": "Resolve is finishing starting up…",
+  "pt": "O Resolve está terminando de iniciar…",
+  "fr": "Resolve termine de démarrer…",
+  "de": "Resolve startet noch…",
+  "it": "Resolve sta finendo di avviarsi…"
+ },
+ "Proyecto nuevo «{p}» creado.": {
+  "en": "New project “{p}” created.",
+  "pt": "Projeto novo “{p}” criado.",
+  "fr": "Nouveau projet « {p} » créé.",
+  "de": "Neues Projekt „{p}“ erstellt.",
+  "it": "Nuovo progetto «{p}» creato."
+ },
+ "Resolve tarda en abrirse… (intento {n})": {
+  "en": "Resolve is slow to open… (attempt {n})",
+  "pt": "O Resolve demora para abrir… (tentativa {n})",
+  "fr": "Resolve met du temps à s'ouvrir… (essai {n})",
+  "de": "Resolve braucht zum Öffnen… (Versuch {n})",
+  "it": "Resolve ci mette ad aprirsi… (tentativo {n})"
+ },
+ "Descargando el modelo de voz ({peso}). Solo pasa la primera vez: no cierres el programa.": {
+  "en": "Downloading the voice model ({peso}). This only happens the first time: do not close the program.",
+  "pt": "Baixando o modelo de voz ({peso}). Só acontece na primeira vez: não feche o programa.",
+  "fr": "Téléchargement du modèle vocal ({peso}). Cela n'arrive que la première fois : ne fermez pas le programme.",
+  "de": "Sprachmodell wird heruntergeladen ({peso}). Das passiert nur beim ersten Mal: schließe das Programm nicht.",
+  "it": "Scarico il modello vocale ({peso}). Succede solo la prima volta: non chiudere il programma."
+ },
+ "No pude descargar el modelo de voz ({t}: {m}). Revisa tu conexión a internet y vuelve a intentarlo.": {
+  "en": "I couldn't download the voice model ({t}: {m}). Check your internet connection and try again.",
+  "pt": "Não consegui baixar o modelo de voz ({t}: {m}). Verifique sua conexão com a internet e tente de novo.",
+  "fr": "Je n'ai pas pu télécharger le modèle vocal ({t} : {m}). Vérifiez votre connexion internet et réessayez.",
+  "de": "Ich konnte das Sprachmodell nicht herunterladen ({t}: {m}). Prüfe deine Internetverbindung und versuche es erneut.",
+  "it": "Non sono riuscito a scaricare il modello vocale ({t}: {m}). Controlla la connessione a internet e riprova."
+ },
+ "Descargando el modelo de voz: {a} de {b} MB ({p} %)": {
+  "en": "Downloading the voice model: {a} of {b} MB ({p} %)",
+  "pt": "Baixando o modelo de voz: {a} de {b} MB ({p} %)",
+  "fr": "Téléchargement du modèle vocal : {a} sur {b} Mo ({p} %)",
+  "de": "Sprachmodell wird heruntergeladen: {a} von {b} MB ({p} %)",
+  "it": "Scarico il modello vocale: {a} di {b} MB ({p} %)"
+ },
+ "Descargando el modelo de voz: {a} MB": {
+  "en": "Downloading the voice model: {a} MB",
+  "pt": "Baixando o modelo de voz: {a} MB",
+  "fr": "Téléchargement du modèle vocal : {a} Mo",
+  "de": "Sprachmodell wird heruntergeladen: {a} MB",
+  "it": "Scarico il modello vocale: {a} MB"
+ },
+ "Cargando el modelo de voz en memoria…": {
+  "en": "Loading the voice model into memory…",
+  "pt": "Carregando o modelo de voz na memória…",
+  "fr": "Chargement du modèle vocal en mémoire…",
+  "de": "Sprachmodell wird in den Speicher geladen…",
+  "it": "Carico il modello vocale in memoria…"
+ },
+ "puede pesar varios cientos de MB": {
+  "en": "it can weigh several hundred MB",
+  "pt": "pode pesar várias centenas de MB",
+  "fr": "il peut peser plusieurs centaines de Mo",
+  "de": "es kann mehrere hundert MB groß sein",
+  "it": "può pesare diverse centinaia di MB"
+ },
+ "La descarga del modelo de voz no avanza desde hace {s} segundos. Revisa tu conexión a internet (o un firewall/VPN) y vuelve a intentarlo: lo que ya bajó no se pierde.": {
+  "en": "The voice model download hasn't progressed for {s} seconds. Check your internet connection (or a firewall/VPN) and try again: what was already downloaded is not lost.",
+  "pt": "O download do modelo de voz não avança há {s} segundos. Verifique sua conexão com a internet (ou um firewall/VPN) e tente de novo: o que já foi baixado não se perde.",
+  "fr": "Le téléchargement du modèle vocal n'avance plus depuis {s} secondes. Vérifiez votre connexion internet (ou un pare-feu/VPN) et réessayez : ce qui est déjà téléchargé n'est pas perdu.",
+  "de": "Der Download des Sprachmodells kommt seit {s} Sekunden nicht voran. Prüfe deine Internetverbindung (oder eine Firewall/VPN) und versuche es erneut: Bereits Heruntergeladenes geht nicht verloren.",
+  "it": "Il download del modello vocale non avanza da {s} secondi. Controlla la connessione a internet (o un firewall/VPN) e riprova: ciò che è già stato scaricato non si perde."
+ },
+ "El modelo de voz falló; pruebo con uno más pequeño...": {
+  "en": "The voice model failed; trying a smaller one...",
+  "pt": "O modelo de voz falhou; tentando um menor...",
+  "fr": "Le modèle vocal a échoué ; essai avec un plus petit...",
+  "de": "Das Sprachmodell ist fehlgeschlagen; versuche ein kleineres...",
+  "it": "Il modello vocale è fallito; provo con uno più piccolo..."
+ },
+ "La GPU falló; sigo con la CPU (más lento)…": {
+  "en": "The GPU failed; continuing on the CPU (slower)…",
+  "pt": "A GPU falhou; continuo na CPU (mais lento)…",
+  "fr": "Le GPU a échoué ; je continue sur le CPU (plus lent)…",
+  "de": "Die GPU ist ausgefallen; ich mache auf der CPU weiter (langsamer)…",
+  "it": "La GPU è fallita; continuo sulla CPU (più lento)…"
+ },
+ "Diseño de captions": {
+  "en": "Caption design",
+  "pt": "Design das legendas",
+  "fr": "Design des sous-titres",
+  "de": "Caption-Design",
+  "it": "Design dei sottotitoli"
+ },
+ "Diseño de los captions": {
+  "en": "Caption design",
+  "pt": "Design das legendas",
+  "fr": "Design des sous-titres",
+  "de": "Caption-Design",
+  "it": "Design dei sottotitoli"
+ },
+ "Resolve no devolvió la imagen": {
+  "en": "Resolve didn't return the image",
+  "pt": "O Resolve não devolveu a imagem",
+  "fr": "Resolve n'a pas renvoyé l'image",
+  "de": "Resolve hat das Bild nicht zurückgegeben",
+  "it": "Resolve non ha restituito l'immagine"
+ },
+ "Estructura nueva de los packs (.drb): arriba · principal · abajo · imagen, con hasta 3 variantes (se agrega 2 o 3 al final del nombre) y «simple» para las palabras sueltas. Los packs hechos antes siguen funcionando.": {
+  "en": "New structure for packs (.drb): above · main · below · image, with up to 3 variants (2 or 3 is added at the end of the name) and “simple” for single words. Packs made before keep working.",
+  "pt": "Nova estrutura dos packs (.drb): acima · principal · abaixo · imagem, com até 3 variantes (2 ou 3 é adicionado ao final do nome) e “simples” para as palavras soltas. Os packs feitos antes continuam funcionando.",
+  "fr": "Nouvelle structure des packs (.drb) : dessus · principal · dessous · image, avec jusqu'à 3 variantes (2 ou 3 se place à la fin du nom) et « simple » pour les mots isolés. Les packs créés avant continuent de fonctionner.",
+  "de": "Neue Struktur der Packs (.drb): oben · Haupt · unten · Bild, mit bis zu 3 Varianten (2 oder 3 wird am Namensende angehängt) und „einfach“ für einzelne Wörter. Früher erstellte Packs funktionieren weiter.",
+  "it": "Nuova struttura dei pack (.drb): sopra · principale · sotto · immagine, con fino a 3 varianti (2 o 3 si aggiunge alla fine del nome) e «semplice» per le parole singole. I pack fatti prima continuano a funzionare."
+ },
+ "Bloque «imagen»: el emoji o icono que eliges en Creativo va en ese bloque del pack (o debajo del texto si el pack no lo trae), y lo ves en la vista previa del bloque.": {
+  "en": "“Image” block: the emoji or icon you choose in Creative goes in that block of the pack (or under the text if the pack does not have it), and you see it in the block preview.",
+  "pt": "Bloco “imagem”: o emoji ou ícone que você escolhe em Criativo vai nesse bloco do pack (ou abaixo do texto se o pack não o tiver), e você o vê na prévia do bloco.",
+  "fr": "Bloc « image » : l'emoji ou l'icône que vous choisissez dans Créatif va dans ce bloc du pack (ou sous le texte si le pack n'en a pas), et vous le voyez dans l'aperçu du bloc.",
+  "de": "Block „Bild“: Das Emoji oder Symbol, das du im Kreativ-Editor wählst, kommt in diesen Block des Packs (oder unter den Text, wenn das Pack keinen hat) und ist in der Blockvorschau zu sehen.",
+  "it": "Blocco «immagine»: l'emoji o l'icona che scegli in Creativo va in quel blocco del pack (o sotto il testo se il pack non lo ha), e lo vedi nell'anteprima del blocco."
+ },
+ "Plantilla base nueva, hecha solo con Luxe Slide y Luxe Shine (Joel Van Beek): tres variantes (cian, rosa y fuego) con texto Regular o Bold para resaltar.": {
+  "en": "New base template, made only with Luxe Slide and Luxe Shine (Joel Van Beek): three variants (cyan, pink and fire) with Regular or Bold text to highlight.",
+  "pt": "Novo modelo base, feito só com Luxe Slide e Luxe Shine (Joel Van Beek): três variantes (ciano, rosa e fogo) com texto Regular ou Bold para destacar.",
+  "fr": "Nouveau modèle de base, réalisé uniquement avec Luxe Slide et Luxe Shine (Joel Van Beek) : trois variantes (cyan, rose et feu) avec texte Regular ou Bold pour mettre en valeur.",
+  "de": "Neue Basisvorlage, nur mit Luxe Slide und Luxe Shine (Joel Van Beek) gemacht: drei Varianten (Cyan, Rosa und Feuer) mit Regular- oder Bold-Text zum Hervorheben.",
+  "it": "Nuovo modello base, fatto solo con Luxe Slide e Luxe Shine (Joel Van Beek): tre varianti (ciano, rosa e fuoco) con testo Regular o Bold da evidenziare."
+ },
+ "Proyecto: «Fuente» pasa a «Audio» con un solo botón, «Obtener», que trae el audio de tu timeline por MCP. En Pack de estilos, cada pack muestra su estructura y hay un botón «Crea tu estilo» que abre en Resolve una guía paso a paso.": {
+  "en": "Project: “Source” becomes “Audio” with a single button, “Get”, that brings the audio of your timeline via MCP. In Style packs, each pack shows its structure and there is a “Create your style” button that opens a step-by-step guide in Resolve.",
+  "pt": "Projeto: “Fonte” passa a “Áudio” com um único botão, “Obter”, que traz o áudio da sua timeline por MCP. Em Pack de estilos, cada pack mostra a sua estrutura e há um botão “Crie seu estilo” que abre no Resolve um guia passo a passo.",
+  "fr": "Projet : « Source » devient « Audio » avec un seul bouton, « Obtenir », qui récupère l'audio de votre timeline par MCP. Dans Packs de styles, chaque pack montre sa structure et un bouton « Créez votre style » ouvre dans Resolve un guide pas à pas.",
+  "de": "Projekt: „Quelle“ wird zu „Audio“ mit nur einer Schaltfläche, „Holen“, die den Ton deiner Timeline per MCP holt. In den Stil-Packs zeigt jedes Pack seine Struktur und eine Schaltfläche „Erstelle deinen Stil“ öffnet in Resolve eine Schritt-für-Schritt-Anleitung.",
+  "it": "Progetto: «Fonte» diventa «Audio» con un solo pulsante, «Ottieni», che porta l'audio della tua timeline via MCP. In Pack di stili, ogni pack mostra la sua struttura e c'è un pulsante «Crea il tuo stile» che apre in Resolve una guida passo passo."
+ },
+ "Composición y vista previa del estilo incluyen el espacio del icono o la imagen.": {
+  "en": "Composition and style preview include the space for the icon or image.",
+  "pt": "Composição e prévia do estilo incluem o espaço do ícone ou da imagem.",
+  "fr": "La composition et l'aperçu du style incluent l'espace de l'icône ou de l'image.",
+  "de": "Komposition und Stilvorschau berücksichtigen den Platz für das Symbol oder Bild.",
+  "it": "Composizione e anteprima dello stile includono lo spazio dell'icona o dell'immagine."
+ },
+ "Motion Graphics en toda la interfaz: tarjetas que entran con marcas de encuadre, títulos que se escriben letra a letra, traza de luz en las tarjetas y formas que derivan al fondo. Inicio estrena un visor con REC, timecode, dial y órbitas.": {
+  "en": "Motion Graphics across the whole interface: cards that enter with framing marks, titles that type out letter by letter, a light trace on the cards and shapes drifting in the background. Home gets a viewfinder with REC, timecode, dial and orbits.",
+  "pt": "Motion Graphics em toda a interface: cartões que entram com marcas de enquadramento, títulos que se escrevem letra a letra, traço de luz nos cartões e formas que derivam ao fundo. O Início estreia um visor com REC, timecode, dial e órbitas.",
+  "fr": "Motion Graphics dans toute l'interface : cartes qui entrent avec des repères de cadrage, titres qui s'écrivent lettre par lettre, trait de lumière sur les cartes et formes qui dérivent en arrière-plan. L'Accueil étrenne un viseur avec REC, timecode, cadran et orbites.",
+  "de": "Motion Graphics in der gesamten Oberfläche: Karten, die mit Bildrahmen-Markierungen erscheinen, Titel, die Buchstabe für Buchstabe getippt werden, Lichtspur auf den Karten und Formen, die im Hintergrund treiben. Start erhält einen Sucher mit REC, Timecode, Wählscheibe und Umlaufbahnen.",
+  "it": "Motion Graphics in tutta l'interfaccia: schede che entrano con segni di inquadratura, titoli che si scrivono lettera per lettera, traccia di luce sulle schede e forme che vanno alla deriva sullo sfondo. La Home debutta con un mirino con REC, timecode, quadrante e orbite."
+ },
+ "GO más rápido: la voz (Qwen3-ASR) y la IA de texto se cargan y se calientan en paralelo mientras Resolve prepara el audio, se transcribe por lotes y la IA de texto trabaja en tramos pequeños; el uso de la GPU se adapta a su memoria.": {
+  "en": "Faster GO: the voice (Qwen3-ASR) and the text AI load and warm up in parallel while Resolve prepares the audio, transcription runs in batches and the text AI works in small chunks; GPU use adapts to its memory.",
+  "pt": "GO mais rápido: a voz (Qwen3-ASR) e a IA de texto carregam e aquecem em paralelo enquanto o Resolve prepara o áudio, transcreve-se em lotes e a IA de texto trabalha em trechos pequenos; o uso da GPU se adapta à sua memória.",
+  "fr": "GO plus rapide : la voix (Qwen3-ASR) et l'IA de texte se chargent et chauffent en parallèle pendant que Resolve prépare l'audio, la transcription se fait par lots et l'IA de texte travaille par petits tronçons ; l'usage du GPU s'adapte à sa mémoire.",
+  "de": "Schnelleres GO: Stimme (Qwen3-ASR) und Text-KI laden und wärmen sich parallel auf, während Resolve den Ton vorbereitet; die Transkription läuft in Stapeln und die Text-KI arbeitet in kleinen Abschnitten; die GPU-Nutzung passt sich ihrem Speicher an.",
+  "it": "GO più veloce: la voce (Qwen3-ASR) e l'IA di testo si caricano e si scaldano in parallelo mentre Resolve prepara l'audio, si trascrive a lotti e l'IA di testo lavora a piccoli tratti; l'uso della GPU si adatta alla sua memoria."
+ },
+ "Audio: elige cómo transcribir (IA Qwen3-ASR o Whisper large-v3-turbo). Se corrigió un cuelgue de Whisper tras un fallo de CUDA y la interfaz baja sola los fotogramas del fondo si va justa, para que GO tenga más CPU.": {
+  "en": "Audio: choose how to transcribe (Qwen3-ASR AI or Whisper large-v3-turbo). Fixed a Whisper hang after a CUDA failure, and the interface lowers the background frame rate by itself if it is tight so GO gets more CPU.",
+  "pt": "Áudio: escolha como transcrever (IA Qwen3-ASR ou Whisper large-v3-turbo). Corrigido um travamento do Whisper após uma falha do CUDA e a interface reduz sozinha os quadros do fundo se estiver apertada, para o GO ter mais CPU.",
+  "fr": "Audio : choisissez comment transcrire (IA Qwen3-ASR ou Whisper large-v3-turbo). Un blocage de Whisper après un échec de CUDA a été corrigé et l'interface réduit seule les images de l'arrière-plan si elle est à l'étroit, pour que GO ait plus de CPU.",
+  "de": "Audio: Wähle, wie transkribiert wird (Qwen3-ASR-KI oder Whisper large-v3-turbo). Ein Whisper-Hänger nach einem CUDA-Fehler wurde behoben, und die Oberfläche senkt die Hintergrund-Bildrate selbst, wenn es eng wird, damit GO mehr CPU hat.",
+  "it": "Audio: scegli come trascrivere (IA Qwen3-ASR o Whisper large-v3-turbo). Corretto un blocco di Whisper dopo un errore di CUDA e l'interfaccia abbassa da sola i fotogrammi dello sfondo se è al limite, così GO ha più CPU."
+ },
+ "Se quitaron las plantillas antiguas «Títulos dinámicos II» (inferior y superior) y la composición del bloque se recorre con flechas, con el icono arriba o abajo del texto.": {
+  "en": "The old “Dynamic Titles II” templates (lower and upper) were removed and the block composition is stepped through with arrows, with the icon above or below the text.",
+  "pt": "Foram removidos os modelos antigos “Títulos dinâmicos II” (inferior e superior) e a composição do bloco se percorre com setas, com o ícone acima ou abaixo do texto.",
+  "fr": "Les anciens modèles « Titres dynamiques II » (inférieur et supérieur) ont été supprimés et la composition du bloc se parcourt avec des flèches, avec l'icône au-dessus ou au-dessous du texte.",
+  "de": "Die alten Vorlagen „Dynamische Titel II“ (unten und oben) wurden entfernt, und die Blockkomposition lässt sich mit Pfeilen durchgehen, mit dem Symbol über oder unter dem Text.",
+  "it": "Sono stati rimossi i vecchi modelli «Titoli dinamici II» (inferiore e superiore) e la composizione del blocco si scorre con le frecce, con l'icona sopra o sotto il testo."
+ },
+ "Revisa que DaVinci Resolve esté abierto con un proyecto y con el control externo en «Local» (Preferencias > General).": {
+  "en": "Check that DaVinci Resolve is open with a project and external control set to “Local” (Preferences > General).",
+  "pt": "Verifique se o DaVinci Resolve está aberto com um projeto e com o controle externo em “Local” (Preferências > Geral).",
+  "fr": "Vérifiez que DaVinci Resolve est ouvert avec un projet et que le contrôle externe est sur « Local » (Préférences > Général).",
+  "de": "Prüfe, ob DaVinci Resolve mit einem Projekt geöffnet ist und die externe Steuerung auf „Lokal“ steht (Einstellungen > Allgemein).",
+  "it": "Controlla che DaVinci Resolve sia aperto con un progetto e con il controllo esterno su «Locale» (Preferenze > Generale)."
+ },
+ "Si el modelo de voz no responde, cambio al de respaldo solo.": {
+  "en": "If the voice model does not respond, I switch to the backup one by myself.",
+  "pt": "Se o modelo de voz não responder, mudo para o de reserva sozinho.",
+  "fr": "Si le modèle vocal ne répond pas, je passe tout seul au modèle de secours.",
+  "de": "Wenn das Sprachmodell nicht antwortet, wechsle ich selbst zum Ersatzmodell.",
+  "it": "Se il modello vocale non risponde, passo da solo a quello di riserva."
+ },
+ "Si la IA de texto no responde, sigo con el motor de reglas.": {
+  "en": "If the text AI does not respond, I carry on with the rules engine.",
+  "pt": "Se a IA de texto não responder, sigo com o motor de regras.",
+  "fr": "Si l'IA de texte ne répond pas, je continue avec le moteur de règles.",
+  "de": "Wenn die Text-KI nicht antwortet, mache ich mit der Regel-Engine weiter.",
+  "it": "Se l'IA di testo non risponde, continuo con il motore di regole."
+ },
+ "Mira si Resolve tiene un diálogo abierto o está ocupado.": {
+  "en": "Check whether Resolve has a dialog open or is busy.",
+  "pt": "Veja se o Resolve tem um diálogo aberto ou está ocupado.",
+  "fr": "Regardez si Resolve a une boîte de dialogue ouverte ou s'il est occupé.",
+  "de": "Prüfe, ob in Resolve ein Dialog offen oder Resolve beschäftigt ist.",
+  "it": "Controlla se Resolve ha una finestra di dialogo aperta o è occupato."
+ },
+ "Efectos de sonido: ": {
+  "en": "Sound effects: ",
+  "pt": "Efeitos de som: ",
+  "fr": "Effets sonores : ",
+  "de": "Soundeffekte: ",
+  "it": "Effetti sonori: "
+ },
+ " sonidos en ": {
+  "en": " sounds in ",
+  "pt": " sons em ",
+  "fr": " sons en ",
+  "de": " Sounds in ",
+  "it": " suoni in "
+ },
+ "Creativo · palabras por línea": {
+  "en": "Creative · words per line",
+  "pt": "Criativo · palavras por linha",
+  "fr": "Créatif · mots par ligne",
+  "de": "Kreativ · Wörter pro Zeile",
+  "it": "Creativo · parole per riga"
+ },
+ "No hay ningún motor externo que cerrar: el paso corre dentro del programa (Whisper en CPU/GPU). Si de verdad está colgado, cierra y vuelve a abrir CineCaptions; el Registro tiene la pila del hilo para diagnosticarlo.": {
+  "en": "There is no external engine to close: this step runs inside the program (Whisper on CPU/GPU). If it is really stuck, close and reopen CineCaptions; the Log has the thread stack to diagnose it.",
+  "pt": "Não há nenhum motor externo para fechar: o passo roda dentro do programa (Whisper em CPU/GPU). Se estiver mesmo travado, feche e abra o CineCaptions de novo; o Registro tem a pilha do thread para diagnosticar.",
+  "fr": "Il n'y a aucun moteur externe à fermer : l'étape s'exécute dans le programme (Whisper sur CPU/GPU). S'il est vraiment bloqué, fermez et rouvrez CineCaptions ; le Journal contient la pile du thread pour le diagnostic.",
+  "de": "Es gibt keine externe Engine zu beenden: Dieser Schritt läuft im Programm (Whisper auf CPU/GPU). Wenn er wirklich hängt, schließe CineCaptions und öffne es neu; das Protokoll enthält den Thread-Stack zur Diagnose.",
+  "it": "Non c'è nessun motore esterno da chiudere: il passo gira dentro il programma (Whisper su CPU/GPU). Se è davvero bloccato, chiudi e riapri CineCaptions; il Registro ha lo stack del thread per diagnosticarlo."
+ },
+ "Destrabado: cerré la conexión con Resolve que no respondía; se reintenta al siguiente paso.": {
+  "en": "Unblocked: I closed the connection with Resolve that was not responding; it is retried on the next step.",
+  "pt": "Destravado: fechei a conexão com o Resolve que não respondia; tenta-se de novo no próximo passo.",
+  "fr": "Débloqué : j'ai fermé la connexion avec Resolve qui ne répondait pas ; on réessaie à l'étape suivante.",
+  "de": "Entblockt: Ich habe die nicht antwortende Verbindung zu Resolve geschlossen; beim nächsten Schritt wird es erneut versucht.",
+  "it": "Sbloccato: ho chiuso la connessione con Resolve che non rispondeva; si riprova al passo successivo."
+ },
+ "La corrección de ortografía falló: ": {
+  "en": "Spell correction failed: ",
+  "pt": "A correção ortográfica falhou: ",
+  "fr": "La correction orthographique a échoué : ",
+  "de": "Die Rechtschreibkorrektur ist fehlgeschlagen: ",
+  "it": "La correzione ortografica è fallita: "
+ },
+ "Emojis animados: sin conexión, ": {
+  "en": "Animated emojis: no connection, ",
+  "pt": "Emojis animados: sem conexão, ",
+  "fr": "Emojis animés : pas de connexion, ",
+  "de": "Animierte Emojis: keine Verbindung, ",
+  "it": "Emoji animate: nessuna connessione, "
+ },
+ "; se reintenta al abrir otra vez": {
+  "en": "; will retry the next time it opens",
+  "pt": "; tenta-se de novo ao abrir outra vez",
+  "fr": "; nouvel essai à la prochaine ouverture",
+  "de": "; wird beim nächsten Öffnen erneut versucht",
+  "it": "; si riprova alla prossima apertura"
+ },
+ " sin versión animada)": {
+  "en": " without an animated version)",
+  "pt": " sem versão animada)",
+  "fr": " sans version animée)",
+  "de": " ohne animierte Version)",
+  "it": " senza versione animata)"
+ },
+ "Destrabado: cerré el motor de ": {
+  "en": "Unblocked: I closed the engine of ",
+  "pt": "Destravado: fechei o motor de ",
+  "fr": "Débloqué : j'ai fermé le moteur de ",
+  "de": "Entblockt: Ich habe die Engine von ",
+  "it": "Sbloccato: ho chiuso il motore di "
+ },
+ " que no respondía; sigue el modelo de respaldo.": {
+  "en": " that was not responding; the backup model continues.",
+  "pt": " que não respondia; segue o modelo de reserva.",
+  "fr": " qui ne répondait pas ; le modèle de secours continue.",
+  "de": " beendet, die nicht antwortete; das Ersatzmodell macht weiter.",
+  "it": " che non rispondeva; prosegue il modello di riserva."
+ },
+ "IA de texto": {
+  "en": "Text AI",
+  "pt": "IA de texto",
+  "fr": "IA de texte",
+  "de": "Text-KI",
+  "it": "IA di testo"
+ },
+ "colocar en Resolve": {
+  "en": "place in Resolve",
+  "pt": "colocar no Resolve",
+  "fr": "placer dans Resolve",
+  "de": "in Resolve platzieren",
+  "it": "posiziona in Resolve"
+ },
+ "No se pudo colocar en Resolve": {
+  "en": "Could not place in Resolve",
+  "pt": "Não foi possível colocar no Resolve",
+  "fr": "Impossible de placer dans Resolve",
+  "de": "Konnte nicht in Resolve platziert werden",
+  "it": "Impossibile posizionare in Resolve"
+ },
+ "Error sin mensaje": {
+  "en": "Error without a message",
+  "pt": "Erro sem mensagem",
+  "fr": "Erreur sans message",
+  "de": "Fehler ohne Meldung",
+  "it": "Errore senza messaggio"
+ },
+ "ese archivo no es una copia de CineCaptions": {
+  "en": "that file is not a CineCaptions backup",
+  "pt": "esse arquivo não é uma cópia do CineCaptions",
+  "fr": "ce fichier n'est pas une copie de CineCaptions",
+  "de": "diese Datei ist keine CineCaptions-Sicherung",
+  "it": "quel file non è una copia di CineCaptions"
+ },
+ "la línea de contexto, encima": {
+  "en": "the context line, above",
+  "pt": "a linha de contexto, em cima",
+  "fr": "la ligne de contexte, au-dessus",
+  "de": "die Kontextzeile, darüber",
+  "it": "la riga di contesto, sopra"
+ },
+ "la palabra clave, grande y con brillo": {
+  "en": "the key word, big and glowing",
+  "pt": "a palavra-chave, grande e com brilho",
+  "fr": "le mot clé, grand et brillant",
+  "de": "das Schlüsselwort, groß und leuchtend",
+  "it": "la parola chiave, grande e luminosa"
+ },
+ "la línea que va debajo": {
+  "en": "the line that goes below",
+  "pt": "a linha que vai embaixo",
+  "fr": "la ligne qui va en dessous",
+  "de": "die Zeile darunter",
+  "it": "la riga che va sotto"
+ },
+ "las palabras en letra regular": {
+  "en": "the words in regular type",
+  "pt": "as palavras em letra regular",
+  "fr": "les mots en caractère regular",
+  "de": "die Wörter in regulärer Schrift",
+  "it": "le parole in carattere regular"
+ },
+ "Luxe Slide en NEGRITA": {
+  "en": "Luxe Slide in BOLD",
+  "pt": "Luxe Slide em NEGRITO",
+  "fr": "Luxe Slide en GRAS",
+  "de": "Luxe Slide in FETT",
+  "it": "Luxe Slide in GRASSETTO"
+ },
+ "las palabras que se resaltan (no significa «debajo»)": {
+  "en": "the words that are highlighted (it does not mean “below”)",
+  "pt": "as palavras que se destacam (não significa “embaixo”)",
+  "fr": "les mots mis en valeur (ne signifie pas « en bas »)",
+  "de": "die hervorgehobenen Wörter (bedeutet nicht „darunter“)",
+  "it": "le parole evidenziate (non significa «sotto»)"
+ },
+ "Luxe Shine o un preset de Amro": {
+  "en": "Luxe Shine or an Amro preset",
+  "pt": "Luxe Shine ou um preset do Amro",
+  "fr": "Luxe Shine ou un preset d'Amro",
+  "de": "Luxe Shine oder ein Amro-Preset",
+  "it": "Luxe Shine o un preset di Amro"
+ },
+ "la palabra grande: la que manda en la frase": {
+  "en": "the big word: the one that rules the sentence",
+  "pt": "a palavra grande: a que manda na frase",
+  "fr": "le grand mot : celui qui commande la phrase",
+  "de": "das große Wort: das, was den Satz bestimmt",
+  "it": "la parola grande: quella che comanda la frase"
+ },
+ "en tu video": {
+  "en": "in your video",
+  "pt": "no seu vídeo",
+  "fr": "dans votre vidéo",
+  "de": "in deinem Video",
+  "it": "nel tuo video"
+ },
+ "elige entre 1 y 3 ejemplos": {
+  "en": "choose between 1 and 3 examples",
+  "pt": "escolha entre 1 e 3 exemplos",
+  "fr": "choisissez entre 1 et 3 exemples",
+  "de": "wähle zwischen 1 und 3 Beispielen",
+  "it": "scegli tra 1 e 3 esempi"
+ },
+ "no encuentro los packs incluidos": {
+  "en": "I can't find the included packs",
+  "pt": "não encontro os packs incluídos",
+  "fr": "je ne trouve pas les packs inclus",
+  "de": "ich finde die mitgelieferten Packs nicht",
+  "it": "non trovo i pack inclusi"
+ },
+ "%s · Amro %s · el principal es un preset de Amro.Films Captions. Para usarlo: ponle a sus 3 clips los nombres principal, arriba y abajo (con 2 o 3 al final si es tu 2.ª o 3.ª variante).": {
+  "en": "%s · Amro %s · the main is an Amro.Films Captions preset. To use it: name its 3 clips main, above and below (with 2 or 3 at the end if it is your 2nd or 3rd variant).",
+  "pt": "%s · Amro %s · o principal é um preset do Amro.Films Captions. Para usá-lo: dê aos seus 3 clipes os nomes principal, acima e abaixo (com 2 ou 3 no final se for a sua 2.ª ou 3.ª variante).",
+  "fr": "%s · Amro %s · le principal est un preset d'Amro.Films Captions. Pour l'utiliser : donnez à ses 3 clips les noms principal, arriba et abajo (avec 2 ou 3 à la fin s'il s'agit de votre 2e ou 3e variante).",
+  "de": "%s · Amro %s · das Hauptelement ist ein Preset von Amro.Films Captions. Zur Nutzung: Benenne seine 3 Clips principal, arriba und abajo (mit 2 oder 3 am Ende, wenn es deine 2. oder 3. Variante ist).",
+  "it": "%s · Amro %s · il principale è un preset di Amro.Films Captions. Per usarlo: dai alle sue 3 clip i nomi principal, arriba e abajo (con 2 o 3 alla fine se è la tua 2ª o 3ª variante)."
+ },
+ "%s · %s · principal en %s. Para usarlo: ponle a sus 3 clips los nombres principal, arriba y abajo (con 2 o 3 al final si es tu 2.ª o 3.ª variante).": {
+  "en": "%s · %s · main in %s. To use it: name its 3 clips main, above and below (with 2 or 3 at the end if it is your 2nd or 3rd variant).",
+  "pt": "%s · %s · principal em %s. Para usá-lo: dê aos seus 3 clipes os nomes principal, acima e abaixo (com 2 ou 3 no final se for a sua 2.ª ou 3.ª variante).",
+  "fr": "%s · %s · principal en %s. Pour l'utiliser : donnez à ses 3 clips les noms principal, arriba et abajo (avec 2 ou 3 à la fin s'il s'agit de votre 2e ou 3e variante).",
+  "de": "%s · %s · Hauptelement in %s. Zur Nutzung: Benenne seine 3 Clips principal, arriba und abajo (mit 2 oder 3 am Ende, wenn es deine 2. oder 3. Variante ist).",
+  "it": "%s · %s · principale in %s. Per usarlo: dai alle sue 3 clip i nomi principal, arriba e abajo (con 2 o 3 alla fine se è la tua 2ª o 3ª variante)."
+ },
+ "falta emojis/indice.json (corre la herramienta)": {
+  "en": "emojis/indice.json is missing (run the tool)",
+  "pt": "falta emojis/indice.json (rode a ferramenta)",
+  "fr": "emojis/indice.json est manquant (lancez l'outil)",
+  "de": "emojis/indice.json fehlt (Werkzeug ausführen)",
+  "it": "manca emojis/indice.json (esegui lo strumento)"
+ },
+ "no es un emoji del catálogo: ": {
+  "en": "not an emoji from the catalog: ",
+  "pt": "não é um emoji do catálogo: ",
+  "fr": "ce n'est pas un emoji du catalogue : ",
+  "de": "kein Emoji aus dem Katalog: ",
+  "it": "non è un'emoji del catalogo: "
+ },
+ "la IA de texto se cerró": {
+  "en": "the text AI closed",
+  "pt": "a IA de texto fechou",
+  "fr": "l'IA de texte s'est fermée",
+  "de": "die Text-KI wurde beendet",
+  "it": "l'IA di testo si è chiusa"
+ },
+ "la IA de texto está desactivada en esta sesión tras fallar varias veces": {
+  "en": "the text AI is turned off for this session after failing several times",
+  "pt": "a IA de texto está desativada nesta sessão após falhar várias vezes",
+  "fr": "l'IA de texte est désactivée pour cette session après plusieurs échecs",
+  "de": "die Text-KI ist für diese Sitzung nach mehreren Fehlern deaktiviert",
+  "it": "l'IA di testo è disattivata in questa sessione dopo vari errori"
+ },
+ "La IA de texto volvió a funcionar.": {
+  "en": "The text AI works again.",
+  "pt": "A IA de texto voltou a funcionar.",
+  "fr": "L'IA de texte fonctionne de nouveau.",
+  "de": "Die Text-KI funktioniert wieder.",
+  "it": "L'IA di testo funziona di nuovo."
+ },
+ "La IA de texto (": {
+  "en": "The text AI (",
+  "pt": "A IA de texto (",
+  "fr": "L'IA de texte (",
+  "de": "Die Text-KI (",
+  "it": "L'IA di testo ("
+ },
+ "La IA de texto funcionó con el modelo ": {
+  "en": "The text AI worked with the model ",
+  "pt": "A IA de texto funcionou com o modelo ",
+  "fr": "L'IA de texte a fonctionné avec le modèle ",
+  "de": "Die Text-KI funktionierte mit dem Modell ",
+  "it": "L'IA di testo ha funzionato con il modello "
+ },
+ "La IA de texto no pudo: ": {
+  "en": "The text AI could not: ",
+  "pt": "A IA de texto não conseguiu: ",
+  "fr": "L'IA de texte n'a pas pu : ",
+  "de": "Die Text-KI konnte nicht: ",
+  "it": "L'IA di testo non ha potuto: "
+ },
+ ". Sigo con el motor de reglas (sin corrección por IA).": {
+  "en": ". Continuing with the rules engine (no AI correction).",
+  "pt": ". Sigo com o motor de regras (sem correção por IA).",
+  "fr": ". Je continue avec le moteur de règles (sans correction par IA).",
+  "de": ". Ich mache mit der Regel-Engine weiter (ohne KI-Korrektur).",
+  "it": ". Proseguo con il motore di regole (senza correzione IA)."
+ },
+ "la IA de texto se quedó sin responder ": {
+  "en": "the text AI stopped responding ",
+  "pt": "a IA de texto parou de responder ",
+  "fr": "l'IA de texte ne répond plus ",
+  "de": "die Text-KI antwortet nicht mehr ",
+  "it": "l'IA di testo non risponde più "
+ },
+ "Cargando la IA de texto (la primera vez tarda unos segundos)…": {
+  "en": "Loading the text AI (the first time takes a few seconds)…",
+  "pt": "Carregando a IA de texto (na primeira vez demora alguns segundos)…",
+  "fr": "Chargement de l'IA de texte (la première fois, cela prend quelques secondes)…",
+  "de": "Text-KI wird geladen (beim ersten Mal dauert es ein paar Sekunden)…",
+  "it": "Carico l'IA di testo (la prima volta richiede qualche secondo)…"
+ },
+ "La IA de texto falló; pruebo con el modelo ligero…": {
+  "en": "The text AI failed; trying the light model…",
+  "pt": "A IA de texto falhou; tentando o modelo leve…",
+  "fr": "L'IA de texte a échoué ; essai avec le modèle léger…",
+  "de": "Die Text-KI ist fehlgeschlagen; versuche das leichte Modell…",
+  "it": "L'IA di testo è fallita; provo con il modello leggero…"
+ },
+ "Studio (la API funciona: no hace falta el menú ni el Puente)": {
+  "en": "Studio (the API works: no menu or Bridge needed)",
+  "pt": "Studio (a API funciona: não precisa do menu nem da Ponte)",
+  "fr": "Studio (l'API fonctionne : ni menu ni Pont nécessaires)",
+  "de": "Studio (die API funktioniert: weder Menü noch Brücke nötig)",
+  "it": "Studio (l'API funziona: non servono né il menu né il Ponte)"
+ },
+ "Free (los botones necesitan el Puente corriendo en Resolve)": {
+  "en": "Free (the buttons need the Bridge running in Resolve)",
+  "pt": "Free (os botões precisam da Ponte rodando no Resolve)",
+  "fr": "Free (les boutons ont besoin du Pont en marche dans Resolve)",
+  "de": "Free (die Schaltflächen brauchen die laufende Brücke in Resolve)",
+  "it": "Free (i pulsanti richiedono il Ponte in esecuzione in Resolve)"
+ },
+ "no la sé todavía (abre Resolve y vuelve a mirar)": {
+  "en": "I don't know yet (open Resolve and look again)",
+  "pt": "ainda não sei (abra o Resolve e veja de novo)",
+  "fr": "je ne sais pas encore (ouvrez Resolve et regardez à nouveau)",
+  "de": "weiß ich noch nicht (öffne Resolve und sieh erneut nach)",
+  "it": "non lo so ancora (apri Resolve e ricontrolla)"
+ },
+ "no se pudo escribir en ninguna carpeta": {
+  "en": "could not write to any folder",
+  "pt": "não foi possível escrever em nenhuma pasta",
+  "fr": "impossible d'écrire dans aucun dossier",
+  "de": "in keinen Ordner konnte geschrieben werden",
+  "it": "impossibile scrivere in nessuna cartella"
+ },
+ "no hay (no hace falta: en Free se usan los scripts .lua, que Resolve corre con su Lua incorporado)": {
+  "en": "none (not needed: Free uses the .lua scripts, which Resolve runs with its built-in Lua)",
+  "pt": "não há (não precisa: no Free usam-se os scripts .lua, que o Resolve roda com o seu Lua embutido)",
+  "fr": "aucun (inutile : en Free on utilise les scripts .lua, que Resolve exécute avec son Lua intégré)",
+  "de": "keiner (nicht nötig: Free nutzt die .lua-Skripte, die Resolve mit seinem eingebauten Lua ausführt)",
+  "it": "nessuno (non serve: in Free si usano gli script .lua, che Resolve esegue con il suo Lua integrato)"
+ },
+ "no pude listar los procesos": {
+  "en": "couldn't list the processes",
+  "pt": "não consegui listar os processos",
+  "fr": "impossible de lister les processus",
+  "de": "Prozesse konnten nicht aufgelistet werden",
+  "it": "impossibile elencare i processi"
+ },
+ "  (Studio no usa el menú: los scripts corren por la API)": {
+  "en": "  (Studio does not use the menu: the scripts run through the API)",
+  "pt": "  (o Studio não usa o menu: os scripts rodam pela API)",
+  "fr": "  (Studio n'utilise pas le menu : les scripts s'exécutent via l'API)",
+  "de": "  (Studio nutzt das Menü nicht: die Skripte laufen über die API)",
+  "it": "  (Studio non usa il menu: gli script girano tramite API)"
+ },
+ "OJO: hay scripts DESACTUALIZADOS en Resolve (no son los que trae este programa):": {
+  "en": "WARNING: there are OUTDATED scripts in Resolve (they are not the ones this program ships):",
+  "pt": "ATENÇÃO: há scripts DESATUALIZADOS no Resolve (não são os que este programa traz):",
+  "fr": "ATTENTION : il y a des scripts PÉRIMÉS dans Resolve (ce ne sont pas ceux fournis par ce programme) :",
+  "de": "ACHTUNG: In Resolve gibt es VERALTETE Skripte (nicht die, die dieses Programm mitbringt):",
+  "it": "ATTENZIONE: ci sono script OBSOLETI in Resolve (non sono quelli forniti da questo programma):"
+ },
+ " (del programa v": {
+  "en": " (of program v",
+  "pt": " (do programa v",
+  "fr": " (du programme v",
+  "de": " (vom Programm v",
+  "it": " (del programma v"
+ },
+ "(no pude preguntarle la versión)": {
+  "en": "(couldn't ask for the version)",
+  "pt": "(não consegui perguntar a versão)",
+  "fr": "(impossible de demander la version)",
+  "de": "(Version konnte nicht abgefragt werden)",
+  "it": "(impossibile chiedere la versione)"
+ },
+ "      ^ es el Resolve de la Mac App Store: corre aislado y macOS no deja actualizarlos. Hay que instalar Resolve desde la web de Blackmagic.": {
+  "en": "      ^ this is the Mac App Store Resolve: it runs isolated and macOS does not let them be updated. Install Resolve from the Blackmagic website.",
+  "pt": "      ^ é o Resolve da Mac App Store: roda isolado e o macOS não deixa atualizá-los. É preciso instalar o Resolve a partir do site da Blackmagic.",
+  "fr": "      ^ c'est le Resolve du Mac App Store : il s'exécute isolé et macOS ne permet pas de les mettre à jour. Il faut installer Resolve depuis le site de Blackmagic.",
+  "de": "      ^ das ist das Resolve aus dem Mac App Store: Es läuft isoliert und macOS erlaubt keine Aktualisierung. Installiere Resolve von der Blackmagic-Website.",
+  "it": "      ^ è il Resolve del Mac App Store: gira isolato e macOS non permette di aggiornarli. Bisogna installare Resolve dal sito di Blackmagic."
+ },
+ "no pude crear la carpeta (": {
+  "en": "couldn't create the folder (",
+  "pt": "não consegui criar a pasta (",
+  "fr": "impossible de créer le dossier (",
+  "de": "Ordner konnte nicht erstellt werden (",
+  "it": "impossibile creare la cartella ("
+ },
+ "no pude copiar '": {
+  "en": "couldn't copy '",
+  "pt": "não consegui copiar '",
+  "fr": "impossible de copier '",
+  "de": "konnte nicht kopieren: '",
+  "it": "impossibile copiare '"
+ },
+ "No se pudo leer el identificador de esta computadora.": {
+  "en": "The identifier of this computer could not be read.",
+  "pt": "Não foi possível ler o identificador deste computador.",
+  "fr": "L'identifiant de cet ordinateur n'a pas pu être lu.",
+  "de": "Die Kennung dieses Computers konnte nicht gelesen werden.",
+  "it": "Non è stato possibile leggere l'identificativo di questo computer."
+ },
+ "motor de voz": {
+  "en": "voice engine",
+  "pt": "motor de voz",
+  "fr": "moteur vocal",
+  "de": "Spracherkennung",
+  "it": "motore vocale"
+ },
+ "Qwen3-ASR falló (": {
+  "en": "Qwen3-ASR failed (",
+  "pt": "O Qwen3-ASR falhou (",
+  "fr": "Qwen3-ASR a échoué (",
+  "de": "Qwen3-ASR ist fehlgeschlagen (",
+  "it": "Qwen3-ASR è fallito ("
+ },
+ "Qwen3-ASR volvió a funcionar.": {
+  "en": "Qwen3-ASR works again.",
+  "pt": "O Qwen3-ASR voltou a funcionar.",
+  "fr": "Qwen3-ASR fonctionne de nouveau.",
+  "de": "Qwen3-ASR funktioniert wieder.",
+  "it": "Qwen3-ASR funziona di nuovo."
+ },
+ "el motor de voz se cerró": {
+  "en": "the voice engine closed",
+  "pt": "o motor de voz fechou",
+  "fr": "le moteur vocal s'est fermé",
+  "de": "die Spracherkennung wurde beendet",
+  "it": "il motore vocale si è chiuso"
+ },
+ "el motor se quedó sin responder ": {
+  "en": "the engine stopped responding ",
+  "pt": "o motor parou de responder ",
+  "fr": "le moteur ne répond plus ",
+  "de": "die Engine antwortet nicht mehr ",
+  "it": "il motore non risponde più "
+ },
+ " s y se cerró": {
+  "en": " s and was closed",
+  "pt": " s e foi fechado",
+  "fr": " s et a été fermé",
+  "de": " s und wurde beendet",
+  "it": " s ed è stato chiuso"
+ },
+ "no devolvió ninguna palabra": {
+  "en": "returned no words",
+  "pt": "não devolveu nenhuma palavra",
+  "fr": "n'a renvoyé aucun mot",
+  "de": "hat kein Wort geliefert",
+  "it": "non ha restituito nessuna parola"
+ },
+ "el modelo habitual": {
+  "en": "the usual model",
+  "pt": "o modelo habitual",
+  "fr": "le modèle habituel",
+  "de": "das übliche Modell",
+  "it": "il modello abituale"
+ },
+ "el modelo ligero 0.6B": {
+  "en": "the light 0.6B model",
+  "pt": "o modelo leve 0.6B",
+  "fr": "le modèle léger 0.6B",
+  "de": "das leichte 0.6B-Modell",
+  "it": "il modello leggero 0.6B"
+ },
+ "el modelo ligero en CPU": {
+  "en": "the light model on CPU",
+  "pt": "o modelo leve em CPU",
+  "fr": "le modèle léger sur CPU",
+  "de": "das leichte Modell auf der CPU",
+  "it": "il modello leggero su CPU"
+ },
+ "el motor no arrancó": {
+  "en": "the engine didn't start",
+  "pt": "o motor não iniciou",
+  "fr": "le moteur n'a pas démarré",
+  "de": "die Engine ist nicht gestartet",
+  "it": "il motore non si è avviato"
+ },
+ "no se descargaron los modelos": {
+  "en": "the models weren't downloaded",
+  "pt": "os modelos não foram baixados",
+  "fr": "les modèles n'ont pas été téléchargés",
+  "de": "die Modelle wurden nicht heruntergeladen",
+  "it": "i modelli non sono stati scaricati"
+ },
+ "El motor de voz residente no pudo (": {
+  "en": "The resident voice engine could not (",
+  "pt": "O motor de voz residente não conseguiu (",
+  "fr": "Le moteur vocal résident n'a pas pu (",
+  "de": "Die residente Spracherkennung konnte nicht (",
+  "it": "Il motore vocale residente non ha potuto ("
+ },
+ "): pruebo con una pasada suelta.": {
+  "en": "): trying a single pass.",
+  "pt": "): tento uma passada avulsa.",
+  "fr": ") : j'essaie une passe isolée.",
+  "de": "): ich versuche einen einzelnen Durchlauf.",
+  "it": "): provo con un passaggio singolo."
+ },
+ " palabras en ": {
+  "en": " words in ",
+  "pt": " palavras em ",
+  "fr": " mots en ",
+  "de": " Wörter in ",
+  "it": " parole in "
+ },
+ "IA de texto: ": {
+  "en": "Text AI: ",
+  "pt": "IA de texto: ",
+  "fr": "IA de texte : ",
+  "de": "Text-KI: ",
+  "it": "IA di testo: "
+ },
+ "salió con código ": {
+  "en": "exited with code ",
+  "pt": "saiu com o código ",
+  "fr": "est sorti avec le code ",
+  "de": "wurde mit Code beendet: ",
+  "it": "è uscito con codice "
+ },
+ "Qwen3-ASR con ": {
+  "en": "Qwen3-ASR with ",
+  "pt": "Qwen3-ASR com ",
+  "fr": "Qwen3-ASR avec ",
+  "de": "Qwen3-ASR mit ",
+  "it": "Qwen3-ASR con "
+ },
+ "Qwen3-ASR funcionó con ": {
+  "en": "Qwen3-ASR worked with ",
+  "pt": "O Qwen3-ASR funcionou com ",
+  "fr": "Qwen3-ASR a fonctionné avec ",
+  "de": "Qwen3-ASR funktionierte mit ",
+  "it": "Qwen3-ASR ha funzionato con "
+ },
+ "el motor de voz se quedó sin responder ": {
+  "en": "the voice engine stopped responding ",
+  "pt": "o motor de voz parou de responder ",
+  "fr": "le moteur vocal ne répond plus ",
+  "de": "die Spracherkennung antwortet nicht mehr ",
+  "it": "il motore vocale non risponde più "
+ },
+ "Subtítulos básicos": {
+  "en": "Basic subtitles",
+  "pt": "Legendas básicas",
+  "fr": "Sous-titres de base",
+  "de": "Einfache Untertitel",
+  "it": "Sottotitoli di base"
+ },
+ "El script de Resolve no dejó nada en ": {
+  "en": "Resolve's script left nothing in ",
+  "pt": "O script do Resolve não deixou nada em ",
+  "fr": "Le script de Resolve n'a rien laissé dans ",
+  "de": "Das Resolve-Skript hat nichts hinterlassen in ",
+  "it": "Lo script di Resolve non ha lasciato nulla in "
+ },
+ ". ¿Llegó a correr?": {
+  "en": ". Did it get to run?",
+  "pt": ". Chegou a rodar?",
+  "fr": ". A-t-il pu s'exécuter ?",
+  "de": ". Wurde es überhaupt ausgeführt?",
+  "it": ". È arrivato a girare?"
+ },
+ "El script de Resolve terminó sin extraer nada.": {
+  "en": "Resolve's script finished without extracting anything.",
+  "pt": "O script do Resolve terminou sem extrair nada.",
+  "fr": "Le script de Resolve s'est terminé sans rien extraire.",
+  "de": "Das Resolve-Skript wurde beendet, ohne etwas zu extrahieren.",
+  "it": "Lo script di Resolve è terminato senza estrarre nulla."
+ },
+ "' no tiene ningun formato guardado. Vuelve a importarlo.": {
+  "en": "' has no saved format. Import it again.",
+  "pt": "' não tem nenhum formato salvo. Importe-o de novo.",
+  "fr": "' n'a aucun format enregistré. Réimportez-le.",
+  "de": "' hat kein gespeichertes Format. Importiere es erneut.",
+  "it": "' non ha nessun formato salvato. Importalo di nuovo."
+ },
+ "Resolve no dejo la miniatura del set ": {
+  "en": "Resolve didn't leave the thumbnail of set ",
+  "pt": "O Resolve não deixou a miniatura do set ",
+  "fr": "Resolve n'a pas laissé la miniature du set ",
+  "de": "Resolve hat die Miniatur des Sets nicht hinterlassen: ",
+  "it": "Resolve non ha lasciato la miniatura del set "
+ },
+ "El script no encontró ningún Text+ con los nombres del pack en ese timeline.": {
+  "en": "The script found no Text+ with the pack names on that timeline.",
+  "pt": "O script não encontrou nenhum Text+ com os nomes do pack nessa timeline.",
+  "fr": "Le script n'a trouvé aucun Text+ portant les noms du pack dans cette timeline.",
+  "de": "Das Skript hat auf dieser Timeline kein Text+ mit den Pack-Namen gefunden.",
+  "it": "Lo script non ha trovato nessun Text+ con i nomi del pack in quella timeline."
+ },
+ " estilos entran solo con sus valores (fuente, tamaño, color): de esos no se guardó el nodo entero, así que degradados y fondos no viajan.": {
+  "en": " styles come in only with their values (font, size, color): the whole node was not saved for those, so gradients and backgrounds do not travel.",
+  "pt": " estilos entram só com seus valores (fonte, tamanho, cor): desses não se salvou o nó inteiro, então degradês e fundos não viajam.",
+  "fr": " styles n'entrent qu'avec leurs valeurs (police, taille, couleur) : pour ceux-là le nœud entier n'a pas été enregistré, donc dégradés et fonds ne voyagent pas.",
+  "de": " Stile kommen nur mit ihren Werten an (Schrift, Größe, Farbe): Bei diesen wurde nicht der ganze Knoten gespeichert, Verläufe und Hintergründe werden also nicht übernommen.",
+  "it": " stili entrano solo con i loro valori (font, dimensione, colore): di questi non è stato salvato il nodo intero, quindi sfumature e sfondi non viaggiano."
+ },
+ "' no trae version ": {
+  "en": "' has no version ",
+  "pt": "' não traz a versão ",
+  "fr": "' n'a pas de version ",
+  "de": "' hat keine Version ",
+  "it": "' non ha la versione "
+ },
+ ". Los tamanos de letra no se traducen entre formatos, asi que revisa como queda. Para arreglarlo, añade tambien el timeline ": {
+  "en": ". Font sizes do not translate between formats, so check how it looks. To fix it, also add the timeline ",
+  "pt": ". Os tamanhos de letra não se traduzem entre formatos, então confira como fica. Para corrigir, adicione também a timeline ",
+  "fr": ". Les tailles de police ne se convertissent pas entre formats, donc vérifiez le rendu. Pour corriger, ajoutez aussi la timeline ",
+  "de": ". Schriftgrößen lassen sich nicht zwischen Formaten übertragen, prüfe also das Ergebnis. Zur Behebung füge auch die Timeline hinzu ",
+  "it": ". Le dimensioni del carattere non si convertono tra i formati, quindi controlla come viene. Per correggerlo, aggiungi anche la timeline "
+ },
+ "No pude leer ": {
+  "en": "Couldn't read ",
+  "pt": "Não consegui ler ",
+  "fr": "Impossible de lire ",
+  "de": "Konnte nicht lesen: ",
+  "it": "Impossibile leggere "
+ },
+ "(sin nombre)": {
+  "en": "(no name)",
+  "pt": "(sem nome)",
+  "fr": "(sans nom)",
+  "de": "(ohne Namen)",
+  "it": "(senza nome)"
+ },
+ "excepción sin atrapar": {
+  "en": "uncaught exception",
+  "pt": "exceção não tratada",
+  "fr": "exception non interceptée",
+  "de": "nicht abgefangene Ausnahme",
+  "it": "eccezione non gestita"
+ },
+ " Hay un volcado del fallo en ": {
+  "en": " There is a crash dump in ",
+  "pt": " Há um despejo da falha em ",
+  "fr": " Il y a un fichier de vidage du plantage dans ",
+  "de": " Es gibt einen Absturz-Dump in ",
+  "it": " C'è un dump del crash in "
+ },
+ "La sesión anterior NO llegó a terminar de abrir: el programa se quedó atascado (o se cerró) durante el arranque.": {
+  "en": "The previous session did NOT finish opening: the program got stuck (or closed) during startup.",
+  "pt": "A sessão anterior NÃO terminou de abrir: o programa travou (ou fechou) durante a inicialização.",
+  "fr": "La session précédente n'a PAS fini de s'ouvrir : le programme s'est bloqué (ou fermé) au démarrage.",
+  "de": "Die vorherige Sitzung wurde NICHT fertig geöffnet: Das Programm hing (oder wurde beendet) beim Start.",
+  "it": "La sessione precedente NON ha finito di aprirsi: il programma si è bloccato (o chiuso) durante l'avvio."
+ },
+ "Mira errores.log y fallo_nativo.log (carpeta DaVinciSubtitles): ahí queda dónde se quedó. Si se repite, usa «Copiar informe» en el Registro y mándalo.": {
+  "en": "Look at errores.log and fallo_nativo.log (DaVinciSubtitles folder): they show where it got stuck. If it repeats, use “Copy report” in the Log and send it.",
+  "pt": "Veja errores.log e fallo_nativo.log (pasta DaVinciSubtitles): ali fica onde travou. Se se repetir, use “Copiar relatório” no Registro e envie.",
+  "fr": "Consultez errores.log et fallo_nativo.log (dossier DaVinciSubtitles) : on y voit où il s'est bloqué. Si cela se répète, utilisez « Copier le rapport » dans le Journal et envoyez-le.",
+  "de": "Sieh dir errores.log und fallo_nativo.log an (Ordner DaVinciSubtitles): Dort steht, wo es hängen blieb. Wenn es sich wiederholt, nutze „Bericht kopieren“ im Protokoll und sende ihn.",
+  "it": "Guarda errores.log e fallo_nativo.log (cartella DaVinciSubtitles): lì rimane dove si è bloccato. Se si ripete, usa «Copia rapporto» nel Registro e invialo."
+ },
+ "macOS guardó ": {
+  "en": "macOS saved ",
+  "pt": "O macOS guardou ",
+  "fr": "macOS a enregistré ",
+  "de": "macOS hat ",
+  "it": "macOS ha salvato "
+ },
+ " informe(s) de caída reciente(s) de CineCaptions: ": {
+  "en": " recent crash report(s) of CineCaptions: ",
+  "pt": " relatório(s) de falha recente(s) do CineCaptions: ",
+  "fr": " rapport(s) de plantage récent(s) de CineCaptions : ",
+  "de": " aktuelle(n) Absturzbericht(e) von CineCaptions gespeichert: ",
+  "it": " rapporto/i di crash recente/i di CineCaptions: "
+ },
+ "ATENCIÓN: corre bajo Rosetta (la versión Intel en un Mac Apple Silicon): los modelos irán mucho más lentos.": {
+  "en": "WARNING: it runs under Rosetta (the Intel version on an Apple Silicon Mac): the models will be much slower.",
+  "pt": "ATENÇÃO: roda sob o Rosetta (a versão Intel em um Mac Apple Silicon): os modelos serão muito mais lentos.",
+  "fr": "ATTENTION : il s'exécute sous Rosetta (la version Intel sur un Mac Apple Silicon) : les modèles seront beaucoup plus lents.",
+  "de": "ACHTUNG: Läuft unter Rosetta (die Intel-Version auf einem Apple-Silicon-Mac): die Modelle werden viel langsamer sein.",
+  "it": "ATTENZIONE: gira sotto Rosetta (la versione Intel su un Mac Apple Silicon): i modelli saranno molto più lenti."
+ },
+ "GPU NVIDIA: no detectada (voz e IA irán en CPU)": {
+  "en": "NVIDIA GPU: not detected (voice and AI will run on CPU)",
+  "pt": "GPU NVIDIA: não detectada (voz e IA rodarão na CPU)",
+  "fr": "GPU NVIDIA : non détecté (voix et IA tourneront sur CPU)",
+  "de": "NVIDIA-GPU: nicht erkannt (Stimme und KI laufen auf der CPU)",
+  "it": "GPU NVIDIA: non rilevata (voce e IA girano su CPU)"
+ },
+ "excepción ignorada · ": {
+  "en": "ignored exception · ",
+  "pt": "exceção ignorada · ",
+  "fr": "exception ignorée · ",
+  "de": "ignorierte Ausnahme · ",
+  "it": "eccezione ignorata · "
+ },
+ "La sesión anterior de CineCaptions no se cerró bien (se colgó o se cayó).": {
+  "en": "The previous CineCaptions session did not close properly (it hung or crashed).",
+  "pt": "A sessão anterior do CineCaptions não fechou direito (travou ou caiu).",
+  "fr": "La session précédente de CineCaptions ne s'est pas fermée correctement (blocage ou plantage).",
+  "de": "Die vorherige CineCaptions-Sitzung wurde nicht sauber beendet (hängen geblieben oder abgestürzt).",
+  "it": "La sessione precedente di CineCaptions non si è chiusa bene (si è bloccata o è crashata)."
+ },
+ "La sesión anterior se cortó en mitad de «": {
+  "en": "The previous session was cut off in the middle of “",
+  "pt": "A sessão anterior foi cortada no meio de “",
+  "fr": "La session précédente a été coupée au milieu de « ",
+  "de": "Die vorherige Sitzung wurde mitten in „",
+  "it": "La sessione precedente si è interrotta nel mezzo di «"
+ },
+ "», en el paso «": {
+  "en": "”, at step “",
+  "pt": "”, no passo “",
+  "fr": " », à l'étape « ",
+  "de": "“ abgebrochen, bei Schritt „",
+  "it": "», al passo «"
+ },
+ "La interfaz estuvo sin responder ": {
+  "en": "The interface was unresponsive for ",
+  "pt": "A interface ficou sem responder por ",
+  "fr": "L'interface n'a pas répondu pendant ",
+  "de": "Die Oberfläche reagierte nicht für ",
+  "it": "L'interfaccia non ha risposto per "
+ },
+ "ResolveMCP no está instalado (hace falta DaVinci Resolve 21.1 o más nuevo)": {
+  "en": "ResolveMCP is not installed (DaVinci Resolve 21.1 or newer is required)",
+  "pt": "O ResolveMCP não está instalado (é preciso o DaVinci Resolve 21.1 ou mais novo)",
+  "fr": "ResolveMCP n'est pas installé (DaVinci Resolve 21.1 ou plus récent est requis)",
+  "de": "ResolveMCP ist nicht installiert (DaVinci Resolve 21.1 oder neuer ist nötig)",
+  "it": "ResolveMCP non è installato (serve DaVinci Resolve 21.1 o più recente)"
+ },
+ "Resolve está cerrado": {
+  "en": "Resolve is closed",
+  "pt": "O Resolve está fechado",
+  "fr": "Resolve est fermé",
+  "de": "Resolve ist geschlossen",
+  "it": "Resolve è chiuso"
+ },
+ "sin conexión MCP": {
+  "en": "no MCP connection",
+  "pt": "sem conexão MCP",
+  "fr": "pas de connexion MCP",
+  "de": "keine MCP-Verbindung",
+  "it": "nessuna connessione MCP"
+ },
+ "Resolve no pudo importar el archivo": {
+  "en": "Resolve couldn't import the file",
+  "pt": "O Resolve não conseguiu importar o arquivo",
+  "fr": "Resolve n'a pas pu importer le fichier",
+  "de": "Resolve konnte die Datei nicht importieren",
+  "it": "Resolve non è riuscito a importare il file"
+ },
+ "Resolve no pudo crear el timeline": {
+  "en": "Resolve couldn't create the timeline",
+  "pt": "O Resolve não conseguiu criar a timeline",
+  "fr": "Resolve n'a pas pu créer la timeline",
+  "de": "Resolve konnte die Timeline nicht erstellen",
+  "it": "Resolve non è riuscito a creare la timeline"
+ },
+ "ResolveMCP se cerró": {
+  "en": "ResolveMCP closed",
+  "pt": "O ResolveMCP fechou",
+  "fr": "ResolveMCP s'est fermé",
+  "de": "ResolveMCP wurde beendet",
+  "it": "ResolveMCP si è chiuso"
+ },
+ "Resolve no pudo con un script: ": {
+  "en": "Resolve couldn't run a script: ",
+  "pt": "O Resolve não conseguiu executar um script: ",
+  "fr": "Resolve n'a pas pu exécuter un script : ",
+  "de": "Resolve konnte ein Skript nicht ausführen: ",
+  "it": "Resolve non è riuscito a eseguire uno script: "
+ },
+ "No encuentro el script en ": {
+  "en": "I can't find the script at ",
+  "pt": "Não encontro o script em ",
+  "fr": "Je ne trouve pas le script dans ",
+  "de": "Ich finde das Skript nicht in ",
+  "it": "Non trovo lo script in "
+ },
+ "Resolve no terminó en ": {
+  "en": "Resolve didn't finish in ",
+  "pt": "O Resolve não terminou em ",
+  "fr": "Resolve n'a pas terminé en ",
+  "de": "Resolve wurde nicht fertig in ",
+  "it": "Resolve non ha finito in "
+ },
+ " segundos (el trabajo puede seguir dentro de Resolve).": {
+  "en": " seconds (the work may continue inside Resolve).",
+  "pt": " segundos (o trabalho pode continuar dentro do Resolve).",
+  "fr": " secondes (le travail peut continuer dans Resolve).",
+  "de": " Sekunden (die Arbeit kann in Resolve weiterlaufen).",
+  "it": " secondi (il lavoro può continuare dentro Resolve)."
+ },
+ "Resolve no contestó": {
+  "en": "Resolve didn't answer",
+  "pt": "O Resolve não respondeu",
+  "fr": "Resolve n'a pas répondu",
+  "de": "Resolve hat nicht geantwortet",
+  "it": "Resolve non ha risposto"
+ },
+ "ResolveMCP no contestó a ": {
+  "en": "ResolveMCP didn't answer ",
+  "pt": "O ResolveMCP não respondeu a ",
+  "fr": "ResolveMCP n'a pas répondu à ",
+  "de": "ResolveMCP hat nicht geantwortet auf ",
+  "it": "ResolveMCP non ha risposto a "
+ },
+ "ResolveMCP no arrancó: ": {
+  "en": "ResolveMCP didn't start: ",
+  "pt": "O ResolveMCP não iniciou: ",
+  "fr": "ResolveMCP n'a pas démarré : ",
+  "de": "ResolveMCP ist nicht gestartet: ",
+  "it": "ResolveMCP non si è avviato: "
+ },
+ "Resolve se reinició mientras trabajaba": {
+  "en": "Resolve restarted while working",
+  "pt": "O Resolve reiniciou enquanto trabalhava",
+  "fr": "Resolve a redémarré pendant le travail",
+  "de": "Resolve wurde während der Arbeit neu gestartet",
+  "it": "Resolve si è riavviato mentre lavorava"
+ },
+ "no encontrado": {
+  "en": "not found",
+  "pt": "não encontrado",
+  "fr": "introuvable",
+  "de": "nicht gefunden",
+  "it": "non trovato"
+ },
+ "  sin conexión: ": {
+  "en": "  no connection: ",
+  "pt": "  sem conexão: ",
+  "fr": "  pas de connexion : ",
+  "de": "  keine Verbindung: ",
+  "it": "  nessuna connessione: "
+ },
+ "  latencia de una orden: ": {
+  "en": "  latency of one command: ",
+  "pt": "  latência de uma ordem: ",
+  "fr": "  latence d'une commande : ",
+  "de": "  Latenz eines Befehls: ",
+  "it": "  latenza di un comando: "
+ },
+ "MCP de DaVinci Resolve": {
+  "en": "DaVinci Resolve MCP",
+  "pt": "MCP do DaVinci Resolve",
+  "fr": "MCP de DaVinci Resolve",
+  "de": "DaVinci-Resolve-MCP",
+  "it": "MCP di DaVinci Resolve"
+ },
+ " · IA de texto ": {
+  "en": " · text AI ",
+  "pt": " · IA de texto ",
+  "fr": " · IA de texte ",
+  "de": " · Text-KI ",
+  "it": " · IA di testo "
+ },
+ "faltan modelos: Ajustes > General > Motor de voz > Reparar": {
+  "en": "models missing: Settings > General > Voice engine > Repair",
+  "pt": "faltam modelos: Ajustes > Geral > Motor de voz > Reparar",
+  "fr": "modèles manquants : Réglages > Général > Moteur vocal > Réparer",
+  "de": "Modelle fehlen: Einstellungen > Allgemein > Spracherkennung > Reparieren",
+  "it": "mancano modelli: Impostazioni > Generale > Motore vocale > Ripara"
+ },
+ "Motor de IA (Qwen3)": {
+  "en": "AI engine (Qwen3)",
+  "pt": "Motor de IA (Qwen3)",
+  "fr": "Moteur IA (Qwen3)",
+  "de": "KI-Engine (Qwen3)",
+  "it": "Motore IA (Qwen3)"
+ },
+ "no instalado (se usa Whisper)": {
+  "en": "not installed (Whisper is used)",
+  "pt": "não instalado (usa-se Whisper)",
+  "fr": "non installé (Whisper est utilisé)",
+  "de": "nicht installiert (Whisper wird verwendet)",
+  "it": "non installato (si usa Whisper)"
+ },
+ "hace falta DaVinci Resolve 21.1 o más nuevo": {
+  "en": "DaVinci Resolve 21.1 or newer is required",
+  "pt": "é preciso o DaVinci Resolve 21.1 ou mais novo",
+  "fr": "DaVinci Resolve 21.1 ou plus récent est requis",
+  "de": "DaVinci Resolve 21.1 oder neuer ist nötig",
+  "it": "serve DaVinci Resolve 21.1 o più recente"
+ },
+ "Modo simple · Introducción": {
+  "en": "Simple mode · Introduction",
+  "pt": "Modo simples · Introdução",
+  "fr": "Mode simple · Introduction",
+  "de": "Einfacher Modus · Einführung",
+  "it": "Modalità semplice · Introduzione"
+ },
+ "Arranque del video.": {
+  "en": "Start of the video.",
+  "pt": "Início do vídeo.",
+  "fr": "Début de la vidéo.",
+  "de": "Anfang des Videos.",
+  "it": "Inizio del video."
+ },
+ "Suena en la PRIMERA palabra del video: un whoosh que abre. Solo una vez.": {
+  "en": "Plays on the FIRST word of the video: an opening whoosh. Only once.",
+  "pt": "Toca na PRIMEIRA palavra do vídeo: um whoosh que abre. Só uma vez.",
+  "fr": "Se joue sur le PREMIER mot de la vidéo : un whoosh d'ouverture. Une seule fois.",
+  "de": "Spielt beim ERSTEN Wort des Videos: ein eröffnendes Whoosh. Nur einmal.",
+  "it": "Suona sulla PRIMA parola del video: un whoosh di apertura. Solo una volta."
+ },
+ "Última palabra": {
+  "en": "Last word",
+  "pt": "Última palavra",
+  "fr": "Dernier mot",
+  "de": "Letztes Wort",
+  "it": "Ultima parola"
+ },
+ "Cierre del video.": {
+  "en": "End of the video.",
+  "pt": "Fim do vídeo.",
+  "fr": "Fin de la vidéo.",
+  "de": "Ende des Videos.",
+  "it": "Fine del video."
+ },
+ "Suena en la ÚLTIMA palabra del video: baja la energía para cerrar. Solo una vez.": {
+  "en": "Plays on the LAST word of the video: the energy drops to close. Only once.",
+  "pt": "Toca na ÚLTIMA palavra do vídeo: a energia cai para fechar. Só uma vez.",
+  "fr": "Se joue sur le DERNIER mot de la vidéo : l'énergie baisse pour conclure. Une seule fois.",
+  "de": "Spielt beim LETZTEN Wort des Videos: Die Energie sinkt zum Abschluss. Nur einmal.",
+  "it": "Suona sull'ULTIMA parola del video: l'energia cala per chiudere. Solo una volta."
+ },
+ "Palabra que cierra una pregunta (?)": {
+  "en": "Word that ends a question (?)",
+  "pt": "Palavra que fecha uma pergunta (?)",
+  "fr": "Mot qui termine une question (?)",
+  "de": "Wort, das eine Frage beendet (?)",
+  "it": "Parola che chiude una domanda (?)"
+ },
+ "La palabra que termina en «?».": {
+  "en": "The word that ends in “?”.",
+  "pt": "A palavra que termina em “?”.",
+  "fr": "Le mot qui se termine par « ? ».",
+  "de": "Das Wort, das auf „?“ endet.",
+  "it": "La parola che termina con «?»."
+ },
+ "Suena en cada palabra que termina en «?»: el riser levanta la tensión justo antes de la respuesta.": {
+  "en": "Plays on every word that ends in “?”: the riser lifts the tension right before the answer.",
+  "pt": "Toca em cada palavra que termina em “?”: o riser levanta a tensão logo antes da resposta.",
+  "fr": "Se joue sur chaque mot qui se termine par « ? » : le riser monte la tension juste avant la réponse.",
+  "de": "Spielt bei jedem Wort, das auf „?“ endet: Der Riser erhöht die Spannung kurz vor der Antwort.",
+  "it": "Suona su ogni parola che termina con «?»: il riser alza la tensione appena prima della risposta."
+ },
+ "Palabra que cierra una exclamación (!)": {
+  "en": "Word that ends an exclamation (!)",
+  "pt": "Palavra que fecha uma exclamação (!)",
+  "fr": "Mot qui termine une exclamation (!)",
+  "de": "Wort, das einen Ausruf beendet (!)",
+  "it": "Parola che chiude un'esclamazione (!)"
+ },
+ "La palabra que termina en «!».": {
+  "en": "The word that ends in “!”.",
+  "pt": "A palavra que termina em “!”.",
+  "fr": "Le mot qui se termine par « ! ».",
+  "de": "Das Wort, das auf „!“ endet.",
+  "it": "La parola che termina con «!»."
+ },
+ "Suena en cada palabra que termina en «!»: un impacto seco que subraya la emoción.": {
+  "en": "Plays on every word that ends in “!”: a dry impact that underlines the emotion.",
+  "pt": "Toca em cada palavra que termina em “!”: um impacto seco que sublinha a emoção.",
+  "fr": "Se joue sur chaque mot qui se termine par « ! » : un impact sec qui souligne l'émotion.",
+  "de": "Spielt bei jedem Wort, das auf „!“ endet: ein trockener Impact, der die Emotion unterstreicht.",
+  "it": "Suona su ogni parola che termina con «!»: un impatto secco che sottolinea l'emozione."
+ },
+ "Palabra en MAYÚSCULAS": {
+  "en": "Word in CAPITALS",
+  "pt": "Palavra em MAIÚSCULAS",
+  "fr": "Mot en MAJUSCULES",
+  "de": "Wort in GROSSBUCHSTABEN",
+  "it": "Parola in MAIUSCOLO"
+ },
+ "Palabras escritas en mayúsculas.": {
+  "en": "Words written in capitals.",
+  "pt": "Palavras escritas em maiúsculas.",
+  "fr": "Mots écrits en majuscules.",
+  "de": "In Großbuchstaben geschriebene Wörter.",
+  "it": "Parole scritte in maiuscolo."
+ },
+ "Suena en cada palabra escrita en MAYÚSCULAS (de 2 letras o más): las que gritas o quieres destacar.": {
+  "en": "Plays on every word written in CAPITALS (2 letters or more): the ones you shout or want to highlight.",
+  "pt": "Toca em cada palavra escrita em MAIÚSCULAS (de 2 letras ou mais): as que você grita ou quer destacar.",
+  "fr": "Se joue sur chaque mot écrit en MAJUSCULES (2 lettres ou plus) : ceux que vous criez ou voulez mettre en valeur.",
+  "de": "Spielt bei jedem in GROSSBUCHSTABEN geschriebenen Wort (ab 2 Buchstaben): die, die du rufst oder hervorheben willst.",
+  "it": "Suona su ogni parola scritta in MAIUSCOLO (da 2 lettere in su): quelle che gridi o vuoi evidenziare."
+ },
+ "Cifras y precios": {
+  "en": "Figures and prices",
+  "pt": "Cifras e preços",
+  "fr": "Chiffres et prix",
+  "de": "Zahlen und Preise",
+  "it": "Cifre e prezzi"
+ },
+ "Palabras con números.": {
+  "en": "Words with numbers.",
+  "pt": "Palavras com números.",
+  "fr": "Mots contenant des nombres.",
+  "de": "Wörter mit Zahlen.",
+  "it": "Parole con numeri."
+ },
+ "Suena en cada palabra que lleva un número (precios, años, porcentajes): el golpe grave subraya el dato.": {
+  "en": "Plays on every word that has a number (prices, years, percentages): the low hit underlines the figure.",
+  "pt": "Toca em cada palavra que leva um número (preços, anos, porcentagens): o golpe grave sublinha o dado.",
+  "fr": "Se joue sur chaque mot contenant un nombre (prix, années, pourcentages) : le coup grave souligne la donnée.",
+  "de": "Spielt bei jedem Wort mit einer Zahl (Preise, Jahre, Prozentzahlen): der tiefe Schlag unterstreicht die Angabe.",
+  "it": "Suona su ogni parola con un numero (prezzi, anni, percentuali): il colpo grave sottolinea il dato."
+ },
+ "Tras una pausa larga (> 1,2 s)": {
+  "en": "After a long pause (> 1.2 s)",
+  "pt": "Depois de uma pausa longa (> 1,2 s)",
+  "fr": "Après une longue pause (> 1,2 s)",
+  "de": "Nach einer langen Pause (> 1,2 s)",
+  "it": "Dopo una pausa lunga (> 1,2 s)"
+ },
+ "Primera palabra después de un silencio largo.": {
+  "en": "First word after a long silence.",
+  "pt": "Primeira palavra depois de um silêncio longo.",
+  "fr": "Premier mot après un long silence.",
+  "de": "Erstes Wort nach einer langen Stille.",
+  "it": "Prima parola dopo un lungo silenzio."
+ },
+ "Suena en la palabra que llega después de más de 1,2 s de silencio: marca un cambio brusco de tema.": {
+  "en": "Plays on the word that arrives after more than 1.2 s of silence: it marks an abrupt change of topic.",
+  "pt": "Toca na palavra que chega depois de mais de 1,2 s de silêncio: marca uma mudança brusca de assunto.",
+  "fr": "Se joue sur le mot qui arrive après plus de 1,2 s de silence : il marque un changement brusque de sujet.",
+  "de": "Spielt bei dem Wort, das nach mehr als 1,2 s Stille kommt: markiert einen abrupten Themenwechsel.",
+  "it": "Suona sulla parola che arriva dopo più di 1,2 s di silenzio: segna un cambio brusco di argomento."
+ },
+ "Tras una pausa media (> 0,6 s)": {
+  "en": "After a medium pause (> 0.6 s)",
+  "pt": "Depois de uma pausa média (> 0,6 s)",
+  "fr": "Après une pause moyenne (> 0,6 s)",
+  "de": "Nach einer mittleren Pause (> 0,6 s)",
+  "it": "Dopo una pausa media (> 0,6 s)"
+ },
+ "Primera palabra después de un respiro.": {
+  "en": "First word after a breath.",
+  "pt": "Primeira palavra depois de uma respirada.",
+  "fr": "Premier mot après une respiration.",
+  "de": "Erstes Wort nach einem Atemzug.",
+  "it": "Prima parola dopo un respiro."
+ },
+ "Suena en la palabra que llega después de más de 0,6 s de silencio: un cambio de tema suave. Gana la pausa larga si está encendida.": {
+  "en": "Plays on the word that arrives after more than 0.6 s of silence: a soft change of topic. The long pause wins if it is on.",
+  "pt": "Toca na palavra que chega depois de mais de 0,6 s de silêncio: uma mudança suave de assunto. A pausa longa ganha se estiver ligada.",
+  "fr": "Se joue sur le mot qui arrive après plus de 0,6 s de silence : un changement de sujet en douceur. La longue pause l'emporte si elle est activée.",
+  "de": "Spielt bei dem Wort, das nach mehr als 0,6 s Stille kommt: ein sanfter Themenwechsel. Die lange Pause gewinnt, wenn sie eingeschaltet ist.",
+  "it": "Suona sulla parola che arriva dopo più di 0,6 s di silenzio: un cambio di argomento morbido. Vince la pausa lunga se è attiva."
+ },
+ "Palabra que va sola": {
+  "en": "Word that stands alone",
+  "pt": "Palavra que vai sozinha",
+  "fr": "Mot qui est seul",
+  "de": "Wort, das allein steht",
+  "it": "Parola che sta da sola"
+ },
+ "Bloques de una sola palabra.": {
+  "en": "Single-word blocks.",
+  "pt": "Blocos de uma só palavra.",
+  "fr": "Blocs d'un seul mot.",
+  "de": "Blöcke mit nur einem Wort.",
+  "it": "Blocchi di una sola parola."
+ },
+ "Suena en las palabras que forman un bloque ellas solas en pantalla.": {
+  "en": "Plays on the words that form a block by themselves on screen.",
+  "pt": "Toca nas palavras que formam um bloco sozinhas na tela.",
+  "fr": "Se joue sur les mots qui forment un bloc à eux seuls à l'écran.",
+  "de": "Spielt bei Wörtern, die allein einen Block auf dem Bildschirm bilden.",
+  "it": "Suona sulle parole che formano un blocco da sole sullo schermo."
+ },
+ "Inicio de un bloque largo (≥ 7 palabras)": {
+  "en": "Start of a long block (≥ 7 words)",
+  "pt": "Início de um bloco longo (≥ 7 palavras)",
+  "fr": "Début d'un long bloc (≥ 7 mots)",
+  "de": "Beginn eines langen Blocks (≥ 7 Wörter)",
+  "it": "Inizio di un blocco lungo (≥ 7 parole)"
+ },
+ "Primera palabra de las frases largas.": {
+  "en": "First word of long sentences.",
+  "pt": "Primeira palavra das frases longas.",
+  "fr": "Premier mot des longues phrases.",
+  "de": "Erstes Wort langer Sätze.",
+  "it": "Prima parola delle frasi lunghe."
+ },
+ "Suena en la primera palabra de un bloque con 7 palabras o más: avisa que viene una frase larga.": {
+  "en": "Plays on the first word of a block with 7 words or more: it warns that a long sentence is coming.",
+  "pt": "Toca na primeira palavra de um bloco com 7 palavras ou mais: avisa que vem uma frase longa.",
+  "fr": "Se joue sur le premier mot d'un bloc de 7 mots ou plus : il avertit qu'une longue phrase arrive.",
+  "de": "Spielt beim ersten Wort eines Blocks mit 7 oder mehr Wörtern: kündigt einen langen Satz an.",
+  "it": "Suona sulla prima parola di un blocco con 7 parole o più: avvisa che arriva una frase lunga."
+ },
+ "Un golpe de ritmo cada 5 palabras.": {
+  "en": "A rhythm hit every 5 words.",
+  "pt": "Um golpe de ritmo a cada 5 palavras.",
+  "fr": "Un coup de rythme tous les 5 mots.",
+  "de": "Ein Rhythmusschlag alle 5 Wörter.",
+  "it": "Un colpo di ritmo ogni 5 parole."
+ },
+ "Suena en una de cada 5 palabras, de forma regular: marca el ritmo aunque no pase nada especial.": {
+  "en": "Plays on one in every 5 words, regularly: it marks the rhythm even when nothing special happens.",
+  "pt": "Toca em uma a cada 5 palavras, de forma regular: marca o ritmo mesmo que nada especial aconteça.",
+  "fr": "Se joue sur un mot sur 5, régulièrement : il marque le rythme même quand rien de spécial ne se passe.",
+  "de": "Spielt bei jedem 5. Wort, regelmäßig: gibt den Rhythmus vor, auch wenn nichts Besonderes passiert.",
+  "it": "Suona su una parola ogni 5, in modo regolare: segna il ritmo anche se non succede niente di speciale."
+ },
+ "Palabra principal de un bloque de 3 líneas": {
+  "en": "Main word of a 3-line block",
+  "pt": "Palavra principal de um bloco de 3 linhas",
+  "fr": "Mot principal d'un bloc de 3 lignes",
+  "de": "Hauptwort eines 3-Zeilen-Blocks",
+  "it": "Parola principale di un blocco da 3 righe"
+ },
+ "La palabra clave de los bloques completos.": {
+  "en": "The key word of the full blocks.",
+  "pt": "A palavra-chave dos blocos completos.",
+  "fr": "Le mot clé des blocs complets.",
+  "de": "Das Schlüsselwort der vollständigen Blöcke.",
+  "it": "La parola chiave dei blocchi completi."
+ },
+ "Suena en la palabra PRINCIPAL (la que va grande) de los bloques que traen las tres líneas: arriba, principal y abajo.": {
+  "en": "Plays on the MAIN word (the big one) of blocks that carry all three lines: above, main and below.",
+  "pt": "Toca na palavra PRINCIPAL (a que vai grande) dos blocos que trazem as três linhas: acima, principal e abaixo.",
+  "fr": "Se joue sur le mot PRINCIPAL (le grand) des blocs qui ont les trois lignes : dessus, principal et dessous.",
+  "de": "Spielt beim HAUPTwort (dem großen) der Blöcke mit allen drei Zeilen: oben, Haupt und unten.",
+  "it": "Suona sulla parola PRINCIPALE (quella grande) dei blocchi che hanno tutte e tre le righe: sopra, principale e sotto."
+ },
+ "Al inicio de cada palabra": {
+  "en": "At the start of every word",
+  "pt": "No início de cada palavra",
+  "fr": "Au début de chaque mot",
+  "de": "Am Anfang jedes Wortes",
+  "it": "All'inizio di ogni parola"
+ },
+ "Suena en cada palabra. Los dos sonidos se alternan; si se pisan, pasan a otra pista.": {
+  "en": "Plays on every word. The two sounds alternate; if they overlap, they move to another track.",
+  "pt": "Toca em cada palavra. Os dois sons se alternam; se se sobrepõem, passam para outra faixa.",
+  "fr": "Se joue sur chaque mot. Les deux sons alternent ; s'ils se chevauchent, ils passent sur une autre piste.",
+  "de": "Spielt bei jedem Wort. Die zwei Sounds wechseln sich ab; überlappen sie, wandern sie auf eine andere Spur.",
+  "it": "Suona su ogni parola. I due suoni si alternano; se si sovrappongono, passano a un'altra traccia."
+ },
+ "Un riser sube la tensión en el primer bloque del video. Cámbialo o agrega otro.": {
+  "en": "A riser builds tension in the first block of the video. Change it or add another.",
+  "pt": "Um riser aumenta a tensão no primeiro bloco do vídeo. Troque-o ou adicione outro.",
+  "fr": "Un riser monte la tension dans le premier bloc de la vidéo. Changez-le ou ajoutez-en un autre.",
+  "de": "Ein Riser baut im ersten Block des Videos Spannung auf. Ändere ihn oder füge einen weiteren hinzu.",
+  "it": "Un riser aumenta la tensione nel primo blocco del video. Cambialo o aggiungine un altro."
+ },
+ "Un boom cierra el video en el último bloque. Elige al azar entre los dos.": {
+  "en": "A boom closes the video in the last block. It picks at random between the two.",
+  "pt": "Um boom fecha o vídeo no último bloco. Escolhe ao acaso entre os dois.",
+  "fr": "Un boom conclut la vidéo dans le dernier bloc. Il choisit au hasard entre les deux.",
+  "de": "Ein Boom beendet das Video im letzten Block. Er wählt zufällig zwischen den beiden.",
+  "it": "Un boom chiude il video nell'ultimo blocco. Sceglie a caso tra i due."
+ },
+ "SFX Modificado por CineCaptions": {
+  "en": "SFX Modified by CineCaptions",
+  "pt": "SFX Modificado pelo CineCaptions",
+  "fr": "SFX modifié par CineCaptions",
+  "de": "SFX von CineCaptions geändert",
+  "it": "SFX modificato da CineCaptions"
+ },
+ "Suena al inicio de CADA palabra, alternando los dos sonidos de abajo. Si dos caen juntos, el segundo pasa a otra pista (SFX 2, SFX 3…) para que no se pisen.": {
+  "en": "Plays at the start of EVERY word, alternating the two sounds below. If two fall together, the second moves to another track (SFX 2, SFX 3…) so they do not overlap.",
+  "pt": "Toca no início de CADA palavra, alternando os dois sons abaixo. Se dois caem juntos, o segundo passa para outra faixa (SFX 2, SFX 3…) para não se sobreporem.",
+  "fr": "Se joue au début de CHAQUE mot, en alternant les deux sons ci-dessous. Si deux tombent ensemble, le second passe sur une autre piste (SFX 2, SFX 3…) pour qu'ils ne se chevauchent pas.",
+  "de": "Spielt am Anfang JEDES Wortes und wechselt zwischen den zwei Sounds unten ab. Fallen zwei zusammen, wandert der zweite auf eine andere Spur (SFX 2, SFX 3…), damit sie sich nicht überlappen.",
+  "it": "Suona all'inizio di OGNI parola, alternando i due suoni qui sotto. Se due cadono insieme, il secondo passa a un'altra traccia (SFX 2, SFX 3…) per non sovrapporsi."
+ },
+ "Suena UNA vez, en la primera palabra del video (un riser que abre). Si hay dos sonidos, se usa el primero.": {
+  "en": "Plays ONCE, on the first word of the video (an opening riser). If there are two sounds, the first is used.",
+  "pt": "Toca UMA vez, na primeira palavra do vídeo (um riser que abre). Se houver dois sons, usa-se o primeiro.",
+  "fr": "Se joue UNE fois, sur le premier mot de la vidéo (un riser d'ouverture). S'il y a deux sons, le premier est utilisé.",
+  "de": "Spielt EINMAL, beim ersten Wort des Videos (ein eröffnender Riser). Gibt es zwei Sounds, wird der erste verwendet.",
+  "it": "Suona UNA volta, sulla prima parola del video (un riser di apertura). Se ci sono due suoni, si usa il primo."
+ },
+ "Suena UNA vez, en la última palabra del video (un golpe que cierra). Si hay dos sonidos, se usa el primero.": {
+  "en": "Plays ONCE, on the last word of the video (a closing hit). If there are two sounds, the first is used.",
+  "pt": "Toca UMA vez, na última palavra do vídeo (um golpe que fecha). Se houver dois sons, usa-se o primeiro.",
+  "fr": "Se joue UNE fois, sur le dernier mot de la vidéo (un coup de clôture). S'il y a deux sons, le premier est utilisé.",
+  "de": "Spielt EINMAL, beim letzten Wort des Videos (ein abschließender Schlag). Gibt es zwei Sounds, wird der erste verwendet.",
+  "it": "Suona UNA volta, sull'ultima parola del video (un colpo di chiusura). Se ci sono due suoni, si usa il primo."
+ },
+ "Whisper no devolvió palabras. ¿El archivo tiene audio con voz?": {
+  "en": "Whisper returned no words. Does the file have audio with speech?",
+  "pt": "O Whisper não devolveu palavras. O arquivo tem áudio com voz?",
+  "fr": "Whisper n'a renvoyé aucun mot. Le fichier contient-il de l'audio avec de la voix ?",
+  "de": "Whisper hat keine Wörter geliefert. Enthält die Datei Ton mit Sprache?",
+  "it": "Whisper non ha restituito parole. Il file ha audio con voce?"
+ },
+ "no devolvió": {
+  "en": "returned nothing",
+  "pt": "não devolveu",
+  "fr": "n'a rien renvoyé",
+  "de": "hat nichts geliefert",
+  "it": "non ha restituito"
+ },
+ "no está descargado": {
+  "en": "is not downloaded",
+  "pt": "não está baixado",
+  "fr": "n'est pas téléchargé",
+  "de": "ist nicht heruntergeladen",
+  "it": "non è scaricato"
+ },
+ "La GPU (CUDA) falló en la transcripción: ": {
+  "en": "The GPU (CUDA) failed during transcription: ",
+  "pt": "A GPU (CUDA) falhou na transcrição: ",
+  "fr": "Le GPU (CUDA) a échoué pendant la transcription : ",
+  "de": "Die GPU (CUDA) ist bei der Transkription ausgefallen: ",
+  "it": "La GPU (CUDA) è fallita durante la trascrizione: "
+ },
+ ". Cambio automáticamente a la CPU (más lenta).": {
+  "en": ". Switching to the CPU automatically (slower).",
+  "pt": ". Mudo automaticamente para a CPU (mais lenta).",
+  "fr": ". Passage automatique au CPU (plus lent).",
+  "de": ". Wechsle automatisch zur CPU (langsamer).",
+  "it": ". Passo automaticamente alla CPU (più lenta)."
+ },
+ "' no pudo con la transcripción: ": {
+  "en": "' could not handle the transcription: ",
+  "pt": "' não conseguiu com a transcrição: ",
+  "fr": "' n'a pas pu faire la transcription : ",
+  "de": "' kam mit der Transkription nicht zurecht: ",
+  "it": "' non ce l'ha fatta con la trascrizione: "
+ },
+ ". Pruebo con un modelo más pequeño.": {
+  "en": ". Trying a smaller model.",
+  "pt": ". Tento com um modelo menor.",
+  "fr": ". Essai avec un modèle plus petit.",
+  "de": ". Ich versuche ein kleineres Modell.",
+  "it": ". Provo con un modello più piccolo."
+ },
+ " en el paso «": {
+  "en": " at step “",
+  "pt": " no passo “",
+  "fr": " à l'étape « ",
+  "de": " bei Schritt „",
+  "it": " al passo «"
+ },
+ " sin dar señales": {
+  "en": " without signals",
+  "pt": " sem dar sinais",
+  "fr": " sans signal",
+  "de": " ohne Lebenszeichen",
+  "it": " senza segnali"
+ },
+ " sin avanzar). Intento destrabarlo; mira el Registro.": {
+  "en": " without progress). Trying to unblock it; check the Log.",
+  "pt": " sem avançar). Tento destravar; veja o Registro.",
+  "fr": " sans avancer). J'essaie de le débloquer ; consultez le Journal.",
+  "de": " ohne Fortschritt). Ich versuche es zu lösen; sieh im Protokoll nach.",
+  "it": " senza avanzare). Provo a sbloccarlo; guarda il Registro."
+ },
+ "» volvió a responder tras ": {
+  "en": "” responded again after ",
+  "pt": "” voltou a responder após ",
+  "fr": " » a répondu de nouveau après ",
+  "de": "“ antwortete wieder nach ",
+  "it": "» ha risposto di nuovo dopo "
+ },
+ "sin señales durante ": {
+  "en": "no signals for ",
+  "pt": "sem sinais por ",
+  "fr": "aucun signal pendant ",
+  "de": "keine Lebenszeichen seit ",
+  "it": "nessun segnale per "
+ },
+ "; se deja de vigilar": {
+  "en": "; no longer watching",
+  "pt": "; deixa-se de vigiar",
+  "fr": "; surveillance arrêtée",
+  "de": "; wird nicht mehr überwacht",
+  "it": "; si smette di sorvegliare"
+ },
+ " sin avanzar": {
+  "en": " without progress",
+  "pt": " sem avançar",
+  "fr": " sans avancer",
+  "de": " ohne Fortschritt",
+  "it": " senza avanzare"
+ },
+ "Esto está tardando más de lo normal": {
+  "en": "This is taking longer than usual",
+  "pt": "Isto está demorando mais que o normal",
+  "fr": "Cela prend plus de temps que d'habitude",
+  "de": "Das dauert länger als üblich",
+  "it": "Sta impiegando più del solito"
+ },
+ "El arranque terminó tras ": {
+  "en": "Startup finished after ",
+  "pt": "A inicialização terminou após ",
+  "fr": "Le démarrage s'est terminé après ",
+  "de": "Start abgeschlossen nach ",
+  "it": "L'avvio è terminato dopo "
+ },
+ "Arranque completo en ": {
+  "en": "Startup complete in ",
+  "pt": "Inicialização completa em ",
+  "fr": "Démarrage complet en ",
+  "de": "Start abgeschlossen in ",
+  "it": "Avvio completo in "
+ },
+ "El programa lleva ": {
+  "en": "The program has been ",
+  "pt": "O programa está há ",
+  "fr": "Le programme est ouvert depuis ",
+  "de": "Das Programm ist seit ",
+  "it": "Il programma è da "
+ },
+ " abriendo y no termina: algo se quedó esperando.": {
+  "en": " opening and does not finish: something got stuck waiting.",
+  "pt": " abrindo e não termina: algo ficou esperando.",
+  "fr": " en cours d'ouverture sans terminer : quelque chose attend.",
+  "de": " am Öffnen und wird nicht fertig: Etwas wartet fest.",
+  "it": " in apertura e non finisce: qualcosa è rimasto in attesa."
+ },
+ "Falla al iniciar: ": {
+  "en": "Startup failure: ",
+  "pt": "Falha ao iniciar: ",
+  "fr": "Échec au démarrage : ",
+  "de": "Fehler beim Start: ",
+  "it": "Errore all'avvio: "
+ },
+ "Chequeo de arranque: todo en orden (": {
+  "en": "Startup check: all good (",
+  "pt": "Verificação de inicialização: tudo certo (",
+  "fr": "Contrôle au démarrage : tout est en ordre (",
+  "de": "Startprüfung: alles in Ordnung (",
+  "it": "Controllo all'avvio: tutto a posto ("
+ },
+ "» sigue sin responder tras ": {
+  "en": "” still not responding after ",
+  "pt": "” continua sem responder após ",
+  "fr": " » ne répond toujours pas après ",
+  "de": "“ antwortet weiterhin nicht, auch nach ",
+  "it": "» continua a non rispondere dopo "
+ },
+ " GB libres en el disco: los renders, los modelos y el registro pueden fallar.": {
+  "en": " GB free on the disk: renders, models and the log may fail.",
+  "pt": " GB livres no disco: renders, modelos e o registro podem falhar.",
+  "fr": " Go libres sur le disque : les rendus, les modèles et le journal peuvent échouer.",
+  "de": " GB frei auf der Festplatte: Renderings, Modelle und das Protokoll können fehlschlagen.",
+  "it": " GB liberi sul disco: render, modelli e registro possono fallire."
+ },
+ " MB): los modelos de voz e IA pueden fallar o ir muy lentos. Cierra otros programas.": {
+  "en": " MB): voice and AI models may fail or run very slowly. Close other programs.",
+  "pt": " MB): os modelos de voz e IA podem falhar ou ficar muito lentos. Feche outros programas.",
+  "fr": " Mo) : les modèles de voix et d'IA peuvent échouer ou être très lents. Fermez les autres programmes.",
+  "de": " MB): Sprach- und KI-Modelle können fehlschlagen oder sehr langsam sein. Schließe andere Programme.",
+  "it": " MB): i modelli di voce e IA possono fallire o andare molto lenti. Chiudi altri programmi."
+ },
+ "No se puede escribir en ": {
+  "en": "Can't write to ",
+  "pt": "Não é possível escrever em ",
+  "fr": "Impossible d'écrire dans ",
+  "de": "Schreiben nicht möglich in ",
+  "it": "Impossibile scrivere in "
+ },
+ "): no se guardarán ajustes, marcas ni el registro.": {
+  "en": "): settings, marks and the log will not be saved.",
+  "pt": "): ajustes, marcas e o registro não serão salvos.",
+  "fr": ") : les réglages, les marques et le journal ne seront pas enregistrés.",
+  "de": "): Einstellungen, Markierungen und das Protokoll werden nicht gespeichert.",
+  "it": "): impostazioni, segni e registro non verranno salvati."
+ },
+ " vuelve a estar bien.": {
+  "en": " is fine again.",
+  "pt": " voltou a estar bem.",
+  "fr": " va de nouveau bien.",
+  "de": " ist wieder in Ordnung.",
+  "it": " è di nuovo a posto."
+ },
+ "terminó con fallo": {
+  "en": "finished with a failure",
+  "pt": "terminou com falha",
+  "fr": "terminé avec un échec",
+  "de": "mit Fehler beendet",
+  "it": "terminato con un errore"
+ },
+ " GB libres en el disco.": {
+  "en": " GB free on the disk.",
+  "pt": " GB livres no disco.",
+  "fr": " Go libres sur le disque.",
+  "de": " GB frei auf der Festplatte.",
+  "it": " GB liberi sul disco."
+ },
+ "Resolve no dejó resultado": {
+  "en": "Resolve didn't leave a result",
+  "pt": "O Resolve não deixou resultado",
+  "fr": "Resolve n'a laissé aucun résultat",
+  "de": "Resolve hat kein Ergebnis hinterlassen",
+  "it": "Resolve non ha lasciato nessun risultato"
+ },
+ "El Puente perdio su conexion con Resolve (caduca sola en la version gratuita). Vuelve a lanzar CineCaptions_Puente (Area de trabajo > Scripts > Utility): el nuevo me releva solo y llega con conexion fresca. Despues genera de nuevo. Si sigue pasando, cierra DaVinci Resolve por completo y abrelo otra vez.": {
+  "en": "The Bridge lost its connection with Resolve (it expires by itself in the free version). Launch CineCaptions_Puente again (Workspace > Scripts > Utility): the new one takes over by itself and arrives with a fresh connection. Then generate again. If it keeps happening, close DaVinci Resolve completely and open it again.",
+  "pt": "A Ponte perdeu a conexão com o Resolve (caduca sozinha na versão gratuita). Lance de novo o CineCaptions_Puente (Área de trabalho > Scripts > Utility): o novo assume sozinho e chega com conexão nova. Depois gere de novo. Se continuar acontecendo, feche o DaVinci Resolve por completo e abra de novo.",
+  "fr": "Le Pont a perdu sa connexion avec Resolve (elle expire toute seule dans la version gratuite). Relancez CineCaptions_Puente (Espace de travail > Scripts > Utility) : le nouveau prend le relais tout seul et arrive avec une connexion fraîche. Puis générez de nouveau. Si cela continue, fermez complètement DaVinci Resolve et rouvrez-le.",
+  "de": "Die Brücke hat die Verbindung zu Resolve verloren (in der kostenlosen Version läuft sie von selbst ab). Starte CineCaptions_Puente erneut (Arbeitsbereich > Skripte > Utility): Die neue übernimmt von selbst und kommt mit frischer Verbindung. Danach erneut generieren. Wenn es weiter passiert, schließe DaVinci Resolve vollständig und öffne es neu.",
+  "it": "Il Ponte ha perso la connessione con Resolve (nella versione gratuita scade da solo). Rilancia CineCaptions_Puente (Area di lavoro > Script > Utility): il nuovo subentra da solo e arriva con una connessione fresca. Poi genera di nuovo. Se continua a succedere, chiudi completamente DaVinci Resolve e riaprilo."
+ },
+ "El Puente de Resolve perdió la conexión": {
+  "en": "The Resolve Bridge lost its connection",
+  "pt": "A Ponte do Resolve perdeu a conexão",
+  "fr": "Le Pont de Resolve a perdu la connexion",
+  "de": "Die Resolve-Brücke hat die Verbindung verloren",
+  "it": "Il Ponte di Resolve ha perso la connessione"
+ },
+ "En la versión gratuita de Resolve el Puente (el script que deja trabajar a CineCaptions dentro de Resolve) pierde su conexión solo, cada cierto tiempo.": {
+  "en": "In the free version of Resolve, the Bridge (the script that lets CineCaptions work inside Resolve) loses its connection by itself every so often.",
+  "pt": "Na versão gratuita do Resolve, a Ponte (o script que permite ao CineCaptions trabalhar dentro do Resolve) perde a conexão sozinha de tempos em tempos.",
+  "fr": "Dans la version gratuite de Resolve, le Pont (le script qui permet à CineCaptions de travailler dans Resolve) perd sa connexion tout seul de temps en temps.",
+  "de": "In der kostenlosen Version von Resolve verliert die Brücke (das Skript, mit dem CineCaptions in Resolve arbeitet) von Zeit zu Zeit von selbst die Verbindung.",
+  "it": "Nella versione gratuita di Resolve il Ponte (lo script che permette a CineCaptions di lavorare dentro Resolve) perde la connessione da solo ogni tanto."
+ },
+ "En Resolve: Área de trabajo > Scripts > Utility > CineCaptions_Puente (en inglés: Workspace > Scripts > Utility). En Mac, CineCaptions intenta pulsarlo solo si le das el permiso de Accesibilidad.": {
+  "en": "In Resolve: Workspace > Scripts > Utility > CineCaptions_Puente. On Mac, CineCaptions tries to press it for you if you grant it the Accessibility permission.",
+  "pt": "No Resolve: Área de trabalho > Scripts > Utility > CineCaptions_Puente. No Mac, o CineCaptions tenta acioná-lo sozinho se você der a permissão de Acessibilidade.",
+  "fr": "Dans Resolve : Espace de travail > Scripts > Utility > CineCaptions_Puente. Sur Mac, CineCaptions essaie de le lancer seul si vous lui accordez l'autorisation Accessibilité.",
+  "de": "In Resolve: Arbeitsbereich > Skripte > Utility > CineCaptions_Puente. Auf dem Mac versucht CineCaptions, es selbst auszulösen, wenn du ihm die Bedienungshilfen-Berechtigung erteilst.",
+  "it": "In Resolve: Area di lavoro > Script > Utility > CineCaptions_Puente. Su Mac, CineCaptions prova a premerlo da solo se gli concedi il permesso di Accessibilità."
+ },
+ "Vuelve a pulsar GO.": {
+  "en": "Press GO again.",
+  "pt": "Pressione GO de novo.",
+  "fr": "Appuyez de nouveau sur GO.",
+  "de": "Drücke erneut GO.",
+  "it": "Premi di nuovo GO."
+ },
+ "Si sigue pasando, cierra DaVinci Resolve por completo y ábrelo otra vez.": {
+  "en": "If it keeps happening, close DaVinci Resolve completely and open it again.",
+  "pt": "Se continuar acontecendo, feche o DaVinci Resolve por completo e abra de novo.",
+  "fr": "Si cela continue, fermez complètement DaVinci Resolve et rouvrez-le.",
+  "de": "Wenn es weiter passiert, schließe DaVinci Resolve vollständig und öffne es erneut.",
+  "it": "Se continua a succedere, chiudi completamente DaVinci Resolve e riaprilo."
+ },
+ "CineCaptions habla con DaVinci Resolve a través de su API de scripting y no obtuvo respuesta.": {
+  "en": "CineCaptions talks to DaVinci Resolve through its scripting API and got no answer.",
+  "pt": "O CineCaptions fala com o DaVinci Resolve pela API de scripting e não obteve resposta.",
+  "fr": "CineCaptions dialogue avec DaVinci Resolve via son API de scripting et n'a obtenu aucune réponse.",
+  "de": "CineCaptions spricht über die Scripting-API mit DaVinci Resolve und hat keine Antwort bekommen.",
+  "it": "CineCaptions parla con DaVinci Resolve tramite la sua API di scripting e non ha ricevuto risposta."
+ },
+ "Abre DaVinci Resolve y espera a que cargue por completo.": {
+  "en": "Open DaVinci Resolve and wait for it to load completely.",
+  "pt": "Abra o DaVinci Resolve e espere carregar por completo.",
+  "fr": "Ouvrez DaVinci Resolve et attendez son chargement complet.",
+  "de": "Öffne DaVinci Resolve und warte, bis es vollständig geladen ist.",
+  "it": "Apri DaVinci Resolve e aspetta che si carichi del tutto."
+ },
+ "Abre un proyecto con un timeline y deja el timeline a la vista.": {
+  "en": "Open a project with a timeline and leave the timeline in view.",
+  "pt": "Abra um projeto com uma timeline e deixe a timeline à vista.",
+  "fr": "Ouvrez un projet avec une timeline et laissez la timeline visible.",
+  "de": "Öffne ein Projekt mit einer Timeline und lass die Timeline sichtbar.",
+  "it": "Apri un progetto con una timeline e lasciala in vista."
+ },
+ "En Resolve: Preferencias > General > «Uso de scripting externo» = Local.": {
+  "en": "In Resolve: Preferences > General > “External scripting using” = Local.",
+  "pt": "No Resolve: Preferências > Geral > “Uso de scripting externo” = Local.",
+  "fr": "Dans Resolve : Préférences > Général > « Utilisation de scripts externes » = Local.",
+  "de": "In Resolve: Einstellungen > Allgemein > „Externe Skripte verwenden“ = Lokal.",
+  "it": "In Resolve: Preferenze > Generale > «Uso di scripting esterno» = Locale."
+ },
+ "No pude traer el audio del timeline": {
+  "en": "I couldn't get the timeline audio",
+  "pt": "Não consegui trazer o áudio da timeline",
+  "fr": "Je n'ai pas pu récupérer l'audio de la timeline",
+  "de": "Ich konnte den Timeline-Ton nicht holen",
+  "it": "Non sono riuscito a ottenere l'audio della timeline"
+ },
+ "Resolve no entregó el audio de tu timeline (o no hay uno activo con clips de audio).": {
+  "en": "Resolve didn't deliver your timeline's audio (or there is no active one with audio clips).",
+  "pt": "O Resolve não entregou o áudio da sua timeline (ou não há uma ativa com clipes de áudio).",
+  "fr": "Resolve n'a pas fourni l'audio de votre timeline (ou aucune timeline active ne contient de clips audio).",
+  "de": "Resolve hat den Ton deiner Timeline nicht geliefert (oder es gibt keine aktive mit Audioclips).",
+  "it": "Resolve non ha consegnato l'audio della tua timeline (o non ce n'è una attiva con clip audio)."
+ },
+ "Abre el proyecto en Resolve y haz clic en el timeline que quieres subtitular.": {
+  "en": "Open the project in Resolve and click the timeline you want to caption.",
+  "pt": "Abra o projeto no Resolve e clique na timeline que você quer legendar.",
+  "fr": "Ouvrez le projet dans Resolve et cliquez sur la timeline à sous-titrer.",
+  "de": "Öffne das Projekt in Resolve und klicke auf die Timeline, die du untertiteln möchtest.",
+  "it": "Apri il progetto in Resolve e fai clic sulla timeline che vuoi sottotitolare."
+ },
+ "Comprueba que el timeline tiene audio (no está silenciado ni vacío).": {
+  "en": "Check that the timeline has audio (not muted or empty).",
+  "pt": "Verifique se a timeline tem áudio (não está silenciada nem vazia).",
+  "fr": "Vérifiez que la timeline a de l'audio (ni muet ni vide).",
+  "de": "Prüfe, ob die Timeline Ton hat (nicht stummgeschaltet und nicht leer).",
+  "it": "Controlla che la timeline abbia l'audio (non silenziato né vuoto)."
+ },
+ "También puedes soltar un vídeo en la ventana de CineCaptions y pulsar GO otra vez.": {
+  "en": "You can also drop a video on the CineCaptions window and press GO again.",
+  "pt": "Você também pode soltar um vídeo na janela do CineCaptions e pressionar GO de novo.",
+  "fr": "Vous pouvez aussi déposer une vidéo dans la fenêtre de CineCaptions et appuyer de nouveau sur GO.",
+  "de": "Du kannst auch ein Video auf das CineCaptions-Fenster ziehen und erneut GO drücken.",
+  "it": "Puoi anche trascinare un video nella finestra di CineCaptions e premere di nuovo GO."
+ },
+ "La transcripción no pudo terminar": {
+  "en": "The transcription couldn't finish",
+  "pt": "A transcrição não pôde terminar",
+  "fr": "La transcription n'a pas pu se terminer",
+  "de": "Die Transkription konnte nicht abgeschlossen werden",
+  "it": "La trascrizione non ha potuto terminare"
+ },
+ "El motor de voz se detuvo antes de entregar el texto.": {
+  "en": "The voice engine stopped before delivering the text.",
+  "pt": "O motor de voz parou antes de entregar o texto.",
+  "fr": "Le moteur vocal s'est arrêté avant de fournir le texte.",
+  "de": "Die Spracherkennung wurde beendet, bevor sie den Text geliefert hat.",
+  "it": "Il motore vocale si è fermato prima di consegnare il testo."
+ },
+ "Comprueba que el archivo de audio no esté dañado y se reproduce.": {
+  "en": "Check that the audio file is not damaged and plays.",
+  "pt": "Verifique se o arquivo de áudio não está danificado e toca.",
+  "fr": "Vérifiez que le fichier audio n'est pas endommagé et qu'il se lit.",
+  "de": "Prüfe, ob die Audiodatei nicht beschädigt ist und abgespielt wird.",
+  "it": "Controlla che il file audio non sia danneggiato e si riproduca."
+ },
+ "En Ajustes > Voz prueba el otro motor (Qwen3-ASR o Whisper).": {
+  "en": "In Settings > Voice try the other engine (Qwen3-ASR or Whisper).",
+  "pt": "Em Ajustes > Voz teste o outro motor (Qwen3-ASR ou Whisper).",
+  "fr": "Dans Réglages > Voix, essayez l'autre moteur (Qwen3-ASR ou Whisper).",
+  "de": "Probiere unter Einstellungen > Stimme die andere Engine (Qwen3-ASR oder Whisper).",
+  "it": "In Impostazioni > Voce prova l'altro motore (Qwen3-ASR o Whisper)."
+ },
+ "Cierra otros programas que usen la tarjeta gráfica y vuelve a intentarlo.": {
+  "en": "Close other programs that use the graphics card and try again.",
+  "pt": "Feche outros programas que usem a placa de vídeo e tente de novo.",
+  "fr": "Fermez les autres programmes qui utilisent la carte graphique et réessayez.",
+  "de": "Schließe andere Programme, die die Grafikkarte nutzen, und versuche es erneut.",
+  "it": "Chiudi gli altri programmi che usano la scheda grafica e riprova."
+ },
+ "Se acabó la memoria": {
+  "en": "Out of memory",
+  "pt": "Acabou a memória",
+  "fr": "Mémoire insuffisante",
+  "de": "Speicher aufgebraucht",
+  "it": "Memoria esaurita"
+ },
+ "El modelo de voz necesitó más memoria (RAM o de la tarjeta gráfica) de la que había libre.": {
+  "en": "The voice model needed more memory (RAM or graphics card) than was free.",
+  "pt": "O modelo de voz precisou de mais memória (RAM ou da placa de vídeo) do que havia livre.",
+  "fr": "Le modèle vocal a eu besoin de plus de mémoire (RAM ou carte graphique) que celle disponible.",
+  "de": "Das Sprachmodell brauchte mehr Speicher (RAM oder Grafikkarte), als frei war.",
+  "it": "Il modello vocale ha richiesto più memoria (RAM o scheda grafica) di quella libera."
+ },
+ "Cierra programas pesados (navegador, otros editores) y reintenta.": {
+  "en": "Close heavy programs (browser, other editors) and retry.",
+  "pt": "Feche programas pesados (navegador, outros editores) e tente de novo.",
+  "fr": "Fermez les programmes lourds (navigateur, autres éditeurs) et réessayez.",
+  "de": "Schließe schwere Programme (Browser, andere Editoren) und versuche es erneut.",
+  "it": "Chiudi i programmi pesanti (browser, altri editor) e riprova."
+ },
+ "En Ajustes > Voz elige el modelo más ligero.": {
+  "en": "In Settings > Voice choose the lightest model.",
+  "pt": "Em Ajustes > Voz escolha o modelo mais leve.",
+  "fr": "Dans Réglages > Voix, choisissez le modèle le plus léger.",
+  "de": "Wähle unter Einstellungen > Stimme das leichteste Modell.",
+  "it": "In Impostazioni > Voce scegli il modello più leggero."
+ },
+ "Para audios muy largos, prueba por partes.": {
+  "en": "For very long audio, try it in parts.",
+  "pt": "Para áudios muito longos, teste por partes.",
+  "fr": "Pour les audios très longs, essayez par parties.",
+  "de": "Bei sehr langen Audios versuche es in Teilen.",
+  "it": "Per audio molto lunghi, prova a pezzi."
+ },
+ "No pude leer el audio": {
+  "en": "I couldn't read the audio",
+  "pt": "Não consegui ler o áudio",
+  "fr": "Je n'ai pas pu lire l'audio",
+  "de": "Ich konnte den Ton nicht lesen",
+  "it": "Non sono riuscito a leggere l'audio"
+ },
+ "La herramienta que convierte el audio falló o no reconoce el formato.": {
+  "en": "The tool that converts the audio failed or does not recognize the format.",
+  "pt": "A ferramenta que converte o áudio falhou ou não reconhece o formato.",
+  "fr": "L'outil qui convertit l'audio a échoué ou ne reconnaît pas le format.",
+  "de": "Das Werkzeug zur Audio-Konvertierung ist ausgefallen oder erkennt das Format nicht.",
+  "it": "Lo strumento che converte l'audio è fallito o non riconosce il formato."
+ },
+ "Prueba con otro archivo (mp4, wav o mp3 estándar).": {
+  "en": "Try another file (standard mp4, wav or mp3).",
+  "pt": "Teste com outro arquivo (mp4, wav ou mp3 padrão).",
+  "fr": "Essayez un autre fichier (mp4, wav ou mp3 standard).",
+  "de": "Probiere eine andere Datei (Standard-mp4, -wav oder -mp3).",
+  "it": "Prova con un altro file (mp4, wav o mp3 standard)."
+ },
+ "Si el archivo está en una unidad externa o en la nube, cópialo al disco local.": {
+  "en": "If the file is on an external drive or in the cloud, copy it to the local disk.",
+  "pt": "Se o arquivo estiver em uma unidade externa ou na nuvem, copie-o para o disco local.",
+  "fr": "Si le fichier est sur un disque externe ou dans le cloud, copiez-le sur le disque local.",
+  "de": "Liegt die Datei auf einem externen Laufwerk oder in der Cloud, kopiere sie auf die lokale Festplatte.",
+  "it": "Se il file è su un disco esterno o nel cloud, copialo sul disco locale."
+ },
+ "Reinstala CineCaptions si el mensaje dice que falta ffmpeg.": {
+  "en": "Reinstall CineCaptions if the message says ffmpeg is missing.",
+  "pt": "Reinstale o CineCaptions se a mensagem disser que falta o ffmpeg.",
+  "fr": "Réinstallez CineCaptions si le message indique que ffmpeg est manquant.",
+  "de": "Installiere CineCaptions neu, wenn die Meldung sagt, dass ffmpeg fehlt.",
+  "it": "Reinstalla CineCaptions se il messaggio dice che manca ffmpeg."
+ },
+ "Sin conexión a internet": {
+  "en": "No internet connection",
+  "pt": "Sem conexão com a internet",
+  "fr": "Pas de connexion internet",
+  "de": "Keine Internetverbindung",
+  "it": "Nessuna connessione a internet"
+ },
+ "Algo necesitó descargar un recurso y la red no respondió. El resto del programa funciona.": {
+  "en": "Something needed to download a resource and the network did not respond. The rest of the program works.",
+  "pt": "Algo precisou baixar um recurso e a rede não respondeu. O resto do programa funciona.",
+  "fr": "Quelque chose devait télécharger une ressource et le réseau n'a pas répondu. Le reste du programme fonctionne.",
+  "de": "Etwas musste eine Ressource herunterladen und das Netzwerk hat nicht geantwortet. Der Rest des Programms funktioniert.",
+  "it": "Qualcosa doveva scaricare una risorsa e la rete non ha risposto. Il resto del programma funziona."
+ },
+ "Comprueba tu conexión y que ningún firewall o VPN bloquee a CineCaptions.": {
+  "en": "Check your connection and that no firewall or VPN blocks CineCaptions.",
+  "pt": "Verifique sua conexão e se nenhum firewall ou VPN bloqueia o CineCaptions.",
+  "fr": "Vérifiez votre connexion et qu'aucun pare-feu ou VPN ne bloque CineCaptions.",
+  "de": "Prüfe deine Verbindung und dass keine Firewall oder VPN CineCaptions blockiert.",
+  "it": "Controlla la connessione e che nessun firewall o VPN blocchi CineCaptions."
+ },
+ "Los recursos que faltan se reintentan solos la próxima vez que abras el programa.": {
+  "en": "Missing resources are retried automatically the next time you open the program.",
+  "pt": "Os recursos que faltam são tentados de novo sozinhos na próxima vez que você abrir o programa.",
+  "fr": "Les ressources manquantes sont retentées automatiquement à la prochaine ouverture du programme.",
+  "de": "Fehlende Ressourcen werden beim nächsten Öffnen des Programms automatisch erneut versucht.",
+  "it": "Le risorse mancanti vengono ritentate da sole alla prossima apertura del programma."
+ },
+ "Tardó demasiado y se canceló": {
+  "en": "It took too long and was cancelled",
+  "pt": "Demorou demais e foi cancelado",
+  "fr": "Cela a pris trop de temps et a été annulé",
+  "de": "Es hat zu lange gedauert und wurde abgebrochen",
+  "it": "Ha impiegato troppo ed è stato annullato"
+ },
+ "Una operación (normalmente Resolve o una descarga) no respondió a tiempo.": {
+  "en": "An operation (usually Resolve or a download) did not respond in time.",
+  "pt": "Uma operação (normalmente o Resolve ou um download) não respondeu a tempo.",
+  "fr": "Une opération (généralement Resolve ou un téléchargement) n'a pas répondu à temps.",
+  "de": "Ein Vorgang (meist Resolve oder ein Download) hat nicht rechtzeitig geantwortet.",
+  "it": "Un'operazione (di solito Resolve o un download) non ha risposto in tempo."
+ },
+ "Si Resolve está ocupado (renderizando o cargando), espera a que termine.": {
+  "en": "If Resolve is busy (rendering or loading), wait for it to finish.",
+  "pt": "Se o Resolve estiver ocupado (renderizando ou carregando), espere terminar.",
+  "fr": "Si Resolve est occupé (rendu ou chargement), attendez qu'il termine.",
+  "de": "Wenn Resolve beschäftigt ist (rendert oder lädt), warte, bis es fertig ist.",
+  "it": "Se Resolve è occupato (render o caricamento), aspetta che finisca."
+ },
+ "Cierra los cuadros de diálogo abiertos dentro de Resolve.": {
+  "en": "Close any dialog boxes open inside Resolve.",
+  "pt": "Feche as caixas de diálogo abertas dentro do Resolve.",
+  "fr": "Fermez les boîtes de dialogue ouvertes dans Resolve.",
+  "de": "Schließe alle in Resolve geöffneten Dialogfenster.",
+  "it": "Chiudi le finestre di dialogo aperte dentro Resolve."
+ },
+ "El sistema no dejó escribir o abrir el archivo": {
+  "en": "The system did not allow writing or opening the file",
+  "pt": "O sistema não permitiu escrever ou abrir o arquivo",
+  "fr": "Le système n'a pas autorisé l'écriture ou l'ouverture du fichier",
+  "de": "Das System hat das Schreiben oder Öffnen der Datei nicht erlaubt",
+  "it": "Il sistema non ha permesso di scrivere o aprire il file"
+ },
+ "El archivo está abierto en otro programa o la carpeta está protegida.": {
+  "en": "The file is open in another program or the folder is protected.",
+  "pt": "O arquivo está aberto em outro programa ou a pasta está protegida.",
+  "fr": "Le fichier est ouvert dans un autre programme ou le dossier est protégé.",
+  "de": "Die Datei ist in einem anderen Programm geöffnet oder der Ordner ist geschützt.",
+  "it": "Il file è aperto in un altro programma o la cartella è protetta."
+ },
+ "Cierra el archivo en el otro programa (Resolve, explorador, antivirus).": {
+  "en": "Close the file in the other program (Resolve, file explorer, antivirus).",
+  "pt": "Feche o arquivo no outro programa (Resolve, explorador, antivírus).",
+  "fr": "Fermez le fichier dans l'autre programme (Resolve, explorateur, antivirus).",
+  "de": "Schließe die Datei im anderen Programm (Resolve, Explorer/Finder, Virenscanner).",
+  "it": "Chiudi il file nell'altro programma (Resolve, Esplora file/Finder, antivirus)."
+ },
+ "Evita carpetas protegidas como Archivos de programa; usa Documentos o el escritorio.": {
+  "en": "Avoid protected folders such as Program Files; use Documents or the desktop.",
+  "pt": "Evite pastas protegidas como Arquivos de Programas; use Documentos ou a área de trabalho.",
+  "fr": "Évitez les dossiers protégés comme Program Files ; utilisez Documents ou le bureau.",
+  "de": "Vermeide geschützte Ordner wie Programme; nutze Dokumente oder den Schreibtisch.",
+  "it": "Evita le cartelle protette come Programmi; usa Documenti o la scrivania."
+ },
+ "Si persiste, ejecuta CineCaptions como administrador una vez.": {
+  "en": "If it persists, run CineCaptions as administrator once.",
+  "pt": "Se persistir, execute o CineCaptions como administrador uma vez.",
+  "fr": "Si cela persiste, exécutez CineCaptions en tant qu'administrateur une fois.",
+  "de": "Wenn es weiter auftritt, starte CineCaptions einmal als Administrator.",
+  "it": "Se persiste, esegui CineCaptions come amministratore una volta."
+ },
+ "No encuentro un archivo": {
+  "en": "I can't find a file",
+  "pt": "Não encontro um arquivo",
+  "fr": "Je ne trouve pas un fichier",
+  "de": "Ich finde eine Datei nicht",
+  "it": "Non trovo un file"
+ },
+ "Un archivo que CineCaptions esperaba ya no está donde estaba (movido, borrado o en una unidad desconectada).": {
+  "en": "A file CineCaptions expected is no longer where it was (moved, deleted or on a disconnected drive).",
+  "pt": "Um arquivo que o CineCaptions esperava não está mais onde estava (movido, apagado ou em uma unidade desconectada).",
+  "fr": "Un fichier attendu par CineCaptions n'est plus là où il était (déplacé, supprimé ou sur un disque déconnecté).",
+  "de": "Eine Datei, die CineCaptions erwartet hat, ist nicht mehr dort (verschoben, gelöscht oder auf einem getrennten Laufwerk).",
+  "it": "Un file che CineCaptions si aspettava non è più dove stava (spostato, eliminato o su un disco scollegato)."
+ },
+ "Comprueba que el archivo o la unidad externa siguen disponibles.": {
+  "en": "Check that the file or the external drive are still available.",
+  "pt": "Verifique se o arquivo ou a unidade externa continuam disponíveis.",
+  "fr": "Vérifiez que le fichier ou le disque externe sont toujours disponibles.",
+  "de": "Prüfe, ob die Datei oder das externe Laufwerk noch verfügbar sind.",
+  "it": "Controlla che il file o il disco esterno siano ancora disponibili."
+ },
+ "Vuelve a elegir el archivo desde el botón «Obtener» o suéltalo en la ventana.": {
+  "en": "Choose the file again with the “Get” button or drop it on the window.",
+  "pt": "Escolha o arquivo de novo com o botão “Obter” ou solte-o na janela.",
+  "fr": "Choisissez à nouveau le fichier avec le bouton « Obtenir » ou déposez-le dans la fenêtre.",
+  "de": "Wähle die Datei erneut über die Schaltfläche „Holen“ oder ziehe sie ins Fenster.",
+  "it": "Scegli di nuovo il file con il pulsante «Ottieni» o trascinalo nella finestra."
+ },
+ "Un archivo de datos está dañado": {
+  "en": "A data file is damaged",
+  "pt": "Um arquivo de dados está danificado",
+  "fr": "Un fichier de données est endommagé",
+  "de": "Eine Datendatei ist beschädigt",
+  "it": "Un file di dati è danneggiato"
+ },
+ "Un archivo de ajustes o de caché no se puede leer (quizá se cortó al guardarlo).": {
+  "en": "A settings or cache file cannot be read (perhaps it was cut off while saving).",
+  "pt": "Um arquivo de ajustes ou de cache não pode ser lido (talvez tenha sido cortado ao salvar).",
+  "fr": "Un fichier de réglages ou de cache est illisible (il a peut-être été interrompu à l'enregistrement).",
+  "de": "Eine Einstellungs- oder Cache-Datei kann nicht gelesen werden (vielleicht beim Speichern abgebrochen).",
+  "it": "Un file di impostazioni o di cache non si può leggere (forse si è interrotto durante il salvataggio)."
+ },
+ "No hace falta hacer nada: CineCaptions lo recrea con valores por defecto.": {
+  "en": "Nothing to do: CineCaptions recreates it with default values.",
+  "pt": "Não precisa fazer nada: o CineCaptions o recria com valores padrão.",
+  "fr": "Rien à faire : CineCaptions le recrée avec les valeurs par défaut.",
+  "de": "Nichts zu tun: CineCaptions erstellt sie mit Standardwerten neu.",
+  "it": "Non serve fare nulla: CineCaptions lo ricrea con i valori predefiniti."
+ },
+ "Si te falta una configuración, restáurala desde Ajustes > General > Copias.": {
+  "en": "If you miss a setting, restore it from Settings > General > Backups.",
+  "pt": "Se faltar uma configuração, restaure-a em Ajustes > Geral > Cópias.",
+  "fr": "S'il vous manque un réglage, restaurez-le depuis Réglages > Général > Copies.",
+  "de": "Fehlt dir eine Einstellung, stelle sie unter Einstellungen > Allgemein > Sicherungen wieder her.",
+  "it": "Se ti manca un'impostazione, ripristinala da Impostazioni > Generale > Copie."
+ },
+ "Falta un componente del programa": {
+  "en": "A program component is missing",
+  "pt": "Falta um componente do programa",
+  "fr": "Un composant du programme est manquant",
+  "de": "Eine Programmkomponente fehlt",
+  "it": "Manca un componente del programma"
+ },
+ "Una pieza interna no se instaló bien o la bloqueó un antivirus.": {
+  "en": "An internal piece did not install properly or an antivirus blocked it.",
+  "pt": "Uma peça interna não foi instalada direito ou um antivírus a bloqueou.",
+  "fr": "Un élément interne ne s'est pas bien installé ou un antivirus l'a bloqué.",
+  "de": "Ein internes Teil wurde nicht richtig installiert oder von einem Virenscanner blockiert.",
+  "it": "Un componente interno non si è installato bene o è stato bloccato da un antivirus."
+ },
+ "Reinstala CineCaptions con el instalador más reciente.": {
+  "en": "Reinstall CineCaptions with the latest installer.",
+  "pt": "Reinstale o CineCaptions com o instalador mais recente.",
+  "fr": "Réinstallez CineCaptions avec l'installateur le plus récent.",
+  "de": "Installiere CineCaptions mit dem neuesten Installer neu.",
+  "it": "Reinstalla CineCaptions con l'installer più recente."
+ },
+ "Añade la carpeta de CineCaptions a las excepciones de tu antivirus.": {
+  "en": "Add the CineCaptions folder to your antivirus exceptions.",
+  "pt": "Adicione a pasta do CineCaptions às exceções do seu antivírus.",
+  "fr": "Ajoutez le dossier de CineCaptions aux exceptions de votre antivirus.",
+  "de": "Füge den CineCaptions-Ordner zu den Ausnahmen deines Virenscanners hinzu.",
+  "it": "Aggiungi la cartella di CineCaptions alle eccezioni del tuo antivirus."
+ },
+ "Problema con la licencia": {
+  "en": "License problem",
+  "pt": "Problema com a licença",
+  "fr": "Problème de licence",
+  "de": "Problem mit der Lizenz",
+  "it": "Problema con la licenza"
+ },
+ "No se pudo comprobar o activar la licencia.": {
+  "en": "The license could not be checked or activated.",
+  "pt": "Não foi possível verificar ou ativar a licença.",
+  "fr": "La licence n'a pas pu être vérifiée ou activée.",
+  "de": "Die Lizenz konnte nicht geprüft oder aktiviert werden.",
+  "it": "Non è stato possibile verificare o attivare la licenza."
+ },
+ "Revisa que la clave esté bien escrita en Ajustes > Licencia.": {
+  "en": "Check that the key is typed correctly in Settings > License.",
+  "pt": "Verifique se a chave está bem escrita em Ajustes > Licença.",
+  "fr": "Vérifiez que la clé est bien saisie dans Réglages > Licence.",
+  "de": "Prüfe, ob der Schlüssel unter Einstellungen > Lizenz richtig eingegeben ist.",
+  "it": "Controlla che la chiave sia scritta bene in Impostazioni > Licenza."
+ },
+ "Comprueba tu conexión: la activación necesita internet una vez.": {
+  "en": "Check your connection: activation needs internet once.",
+  "pt": "Verifique sua conexão: a ativação precisa de internet uma vez.",
+  "fr": "Vérifiez votre connexion : l'activation nécessite internet une fois.",
+  "de": "Prüfe deine Verbindung: Die Aktivierung braucht einmal Internet.",
+  "it": "Controlla la connessione: l'attivazione richiede internet una volta."
+ },
+ "No se pudo corregir la ortografía": {
+  "en": "The spelling could not be corrected",
+  "pt": "Não foi possível corrigir a ortografia",
+  "fr": "L'orthographe n'a pas pu être corrigée",
+  "de": "Die Rechtschreibung konnte nicht korrigiert werden",
+  "it": "Non è stato possibile correggere l'ortografia"
+ },
+ "El corrector de texto falló. Los subtítulos se generan igual, solo que sin esa corrección.": {
+  "en": "The text corrector failed. The subtitles are generated anyway, just without that correction.",
+  "pt": "O corretor de texto falhou. As legendas são geradas do mesmo jeito, só que sem essa correção.",
+  "fr": "Le correcteur de texte a échoué. Les sous-titres sont générés quand même, simplement sans cette correction.",
+  "de": "Die Textkorrektur ist fehlgeschlagen. Die Untertitel werden trotzdem erzeugt, nur ohne diese Korrektur.",
+  "it": "Il correttore di testo è fallito. I sottotitoli si generano lo stesso, solo senza quella correzione."
+ },
+ "Puedes seguir trabajando: revisa el texto a mano en Creativo.": {
+  "en": "You can keep working: review the text by hand in Creative.",
+  "pt": "Você pode continuar trabalhando: revise o texto à mão em Criativo.",
+  "fr": "Vous pouvez continuer : relisez le texte à la main dans Créatif.",
+  "de": "Du kannst weiterarbeiten: Prüfe den Text von Hand im Kreativ-Editor.",
+  "it": "Puoi continuare a lavorare: rivedi il testo a mano in Creativo."
+ },
+ "Si se repite, desactiva la corrección en Ajustes.": {
+  "en": "If it repeats, turn the correction off in Settings.",
+  "pt": "Se se repetir, desative a correção em Ajustes.",
+  "fr": "Si cela se répète, désactivez la correction dans Réglages.",
+  "de": "Wenn es sich wiederholt, schalte die Korrektur in den Einstellungen aus.",
+  "it": "Se si ripete, disattiva la correzione in Impostazioni."
+ },
+ "Los emojis animados no se descargaron": {
+  "en": "The animated emojis weren't downloaded",
+  "pt": "Os emojis animados não foram baixados",
+  "fr": "Les emojis animés n'ont pas été téléchargés",
+  "de": "Die animierten Emojis wurden nicht heruntergeladen",
+  "it": "Le emoji animate non sono state scaricate"
+ },
+ "Los emojis animados se bajan de internet la primera vez; sin conexión se usan los estáticos.": {
+  "en": "Animated emojis are downloaded from the internet the first time; without a connection the static ones are used.",
+  "pt": "Os emojis animados são baixados da internet na primeira vez; sem conexão usam-se os estáticos.",
+  "fr": "Les emojis animés se téléchargent la première fois ; sans connexion, on utilise les statiques.",
+  "de": "Animierte Emojis werden beim ersten Mal aus dem Internet geladen; ohne Verbindung werden die statischen verwendet.",
+  "it": "Le emoji animate si scaricano da internet la prima volta; senza connessione si usano quelle statiche."
+ },
+ "Conéctate a internet y vuelve a abrir CineCaptions: se reintenta solo.": {
+  "en": "Connect to the internet and reopen CineCaptions: it retries by itself.",
+  "pt": "Conecte-se à internet e abra o CineCaptions de novo: ele tenta sozinho.",
+  "fr": "Connectez-vous à internet et rouvrez CineCaptions : il réessaie tout seul.",
+  "de": "Verbinde dich mit dem Internet und öffne CineCaptions erneut: Es versucht es von selbst noch einmal.",
+  "it": "Collegati a internet e riapri CineCaptions: riprova da solo."
+ },
+ "Un efecto visual de Inicio falló": {
+  "en": "A visual effect on Home failed",
+  "pt": "Um efeito visual do Início falhou",
+  "fr": "Un effet visuel de l'Accueil a échoué",
+  "de": "Ein visueller Effekt auf Start ist fehlgeschlagen",
+  "it": "Un effetto visivo della Home è fallito"
+ },
+ "Un adorno animado de la pantalla Inicio tuvo un fallo. No afecta a los subtítulos.": {
+  "en": "An animated decoration on the Home screen had a glitch. It does not affect the subtitles.",
+  "pt": "Um enfeite animado da tela Início teve uma falha. Não afeta as legendas.",
+  "fr": "Un ornement animé de l'écran Accueil a eu un défaut. Cela n'affecte pas les sous-titres.",
+  "de": "Eine animierte Verzierung auf dem Startbildschirm hatte einen Fehler. Die Untertitel sind nicht betroffen.",
+  "it": "Un ornamento animato della schermata Home ha avuto un problema. Non influisce sui sottotitoli."
+ },
+ "No hace falta hacer nada.": {
+  "en": "Nothing to do.",
+  "pt": "Não precisa fazer nada.",
+  "fr": "Rien à faire.",
+  "de": "Nichts zu tun.",
+  "it": "Non serve fare nulla."
+ },
+ "Si se repite mucho, activa «Reducir animaciones» en Ajustes > Interfaz.": {
+  "en": "If it happens a lot, turn on “Reduce animations” in Settings > Interface.",
+  "pt": "Se se repetir muito, ative “Reduzir animações” em Ajustes > Interface.",
+  "fr": "Si cela se répète souvent, activez « Réduire les animations » dans Réglages > Interface.",
+  "de": "Wenn es oft passiert, aktiviere „Animationen reduzieren“ unter Einstellungen > Oberfläche.",
+  "it": "Se si ripete spesso, attiva «Riduci animazioni» in Impostazioni > Interfaccia."
+ },
+ "Aviso interno de la interfaz": {
+  "en": "Internal interface notice",
+  "pt": "Aviso interno da interface",
+  "fr": "Avis interne de l'interface",
+  "de": "Interner Hinweis der Oberfläche",
+  "it": "Avviso interno dell'interfaccia"
+ },
+ "Qt (la librería gráfica) avisó de algo menor. Casi siempre no tiene consecuencias.": {
+  "en": "Qt (the graphics library) warned about something minor. It almost never has consequences.",
+  "pt": "O Qt (a biblioteca gráfica) avisou de algo menor. Quase sempre não tem consequências.",
+  "fr": "Qt (la bibliothèque graphique) a signalé quelque chose de mineur. Cela n'a presque jamais de conséquences.",
+  "de": "Qt (die Grafikbibliothek) hat auf etwas Geringfügiges hingewiesen. Es hat fast nie Folgen.",
+  "it": "Qt (la libreria grafica) ha segnalato qualcosa di minore. Quasi sempre non ha conseguenze."
+ },
+ "Si la interfaz se ve y se comporta bien, ignóralo.": {
+  "en": "If the interface looks and behaves fine, ignore it.",
+  "pt": "Se a interface parece e se comporta bem, ignore.",
+  "fr": "Si l'interface s'affiche et se comporte bien, ignorez-le.",
+  "de": "Wenn die Oberfläche gut aussieht und funktioniert, ignoriere es.",
+  "it": "Se l'interfaccia si vede e si comporta bene, ignoralo."
+ },
+ "Error interno del programa": {
+  "en": "Internal program error",
+  "pt": "Erro interno do programa",
+  "fr": "Erreur interne du programme",
+  "de": "Interner Programmfehler",
+  "it": "Errore interno del programma"
+ },
+ "Hubo un fallo inesperado de programación; no es culpa de tu archivo ni de tu equipo.": {
+  "en": "There was an unexpected programming fault; it is not the fault of your file or your computer.",
+  "pt": "Houve uma falha inesperada de programação; não é culpa do seu arquivo nem do seu equipamento.",
+  "fr": "Il y a eu un défaut de programmation inattendu ; ce n'est la faute ni de votre fichier ni de votre ordinateur.",
+  "de": "Es gab einen unerwarteten Programmierfehler; weder deine Datei noch dein Computer sind schuld.",
+  "it": "C'è stato un errore di programmazione imprevisto; non è colpa del tuo file né del tuo computer."
+ },
+ "Vuelve a intentarlo: a veces fue algo puntual.": {
+  "en": "Try again: sometimes it was a one-off.",
+  "pt": "Tente de novo: às vezes foi algo pontual.",
+  "fr": "Réessayez : parfois c'était ponctuel.",
+  "de": "Versuche es erneut: Manchmal war es nur einmalig.",
+  "it": "Riprova: a volte è stato qualcosa di isolato."
+ },
+ "Si se repite, pulsa «Copiar informe» aquí abajo y envíalo a soporte: trae los datos para arreglarlo.": {
+  "en": "If it repeats, press “Copy report” below and send it to support: it has the data to fix it.",
+  "pt": "Se se repetir, pressione “Copiar relatório” aqui embaixo e envie ao suporte: traz os dados para corrigir.",
+  "fr": "Si cela se répète, appuyez sur « Copier le rapport » ci-dessous et envoyez-le au support : il contient les données pour corriger.",
+  "de": "Wenn es sich wiederholt, drücke unten „Bericht kopieren“ und sende ihn an den Support: Er enthält die Daten zur Behebung.",
+  "it": "Se si ripete, premi «Copia rapporto» qui sotto e invialo al supporto: contiene i dati per risolverlo."
+ },
+ "Fallo inesperado": {
+  "en": "Unexpected failure",
+  "pt": "Falha inesperada",
+  "fr": "Échec inattendu",
+  "de": "Unerwarteter Fehler",
+  "it": "Errore imprevisto"
+ },
+ "Algo salió mal y el programa no tenía previsto ese caso.": {
+  "en": "Something went wrong and the program had not planned for that case.",
+  "pt": "Algo deu errado e o programa não tinha previsto esse caso.",
+  "fr": "Quelque chose s'est mal passé et le programme n'avait pas prévu ce cas.",
+  "de": "Etwas ist schiefgelaufen und das Programm hatte diesen Fall nicht vorgesehen.",
+  "it": "Qualcosa è andato storto e il programma non aveva previsto quel caso."
+ },
+ "Si se repite, pulsa «Copiar informe» aquí abajo y envíalo a soporte.": {
+  "en": "If it repeats, press “Copy report” below and send it to support.",
+  "pt": "Se se repetir, pressione “Copiar relatório” aqui embaixo e envie ao suporte.",
+  "fr": "Si cela se répète, appuyez sur « Copier le rapport » ci-dessous et envoyez-le au support.",
+  "de": "Wenn es sich wiederholt, drücke unten „Bericht kopieren“ und sende ihn an den Support.",
+  "it": "Se si ripete, premi «Copia rapporto» qui sotto e invialo al supporto."
+ },
+ "El programa arrancó": {
+  "en": "The program started",
+  "pt": "O programa iniciou",
+  "fr": "Le programme a démarré",
+  "de": "Das Programm wurde gestartet",
+  "it": "Il programma si è avviato"
+ },
+ "Anotación informativa: CineCaptions se abrió correctamente.": {
+  "en": "Informational note: CineCaptions opened correctly.",
+  "pt": "Anotação informativa: o CineCaptions abriu corretamente.",
+  "fr": "Note informative : CineCaptions s'est ouvert correctement.",
+  "de": "Informativer Eintrag: CineCaptions wurde korrekt geöffnet.",
+  "it": "Nota informativa: CineCaptions si è aperto correttamente."
+ },
+ "Detuvo la tarea": {
+  "en": "Stopped the task",
+  "pt": "Interrompeu a tarefa",
+  "fr": "A interrompu la tâche",
+  "de": "Hat die Aufgabe gestoppt",
+  "it": "Ha interrotto l'attività"
+ },
+ "Algo quedó sin hacer": {
+  "en": "Something was left undone",
+  "pt": "Algo ficou por fazer",
+  "fr": "Quelque chose est resté à faire",
+  "de": "Etwas blieb unerledigt",
+  "it": "Qualcosa è rimasto da fare"
+ },
+ "No afecta a tu trabajo": {
+  "en": "Does not affect your work",
+  "pt": "Não afeta o seu trabalho",
+  "fr": "N'affecte pas votre travail",
+  "de": "Beeinflusst deine Arbeit nicht",
+  "it": "Non influisce sul tuo lavoro"
+ },
+ "(El programa externo terminó con el código {c}, sin más explicación.)": {
+  "en": "(The external program ended with code {c}, with no further explanation.)",
+  "pt": "(O programa externo terminou com o código {c}, sem mais explicação.)",
+  "fr": "(Le programme externe s'est terminé avec le code {c}, sans autre explication.)",
+  "de": "(Das externe Programm wurde mit Code {c} beendet, ohne weitere Erklärung.)",
+  "it": "(Il programma esterno è terminato con il codice {c}, senza altra spiegazione.)"
+ },
+ "Un proceso terminó con el código {c}": {
+  "en": "A process ended with code {c}",
+  "pt": "Um processo terminou com o código {c}",
+  "fr": "Un processus s'est terminé avec le code {c}",
+  "de": "Ein Prozess wurde mit Code {c} beendet",
+  "it": "Un processo è terminato con il codice {c}"
+ },
+ "Un programa auxiliar terminó con un error pero sin explicar el motivo.": {
+  "en": "A helper program ended with an error but gave no reason.",
+  "pt": "Um programa auxiliar terminou com um erro, mas sem explicar o motivo.",
+  "fr": "Un programme auxiliaire s'est terminé avec une erreur sans en expliquer la cause.",
+  "de": "Ein Hilfsprogramm wurde mit einem Fehler beendet, ohne den Grund zu nennen.",
+  "it": "Un programma ausiliario è terminato con un errore senza spiegare il motivo."
+ },
+ "Vuelve a intentarlo.": {
+  "en": "Try again.",
+  "pt": "Tente de novo.",
+  "fr": "Réessayez.",
+  "de": "Versuche es erneut.",
+  "it": "Riprova."
+ },
+ "Si se repite, copia el informe y envíalo a soporte.": {
+  "en": "If it repeats, copy the report and send it to support.",
+  "pt": "Se se repetir, copie o relatório e envie ao suporte.",
+  "fr": "Si cela se répète, copiez le rapport et envoyez-le au support.",
+  "de": "Wenn es sich wiederholt, kopiere den Bericht und sende ihn an den Support.",
+  "it": "Se si ripete, copia il rapporto e invialo al supporto."
+ },
+ "Algo no salió como se esperaba": {
+  "en": "Something did not go as expected",
+  "pt": "Algo não saiu como esperado",
+  "fr": "Quelque chose ne s'est pas passé comme prévu",
+  "de": "Etwas lief nicht wie erwartet",
+  "it": "Qualcosa non è andato come previsto"
+ },
+ "CineCaptions encontró un problema que no reconoce. El mensaje original está abajo.": {
+  "en": "CineCaptions found a problem it does not recognize. The original message is below.",
+  "pt": "O CineCaptions encontrou um problema que não reconhece. A mensagem original está abaixo.",
+  "fr": "CineCaptions a rencontré un problème qu'il ne reconnaît pas. Le message d'origine est ci-dessous.",
+  "de": "CineCaptions hat ein Problem gefunden, das es nicht erkennt. Die Originalmeldung steht unten.",
+  "it": "CineCaptions ha trovato un problema che non riconosce. Il messaggio originale è qui sotto."
+ },
+ "Si se repite, pulsa «Copiar informe» y envíalo a soporte.": {
+  "en": "If it repeats, press “Copy report” and send it to support.",
+  "pt": "Se se repetir, pressione “Copiar relatório” e envie ao suporte.",
+  "fr": "Si cela se répète, appuyez sur « Copier le rapport » et envoyez-le au support.",
+  "de": "Wenn es sich wiederholt, drücke „Bericht kopieren“ und sende ihn an den Support.",
+  "it": "Se si ripete, premi «Copia rapporto» e invialo al supporto."
+ },
+ "Aviso": {
+  "en": "Notice",
+  "pt": "Aviso",
+  "fr": "Avis",
+  "de": "Hinweis",
+  "it": "Avviso"
+ },
+ "Algo no quedó del todo como se esperaba, pero el programa siguió funcionando.": {
+  "en": "Something did not turn out entirely as expected, but the program kept working.",
+  "pt": "Algo não ficou totalmente como esperado, mas o programa continuou funcionando.",
+  "fr": "Quelque chose n'est pas tout à fait comme prévu, mais le programme a continué de fonctionner.",
+  "de": "Etwas ist nicht ganz wie erwartet ausgefallen, aber das Programm lief weiter.",
+  "it": "Qualcosa non è andato del tutto come previsto, ma il programma ha continuato a funzionare."
+ },
+ "Información": {
+  "en": "Information",
+  "pt": "Informação",
+  "fr": "Information",
+  "de": "Information",
+  "it": "Informazione"
+ },
+ "Anotación": {
+  "en": "Note",
+  "pt": "Anotação",
+  "fr": "Note",
+  "de": "Eintrag",
+  "it": "Nota"
+ },
+ "Lanzando el Puente en Resolve…": {
+  "en": "Launching the Bridge in Resolve…",
+  "pt": "Lançando a Ponte no Resolve…",
+  "fr": "Lancement du Pont dans Resolve…",
+  "de": "Brücke in Resolve wird gestartet…",
+  "it": "Avvio del Ponte in Resolve…"
+ }
+}

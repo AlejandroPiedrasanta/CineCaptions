@@ -895,7 +895,7 @@ class PanelGo(QWidget):
                     consejo = (a.titulo + '. ' + (tr('Prueba esto: {p}', p=a.pasos[0]) if a.pasos else '')).strip()
                 except Exception:
                     consejo = ''
-            self.linea.configure(text=consejo or texto)
+            self.linea.configure(text=consejo or __import__('i18n').tr_libre(texto))
         self.opciones.show()
         self._relayout()
         # después del cierre: los contadores y los botones de salida entran con calma

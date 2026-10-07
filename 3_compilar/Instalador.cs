@@ -50,6 +50,7 @@ static class Programa
         Application.EnableVisualStyles();
         Application.SetCompatibleTextRenderingDefault(false);
         Opciones op = Opciones.Leer(args);
+        Registro.EnTemp = op.Desinstalar;          // el registro del desinstalador NO va a DaVinciSubtitles (se recrearia la carpeta que se acaba de borrar)
         try
         {
             if (op.Desinstalar && !op.YaReubicado && DentroDe(Application.ExecutablePath, op.Dir))
@@ -64,6 +65,11 @@ static class Programa
             {
                 Instalacion ins = new Instalacion(op, null);
                 ins.Correr();
+                if (op.Desinstalar && op.YaReubicado)
+                {
+                    if (!ins.HuboError) Registro.Borrar();
+                    AutoBorrar();
+                }
                 return ins.HuboError ? 1 : 0;
             }
             Ventana v = new Ventana(op);
@@ -94,12 +100,312 @@ static class Programa
     // El desinstalador vive DENTRO de la carpeta que va a borrar: se copia a %TEMP% y sigue desde ahi.
     static int ReubicarDesinstalador(Opciones op)
     {
-        string copia = Path.Combine(Path.GetTempPath(), "cinecaptions_desinstalar_" + Guid.NewGuid().ToString("N").Substring(0, 8) + ".exe");
+        string copia = Path.Combine(Sitio.Temp, "cinecaptions_desinstalar_" + Guid.NewGuid().ToString("N").Substring(0, 8) + ".exe");
         File.Copy(Application.ExecutablePath, copia, true);
         ProcessStartInfo psi = new ProcessStartInfo(copia, op.ComoArgumentos() + " /reubicado");
         psi.UseShellExecute = false;
         Process.Start(psi);
         return 0;
+    }
+
+    // La copia del desinstalador en %TEMP% se borra sola cuando termina (despues de unos segundos, ya cerrado).
+    public static void AutoBorrar()
+    {
+        try
+        {
+            string yo = Application.ExecutablePath;
+            ProcessStartInfo psi = new ProcessStartInfo("cmd.exe", "/c ping 127.0.0.1 -n 4 > nul & del /f /q \"" + yo + "\"");
+            psi.CreateNoWindow = true;
+            psi.UseShellExecute = false;
+            Process.Start(psi);
+        }
+        catch { }
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Las carpetas y claves de registro que toca el programa, en UN sitio. Con la variable CINECAPTIONS_PRUEBA_RAIZ (solo para probar el instalador)
+// todo se redirige a esa carpeta y a la clave Software\CineCaptionsPrueba, sin tocar el equipo de verdad.
+static class Sitio
+{
+    public static string Prueba { get { return Environment.GetEnvironmentVariable("CINECAPTIONS_PRUEBA_RAIZ"); } }
+    public static bool EsPrueba { get { return !string.IsNullOrEmpty(Prueba); } }
+    public static string Usuario { get { return EsPrueba ? Path.Combine(Prueba, "usuario") : Environment.GetFolderPath(Environment.SpecialFolder.UserProfile); } }
+    public static string Local { get { return EsPrueba ? Path.Combine(Usuario, @"AppData\Local") : Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData); } }
+    public static string Roaming { get { return EsPrueba ? Path.Combine(Usuario, @"AppData\Roaming") : Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData); } }
+    public static string MenuInicio { get { return EsPrueba ? Path.Combine(Roaming, @"Microsoft\Windows\Start Menu\Programs") : Environment.GetFolderPath(Environment.SpecialFolder.Programs); } }
+    public static string Escritorio { get { return EsPrueba ? Path.Combine(Usuario, "Desktop") : Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory); } }
+    public static string Documentos { get { return EsPrueba ? Path.Combine(Usuario, "Documents") : Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments); } }
+    public static string ProgramData { get { return EsPrueba ? Path.Combine(Prueba, "programdata") : Environment.GetEnvironmentVariable("PROGRAMDATA") ?? @"C:\ProgramData"; } }
+    public static string Temp
+    {
+        get
+        {
+            if (!EsPrueba) return Path.GetTempPath();
+            string t = Path.Combine(Prueba, "temp");
+            try { Directory.CreateDirectory(t); } catch { }
+            return t + "\\";
+        }
+    }
+    public static string DatosUsuario { get { return Path.Combine(Usuario, "DaVinciSubtitles"); } }
+    public static string Fuentes { get { return Path.Combine(Local, @"Microsoft\Windows\Fonts"); } }
+    public static string CacheModelos
+    {
+        get
+        {
+            string hub = EsPrueba ? null : Environment.GetEnvironmentVariable("HF_HUB_CACHE");
+            if (string.IsNullOrEmpty(hub))
+            {
+                string home = EsPrueba ? null : Environment.GetEnvironmentVariable("HF_HOME");
+                if (string.IsNullOrEmpty(home)) home = Path.Combine(Usuario, @".cache\huggingface");
+                hub = Path.Combine(home, "hub");
+            }
+            return hub;
+        }
+    }
+    public static RegistryKey RaizRegistro()
+    {
+        if (EsPrueba) return Registry.CurrentUser.CreateSubKey(@"Software\CineCaptionsPrueba");
+        return Registry.CurrentUser;
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Borrado a fondo: rutas largas (PyTorch las tiene), solo lectura, enlaces, procesos que sostienen archivos, y lo que no se pueda borrar ahora
+// se deja programado para el proximo inicio de sesion (RunOnce de HKCU, sin administrador).
+static class Borrado
+{
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    struct WIN32_FIND_DATA
+    {
+        public uint dwFileAttributes;
+        public System.Runtime.InteropServices.ComTypes.FILETIME ftCreationTime, ftLastAccessTime, ftLastWriteTime;
+        public uint nFileSizeHigh, nFileSizeLow, dwReserved0, dwReserved1;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)] public string cFileName;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 14)] public string cAlternateFileName;
+    }
+    [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)] static extern IntPtr FindFirstFileW(string nombre, out WIN32_FIND_DATA datos);
+    [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)] static extern bool FindNextFileW(IntPtr h, out WIN32_FIND_DATA datos);
+    [DllImport("kernel32.dll")] static extern bool FindClose(IntPtr h);
+    [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)] static extern bool DeleteFileW(string n);
+    [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)] static extern bool RemoveDirectoryW(string n);
+    [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)] static extern bool SetFileAttributesW(string n, uint a);
+    [DllImport("kernel32.dll", CharSet = CharSet.Unicode)] static extern uint GetFileAttributesW(string n);
+    [DllImport("kernel32.dll", SetLastError = true)] static extern IntPtr OpenProcess(uint acceso, bool heredar, int pid);
+    [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)] static extern bool QueryFullProcessImageNameW(IntPtr h, int flags, StringBuilder sb, ref int tam);
+    [DllImport("kernel32.dll")] static extern bool CloseHandle(IntPtr h);
+    [DllImport("user32.dll", SetLastError = true)] static extern IntPtr SendMessageTimeout(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam, uint flags, uint timeout, out IntPtr resultado);
+
+    const uint INVALIDO = 0xFFFFFFFF, DIRECTORIO = 0x10, ENLACE = 0x400;
+
+    // \\?\ delante: sin el limite de 260 caracteres
+    public static string Largo(string p)
+    {
+        if (p.StartsWith(@"\\?\")) return p;
+        if (p.StartsWith(@"\\")) return @"\\?\UNC\" + p.Substring(2);
+        return @"\\?\" + p;
+    }
+
+    public static bool Existe(string ruta) { return GetFileAttributesW(Largo(ruta.TrimEnd('\\'))) != INVALIDO; }
+
+    /// Borra un archivo o una carpeta entera. Devuelve true si ya no existe.
+    public static bool Arbol(string ruta, Action<string> log)
+    {
+        string r = Largo(ruta.TrimEnd('\\'));
+        uint a = GetFileAttributesW(r);
+        if (a == INVALIDO) return true;
+        if ((a & DIRECTORIO) == 0) return UnArchivo(r, log);
+        if ((a & ENLACE) != 0) return Quitar(r, true, log);              // un enlace/junction: se quita el enlace, nunca su contenido
+        for (int vuelta = 0; vuelta < 3; vuelta++)
+        {
+            Contenido(r, log);
+            if (Quitar(r, true, log)) return true;
+            Thread.Sleep(500);
+        }
+        if (GetFileAttributesW(r) == INVALIDO) return true;
+        try                                                              // ultimo recurso: el propio Windows
+        {
+            ProcessStartInfo psi = new ProcessStartInfo("cmd.exe", "/c rd /s /q \"" + r + "\"");
+            psi.CreateNoWindow = true; psi.UseShellExecute = false;
+            Process p = Process.Start(psi);
+            p.WaitForExit(120000);
+        }
+        catch { }
+        return GetFileAttributesW(r) == INVALIDO;
+    }
+
+    static void Contenido(string r, Action<string> log)
+    {
+        List<string> carpetas = new List<string>(), archivos = new List<string>(), enlaces = new List<string>();
+        WIN32_FIND_DATA d;
+        IntPtr h = FindFirstFileW(r + @"\*", out d);
+        if (h == new IntPtr(-1)) return;
+        try
+        {
+            do
+            {
+                if (d.cFileName == "." || d.cFileName == "..") continue;
+                string completa = r + "\\" + d.cFileName;
+                if ((d.dwFileAttributes & DIRECTORIO) != 0) { if ((d.dwFileAttributes & ENLACE) != 0) enlaces.Add(completa); else carpetas.Add(completa); }
+                else archivos.Add(completa);
+            } while (FindNextFileW(h, out d));
+        }
+        finally { FindClose(h); }
+        foreach (string f in archivos) UnArchivo(f, log);
+        foreach (string e in enlaces) Quitar(e, true, log);
+        foreach (string c in carpetas) { Contenido(c, log); Quitar(c, true, log); }
+    }
+
+    static bool UnArchivo(string r, Action<string> log)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            SetFileAttributesW(r, 0x80);                                   // quita solo-lectura / oculto / sistema
+            if (DeleteFileW(r)) return true;
+            if (GetFileAttributesW(r) == INVALIDO) return true;
+            int err = Marshal.GetLastWin32Error();
+            if (i == 3 && log != null) log("No pude borrar " + r.Replace(@"\\?\", "") + " (error " + err + ")");
+            Thread.Sleep(300);
+        }
+        return false;
+    }
+
+    static bool Quitar(string r, bool dir, Action<string> log)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            SetFileAttributesW(r, 0x80);
+            if (RemoveDirectoryW(r) || GetFileAttributesW(r) == INVALIDO) return true;
+            Thread.Sleep(250);
+        }
+        return false;
+    }
+
+    // ---- procesos ------------------------------------------------------------------------
+    public static string RutaDe(Process p)
+    {
+        IntPtr h = IntPtr.Zero;
+        try
+        {
+            h = OpenProcess(0x1000, false, p.Id);                         // PROCESS_QUERY_LIMITED_INFORMATION
+            if (h == IntPtr.Zero) return null;
+            StringBuilder sb = new StringBuilder(1024);
+            int tam = sb.Capacity;
+            return QueryFullProcessImageNameW(h, 0, sb, ref tam) ? sb.ToString() : null;
+        }
+        catch { return null; }
+        finally { if (h != IntPtr.Zero) CloseHandle(h); }
+    }
+
+    /// Cierra todo proceso cuyo ejecutable viva dentro de esas carpetas (el programa, sus motores de voz / IA, lo que sostenga archivos). Devuelve cuantos.
+    public static int CerrarEn(List<string> carpetas, Action<string> log, string excepto)
+    {
+        int n = 0;
+        int yo = Process.GetCurrentProcess().Id;
+        foreach (Process p in Process.GetProcesses())
+        {
+            try
+            {
+                if (p.Id == yo) continue;
+                string ruta = RutaDe(p);
+                if (ruta == null) continue;
+                if (excepto != null && string.Equals(ruta, excepto, StringComparison.OrdinalIgnoreCase)) continue;
+                bool nuestro = false;
+                foreach (string c in carpetas) if (Programa.DentroDe(ruta, c)) { nuestro = true; break; }
+                if (!nuestro) continue;
+                if (log != null) log("Cerrando " + p.ProcessName + " (pid " + p.Id + ") de " + Path.GetDirectoryName(ruta));
+                try { p.Kill(); p.WaitForExit(6000); n++; } catch (Exception ex) { if (log != null) log("No pude cerrar pid " + p.Id + ": " + ex.Message); }
+            }
+            catch { }
+            finally { try { p.Dispose(); } catch { } }
+        }
+        return n;
+    }
+
+    // ---- lo que no se pudo borrar ahora: al proximo inicio de sesion ----------------------
+    public static bool ProgramarBorrado(List<string> rutas, Action<string> log)
+    {
+        if (rutas.Count == 0) return true;
+        try
+        {
+            StringBuilder sb = new StringBuilder("cmd.exe /c ");
+            for (int i = 0; i < rutas.Count; i++)
+            {
+                string r = rutas[i].TrimEnd('\\');
+                if (i > 0) sb.Append(" & ");
+                sb.Append("(rd /s /q \"" + r + "\" 2>nul & del /f /q \"" + r + "\" 2>nul)");
+            }
+            using (RegistryKey k = Sitio.RaizRegistro().CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\RunOnce"))
+                k.SetValue("CineCapsLimpieza", sb.ToString());
+            if (log != null) log("Quedaron " + rutas.Count + " elemento/s en uso: se borrarán solos al iniciar sesión de nuevo.");
+            return true;
+        }
+        catch (Exception ex) { if (log != null) log("No pude programar el borrado: " + ex.Message); return false; }
+    }
+
+    // ---- registro de Windows: lo que el propio Windows apunta de un .exe ---------------------------
+    static readonly string[] ClavesRastros = new string[] {
+        @"Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Compatibility Assistant\Store",
+        @"Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers",
+        @"Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\MuiCache",
+        @"Software\Microsoft\Windows\ShellNoRoam\MUICache",
+        @"Software\Microsoft\Windows\CurrentVersion\Explorer\FeatureUsage\AppSwitched",
+        @"Software\Microsoft\Windows\CurrentVersion\Explorer\FeatureUsage\AppLaunch",
+        @"Software\Microsoft\Windows\CurrentVersion\Search\JumplistData",
+        @"Software\Microsoft\Windows\CurrentVersion\RunOnce",
+        @"Software\Microsoft\Windows\CurrentVersion\Run"
+    };
+
+    /// Quita las entradas cuyo nombre o valor apunta a esas carpetas / archivos, y las claves propias de nuestros .exe. Devuelve cuantas.
+    public static int LimpiarRastros(List<string> prefijos, Action<string> log)
+    {
+        int n = 0;
+        RegistryKey raiz = Sitio.RaizRegistro();
+        foreach (string clave in ClavesRastros)
+        {
+            try
+            {
+                using (RegistryKey k = raiz.OpenSubKey(clave, true))
+                {
+                    if (k == null) continue;
+                    foreach (string nombre in k.GetValueNames())
+                    {
+                        if (nombre == "CineCapsLimpieza") continue;           // la limpieza programada se queda hasta que corra
+                        string dato = "";
+                        try { object v = k.GetValue(nombre); dato = v == null ? "" : (v is string[] ? string.Join(" ", (string[])v) : v.ToString()); } catch { }
+                        bool es = false;
+                        foreach (string p in prefijos)
+                            if (p.Length > 3 && (nombre.IndexOf(p, StringComparison.OrdinalIgnoreCase) >= 0 || dato.IndexOf(p, StringComparison.OrdinalIgnoreCase) >= 0)) { es = true; break; }
+                        if (es) { try { k.DeleteValue(nombre, false); n++; if (log != null) log("Registro: quitado " + clave + "\\" + nombre); } catch { } }
+                    }
+                }
+            }
+            catch { }
+        }
+        foreach (string clave in new string[] { @"Software\Classes\Applications\CineCaptions.exe", @"Software\Classes\Applications\Desinstalar.exe" })
+        {
+            try
+            {
+                using (RegistryKey k = raiz.OpenSubKey(clave))
+                {
+                    if (k == null) continue;
+                    object abrir = null;
+                    try { using (RegistryKey c = k.OpenSubKey(@"shell\open\command")) { if (c != null) abrir = c.GetValue(""); } } catch { }
+                    bool nuestro = abrir == null;                            // sin comando: es solo la marca de «abrir con»
+                    if (!nuestro) foreach (string p in prefijos) if (abrir.ToString().IndexOf(p, StringComparison.OrdinalIgnoreCase) >= 0) nuestro = true;
+                    if (!nuestro) continue;
+                }
+                raiz.DeleteSubKeyTree(clave, false); n++;
+                if (log != null) log("Registro: quitada la clave " + clave);
+            }
+            catch { }
+        }
+        return n;
+    }
+
+    public static void AvisarFuentes()
+    {
+        try { IntPtr r; SendMessageTimeout(new IntPtr(0xFFFF), 0x1D, IntPtr.Zero, IntPtr.Zero, 2, 1500, out r); } catch { }       // WM_FONTCHANGE
     }
 }
 
@@ -107,11 +413,12 @@ static class Programa
 class Opciones
 {
     public bool Desinstalar, Silencioso, SinModelo, SinEscritorio, NoAbrir, SinAccesos, SinLimpiar, YaReubicado, Empezar;
+    public bool BorrarDatos, BorrarModelos;      // al desinstalar: tambien tus datos / licencia y los modelos descargados (/borrardatos /borrarmodelos /todo)
     public string Dir;
 
     public static string DirPorDefecto()
     {
-        return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Programs\" + Programa.Nombre);
+        return Path.Combine(Sitio.Local, @"Programs\" + Programa.Nombre);
     }
 
     public static Opciones Leer(string[] args)
@@ -131,6 +438,9 @@ class Opciones
             else if (l == "sinlimpiar") o.SinLimpiar = true;
             else if (l == "reubicado") o.YaReubicado = true;
             else if (l == "empezar") o.Empezar = true;
+            else if (l == "borrardatos") o.BorrarDatos = true;
+            else if (l == "borrarmodelos") o.BorrarModelos = true;
+            else if (l == "todo") { o.BorrarDatos = true; o.BorrarModelos = true; }
             else if (l.StartsWith("dir=")) o.Dir = a.Substring(a.IndexOf('=') + 1).Trim().Trim('"');
         }
         if (string.IsNullOrEmpty(o.Dir))
@@ -155,6 +465,8 @@ class Opciones
         if (Silencioso) sb.Append(" /silencioso");
         if (SinAccesos) sb.Append(" /sinaccesos");
         if (Empezar) sb.Append(" /empezar");
+        if (BorrarDatos) sb.Append(" /borrardatos");
+        if (BorrarModelos) sb.Append(" /borrarmodelos");
         sb.Append(" \"/dir=" + Dir + "\"");
         return sb.ToString().Trim();
     }
@@ -165,6 +477,7 @@ static class Registro
 {
     static readonly object cerrojo = new object();
     static string ruta;
+    public static bool EnTemp;          // al desinstalar: el log va a %TEMP% (y se borra al terminar bien)
 
     public static string Ruta
     {
@@ -175,13 +488,26 @@ static class Registro
                 string d;
                 try
                 {
-                    d = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @"DaVinciSubtitles\instalador");
-                    Directory.CreateDirectory(d);
+                    if (EnTemp) d = Sitio.Temp;
+                    else
+                    {
+                        d = Path.Combine(Sitio.DatosUsuario, "instalador");
+                        Directory.CreateDirectory(d);
+                    }
                 }
                 catch { d = Path.GetTempPath(); }
-                ruta = Path.Combine(d, "instalador_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".log");
+                ruta = Path.Combine(d, (EnTemp ? "cinecaptions_desinstalar_" : "instalador_") + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".log");
             }
             return ruta;
+        }
+    }
+
+    /// Borra el archivo de registro (cuando todo salio bien y no debe quedar ni el log).
+    public static void Borrar()
+    {
+        lock (cerrojo)
+        {
+            try { if (ruta != null && File.Exists(ruta)) File.Delete(ruta); } catch { }
         }
     }
 
@@ -198,7 +524,7 @@ static class Registro
     {
         try
         {
-            using (RegistryKey k = Registry.CurrentUser.OpenSubKey(clave))
+            using (RegistryKey k = Sitio.RaizRegistro().OpenSubKey(clave))
             {
                 if (k == null) return null;
                 object v = k.GetValue(valor);

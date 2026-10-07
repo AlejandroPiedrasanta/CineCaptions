@@ -3164,6 +3164,11 @@ def _padre(parent):
 def mostrar_mensaje(tipo, titulo, texto, parent=None, botones=None):
     crear_app()
     try:
+        from i18n import tr_libre            # los mensajes llegan armados desde cualquier modulo (o desde un script de Resolve): se traducen aqui
+        titulo, texto = tr_libre(titulo), tr_libre(texto)
+    except Exception:
+        pass
+    try:
         if tipo in ('error', 'aviso'):
             import registro
             primera = next((l.strip() for l in str(texto or '').splitlines() if l.strip()), '')

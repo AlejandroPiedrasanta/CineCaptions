@@ -148,6 +148,8 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         la ventana «Activa tu licencia» (formato CineSlide: panel animado, clave, confeti).
     version.py
         la versión del programa (APP_VERSION) y el autor, en un solo sitio.
+    vigilancia.py
+        guardián de las tareas largas (GO, Generar), chequeos periódicos y detección de arranque atascado. Windows y Mac.
     vistas_guia.py
         las vistas REALES (renderizadas por Resolve) de los ejemplos de «Crea tu estilo»: se piden, se reducen y se guardan en caché.
     vistas_reales.py

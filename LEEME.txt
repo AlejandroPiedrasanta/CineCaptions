@@ -634,6 +634,8 @@ v3.x y anteriores    Instalador .exe con librerías fijas; interfaz Tk (retirada
         la ventana «Activa tu licencia» (formato CineSlide: panel animado, clave, confeti).
     1_codigo\version.py
         la versión del programa (APP_VERSION) y el autor, en un solo sitio.
+    1_codigo\vigilancia.py
+        guardián de las tareas largas (GO, Generar), chequeos periódicos y detección de arranque atascado. Windows y Mac.
     1_codigo\vistas_guia.py
         las vistas REALES (renderizadas por Resolve) de los ejemplos de «Crea tu estilo»: se piden, se reducen y se guardan en caché.
     1_codigo\vistas_reales.py
@@ -810,7 +812,7 @@ v3.x y anteriores    Instalador .exe con librerías fijas; interfaz Tk (retirada
 14. MAPA DEL CÓDIGO (automático: cada clase, método y función con su línea)
 --------------------------------------------------------------------------------
 <<< MAPA AUTOMATICO (lo escribe 3_compilar/documentar.py) >>>
-  Generado el 2026-10-07 para la v5.3.0. Formato: línea  clase / .método() / función()  — qué hace.
+  Generado el 2026-10-07 para la v5.3.1. Formato: línea  clase / .método() / función()  — qué hace.
 
   1_codigo\actualizaciones.py  (68 líneas)
        28  _partes()  — '5.2.0-beta.3' -> (5, 2, 0, 0, 3): una beta va antes que su estable.
@@ -1011,694 +1013,701 @@ v3.x y anteriores    Instalador .exe con librerías fijas; interfaz Tk (retirada
       199  _destello()
       210  barrido_periodico()  — v5.5: desactivado (barridos periodicos solos = ruido). Se conserva la firma para quien lo llame.
 
-  1_codigo\CineCaptions (script principal).py  (12147 líneas)
-      104  sfx_ruta_reglas_usuario()  — Donde queda el sfx_rules.json que el usuario SI puede editar.
-      112  fecha_caducidad_texto()  — '15 de septiembre de 2026', o '' si esta version no caduca. Se DERIVA de CADUCA_EL a proposito: la fecha estab…
-      124  prueba_caducada()  — True si esta compilacion ya no debe generar subtitulos. 'hoy' existe para poder probarlo con fechas simuladas …
-      133  _base_recursos()  — Carpeta de los archivos que acompañan al programa. Compilado con PyInstaller los datos se extraen a una carpet…
-      147  guardar_log_de_error()  — Escribe el detalle de un error en un archivo y devuelve su ruta. Como la ventana se abre sin consola, si algo …
-      202  _plegar()  — Minusculas y sin tildes: el buscador de idiomas no exige acentos («espanol» encuentra «Español») y el orden po…
-      214  _en_la_interfaz()  — Los (nombre, codigo) con el nombre en el idioma de la interfaz (v3.3.0: nombres de Unicode CLDR en locales/). …
-      227  _idioma_en_frase()  — Un nombre de idioma DENTRO de una frase (v3.3.0): en minuscula donde la lengua lo pide («al inglés», «em inglê…
-      234  _combinacion_visible()  — «inferior 2» en el idioma de la interfaz (v3.3.0). Lo que se GUARDA sigue siendo el valor interno: casa con lo…
-      241  _codigo_de()  — Codigo de idioma de lo que haya guardado en preferencias: un codigo (v3.3.0 en adelante), un nombre en el idio…
-      266  fuente()  — La letra de la casa, en pixeles (ver qt_kit.fuente; acepta peso=).
-      270  _icono_estrella()  — Estrella de cuatro puntas, blanca y plana (estilo Gemini). Es una astroide: x = R*|cos t|^n, y = R*|sin t|^n. …
-      300  _icono_carpeta()  — Carpeta plana, para el boton de proyectos guardados.
-      318  familia_legible()  — Familia de letra para el panel de palabras, segun el sistema. 'Segoe UI' solo existe en Windows: pedirla en un…
-      339  ruta_marcas()
-      341  guardar_marcas()  — Deja en disco las palabras (ya corregidas) y sus marcas. Se guardan las palabras completas — no solo los roles…
-      353  cargar_marcas()  — Devuelve (palabras, roles) de lo guardado, o None si no hay nada utilizable para ese proyecto.
-      370  _titulo()
-      372  _nota()
-      374  _capa_dialogo()
-      379  class ProyectosWindow  — Lista de proyectos (videos) trabajados previamente. Muestra cada uno con: nombre del video, fecha de ultima mo…
-      392      .__init__()
-      410      ._recargar()
-      419      ._agregar_fila()
-      445      ._abrir()
-      455      ._borrar()
-      461      ._purgar_todo()
-      469  class IdiomasTraduccionWindow  — Buscar, descargar y ver los paquetes de idioma de la traduccion. OJO con no confundir esto con el idioma del v…
-      477      .__init__()
-      487      ._build_ui()
-      512      ._pintar_pronto()  — Repinta al dejar de teclear (120 ms): con 200 filas, repintar en cada tecla se notaba.
-      517      ._cargar()  — Trae el catalogo. El refresco va en un hilo: baja de internet.
-      546      ._pintar()
-      573      ._fila()
-      589      ._descargar()
-      615      ._cerrar()
-      621  _nombre_es()  — El nombre en español de un codigo de idioma, si lo conocemos.
-      624  class BuscadorIdiomaWindow  — Buscador de idiomas compartido (v1.0.68, pedido literal: «a la seccion de los idiomas añadeles un buscador, ta…
-      635      .__init__()
-      660      .keyPressEvent()
-      667      ._pintar()
-      679      ._primero()
-      683      ._elegir()
-      688  class _RejillaEmojis  — La rejilla del selector de emojis: UN widget que pinta solo las celdas a la vista (la v4 usaba un Canvas de Tk…
-      691      .__init__()
-      703      .showEvent()
-      706      .hideEvent()
-      709      ._tic_animacion()
-      714      ._anim_lista()
-      717      ._glifo_de()
-      723      .armar()
-      746      .celda_en()
-      751      .mouseMoveEvent()
-      757      .leaveEvent()
-      761      .mousePressEvent()
-      770      .paintEvent()
-      807  class EmojiPickerWindow  — El emoji de UNA palabra (v3.3.0, pedido literal: «poner emojis a las palabras claves, bonitos y estéticos como…
-      829      .__init__()
-      888      .mostrar_en()  — Aparece en esas coordenadas DE LA VENTANA y toma el teclado. Quien lo coloca es WordTagWindow._colocar_junto_a…
-      895      .withdraw()  — Compat: hasta la v3.3.1 era una ventana. Un panel no se retira.
-      898      .existe()
-      900      .contiene()  — Si ese punto de pantalla cae dentro del panel.
-      909      .cerrar()
-      924      .keyPressEvent()
-      930      ._escape()
-      933      ._primero()  — Enter en el buscador elige el primer resultado: un camino por teclado por si el clic en la rejilla fallara en …
-      939      ._on_sistema()
-      957      ._abrir_carpeta()
-      969      ._avisar()
-      972      ._imagen()
-      985      ._pintar()
-     1020      ._recientes()
-     1026      ._elegir()
-     1037      ._mi_png()  — «➕ Mi PNG…»: lo hace la ventana (unico sitio con el dialogo); el panel se cierra al aplicar.
-     1043      ._menu_celda()  — Clic derecho sobre un emoji (v3.3.4): usar tu PNG en su lugar, volver al original, o quitar uno tuyo de la bib…
-     1078  estilos_de_pack()  — {formato: {'rol|n': estilo}} del pack, memorizado (leer el .drb cuesta).
-     1086  _hex_de()
-     1091  _color_de_variante()  — El color de una variante del pack como '#RRGGBB': viene como texto '#RRGGBB' (packs nuevos) o como [r, g, b] d…
-     1096  _estilo_rol()  — El estilo de ese rol en el set mas bajo que lo traiga.
-     1110  _estilo_rol_n()  — El estilo de ese rol en la variante n (si no la trae, el del set mas bajo).
-     1118  estilo_fijo()  — La variante (1..n) que el usuario dejo fija en «Estilo del bloque» (Proyecto); 0 = ir alternando.
-     1127  resumen_composicion()  — «alineación AUTO, altura -5%, horizontal +1%»: lo que el ajuste fino cambia respecto a la posición exacta del …
-     1138  poner_estilo_fijo()
-     1145  lineas_de_vista()  — Las lineas para un MarcoVista con el estilo del pack (aprox.). 'n' = la variante a dibujar (None = la fija del…
-     1178  class _TileLayout  — Un layout de la rejilla de Composicion: tres barras (contexto blanco, principal ambar, complemento violeta) al…
-     1181      .__init__()
-     1191      .enterEvent()
-     1195      .leaveEvent()
-     1199      .mousePressEvent()
-     1202      .paintEvent()
-     1232  class _MiniVariante  — v5.5: la miniatura de UNA variante del pack (con su tipografia y su color): se ve de un vistazo cual elegir y …
-     1234      .__init__()
-     1242      .mousePressEvent()
-     1245      .paintEvent()
-     1253  class _PreviaComposicion
-     1254      .__init__()
-     1260      .paintEvent()
-     1270  class ComposicionWindow  — «Composición» (v3.4.0; la referencia del usuario: otro plugin con «COMPOSIÇÃO / LAYOUTS»): los 9 layouts + AUT…
-     1283      .__init__()
-     1409      .poner_habilitado()  — Solo los Dinamicos tienen tres lineas que alinear.
-     1414      .existe()
-     1417      ._paso_pagina()
-     1420      ._icono_elegido()
-     1422      ._donde_icono()
-     1427      ._recalcular_vistas()  — Las variantes del pack elegido (una vista cada una); sin pack legible, una sola vista generica.
-     1437      ._pintar_miniaturas()  — Una miniatura por variante del pack (hasta 6): la elegida lleva el borde de color.
-     1457      ._ir_a_variante()
-     1460      ._actualizar_pager()
-     1481      ._alternar_fijo()  — Fija el estilo que se ve (todos los bloques lo usan) o vuelve a alternar uno distinto por bloque.
-     1486      ._reflejar_en_packs()  — Las tarjetas de los packs y la vista de Creativo dibujan el estilo fijo.
-     1502      ._mover_vista()
-     1516      ._cambio_icono()
-     1526      ._formato_previa()
-     1543      ._deslizador()
-     1564      ._barra()
-     1568      ._dibujar_previa()
-     1634      ._refrescar()
-     1648      ._alternar_fino()
-     1651      ._texto_fino()  — «Ajuste fino ▸» (plegado) o «▾» (abierto); en ámbar y con lo que cambiaste si ya tocaste algo (así no se queda…
-     1660      ._nombre_lado()
-     1662      ._recordar()
-     1669      ._poner_layout()
-     1673      ._poner_auto()
-     1675      ._restablecer()
-     1686      ._aplicar()
-     1697      ._resultado()
-     1707  _sangria()  — El padx=PAD_SANGRIA de la v4: lo de dentro de una tarjeta, corrido.
-     1711  class _TileAnadir  — El mosaico punteado «Añadir plantilla (.drb)».
-     1713      .__init__()
-     1727      .enterEvent()
-     1731      .leaveEvent()
-     1735      .mousePressEvent()
-     1738      .paintEvent()
-     1748  class _EstructuraPack  — La estructura de un pack de un vistazo: arriba · principal · abajo · imagen (cada uno con el color de su rol) …
-     1751      .__init__()
-     1760      .paintEvent()
-     1790  class _TilePack  — Un pack en la cuadricula: vista previa (miniatura real o aprox.), nombre, formatos, estado de sus tipografias …
-     1793      .__init__()
-     1863      ._menu()
-     1868      .poner_elegida()
-     1872      .mousePressEvent()
-     1878      .mouseDoubleClickEvent()
-     1885      .enterEvent()
-     1891      .leaveEvent()
-     1896  class PlantillasWindow  — Elegir el diseño de los subtitulos. DOS vistas, una por MODO (v1.0.70, pedido literal: «las nuevas plantillas …
-     1916      .__init__()
-     2007      .actualizar()  — La app avisa de un cambio de modo, formato o eleccion.
-     2021      ._columnas()  — Cuantas columnas de packs caben: cada mosaico pide ~340 px y a la derecha va «Composición».
-     2029      .eventFilter()
-     2037      .existe()
-     2039      .cerrar()
-     2041      ._estilo_desde_imagen()
-     2068      ._crear_estilo()  — «Crea tu estilo» (v5.8): la galería de 30 ejemplos con imagen. Se tocan hasta 3 y «Crear mi pack» arma el pack…
-     2079      ._ayuda_estilo()  — El «!»: por qué los clips se llaman principal / arriba / abajo / simple, qué son las variantes 2 y 3 y cómo se…
-     2088      ._abrir_guia_resolve()
-     2092      ._crear_pack_de_ejemplos()  — Arma el pack con los ejemplos elegidos (en un hilo) y avisa a la galería con terminado(ok).
-     2121      ._ajustar_wrap()  — En Qt el ajuste de linea sigue solo al ancho.
-     2127      ._diseno_resuelto()  — El diseño con preset y retoques ya mezclados (via plantillas).
-     2130      ._emitir_diseno()  — Aplica en el acto: guarda el estado y elige el modo.
-     2136      ._tocar_rol()
-     2140      ._elegir()  — Marca ese valor Y LO APLICA en el acto (la eleccion ya esta guardada antes de que el usuario piense en irse).
-     2155      ._realzar()  — Pinta el borde del mosaico elegido y apaga los demas.
-     2167      ._hacer_clicable()  — Compat: el mosaico entero ya elige.
-     2170      ._pack_de()
-     2176      ._estado_fuentes()  — ('Tipografías ok', verde) / ('Faltan N tipografías', ambar).
-     2189      ._texto_formatos()
-     2192      ._miniatura()
-     2203      ._formato_vista()
-     2209      ._real_de()  — (sets, recortes) del render real ya hecho de ese pack, o None.
-     2220      ._renderizar_reales()  — Resolve renderiza la vista real de los packs visibles que aun no la tienen (o de 'solo'). En un hilo; la cuadr…
-     2270      ._poner_tile()
-     2273      ._siguiente()
-     2276      ._fila()  — Compat v4: un mosaico simple (Media Pool / Diseño automático).
-     2295      ._filas_basicos()  — La vista del MODO NORMAL (v1.0.70): «Clásica (Subtitle Template)» + un mosaico por pack de SUBTITULOS BASICOS …
-     2363      ._pintar_basicos_chips()
-     2368      ._quitar_basicos()  — Borra un pack de basicos del usuario (con confirmacion).
-     2377      ._recargar()  — Redibuja la cuadricula. Con 'seleccionar', ademas apunta ese pack (hasta la v1.0.26 no lo hacia y un pack reci…
-     2433      ._formato_del_filtro()  — 'h', 'v', 'c' o None si esta en «Todos».
-     2440      ._fila_pack()  — El mosaico de un pack importado o incluido (II inferior/superior).
-     2458      ._acciones_de()  — Los botones de la tarjeta de un estilo: ✎ editar en Resolve y 🗑 quitar (los incluidos no se borran del disco: …
-     2466      ._quitar_pack()
-     2482      ._mostrar_ocultos()
-     2486      ._editar_en_resolve()  — ✎ / doble clic: abre el timeline del pack en Resolve para modificarlo (edicion_pack.py).
-     2509      ._detalles()
-     2519      ._pack_elegido()
-     2524      ._pintar_fuentes()  — La tarjeta «Tipografías que usa el pack» del elegido.
-     2556      ._instalar_fuentes_elegido()
-     2560      ._editar_descripcion()  — Pide la descripcion corta del pack y la guarda por nombre (v1.0.67: una nota del usuario para ubicar cada plan…
-     2569      ._instalar_fuentes()  — Instala en el sistema las tipografias del pack que falten. Instalar fuentes TOCA EL SISTEMA del usuario, asi q…
-     2601      ._borrar()
-     2611      ._importar()
-     2614      ._importar_drt()
-     2617      ._aceptar()  — Compat: la eleccion ya viaja al tocarla (_elegir).
-     2621  _mezclar_hex()  — El color a 'fraccion' del camino entre el fondo y el color (el relleno de una ficha: el color del rol al 14 % …
-     2630  _timecode()  — '[1:23]' — el minuto y segundo donde arranca la frase.
-     2637  _tc_largo()  — '00:01:23' — la columna de tiempos del lienzo (v5.0.0).
-     2644  _tc_fino()  — '00:00:07,4' — el tramo del bloque en vivo.
-     2652  class _Ev  — Lo que la logica de la v4 leia de un evento de Tk: x, y del lienzo y x_root, y_root de la pantalla.
-     2656      .__init__()
-     2661  class _PopupSfx  — El popup pequeño con el sonido de una palabra (sale al pasar el cursor; clic = elegir otro).
-     2663      .__init__()
-     2670      .enterEvent()
-     2673      .leaveEvent()
-     2677      .mousePressEvent()
-     2679  class LienzoPalabras  — El area de palabras del editor (v3.3.2): cada palabra es una FICHA redondeada del color de su rol — la referen…
-     2721      .__init__()
-     2774      ._texto_visible()  — La palabra como se vera en el bloque: con mayuscula inicial si es de contenido (conectores en baja).
-     2785      ._glifo_de_emoji()
-     2792      ._fm()
-     2794      .dibujar()  — Rehace el layout de flujo con el ancho actual. 'imagen_de(id)' da la miniatura del emoji (QPixmap) o None; 'pa…
-     2912      .pintar()  — Solo colores y fuente de UNA palabra: nada se mueve.
-     2927      ._repintar()
-     2933      .paintEvent()
-     2995      ._pintar_ficha()
-     3057      .indice_en()  — La palabra en ese punto DEL LIENZO (o a menos de 'tolerancia' px de ella), o None. Con varias a tiro gana la m…
-     3072      .emoji_en()  — La palabra cuyo EMOJI esta bajo ese punto, o None.
-     3078      .quitar_en()  — La palabra cuya ✕ de emoji esta bajo ese punto, o None (v3.3.4).
-     3084      .caja_raiz()  — (x, y, ancho, alto) de la ficha EN PANTALLA, o None.
-     3091      .sonando()  — Marca (o desmarca con None) la palabra que esta sonando; se repinta solo lo que cambia.
-     3101      .ver()  — Desplaza lo justo para que la ficha se vea.
-     3111      .vista()
-     3113      .ir_a()
-     3118      .textos()
-     3120      .emojis_dibujados()
-     3122      .resizeEvent()
-     3128      ._relayout()
-     3136      .poner_puntos_sfx()
-     3141      .showEvent()
-     3145      .hideEvent()
-     3149      ._tic_emojis()
-     3160      ._anim_lista()
-     3164      ._popup_sfx_para()  — Al pasar el cursor por una palabra con sonido sale un popup pequeño con el nombre; clic en el popup = cambiarl…
-     3182      ._ocultar_popup_sfx()
-     3187      ._clic_popup_sfx()
-     3194      .seleccion()
-     3197      .limpiar_seleccion()
-     3204      ._avisar_seleccion()
-     3208      ._tocadas_por()
-     3213      ._empezar_seleccion()  — True si este clic NO es de pintar una palabra: empieza un recuadro, o suma/quita con Ctrl o Mayus.
-     3241      .mousePressEvent()
-     3254      .mouseDoubleClickEvent()
-     3257      .mouseMoveEvent()
-     3291      .mouseReleaseEvent()
-     3299      .leaveEvent()
-     3305  class PincelesBar  — Los pinceles como pildoras con punto de color, tecla y contador (v3.3.2, la referencia: «1 Contexto · 35»). In…
-     3311      .__init__()
-     3334      .boton()
-     3336      ._pulsar()
-     3340      .set()
-     3342      .get()
-     3344      .contar()
-     3347      ._texto()
-     3353      ._refrescar()
-     3357  class _Pildora  — Una pildora de pincel: punto de color + texto; la elegida con el borde del color del rol.
-     3360      .__init__()
-     3373      .poner()
-     3380      .sizeHint()
-     3382      .minimumSizeHint()
-     3384      .enterEvent()
-     3388      .leaveEvent()
-     3392      .paintEvent()
-     3410  _fuente_puntos()  — Las letras del lienzo van en PUNTOS (como los tkfont de la v4).
-     3418  class _SinBarra  — Un hueco que acepta cualquier llamada y no hace nada: lo que antes pintaba la barra de abajo del editor (v5.7:…
-     3421      .__getattr__()
-     3425  class _AvisoToast  — Las notas cortas del editor (antes en la barra de abajo) salen ahora como un aviso flotante; silencio=True las…
-     3428      .__init__()
-     3432      .configure()
-     3446  class WordTagWindow  — El editor de palabras: el usuario marca a mano, palabra por palabra, cuales van de contexto / principal / comp…
-     3471      .__init__()
-     3549      .titulo()
-     3551      .subtitulo()
-     3558      ._atajos()  — Teclas para no tener que ir al selector de pincel a cada rato. Marcar 180 palabras a puro clic es lento; con 1…
-     3579      ._escape()
-     3585      ._atajo_pincel()  — La tecla 1-6 cambia de pincel... salvo que se este ESCRIBIENDO en un buscador de esta misma pantalla (el selec…
-     3598      ._elegir_pincel()
-     3609      ._instantanea()
-     3611      ._restaurar()
-     3619      ._poner_editor_minimo()
-     3628      .ajustar_densidad()  — v5.2: en pantallas chicas la columna de la derecha cede sitio a las palabras.
-     3634      ._alternar_editor_minimo()
-     3641      ._guardar_para_deshacer()  — Guarda el estado antes de un cambio: historial de deshacer, vaciado de la pila de rehacer (se abre una rama nu…
-     3653      ._deshacer()
-     3660      ._rehacer()
-     3667      ._refrescar_botones_historial()  — Apaga las flechas cuando no queda nada que deshacer o rehacer.
-     3675      ._programar_autoguardado()  — Guarda en disco un rato despues del ultimo cambio (marcar arrastrando dispara decenas de cambios por segundo: …
-     3689      ._autoguardar()  — Escribe las marcas sin decir nada. Nunca interrumpe al usuario (cerrar sin querer borraba TODO el trabajo de m…
-     3701      ._avisar_guardado()  — Deja constancia en pantalla de que ya esta a salvo.
-     3711      .esperar()  — No vuelve hasta que se pulse Continuar o Cancelar (el modal de la v4: aqui con un bucle de eventos propio, la …
-     3720      ._build_ui()
-     3962      ._marcar_fin_de_frase()  — Deja anotado en cada palabra si despues de ella termina la frase (una sola vez, sobre el texto tal como vino d…
-     3973      ._llenar_texto()  — (Re)dibuja todas las palabras en el lienzo (cada frase en su fila, con su tiempo delante y una fila extra tras…
-     3982      ._timecode()  — '[1:23]' — el minuto y segundo donde arranca la frase.
-     3985      ._on_brush_change()
-     3991      ._actualizar_pista_pincel()  — La línea sobre el párrafo: dice qué hace el pincel elegido al tocar una palabra.
-     4013      ._marcar_todo()  — Aplica el pincel actual a TODAS las palabras de una sola vez.
-     4021      ._quitar_puntuacion()  — Saca signos del principio y del final de todas las palabras (donde Whisper los pone). PUNT_PAUSAS o PUNT_SIGNO…
-     4037      ._aplicar_caso()  — Pasa todo a MAYUSCULAS o a minusculas, siempre desde 'orig' (ir y volver no pierde las mayusculas de los nombr…
-     4053      ._texto_con_caso()  — Aplica el caso elegido a una palabra recien escrita a mano.
-     4060      ._seleccion_cambio()  — v5.4: el lienzo avisa cuando cambia la seleccion de palabras (recuadro, Ctrl+clic, Mayus+clic).
-     4070      ._aplicar_a_seleccion()  — Pinta con ese rol TODAS las palabras seleccionadas (un solo paso de «deshacer»).
-     4082      ._click_word()
-     4105      ._poner_rol()  — Pinta un rol (el pincel o el menu de clic derecho). Con 'pintando' recuerda la palabra para el arrastre del cl…
-     4115      ._actualizar_contador_pronto()  — v5.4: la palabra se colorea al instante, pero contadores, bloques y «Así se verá este bloque» se recalculan so…
-     4123      ._contador_diferido()
-     4127      ._alternar_corte()  — Pone o quita el corte forzado tras la palabra (v3.3.1).
-     4136      ._on_corte_change()
-     4142      ._cortes_automaticos()  — Indices donde el agrupado AUTOMATICO del modo normal cierra un bloque (v3.3.1): el mismo calculo que despues a…
-     4177      ._menu_contextual()  — Clic derecho sobre una palabra (v3.3.1): emoji, rol, corte y editar, sin cambiar de pincel.
-     4210      ._colocar_junto_a()  — Coloca un dialogo pegado a la palabra idx (v3.3.1; pedido literal: «que aparezca sobre la palabra nomás»): deb…
-     4253      ._mini_emoji()  — La miniatura del emoji al tamaño de la letra, o None (v5.2: al doble de resolucion, el lienzo la reduce: nitid…
-     4269      ._redibujar_manteniendo_vista()
-     4275      ._minis_listas()  — Llega desde el hilo de preparar_minis: repinta el selector si esta abierto (en el hilo de la interfaz).
-     4287      ._cerrar_popover()
-     4296      .eventFilter()  — Un clic en cualquier sitio de ESTA pantalla fuera del selector de emoji lo cierra (v3.3.2: el _clic_fuera_popo…
-     4307      ._clic_fuera_popover()
-     4317      ._elegir_emoji()  — El selector de emoji de una palabra (v3.3.0): lo abren el pincel «Emoji», el clic sobre el emoji de la ficha y…
-     4326      ._poner_emoji()  — Pone (o quita, con None) el emoji de una palabra. Un fallo aqui se DICE en la pantalla y queda en error_ventan…
-     4345      ._png_del_usuario()  — El dialogo de «Mi PNG» (v3.3.4). None si se cancela.
-     4349      ._refrescar_emojis()  — Tras tocar la biblioteca: la mini de ESE archivo, fuera las minis cacheadas, redibujar y repintar el selector …
-     4367      ._fallo_biblioteca()  — Un fallo de la biblioteca se DICE y queda en error_ventana.txt.
-     4374      ._poner_mi_png()  — «Mi PNG en esta palabra» (v3.3.4): el PNG se copia a la biblioteca y queda en esa palabra como un emoji «mio».
-     4390      ._reemplazar_emoji_con_png()  — «Reemplazar 🔥 por mi PNG» (v3.3.4): desde ahi tu PNG manda sobre la imagen de ese emoji en todas las palabras …
-     4408      ._quitar_de_biblioteca()  — «Quitar de mi biblioteca» / «Volver al emoji original» (v3.3.4). Se confirma antes; un emoji «mio» borrado se …
-     4433      ._sugerir_emojis()  — «Emojis»: un emoji para cada PRINCIPAL que no tenga (v3.3.0). JAMAS pisa uno elegido a mano; sin nada que apor…
-     4463      ._quitar_todos_emojis()  — «✕ Emojis» (v3.4.0): fuera todos los emojis, en UN paso de deshacer.
-     4476      ._indice_bajo_el_mouse()  — Que palabra hay EXACTAMENTE en esa coordenada del lienzo, o None.
-     4486      ._tam_letra_valido()  — El tamaño de letra dentro del rango; cualquier rareza, 13.
-     4493      ._tolerancia_clic()
-     4496      ._aplicar_tam_letra()
-     4502      ._poner_tam_letra()  — El deslizador del párrafo: aplica el tamaño (junta el vaivén del arrastre) y lo recuerda un momento después.
-     4518      ._cambiar_tam_letra()  — A− / A+ (v3.3.0). Se recuerda en la App SOLO al tocarlo.
-     4530      ._palabra_cercana()  — La palabra a menos de TOLERANCIA_CLIC_PX del punto, o None.
-     4536      ._clic()  — Un clic en el lienzo: sobre la ✕ quita el emoji; sobre el EMOJI abre su selector con cualquier pincel; sobre u…
-     4557      ._doble_clic()  — El doble clic tambien perdona el pelo de distancia.
-     4563      ._on_seleccion_toggle()  — Prende o apaga el marcado por arrastre y lo explica en pantalla.
-     4571      ._arrastrar()  — Arrastrar con el boton apretado va marcando las palabras que toca (solo al ENTRAR a una palabra distinta).
-     4585      ._soltar()
-     4587      ._doble_click_word()  — Doble clic sobre una palabra: corregirla, con cualquier pincel (el clic simple llega antes que el doble: prime…
-     4598      ._reemplazar_masivo()  — Buscar → reemplazar en TODA la transcripcion (v1.0.60): compara el NUCLEO sin puntuacion ni mayusculas, conser…
-     4656      ._editar_palabra()  — Ventanita para corregir el texto de una palabra, o borrarla. El tiempo de la palabra no se toca.
-     4751      ._pintar_palabra()
-     4754      ._revisar_ortografia()  — Subraya las palabras que el diccionario no conoce (en un hilo: cargar el diccionario la primera vez tarda). 's…
-     4793      ._corregir_auto()  — v5.4: al abrir el editor se corrige solo la ortografia (sin botones). No si se reabren marcas ya retocadas.
-     4799      ._corregir_ahora()  — v5.4 (pedido: «con un clic analice todo y lo corrija inmediato»): la IA de texto local (Qwen3) corrige TODA la…
-     4859      ._pintar_orto()  — La tarjeta «Revisión de ortografía» (v5.0.0, imagen 03): la primera palabra dudosa, sus sugerencias, Aplicar e…
-     4895      ._orto_elegir()
-     4898      ._orto_aplicar()
-     4917      ._orto_ignorar()
-     4925      ._pintar_todo()
-     4928      ._actualizar_contador()
-     4964      ._info_sfx()  — {indice_de_palabra: {'cat', 'nombre', 'original', 'manual'}} de la primera palabra de cada bloque con efecto: …
-     5012      ._pintar_puntos_sfx()  — Los puntos de color bajo las palabras: cada color es una categoria de sonido; el nombre sale al pasar el curso…
-     5024      ._menu_sfx()  — Clic en el punto de una palabra: el sonido de ese bloque se puede cambiar por otro de su categoria, por uno de…
-     5045      ._menu_sfx_categorias()
-     5056      ._menu_sfx_archivos()
-     5063      ._escuchar_sfx()  — Suena el efecto (una vez, con su volumen y recorte) para poder elegir de oido.
-     5077      ._cambiar_sfx()  — ruta = archivo; '' = sin sonido; None = volver al automatico.
-     5091      ._construir_controles_guion()  — La tarjeta de la derecha con el estilo «guion»: qué hace cada pincel, la altura de la pila, «Auto» y «Quitar m…
-     5120      ._guion_comprobar_en_resolve()  — «Comprobar en Resolve»: el bloque que se está viendo, renderizado de verdad por Resolve (vistas_reales.renderi…
-     5166      ._guion_poner_ancla()
-     5176      ._guion_auto()
-     5182      ._guion_limpiar()
-     5188      ._ancla_guion()
-     5194      ._fin_video_guion()  — Donde acaba el video (el último bloque se cierra ahí): la MISMA cifra que usa Generar; se lee una sola vez (ab…
-     5202      ._planear_guion()
-     5207      ._roles_del_planificador()  — Los roles que el planificador elegiría solo (Principal = grande, Abajo = negrita, el resto Simple), listos par…
-     5212      ._bloques_actuales()  — (bloques, indice_de_bloque_por_palabra) con las marcas de AHORA: el mismo build_manual_cues que arma los subti…
-     5245      ._estilos_pack()  — Las variantes (estilos) del pack elegido para el formato en juego: [{'n', 'nombre', 'color', 'y'…}]. [] si no …
-     5258      ._asignar_estilos()  — Le pone a cada bloque su estilo (la rueda, el fijo o el que elegiste a mano): la MISMA regla con la que se gen…
-     5264      ._pintar_estilo_bloque()  — Debajo de la vista: «Estilo 2 de 3 · Rosa · automático» y los botones para cambiarlo en este bloque; y dónde c…
-     5302      ._poner_estilo_de_bloque()  — El estilo de ESTE bloque: n = el número de la variante, o None = automático. Se guarda en su primera palabra.
-     5319      ._hover_palabra()
-     5322      ._mostrar_bloque()  — Pinta en «Así se verá este bloque» el bloque de la palabra idx (aprox.: con los estilos del pack elegido).
-     5369      ._glifo_emoji_de()
-     5376      ._alternar_reproduccion()
-     5382      ._empezar_reproduccion()
-     5397      ._sonidos_para_reproducir()  — [(segundo, ruta)] de los sonidos que Resolve colocaria (los mismos del popup de cada palabra).
-     5408      ._parar_reproduccion()
-     5420      ._tic_reproduccion()
-     5492      ._imagen_guion()  — El emoji del bloque k en la vista del estilo «guion»: solo si el bloque lo lleva, encima o debajo de la pila s…
-     5505      ._imagen_del_bloque()  — El espacio «imagen» del bloque k: donde caera el emoji (el bloque «imagen» del pack o, sin el, debajo del text…
-     5522      ._sfx_de_bloque()
-     5536      ._guardar_marcas()  — Guarda las palabras (ya corregidas) y sus marcas en disco (no perder el trabajo, y volver despues con 'Editar …
-     5549      ._sugerir_con_ia()  — «Asistencia» (v5.2, pedido: «que de una vez coloque los emojis, que quite puntos, comillas, todos los signos, …
-     5678      ._al_cambiar_tamano()
-     5681      ._on_tamanos_change()  — «Palabras por línea» cambió: los bloques lo respetan al instante y, si los roles son de la IA (sin marcas a ma…
-     5693      ._roles_para()  — Los roles de una versión de la IA con los máximos de ahora. Usa el análisis ya hecho (pesos) si lo hay: es ins…
-     5710      ._calcular_alternativas()
-     5713      ._aplicar_roles_auto()  — Pone unos roles de la IA (con deshacer) y refresca todo. Los emojis y el texto se conservan.
-     5731      ._reajustar_en_vivo()
-     5746      ._recordar()  — Escribe una preferencia en la App y la guarda.
-     5753      ._avisar_ajustes_una_vez()
-     5756      ._espacio_valido()  — 0.5 / 1 / 2; cualquier rareza, 1.
-     5763      ._selector_espacio()  — «Pausas» y «Párrafos», Compacto / Normal / Amplio (v3.3.4: «Pausas» es el aire extra tras un silencio del habl…
-     5778      ._on_vista_change()
-     5784      ._on_espacio_change()
-     5789      ._on_parrafos_change()
-     5794      ._on_capitalizar_change()  — Aplica y recuerda «Mayúscula inicial» (v3.3.1).
-     5805      ._rango_de_oracion()  — (desde, hasta) de la oracion que contiene la palabra idx.
-     5817      ._ajustar_ancho_textos()  — En Qt el ajuste de linea sigue solo al ancho.
-     5820      ._pedir_cierre()  — Cancelar (Esc o el boton) confirma antes, y guarda pase lo que pase.
-     5828      ._guardar_ahora()  — Fuerza el autoguardado pendiente, sin esperar al temporizador.
-     5839      ._soltar_filtro()
-     5844      ._terminar()
-     5850      ._cancelar()
-     5854      ._continuar()
-     5858  class _EvGlobal
-     5860      .__init__()
-     5862  _correr_en_hilo()  — Corre `trabajo()` en un hilo y llama `al_terminar(resultado, error)` en el hilo de la interfaz (ver qt_kit.cor…
-     5871  _hace()  — 'hoy' / 'ayer' / 'hace 3 días' / la fecha.
-     5887  _duracion_legible()
-     5893  _medir_fuente()  — Duracion, tamaño y una onda de 'n' barras del archivo (v5.0.0, la tarjeta «Fuente»). Corre en un hilo: abre el…
-     5942  _lineas_look()  — La vista previa (aprox.) de los looks destacados.
-     5956  _recetas_por_defecto()  — Las tres recetas de la propuesta, hasta que el usuario guarde las suyas.
-     5961  class _Marca  — El logo de CineCaptions en la marca del lateral (logo_cinecaptions.png).
-     5963      .__init__()
-     5969  class _Sumidero  — v5.1: la licencia ya no tiene linea propia en el lateral (va en Ajustes y en la tarjeta de Inicio); esto absor…
-     5973      .poner()
-     5975      .configure()
-     5977  class _MosaicoModo  — Un mosaico de «Formato de los subtítulos» (imagen 02).
-     5979      .__init__()
-     5993      .poner_elegida()
-     5997      .mousePressEvent()
-     6003  class _RejillaModos  — Los 6 mosaicos: normales, dinámicos y los 4 looks destacados (v5.0.0: el modo «destacados» de la v4 vuelve a e…
-     6006      .__init__()
-     6018      .marcar()
-     6021      .configure()
-     6026  class _TarjetaEstado  — Una de las cuatro tarjetas de arriba de «Inicio».
-     6028      .__init__()
-     6042      .poner()
-     6046  class _FilaProyecto  — Una fila de «Proyectos recientes» (o su cabecera).
-     6049      .__init__()
-     6077      .mousePressEvent()
-     6083  class _EtiquetaPlantilla  — El valor «Pack de estilos» de la Receta: la etiqueta de siempre (_etiqueta_plantilla_completa) sin la flecha «…
-     6087      .configure()
-     6092  class BarraTitulo  — El título de cada pantalla (Proyecto, Creativo, Sonido): una barra con la insignia numerada en naranja, el tít…
-     6096      .__init__()
-     6125      .poner_subtitulo()
-     6134  class SubtitleApp  — La ventana principal (v5.0.0: panel con menu lateral y 5 pantallas). La logica es la de la v4.1.0 — mismos met…
-     6149      .__init__()
-     6230      .palabras_de_la_ultima_transcripcion()  — [{'word', 'start', 'end'}] de la ultima transcripcion (la de la sesion o la guardada del video actual); [] si …
-     6244      ._precalentar_mcp()  — v5.5: la conexion con Resolve (ResolveMCP) se abre ya, en un hilo, SIN abrir Resolve: asi el primer «Obtener» …
-     6252      ._precalentar_ondas_sfx()  — v5.5: la onda de los primeros sonidos de cada categoria de la biblioteca, en un hilo: al abrir Sonido ya estan…
-     6263      ._precalentar_secuencias_emoji()
-     6269      ._precalentar_fuentes()
-     6275      ._precalentar_packs()  — v5.4: leer los .drb de los packs (descomprimir sus comps) costaba ~0,3 s al abrir «Estilos» por primera vez; s…
-     6285      ._descargar_emojis_animados()  — v5.4: baja en segundo plano todos los emojis animados del catalogo (Noto Animated Emoji) para que el selector …
-     6295      ._vigilar_emojis_animados()
-     6319      ._chequear_librerias()
-     6341      ._colocar_ventana()  — 1440 x 900 si cabe; minimo 1100 x 700 (o lo que deje la pantalla).
-     6350      .showEvent()
-     6355      ._tras_sondear_resolve()  — Lo que hasta la v3.3.2 corria sincrono al arrancar, ahora cuando el hilo del sondeo termino. v5.4: copiar/comp…
-     6370      ._avisar_modo_ejecucion()  — Deja en el status como se van a ejecutar los scripts en Resolve. El caso 'manual' se abre en tres, porque ante…
-     6419      ._load_logo()  — El logo listo para mostrar, o None si no se puede cargar.
-     6427      ._open_credit_url()
-     6434      ._cambiar_idioma_ui()  — El selector de idioma de la interfaz: guarda el idioma para el proximo arranque (i18n.guardar_idioma, el mismo…
-     6447      ._menu_idioma_ui()
-     6453      ._set_window_icon()  — Pone el logo como icono de la ventana (barra de tareas).
-     6462      ._build_ui()
-     6495      ._build_lateral()
-     6566      ._build_isla()  — v5.5: la isla dinamica (navegacion), los controles de la ventana, el borde y el panel del estado de Resolve.
-     6583      ._subir_isla()
-     6587      ._reposicionar_isla()
-     6595      .changeEvent()
-     6600      ._accion_isla()
-     6616      ._alternar_pop_estado()
-     6635      ._clic_fuera_de_paneles()  — Un clic fuera del panel del estado lo cierra.
-     6646      ._plegar_lateral()  — Plegado: el lateral queda solo con iconos (por ancho de ventana o a mano con el boton de la marca; Ajustes > I…
-     6668      ._alternar_lateral()
-     6676      .resizeEvent()
-     6682      ._ajustar_densidad()  — v5.2 (pedido: «que sea adaptable a diferentes pantallas»): en pantallas bajas o angostas las cabeceras y los m…
-     6717      ._pintar_pie_lateral()
-     6720      ._comprobar_conexion_lateral()  — «Comprobar conexión»: rehace el estado de Resolve ahora (MCP).
-     6729      ._abrir_ajustes_rapido()
-     6737      ._abrir_ajustes()
-     6741      .poner_encima()  — El alfiler: CineCaptions por delante de Resolve (WindowStaysOnTop).
-     6758      .reiniciar_programa()  — Cierra y vuelve a abrir CineCaptions (para aplicar tema, tamaño o idioma).
-     6769      ._nueva_pagina()
-     6803      .ir_a()  — Cambia de pantalla. «Estilos» y «SFX Lab» se arman la primera vez que se abren (leer los packs y la biblioteca…
-     6854      ._marcar_nav()
-     6859      ._conmutador_proyecto()  — v5.2: el conmutador «Proyecto | Estilos y composición» arriba de las dos pantallas que comparten la entrada «P…
-     6874      ._en_fondo()
-     6877      ._zonas_opacas()  — Las tarjetas de la pantalla actual (en coordenadas del fondo): el fondo animado no las repinta (efectos_ui.Fon…
-     6891      .eventFilter()
-     6895      .dragEnterEvent()
-     6898      .dropEvent()
-     6904      ._soltar_archivo()  — Un video o audio soltado en la ventana (o en la zona de Inicio).
-     6931      .closeEvent()
-     6949      ._pagina_inicio()
-     7070      ._detectar_e_ir()
-     7074      ._alternar_detalles_inicio()
-     7080      ._pintar_go_reposo()  — La linea bajo el GO: con que va a trabajar si lo pulsas ahora.
-     7106      ._go_sfx()
-     7112      ._pintar_opciones_go()
-     7147      ._menu_estilo_go()  — El chip «Estilo» de Inicio: elegir el estilo de GO sin salir de la página.
-     7173      ._quitar_ajuste_fino()  — El chip «Posición ajustada ✕» de Inicio: vuelve a la posición exacta del estilo (no toca lo que ya está en el …
-     7188      ._quitar_estilo_fijo()  — El chip «Solo el estilo N ✕» de Inicio: vuelve a alternar los estilos del pack.
-     7199      ._menu_idioma_go()
-     7213      ._go_emojis()
-     7219      ._alternar_emojis_go()
-     7226      ._alternar_sfx_go()
-     7233      ._ciclar_formato_go()
-     7240      ._go_pack_pref()  — Lo que el usuario eligió en el chip «Estilo» de Inicio: un pack, 'auto' (el diseño de 3 líneas de siempre) o '…
-     7247      ._poner_go_pack()
-     7254      ._plantilla_un_clic()  — El pack que usa GO. v5.10: por defecto el estilo «Referencia» (los captions palabra a palabra: línea fina y ne…
-     7284      ._go()
-     7366      ._abortar_si_fallo_el_timeline()  — GO con un video soltado: si Resolve no pudo armar el proyecto/timeline con ese video, GO se detiene con un men…
-     7373      ._go_proyecto()  — El proyecto de Resolve donde GO arma el timeline de un video soltado: 'CineCaptions' (por defecto) o '' = el q…
-     7381      ._alternar_proyecto_go()
-     7388      ._esperar_vistas_reales()  — Con una vista real de los estilos en curso (timeline temporal en Resolve) GO no toca Resolve: espera a que aca…
-     7398      ._go_timeline_del_video()  — Hilo de GO con un video soltado: abre Resolve si hace falta y le arma un timeline NUEVO con ese video (orienta…
-     7438      ._precargar_motores()  — v5.3: arranca EN SEGUNDO PLANO el motor de voz y la IA de texto (carga + calentamiento). Cargar el motor de vo…
-     7457      ._go_generar()  — Pone la receta de GO (dinamico 3 lineas + pack + efectos) y arranca el mismo _run_pipeline de «Generar subtítu…
-     7480      ._go_fallo()
-     7487      ._go_vista_previa()  — Antes de lanzar al timeline: los bloques con su estilo sobre los fotogramas reales (MCP), y «Lanzar» o «Revisa…
-     7579      ._go_lanzar()
-     7594      ._go_fin()
-     7613      ._go_estadisticas()  — Los contadores del final: bloques, palabras, duración y (si hay) efectos y emojis.
-     7633      ._pasos_recorrido()  — Los pasos del recorrido guiado: a qué pantalla ir, qué zona iluminar y qué contar (todo en el idioma de la int…
-     7715      .iniciar_recorrido()  — Muestra el recorrido guiado. manual=True (Ajustes > «Ver el recorrido») lo lanza aunque esté desactivado. Devu…
-     7733      ._recorrido_fin()  — El recorrido terminó (o se salió): se recuerda que ya se vio y se vuelve a Inicio.
-     7752      ._recorrido_no_mostrar()
-     7761      ._recorrido_auto()  — Al abrir el programa por primera vez (o hasta que se vea / se desactive), arranca solo el recorrido cuando no …
-     7777      ._go_ver_en_resolve()
-     7785      ._go_editor()  — «Revisar en el editor»: las marcas de la IA ya estan guardadas; el editor las abre y al Continuar regenera y c…
-     7796      ._lista_recetas()
-     7800      ._pintar_recetas()
-     7829      ._menu_receta()
-     7834      ._quitar_receta()
-     7841      ._recetas_de_ejemplo()
-     7845      ._guardar_receta_actual()  — «+ Guardar la actual»: los ajustes de «Nuevo proyecto» como receta.
-     7872      ._usar_receta()  — «Usar»: pone el modo, el formato, los efectos y la traducción de la receta y lleva a «Nuevo proyecto». Lo dema…
-     7910      ._refrescar_recientes()  — Repuebla «Proyectos recientes» de Inicio.
-     7949      ._ejecutar_diagnostico()  — «Ejecutar diagnóstico»: el informe de siempre (diagnostico.txt) y el del Puente al portapapeles.
-     7958      ._refrescar_estado()  — Las tarjetas de estado (Inicio y lateral), en un hilo.
-     7965      ._recoger_estado()  — Corre en un hilo: NO toca widgets.
-     8034      ._pintar_estado()
-     8122      ._pintar_licencia()  — La tarjeta «Licencia» de Inicio (v5.2.1: el estado guardado de Lemon Squeezy, sin red).
-     8133      ._pagina_nuevo()
-     8457      ._elegir_mosaico()  — Un clic en un mosaico de «Formato de los subtítulos».
-     8466      ._mosaico_actual()
-     8468      ._pintar_chips_idioma()  — Los chips junto al idioma: ★ favoritos y los frecuentes.
-     8486      ._elegir_idioma()
-     8490      ._poner_etapa()  — Pinta las etapas: las anteriores a 'actual' en verde, 'actual' rellena, el resto apagadas. None = todas apagad…
-     8510      ._etapa_de_estado()
-     8520      ._refrescar_pasos()
-     8552      ._al_cambiar_video()
-     8555      ._medir_video_actual()  — La tarjeta «Fuente»: nombre, duracion, tamaño y onda (en un hilo).
-     8608      ._refrescar_vista_estilo()
-     8637      ._fondo_desde_resolve()  — «Ver sobre el fotograma de Resolve»: el fotograma del cabezal, por MCP (~50 ms dentro de Resolve), de fondo en…
-     8665      ._bloques_estimados()
-     8693      ._refrescar_receta()
-     8721      ._pagina_editor()
-     8742      ._sesion_editor()  — Muestra el editor como pantalla, espera a «Continuar» o «Cancelar» (ventana.esperar) y lo retira. Devuelve su …
-     8781      ._receta_generar()  — «Generar» del editor hace lo mismo que GO: bloques con tus marcas, efectos de sonido (el interruptor de GO), e…
-     8791      ._asegurar_pack_luxe()  — v5.8 (pedido: «todos los textos plus deben ser del paquete Luxe Title Pack, sin excepción»): como GO, el dinám…
-     8803      ._gen_abrir()
-     8822      ._gen_fase()
-     8826      ._gen_detalle()
-     8830      ._gen_fin()
-     8840      ._editor_abierto()  — Una sola sesion del editor a la vez (la v4 lo garantizaba con el modal; ahora el resto de pantallas sigue a ma…
-     8849      ._pagina_estilos()
-     8854      ._cambio_motor_voz()
-     8862      ._pintar_motor_voz()  — La nota bajo el selector: qué se va a usar de verdad (GPU, modelo, o por qué cae a Whisper).
-     8878      ._menu_audio()  — Clic derecho sobre «Audio»: lo que ya no tiene botón (elegir un archivo a mano, proyectos guardados).
-     8884      ._crear_tu_estilo()  — «Crea tu estilo»: abre en Resolve (por MCP) el timeline-guía con la estructura de un pack: los bloques arriba …
-     8926      ._basicos_actual()
-     8928      ._asegurar_estilos()
-     8947      ._plantilla_elegida()
-     8957      ._plantilla_diseno()
-     8963      ._plantilla_basicos()
-     8974      ._pagina_sfx()
-     8977      ._asegurar_sfx()  — Arma el SFX Lab la primera vez (av/numpy solo si se usa).
-     9009      ._tamanos_lineas()  — (arriba, principal, abajo): el maximo de palabras por linea de «Tamaño del bloque» (Creativo). Los bloques lo …
-     9013      ._palabras_por_basico()  — Cuantas palabras sueltas van juntas en un bloque, en 2..5. v1.0.69: el rango pedido es 2-5; una preferencia vi…
-     9023      ._preparar_emojis()  — Los emojis de las palabras clave (v3.3.0): los pasa de las palabras a sus bloques (cue['emoji'] + cue['emoji_l…
-     9066      ._sfx_de_emojis()  — v5.7: cada emoji suena (fuego → fuego, beso → beso…). Suma un evento de sonido por bloque con emoji y devuelve…
-     9078      ._capitalizar()  — «Mayúscula inicial» de los dinamicos (v3.3.0; desde la v3.3.1 es la casilla de la VENTANA de palabras, que esc…
-     9089      ._menu_idiomas()  — El desplegable de esta instancia: ★ favoritos arriba, y el resto. Se arma al vuelo y no de una constante porqu…
-     9101      ._alternar_favorito()
-     9115      ._refrescar_estrella()
-     9129      ._on_idioma_elegido()  — Los separadores del desplegable no son idiomas: se ignoran.
-     9139      ._filtrar_idiomas()  — Con 99 idiomas, escribir dos letras tiene que acortar la lista. v5.0.0: lo hace el propio desplegable (ComboBu…
-     9143      ._abrir_buscador_idioma()  — La lupa del idioma de transcripcion (v1.0.68).
-     9152      ._abrir_buscador_destino()  — La lupa del idioma destino de la traduccion (v1.0.68).
-     9163      ._abrir_buscador()
-     9169      ._on_traducir_toggle()
-     9173      ._idioma_destino()  — Codigo del idioma al que traducir. 'en' si algo va raro.
-     9176      ._refrescar_destinos()  — Rellena el menu de destinos: lo instalado YA, y el catalogo completo de Argos en cuanto llega. Hasta la v1.0.3…
-     9223      ._aplicar_catalogo_destinos()  — Con el catalogo en mano: destinos directos + alcanzables via en.
-     9246      ._abrir_idiomas_traduccion()
-     9253      ._fin_video()  — Donde termina el medio transcrito, en segundos; None si no se sabe. v2.0.6: el ultimo bloque termina CON el vi…
-     9276      ._offset_frames()  — El fotograma del timeline donde arranca lo transcrito. Sin marcas es el inicio del timeline (lo de siempre). C…
-     9295      ._zona_marcada_legible()  — La zona marcada en timecode, para enseñarsela al usuario.
-     9313      ._adelanto_frames()  — Fotogramas que se adelantan los bloques destacados. No se convierte a segundos aqui: el numero viaja tal cual …
-     9325      ._modo()  — El modo elegido ('normal' / 'dinamico' / 'destacados'), a partir de la etiqueta en español que muestra el sele…
-     9329      ._look()  — El look elegido del modo destacados ('hormozi'/'gadzhi'/...).
-     9332      ._on_modo_change()  — En modo dinamico y en destacados el largo se decide por frases, no por caracteres, y hay una ventana de marcas…
-     9376      ._carpeta_scripts_resolve()  — Donde Resolve busca los scripts del menu Scripts > Utility.
-     9379      ._abrir_en_el_explorador()  — Abre una carpeta en el Finder / Explorador de archivos. Es la salida manual: si en la maquina de alguien la co…
-     9402      ._avisar_falta_python()  — Explica que Resolve necesita un Python instalado en el sistema. Es la unica pieza que no podemos resolver por …
-     9419      ._dialogo_scripts_no_instalados()  — Ventana con salidas de verdad cuando no se pudo instalar. Un messagebox seco dejaba al usuario sin nada que ha…
-     9454      ._copiar_diagnostico_scripts()  — Deja TODO el diagnostico en el portapapeles. Sirve para que cualquiera pueda mandarlo pegado sin tener que bus…
-     9496      ._asegurar_scripts_instalados()  — Deja nuestros scripts en la carpeta de Resolve. Se llama al abrir el programa y antes de cada accion que neces…
-     9528      ._pedir_reinicio_resolve()  — Avisa una sola vez de que hay que reiniciar Resolve.
-     9539      ._etiqueta_plantilla()
-     9550      ._pista_basicos()  — Las claves 'plantilla_basicos' para los tracks SRT, o {}. v1.0.69: SOLO en modo normal (los subtitulos basicos…
-     9567      ._etiqueta_plantilla_completa()  — La etiqueta del card, POR MODO (v1.0.70). En modo normal habla de basicos («Básicos: inferior 2», con el nombr…
-     9584      ._abrir_composicion()
-     9586      ._clave_timeline()  — Con que timeline se habla: 'proyecto|timeline' de la ultima deteccion, o 'ultimo' si no se sabe (v3.4.0: el es…
-     9597      ._cues_ultimo_manifiesto()  — (cues, idioma, pack) de la pista dinamica del ultimo manifiesto, o ([], 'es', None).
-     9612      ._estilos_de_bloques()  — v5.8: la APP decide el estilo (variante del pack) de cada bloque —la rueda, el fijo o el que el usuario cambió…
-     9624      ._pista_composicion()  — v3.4.0: {'composicion': {...}} si no es la plantilla tal cual — y entonces mide TODAS las lineas con la tipogr…
-     9656      ._registrar_colocacion_composicion()
-     9661      ._aplicar_composicion()  — «Aplicar desde el cabezal» / «a todo» (v3.4.0): deja la orden (json + sidecar) y corre la accion 'subtitulos' …
-     9709      ._cerrar_recomposicion()
-     9734      ._vigilar_recomposicion()
-     9751      ._abrir_plantillas()
-     9753      ._importar_estilos_drt()  — Añade un pack a partir de un archivo .drt. SIN abrir Resolve. Este es el camino bueno desde la v1.0.27: el pac…
-     9818      ._preguntar_formato()  — Horizontal, vertical o cuadrado. None si el usuario cancela. Lo elige el usuario y no se deduce del archivo po…
-     9855      ._importar_estilos()  — Le pide a Resolve que extraiga los estilos de un timeline: el que esté abierto, o -si se pasa 'ruta_drt'- uno …
-     9911      ._refrescar_formato_detectado()  — La etiqueta de al lado del selector: que formato va a entrar. Se enseña ANTES de generar y no despues, que era…
-     9943      ._formato_en_juego()  — El formato que se va a usar: el elegido a mano, o el detectado. None si todavia no se sabe (nada elegido y sin…
-     9958      ._formato_forzado()  — 'h', 'v', o None si se deja detectar dentro de Resolve.
-     9961      ._pista_plantilla()  — El campo 'plantilla' del manifiesto, ya resuelto. El pack viaja RESUELTO —los sets de los dos formatos y las c…
-     9987      ._anunciar_receta()  — Dice EN PANTALLA con que diseño y con que efectos se genera. Hasta la v1.0.35 esto era invisible: ni la app ni…
-    10020      ._avisar_sin_pack()  — Dice, donde el usuario lo ve, que se genera SIN el pack pedido.
-    10032      ._abrir_estudio()  — Abre el estudio de sonidos (v5.0.0: la pantalla «SFX Lab»). Se importa al abrirlo (no arriba) para que la vent…
-    10039      ._al_terminar_generacion()  — Cuando termina la transcripcion + preparacion del manifest. Si estamos con Resolve **Studio**, corre el script…
-    10061      ._colocar_en_resolve()  — Manda los subtitulos (y los SFX si toca) a Resolve, en un hilo. Devuelve True si quedo lanzado. Lo usan LOS DO…
-    10123      ._avisar_correr_a_mano()  — Manda a correr el script a mano, diciendo POR QUE hizo falta. Reusa mensaje_para_el_usuario(), que distingue e…
-    10137      ._vigilar_clic_manual()  — Free sin Puente (v3.1.6): el usuario pulsa CineCaptions_Subtitulos a mano y esta ventana se entera SOLA cuando…
-    10180      ._vigilar_deteccion()  — El gemelo de _vigilar_clic_manual para CineCaptions_DetectarVideo: cuando aparece una deteccion posterior a 'd…
-    10207      ._pedir_detectar_a_mano()  — Free sin Puente: pedir el clic en CineCaptions_DetectarVideo y quedarse vigilando su resultado (v3.1.6). Antes…
-    10216      ._podar_renders_viejos()  — Los renders de audio con la hora en el nombre (Free 21.1: el script no tiene os.remove y no puede borrar el an…
-    10233      ._ver_ultimo_resultado()  — Muestra lo que reporto el ultimo script que corrio en Resolve. Los scripts dejan su resultado en ~/DaVinciSubt…
-    10281      ._instalar_en_resolve()  — Reinstala los scripts en Resolve, a pedido del usuario. Normalmente esto ya pasa solo al abrir el programa. El…
-    10315      ._on_sfx_toggle()  — Al prender la casilla, pregunta de donde tomar los efectos. Dos opciones: los 'esenciales' que trae el program…
-    10353      ._preguntar_fuente_sfx()  — Diálogo modal: esenciales, mi carpeta, favoritos O CUALQUIER categoria de la libreria. Devuelve el nombre de l…
-    10434      ._cambiar_fuente_sfx()  — Cambia la fuente de los efectos SIN apagar y prender la casilla. Hasta la v1.0.58 el dialogo solo salia al pre…
-    10455      ._actualizar_etiqueta_sfx()  — El chip junto al interruptor NOMBRA la fuente vigente. v1.0.65: decia «cambiar fuente» a secas — ninguna panta…
-    10469      ._detectar_con_bridge()  — Dispara el script 'Detectar Video' via API externa en un hilo. El render de audio puede tardar minutos; correr…
-    10501      ._detectar_desde_resolve()  — Autocompleta el video con el audio de la linea de tiempo activa. Tres caminos, en orden: 1) Resolve **Studio**…
-    10529      ._forzar_deteccion_nueva()  — Renderiza otra vez el audio del timeline que esta abierto ahora. Se llama cuando el usuario rechaza una detecc…
-    10549      ._detectar_desde_resolve_archivo()  — Camino manual: leer el JSON que dejo el script de Detectar Video cuando se corrio a mano desde Resolve (o cuan…
-    10613      ._browse()
-    10619      ._olvidar_marca()  — Deja de aplicar el recorte de la deteccion anterior. La marca es un offset GLOBAL: mueve todos los subtitulos.…
-    10634      ._cargar_proyecto()  — Setea el video del proyecto en el selector.
-    10641      ._abrir_proyectos_guardados_main()
-    10648      ._arrancar_reloj()  — Muestra cuanto lleva trabajando. Transcribir un video largo puede tardar varios minutos, y una barra que avanz…
-    10658      ._tick_reloj()
-    10665      ._parar_reloj()
-    10668      ._guardar_preferencias()  — Recuerda idioma y opciones para la proxima vez. v5.1: se MEZCLA con lo que ya habia: Ajustes guarda en el mism…
-    10720      ._cargar_preferencias()
-    10815      ._set_inputs_enabled()
-    10833      ._bloquear_por_caducidad()  — Deja la ventana abierta pero sin poder generar. Se limita a apagar controles y avisar: no borra nada ni toca d…
-    10846      ._ofrecer_fuentes_al_arrancar()  — Ofrece instalar TODAS las tipografias de las plantillas incluidas. v2.0.1 (reporte literal: «algunas tipografi…
-    10896      ._revisar_licencia_al_arrancar()  — La licencia ya se pidió ANTES de abrir la ventana (main -> _licencia_al_abrir). Aquí se pinta su estado, se ve…
-    10906      ._trabajando()  — True mientras se transcribe o se genera (no se corta un trabajo a medias).
-    10910      ._licencia_revisar()  — Verifica la licencia con la tienda en un hilo. forzar=False (reloj de 30 min): solo si la última verificación …
-    10924      ._licencia_resultado()
-    10934      ._licencia_lista()  — Antes de GO, generar o regenerar: True si hay una licencia vigente (si no, la pide).
-    10939      ._licencia_pedir()  — La ventana de activación. Si se cierra sin una licencia activa, CineCaptions se cierra (igual que CineSlide).
-    10956      ._licencia_refrescar()  — Lleva el estado guardado (sin red) a la tarjeta de Inicio, a Ajustes y a los botones.
-    10972      ._abrir_licencia()  — Tarjeta «Licencia» de Inicio y Ajustes: con la licencia activa muestra sus datos (y «Desactivar este equipo»);…
-    10990      ._on_update()  — Reabre la pantalla de marcas de un video ya transcrito y vuelve a generar los subtitulos, sin pasar otra vez p…
-    11058      ._regenerar_marcas()  — Corre en un hilo (v5.7; antes en el de la interfaz): arma los bloques con las marcas del editor, elige los efe…
-    11129      ._regenerar_normal()  — La rama NORMAL de regenerar (v1.0.71). Reconstruye el .srt con los ajustes VIGENTES (el mismo motor de tandas …
-    11201      ._on_generate()
-    11241      ._registrar_sfx_manuales()  — v5.4: los sonidos que el usuario cambio a mano en el editor (clic en el punto de una palabra), por tiempo de i…
-    11247      ._preparar_sfx()  — Le pone a cada bloque su categoria de efecto y devuelve lo que Resolve necesita para encontrar los audios. Cor…
-    11285      ._pack_guion()  — El pack elegido si es de estilo «guion» (Referencia…: la frase se arma palabra a palabra), o None.
-    11292      ._emojis_con_la_palabra_grande()  — Estilo «guion»: el emoji de un bloque entra junto con su PALABRA GRANDE (sin ella, con la palabra del emoji) y…
-    11308      ._generar_con_guion()  — v5.9, el estilo «guion» (pack Referencia): el planificador (guion_planificador.py) arma frases, palabra grande…
-    11371      ._generar_con_motor()  — El MOTOR del preset del Diseño dinámico (v1.0.51). Un preset ya no es solo colores: 'motor' cambia la ESTRUCTU…
-    11443      ._run_pipeline()
-    11658      ._anotar_estado()  — Las notas del proceso (transcribiendo, colocando…) van al registro, sin saturarlo.
-    11668      ._poll_queue()  — Corre en el hilo principal. Es el unico que toca los widgets.
-    11807      ._abrir_ventana_etiquetado()  — Corre en el hilo principal: muestra el editor de palabras, guarda el resultado y libera al hilo de trabajo que…
-    11825      ._abrir_ventana_texto()  — El mismo editor, en modo texto, para los subtitulos normales. Aqui no hay roles que elegir: se devuelve una li…
-    11847      ._codigo_idioma()  — El codigo del idioma elegido ('es', 'en'...). 'auto' se devuelve tal cual: quien lo reciba decide si puede tra…
-    11854  escribir_diagnostico()  — Deja un informe de rutas y recursos en un archivo de texto. Compilado no hay consola donde imprimir nada, asi …
-    11939  _asegurar_instancia_unica()  — Garantiza que solo exista una ventana abierta a la vez. Se usa UN archivo lock, tomado con un candado del sist…
-    12003  _proceso_vivo()  — True si el PID corresponde a un proceso vivo en el sistema.
-    12025  _traer_instancia_existente_al_frente()  — Best-effort: activa la ventana de la instancia que ya esta corriendo. OJO con Mac: aca habia un osascript -e '…
-    12065  _licencia_al_abrir()  — v5.2.1 (como CineSlide 9.20): antes de mostrar la ventana. Con una licencia vigente abre al instante (se vuelv…
-    12077  main()
+  1_codigo\CineCaptions (script principal).py  (12328 líneas)
+      106  sfx_ruta_reglas_usuario()  — Donde queda el sfx_rules.json que el usuario SI puede editar.
+      114  fecha_caducidad_texto()  — '15 de septiembre de 2026', o '' si esta version no caduca. Se DERIVA de CADUCA_EL a proposito: la fecha estab…
+      126  prueba_caducada()  — True si esta compilacion ya no debe generar subtitulos. 'hoy' existe para poder probarlo con fechas simuladas …
+      135  _base_recursos()  — Carpeta de los archivos que acompañan al programa. Compilado con PyInstaller los datos se extraen a una carpet…
+      149  guardar_log_de_error()  — Escribe el detalle de un error en un archivo y devuelve su ruta. Como la ventana se abre sin consola, si algo …
+      204  _plegar()  — Minusculas y sin tildes: el buscador de idiomas no exige acentos («espanol» encuentra «Español») y el orden po…
+      216  _en_la_interfaz()  — Los (nombre, codigo) con el nombre en el idioma de la interfaz (v3.3.0: nombres de Unicode CLDR en locales/). …
+      229  _idioma_en_frase()  — Un nombre de idioma DENTRO de una frase (v3.3.0): en minuscula donde la lengua lo pide («al inglés», «em inglê…
+      236  _combinacion_visible()  — «inferior 2» en el idioma de la interfaz (v3.3.0). Lo que se GUARDA sigue siendo el valor interno: casa con lo…
+      243  _codigo_de()  — Codigo de idioma de lo que haya guardado en preferencias: un codigo (v3.3.0 en adelante), un nombre en el idio…
+      268  fuente()  — La letra de la casa, en pixeles (ver qt_kit.fuente; acepta peso=).
+      272  _icono_estrella()  — Estrella de cuatro puntas, blanca y plana (estilo Gemini). Es una astroide: x = R*|cos t|^n, y = R*|sin t|^n. …
+      302  _icono_carpeta()  — Carpeta plana, para el boton de proyectos guardados.
+      320  familia_legible()  — Familia de letra para el panel de palabras, segun el sistema. 'Segoe UI' solo existe en Windows: pedirla en un…
+      341  ruta_marcas()
+      343  guardar_marcas()  — Deja en disco las palabras (ya corregidas) y sus marcas. Se guardan las palabras completas — no solo los roles…
+      355  cargar_marcas()  — Devuelve (palabras, roles) de lo guardado, o None si no hay nada utilizable para ese proyecto.
+      372  _titulo()
+      374  _nota()
+      376  _capa_dialogo()
+      381  class ProyectosWindow  — Lista de proyectos (videos) trabajados previamente. Muestra cada uno con: nombre del video, fecha de ultima mo…
+      394      .__init__()
+      412      ._recargar()
+      421      ._agregar_fila()
+      447      ._abrir()
+      457      ._borrar()
+      463      ._purgar_todo()
+      471  class IdiomasTraduccionWindow  — Buscar, descargar y ver los paquetes de idioma de la traduccion. OJO con no confundir esto con el idioma del v…
+      479      .__init__()
+      489      ._build_ui()
+      514      ._pintar_pronto()  — Repinta al dejar de teclear (120 ms): con 200 filas, repintar en cada tecla se notaba.
+      519      ._cargar()  — Trae el catalogo. El refresco va en un hilo: baja de internet.
+      548      ._pintar()
+      575      ._fila()
+      591      ._descargar()
+      617      ._cerrar()
+      623  _nombre_es()  — El nombre en español de un codigo de idioma, si lo conocemos.
+      626  class BuscadorIdiomaWindow  — Buscador de idiomas compartido (v1.0.68, pedido literal: «a la seccion de los idiomas añadeles un buscador, ta…
+      637      .__init__()
+      662      .keyPressEvent()
+      669      ._pintar()
+      681      ._primero()
+      685      ._elegir()
+      690  class _RejillaEmojis  — La rejilla del selector de emojis: UN widget que pinta solo las celdas a la vista (la v4 usaba un Canvas de Tk…
+      693      .__init__()
+      705      .showEvent()
+      708      .hideEvent()
+      711      ._tic_animacion()
+      716      ._anim_lista()
+      719      ._glifo_de()
+      725      .armar()
+      748      .celda_en()
+      753      .mouseMoveEvent()
+      759      .leaveEvent()
+      763      .mousePressEvent()
+      772      .paintEvent()
+      809  class EmojiPickerWindow  — El emoji de UNA palabra (v3.3.0, pedido literal: «poner emojis a las palabras claves, bonitos y estéticos como…
+      831      .__init__()
+      890      .mostrar_en()  — Aparece en esas coordenadas DE LA VENTANA y toma el teclado. Quien lo coloca es WordTagWindow._colocar_junto_a…
+      897      .withdraw()  — Compat: hasta la v3.3.1 era una ventana. Un panel no se retira.
+      900      .existe()
+      902      .contiene()  — Si ese punto de pantalla cae dentro del panel.
+      911      .cerrar()
+      926      .keyPressEvent()
+      932      ._escape()
+      935      ._primero()  — Enter en el buscador elige el primer resultado: un camino por teclado por si el clic en la rejilla fallara en …
+      941      ._on_sistema()
+      959      ._abrir_carpeta()
+      971      ._avisar()
+      974      ._imagen()
+      987      ._pintar()
+     1022      ._recientes()
+     1028      ._elegir()
+     1039      ._mi_png()  — «➕ Mi PNG…»: lo hace la ventana (unico sitio con el dialogo); el panel se cierra al aplicar.
+     1045      ._menu_celda()  — Clic derecho sobre un emoji (v3.3.4): usar tu PNG en su lugar, volver al original, o quitar uno tuyo de la bib…
+     1080  estilos_de_pack()  — {formato: {'rol|n': estilo}} del pack, memorizado (leer el .drb cuesta).
+     1088  _hex_de()
+     1093  _color_de_variante()  — El color de una variante del pack como '#RRGGBB': viene como texto '#RRGGBB' (packs nuevos) o como [r, g, b] d…
+     1098  _estilo_rol()  — El estilo de ese rol en el set mas bajo que lo traiga.
+     1112  _estilo_rol_n()  — El estilo de ese rol en la variante n (si no la trae, el del set mas bajo).
+     1120  estilo_fijo()  — La variante (1..n) que el usuario dejo fija en «Estilo del bloque» (Proyecto); 0 = ir alternando. Sin esa tarj…
+     1132  resumen_composicion()  — «alineación AUTO, altura -5%, horizontal +1%»: lo que el ajuste fino cambia respecto a la posición exacta del …
+     1143  poner_estilo_fijo()
+     1150  lineas_de_vista()  — Las lineas para un MarcoVista con el estilo del pack (aprox.). 'n' = la variante a dibujar (None = la fija del…
+     1183  class _TileLayout  — Un layout de la rejilla de Composicion: tres barras (contexto blanco, principal ambar, complemento violeta) al…
+     1186      .__init__()
+     1196      .enterEvent()
+     1200      .leaveEvent()
+     1204      .mousePressEvent()
+     1207      .paintEvent()
+     1237  class _MiniVariante  — v5.5: la miniatura de UNA variante del pack (con su tipografia y su color): se ve de un vistazo cual elegir y …
+     1239      .__init__()
+     1247      .mousePressEvent()
+     1250      .paintEvent()
+     1258  class _PreviaComposicion
+     1259      .__init__()
+     1265      .paintEvent()
+     1275  class ComposicionWindow  — «Composición» (v3.4.0; la referencia del usuario: otro plugin con «COMPOSIÇÃO / LAYOUTS»): los 9 layouts + AUT…
+     1288      .__init__()
+     1414      .poner_habilitado()  — Solo los Dinamicos tienen tres lineas que alinear.
+     1419      .existe()
+     1422      ._paso_pagina()
+     1425      ._icono_elegido()
+     1427      ._donde_icono()
+     1432      ._recalcular_vistas()  — Las variantes del pack elegido (una vista cada una); sin pack legible, una sola vista generica.
+     1442      ._pintar_miniaturas()  — Una miniatura por variante del pack (hasta 6): la elegida lleva el borde de color.
+     1462      ._ir_a_variante()
+     1465      ._actualizar_pager()
+     1486      ._alternar_fijo()  — Fija el estilo que se ve (todos los bloques lo usan) o vuelve a alternar uno distinto por bloque.
+     1491      ._reflejar_en_packs()  — Las tarjetas de los packs y la vista de Creativo dibujan el estilo fijo.
+     1507      ._mover_vista()
+     1521      ._cambio_icono()
+     1531      ._formato_previa()
+     1548      ._deslizador()
+     1569      ._barra()
+     1573      ._dibujar_previa()
+     1639      ._refrescar()
+     1653      ._alternar_fino()
+     1656      ._texto_fino()  — «Ajuste fino ▸» (plegado) o «▾» (abierto); en ámbar y con lo que cambiaste si ya tocaste algo (así no se queda…
+     1665      ._nombre_lado()
+     1667      ._recordar()
+     1674      ._poner_layout()
+     1678      ._poner_auto()
+     1680      ._restablecer()
+     1691      ._aplicar()
+     1702      ._resultado()
+     1712  _sangria()  — El padx=PAD_SANGRIA de la v4: lo de dentro de una tarjeta, corrido.
+     1716  class _TileAnadir  — El mosaico punteado «Añadir plantilla (.drb)».
+     1718      .__init__()
+     1732      .enterEvent()
+     1736      .leaveEvent()
+     1740      .mousePressEvent()
+     1743      .paintEvent()
+     1753  class _EstructuraPack  — La estructura de un pack de un vistazo: arriba · principal · abajo · imagen (cada uno con el color de su rol) …
+     1756      .__init__()
+     1765      .paintEvent()
+     1795  class _TilePack  — Un pack en la cuadricula: vista previa (miniatura real o aprox.), nombre, formatos, estado de sus tipografias …
+     1798      .__init__()
+     1868      ._menu()
+     1873      .poner_elegida()
+     1877      .mousePressEvent()
+     1883      .mouseDoubleClickEvent()
+     1890      .enterEvent()
+     1896      .leaveEvent()
+     1901  class PlantillasWindow  — Elegir el diseño de los subtitulos. DOS vistas, una por MODO (v1.0.70, pedido literal: «las nuevas plantillas …
+     1921      .__init__()
+     2012      .actualizar()  — La app avisa de un cambio de modo, formato o eleccion.
+     2026      ._columnas()  — Cuantas columnas de packs caben: cada mosaico pide ~340 px y a la derecha va «Composición».
+     2034      .eventFilter()
+     2042      .existe()
+     2044      .cerrar()
+     2046      ._estilo_desde_imagen()
+     2073      ._crear_estilo()  — «Crea tu estilo» (v5.8): la galería de 30 ejemplos con imagen. Se tocan hasta 3 y «Crear mi pack» arma el pack…
+     2084      ._ayuda_estilo()  — El «!»: por qué los clips se llaman principal / arriba / abajo / simple, qué son las variantes 2 y 3 y cómo se…
+     2093      ._abrir_guia_resolve()
+     2097      ._crear_pack_de_ejemplos()  — Arma el pack con los ejemplos elegidos (en un hilo) y avisa a la galería con terminado(ok).
+     2126      ._ajustar_wrap()  — En Qt el ajuste de linea sigue solo al ancho.
+     2132      ._diseno_resuelto()  — El diseño con preset y retoques ya mezclados (via plantillas).
+     2135      ._emitir_diseno()  — Aplica en el acto: guarda el estado y elige el modo.
+     2141      ._tocar_rol()
+     2145      ._elegir()  — Marca ese valor Y LO APLICA en el acto (la eleccion ya esta guardada antes de que el usuario piense en irse).
+     2160      ._realzar()  — Pinta el borde del mosaico elegido y apaga los demas.
+     2172      ._hacer_clicable()  — Compat: el mosaico entero ya elige.
+     2175      ._pack_de()
+     2181      ._estado_fuentes()  — ('Tipografías ok', verde) / ('Faltan N tipografías', ambar).
+     2194      ._texto_formatos()
+     2197      ._miniatura()
+     2208      ._formato_vista()
+     2214      ._real_de()  — (sets, recortes) del render real ya hecho de ese pack, o None.
+     2225      ._renderizar_reales()  — Resolve renderiza la vista real de los packs visibles que aun no la tienen (o de 'solo'). En un hilo; la cuadr…
+     2275      ._poner_tile()
+     2278      ._siguiente()
+     2281      ._fila()  — Compat v4: un mosaico simple (Media Pool / Diseño automático).
+     2300      ._filas_basicos()  — La vista del MODO NORMAL (v1.0.70): «Clásica (Subtitle Template)» + un mosaico por pack de SUBTITULOS BASICOS …
+     2368      ._pintar_basicos_chips()
+     2373      ._quitar_basicos()  — Borra un pack de basicos del usuario (con confirmacion).
+     2382      ._recargar()  — Redibuja la cuadricula. Con 'seleccionar', ademas apunta ese pack (hasta la v1.0.26 no lo hacia y un pack reci…
+     2438      ._formato_del_filtro()  — 'h', 'v', 'c' o None si esta en «Todos».
+     2445      ._fila_pack()  — El mosaico de un pack importado o incluido (II inferior/superior).
+     2463      ._acciones_de()  — Los botones de la tarjeta de un estilo: ✎ editar en Resolve y 🗑 quitar (los incluidos no se borran del disco: …
+     2471      ._quitar_pack()
+     2487      ._mostrar_ocultos()
+     2491      ._editar_en_resolve()  — ✎ / doble clic: abre el timeline del pack en Resolve para modificarlo (edicion_pack.py).
+     2514      ._detalles()
+     2524      ._pack_elegido()
+     2529      ._pintar_fuentes()  — La tarjeta «Tipografías que usa el pack» del elegido.
+     2561      ._instalar_fuentes_elegido()
+     2565      ._editar_descripcion()  — Pide la descripcion corta del pack y la guarda por nombre (v1.0.67: una nota del usuario para ubicar cada plan…
+     2574      ._instalar_fuentes()  — Instala en el sistema las tipografias del pack que falten. Instalar fuentes TOCA EL SISTEMA del usuario, asi q…
+     2606      ._borrar()
+     2616      ._importar()
+     2619      ._importar_drt()
+     2622      ._aceptar()  — Compat: la eleccion ya viaja al tocarla (_elegir).
+     2626  _mezclar_hex()  — El color a 'fraccion' del camino entre el fondo y el color (el relleno de una ficha: el color del rol al 14 % …
+     2635  _timecode()  — '[1:23]' — el minuto y segundo donde arranca la frase.
+     2642  _tc_largo()  — '00:01:23' — la columna de tiempos del lienzo (v5.0.0).
+     2649  _tc_fino()  — '00:00:07,4' — el tramo del bloque en vivo.
+     2657  class _Ev  — Lo que la logica de la v4 leia de un evento de Tk: x, y del lienzo y x_root, y_root de la pantalla.
+     2661      .__init__()
+     2666  class _PopupSfx  — El popup pequeño con el sonido de una palabra (sale al pasar el cursor; clic = elegir otro).
+     2668      .__init__()
+     2675      .enterEvent()
+     2678      .leaveEvent()
+     2682      .mousePressEvent()
+     2684  class LienzoPalabras  — El area de palabras del editor (v3.3.2): cada palabra es una FICHA redondeada del color de su rol — la referen…
+     2726      .__init__()
+     2779      ._texto_visible()  — La palabra como se vera en el bloque: con mayuscula inicial si es de contenido (conectores en baja).
+     2790      ._glifo_de_emoji()
+     2797      ._fm()
+     2799      .dibujar()  — Rehace el layout de flujo con el ancho actual. 'imagen_de(id)' da la miniatura del emoji (QPixmap) o None; 'pa…
+     2917      .pintar()  — Solo colores y fuente de UNA palabra: nada se mueve.
+     2932      ._repintar()
+     2938      .paintEvent()
+     3000      ._pintar_ficha()
+     3062      .indice_en()  — La palabra en ese punto DEL LIENZO (o a menos de 'tolerancia' px de ella), o None. Con varias a tiro gana la m…
+     3077      .emoji_en()  — La palabra cuyo EMOJI esta bajo ese punto, o None.
+     3083      .quitar_en()  — La palabra cuya ✕ de emoji esta bajo ese punto, o None (v3.3.4).
+     3089      .caja_raiz()  — (x, y, ancho, alto) de la ficha EN PANTALLA, o None.
+     3096      .sonando()  — Marca (o desmarca con None) la palabra que esta sonando; se repinta solo lo que cambia.
+     3106      .ver()  — Desplaza lo justo para que la ficha se vea.
+     3116      .vista()
+     3118      .ir_a()
+     3123      .textos()
+     3125      .emojis_dibujados()
+     3127      .resizeEvent()
+     3133      ._relayout()
+     3141      .poner_puntos_sfx()
+     3146      .showEvent()
+     3150      .hideEvent()
+     3154      ._tic_emojis()
+     3165      ._anim_lista()
+     3169      ._popup_sfx_para()  — Al pasar el cursor por una palabra con sonido sale un popup pequeño con el nombre; clic en el popup = cambiarl…
+     3187      ._ocultar_popup_sfx()
+     3192      ._clic_popup_sfx()
+     3199      .seleccion()
+     3202      .limpiar_seleccion()
+     3209      ._avisar_seleccion()
+     3213      ._tocadas_por()
+     3218      ._empezar_seleccion()  — True si este clic NO es de pintar una palabra: empieza un recuadro, o suma/quita con Ctrl o Mayus.
+     3246      .mousePressEvent()
+     3259      .mouseDoubleClickEvent()
+     3262      .mouseMoveEvent()
+     3296      .mouseReleaseEvent()
+     3304      .leaveEvent()
+     3310  class PincelesBar  — Los pinceles como pildoras con punto de color, tecla y contador (v3.3.2, la referencia: «1 Contexto · 35»). In…
+     3316      .__init__()
+     3339      .boton()
+     3341      ._pulsar()
+     3345      .set()
+     3347      .get()
+     3349      .contar()
+     3352      ._texto()
+     3358      ._refrescar()
+     3362  class _Pildora  — Una pildora de pincel: punto de color + texto; la elegida con el borde del color del rol.
+     3365      .__init__()
+     3378      .poner()
+     3385      .sizeHint()
+     3387      .minimumSizeHint()
+     3389      .enterEvent()
+     3393      .leaveEvent()
+     3397      .paintEvent()
+     3415  _fuente_puntos()  — Las letras del lienzo van en PUNTOS (como los tkfont de la v4).
+     3423  class _SinBarra  — Un hueco que acepta cualquier llamada y no hace nada: lo que antes pintaba la barra de abajo del editor (v5.7:…
+     3426      .__getattr__()
+     3430  class _AvisoToast  — Las notas cortas del editor (antes en la barra de abajo) salen ahora como un aviso flotante; silencio=True las…
+     3433      .__init__()
+     3437      .configure()
+     3451  class WordTagWindow  — El editor de palabras: el usuario marca a mano, palabra por palabra, cuales van de contexto / principal / comp…
+     3476      .__init__()
+     3554      .titulo()
+     3556      .subtitulo()
+     3563      ._atajos()  — Teclas para no tener que ir al selector de pincel a cada rato. Marcar 180 palabras a puro clic es lento; con 1…
+     3584      ._escape()
+     3590      ._atajo_pincel()  — La tecla 1-6 cambia de pincel... salvo que se este ESCRIBIENDO en un buscador de esta misma pantalla (el selec…
+     3603      ._elegir_pincel()
+     3614      ._instantanea()
+     3616      ._restaurar()
+     3624      ._poner_editor_minimo()
+     3633      .ajustar_densidad()  — v5.2: en pantallas chicas la columna de la derecha cede sitio a las palabras.
+     3639      ._alternar_editor_minimo()
+     3646      ._guardar_para_deshacer()  — Guarda el estado antes de un cambio: historial de deshacer, vaciado de la pila de rehacer (se abre una rama nu…
+     3658      ._deshacer()
+     3665      ._rehacer()
+     3672      ._refrescar_botones_historial()  — Apaga las flechas cuando no queda nada que deshacer o rehacer.
+     3680      ._programar_autoguardado()  — Guarda en disco un rato despues del ultimo cambio (marcar arrastrando dispara decenas de cambios por segundo: …
+     3694      ._autoguardar()  — Escribe las marcas sin decir nada. Nunca interrumpe al usuario (cerrar sin querer borraba TODO el trabajo de m…
+     3706      ._avisar_guardado()  — Deja constancia en pantalla de que ya esta a salvo.
+     3716      .esperar()  — No vuelve hasta que se pulse Continuar o Cancelar (el modal de la v4: aqui con un bucle de eventos propio, la …
+     3725      ._build_ui()
+     3967      ._marcar_fin_de_frase()  — Deja anotado en cada palabra si despues de ella termina la frase (una sola vez, sobre el texto tal como vino d…
+     3978      ._llenar_texto()  — (Re)dibuja todas las palabras en el lienzo (cada frase en su fila, con su tiempo delante y una fila extra tras…
+     3987      ._timecode()  — '[1:23]' — el minuto y segundo donde arranca la frase.
+     3990      ._on_brush_change()
+     3996      ._actualizar_pista_pincel()  — La línea sobre el párrafo: dice qué hace el pincel elegido al tocar una palabra.
+     4018      ._marcar_todo()  — Aplica el pincel actual a TODAS las palabras de una sola vez.
+     4026      ._quitar_puntuacion()  — Saca signos del principio y del final de todas las palabras (donde Whisper los pone). PUNT_PAUSAS o PUNT_SIGNO…
+     4042      ._aplicar_caso()  — Pasa todo a MAYUSCULAS o a minusculas, siempre desde 'orig' (ir y volver no pierde las mayusculas de los nombr…
+     4058      ._texto_con_caso()  — Aplica el caso elegido a una palabra recien escrita a mano.
+     4065      ._seleccion_cambio()  — v5.4: el lienzo avisa cuando cambia la seleccion de palabras (recuadro, Ctrl+clic, Mayus+clic).
+     4075      ._aplicar_a_seleccion()  — Pinta con ese rol TODAS las palabras seleccionadas (un solo paso de «deshacer»).
+     4087      ._click_word()
+     4110      ._poner_rol()  — Pinta un rol (el pincel o el menu de clic derecho). Con 'pintando' recuerda la palabra para el arrastre del cl…
+     4120      ._actualizar_contador_pronto()  — v5.4: la palabra se colorea al instante, pero contadores, bloques y «Así se verá este bloque» se recalculan so…
+     4128      ._contador_diferido()
+     4132      ._alternar_corte()  — Pone o quita el corte forzado tras la palabra (v3.3.1).
+     4141      ._on_corte_change()
+     4147      ._cortes_automaticos()  — Indices donde el agrupado AUTOMATICO del modo normal cierra un bloque (v3.3.1): el mismo calculo que despues a…
+     4182      ._menu_contextual()  — Clic derecho sobre una palabra (v3.3.1): emoji, rol, corte y editar, sin cambiar de pincel.
+     4215      ._colocar_junto_a()  — Coloca un dialogo pegado a la palabra idx (v3.3.1; pedido literal: «que aparezca sobre la palabra nomás»): deb…
+     4258      ._mini_emoji()  — La miniatura del emoji al tamaño de la letra, o None (v5.2: al doble de resolucion, el lienzo la reduce: nitid…
+     4274      ._redibujar_manteniendo_vista()
+     4280      ._minis_listas()  — Llega desde el hilo de preparar_minis: repinta el selector si esta abierto (en el hilo de la interfaz).
+     4292      ._cerrar_popover()
+     4301      .eventFilter()  — Un clic en cualquier sitio de ESTA pantalla fuera del selector de emoji lo cierra (v3.3.2: el _clic_fuera_popo…
+     4312      ._clic_fuera_popover()
+     4322      ._elegir_emoji()  — El selector de emoji de una palabra (v3.3.0): lo abren el pincel «Emoji», el clic sobre el emoji de la ficha y…
+     4331      ._poner_emoji()  — Pone (o quita, con None) el emoji de una palabra. Un fallo aqui se DICE en la pantalla y queda en error_ventan…
+     4350      ._png_del_usuario()  — El dialogo de «Mi PNG» (v3.3.4). None si se cancela.
+     4354      ._refrescar_emojis()  — Tras tocar la biblioteca: la mini de ESE archivo, fuera las minis cacheadas, redibujar y repintar el selector …
+     4372      ._fallo_biblioteca()  — Un fallo de la biblioteca se DICE y queda en error_ventana.txt.
+     4379      ._poner_mi_png()  — «Mi PNG en esta palabra» (v3.3.4): el PNG se copia a la biblioteca y queda en esa palabra como un emoji «mio».
+     4395      ._reemplazar_emoji_con_png()  — «Reemplazar 🔥 por mi PNG» (v3.3.4): desde ahi tu PNG manda sobre la imagen de ese emoji en todas las palabras …
+     4413      ._quitar_de_biblioteca()  — «Quitar de mi biblioteca» / «Volver al emoji original» (v3.3.4). Se confirma antes; un emoji «mio» borrado se …
+     4438      ._sugerir_emojis()  — «Emojis»: un emoji para cada PRINCIPAL que no tenga (v3.3.0). JAMAS pisa uno elegido a mano; sin nada que apor…
+     4468      ._quitar_todos_emojis()  — «✕ Emojis» (v3.4.0): fuera todos los emojis, en UN paso de deshacer.
+     4481      ._indice_bajo_el_mouse()  — Que palabra hay EXACTAMENTE en esa coordenada del lienzo, o None.
+     4491      ._tam_letra_valido()  — El tamaño de letra dentro del rango; cualquier rareza, 13.
+     4498      ._tolerancia_clic()
+     4501      ._aplicar_tam_letra()
+     4507      ._poner_tam_letra()  — El deslizador del párrafo: aplica el tamaño (junta el vaivén del arrastre) y lo recuerda un momento después.
+     4523      ._cambiar_tam_letra()  — A− / A+ (v3.3.0). Se recuerda en la App SOLO al tocarlo.
+     4535      ._palabra_cercana()  — La palabra a menos de TOLERANCIA_CLIC_PX del punto, o None.
+     4541      ._clic()  — Un clic en el lienzo: sobre la ✕ quita el emoji; sobre el EMOJI abre su selector con cualquier pincel; sobre u…
+     4562      ._doble_clic()  — El doble clic tambien perdona el pelo de distancia.
+     4568      ._on_seleccion_toggle()  — Prende o apaga el marcado por arrastre y lo explica en pantalla.
+     4576      ._arrastrar()  — Arrastrar con el boton apretado va marcando las palabras que toca (solo al ENTRAR a una palabra distinta).
+     4590      ._soltar()
+     4592      ._doble_click_word()  — Doble clic sobre una palabra: corregirla, con cualquier pincel (el clic simple llega antes que el doble: prime…
+     4603      ._reemplazar_masivo()  — Buscar → reemplazar en TODA la transcripcion (v1.0.60): compara el NUCLEO sin puntuacion ni mayusculas, conser…
+     4661      ._editar_palabra()  — Ventanita para corregir el texto de una palabra, o borrarla. El tiempo de la palabra no se toca.
+     4756      ._pintar_palabra()
+     4759      ._revisar_ortografia()  — Subraya las palabras que el diccionario no conoce (en un hilo: cargar el diccionario la primera vez tarda). 's…
+     4798      ._corregir_auto()  — v5.4: al abrir el editor se corrige solo la ortografia (sin botones). No si se reabren marcas ya retocadas.
+     4804      ._corregir_ahora()  — v5.4 (pedido: «con un clic analice todo y lo corrija inmediato»): la IA de texto local (Qwen3) corrige TODA la…
+     4864      ._pintar_orto()  — La tarjeta «Revisión de ortografía» (v5.0.0, imagen 03): la primera palabra dudosa, sus sugerencias, Aplicar e…
+     4900      ._orto_elegir()
+     4903      ._orto_aplicar()
+     4922      ._orto_ignorar()
+     4930      ._pintar_todo()
+     4933      ._actualizar_contador()
+     4969      ._info_sfx()  — {indice_de_palabra: {'cat', 'nombre', 'original', 'manual'}} de la primera palabra de cada bloque con efecto: …
+     5017      ._pintar_puntos_sfx()  — Los puntos de color bajo las palabras: cada color es una categoria de sonido; el nombre sale al pasar el curso…
+     5029      ._menu_sfx()  — Clic en el punto de una palabra: el sonido de ese bloque se puede cambiar por otro de su categoria, por uno de…
+     5050      ._menu_sfx_categorias()
+     5061      ._menu_sfx_archivos()
+     5068      ._escuchar_sfx()  — Suena el efecto (una vez, con su volumen y recorte) para poder elegir de oido.
+     5082      ._cambiar_sfx()  — ruta = archivo; '' = sin sonido; None = volver al automatico.
+     5096      ._construir_controles_guion()  — La tarjeta de la derecha con el estilo «guion»: qué hace cada pincel, la altura de la pila, «Auto» y «Quitar m…
+     5125      ._guion_comprobar_en_resolve()  — «Comprobar en Resolve»: el bloque que se está viendo, renderizado de verdad por Resolve (vistas_reales.renderi…
+     5171      ._guion_poner_ancla()
+     5181      ._guion_auto()
+     5187      ._guion_limpiar()
+     5193      ._ancla_guion()
+     5199      ._fin_video_guion()  — Donde acaba el video (el último bloque se cierra ahí): la MISMA cifra que usa Generar; se lee una sola vez (ab…
+     5207      ._planear_guion()
+     5212      ._roles_del_planificador()  — Los roles que el planificador elegiría solo (Principal = grande, Abajo = negrita, el resto Simple), listos par…
+     5217      ._bloques_actuales()  — (bloques, indice_de_bloque_por_palabra) con las marcas de AHORA: el mismo build_manual_cues que arma los subti…
+     5250      ._estilos_pack()  — Las variantes (estilos) del pack elegido para el formato en juego: [{'n', 'nombre', 'color', 'y'…}]. [] si no …
+     5263      ._asignar_estilos()  — Le pone a cada bloque su estilo (la rueda, el fijo o el que elegiste a mano): la MISMA regla con la que se gen…
+     5269      ._pintar_estilo_bloque()  — Debajo de la vista: «Estilo 2 de 3 · Rosa · automático» y los botones para cambiarlo en este bloque; y dónde c…
+     5307      ._poner_estilo_de_bloque()  — El estilo de ESTE bloque: n = el número de la variante, o None = automático. Se guarda en su primera palabra.
+     5324      ._hover_palabra()
+     5327      ._mostrar_bloque()  — Pinta en «Así se verá este bloque» el bloque de la palabra idx (aprox.: con los estilos del pack elegido).
+     5374      ._glifo_emoji_de()
+     5381      ._alternar_reproduccion()
+     5387      ._empezar_reproduccion()
+     5402      ._sonidos_para_reproducir()  — [(segundo, ruta)] de los sonidos que Resolve colocaria (los mismos del popup de cada palabra).
+     5413      ._parar_reproduccion()
+     5425      ._tic_reproduccion()
+     5497      ._imagen_guion()  — El emoji del bloque k en la vista del estilo «guion»: solo si el bloque lo lleva, encima o debajo de la pila s…
+     5510      ._imagen_del_bloque()  — El espacio «imagen» del bloque k: donde caera el emoji (el bloque «imagen» del pack o, sin el, debajo del text…
+     5527      ._sfx_de_bloque()
+     5541      ._guardar_marcas()  — Guarda las palabras (ya corregidas) y sus marcas en disco (no perder el trabajo, y volver despues con 'Editar …
+     5554      ._sugerir_con_ia()  — «Asistencia» (v5.2, pedido: «que de una vez coloque los emojis, que quite puntos, comillas, todos los signos, …
+     5688      ._al_cambiar_tamano()
+     5691      ._on_tamanos_change()  — «Palabras por línea» cambió: los bloques lo respetan al instante y, si los roles son de la IA (sin marcas a ma…
+     5703      ._roles_para()  — Los roles de una versión de la IA con los máximos de ahora. Usa el análisis ya hecho (pesos) si lo hay: es ins…
+     5720      ._calcular_alternativas()
+     5723      ._aplicar_roles_auto()  — Pone unos roles de la IA (con deshacer) y refresca todo. Los emojis y el texto se conservan.
+     5741      ._reajustar_en_vivo()
+     5756      ._recordar()  — Escribe una preferencia en la App y la guarda.
+     5763      ._avisar_ajustes_una_vez()
+     5766      ._espacio_valido()  — 0.5 / 1 / 2; cualquier rareza, 1.
+     5773      ._selector_espacio()  — «Pausas» y «Párrafos», Compacto / Normal / Amplio (v3.3.4: «Pausas» es el aire extra tras un silencio del habl…
+     5788      ._on_vista_change()
+     5794      ._on_espacio_change()
+     5799      ._on_parrafos_change()
+     5804      ._on_capitalizar_change()  — Aplica y recuerda «Mayúscula inicial» (v3.3.1).
+     5815      ._rango_de_oracion()  — (desde, hasta) de la oracion que contiene la palabra idx.
+     5827      ._ajustar_ancho_textos()  — En Qt el ajuste de linea sigue solo al ancho.
+     5830      ._pedir_cierre()  — Cancelar (Esc o el boton) confirma antes, y guarda pase lo que pase.
+     5838      ._guardar_ahora()  — Fuerza el autoguardado pendiente, sin esperar al temporizador.
+     5849      ._soltar_filtro()
+     5854      ._terminar()
+     5860      ._cancelar()
+     5864      ._continuar()
+     5868  class _EvGlobal
+     5870      .__init__()
+     5872  _correr_en_hilo()  — Corre `trabajo()` en un hilo y llama `al_terminar(resultado, error)` en el hilo de la interfaz (ver qt_kit.cor…
+     5881  _hace()  — 'hoy' / 'ayer' / 'hace 3 días' / la fecha.
+     5897  _duracion_legible()
+     5903  _medir_fuente()  — Duracion, tamaño y una onda de 'n' barras del archivo (v5.0.0, la tarjeta «Fuente»). Corre en un hilo: abre el…
+     5952  _lineas_look()  — La vista previa (aprox.) de los looks destacados.
+     5966  _recetas_por_defecto()  — Las tres recetas de la propuesta, hasta que el usuario guarde las suyas.
+     5971  class _Marca  — El logo de CineCaptions en la marca del lateral (logo_cinecaptions.png).
+     5973      .__init__()
+     5979  class _Sumidero  — v5.1: la licencia ya no tiene linea propia en el lateral (va en Ajustes y en la tarjeta de Inicio); esto absor…
+     5983      .poner()
+     5985      .configure()
+     5987  class _MosaicoModo  — Un mosaico de «Formato de los subtítulos» (imagen 02).
+     5989      .__init__()
+     6003      .poner_elegida()
+     6007      .mousePressEvent()
+     6013  class _RejillaModos  — Los 6 mosaicos: normales, dinámicos y los 4 looks destacados (v5.0.0: el modo «destacados» de la v4 vuelve a e…
+     6016      .__init__()
+     6028      .marcar()
+     6031      .configure()
+     6036  class _TarjetaEstado  — Una de las cuatro tarjetas de arriba de «Inicio».
+     6038      .__init__()
+     6052      .poner()
+     6056  class _FilaProyecto  — Una fila de «Proyectos recientes» (o su cabecera).
+     6059      .__init__()
+     6087      .mousePressEvent()
+     6093  class _EtiquetaPlantilla  — El valor «Pack de estilos» de la Receta: la etiqueta de siempre (_etiqueta_plantilla_completa) sin la flecha «…
+     6097      .configure()
+     6102  class BarraTitulo  — El título de cada pantalla (Proyecto, Creativo, Sonido): una barra con la insignia numerada en naranja, el tít…
+     6106      .__init__()
+     6135      .poner_subtitulo()
+     6144  class SubtitleApp  — La ventana principal (v5.0.0: panel con menu lateral y 5 pantallas). La logica es la de la v4.1.0 — mismos met…
+     6159      .__init__()
+     6240      .palabras_de_la_ultima_transcripcion()  — [{'word', 'start', 'end'}] de la ultima transcripcion (la de la sesion o la guardada del video actual); [] si …
+     6254      ._precalentar_mcp()  — v5.5: la conexion con Resolve (ResolveMCP) se abre ya, en un hilo, SIN abrir Resolve: asi el primer «Obtener» …
+     6262      ._precalentar_ondas_sfx()  — v5.5: la onda de los primeros sonidos de cada categoria de la biblioteca, en un hilo: al abrir Sonido ya estan…
+     6273      ._precalentar_secuencias_emoji()
+     6279      ._precalentar_fuentes()
+     6285      ._precalentar_packs()  — v5.4: leer los .drb de los packs (descomprimir sus comps) costaba ~0,3 s al abrir «Estilos» por primera vez; s…
+     6295      ._descargar_emojis_animados()  — v5.4: baja en segundo plano todos los emojis animados del catalogo (Noto Animated Emoji) para que el selector …
+     6305      ._vigilar_emojis_animados()
+     6329      ._chequear_librerias()
+     6351      ._colocar_ventana()  — 1440 x 900 si cabe; minimo 1100 x 700 (o lo que deje la pantalla).
+     6360      .showEvent()
+     6365      ._tras_sondear_resolve()  — Lo que hasta la v3.3.2 corria sincrono al arrancar, ahora cuando el hilo del sondeo termino. v5.4: copiar/comp…
+     6380      ._avisar_modo_ejecucion()  — Deja en el status como se van a ejecutar los scripts en Resolve. El caso 'manual' se abre en tres, porque ante…
+     6429      ._load_logo()  — El logo listo para mostrar, o None si no se puede cargar.
+     6437      ._open_credit_url()
+     6444      ._cambiar_idioma_ui()  — El selector de idioma de la interfaz: guarda el idioma para el proximo arranque (i18n.guardar_idioma, el mismo…
+     6457      ._menu_idioma_ui()
+     6463      ._set_window_icon()  — Pone el logo como icono de la ventana (barra de tareas).
+     6472      ._build_ui()
+     6505      ._build_lateral()
+     6576      ._build_isla()  — v5.5: la isla dinamica (navegacion), los controles de la ventana, el borde y el panel del estado de Resolve.
+     6593      ._subir_isla()
+     6597      ._reposicionar_isla()
+     6605      .changeEvent()
+     6610      ._accion_isla()
+     6626      ._alternar_pop_estado()
+     6645      ._clic_fuera_de_paneles()  — Un clic fuera del panel del estado lo cierra.
+     6656      ._plegar_lateral()  — Plegado: el lateral queda solo con iconos (por ancho de ventana o a mano con el boton de la marca; Ajustes > I…
+     6678      ._alternar_lateral()
+     6686      .resizeEvent()
+     6692      ._ajustar_densidad()  — v5.2 (pedido: «que sea adaptable a diferentes pantallas»): en pantallas bajas o angostas las cabeceras y los m…
+     6727      ._pintar_pie_lateral()
+     6730      ._comprobar_conexion_lateral()  — «Comprobar conexión»: rehace el estado de Resolve ahora (MCP).
+     6739      ._abrir_ajustes_rapido()
+     6747      ._abrir_ajustes()
+     6751      .poner_encima()  — El alfiler: CineCaptions por delante de Resolve (WindowStaysOnTop).
+     6768      .reiniciar_programa()  — Cierra y vuelve a abrir CineCaptions (para aplicar tema, tamaño o idioma).
+     6779      ._nueva_pagina()
+     6813      .ir_a()  — Cambia de pantalla. «Estilos» y «SFX Lab» se arman la primera vez que se abren (leer los packs y la biblioteca…
+     6864      ._marcar_nav()
+     6869      ._conmutador_proyecto()  — v5.2: el conmutador «Proyecto | Estilos y composición» arriba de las dos pantallas que comparten la entrada «P…
+     6884      ._en_fondo()
+     6887      ._zonas_opacas()  — Las tarjetas de la pantalla actual (en coordenadas del fondo): el fondo animado no las repinta (efectos_ui.Fon…
+     6901      .eventFilter()
+     6905      .dragEnterEvent()
+     6908      .dropEvent()
+     6914      ._soltar_archivo()  — Un video o audio soltado en la ventana (o en la zona de Inicio).
+     6941      .closeEvent()
+     6959      ._pagina_inicio()
+     7080      ._detectar_e_ir()
+     7084      ._alternar_detalles_inicio()
+     7090      ._pintar_go_reposo()  — La linea bajo el GO: con que va a trabajar si lo pulsas ahora.
+     7116      ._go_sfx()
+     7122      ._pintar_opciones_go()
+     7163      ._menu_estilo_go()  — El chip «Estilo» de Inicio: elegir el estilo de GO sin salir de la página.
+     7189      ._quitar_ajuste_fino()  — El chip «Posición ajustada ✕» de Inicio: vuelve a la posición exacta del estilo (no toca lo que ya está en el …
+     7204      ._quitar_estilo_fijo()  — El chip «Solo el estilo N ✕» de Inicio: vuelve a alternar los estilos del pack.
+     7215      ._menu_idioma_go()
+     7229      ._go_emojis()
+     7235      ._alternar_emojis_go()
+     7242      ._alternar_sfx_go()
+     7258      ._vigilar_tarea()
+     7268      ._fin_tarea()
+     7278      ._esperando_al_usuario()  — El editor de palabras o un diálogo tienen detenido el trabajo A PROPÓSITO: el vigía no debe contarlo como atas…
+     7288      ._destrabar()  — El vigía decidió que `paso` está atascado: se matan los motores (voz / IA de texto) o el puente con Resolve pa…
+     7307      ._chequeo_de_arranque()  — Unos segundos después de abrir: librerías, motores, MCP, disco y memoria. Cada falla queda en el Registro (err…
+     7323      ._sincronizar_sfx()  — Auditoría v5.11: «Efectos» de Inicio (go_sfx) manda sobre la casilla vieja (sfx_var), que es la que miran los …
+     7329      ._ciclar_formato_go()
+     7336      ._go_pack_pref()  — Lo que el usuario eligió en el chip «Estilo» de Inicio: un pack, 'auto' (el diseño de 3 líneas de siempre) o '…
+     7343      ._poner_go_pack()
+     7365      ._sincronizar_go_pack()  — Estilos → GO: el pack elegido en Estilos pasa a ser el de GO ('auto' = el diseño de 3 líneas).
+     7379      ._plantilla_un_clic()  — El pack que usa GO. v5.10: por defecto el estilo «Referencia» (los captions palabra a palabra: línea fina y ne…
+     7409      ._go()
+     7492      ._abortar_si_fallo_el_timeline()  — GO con un video soltado: si Resolve no pudo armar el proyecto/timeline con ese video, GO se detiene con un men…
+     7499      ._go_proyecto()  — El proyecto de Resolve donde GO arma el timeline de un video soltado: 'CineCaptions' (por defecto) o '' = el q…
+     7507      ._alternar_proyecto_go()
+     7514      ._esperar_vistas_reales()  — Con una vista real de los estilos en curso (timeline temporal en Resolve) GO no toca Resolve: espera a que aca…
+     7524      ._go_timeline_del_video()  — Hilo de GO con un video soltado: abre Resolve si hace falta y le arma un timeline NUEVO con ese video (orienta…
+     7564      ._precargar_motores()  — v5.3: arranca EN SEGUNDO PLANO el motor de voz y la IA de texto (carga + calentamiento). Cargar el motor de vo…
+     7583      ._go_generar()  — Pone la receta de GO (dinamico 3 lineas + pack + efectos) y arranca el mismo _run_pipeline de «Generar subtítu…
+     7606      ._go_fallo()
+     7614      ._go_vista_previa()  — Antes de lanzar al timeline: los bloques con su estilo sobre los fotogramas reales (MCP), y «Lanzar» o «Revisa…
+     7706      ._go_lanzar()
+     7721      ._go_fin()
+     7741      ._go_estadisticas()  — Los contadores del final: bloques, palabras, duración y (si hay) efectos y emojis.
+     7761      ._pasos_recorrido()  — Los pasos del recorrido guiado: a qué pantalla ir, qué zona iluminar y qué contar (todo en el idioma de la int…
+     7840      .iniciar_recorrido()  — Muestra el recorrido guiado. manual=True (Ajustes > «Ver el recorrido») lo lanza aunque esté desactivado. Devu…
+     7858      ._recorrido_fin()  — El recorrido terminó (o se salió): se recuerda que ya se vio y se vuelve a Inicio.
+     7877      ._recorrido_no_mostrar()
+     7886      ._recorrido_auto()  — Al abrir el programa por primera vez (o hasta que se vea / se desactive), arranca solo el recorrido cuando no …
+     7902      ._go_ver_en_resolve()
+     7910      ._go_editor()  — «Revisar en el editor»: las marcas de la IA ya estan guardadas; el editor las abre y al Continuar regenera y c…
+     7921      ._lista_recetas()
+     7925      ._pintar_recetas()
+     7954      ._menu_receta()
+     7959      ._quitar_receta()
+     7966      ._recetas_de_ejemplo()
+     7970      ._guardar_receta_actual()  — «+ Guardar la actual»: los ajustes de «Nuevo proyecto» como receta.
+     7997      ._usar_receta()  — «Usar»: pone el modo, el formato, los efectos y la traducción de la receta y lleva a «Nuevo proyecto». Lo dema…
+     8035      ._refrescar_recientes()  — Repuebla «Proyectos recientes» de Inicio.
+     8074      ._ejecutar_diagnostico()  — «Ejecutar diagnóstico»: el informe de siempre (diagnostico.txt) y el del Puente al portapapeles.
+     8083      ._refrescar_estado()  — Las tarjetas de estado (Inicio y lateral), en un hilo.
+     8090      ._recoger_estado()  — Corre en un hilo: NO toca widgets.
+     8159      ._pintar_estado()
+     8247      ._pintar_licencia()  — La tarjeta «Licencia» de Inicio (v5.2.1: el estado guardado de Lemon Squeezy, sin red).
+     8258      ._pagina_nuevo()
+     8582      ._elegir_mosaico()  — Un clic en un mosaico de «Formato de los subtítulos».
+     8591      ._mosaico_actual()
+     8593      ._pintar_chips_idioma()  — Los chips junto al idioma: ★ favoritos y los frecuentes.
+     8611      ._elegir_idioma()
+     8615      ._poner_etapa()  — Pinta las etapas: las anteriores a 'actual' en verde, 'actual' rellena, el resto apagadas. None = todas apagad…
+     8635      ._etapa_de_estado()
+     8645      ._refrescar_pasos()
+     8677      ._al_cambiar_video()
+     8680      ._medir_video_actual()  — La tarjeta «Fuente»: nombre, duracion, tamaño y onda (en un hilo).
+     8733      ._refrescar_vista_estilo()
+     8762      ._fondo_desde_resolve()  — «Ver sobre el fotograma de Resolve»: el fotograma del cabezal, por MCP (~50 ms dentro de Resolve), de fondo en…
+     8790      ._bloques_estimados()
+     8818      ._refrescar_receta()
+     8846      ._pagina_editor()
+     8867      ._sesion_editor()  — Muestra el editor como pantalla, espera a «Continuar» o «Cancelar» (ventana.esperar) y lo retira. Devuelve su …
+     8906      ._receta_generar()  — «Generar» del editor hace lo mismo que GO: bloques con tus marcas, efectos de sonido (el interruptor de GO), e…
+     8916      ._asegurar_pack_luxe()  — v5.8 (pedido: «todos los textos plus deben ser del paquete Luxe Title Pack, sin excepción»): como GO, el dinám…
+     8928      ._gen_abrir()
+     8947      ._gen_fase()
+     8951      ._gen_detalle()
+     8955      ._gen_fin()
+     8965      ._editor_abierto()  — Una sola sesion del editor a la vez (la v4 lo garantizaba con el modal; ahora el resto de pantallas sigue a ma…
+     8974      ._pagina_estilos()
+     8979      ._cambio_motor_voz()
+     8987      ._pintar_motor_voz()  — La nota bajo el selector: qué se va a usar de verdad (GPU, modelo, o por qué cae a Whisper).
+     9003      ._menu_audio()  — Clic derecho sobre «Audio»: lo que ya no tiene botón (elegir un archivo a mano, proyectos guardados).
+     9009      ._crear_tu_estilo()  — «Crea tu estilo»: abre en Resolve (por MCP) el timeline-guía con la estructura de un pack: los bloques arriba …
+     9051      ._basicos_actual()
+     9053      ._asegurar_estilos()
+     9072      ._plantilla_elegida()
+     9083      ._plantilla_diseno()
+     9089      ._plantilla_basicos()
+     9100      ._pagina_sfx()
+     9103      ._asegurar_sfx()  — Arma el SFX Lab la primera vez (av/numpy solo si se usa).
+     9135      ._tamanos_lineas()  — (arriba, principal, abajo): el maximo de palabras por linea de «Tamaño del bloque» (Creativo). Los bloques lo …
+     9139      ._palabras_por_basico()  — Cuantas palabras sueltas van juntas en un bloque, en 2..5. v1.0.69: el rango pedido es 2-5; una preferencia vi…
+     9149      ._preparar_emojis()  — Los emojis de las palabras clave (v3.3.0): los pasa de las palabras a sus bloques (cue['emoji'] + cue['emoji_l…
+     9192      ._sfx_de_emojis()  — v5.7: cada emoji suena (fuego → fuego, beso → beso…). Suma un evento de sonido por bloque con emoji y devuelve…
+     9204      ._capitalizar()  — «Mayúscula inicial» de los dinamicos (v3.3.0; desde la v3.3.1 es la casilla de la VENTANA de palabras, que esc…
+     9215      ._menu_idiomas()  — El desplegable de esta instancia: ★ favoritos arriba, y el resto. Se arma al vuelo y no de una constante porqu…
+     9227      ._alternar_favorito()
+     9241      ._refrescar_estrella()
+     9255      ._on_idioma_elegido()  — Los separadores del desplegable no son idiomas: se ignoran.
+     9265      ._filtrar_idiomas()  — Con 99 idiomas, escribir dos letras tiene que acortar la lista. v5.0.0: lo hace el propio desplegable (ComboBu…
+     9269      ._abrir_buscador_idioma()  — La lupa del idioma de transcripcion (v1.0.68).
+     9278      ._abrir_buscador_destino()  — La lupa del idioma destino de la traduccion (v1.0.68).
+     9289      ._abrir_buscador()
+     9295      ._on_traducir_toggle()
+     9299      ._idioma_destino()  — Codigo del idioma al que traducir. 'en' si algo va raro.
+     9302      ._refrescar_destinos()  — Rellena el menu de destinos: lo instalado YA, y el catalogo completo de Argos en cuanto llega. Hasta la v1.0.3…
+     9349      ._aplicar_catalogo_destinos()  — Con el catalogo en mano: destinos directos + alcanzables via en.
+     9372      ._abrir_idiomas_traduccion()
+     9379      ._fin_video()  — Donde termina el medio transcrito, en segundos; None si no se sabe. v2.0.6: el ultimo bloque termina CON el vi…
+     9402      ._offset_frames()  — El fotograma del timeline donde arranca lo transcrito. Sin marcas es el inicio del timeline (lo de siempre). C…
+     9421      ._zona_marcada_legible()  — La zona marcada en timecode, para enseñarsela al usuario.
+     9439      ._adelanto_frames()  — Fotogramas que se adelantan los bloques destacados. No se convierte a segundos aqui: el numero viaja tal cual …
+     9451      ._modo()  — El modo elegido ('normal' / 'dinamico' / 'destacados'), a partir de la etiqueta en español que muestra el sele…
+     9455      ._look()  — El look elegido del modo destacados ('hormozi'/'gadzhi'/...).
+     9458      ._on_modo_change()  — En modo dinamico y en destacados el largo se decide por frases, no por caracteres, y hay una ventana de marcas…
+     9502      ._carpeta_scripts_resolve()  — Donde Resolve busca los scripts del menu Scripts > Utility.
+     9505      ._abrir_en_el_explorador()  — Abre una carpeta en el Finder / Explorador de archivos. Es la salida manual: si en la maquina de alguien la co…
+     9528      ._avisar_falta_python()  — Explica que Resolve necesita un Python instalado en el sistema. Es la unica pieza que no podemos resolver por …
+     9545      ._dialogo_scripts_no_instalados()  — Ventana con salidas de verdad cuando no se pudo instalar. Un messagebox seco dejaba al usuario sin nada que ha…
+     9580      ._copiar_diagnostico_scripts()  — Deja TODO el diagnostico en el portapapeles. Sirve para que cualquiera pueda mandarlo pegado sin tener que bus…
+     9622      ._asegurar_scripts_instalados()  — Deja nuestros scripts en la carpeta de Resolve. Se llama al abrir el programa y antes de cada accion que neces…
+     9654      ._pedir_reinicio_resolve()  — Avisa una sola vez de que hay que reiniciar Resolve.
+     9665      ._etiqueta_plantilla()
+     9676      ._pista_basicos()  — Las claves 'plantilla_basicos' para los tracks SRT, o {}. v1.0.69: SOLO en modo normal (los subtitulos basicos…
+     9693      ._etiqueta_plantilla_completa()  — La etiqueta del card, POR MODO (v1.0.70). En modo normal habla de basicos («Básicos: inferior 2», con el nombr…
+     9710      ._abrir_composicion()
+     9712      ._clave_timeline()  — Con que timeline se habla: 'proyecto|timeline' de la ultima deteccion, o 'ultimo' si no se sabe (v3.4.0: el es…
+     9723      ._cues_ultimo_manifiesto()  — (cues, idioma, pack) de la pista dinamica del ultimo manifiesto, o ([], 'es', None).
+     9738      ._estilos_de_bloques()  — v5.8: la APP decide el estilo (variante del pack) de cada bloque —la rueda, el fijo o el que el usuario cambió…
+     9750      ._pista_composicion()  — v3.4.0: {'composicion': {...}} si no es la plantilla tal cual — y entonces mide TODAS las lineas con la tipogr…
+     9782      ._registrar_colocacion_composicion()
+     9787      ._aplicar_composicion()  — «Aplicar desde el cabezal» / «a todo» (v3.4.0): deja la orden (json + sidecar) y corre la accion 'subtitulos' …
+     9835      ._cerrar_recomposicion()
+     9860      ._vigilar_recomposicion()
+     9877      ._abrir_plantillas()
+     9879      ._importar_estilos_drt()  — Añade un pack a partir de un archivo .drt. SIN abrir Resolve. Este es el camino bueno desde la v1.0.27: el pac…
+     9944      ._preguntar_formato()  — Horizontal, vertical o cuadrado. None si el usuario cancela. Lo elige el usuario y no se deduce del archivo po…
+     9981      ._importar_estilos()  — Le pide a Resolve que extraiga los estilos de un timeline: el que esté abierto, o -si se pasa 'ruta_drt'- uno …
+    10037      ._refrescar_formato_detectado()  — La etiqueta de al lado del selector: que formato va a entrar. Se enseña ANTES de generar y no despues, que era…
+    10069      ._formato_en_juego()  — El formato que se va a usar: el elegido a mano, o el detectado. None si todavia no se sabe (nada elegido y sin…
+    10084      ._formato_forzado()  — 'h', 'v', o None si se deja detectar dentro de Resolve.
+    10087      ._pista_plantilla()  — El campo 'plantilla' del manifiesto, ya resuelto. El pack viaja RESUELTO —los sets de los dos formatos y las c…
+    10113      ._anunciar_receta()  — Dice EN PANTALLA con que diseño y con que efectos se genera. Hasta la v1.0.35 esto era invisible: ni la app ni…
+    10146      ._avisar_sin_pack()  — Dice, donde el usuario lo ve, que se genera SIN el pack pedido.
+    10158      ._abrir_estudio()  — Abre el estudio de sonidos (v5.0.0: la pantalla «SFX Lab»). Se importa al abrirlo (no arriba) para que la vent…
+    10165      ._al_terminar_generacion()  — Cuando termina la transcripcion + preparacion del manifest. Si estamos con Resolve **Studio**, corre el script…
+    10187      ._colocar_en_resolve()  — Manda los subtitulos (y los SFX si toca) a Resolve, en un hilo. Devuelve True si quedo lanzado. Lo usan LOS DO…
+    10249      ._avisar_correr_a_mano()  — Manda a correr el script a mano, diciendo POR QUE hizo falta. Reusa mensaje_para_el_usuario(), que distingue e…
+    10263      ._vigilar_clic_manual()  — Free sin Puente (v3.1.6): el usuario pulsa CineCaptions_Subtitulos a mano y esta ventana se entera SOLA cuando…
+    10306      ._vigilar_deteccion()  — El gemelo de _vigilar_clic_manual para CineCaptions_DetectarVideo: cuando aparece una deteccion posterior a 'd…
+    10333      ._pedir_detectar_a_mano()  — Free sin Puente: pedir el clic en CineCaptions_DetectarVideo y quedarse vigilando su resultado (v3.1.6). Antes…
+    10342      ._podar_renders_viejos()  — Los renders de audio con la hora en el nombre (Free 21.1: el script no tiene os.remove y no puede borrar el an…
+    10359      ._ver_ultimo_resultado()  — Muestra lo que reporto el ultimo script que corrio en Resolve. Los scripts dejan su resultado en ~/DaVinciSubt…
+    10407      ._instalar_en_resolve()  — Reinstala los scripts en Resolve, a pedido del usuario. Normalmente esto ya pasa solo al abrir el programa. El…
+    10441      ._on_sfx_toggle()  — Al prender la casilla, pregunta de donde tomar los efectos. Dos opciones: los 'esenciales' que trae el program…
+    10479      ._preguntar_fuente_sfx()  — Diálogo modal: esenciales, mi carpeta, favoritos O CUALQUIER categoria de la libreria. Devuelve el nombre de l…
+    10560      ._cambiar_fuente_sfx()  — Cambia la fuente de los efectos SIN apagar y prender la casilla. Hasta la v1.0.58 el dialogo solo salia al pre…
+    10581      ._actualizar_etiqueta_sfx()  — El chip junto al interruptor NOMBRA la fuente vigente. v1.0.65: decia «cambiar fuente» a secas — ninguna panta…
+    10595      ._detectar_con_bridge()  — Dispara el script 'Detectar Video' via API externa en un hilo. El render de audio puede tardar minutos; correr…
+    10627      ._detectar_desde_resolve()  — Autocompleta el video con el audio de la linea de tiempo activa. Tres caminos, en orden: 1) Resolve **Studio**…
+    10655      ._forzar_deteccion_nueva()  — Renderiza otra vez el audio del timeline que esta abierto ahora. Se llama cuando el usuario rechaza una detecc…
+    10675      ._detectar_desde_resolve_archivo()  — Camino manual: leer el JSON que dejo el script de Detectar Video cuando se corrio a mano desde Resolve (o cuan…
+    10739      ._browse()
+    10745      ._olvidar_marca()  — Deja de aplicar el recorte de la deteccion anterior. La marca es un offset GLOBAL: mueve todos los subtitulos.…
+    10760      ._cargar_proyecto()  — Setea el video del proyecto en el selector.
+    10767      ._abrir_proyectos_guardados_main()
+    10774      ._arrancar_reloj()  — Muestra cuanto lleva trabajando. Transcribir un video largo puede tardar varios minutos, y una barra que avanz…
+    10784      ._tick_reloj()
+    10791      ._parar_reloj()
+    10794      ._guardar_preferencias()  — Recuerda idioma y opciones para la proxima vez. v5.1: se MEZCLA con lo que ya habia: Ajustes guarda en el mism…
+    10846      ._cargar_preferencias()
+    10941      ._set_inputs_enabled()
+    10959      ._bloquear_por_caducidad()  — Deja la ventana abierta pero sin poder generar. Se limita a apagar controles y avisar: no borra nada ni toca d…
+    10972      ._ofrecer_fuentes_al_arrancar()  — Ofrece instalar TODAS las tipografias de las plantillas incluidas. v2.0.1 (reporte literal: «algunas tipografi…
+    11022      ._revisar_licencia_al_arrancar()  — La licencia ya se pidió ANTES de abrir la ventana (main -> _licencia_al_abrir). Aquí se pinta su estado, se ve…
+    11032      ._trabajando()  — True mientras se transcribe o se genera (no se corta un trabajo a medias).
+    11036      ._licencia_revisar()  — Verifica la licencia con la tienda en un hilo. forzar=False (reloj de 30 min): solo si la última verificación …
+    11050      ._licencia_resultado()
+    11060      ._licencia_lista()  — Antes de GO, generar o regenerar: True si hay una licencia vigente (si no, la pide).
+    11065      ._licencia_pedir()  — La ventana de activación. Si se cierra sin una licencia activa, CineCaptions se cierra (igual que CineSlide).
+    11082      ._licencia_refrescar()  — Lleva el estado guardado (sin red) a la tarjeta de Inicio, a Ajustes y a los botones.
+    11098      ._abrir_licencia()  — Tarjeta «Licencia» de Inicio y Ajustes: con la licencia activa muestra sus datos (y «Desactivar este equipo»);…
+    11116      ._on_update()  — Reabre la pantalla de marcas de un video ya transcrito y vuelve a generar los subtitulos, sin pasar otra vez p…
+    11187      ._regenerar_marcas()  — Corre en un hilo (v5.7; antes en el de la interfaz): arma los bloques con las marcas del editor, elige los efe…
+    11258      ._regenerar_normal()  — La rama NORMAL de regenerar (v1.0.71). Reconstruye el .srt con los ajustes VIGENTES (el mismo motor de tandas …
+    11330      ._on_generate()
+    11370      ._registrar_sfx_manuales()  — v5.4: los sonidos que el usuario cambio a mano en el editor (clic en el punto de una palabra), por tiempo de i…
+    11376      ._preparar_sfx()  — Le pone a cada bloque su categoria de efecto y devuelve lo que Resolve necesita para encontrar los audios. Cor…
+    11414      ._pack_guion()  — El pack elegido si es de estilo «guion» (Referencia…: la frase se arma palabra a palabra), o None.
+    11421      ._emojis_con_la_palabra_grande()  — Estilo «guion»: el emoji de un bloque entra junto con su PALABRA GRANDE (sin ella, con la palabra del emoji) y…
+    11437      ._generar_con_guion()  — v5.9, el estilo «guion» (pack Referencia): el planificador (guion_planificador.py) arma frases, palabra grande…
+    11500      ._generar_con_motor()  — El MOTOR del preset del Diseño dinámico (v1.0.51). Un preset ya no es solo colores: 'motor' cambia la ESTRUCTU…
+    11572      ._run_pipeline()
+    11806      ._anotar_estado()  — Las notas del proceso (transcribiendo, colocando…) van al registro, sin saturarlo.
+    11816      ._poll_queue()  — Corre en el hilo principal. Es el unico que toca los widgets.
+    11976      ._abrir_ventana_etiquetado()  — Corre en el hilo principal: muestra el editor de palabras, guarda el resultado y libera al hilo de trabajo que…
+    11999      ._abrir_ventana_texto()  — El mismo editor, en modo texto, para los subtitulos normales. Aqui no hay roles que elegir: se devuelve una li…
+    12023      ._codigo_idioma()  — El codigo del idioma elegido ('es', 'en'...). 'auto' se devuelve tal cual: quien lo reciba decide si puede tra…
+    12030  escribir_diagnostico()  — Deja un informe de rutas y recursos en un archivo de texto. Compilado no hay consola donde imprimir nada, asi …
+    12115  _asegurar_instancia_unica()  — Garantiza que solo exista una ventana abierta a la vez. Se usa UN archivo lock, tomado con un candado del sist…
+    12179  _proceso_vivo()  — True si el PID corresponde a un proceso vivo en el sistema.
+    12201  _traer_instancia_existente_al_frente()  — Best-effort: activa la ventana de la instancia que ya esta corriendo. OJO con Mac: aca habia un osascript -e '…
+    12241  _licencia_al_abrir()  — v5.2.1 (como CineSlide 9.20): antes de mostrar la ventana. Con una licencia vigente abre al instante (se vuelv…
+    12253  main()
 
   1_codigo\composicion.py  (304 líneas)
        52  valida()  — La composicion normalizada; cualquier rareza cae al defecto.
@@ -2333,34 +2342,36 @@ v3.x y anteriores    Instalador .exe con librerías fijas; interfaz Tk (retirada
       173  tr()  — El texto en el idioma de la interfaz. Con valores, les da formato. 'texto' es posicional-only (v3.4.1): con `t…
       193  nombre_idioma()  — El nombre de un idioma (de transcripcion o traduccion) en el idioma de la interfaz; sin dato, el respaldo (el …
 
-  1_codigo\ia_texto.py  (560 líneas)
-       50  script()
-       54  disponible()
-       62  class _Servidor
-       63      .__init__()
-       78      ._leer()
-       83      ._leer_err()
-       88      .vivo()
-       91      .pedir()
-      114      .cerrar()
-      130  liberar()  — Descarga el modelo (deja la GPU para el motor de voz o para Resolve).
-      138  precargar()  — v5.3: arranca la IA de texto EN SEGUNDO PLANO (modelo + calentamiento) sin bloquear a nadie. Se llama al pulsa…
-      160  analizar()  — Corre el modelo. Devuelve {'correcciones': {i: palabra}, 'pesos': {i: 0..1}, 'emojis': {i: glifo}}. Lanza Runt…
-      208  aplicar_correcciones()  — Copia de las palabras con las correcciones puestas (mismos tiempos).
-      220  marcar_fin_de_frase()  — Deja w['fin_frase'] en cada palabra ANTES de quitar los signos (los cortes de bloque la respetan: sin puntos n…
-      233  sin_signos()  — Quita los signos del principio y del final de cada palabra (y las comillas de dentro). Una palabra que quedari…
-      254  _por_glifo()  — {glifo sin VS16: id} del catalogo (solo emojis con imagen posible).
-      269  _sin_carga()
-      280  emojis_de_ia()  — {indice: id_del_catalogo} a partir de los glifos que propuso la IA: solo los que existen en el catalogo, nunca…
-      328  poner_emojis()  — Pone los emojis de la IA (marcados como tales: otra pasada los puede cambiar, a los del usuario no los toca). …
-      344  _roles_por_ia()  — v5.2 (pedido: «que la IA que selecciona el texto sea mas inteligente»): con la IA, el CENTRO de cada grupo es …
-      392  _orto_cargar()
-      401  _orto_guardar()
-      415  _trozos_para_orto()  — [(desde, hasta)] con cortes en pausas o signos, de unas 40 palabras: cada trozo se corrige (y se guarda) por s…
-      428  correcciones_ortografia()  — v5.5: {indice: palabra corregida} de TODO el guion, pero solo se le pregunta a la IA por los trozos que no se …
-      458  roles_inteligentes()  — Lista de roles ('context'/'main'/'complement'/None) para todo el guion. 'variante' (0..3) da otras versiones, …
-      510  emojis_sin_ia()  — Sin la IA: emojis por las claves del catalogo en las principales, con la misma densidad viral (uno cada ~10 pa…
-      529  marcar_todo()  — Lo que hace el un-clic: corregir + elegir + emojis + sin signos. Devuelve (palabras_corregidas, roles, resumen…
+  1_codigo\ia_texto.py  (620 líneas)
+       49  _reg()
+       57  abortar()  — Mata la IA de texto SIN pedir el candado (quien lo tiene puede ser quien está colgado): el vigía lo usa; el pe…
+       74  script()
+       78  disponible()
+       86  class _Servidor
+       87      .__init__()
+      103      ._leer()
+      108      ._leer_err()
+      113      .vivo()
+      116      .pedir()  — v5.11: `sin_senal` = segundos sin ninguna línea del modelo tras los que se da por colgado, se mata y se devuel…
+      145      .cerrar()
+      161  liberar()  — Descarga el modelo (deja la GPU para el motor de voz o para Resolve).
+      169  precargar()  — v5.3: arranca la IA de texto EN SEGUNDO PLANO (modelo + calentamiento) sin bloquear a nadie. Se llama al pulsa…
+      191  analizar()  — Corre el modelo. Devuelve {'correcciones': {i: palabra}, 'pesos': {i: 0..1}, 'emojis': {i: glifo}}. Lanza Runt…
+      265  aplicar_correcciones()  — Copia de las palabras con las correcciones puestas (mismos tiempos).
+      277  marcar_fin_de_frase()  — Deja w['fin_frase'] en cada palabra ANTES de quitar los signos (los cortes de bloque la respetan: sin puntos n…
+      290  sin_signos()  — Quita los signos del principio y del final de cada palabra (y las comillas de dentro). Una palabra que quedari…
+      311  _por_glifo()  — {glifo sin VS16: id} del catalogo (solo emojis con imagen posible).
+      326  _sin_carga()
+      337  emojis_de_ia()  — {indice: id_del_catalogo} a partir de los glifos que propuso la IA: solo los que existen en el catalogo, nunca…
+      385  poner_emojis()  — Pone los emojis de la IA (marcados como tales: otra pasada los puede cambiar, a los del usuario no los toca). …
+      401  _roles_por_ia()  — v5.2 (pedido: «que la IA que selecciona el texto sea mas inteligente»): con la IA, el CENTRO de cada grupo es …
+      449  _orto_cargar()
+      458  _orto_guardar()
+      472  _trozos_para_orto()  — [(desde, hasta)] con cortes en pausas o signos, de unas 40 palabras: cada trozo se corrige (y se guarda) por s…
+      485  correcciones_ortografia()  — v5.5: {indice: palabra corregida} de TODO el guion, pero solo se le pregunta a la IA por los trozos que no se …
+      515  roles_inteligentes()  — Lista de roles ('context'/'main'/'complement'/None) para todo el guion. 'variante' (0..3) da otras versiones, …
+      567  emojis_sin_ia()  — Sin la IA: emojis por las claves del catalogo en las principales, con la misma densidad viral (uno cada ~10 pa…
+      586  marcar_todo()  — Lo que hace el un-clic: corregir + elegir + emojis + sin signos. Devuelve (palabras_corregidas, roles, resumen…
 
   1_codigo\instalador_scripts.py  (628 líneas)
        13  _base_recursos()  — Carpeta de los archivos que acompañan al programa. Compilado con PyInstaller los datos se extraen a una carpet…
@@ -2575,7 +2586,7 @@ v3.x y anteriores    Instalador .exe con librerías fijas; interfaz Tk (retirada
       407  _letras()
       413  dibujar_hud()  — La capa de Motion Graphics de Inicio, dibujada sobre la esfera. 't' = segundos de la escena; 'energia' 0..1.
 
-  1_codigo\motor_voz.py  (671 líneas)
+  1_codigo\motor_voz.py  (775 líneas)
        67  _base_recursos()
        73  carpeta()
        78  python_motor()
@@ -2596,25 +2607,29 @@ v3.x y anteriores    Instalador .exe con librerías fijas; interfaz Tk (retirada
       214  hay_gpu_nvidia()
       229  _leer_preferencia()
       237  motor_para()  — 'qwen3' si se va a usar Qwen3-ASR para este idioma, si no None (Whisper).
-      246  nombre_motor()  — Para mostrar en Inicio / Ajustes.
-      264  vram_total_gb()  — VRAM total de la primera GPU NVIDIA en GB (0.0 si no hay), memorizada.
-      278  modo_gpu()  — Como se reparte la GPU entre la voz (~6 GB) y la IA de texto (~9,5 GB): 'residente' (>= 22 GB) las dos cargada…
-      287  class _ServidorVoz  — Un proceso de motor_qwen.py --servidor: modelo cargado y calentado, pedidos por stdin.
-      290      .__init__()
-      306      ._leer()
-      311      ._leer_err()
-      316      .vivo()
-      319      .pedir()  — Manda un audio y espera el LISTO. Devuelve (ok, motivo). Si el motor aun esta cargando, espera (y cuenta).
-      344      .cerrar()
-      360  precargar()  — Arranca el motor de voz EN SEGUNDO PLANO (imports + modelo + calentamiento) sin bloquear a nadie. Se llama al …
-      377  liberar()  — Descarga el motor de voz (deja la GPU para la IA de texto o para Resolve).
-      388  _audio_16k()  — El audio del video en un .wav mono 16 kHz (lo que espera el motor).
-      405  _lanzar()  — Corre el motor de voz (motor_qwen.py); ver _lanzar_script.
-      410  _lanzar_script()  — Corre un script del motor (voz o texto) en su Python 3.12 y entrega cada linea 'TIPO|texto' a on_linea. Devuel…
-      441  transcribir()  — Igual que subtitle_transcriber.transcribe: [{'start','end','word'}, ...]. Lanza RuntimeError si el motor falla…
-      523  _bajar()
-      548  _pip()
-      568  instalar()  — Instala (o repara) el motor. progreso(0..1, texto), aviso(texto). Lanza excepcion si no se pudo; deja listo.js…
+      254  nombre_motor()  — Para mostrar en Inicio / Ajustes.
+      274  _reg()  — El Registro, o None si no se puede importar (el motor también corre en pruebas sueltas).
+      283  _fallo_de_qwen()  — Un intento de Qwen3 falló: se anota (con el motivo) y se cuenta; al llegar al máximo se apaga solo hasta reini…
+      291  _exito_de_qwen()
+      300  abortar()  — Mata el motor de voz SIN pedir el candado (el que lo tiene puede ser quien está colgado). Lo llama el vigía: e…
+      314  vram_total_gb()  — VRAM total de la primera GPU NVIDIA en GB (0.0 si no hay), memorizada.
+      328  modo_gpu()  — Como se reparte la GPU entre la voz (~6 GB) y la IA de texto (~9,5 GB): 'residente' (>= 22 GB) las dos cargada…
+      337  class _ServidorVoz  — Un proceso de motor_qwen.py --servidor: modelo cargado y calentado, pedidos por stdin.
+      340      .__init__()
+      357      ._leer()
+      362      ._leer_err()
+      367      .vivo()
+      370      .pedir()  — Manda un audio y espera el LISTO. Devuelve (ok, motivo). Si el motor aun esta cargando, espera (y cuenta). v5.…
+      401      .cerrar()
+      417  precargar()  — Arranca el motor de voz EN SEGUNDO PLANO (imports + modelo + calentamiento) sin bloquear a nadie. Se llama al …
+      434  liberar()  — Descarga el motor de voz (deja la GPU para la IA de texto o para Resolve).
+      445  _audio_16k()  — El audio del video en un .wav mono 16 kHz (lo que espera el motor).
+      462  _lanzar()  — Corre el motor de voz (motor_qwen.py); ver _lanzar_script.
+      467  _lanzar_script()  — Corre un script del motor (voz o texto) en su Python 3.12 y entrega cada linea 'TIPO|texto' a on_linea. Devuel…
+      520  transcribir()  — Igual que subtitle_transcriber.transcribe: [{'start','end','word'}, ...]. Lanza RuntimeError si el motor falla…
+      627  _bajar()
+      652  _pip()
+      672  instalar()  — Instala (o repara) el motor. progreso(0..1, texto), aviso(texto). Lanza excepcion si no se pudo; deja listo.js…
 
   1_codigo\orbe_mecanica.py  (698 líneas)
        41  _bronce()
@@ -3119,43 +3134,50 @@ v3.x y anteriores    Instalador .exe con librerías fijas; interfaz Tk (retirada
       402      .keyPressEvent()
       413      .eventFilter()
 
-  1_codigo\registro.py  (364 líneas)
-       36  class Entrada
-       39      .__init__()
-       48      .hora()
-       51      .linea()
-       57  class _Registro
-       61      .__init__()
-       69      .anotar()
-       92      ._a_disco()
-      113      .lista()
-      120      .sin_leer()  — (avisos, errores) que el usuario aún no ha visto en la ventana Registro.
-      126      .marcar_leidas()
-      132      .limpiar()
-      141  registro()
-      148  anotar()
-      152  info()
-      156  ok()
-      160  aviso()
-      164  error()
-      168  resumen_de_traza()  — (mensaje corto, origen) de un traceback: «KeyError: 'x'» y «archivo.py:123 en funcion».
-      189  excepcion()  — Anota la excepción en curso (o el traceback que se le pase) como error.
-      196  ruta_archivo()
-      201  _gancho_excepcion()
-      215  _gancho_hilo()
-      221  _gancho_qt()
-      241  instalar_ganchos()  — Excepciones sin atrapar, excepciones de hilos y avisos de Qt → al registro (y al archivo).
-      267  _cabecera_de_sesion()  — Una linea con el entorno: version, sistema, Python, Qt, GPU y disco libre (lo primero que se pide al reportar …
-      299  _revisar_cierre_anterior()  — Si la sesion anterior no se cerro bien (se colgo o se cayo), lo deja anotado con la pista de donde mirar.
-      315  _fallos_nativos()  — faulthandler: si Python o Qt se caen del todo (segfault), la traza de todos los hilos queda en fallo_nativo.lo…
-      328  _gancho_unraisable()  — Excepciones que Python no puede lanzar (destructores, callbacks): antes se perdian en silencio.
-      339  vigilar_congelaciones()  — Detector de interfaz congelada: un hilo comprueba que el bucle de eventos siga latiendo; si pasa de 'umbral_s'…
+  1_codigo\registro.py  (533 líneas)
+       39  class Entrada
+       42      .__init__()
+       51      .hora()
+       54      .linea()
+       60  class _Registro
+       64      .__init__()
+       72      .anotar()
+       95      ._a_disco()
+      117      ._a_disco_errores()  — errores.log: SOLO avisos y errores, con 3 copias de 2 MB. El log general rota a 1 MB y en una sesión larga emp…
+      136      .lista()
+      143      .sin_leer()  — (avisos, errores) que el usuario aún no ha visto en la ventana Registro.
+      149      .marcar_leidas()
+      155      .limpiar()
+      164  registro()
+      171  anotar()
+      175  info()
+      179  ok()
+      183  aviso()
+      187  error()
+      191  resumen_de_traza()  — (mensaje corto, origen) de un traceback: «KeyError: 'x'» y «archivo.py:123 en funcion».
+      212  excepcion()  — Anota la excepción en curso (o el traceback que se le pase) como error.
+      219  ruta_archivo()
+      224  _gancho_excepcion()
+      238  _gancho_hilo()
+      244  _gancho_qt()
+      264  instalar_ganchos()  — Excepciones sin atrapar, excepciones de hilos y avisos de Qt → al registro (y al archivo).
+      290  _cabecera_de_sesion()  — Una linea con el entorno: version, sistema, Python, Qt, GPU y disco libre (lo primero que se pide al reportar …
+      322  _revisar_cierre_anterior()  — Si la sesion anterior no se cerro bien (se colgo o se cayo), lo deja anotado con la pista de donde mirar.
+      356  _mac_informes_de_cierre()  — En Mac, el sistema deja un informe de cada caída en ~/Library/Logs/DiagnosticReports: si hay uno reciente de C…
+      372  entorno_detallado()  — Líneas con el entorno real (Windows o Mac): sistema, arquitectura, Rosetta, memoria, GPU, si es el .exe/.app. …
+      414  _entorno_en_hilo()
+      423  _cola()
+      430  reporte_soporte()  — El informe que se manda para reportar un fallo (Windows o Mac): entorno, estado de librerías y motores, tareas…
+      473  guardar_reporte()  — Escribe reporte_soporte.txt en la carpeta de datos y devuelve su ruta (o None).
+      484  _fallos_nativos()  — faulthandler: si Python o Qt se caen del todo (segfault), la traza de todos los hilos queda en fallo_nativo.lo…
+      497  _gancho_unraisable()  — Excepciones que Python no puede lanzar (destructores, callbacks): antes se perdian en silencio.
+      508  vigilar_congelaciones()  — Detector de interfaz congelada: un hilo comprueba que el bucle de eventos siga latiendo; si pasa de 'umbral_s'…
 
   1_codigo\registro_ayuda.py  (169 líneas)
       124  _ultima_linea()
       129  explicar()  — Una `Ayuda` para la entrada `e` (registro.Entrada). Nunca lanza.
 
-  1_codigo\registro_ui.py  (610 líneas)
+  1_codigo\registro_ui.py  (616 líneas)
        31  _quieto()
        39  _icono_nivel()  — El circulito con ✓ / i / ! / ✕ de cada nivel.
        64  class SubtituloVivo  — La línea de apoyo de la barra de título, que además avisa. Compatible con la etiqueta que reemplaza (configure…
@@ -3199,9 +3221,9 @@ v3.x y anteriores    Instalador .exe con librerías fijas; interfaz Tk (retirada
       566      ._copiar_una()
       570      ._cabecera()
       578      ._copiar()
-      581      ._abrir()
-      592      ._limpiar()
-      600  abrir_registro()  — Abre (o trae al frente) la ventana Registro.
+      587      ._abrir()
+      598      ._limpiar()
+      606  abrir_registro()  — Abre (o trae al frente) la ventana Registro.
 
   1_codigo\resolve_bridge.py  (872 líneas)
        13  _rutas_probables()  — Ubicaciones tipicas de la libreria de scripting de Resolve por SO.
@@ -3253,7 +3275,7 @@ v3.x y anteriores    Instalador .exe con librerías fijas; interfaz Tk (retirada
       834  ejecutar_script_o_menu()  — Obsoleta. Usa ejecutar(accion, carpeta_scripts) en su lugar.
       846  traer_resolve_al_frente()  — Trae la ventana de Resolve al frente cuando no hay API disponible. Es best-effort: si algo falla, no pasa nada…
 
-  1_codigo\resolve_mcp.py  (938 líneas)
+  1_codigo\resolve_mcp.py  (961 líneas)
        45  ruta_exe()  — Donde esta ResolveMCP, o None.
        82  entorno_para_resolve()  — Copia del entorno sin las variables de Qt, de Python y de PyInstaller de este proceso (ni las carpetas del pro…
        95  class _Cliente
@@ -3269,28 +3291,29 @@ v3.x y anteriores    Instalador .exe con librerías fijas; interfaz Tk (retirada
       184  cliente()  — El cliente conectado, o None. Arranca ResolveMCP la primera vez.
       218  cerrar()
       226  script()  — Ejecuta Python DENTRO de Resolve. Devuelve (ok, result, error).
-      268  estado()  — {'conectado': bool, 'producto', 'version', 'proyecto', 'timeline', ...} pasivo: no arranca ResolveMCP (para la…
-      293  conectado_recientemente()  — True si ResolveMCP sigue vivo y su última respuesta (aunque tenga rato) decía que Resolve estaba conectado. Pa…
-      301  _refrescar_estado()  — Vuelve a preguntarle a Resolve (proyecto y timeline nuevos). Antes se ponía la caché a 0: si el programa mirab…
-      310  disponible()
-      314  estado_cacheado()  — Lo ultimo que se supo, sin llamar a nada (para el hilo de la ventana).
-      322  abrir_resolve()  — Abre DaVinci Resolve (herramienta launch_resolve) y espera a que conteste.
-      336  arrancar_resolve()  — Abre Resolve y espera a que conteste, REINTENTANDO: launch_resolve corta a los 60 s («Resolve did not respond»…
-      356  resolve_abierto()  — True/False si Resolve esta corriendo (None si no hay MCP).
-      439  preparar_resolve()  — Deja Resolve listo para trabajar: lo abre si esta cerrado (abrir=True), carga el proyecto mas reciente si no h…
-      497  abrir_guia()  — Arma (o abre, si ya está en el proyecto) el timeline «Crea tu estilo» con los 30 ejemplos. El trabajo corre DE…
-      554  _reparar_vistas()  — v5.8: si una vista real se cortó a medias, el timeline temporal puede haber quedado como el actual: se restaur…
-      563  ejecutar_py()  — Corre un script gemelo dentro de Resolve. Devuelve (ok, mensaje).
-      628  fotogramas_de()  — Los fotogramas del timeline en esos segundos (desde el inicio de lo transcrito). Mueve el cabezal y lo DEJA do…
-      641  ir_a_pagina()
-      762  preparar_proyecto()  — Abre Resolve si está cerrado, guarda y cierra el proyecto que hubiera abierto y CREA uno nuevo («CineCaptions»…
-      820  medir_medio()  — Del video (o audio) soltado, SIN decodificar nada (PyAV lee la cabecera): {'ancho', 'alto', 'fps', 'duracion',…
-      856  crear_timeline_con_video()  — Importa `ruta` al Media Pool y arma con él un timeline nuevo (el actual al terminar). Devuelve el informe de R…
-      872  _anotar_registro()  — Lo que el script imprimio, para el diagnostico (antes iba a la consola de Resolve).
-      889  exportar_fotograma()  — El fotograma actual del timeline como imagen (vistas previas reales). Devuelve la ruta o None. ~50 ms con Reso…
-      911  seleccion_timeline()  — Los clips seleccionados en el timeline (API de Resolve 21.0.4+).
-      917  ir_a_timecode()
-      923  diagnostico()  — Lineas para el diagnostico del programa.
+      249  _anotar_fallo()  — v5.11: un script que Resolve no pudo correr (o que no contestó a tiempo) quedaba en silencio: ahora va al Regi…
+      291  estado()  — {'conectado': bool, 'producto', 'version', 'proyecto', 'timeline', ...} pasivo: no arranca ResolveMCP (para la…
+      316  conectado_recientemente()  — True si ResolveMCP sigue vivo y su última respuesta (aunque tenga rato) decía que Resolve estaba conectado. Pa…
+      324  _refrescar_estado()  — Vuelve a preguntarle a Resolve (proyecto y timeline nuevos). Antes se ponía la caché a 0: si el programa mirab…
+      333  disponible()
+      337  estado_cacheado()  — Lo ultimo que se supo, sin llamar a nada (para el hilo de la ventana).
+      345  abrir_resolve()  — Abre DaVinci Resolve (herramienta launch_resolve) y espera a que conteste.
+      359  arrancar_resolve()  — Abre Resolve y espera a que conteste, REINTENTANDO: launch_resolve corta a los 60 s («Resolve did not respond»…
+      379  resolve_abierto()  — True/False si Resolve esta corriendo (None si no hay MCP).
+      462  preparar_resolve()  — Deja Resolve listo para trabajar: lo abre si esta cerrado (abrir=True), carga el proyecto mas reciente si no h…
+      520  abrir_guia()  — Arma (o abre, si ya está en el proyecto) el timeline «Crea tu estilo» con los 30 ejemplos. El trabajo corre DE…
+      577  _reparar_vistas()  — v5.8: si una vista real se cortó a medias, el timeline temporal puede haber quedado como el actual: se restaur…
+      586  ejecutar_py()  — Corre un script gemelo dentro de Resolve. Devuelve (ok, mensaje).
+      651  fotogramas_de()  — Los fotogramas del timeline en esos segundos (desde el inicio de lo transcrito). Mueve el cabezal y lo DEJA do…
+      664  ir_a_pagina()
+      785  preparar_proyecto()  — Abre Resolve si está cerrado, guarda y cierra el proyecto que hubiera abierto y CREA uno nuevo («CineCaptions»…
+      843  medir_medio()  — Del video (o audio) soltado, SIN decodificar nada (PyAV lee la cabecera): {'ancho', 'alto', 'fps', 'duracion',…
+      879  crear_timeline_con_video()  — Importa `ruta` al Media Pool y arma con él un timeline nuevo (el actual al terminar). Devuelve el informe de R…
+      895  _anotar_registro()  — Lo que el script imprimio, para el diagnostico (antes iba a la consola de Resolve).
+      912  exportar_fotograma()  — El fotograma actual del timeline como imagen (vistas previas reales). Devuelve la ruta o None. ~50 ms con Reso…
+      934  seleccion_timeline()  — Los clips seleccionados en el timeline (API de Resolve 21.0.4+).
+      940  ir_a_timecode()
+      946  diagnostico()  — Lineas para el diagnostico del programa.
 
   1_codigo\ritmo_ui.py  (99 líneas)
        27  class _Ritmo
@@ -3598,29 +3621,32 @@ v3.x y anteriores    Instalador .exe con librerías fijas; interfaz Tk (retirada
        69  escribir_sidecar()  — Escribe SOLO el sidecar `<ruta_json>.lua` (el .json ya lo escribio quien llama). Nunca lanza: si falla, el .js…
        78  escribir_par()  — Escribe el `.json` (como siempre) Y el sidecar `<ruta>.lua`. `ruta_json` es un Path o str al `.json`. El sidec…
 
-  1_codigo\subtitle_transcriber.py  (543 líneas)
-       22  class Cue
-       26  register_cuda_dlls()  — Busca las carpetas 'lib' de los paquetes pip de nvidia y las registra en el DLL path para que ctranslate2 (fas…
-       55  _hay_cuda_usable()  — True si ctranslate2 ve al menos una GPU CUDA. Se PREGUNTA en vez de probar. Antes se cargaba el modelo en CUDA…
-       64  _es_error_de_memoria()  — True si la excepcion huele a 'me quede sin RAM'. v1.0.65 (caso real del usuario: generar con Resolve + Chrome …
-       83  _modelo_whisper()  — El WhisperModel cargado (el mismo mientras no cambie tamano/dispositivo).
-      100  _vigilar_whisper()
-      112  liberar_whisper()
-      117  precargar_whisper()  — Carga Whisper en la GPU en segundo plano (al pulsar GO u «Obtener» con Whisper elegido). No hace nada sin CUDA…
-      129  _duracion_segundos()
-      140  transcribe()  — Transcribe el audio y devuelve una lista de palabras con timestamps. progress_callback(fraccion) se llama con …
-      265  build_cues()
-      300  wrap_cue_text()
-      312  _agrupar_cues_por_oracion()  — Corta la lista de cues en oraciones (o al tope, si no hay punto).
-      325  _repartir_palabras()  — Reparte una lista de palabras en len(pesos) tramos proporcionales. Corte acumulativo con redondeo, y despues u…
-      349  _nucleos_para_comparar()  — Las palabras 'de contenido' de un texto, en minuscula y sin signos.
-      354  _fraccion_sin_traducir()  — Que fraccion del contenido del origen reaparece IGUAL en la salida. 1.0 = copia (o salida vacia); un texto cor…
-      365  translate_cues()
-      427  format_timestamp()
-      433  write_dynamic()  — Guarda los subtitulos de 3 lineas y devuelve (json_path, srt_path). Se guardan dos archivos: - un .json con la…
-      451  write_destacados()  — Guarda los bloques del modo destacados y devuelve (json_path, srt_path). Mismo formato de archivos que write_d…
-      477  write_srt()
-      489  main()
+  1_codigo\subtitle_transcriber.py  (643 líneas)
+       27  class Cue
+       31  register_cuda_dlls()  — Busca las carpetas 'lib' de los paquetes pip de nvidia y las registra en el DLL path para que ctranslate2 (fas…
+       60  _hay_cuda_usable()  — True si ctranslate2 ve al menos una GPU CUDA. Se PREGUNTA en vez de probar. Antes se cargaba el modelo en CUDA…
+       69  _es_error_de_memoria()  — True si la excepcion huele a 'me quede sin RAM'. v1.0.65 (caso real del usuario: generar con Resolve + Chrome …
+       93  _tamano_carpeta()
+      104  _asegurar_modelo_descargado()  — Si los pesos de Whisper no estan en disco, los baja MOSTRANDO el avance (antes la primera transcripcion en un …
+      151  _modelo_whisper()  — El WhisperModel cargado (el mismo mientras no cambie tamano/dispositivo).
+      175  _vigilar_whisper()
+      187  liberar_whisper()
+      192  precargar_whisper()  — Carga Whisper en la GPU en segundo plano (al pulsar GO u «Obtener» con Whisper elegido). No hace nada sin CUDA…
+      204  _duracion_segundos()
+      213  _al_registro()  — v5.11: lo que antes solo salía por print() (invisible en el programa instalado) también va al Registro de la a…
+      224  transcribe()  — Transcribe el audio y devuelve una lista de palabras con timestamps. progress_callback(fraccion) se llama con …
+      365  build_cues()
+      400  wrap_cue_text()
+      412  _agrupar_cues_por_oracion()  — Corta la lista de cues en oraciones (o al tope, si no hay punto).
+      425  _repartir_palabras()  — Reparte una lista de palabras en len(pesos) tramos proporcionales. Corte acumulativo con redondeo, y despues u…
+      449  _nucleos_para_comparar()  — Las palabras 'de contenido' de un texto, en minuscula y sin signos.
+      454  _fraccion_sin_traducir()  — Que fraccion del contenido del origen reaparece IGUAL en la salida. 1.0 = copia (o salida vacia); un texto cor…
+      465  translate_cues()
+      527  format_timestamp()
+      533  write_dynamic()  — Guarda los subtitulos de 3 lineas y devuelve (json_path, srt_path). Se guardan dos archivos: - un .json con la…
+      551  write_destacados()  — Guarda los bloques del modo destacados y devuelve (json_path, srt_path). Mismo formato de archivos que write_d…
+      577  write_srt()
+      589  main()
 
   1_codigo\sugerencias_ia.py  (224 líneas)
        22  _texto_de()
@@ -3835,6 +3861,35 @@ v3.x y anteriores    Instalador .exe con librerías fijas; interfaz Tk (retirada
      1151      .ejecutar()
 
   1_codigo\version.py  (29 líneas)
+
+  1_codigo\vigilancia.py  (427 líneas)
+       49  _registro()
+       54  _fmt_s()
+       62  pila_de_hilo()
+       69  pilas_de_todos()  — Pila resumida de todos los hilos (para el log de un cuelgue).
+       82  class _Tarea
+       83      .__init__()
+       98  iniciar()  — Empieza a vigilar una tarea. `hilo` = el hilo de trabajo (su pila se anota si se atasca); `al_aviso(texto)` y …
+      108  latido()  — La tarea sigue viva (llamar con cada mensaje de progreso). Un cambio de `paso` queda medido para el resumen fi…
+      131  pausar()  — La tarea espera al USUARIO (editor de palabras, un diálogo): el vigía no cuenta ese tiempo.
+      138  reanudar()
+      146  terminar()
+      167  _guardar_en_curso()
+      179  tarea_cortada_anterior()  — Si la sesión anterior se cayó en medio de una tarea: (nombre, paso, hace_cuanto_s), si no None. Se borra al le…
+      189  en_curso()
+      193  _asegurar_hilo()
+      201  _vigilar()
+      220  _revisar()
+      252  _llamar()
+      267  vigilar_arranque()  — Llamar lo primero en main(): si `arranque_listo()` no llega en `limite_s`, se anota con la pila de todos los h…
+      274  arranque_listo()
+      288  _revisar_arranque()
+      301  _marcar_sesion()  — La marca de sesión guarda «hora|estado»: el siguiente arranque distingue una caída en uso de un arranque que n…
+      313  memoria_libre_mb()  — Memoria disponible en MB (Windows, Mac y Linux) o None si no se pudo saber.
+      345  _comprobaciones()  — [(clave, nivel|None, mensaje)]: nivel None = todo bien.
+      376  revisar_ahora()  — Una pasada del monitor: anota solo lo que CAMBIÓ desde la anterior. Devuelve la lista de problemas actuales.
+      392  iniciar_monitor()
+      410  revisar_salud_al_arrancar()  — Corre salud.comprobar() (1-3 s: en un hilo) y anota cada falla como error con qué hacer. Devuelve la lista de …
 
   1_codigo\vistas_guia.py  (94 líneas)
        28  ruta_de()

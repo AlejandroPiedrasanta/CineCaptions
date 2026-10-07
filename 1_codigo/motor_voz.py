@@ -240,6 +240,14 @@ def motor_para(codigo_idioma):
         return None
     if codigo_idioma not in (None, '', 'auto') and not soporta(codigo_idioma):
         return None
+    if _FALLOS['n'] >= FALLOS_SEGUIDOS_MAX:
+        # v5.11: dos fallos seguidos = no se vuelve a perder tiempo con Qwen3 en esta sesión (Whisper directo); reiniciar el programa lo reactiva
+        if not _FALLOS['avisado']:
+            _FALLOS['avisado'] = True
+            r = _reg()
+            if r:
+                r.error('Qwen3-ASR falló %d veces seguidas: uso Whisper para el resto de esta sesión. Revisa Ajustes > General > Motor de voz > Reparar.' % _FALLOS['n'], 'motor de voz')
+        return None
     return 'qwen3' if instalado() else None
 
 
@@ -258,6 +266,48 @@ def nombre_motor(codigo_idioma=None):
 # Medido con el audio de un reel de 24 s en una RTX 5070 Ti: lanzar el motor cada vez = ~11 s de imports + 8 s de modelo +
 # 21,8 s en la primera inferencia (CUDA inicializa sus nucleos) = ~65 s; con el motor ya cargado y calentado = ~5 s.
 INACTIVO_VOZ_S = 120          # segundos que queda cargado sin trabajo
+SIN_SENAL_VOZ_S = 300         # v5.11: sin ninguna línea del motor durante tanto = colgado (carga fría + calentamiento en CPU caben de sobra)
+FALLOS_SEGUIDOS_MAX = 2       # v5.11: tras tantos fallos seguidos de Qwen3 en esta sesión se deja de intentar y se usa Whisper directo
+_FALLOS = {'n': 0, 'avisado': False}
+
+
+def _reg():
+    """El Registro, o None si no se puede importar (el motor también corre en pruebas sueltas)."""
+    try:
+        import registro
+        return registro
+    except Exception:
+        return None
+
+
+def _fallo_de_qwen(motivo):
+    """Un intento de Qwen3 falló: se anota (con el motivo) y se cuenta; al llegar al máximo se apaga solo hasta reiniciar el programa."""
+    _FALLOS['n'] += 1
+    r = _reg()
+    if r:
+        r.aviso(f"Qwen3-ASR falló ({_FALLOS['n']}.º fallo seguido): {str(motivo)[:200]}", 'motor de voz')
+
+
+def _exito_de_qwen():
+    if _FALLOS['n']:
+        r = _reg()
+        if r:
+            r.ok('Qwen3-ASR volvió a funcionar.', 'motor de voz')
+    _FALLOS['n'] = 0
+    _FALLOS['avisado'] = False
+
+
+def abortar():
+    """Mata el motor de voz SIN pedir el candado (el que lo tiene puede ser quien está colgado). Lo llama el vigía: el pedido en curso termina con error y
+    transcribir() pasa solo al modelo de respaldo."""
+    s = _SRV_VOZ.get('s')
+    if s is not None and s.vivo():
+        try:
+            s.p.kill()
+            return True
+        except Exception:
+            pass
+    return False
 _VRAM = {'gb': None}
 
 
@@ -287,14 +337,15 @@ def modo_gpu():
 class _ServidorVoz:
     """Un proceso de motor_qwen.py --servidor: modelo cargado y calentado, pedidos por stdin."""
 
-    def __init__(self):
+    def __init__(self, modelo=None):
         entorno = dict(os.environ)
         entorno['PYTHONIOENCODING'] = 'utf-8'
         entorno['PYTHONUNBUFFERED'] = '1'
         entorno.pop('PYTHONPATH', None)
         entorno.pop('PYTHONHOME', None)
+        self.modelo = modelo
         self.p = subprocess.Popen([str(python_motor()), '-u', str(script_motor()), '--servidor',
-                                   '--inactivo', str(INACTIVO_VOZ_S)],
+                                   '--inactivo', str(INACTIVO_VOZ_S)] + (['--modelo', modelo] if modelo else []),
                                   stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                   env=entorno, creationflags=SIN_VENTANA, cwd=str(carpeta()))
         self.lineas = queue.Queue()
@@ -316,19 +367,25 @@ class _ServidorVoz:
     def vivo(self):
         return self.p.poll() is None
 
-    def pedir(self, wav, idioma, salida, on_linea, timeout=1800):
-        """Manda un audio y espera el LISTO. Devuelve (ok, motivo). Si el motor aun esta cargando, espera (y cuenta)."""
+    def pedir(self, wav, idioma, salida, on_linea, timeout=1800, sin_senal=SIN_SENAL_VOZ_S):
+        """Manda un audio y espera el LISTO. Devuelve (ok, motivo). Si el motor aun esta cargando, espera (y cuenta).
+        v5.11: si pasa `sin_senal` segundos sin NINGUNA linea del motor (ni progreso ni estado) se da por colgado, se mata el proceso y se devuelve el
+        fallo: el llamador pasa solo al motor de respaldo en vez de esperar media hora."""
         with self.pedido:
             self.p.stdin.write((json.dumps({'audio': wav, 'idioma': idioma, 'salida': salida}) + '\n').encode('utf-8'))
             self.p.stdin.flush()
-            inicio = time.time()
+            inicio = ultima = time.time()
             while time.time() - inicio < timeout:
                 try:
                     linea = self.lineas.get(timeout=1.0)
                 except queue.Empty:
                     if not self.vivo():
                         break
+                    if time.time() - ultima > sin_senal:
+                        self.cerrar()
+                        return False, f'el motor de voz se quedó sin responder {int(sin_senal)} s'
                     continue
+                ultima = time.time()
                 if linea is None:
                     break
                 tipo, _, resto = linea.partition('|')
@@ -402,14 +459,16 @@ def _audio_16k(media_path):
     return ruta
 
 
-def _lanzar(argumentos, on_linea, timeout=None):
+def _lanzar(argumentos, on_linea, timeout=None, sin_senal=None):
     """Corre el motor de voz (motor_qwen.py); ver _lanzar_script."""
-    return _lanzar_script(script_motor(), argumentos, on_linea, timeout)
+    return _lanzar_script(script_motor(), argumentos, on_linea, timeout, sin_senal)
 
 
-def _lanzar_script(script, argumentos, on_linea, timeout=None):
+def _lanzar_script(script, argumentos, on_linea, timeout=None, sin_senal=None):
     """Corre un script del motor (voz o texto) en su Python 3.12 y entrega
-    cada linea 'TIPO|texto' a on_linea. Devuelve (codigo, ultimas_lineas_de_error)."""
+    cada linea 'TIPO|texto' a on_linea. Devuelve (codigo, ultimas_lineas_de_error).
+    v5.11: `sin_senal` = segundos sin ninguna linea tras los que se mata el proceso (antes el timeout solo se miraba al llegar una linea: un motor
+    colgado sin imprimir nada dejaba a GO esperando para siempre)."""
     entorno = dict(os.environ)
     entorno['PYTHONIOENCODING'] = 'utf-8'
     entorno['PYTHONUNBUFFERED'] = '1'
@@ -427,14 +486,34 @@ def _lanzar_script(script, argumentos, on_linea, timeout=None):
 
     threading.Thread(target=leer_err, daemon=True).start()
     inicio = time.time()
-    for linea in iter(p.stdout.readline, b''):
-        texto = linea.decode('utf-8', 'replace').rstrip()
-        tipo, _, resto = texto.partition('|')
-        on_linea(tipo, resto)
-        if timeout and time.time() - inicio > timeout:
-            p.kill()
-            break
-    p.wait()
+    pulso = {'t': time.time(), 'colgado': False}
+    terminado = threading.Event()
+    if sin_senal:
+        def guardian():
+            while not terminado.wait(2.0):
+                if time.time() - pulso['t'] > sin_senal and p.poll() is None:
+                    pulso['colgado'] = True
+                    try:
+                        p.kill()
+                    except Exception:
+                        pass
+                    return
+        threading.Thread(target=guardian, daemon=True, name='guardian-motor').start()
+    try:
+        for linea in iter(p.stdout.readline, b''):
+            pulso['t'] = time.time()
+            texto = linea.decode('utf-8', 'replace').rstrip()
+            tipo, _, resto = texto.partition('|')
+            on_linea(tipo, resto)
+            if timeout and time.time() - inicio > timeout:
+                p.kill()
+                break
+        p.wait()
+    finally:
+        terminado.set()
+    if pulso['colgado']:
+        errores.append(f'el motor se quedó sin responder {int(sin_senal)} s y se cerró')
+        return (p.returncode if p.returncode not in (0, None) else -9), errores
     return p.returncode, errores
 
 
@@ -487,19 +566,44 @@ def transcribir(media_path, codigo_idioma, progress_callback=None, model_loaded_
         except Exception as e:
             motivo_servidor = f'{type(e).__name__}: {e}'
         if not ok_servidor:
+            r = _reg()
+            if r:
+                r.aviso(f'El motor de voz residente no pudo ({str(motivo_servidor)[:200]}): pruebo con una pasada suelta.', 'motor de voz')
             liberar()
             estado.update(listo=None, error=None)
             if status_callback:
                 status_callback(tr('Preparando el motor de voz…'))
-            codigo, errores = _lanzar(['--audio', wav, '--idioma', idioma, '--salida', salida], linea)
-            if codigo != 0 or not estado['listo']:
-                motivo = estado['error'] or (errores[-1] if errores else f'salió con código {codigo}')
-                raise RuntimeError(motivo or motivo_servidor)
+            # v5.11: la pasada suelta también cambia SOLA de modelo si falla: el que elige el programa -> el ligero (0.6B) -> el ligero en CPU.
+            # Cada intento queda en el Registro con su motivo; si ninguno sirve, el llamador sigue con Whisper.
+            intentos = [([], 'el modelo habitual'), (['--modelo', '0.6B'], 'el modelo ligero 0.6B'), (['--modelo', '0.6B', '--dispositivo', 'cpu'], 'el modelo ligero en CPU')]
+            motivo = motivo_servidor
+            for extra, nombre in intentos:
+                estado.update(listo=None, error=None)
+                codigo, errores = _lanzar(['--audio', wav, '--idioma', idioma, '--salida', salida] + extra, linea, sin_senal=SIN_SENAL_VOZ_S)
+                if codigo == 0 and estado['listo']:
+                    if extra and r:
+                        r.ok(f'Qwen3-ASR funcionó con {nombre}.', 'motor de voz')
+                    break
+                motivo = estado['error'] or (errores[-1] if errores else f'salió con código {codigo}') or motivo
+                if r:
+                    r.aviso(f'Qwen3-ASR con {nombre} falló: {str(motivo)[:200]}', 'motor de voz', detalle='\n'.join(errores[-12:]))
+                if status_callback and extra != intentos[-1][0]:
+                    status_callback(tr('El modelo de voz falló; pruebo con uno más ligero…'))
+            else:
+                _fallo_de_qwen(motivo)
+                raise RuntimeError(motivo)
         datos = json.loads(Path(salida).read_text(encoding='utf-8'))
         palabras = [{'start': float(p['start']), 'end': float(p['end']), 'word': str(p['word']).strip()}
                     for p in datos.get('palabras') or [] if str(p.get('word', '')).strip()]
         print(f"Qwen3-ASR: {len(palabras)} palabras en {datos.get('segundos')} s "
               f"({datos.get('modelo')} en {datos.get('dispositivo')})")
+        r = _reg()
+        if palabras:
+            _exito_de_qwen()
+            if r:
+                r.info(f"Voz: Qwen3-ASR {datos.get('modelo')} en {datos.get('dispositivo')} · {len(palabras)} palabras en {datos.get('segundos')} s", 'motor de voz')
+        else:
+            _fallo_de_qwen('no devolvió ninguna palabra')
         # la voz ya hizo su parte: en una GPU que no aguanta las dos IA se libera para la IA de texto (que se carga ya)
         try:
             if modo_gpu() != 'residente':

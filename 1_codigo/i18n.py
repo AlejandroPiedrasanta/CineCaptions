@@ -190,6 +190,64 @@ def tr(texto, /, **valores):
             return texto
 
 
+_LIBRE = {'idioma': None, 'trozos': [], 'plantillas': []}
+
+
+def _preparar_libre():
+    """Indice de tr_libre: los textos del catalogo que son trozos fijos (ordenados del mas largo al mas corto) y los que llevan {marcadores}."""
+    import re
+    trozos, plantillas = [], []
+    for clave, valor in _CATALOGO.items():
+        if not clave or not valor or clave == valor:
+            continue
+        if '{' in clave:
+            import re as _re
+            if len(_re.sub(r'\{[^{}]*\}', '', clave).strip()) < 16:         # plantillas casi sin texto fijo («{n} de {total}») casarian con cualquier frase
+                continue
+            try:
+                patron = ''.join('(?P<%s>.+?)' % m.group(1) if m.lastindex else re.escape(m.group(0))
+                                 for m in re.finditer(r'\{([A-Za-z_]\w*)(?:[^{}]*)\}|[^{]+|\{', clave))
+                plantillas.append((re.compile('^' + patron + '$', re.S), valor))
+            except re.error:
+                pass
+        elif len(clave.strip()) >= 10:
+            trozos.append((clave, valor))
+    trozos.sort(key=lambda kv: -len(kv[0]))
+    _LIBRE.update(idioma=IDIOMA, trozos=trozos, plantillas=plantillas)
+
+
+def tr_libre(texto):
+    """Traduce un texto que llega YA ARMADO (un mensaje de error de otro modulo, la linea de estado, lo que contesta un script de Resolve): entero si esta en
+    el catalogo; si no, por plantilla ({marcadores}); si no, reemplazando cada trozo conocido. Lo que no conoce lo deja como esta. Nunca lanza."""
+    try:
+        if IDIOMA == 'es' or not texto or not isinstance(texto, str):
+            return texto
+        if _LIBRE['idioma'] != IDIOMA:
+            _preparar_libre()
+        directo = _CATALOGO.get(texto)
+        if directo:
+            return directo
+        for patron, valor in _LIBRE['plantillas']:
+            m = patron.match(texto)
+            if m:
+                valores = {k: tr_libre(v) for k, v in m.groupdict().items()}
+                try:
+                    return valor.format(**valores)
+                except ValueError:                          # un marcador numerico ({f:g}): se reintenta con los numeros como numeros
+                    try:
+                        return valor.format(**{k: (int(v) if v.isdigit() else float(v) if v.replace('.', '', 1).isdigit() else v) for k, v in valores.items()})
+                    except (KeyError, ValueError, IndexError):
+                        break
+                except (KeyError, IndexError):
+                    break
+        for clave, valor in _LIBRE['trozos']:
+            if clave in texto:
+                texto = texto.replace(clave, valor)
+        return texto
+    except Exception:
+        return texto
+
+
 def nombre_idioma(codigo, respaldo=None):
     """El nombre de un idioma (de transcripcion o traduccion) en el idioma
     de la interfaz; sin dato, el respaldo (el nombre en español)."""

@@ -232,12 +232,35 @@ def script(codigo, timeout=20):
         r = c.herramienta('run_script_unsafe', {'script': codigo, 'timeout': int(max(1, min(60, timeout)))},
                           timeout=timeout + 15)
     except Exception as e:
+        _anotar_fallo(f'{type(e).__name__}: {e}', codigo)
         return False, None, str(e)
     if 'error' in r:
+        _anotar_fallo(str(r['error']), codigo)
         return False, None, str(r['error'])
     if r.get('es_error'):
+        _anotar_fallo(r.get('texto') or 'error', codigo)
         return False, None, r.get('texto') or 'error'
     return True, r.get('result'), ''
+
+
+_ULTIMO_FALLO = {}
+
+
+def _anotar_fallo(mensaje, codigo=''):
+    """v5.11: un script que Resolve no pudo correr (o que no contestó a tiempo) quedaba en silencio: ahora va al Registro (una vez por minuto por mensaje,
+    para que un sondeo repetido con Resolve cerrado no llene el log)."""
+    try:
+        clave = str(mensaje)[:120]
+        ahora = time.time()
+        if ahora - _ULTIMO_FALLO.get(clave, 0) < 60:
+            return
+        _ULTIMO_FALLO[clave] = ahora
+        import registro
+        primera = next((l.strip() for l in str(codigo).splitlines() if l.strip() and not l.strip().startswith('#')), '')
+        registro.aviso(f'Resolve no pudo con un script: {str(mensaje).strip().splitlines()[0][:200] if str(mensaje).strip() else "sin detalle"}', 'Resolve',
+                       detalle=f'{mensaje}\nscript: {primera[:200]}')
+    except Exception:
+        pass
 
 
 _INFO = r'''
