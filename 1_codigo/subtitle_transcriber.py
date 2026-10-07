@@ -7,6 +7,11 @@ import os
 import sidecar_lua
 from i18n import tr
 os.environ['HF_HUB_DISABLE_SYMLINKS'] = '1'
+# v5.3.1: igual que la tarea «modelo» del instalador: sin hf-xet (en el programa compilado se queda colgado en Mac) y con
+# tiempos de espera cortos, para que una descarga que no avanza falle con un aviso en vez de quedarse parada.
+os.environ.setdefault('HF_HUB_DISABLE_XET', '1')
+os.environ.setdefault('HF_HUB_ETAG_TIMEOUT', '20')
+os.environ.setdefault('HF_HUB_DOWNLOAD_TIMEOUT', '30')
 import textwrap
 from dataclasses import dataclass
 from pathlib import Path
@@ -80,7 +85,70 @@ LARGO_PARA_LOTES_S = 45.0       # por debajo de esto un solo tramo: el lote no a
 _WHISPER = {'clave': None, 'modelo': None, 't': 0.0, 'vigilando': False, 'lock': _threading.Lock()}
 
 
-def _modelo_whisper(tamano, device, compute_type, local_only=False):
+_PESO_MODELO = {'large-v3-turbo': 1_620_000_000, 'large-v3': 3_100_000_000, 'medium': 1_530_000_000,
+                'small': 485_000_000, 'base': 145_000_000, 'tiny': 78_000_000}
+SIN_AVANCE_S = 120               # una descarga que no crece en tanto tiempo se da por colgada
+
+
+def _tamano_carpeta(carpeta):
+    total = 0
+    for raiz, _, archivos in os.walk(carpeta):
+        for a in archivos:
+            try:
+                total += os.path.getsize(os.path.join(raiz, a))
+            except OSError:
+                pass
+    return total
+
+
+def _asegurar_modelo_descargado(tamano, aviso=None):
+    """Si los pesos de Whisper no estan en disco, los baja MOSTRANDO el avance (antes la primera transcripcion en un equipo sin el
+    modelo se veia como un cuelgue mudo: WhisperModel descarga ~1,6 GB sin decir nada). Si no crece en SIN_AVANCE_S, avisa y falla."""
+    from faster_whisper.utils import _MODELS, download_model
+    try:
+        download_model(tamano, local_files_only=True)
+        return
+    except Exception:
+        pass
+    aviso = aviso or (lambda t: None)
+    import huggingface_hub
+    repo = _MODELS.get(tamano) or str(tamano)
+    carpeta = Path(huggingface_hub.constants.HF_HUB_CACHE) / ('models--' + repo.replace('/', '--'))
+    total = _PESO_MODELO.get(tamano) or 0
+    aviso(tr('Descargando el modelo de voz ({peso}). Solo pasa la primera vez: no cierres el programa.',
+             peso=f'{total / 1e9:.1f} GB'.replace('.', ',') if total else tr('puede pesar varios cientos de MB')))
+    inicial = _tamano_carpeta(carpeta)
+    resultado = {}
+
+    def bajar():
+        try:
+            resultado['ruta'] = download_model(tamano)
+        except Exception as exc:
+            resultado['error'] = exc
+    hilo = _threading.Thread(target=bajar, daemon=True, name='whisper-descarga')
+    hilo.start()
+    ultimo, desde = inicial, _time.time()
+    while hilo.is_alive():
+        hilo.join(2.0)
+        hecho = max(0, _tamano_carpeta(carpeta) - inicial)
+        actual = inicial + hecho
+        if actual > ultimo:
+            ultimo, desde = actual, _time.time()
+        elif _time.time() - desde > SIN_AVANCE_S:
+            raise RuntimeError(tr('La descarga del modelo de voz no avanza desde hace {s} segundos. Revisa tu conexión a internet '
+                                  '(o un firewall/VPN) y vuelve a intentarlo: lo que ya bajó no se pierde.', s=SIN_AVANCE_S))
+        if total:
+            aviso(tr('Descargando el modelo de voz: {a} de {b} MB ({p} %)', a=f'{hecho / 1e6:,.0f}'.replace(',', '.'),
+                     b=f'{total / 1e6:,.0f}'.replace(',', '.'), p=int(min(99, 100 * hecho / total))))
+        else:
+            aviso(tr('Descargando el modelo de voz: {a} MB', a=f'{hecho / 1e6:,.0f}'.replace(',', '.')))
+    if 'error' in resultado:
+        exc = resultado['error']
+        raise RuntimeError(tr('No pude descargar el modelo de voz ({t}: {m}). Revisa tu conexión a internet y vuelve a intentarlo.',
+                              t=type(exc).__name__, m=str(exc)[:200]))
+
+
+def _modelo_whisper(tamano, device, compute_type, local_only=False, aviso=None):
     """El WhisperModel cargado (el mismo mientras no cambie tamano/dispositivo)."""
     from faster_whisper import WhisperModel
     clave = (tamano, device, compute_type)
@@ -89,7 +157,14 @@ def _modelo_whisper(tamano, device, compute_type, local_only=False):
             _WHISPER['t'] = _time.time()
             return _WHISPER['modelo']
         _WHISPER.update(modelo=None, clave=None)          # suelta el anterior antes de cargar el nuevo
-        modelo = WhisperModel(tamano, device=device, compute_type=compute_type, local_files_only=local_only)
+        if not local_only:
+            _asegurar_modelo_descargado(tamano, aviso)
+        if aviso:
+            aviso(tr('Cargando el modelo de voz en memoria…'))
+        extra = {}
+        if device == 'cpu' and __import__('sys').platform == 'darwin':
+            extra['cpu_threads'] = min(8, os.cpu_count() or 4)          # los nucleos de rendimiento del Mac; por defecto usa solo 4
+        modelo = WhisperModel(tamano, device=device, compute_type=compute_type, local_files_only=local_only, **extra)
         _WHISPER.update(clave=clave, modelo=modelo, t=_time.time())
         if not _WHISPER['vigilando']:
             _WHISPER['vigilando'] = True
@@ -194,7 +269,7 @@ def transcribe(media_path: str, source_lang: str, model_size: str, progress_call
         """
         tamano = tamano or model_size
         print(f"Cargando modelo Whisper '{tamano}' en {device.upper()} (la primera vez descarga los pesos)...")
-        model = _modelo_whisper(tamano, device, compute_type, local_only)
+        model = _modelo_whisper(tamano, device, compute_type, local_only, aviso=_avisar)
         print('Transcribiendo... esto puede tardar según la duración del video.')
         idioma_w = source_lang if source_lang != 'auto' else None
         if device == 'cuda' and _duracion_segundos(media_path) > LARGO_PARA_LOTES_S:

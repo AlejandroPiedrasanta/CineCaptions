@@ -5590,6 +5590,10 @@ class WordTagWindow(QWidget):
         base = [dict(w) for w in self.palabras]
         tamanos = getattr(self, 'tamanos', None)
         peso_conector = 1.0
+        # auditoría v5.11: con el estilo «guion» las palabras clave las elige el planificador (igual que «Auto (como GO)» y que Generar),
+        # no los roles de 3 líneas de la IA, que aquí se leerían como grande / fina / negrita al azar
+        guion_pack = getattr(self.master, 'plantilla_sel', 'Referencia') if getattr(self, '_guion', False) else None
+        guion_ancla, guion_fin = (self._ancla_guion(), self._fin_video_guion()) if guion_pack else ('medio', None)
         def _trabajar():
             try:
                 import ia_texto
@@ -5634,10 +5638,11 @@ class WordTagWindow(QWidget):
                 estado['fase'] = 3
                 estado['texto'] = tr('Quitando signos y poniendo emojis…')
                 resultado['signos'] = ia_texto.sin_signos(palabras)
+                if guion_pack:
+                    import guion_editor
+                    roles = guion_editor.roles_automaticos(palabras, guion_pack, ancla=guion_ancla, fin_video=guion_fin, idioma=idioma)
                 elegidos = (ia_texto.emojis_de_ia(palabras, propuestos, idioma, roles) if propuestos is not None
                             else ia_texto.emojis_sin_ia(palabras, roles, idioma))
-                if getattr(self, '_un_clic', False) and not self._go_emojis():
-                    elegidos = {}                       # GO con «Emojis: no»: la IA no pone ninguno
                 resultado['emojis'] = ia_texto.poner_emojis(palabras, elegidos)
                 resultado['palabras'], resultado['roles'] = palabras, roles
             except Exception as e:
@@ -7134,7 +7139,13 @@ class SubtitleApp(QWidget):
                   tr('Al soltar un video en Inicio: se arma en el proyecto «CineCaptions» de Resolve (se abre o se crea solo) o en el proyecto que tengas abierto. Clic: cambiar.'))]
         chips = [(t, f, a, ui.ACCENT_CLARO) for t, f, a in chips]
         # v5.8 (auditoría del flujo): lo que cambia el resultado y GO no enseñaba (se quedaba guardado de otra vez) sale en ámbar y se quita con un clic
-        if not composicion.es_defecto(getattr(self, 'composicion', None)):
+        # (con un pack «guion» —palabra a palabra— el planificador decide posición y estilo: esos dos ajustes no se aplican y no se avisa de ellos)
+        try:
+            p_guion = plantillas.buscar_pack(pack)
+            es_guion = bool(p_guion is not None and getattr(p_guion, 'guion', None))
+        except Exception:
+            es_guion = False
+        if not es_guion and not composicion.es_defecto(getattr(self, 'composicion', None)):
             chips.append((tr('Posición ajustada ✕'), self._quitar_ajuste_fino,
                           tr('Tu «Ajuste fino» de Proyecto mueve los subtítulos ({d}) respecto a la posición exacta del estilo. Clic: quitarlo.',
                              d=resumen_composicion(getattr(self, 'composicion', None))), ui.AMBAR))
@@ -7142,7 +7153,7 @@ class SubtitleApp(QWidget):
             hay_varios = len(plantillas.variantes_de(pack, self._formato_en_juego())) > 1
         except Exception:
             hay_varios = False
-        if estilo_fijo() and hay_varios:
+        if estilo_fijo() and hay_varios and not es_guion:
             chips.append((tr('Solo el estilo {n} ✕', n=estilo_fijo()), self._quitar_estilo_fijo,
                           tr('Todos los bloques usan el mismo estilo del pack. Clic: volver a alternar los estilos.'), ui.AMBAR))
         for texto, fn, ayuda, color in chips:
@@ -7234,7 +7245,14 @@ class SubtitleApp(QWidget):
             ajustes_ui.guardar_prefs({'go_sfx': not self._go_sfx()})
         except Exception:
             pass
+        self._sincronizar_sfx()
         self._pintar_opciones_go()
+    def _sincronizar_sfx(self):
+        """Auditoría v5.11: «Efectos» de Inicio (go_sfx) manda sobre la casilla vieja (sfx_var), que es la que miran los puntos de sonido del editor."""
+        try:
+            self.sfx_var.set(self._go_sfx())
+        except Exception:
+            pass
     def _ciclar_formato_go(self):
         opciones = list(self.FORMATOS_VIDEO.keys())
         actual = self.formato_var.get()
@@ -7255,7 +7273,36 @@ class SubtitleApp(QWidget):
             ajustes_ui.guardar_prefs({'go_pack': valor})
         except Exception:
             pass
+        # auditoría v5.11: lo que se elige en el chip es también el pack de Estilos / Creativo / Generar (antes quedaban dos dueños)
+        nuevo = self._plantilla_un_clic()
+        if nuevo != getattr(self, 'plantilla_sel', None):
+            self.plantilla_sel = nuevo
+            try:
+                self.plantilla_lbl.configure(text=self._etiqueta_plantilla_completa())
+                self._refrescar_vista_estilo()
+                self._refrescar_receta()
+                pv = getattr(self, '_plantillas_ventana', None)
+                if pv is not None and pv.existe():
+                    pv.seleccion.set(nuevo)
+                    pv._recargar(nuevo)
+            except Exception:
+                registro.excepcion(origen='chip Estilo · sincronizar')
+            self._guardar_preferencias()
         self._pintar_opciones_go()
+    def _sincronizar_go_pack(self, valor):
+        """Estilos → GO: el pack elegido en Estilos pasa a ser el de GO ('auto' = el diseño de 3 líneas)."""
+        if valor in ('auto', 'dinamico', 'Base títulos dinámicos'):
+            guardar = 'auto'
+        elif valor == 'media_pool' or not valor:
+            return
+        else:
+            guardar = valor
+        try:
+            import ajustes_ui
+            if str(ajustes_ui.leer_prefs().get('go_pack') or '') != guardar:
+                ajustes_ui.guardar_prefs({'go_pack': guardar})
+        except Exception:
+            pass
     def _plantilla_un_clic(self):
         """El pack que usa GO. v5.10: por defecto el estilo «Referencia» (los captions palabra a palabra: línea fina y negrita + palabra grande),
         porque con el diseño de 3 líneas GO dejaba «todo igual» (pedido: «arrastro mi video y no aplica el estilo de la referencia»).
@@ -7402,7 +7449,7 @@ class SubtitleApp(QWidget):
             pass
     def _go_timeline_del_video(self, archivo, medio):
         """Hilo de GO con un video soltado: abre Resolve si hace falta y le arma un timeline NUEVO con ese video (orientación y fps del video),
-        que queda como el actual: ahí caen los captions. Si algo falla, GO sigue y los pone en el timeline que esté abierto (queda en el Registro)."""
+        que queda como el actual: ahí caen los captions. Si algo falla, GO se detiene (`_abortar_si_fallo_el_timeline`) y no toca ningún otro timeline."""
         import resolve_mcp
         try:
             self._esperar_vistas_reales()
@@ -8948,6 +8995,7 @@ class SubtitleApp(QWidget):
         self._estilos_capa.addStretch(1)
     def _plantilla_elegida(self, valor):
         self.plantilla_sel = valor
+        self._sincronizar_go_pack(valor)          # auditoría v5.11: el pack de Estilos y el chip «Estilo» de Inicio son UNA sola elección
         self.plantilla_lbl.configure(text=self._etiqueta_plantilla_completa())
         self._guardar_preferencias()
         self._pintar_opciones_go()
@@ -11011,6 +11059,9 @@ class SubtitleApp(QWidget):
             return
         palabras, roles = guardadas
         modo = self._modo()
+        if modo == 'dinamico':
+            self._asegurar_pack_luxe()          # auditoría v5.11: el editor se construye con el MISMO pack con el que luego se genera
+        self._sincronizar_sfx()
         ventana = WordTagWindow(self, palabras, roles, project_name, modo=WordTagWindow.MODO_TEXTO if modo == 'normal' else WordTagWindow.MODO_MARCAS, idioma=self._codigo_idioma())
         resultado = self._sesion_editor(ventana)
         if resultado is None:
@@ -11541,10 +11592,27 @@ class SubtitleApp(QWidget):
                         palabras_finales, roles_finales, resumen_ia = ia_texto.marcar_todo(
                             palabras, base_lang, progreso=lambda f: self.msg_queue.put(('progress', f)),
                             estado=lambda t: self.msg_queue.put(('status', t)),
-                            tamanos=getattr(self, 'tamanos_grupo', None), peso_conector=getattr(self, 'peso_conectores', None))
+                            tamanos=getattr(self, 'tamanos_grupo', None), peso_conector=getattr(self, 'peso_conectores', None),
+                            con_emojis=self._go_emojis())           # auditoría v5.11: el chip «Emojis: no» de Inicio se respetaba solo de palabra
                         self._resumen_ia = resumen_ia
+                        roles_guardar = roles_finales
                         try:
-                            guardar_marcas(project_name, palabras_finales, roles_finales)
+                            # auditoría v5.11: con un pack «guion» GO ignora los roles de la IA (los de 3 líneas) y arma con el planificador; lo que queda
+                            # guardado para «Editar marcas» tiene que ser lo que GO colocó, no roles de otro diseño que el editor leería distinto
+                            import guion_editor
+                            pack_g = self._pack_guion()
+                            formato_g = self._formato_forzado() or self._formato_en_juego() or 'v'
+                            if pack_g is not None and guion_editor.es_guion(pack_g.nombre, formato_g):
+                                try:
+                                    import ajustes_ui
+                                    ancla_g = str(ajustes_ui.leer_prefs().get('guion_ancla', 'medio'))
+                                except Exception:
+                                    ancla_g = 'medio'
+                                roles_guardar = guion_editor.roles_automaticos(palabras_finales, pack_g.nombre, ancla=ancla_g, fin_video=self._fin_video(), idioma=base_lang)
+                        except Exception:
+                            registro.excepcion(origen='GO · marcas del estilo guion')
+                        try:
+                            guardar_marcas(project_name, palabras_finales, roles_guardar)
                         except Exception:
                             pass
                         self.msg_queue.put(('paso', 'diseno'))
@@ -11820,6 +11888,9 @@ class SubtitleApp(QWidget):
                         palabras, sugeridos = guardadas
         self._tag_result = None
         try:
+            if self._modo() == 'dinamico':
+                self._asegurar_pack_luxe()      # auditoría v5.11: el editor se construye con el MISMO pack con el que luego se genera
+            self._sincronizar_sfx()
             ventana = WordTagWindow(self, palabras, sugeridos, proyecto, idioma=self._codigo_idioma())
             self._tag_result = self._sesion_editor(ventana)
         finally:
