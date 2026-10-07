@@ -48,7 +48,8 @@ VERSION="$(sed -n "s/^APP_VERSION = '\([0-9.]*\)'.*/\1/p" "$CODIGO/version.py" |
 [ -n "$VERSION" ] || falla "No encontre APP_VERSION en 1_codigo/version.py"
 echo "CineCaptions $VERSION"
 # v5.3.2: una sola version: los scripts de Resolve y el Puente se ponen a la de version.py (si no, el programa avisa de "otra version instalada")
-"$VPY" "$RAIZ/3_compilar/sincronizar_version.py" || falla "No pude poner la version en los scripts de Resolve"
+SYNC_PY="$VPY"; [ -x "$SYNC_PY" ] || SYNC_PY="${CINECAPTIONS_PYTHON:-python3}"      # (solo libreria estandar: vale cualquier Python 3, el venv aun puede no existir)
+"$SYNC_PY" "$RAIZ/3_compilar/sincronizar_version.py" || falla "No pude poner la version en los scripts de Resolve"
 
 if [ "$SOLO_INSTALADOR" = 0 ]; then
 # 1) Python 3.14 y el entorno ------------------------------------------------------------

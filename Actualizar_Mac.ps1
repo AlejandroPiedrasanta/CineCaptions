@@ -33,9 +33,15 @@ if (-not $SoloDescargar) {
     }
     if (-not $id) { throw 'No encontre la compilacion que acabo de lanzar' }
     Write-Host "    https://github.com/AlejandroPiedrasanta/CineCaptions/actions/runs/$id"
+    $limite = (Get-Date).AddMinutes(60)
     while ($true) {
-        $e = gh run view $id --json status,conclusion -q '.status + " " + .conclusion'
-        if ($e -like 'completed*') { break }
+        # (PowerShell 5.1 pierde las comillas dobles de -q: se lee el JSON entero y se interpreta aqui; antes esto giraba para siempre)
+        $json = gh run view $id --json status,conclusion
+        if ($LASTEXITCODE -ne 0 -or -not $json) { throw "No pude leer el estado de la compilacion ($id): revisa 'gh auth status'" }
+        $r = $json | ConvertFrom-Json
+        $e = "$($r.status) $($r.conclusion)".Trim()
+        if ($r.status -eq 'completed') { break }
+        if ((Get-Date) -gt $limite) { throw "La compilacion de Mac lleva mas de 60 minutos ($e): mira https://github.com/AlejandroPiedrasanta/CineCaptions/actions/runs/$id" }
         Start-Sleep -Seconds 30
     }
     if ($e -ne 'completed success') { throw "La compilacion de Mac fallo ($e). Mira el registro: gh run view $id --log-failed" }
