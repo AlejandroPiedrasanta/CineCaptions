@@ -6861,6 +6861,8 @@ class SubtitleApp(QWidget):
         if clave == 'inicio':
             self._refrescar_recientes()
             self._pintar_go_reposo()
+        elif clave == 'editor':
+            self._al_entrar_en_creativo()          # v5.3.2: detecta el audio / la línea de tiempo de Proyecto (y abre el editor si ya hay palabras)
     def _marcar_nav(self, clave):
         for c, b in self._nav.items():
             b.setChecked(c == clave)
@@ -8679,6 +8681,10 @@ class SubtitleApp(QWidget):
             except Exception:
                 pass
     def _al_cambiar_video(self):
+        try:
+            self._refrescar_editor_vacio()          # Creativo se entera al instante del audio nuevo de Proyecto
+        except Exception:
+            pass
         cancelar(self._video_id)
         self._video_id = despues(300, self._medir_video_actual, self)
     def _medir_video_actual(self):
@@ -8856,18 +8862,116 @@ class SubtitleApp(QWidget):
         t = Tarjeta(margenes=(36, 32, 36, 32), espacio=12)
         t.setMaximumWidth(640)
         t.setMinimumHeight(236)   # el texto largo con salto de línea dejaba los botones cortados
-        t.capa.addWidget(Etiqueta(tr('No hay ninguna sesión abierta'), 20, peso='extra', color='#FFFFFF'))
-        t.capa.addWidget(Etiqueta(tr('Se abre solo después de transcribir con GO. Para retocar un video ya transcrito, pulsa «Editar marcas»: no se vuelve a transcribir.'), 14, color=TEXT_MUTED, envolver=True))
+        # v5.3.2: esta tarjeta MIRA lo que hay en Proyecto (el audio traído de Resolve o el video elegido, y si ya tiene palabras transcritas / la línea de
+        # tiempo abierta en Resolve) y se adapta sola; si ya hay palabras, el editor se abre solo al entrar (ver _refrescar_editor_vacio)
+        self._ev_titulo = Etiqueta(tr('No hay ninguna sesión abierta'), 20, peso='extra', color='#FFFFFF')
+        t.capa.addWidget(self._ev_titulo)
+        self._ev_texto = Etiqueta(tr('Se abre solo después de transcribir con GO. Para retocar un video ya transcrito, pulsa «Editar marcas»: no se vuelve a transcribir.'), 14, color=TEXT_MUTED, envolver=True)
+        t.capa.addWidget(self._ev_texto)
+        self._ev_detalle = Etiqueta('', 13, color=ui.ACCENT_CLARO, envolver=True)
+        t.capa.addWidget(self._ev_detalle)
         t.capa.addSpacing(8)
         fila, cf = caja_h(espacio=12)
         self.editar_btn2 = Boton(tr('Editar marcas del video elegido'), self._on_update, tipo='primario', alto=42)
         cf.addWidget(self.editar_btn2)
-        cf.addWidget(Boton(tr('Ir a Estilos y composición'), lambda: self.ir_a('estilos'), alto=42))
+        self._ev_btn2 = Boton(tr('Ir a Proyecto'), lambda: self.ir_a('estilos'), alto=42)
+        cf.addWidget(self._ev_btn2)
         cf.addStretch(1)
         t.capa.addWidget(fila)
         cv.addWidget(t, 0, Qt.AlignmentFlag.AlignHCenter)
         cv.addStretch(1)
         capa.addWidget(self._editor_vacio, 1)
+    # -- v5.3.2: Creativo detecta solo el audio / la línea de tiempo de Proyecto ----------------------------------------
+    def _estado_creativo(self):
+        """Qué hay disponible para retocar, SIN tocar Resolve ni leer archivos grandes (corre en el hilo de la interfaz):
+        ('ocupado'|'marcas'|'audio'|'timeline'|'nada', nombre_del_audio, nombre_de_la_linea_de_tiempo, nombre_del_proyecto_de_Resolve)."""
+        try:
+            ruta = self.video_var.get().strip().strip('"')
+        except Exception:
+            ruta = ''
+        p = Path(ruta).expanduser() if ruta else None
+        hay_audio = bool(p) and p.is_file()
+        mcp = (getattr(self, '_estado_sistema', None) or {}).get('mcp') or {}
+        tl = str(mcp.get('timeline') or '') if mcp.get('conectado') else ''
+        proy = str(mcp.get('proyecto') or '') if mcp.get('conectado') else ''
+        trabajando = getattr(self, '_go_corriendo', False) or (getattr(self, 'worker', None) is not None and self.worker.is_alive())
+        if trabajando:
+            return ('ocupado', p.name if hay_audio else '', tl, proy)
+        if hay_audio:
+            try:
+                tiene = ruta_marcas(p.stem).is_file()
+            except Exception:
+                tiene = False
+            return ('marcas' if tiene else 'audio', p.name, tl, proy)
+        if tl:
+            return ('timeline', '', tl, proy)
+        return ('nada', '', '', '')
+    def _refrescar_editor_vacio(self):
+        """Pone en la tarjeta «sin sesión» de Creativo lo que de verdad hay: el audio de Proyecto, si ya tiene palabras, o la línea de tiempo abierta."""
+        if getattr(self, '_editor', None) is not None or not hasattr(self, '_ev_titulo'):
+            return
+        modo, nombre, tl, proy = self._estado_creativo()
+        detalle = ''
+        if nombre:
+            detalle += tr('Audio: «{n}»', n=nombre)
+        if tl:
+            detalle += ('   ·   ' if detalle else '') + tr('Resolve: «{t}»', t=tl) + (tr(' (proyecto «{p}»)', p=proy) if proy else '')
+        b1, b2 = self.editar_btn2, self._ev_btn2
+        b2.configure(text=tr('Ir a Proyecto'))
+        b2.poner_comando(lambda: self.ir_a('estilos'))
+        b1.setVisible(True)
+        b1.configure(state='normal')
+        if modo == 'ocupado':
+            titulo, texto = tr('Transcribiendo…'), tr('En cuanto termine la transcripción, el editor se abre solo con todas las palabras para que pintes su rol.')
+            b1.setVisible(False)
+        elif modo == 'marcas':
+            titulo = tr('Audio detectado en Proyecto')
+            texto = tr('Ya está transcrito y tiene tus marcas guardadas: retócalas aquí. No se vuelve a transcribir.')
+            b1.configure(text=tr('Retocar las palabras'))
+            b1.poner_comando(self._on_update)
+        elif modo == 'audio':
+            titulo = tr('Audio detectado en Proyecto')
+            texto = tr('Todavía no está transcrito. Se transcribe y el editor se abre solo para que pintes cada palabra.')
+            b1.configure(text=tr('Transcribir y retocar'))
+            b1.poner_comando(self._on_generate)
+        elif modo == 'timeline':
+            titulo = tr('Hay una línea de tiempo abierta en Resolve')
+            texto = tr('Trae su audio, se transcribe y el editor se abre solo. También puedes pulsar GO en Inicio.')
+            b1.configure(text=tr('Traer el audio de Resolve'))
+            b1.poner_comando(lambda: self._detectar_desde_resolve(silencioso=False))
+        else:
+            titulo = tr('No hay ninguna sesión abierta')
+            texto = tr('Aún no hay audio. En Proyecto pulsa «Obtener» (o suelta un video en la ventana) y vuelve aquí: lo detecto solo. Con GO todo se hace en un clic.')
+            b1.setVisible(False)
+        self._ev_titulo.configure(text=titulo)
+        self._ev_texto.configure(text=texto)
+        self._ev_detalle.configure(text=detalle)
+        self._ev_detalle.setVisible(bool(detalle))
+        return modo
+    def _vigilar_editor_vacio(self):
+        """Mientras Creativo está a la vista sin sesión, la tarjeta se mantiene al día (el audio llega, termina un GO, Resolve cambia de timeline...)."""
+        if not vivo(self) or self._pagina_actual != 'editor' or getattr(self, '_editor', None) is not None:
+            self._ev_vigia = False
+            return
+        self._refrescar_editor_vacio()
+        despues(1500, self._vigilar_editor_vacio, self)
+    def _al_entrar_en_creativo(self):
+        """Al abrir Creativo sin sesión: se refresca la tarjeta y, si el audio de Proyecto YA tiene palabras, el editor se abre solo."""
+        if getattr(self, '_editor', None) is not None:
+            return
+        modo = self._refrescar_editor_vacio()
+        if not getattr(self, '_ev_vigia', False):
+            self._ev_vigia = True
+            despues(1500, self._vigilar_editor_vacio, self)
+        if modo == 'marcas':
+            despues(350, self._abrir_editor_solo, self)
+    def _abrir_editor_solo(self):
+        if not vivo(self) or self._pagina_actual != 'editor' or getattr(self, '_editor', None) is not None:
+            return
+        if self._estado_creativo()[0] != 'marcas':
+            return
+        registro.info('Creativo: el audio de Proyecto ya tiene palabras; abro el editor solo.', 'creativo')
+        self._on_update()
     def _sesion_editor(self, ventana, volver='nuevo'):
         """Muestra el editor como pantalla, espera a «Continuar» o
         «Cancelar» (ventana.esperar) y lo retira. Devuelve su resultado."""

@@ -2549,6 +2549,20 @@
     "Detuvo la tarea": "Stopped the task",
     "Algo quedó sin hacer": "Something was left undone",
     "No afecta a tu trabajo": "Does not affect your work",
-    "Lanzando el Puente en Resolve…": "Launching the Bridge in Resolve…"
+    "Lanzando el Puente en Resolve…": "Launching the Bridge in Resolve…",
+    "Ir a Proyecto": "Go to Project",
+    "Audio: «{n}»": "Audio: “{n}”",
+    "Resolve: «{t}»": "Resolve: “{t}”",
+    " (proyecto «{p}»)": " (project “{p}”)",
+    "Transcribiendo…": "Transcribing…",
+    "En cuanto termine la transcripción, el editor se abre solo con todas las palabras para que pintes su rol.": "As soon as the transcription finishes, the editor opens by itself with all the words so you can paint their roles.",
+    "Audio detectado en Proyecto": "Audio detected in Project",
+    "Ya está transcrito y tiene tus marcas guardadas: retócalas aquí. No se vuelve a transcribir.": "It's already transcribed and your marks are saved: touch them up here. It won't be transcribed again.",
+    "Todavía no está transcrito. Se transcribe y el editor se abre solo para que pintes cada palabra.": "It isn't transcribed yet. It gets transcribed and the editor opens by itself so you can paint each word.",
+    "Transcribir y retocar": "Transcribe and touch up",
+    "Hay una línea de tiempo abierta en Resolve": "There is a timeline open in Resolve",
+    "Trae su audio, se transcribe y el editor se abre solo. También puedes pulsar GO en Inicio.": "Its audio is fetched, transcribed, and the editor opens by itself. You can also press GO on Home.",
+    "Traer el audio de Resolve": "Fetch the audio from Resolve",
+    "Aún no hay audio. En Proyecto pulsa «Obtener» (o suelta un video en la ventana) y vuelve aquí: lo detecto solo. Con GO todo se hace en un clic.": "There's no audio yet. In Project press “Get” (or drop a video on the window) and come back here: I detect it by myself. With GO everything happens in one click."
   }
 }

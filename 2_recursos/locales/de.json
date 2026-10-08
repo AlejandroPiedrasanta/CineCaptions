@@ -2549,6 +2549,20 @@
     "Detuvo la tarea": "Hat die Aufgabe gestoppt",
     "Algo quedó sin hacer": "Etwas blieb unerledigt",
     "No afecta a tu trabajo": "Beeinflusst deine Arbeit nicht",
-    "Lanzando el Puente en Resolve…": "Brücke in Resolve wird gestartet…"
+    "Lanzando el Puente en Resolve…": "Brücke in Resolve wird gestartet…",
+    "Ir a Proyecto": "Zum Projekt",
+    "Audio: «{n}»": "Audio: „{n}“",
+    "Resolve: «{t}»": "Resolve: „{t}“",
+    " (proyecto «{p}»)": " (Projekt „{p}“)",
+    "Transcribiendo…": "Transkribiere…",
+    "En cuanto termine la transcripción, el editor se abre solo con todas las palabras para que pintes su rol.": "Sobald die Transkription fertig ist, öffnet sich der Editor von selbst mit allen Wörtern, damit du ihre Rollen markieren kannst.",
+    "Audio detectado en Proyecto": "Audio im Projekt erkannt",
+    "Ya está transcrito y tiene tus marcas guardadas: retócalas aquí. No se vuelve a transcribir.": "Es ist schon transkribiert und deine Markierungen sind gespeichert: überarbeite sie hier. Es wird nicht erneut transkribiert.",
+    "Todavía no está transcrito. Se transcribe y el editor se abre solo para que pintes cada palabra.": "Es ist noch nicht transkribiert. Es wird transkribiert und der Editor öffnet sich von selbst, damit du jedes Wort markieren kannst.",
+    "Transcribir y retocar": "Transkribieren und überarbeiten",
+    "Hay una línea de tiempo abierta en Resolve": "In Resolve ist eine Timeline geöffnet",
+    "Trae su audio, se transcribe y el editor se abre solo. También puedes pulsar GO en Inicio.": "Das Audio wird geholt, transkribiert und der Editor öffnet sich von selbst. Du kannst auch auf der Startseite GO drücken.",
+    "Traer el audio de Resolve": "Audio aus Resolve holen",
+    "Aún no hay audio. En Proyecto pulsa «Obtener» (o suelta un video en la ventana) y vuelve aquí: lo detecto solo. Con GO todo se hace en un clic.": "Noch kein Audio. Drücke im Projekt „Holen“ (oder ziehe ein Video ins Fenster) und komm zurück: Ich erkenne es selbst. Mit GO geht alles mit einem Klick."
   }
 }

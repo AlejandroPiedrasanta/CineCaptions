@@ -2651,5 +2651,110 @@
   "fr": "Lancement du Pont dans Resolve…",
   "de": "Brücke in Resolve wird gestartet…",
   "it": "Avvio del Ponte in Resolve…"
+ },
+ "Ir a Proyecto": {
+  "en": "Go to Project",
+  "pt": "Ir para Projeto",
+  "fr": "Aller à Projet",
+  "de": "Zum Projekt",
+  "it": "Vai a Progetto"
+ },
+ "Audio: «{n}»": {
+  "en": "Audio: “{n}”",
+  "pt": "Áudio: «{n}»",
+  "fr": "Audio : « {n} »",
+  "de": "Audio: „{n}“",
+  "it": "Audio: «{n}»"
+ },
+ "Resolve: «{t}»": {
+  "en": "Resolve: “{t}”",
+  "pt": "Resolve: «{t}»",
+  "fr": "Resolve : « {t} »",
+  "de": "Resolve: „{t}“",
+  "it": "Resolve: «{t}»"
+ },
+ " (proyecto «{p}»)": {
+  "en": " (project “{p}”)",
+  "pt": " (projeto «{p}»)",
+  "fr": " (projet « {p} »)",
+  "de": " (Projekt „{p}“)",
+  "it": " (progetto «{p}»)"
+ },
+ "Transcribiendo…": {
+  "en": "Transcribing…",
+  "pt": "Transcrevendo…",
+  "fr": "Transcription…",
+  "de": "Transkribiere…",
+  "it": "Trascrizione…"
+ },
+ "En cuanto termine la transcripción, el editor se abre solo con todas las palabras para que pintes su rol.": {
+  "en": "As soon as the transcription finishes, the editor opens by itself with all the words so you can paint their roles.",
+  "pt": "Assim que a transcrição terminar, o editor abre sozinho com todas as palavras para você pintar o papel de cada uma.",
+  "fr": "Dès que la transcription est terminée, l'éditeur s'ouvre tout seul avec tous les mots pour que vous peigniez leur rôle.",
+  "de": "Sobald die Transkription fertig ist, öffnet sich der Editor von selbst mit allen Wörtern, damit du ihre Rollen markieren kannst.",
+  "it": "Appena finisce la trascrizione, l'editor si apre da solo con tutte le parole per dipingerne il ruolo."
+ },
+ "Audio detectado en Proyecto": {
+  "en": "Audio detected in Project",
+  "pt": "Áudio detectado em Projeto",
+  "fr": "Audio détecté dans Projet",
+  "de": "Audio im Projekt erkannt",
+  "it": "Audio rilevato in Progetto"
+ },
+ "Ya está transcrito y tiene tus marcas guardadas: retócalas aquí. No se vuelve a transcribir.": {
+  "en": "It's already transcribed and your marks are saved: touch them up here. It won't be transcribed again.",
+  "pt": "Já está transcrito e tem as suas marcas salvas: retoque-as aqui. Não é transcrito de novo.",
+  "fr": "Il est déjà transcrit et vos marques sont enregistrées : retouchez-les ici. Il ne sera pas retranscrit.",
+  "de": "Es ist schon transkribiert und deine Markierungen sind gespeichert: überarbeite sie hier. Es wird nicht erneut transkribiert.",
+  "it": "È già trascritto e i tuoi segni sono salvati: ritoccali qui. Non viene trascritto di nuovo."
+ },
+ "Retocar las palabras": {
+  "en": "Touch up the words",
+  "pt": "Retocar as palavras",
+  "fr": "Retoucher les mots",
+  "de": "Wörter überarbeiten",
+  "it": "Ritocca le parole"
+ },
+ "Todavía no está transcrito. Se transcribe y el editor se abre solo para que pintes cada palabra.": {
+  "en": "It isn't transcribed yet. It gets transcribed and the editor opens by itself so you can paint each word.",
+  "pt": "Ainda não está transcrito. Ele é transcrito e o editor abre sozinho para você pintar cada palavra.",
+  "fr": "Il n'est pas encore transcrit. Il est transcrit et l'éditeur s'ouvre tout seul pour que vous peigniez chaque mot.",
+  "de": "Es ist noch nicht transkribiert. Es wird transkribiert und der Editor öffnet sich von selbst, damit du jedes Wort markieren kannst.",
+  "it": "Non è ancora trascritto. Viene trascritto e l'editor si apre da solo per dipingere ogni parola."
+ },
+ "Transcribir y retocar": {
+  "en": "Transcribe and touch up",
+  "pt": "Transcrever e retocar",
+  "fr": "Transcrire et retoucher",
+  "de": "Transkribieren und überarbeiten",
+  "it": "Trascrivi e ritocca"
+ },
+ "Hay una línea de tiempo abierta en Resolve": {
+  "en": "There is a timeline open in Resolve",
+  "pt": "Há uma linha do tempo aberta no Resolve",
+  "fr": "Une timeline est ouverte dans Resolve",
+  "de": "In Resolve ist eine Timeline geöffnet",
+  "it": "C'è una timeline aperta in Resolve"
+ },
+ "Trae su audio, se transcribe y el editor se abre solo. También puedes pulsar GO en Inicio.": {
+  "en": "Its audio is fetched, transcribed, and the editor opens by itself. You can also press GO on Home.",
+  "pt": "O áudio dela é trazido, transcrito e o editor abre sozinho. Você também pode apertar GO em Início.",
+  "fr": "Son audio est récupéré, transcrit, et l'éditeur s'ouvre tout seul. Vous pouvez aussi appuyer sur GO dans Accueil.",
+  "de": "Das Audio wird geholt, transkribiert und der Editor öffnet sich von selbst. Du kannst auch auf der Startseite GO drücken.",
+  "it": "Il suo audio viene recuperato, trascritto e l'editor si apre da solo. Puoi anche premere GO in Home."
+ },
+ "Traer el audio de Resolve": {
+  "en": "Fetch the audio from Resolve",
+  "pt": "Trazer o áudio do Resolve",
+  "fr": "Récupérer l'audio de Resolve",
+  "de": "Audio aus Resolve holen",
+  "it": "Recupera l'audio da Resolve"
+ },
+ "Aún no hay audio. En Proyecto pulsa «Obtener» (o suelta un video en la ventana) y vuelve aquí: lo detecto solo. Con GO todo se hace en un clic.": {
+  "en": "There's no audio yet. In Project press “Get” (or drop a video on the window) and come back here: I detect it by myself. With GO everything happens in one click.",
+  "pt": "Ainda não há áudio. Em Projeto aperte «Obter» (ou solte um vídeo na janela) e volte aqui: eu detecto sozinho. Com o GO tudo é feito em um clique.",
+  "fr": "Il n'y a pas encore d'audio. Dans Projet appuyez sur « Obtenir » (ou déposez une vidéo dans la fenêtre) et revenez ici : je le détecte tout seul. Avec GO, tout se fait en un clic.",
+  "de": "Noch kein Audio. Drücke im Projekt „Holen“ (oder ziehe ein Video ins Fenster) und komm zurück: Ich erkenne es selbst. Mit GO geht alles mit einem Klick.",
+  "it": "Non c'è ancora audio. In Progetto premi «Ottieni» (o trascina un video nella finestra) e torna qui: lo rilevo da solo. Con GO tutto si fa con un clic."
  }
 }

@@ -12,6 +12,35 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-07 18:08  ·  v5.3.3  ·  (automático)
+    modificados (15):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_InsertarSFX.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Puente.lua
+      … y 3 más
+
+2026-10-07 18:08  ·  v5.3.2  ·  cambio explicado
+    Creativo detecta automaticamente el audio o la linea de tiempo de Proyecto: muestra el audio traido/elegido, abre el editor solo si ya tiene palabras, ofrece Transcribir y retocar si falta, y avisa de la linea de tiempo abierta en Resolve (se mantiene al dia sola); textos traducidos a en/pt/fr/de/it
+    modificados (9):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/mcp_cinecaptions.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 3_compilar/traducciones_extra.json
+
 2026-10-07 17:13  ·  v5.3.2  ·  (automático)
     modificados (2):
       ~ 1_codigo/mapa_codigo.py

@@ -1199,6 +1199,35 @@
    ],
    "simbolos": [],
    "resumen": "~/DaVinciSubtitles (prefs, marcas, manifiestos, logs), %LOCALAPPDATA%/CineCaptions/motor_qwen, ~/.cache/huggingface, copias en Documentos"
+  },
+  {
+   "id": "creativo-detecta-audio",
+   "grupo": "creativo",
+   "tema": "Creativo detecta solo el audio / la línea de tiempo de Proyecto",
+   "claves": [
+    "creativo",
+    "detecta",
+    "audio",
+    "proyecto",
+    "linea",
+    "tiempo",
+    "timeline",
+    "vacio",
+    "sesion",
+    "abrir",
+    "solo",
+    "marcas",
+    "transcribir"
+   ],
+   "archivos": [],
+   "simbolos": [
+    "_estado_creativo",
+    "_refrescar_editor_vacio",
+    "_al_entrar_en_creativo",
+    "_abrir_editor_solo",
+    "_vigilar_editor_vacio"
+   ],
+   "resumen": "Pantalla Creativo sin sesión: muestra el audio/timeline de Proyecto y abre el editor sola si ya hay palabras"
   }
  ]
 }

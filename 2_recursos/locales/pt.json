@@ -2549,6 +2549,20 @@
     "Detuvo la tarea": "Interrompeu a tarefa",
     "Algo quedó sin hacer": "Algo ficou por fazer",
     "No afecta a tu trabajo": "Não afeta o seu trabalho",
-    "Lanzando el Puente en Resolve…": "Lançando a Ponte no Resolve…"
+    "Lanzando el Puente en Resolve…": "Lançando a Ponte no Resolve…",
+    "Ir a Proyecto": "Ir para Projeto",
+    "Audio: «{n}»": "Áudio: «{n}»",
+    "Resolve: «{t}»": "Resolve: «{t}»",
+    " (proyecto «{p}»)": " (projeto «{p}»)",
+    "Transcribiendo…": "Transcrevendo…",
+    "En cuanto termine la transcripción, el editor se abre solo con todas las palabras para que pintes su rol.": "Assim que a transcrição terminar, o editor abre sozinho com todas as palavras para você pintar o papel de cada uma.",
+    "Audio detectado en Proyecto": "Áudio detectado em Projeto",
+    "Ya está transcrito y tiene tus marcas guardadas: retócalas aquí. No se vuelve a transcribir.": "Já está transcrito e tem as suas marcas salvas: retoque-as aqui. Não é transcrito de novo.",
+    "Todavía no está transcrito. Se transcribe y el editor se abre solo para que pintes cada palabra.": "Ainda não está transcrito. Ele é transcrito e o editor abre sozinho para você pintar cada palavra.",
+    "Transcribir y retocar": "Transcrever e retocar",
+    "Hay una línea de tiempo abierta en Resolve": "Há uma linha do tempo aberta no Resolve",
+    "Trae su audio, se transcribe y el editor se abre solo. También puedes pulsar GO en Inicio.": "O áudio dela é trazido, transcrito e o editor abre sozinho. Você também pode apertar GO em Início.",
+    "Traer el audio de Resolve": "Trazer o áudio do Resolve",
+    "Aún no hay audio. En Proyecto pulsa «Obtener» (o suelta un video en la ventana) y vuelve aquí: lo detecto solo. Con GO todo se hace en un clic.": "Ainda não há áudio. Em Projeto aperte «Obter» (ou solte um vídeo na janela) e volte aqui: eu detecto sozinho. Com o GO tudo é feito em um clique."
   }
 }

@@ -485,6 +485,9 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.3.3', [
+        'Creativo detecta solo lo que hay en Proyecto: si ya trajiste el audio de Resolve o elegiste un video, la pantalla lo muestra; si ya tiene palabras transcritas, el editor se abre solo, y si falta transcribir basta un botón (Transcribir y retocar). También avisa de la línea de tiempo abierta en Resolve.',
+    ]),
     ('5.3.2', [
         'Vigilancia: GO y Generar avisan si algo se queda sin avanzar y cierran solos el motor de voz o de IA que no responde; si un modelo falla se cambia solo al de respaldo (Qwen 1.7B → 0.6B → CPU → Whisper; IA de texto → modelo ligero → reglas).',
         'Registro: errores.log con todos los avisos y errores, informe de soporte (Windows y Mac) en «Copiar informe», aviso de si la sesión anterior no llegó a abrir y chequeo de librerías, disco y memoria al iniciar.',

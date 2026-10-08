@@ -2549,6 +2549,20 @@
     "Detuvo la tarea": "A interrompu la tâche",
     "Algo quedó sin hacer": "Quelque chose est resté à faire",
     "No afecta a tu trabajo": "N'affecte pas votre travail",
-    "Lanzando el Puente en Resolve…": "Lancement du Pont dans Resolve…"
+    "Lanzando el Puente en Resolve…": "Lancement du Pont dans Resolve…",
+    "Ir a Proyecto": "Aller à Projet",
+    "Audio: «{n}»": "Audio : « {n} »",
+    "Resolve: «{t}»": "Resolve : « {t} »",
+    " (proyecto «{p}»)": " (projet « {p} »)",
+    "Transcribiendo…": "Transcription…",
+    "En cuanto termine la transcripción, el editor se abre solo con todas las palabras para que pintes su rol.": "Dès que la transcription est terminée, l'éditeur s'ouvre tout seul avec tous les mots pour que vous peigniez leur rôle.",
+    "Audio detectado en Proyecto": "Audio détecté dans Projet",
+    "Ya está transcrito y tiene tus marcas guardadas: retócalas aquí. No se vuelve a transcribir.": "Il est déjà transcrit et vos marques sont enregistrées : retouchez-les ici. Il ne sera pas retranscrit.",
+    "Todavía no está transcrito. Se transcribe y el editor se abre solo para que pintes cada palabra.": "Il n'est pas encore transcrit. Il est transcrit et l'éditeur s'ouvre tout seul pour que vous peigniez chaque mot.",
+    "Transcribir y retocar": "Transcrire et retoucher",
+    "Hay una línea de tiempo abierta en Resolve": "Une timeline est ouverte dans Resolve",
+    "Trae su audio, se transcribe y el editor se abre solo. También puedes pulsar GO en Inicio.": "Son audio est récupéré, transcrit, et l'éditeur s'ouvre tout seul. Vous pouvez aussi appuyer sur GO dans Accueil.",
+    "Traer el audio de Resolve": "Récupérer l'audio de Resolve",
+    "Aún no hay audio. En Proyecto pulsa «Obtener» (o suelta un video en la ventana) y vuelve aquí: lo detecto solo. Con GO todo se hace en un clic.": "Il n'y a pas encore d'audio. Dans Projet appuyez sur « Obtenir » (ou déposez une vidéo dans la fenêtre) et revenez ici : je le détecte tout seul. Avec GO, tout se fait en un clic."
   }
 }

@@ -32,3 +32,11 @@ sfx / emojis / colocar). El avance es REAL: el hilo manda ('gen_fase', clave) po
 'error' o un fallo lo cierran (_gen_fin). «Editar marcas y regenerar» (_on_update) ya no genera en el hilo de la interfaz: _regenerar_marcas corre en un hilo.
 Archivos: archivos_seguros.py (escritura atómica + cerrojo; preferencias, marcas con .bak, proyectos, manifiestos). Nada de write_text() directo para estado del usuario.
 Regla: ninguna llamada a resolve_mcp/resolve_bridge que espere a Resolve (modo_actual() sin pasivo, disponible(), estado()) en el hilo de la interfaz: usar correr_en_hilo.
+
+## creativo-detecta-audio — Creativo detecta solo el audio / la línea de tiempo de Proyecto (v5.3.3)
+
+Al abrir Creativo SIN sesión (`SubtitleApp._al_entrar_en_creativo` desde `ir_a('editor')`), la tarjeta vacía mira `_estado_creativo()` = (modo, audio, timeline, proyecto) sin tocar Resolve (usa `_estado_sistema['mcp']` en caché y `video_var` de Proyecto) y se adapta (`_refrescar_editor_vacio`, que se mantiene al día cada 1,5 s con `_vigilar_editor_vacio` y al cambiar `video_var` en `_al_cambiar_video`):
+- `marcas`: el audio de Proyecto YA tiene `<video>.marcas.json` → botón «Retocar las palabras» (`_on_update`) y **el editor se abre solo** (`_abrir_editor_solo`, una vez por entrada).
+- `audio`: hay audio sin palabras → «Transcribir y retocar» (`_on_generate`; el editor se abre al terminar la transcripción).
+- `timeline`: no hay audio pero Resolve tiene una línea de tiempo abierta → «Traer el audio de Resolve» (`_detectar_desde_resolve`; al llegar el audio pasa a `audio`).
+- `ocupado`: GO / transcripción en curso → texto de espera, sin botón. `nada`: indicaciones (Obtener / soltar un video / GO).
