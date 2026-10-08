@@ -2669,6 +2669,14 @@
     "Actualizar a la {v}": "Update to {v}",
     "Tienes la última versión (v{v}).": "You have the latest version (v{v}).",
     "CineCaptions mira solo si hay una versión nueva (cada 10 segundos) y te lo dice al momento; tú decides cuándo instalarla.": "CineCaptions checks by itself for a new version (every 10 seconds) and tells you right away; you decide when to install it.",
-    "CineCaptions vigila solo si hay una versión nueva (cada 10 segundos) y te avisa; aquí puedes buscarla a mano y leer sus mejoras.": "CineCaptions watches for a new version by itself (every 10 seconds) and tells you; here you can search by hand and read its improvements."
+    "CineCaptions vigila solo si hay una versión nueva (cada 10 segundos) y te avisa; aquí puedes buscarla a mano y leer sus mejoras.": "CineCaptions watches for a new version by itself (every 10 seconds) and tells you; here you can search by hand and read its improvements.",
+    "Elige hasta 3 estilos de una galería y crea tu propio pack en un clic.": "Pick up to 3 styles from a gallery and create your own pack in one click.",
+    "1. Toca hasta 3 estilos que te gusten  ·  2. Ponle un nombre  ·  3. Pulsa «Crear mi pack» y aparecerá en el slider de estilos.": "1. Tap up to 3 styles you like  ·  2. Give it a name  ·  3. Press “Create my pack” and it will appear in the styles slider.",
+    "Toca para elegirlo (hasta 3). Toca otra vez para quitarlo.": "Tap to pick it (up to 3). Tap again to remove it.",
+    "Preparando las vistas…": "Preparing the previews…",
+    "Ya elegiste 3 (el máximo). Toca uno elegido para quitarlo.": "You already picked 3 (the maximum). Tap a picked one to remove it.",
+    "Aún no has elegido ninguno: toca los estilos que te gusten.": "You haven't picked any yet: tap the styles you like.",
+    "Elegidos: ": "Picked: ",
+    "Abre una galería de ejemplos con vista animada: toca hasta 3 que te gusten, ponle nombre y pulsa «Crear mi pack». Aparece en el slider, listo para usar.": "Opens a gallery of examples with an animated preview: tap up to 3 you like, name it and press “Create my pack”. It appears in the slider, ready to use."
   }
 }

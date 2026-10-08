@@ -3498,5 +3498,61 @@
   "fr": "CineCaptions surveille seul les nouvelles versions (toutes les 10 secondes) et te prévient ; ici tu peux la chercher à la main et lire ses améliorations.",
   "de": "CineCaptions achtet selbst alle 10 Sekunden auf neue Versionen und meldet sich; hier kannst du manuell suchen und die Verbesserungen lesen.",
   "it": "CineCaptions sorveglia da solo le nuove versioni (ogni 10 secondi) e ti avvisa; qui puoi cercarla a mano e leggere i miglioramenti."
+ },
+ "Elige hasta 3 estilos de una galería y crea tu propio pack en un clic.": {
+  "en": "Pick up to 3 styles from a gallery and create your own pack in one click.",
+  "pt": "Escolha até 3 estilos de uma galeria e crie seu próprio pack com um clique.",
+  "fr": "Choisis jusqu'à 3 styles dans une galerie et crée ton propre pack en un clic.",
+  "de": "Wähle bis zu 3 Stile aus einer Galerie und erstelle dein eigenes Pack mit einem Klick.",
+  "it": "Scegli fino a 3 stili da una galleria e crea il tuo pack con un clic."
+ },
+ "1. Toca hasta 3 estilos que te gusten  ·  2. Ponle un nombre  ·  3. Pulsa «Crear mi pack» y aparecerá en el slider de estilos.": {
+  "en": "1. Tap up to 3 styles you like  ·  2. Give it a name  ·  3. Press “Create my pack” and it will appear in the styles slider.",
+  "pt": "1. Toque em até 3 estilos de que goste  ·  2. Dê um nome  ·  3. Pressione «Criar meu pack» e ele aparecerá no slider de estilos.",
+  "fr": "1. Touche jusqu'à 3 styles qui te plaisent  ·  2. Donne-lui un nom  ·  3. Appuie sur « Créer mon pack » et il apparaîtra dans le slider de styles.",
+  "de": "1. Tippe bis zu 3 Stile an, die dir gefallen  ·  2. Gib ihm einen Namen  ·  3. Drücke „Mein Pack erstellen“ und es erscheint im Stil-Slider.",
+  "it": "1. Tocca fino a 3 stili che ti piacciono  ·  2. Dagli un nome  ·  3. Premi «Crea il mio pack» e apparirà nello slider degli stili."
+ },
+ "Toca para elegirlo (hasta 3). Toca otra vez para quitarlo.": {
+  "en": "Tap to pick it (up to 3). Tap again to remove it.",
+  "pt": "Toque para escolher (até 3). Toque de novo para remover.",
+  "fr": "Touche pour le choisir (jusqu'à 3). Touche encore pour le retirer.",
+  "de": "Antippen zum Auswählen (bis zu 3). Nochmal antippen zum Entfernen.",
+  "it": "Tocca per sceglierlo (fino a 3). Tocca di nuovo per toglierlo."
+ },
+ "Preparando las vistas…": {
+  "en": "Preparing the previews…",
+  "pt": "Preparando as prévias…",
+  "fr": "Préparation des aperçus…",
+  "de": "Vorschauen werden vorbereitet…",
+  "it": "Preparazione delle anteprime…"
+ },
+ "Ya elegiste 3 (el máximo). Toca uno elegido para quitarlo.": {
+  "en": "You already picked 3 (the maximum). Tap a picked one to remove it.",
+  "pt": "Você já escolheu 3 (o máximo). Toque em um escolhido para removê-lo.",
+  "fr": "Tu en as déjà choisi 3 (le maximum). Touche un style choisi pour le retirer.",
+  "de": "Du hast schon 3 gewählt (das Maximum). Tippe einen gewählten an, um ihn zu entfernen.",
+  "it": "Ne hai già scelti 3 (il massimo). Tocca uno scelto per toglierlo."
+ },
+ "Aún no has elegido ninguno: toca los estilos que te gusten.": {
+  "en": "You haven't picked any yet: tap the styles you like.",
+  "pt": "Você ainda não escolheu nenhum: toque nos estilos de que gosta.",
+  "fr": "Tu n'en as encore choisi aucun : touche les styles qui te plaisent.",
+  "de": "Du hast noch keinen gewählt: Tippe die Stile an, die dir gefallen.",
+  "it": "Non ne hai ancora scelto nessuno: tocca gli stili che ti piacciono."
+ },
+ "Elegidos: ": {
+  "en": "Picked: ",
+  "pt": "Escolhidos: ",
+  "fr": "Choisis : ",
+  "de": "Gewählt: ",
+  "it": "Scelti: "
+ },
+ "Abre una galería de ejemplos con vista animada: toca hasta 3 que te gusten, ponle nombre y pulsa «Crear mi pack». Aparece en el slider, listo para usar.": {
+  "en": "Opens a gallery of examples with an animated preview: tap up to 3 you like, name it and press “Create my pack”. It appears in the slider, ready to use.",
+  "pt": "Abre uma galeria de exemplos com prévia animada: toque em até 3 de que goste, dê um nome e pressione «Criar meu pack». Ele aparece no slider, pronto para usar.",
+  "fr": "Ouvre une galerie d'exemples avec aperçu animé : touche jusqu'à 3 styles qui te plaisent, donne-lui un nom et appuie sur « Créer mon pack ». Il apparaît dans le slider, prêt à l'emploi.",
+  "de": "Öffnet eine Galerie mit Beispielen und animierter Vorschau: Tippe bis zu 3 an, die dir gefallen, gib ihm einen Namen und drücke „Mein Pack erstellen“. Es erscheint im Slider, sofort einsatzbereit.",
+  "it": "Apre una galleria di esempi con anteprima animata: tocca fino a 3 stili che ti piacciono, dagli un nome e premi «Crea il mio pack». Appare nello slider, pronto all'uso."
  }
 }

@@ -1,23 +1,23 @@
 {
     "estable":  {
-                    "version":  "5.4.2",
-                    "notas":  "• Avisa al momento de las versiones nuevas: CineCaptions mira cada 10 segundos (en Windows y en Mac) si hay una actualización y, en cuanto sale, te lo dice con un cuadro que enseña todas sus mejoras y los botones «Actualizar ahora» / «Más tarde». Ya no hace falta ir a buscarla.\r\n• Ajustes \u003e Acerca de: «Buscar actualizaciones» ahora es un botón; arriba tiene el texto «Leer notas» con las mejoras de la versión disponible, y cuando hay una nueva el botón pasa a ser «Actualizar a la X».\r\n• Al abrir CineCaptions recién actualizado sale un cuadro de «Novedades» con TODAS las mejoras desde tu versión anterior (una sola vez).",
+                    "version":  "5.4.3",
+                    "notas":  "• Proyecto compacto: el audio (Obtener, archivo, onda y motor de voz) pasa a una sola franja arriba del slider, dentro de la tarjeta de «Pack de estilos». La pantalla ya no se desplaza hacia abajo y el slider se estira con el alto de la ventana para que resalte.\r\n• Ajustes \u003e Acerca de más limpio: estando al día solo queda el botón «Buscar actualizaciones» (sin «Leer notas» ni «Tienes la última versión»); si hay una versión nueva aparecen sus notas y el botón «Actualizar».",
                     "fecha":  "2026-10-08",
                     "archivos":  {
                                      "windows":  {
-                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.2/Instalar_CineCaptions_5.4.2.exe",
-                                                     "sha256":  "b2374a1938d86bbdd7b23362304e376659035ecc30d9085165849b66333643ca",
-                                                     "tam":  203458465
+                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.3/Instalar_CineCaptions_5.4.3.exe",
+                                                     "sha256":  "0d5014b19984ecb90e1363d053933e4b7abbb727f0743bad16ab5a5b92c60786",
+                                                     "tam":  203456715
                                                  },
                                      "mac_arm64":  {
-                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.2/CineCaptions_Mac_AppleSilicon_5.4.2.dmg",
-                                                       "sha256":  "1e990bfe5d7be74be48daf79ac7f718a669b60a87f7c712d6149cac9300615e8",
-                                                       "tam":  172415737
+                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.3/CineCaptions_Mac_AppleSilicon_5.4.3.dmg",
+                                                       "sha256":  "2e9b5caa0ca285f29538f43f096e6a2c5fe4692f4031dcb338d12079095a3e5b",
+                                                       "tam":  172412692
                                                    },
                                      "mac_x86_64":  {
-                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.2/CineCaptions_Mac_Intel_5.4.2.dmg",
-                                                        "sha256":  "8f60eb8ed109f060d90edcf965f12bfd6a3048d7b2fcc953fb4b4e48eeb80a78",
-                                                        "tam":  189185503
+                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.3/CineCaptions_Mac_Intel_5.4.3.dmg",
+                                                        "sha256":  "e2412390602f2e9dd54a1bb0f02d468f52a914900d57f4ee3e027f97d81f01df",
+                                                        "tam":  189178043
                                                     }
                                  }
                 }

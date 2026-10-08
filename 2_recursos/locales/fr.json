@@ -2669,6 +2669,14 @@
     "Actualizar a la {v}": "Mettre à jour vers la {v}",
     "Tienes la última versión (v{v}).": "Tu as la dernière version (v{v}).",
     "CineCaptions mira solo si hay una versión nueva (cada 10 segundos) y te lo dice al momento; tú decides cuándo instalarla.": "CineCaptions vérifie seul s'il y a une nouvelle version (toutes les 10 secondes) et te le dit aussitôt ; tu décides quand l'installer.",
-    "CineCaptions vigila solo si hay una versión nueva (cada 10 segundos) y te avisa; aquí puedes buscarla a mano y leer sus mejoras.": "CineCaptions surveille seul les nouvelles versions (toutes les 10 secondes) et te prévient ; ici tu peux la chercher à la main et lire ses améliorations."
+    "CineCaptions vigila solo si hay una versión nueva (cada 10 segundos) y te avisa; aquí puedes buscarla a mano y leer sus mejoras.": "CineCaptions surveille seul les nouvelles versions (toutes les 10 secondes) et te prévient ; ici tu peux la chercher à la main et lire ses améliorations.",
+    "Elige hasta 3 estilos de una galería y crea tu propio pack en un clic.": "Choisis jusqu'à 3 styles dans une galerie et crée ton propre pack en un clic.",
+    "1. Toca hasta 3 estilos que te gusten  ·  2. Ponle un nombre  ·  3. Pulsa «Crear mi pack» y aparecerá en el slider de estilos.": "1. Touche jusqu'à 3 styles qui te plaisent  ·  2. Donne-lui un nom  ·  3. Appuie sur « Créer mon pack » et il apparaîtra dans le slider de styles.",
+    "Toca para elegirlo (hasta 3). Toca otra vez para quitarlo.": "Touche pour le choisir (jusqu'à 3). Touche encore pour le retirer.",
+    "Preparando las vistas…": "Préparation des aperçus…",
+    "Ya elegiste 3 (el máximo). Toca uno elegido para quitarlo.": "Tu en as déjà choisi 3 (le maximum). Touche un style choisi pour le retirer.",
+    "Aún no has elegido ninguno: toca los estilos que te gusten.": "Tu n'en as encore choisi aucun : touche les styles qui te plaisent.",
+    "Elegidos: ": "Choisis : ",
+    "Abre una galería de ejemplos con vista animada: toca hasta 3 que te gusten, ponle nombre y pulsa «Crear mi pack». Aparece en el slider, listo para usar.": "Ouvre une galerie d'exemples avec aperçu animé : touche jusqu'à 3 styles qui te plaisent, donne-lui un nom et appuie sur « Créer mon pack ». Il apparaît dans le slider, prêt à l'emploi."
   }
 }

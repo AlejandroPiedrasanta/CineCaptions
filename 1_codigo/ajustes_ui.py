@@ -484,6 +484,10 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.4.4', [
+        'Proyecto más simple: el slider ahora muestra solo tus packs (se quitaron las tarjetas «Mis plantillas del Media Pool» y «Diseño automático») y desaparece el botón «Vista real · Resolve»: las vistas reales se piden solas cuando Resolve está abierto.',
+        '«Crea tu estilo» mucho más fácil: una sola galería con todos los estilos (sin filtros, sin botones por tarjeta, sin «Abrir en Resolve» ni «!»). Tocas hasta 3, le pones nombre y pulsas «Crear mi pack».',
+    ]),
     ('5.4.3', [
         'Proyecto compacto: el audio (Obtener, archivo, onda y motor de voz) pasa a una sola franja arriba del slider, dentro de la tarjeta de «Pack de estilos». La pantalla ya no se desplaza hacia abajo y el slider se estira con el alto de la ventana para que resalte.',
         'Ajustes > Acerca de más limpio: estando al día solo queda el botón «Buscar actualizaciones» (sin «Leer notas» ni «Tienes la última versión»); si hay una versión nueva aparecen sus notas y el botón «Actualizar».',

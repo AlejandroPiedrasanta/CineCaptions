@@ -1,5 +1,278 @@
 REGISTRO DE CAMBIOS ARCHIVADO · 2026-10 (la entrada más nueva arriba)
 
+2026-10-06 21:54  ·  v5.3.0  ·  cambio explicado
+    v5.8 — «Crea tu estilo»: las vistas de los 48 ejemplos ahora SE REPRODUCEN (7 fotogramas reales de Resolve por ejemplo —la animación de entrada y el resultado—, en bucle con fundido entre fotogramas; un reloj mueve solo las tarjetas que se ven). Cada tarjeta lleva su botón «Vista real · Resolve» que carga SOLO ese estilo en la línea de tiempo (timeline «Estilo · nombre»). vistas_guia.renderizar rehace las animaciones con avance «n de t».
+    nuevos (336):
+      + 2_recursos/guia_estilo/vistas/ej_01_0.jpg
+      + 2_recursos/guia_estilo/vistas/ej_01_1.jpg
+      + 2_recursos/guia_estilo/vistas/ej_01_2.jpg
+      + 2_recursos/guia_estilo/vistas/ej_01_3.jpg
+      + 2_recursos/guia_estilo/vistas/ej_01_4.jpg
+      + 2_recursos/guia_estilo/vistas/ej_01_5.jpg
+      + 2_recursos/guia_estilo/vistas/ej_01_6.jpg
+      + 2_recursos/guia_estilo/vistas/ej_02_0.jpg
+      + 2_recursos/guia_estilo/vistas/ej_02_1.jpg
+      + 2_recursos/guia_estilo/vistas/ej_02_2.jpg
+      + 2_recursos/guia_estilo/vistas/ej_02_3.jpg
+      + 2_recursos/guia_estilo/vistas/ej_02_4.jpg
+      + 2_recursos/guia_estilo/vistas/ej_02_5.jpg
+      + 2_recursos/guia_estilo/vistas/ej_02_6.jpg
+      + 2_recursos/guia_estilo/vistas/ej_03_0.jpg
+      + 2_recursos/guia_estilo/vistas/ej_03_1.jpg
+      + 2_recursos/guia_estilo/vistas/ej_03_2.jpg
+      + 2_recursos/guia_estilo/vistas/ej_03_3.jpg
+      + 2_recursos/guia_estilo/vistas/ej_03_4.jpg
+      + 2_recursos/guia_estilo/vistas/ej_03_5.jpg
+      + 2_recursos/guia_estilo/vistas/ej_03_6.jpg
+      + 2_recursos/guia_estilo/vistas/ej_04_0.jpg
+      + 2_recursos/guia_estilo/vistas/ej_04_1.jpg
+      + 2_recursos/guia_estilo/vistas/ej_04_2.jpg
+      + 2_recursos/guia_estilo/vistas/ej_04_3.jpg
+      + 2_recursos/guia_estilo/vistas/ej_04_4.jpg
+      + 2_recursos/guia_estilo/vistas/ej_04_5.jpg
+      + 2_recursos/guia_estilo/vistas/ej_04_6.jpg
+      + 2_recursos/guia_estilo/vistas/ej_05_0.jpg
+      + 2_recursos/guia_estilo/vistas/ej_05_1.jpg
+      + 2_recursos/guia_estilo/vistas/ej_05_2.jpg
+      + 2_recursos/guia_estilo/vistas/ej_05_3.jpg
+      + 2_recursos/guia_estilo/vistas/ej_05_4.jpg
+      + 2_recursos/guia_estilo/vistas/ej_05_5.jpg
+      + 2_recursos/guia_estilo/vistas/ej_05_6.jpg
+      + 2_recursos/guia_estilo/vistas/ej_06_0.jpg
+      + 2_recursos/guia_estilo/vistas/ej_06_1.jpg
+      + 2_recursos/guia_estilo/vistas/ej_06_2.jpg
+      + 2_recursos/guia_estilo/vistas/ej_06_3.jpg
+      + 2_recursos/guia_estilo/vistas/ej_06_4.jpg
+      + 2_recursos/guia_estilo/vistas/ej_06_5.jpg
+      + 2_recursos/guia_estilo/vistas/ej_06_6.jpg
+      + 2_recursos/guia_estilo/vistas/ej_07_0.jpg
+      + 2_recursos/guia_estilo/vistas/ej_07_1.jpg
+      + 2_recursos/guia_estilo/vistas/ej_07_2.jpg
+      + 2_recursos/guia_estilo/vistas/ej_07_3.jpg
+      + 2_recursos/guia_estilo/vistas/ej_07_4.jpg
+      + 2_recursos/guia_estilo/vistas/ej_07_5.jpg
+      + 2_recursos/guia_estilo/vistas/ej_07_6.jpg
+      + 2_recursos/guia_estilo/vistas/ej_08_0.jpg
+      + 2_recursos/guia_estilo/vistas/ej_08_1.jpg
+      + 2_recursos/guia_estilo/vistas/ej_08_2.jpg
+      + 2_recursos/guia_estilo/vistas/ej_08_3.jpg
+      + 2_recursos/guia_estilo/vistas/ej_08_4.jpg
+      + 2_recursos/guia_estilo/vistas/ej_08_5.jpg
+      + 2_recursos/guia_estilo/vistas/ej_08_6.jpg
+      + 2_recursos/guia_estilo/vistas/ej_09_0.jpg
+      + 2_recursos/guia_estilo/vistas/ej_09_1.jpg
+      + 2_recursos/guia_estilo/vistas/ej_09_2.jpg
+      + 2_recursos/guia_estilo/vistas/ej_09_3.jpg
+      + 2_recursos/guia_estilo/vistas/ej_09_4.jpg
+      + 2_recursos/guia_estilo/vistas/ej_09_5.jpg
+      + 2_recursos/guia_estilo/vistas/ej_09_6.jpg
+      + 2_recursos/guia_estilo/vistas/ej_10_0.jpg
+      + 2_recursos/guia_estilo/vistas/ej_10_1.jpg
+      + 2_recursos/guia_estilo/vistas/ej_10_2.jpg
+      + 2_recursos/guia_estilo/vistas/ej_10_3.jpg
+      + 2_recursos/guia_estilo/vistas/ej_10_4.jpg
+      + 2_recursos/guia_estilo/vistas/ej_10_5.jpg
+      + 2_recursos/guia_estilo/vistas/ej_10_6.jpg
+      + 2_recursos/guia_estilo/vistas/ej_11_0.jpg
+      + 2_recursos/guia_estilo/vistas/ej_11_1.jpg
+      + 2_recursos/guia_estilo/vistas/ej_11_2.jpg
+      + 2_recursos/guia_estilo/vistas/ej_11_3.jpg
+      + 2_recursos/guia_estilo/vistas/ej_11_4.jpg
+      + 2_recursos/guia_estilo/vistas/ej_11_5.jpg
+      + 2_recursos/guia_estilo/vistas/ej_11_6.jpg
+      + 2_recursos/guia_estilo/vistas/ej_12_0.jpg
+      + 2_recursos/guia_estilo/vistas/ej_12_1.jpg
+      + 2_recursos/guia_estilo/vistas/ej_12_2.jpg
+      … y 256 más
+    modificados (11):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/crea_estilo_ui.py
+      ~ 1_codigo/ejemplos_estilo.py
+      ~ 1_codigo/resolve_mcp.py
+      ~ 1_codigo/vistas_guia.py
+      ~ 2_recursos/guia_estilo/construir_guia.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+    quitados (48):
+      - 2_recursos/guia_estilo/vistas/ej_01.jpg
+      - 2_recursos/guia_estilo/vistas/ej_02.jpg
+      - 2_recursos/guia_estilo/vistas/ej_03.jpg
+      - 2_recursos/guia_estilo/vistas/ej_04.jpg
+      - 2_recursos/guia_estilo/vistas/ej_05.jpg
+      - 2_recursos/guia_estilo/vistas/ej_06.jpg
+      - 2_recursos/guia_estilo/vistas/ej_07.jpg
+      - 2_recursos/guia_estilo/vistas/ej_08.jpg
+      - 2_recursos/guia_estilo/vistas/ej_09.jpg
+      - 2_recursos/guia_estilo/vistas/ej_10.jpg
+      - 2_recursos/guia_estilo/vistas/ej_11.jpg
+      - 2_recursos/guia_estilo/vistas/ej_12.jpg
+      - 2_recursos/guia_estilo/vistas/ej_13.jpg
+      - 2_recursos/guia_estilo/vistas/ej_14.jpg
+      - 2_recursos/guia_estilo/vistas/ej_15.jpg
+      - 2_recursos/guia_estilo/vistas/ej_16.jpg
+      - 2_recursos/guia_estilo/vistas/ej_17.jpg
+      - 2_recursos/guia_estilo/vistas/ej_18.jpg
+      - 2_recursos/guia_estilo/vistas/ej_19.jpg
+      - 2_recursos/guia_estilo/vistas/ej_20.jpg
+      - 2_recursos/guia_estilo/vistas/ej_21.jpg
+      - 2_recursos/guia_estilo/vistas/ej_22.jpg
+      - 2_recursos/guia_estilo/vistas/ej_23.jpg
+      - 2_recursos/guia_estilo/vistas/ej_24.jpg
+      - 2_recursos/guia_estilo/vistas/ej_25.jpg
+      - 2_recursos/guia_estilo/vistas/ej_26.jpg
+      - 2_recursos/guia_estilo/vistas/ej_27.jpg
+      - 2_recursos/guia_estilo/vistas/ej_28.jpg
+      - 2_recursos/guia_estilo/vistas/ej_29.jpg
+      - 2_recursos/guia_estilo/vistas/ej_30.jpg
+      - 2_recursos/guia_estilo/vistas/ej_31.jpg
+      - 2_recursos/guia_estilo/vistas/ej_32.jpg
+      - 2_recursos/guia_estilo/vistas/ej_33.jpg
+      - 2_recursos/guia_estilo/vistas/ej_34.jpg
+      - 2_recursos/guia_estilo/vistas/ej_35.jpg
+      - 2_recursos/guia_estilo/vistas/ej_36.jpg
+      - 2_recursos/guia_estilo/vistas/ej_37.jpg
+      - 2_recursos/guia_estilo/vistas/ej_38.jpg
+      - 2_recursos/guia_estilo/vistas/ej_39.jpg
+      - 2_recursos/guia_estilo/vistas/ej_40.jpg
+      - 2_recursos/guia_estilo/vistas/ej_41.jpg
+      - 2_recursos/guia_estilo/vistas/ej_42.jpg
+      - 2_recursos/guia_estilo/vistas/ej_43.jpg
+      - 2_recursos/guia_estilo/vistas/ej_44.jpg
+      - 2_recursos/guia_estilo/vistas/ej_45.jpg
+      - 2_recursos/guia_estilo/vistas/ej_46.jpg
+      - 2_recursos/guia_estilo/vistas/ej_47.jpg
+      - 2_recursos/guia_estilo/vistas/ej_48.jpg
+
+2026-10-06 21:34  ·  v5.3.0  ·  (automático)
+    modificados (3):
+      ~ 1_codigo/crea_estilo_ui.py
+      ~ 1_codigo/ejemplos_estilo.py
+      ~ 2_recursos/guia_estilo/construir_guia.py
+
+2026-10-06 21:33  ·  v5.3.0  ·  cambio explicado
+    v5.8 — «Crea tu estilo»: 48 ejemplos (se suman 18 con un preset de Amro.Films Captions SOLO como texto principal: Highlight, Underline, Fire, Strike; arriba/abajo siguen en Luxe Slide), cada uno con su vista REAL renderizada por Resolve (vistas_guia.py, construir_guia.py modo vistas) y de fábrica en guia_estilo/vistas. Cada estilo de «Pack de estilos» lleva botón ✎ (editar en Resolve, también doble clic: edicion_pack.py + editar_pack.py importan el .drt o arman el timeline desde el .drb con los nombres exactos) y 🗑 (quitar; los packs incluidos solo se ocultan, con enlace para volver a mostrarlos).
+    nuevos (52):
+      + 1_codigo/edicion_pack.py
+      + 1_codigo/vistas_guia.py
+      + 2_recursos/guia_estilo/Amro principales.drb
+      + 2_recursos/guia_estilo/editar_pack.py
+      + 2_recursos/guia_estilo/vistas/ej_01.jpg
+      + 2_recursos/guia_estilo/vistas/ej_02.jpg
+      + 2_recursos/guia_estilo/vistas/ej_03.jpg
+      + 2_recursos/guia_estilo/vistas/ej_04.jpg
+      + 2_recursos/guia_estilo/vistas/ej_05.jpg
+      + 2_recursos/guia_estilo/vistas/ej_06.jpg
+      + 2_recursos/guia_estilo/vistas/ej_07.jpg
+      + 2_recursos/guia_estilo/vistas/ej_08.jpg
+      + 2_recursos/guia_estilo/vistas/ej_09.jpg
+      + 2_recursos/guia_estilo/vistas/ej_10.jpg
+      + 2_recursos/guia_estilo/vistas/ej_11.jpg
+      + 2_recursos/guia_estilo/vistas/ej_12.jpg
+      + 2_recursos/guia_estilo/vistas/ej_13.jpg
+      + 2_recursos/guia_estilo/vistas/ej_14.jpg
+      + 2_recursos/guia_estilo/vistas/ej_15.jpg
+      + 2_recursos/guia_estilo/vistas/ej_16.jpg
+      + 2_recursos/guia_estilo/vistas/ej_17.jpg
+      + 2_recursos/guia_estilo/vistas/ej_18.jpg
+      + 2_recursos/guia_estilo/vistas/ej_19.jpg
+      + 2_recursos/guia_estilo/vistas/ej_20.jpg
+      + 2_recursos/guia_estilo/vistas/ej_21.jpg
+      + 2_recursos/guia_estilo/vistas/ej_22.jpg
+      + 2_recursos/guia_estilo/vistas/ej_23.jpg
+      + 2_recursos/guia_estilo/vistas/ej_24.jpg
+      + 2_recursos/guia_estilo/vistas/ej_25.jpg
+      + 2_recursos/guia_estilo/vistas/ej_26.jpg
+      + 2_recursos/guia_estilo/vistas/ej_27.jpg
+      + 2_recursos/guia_estilo/vistas/ej_28.jpg
+      + 2_recursos/guia_estilo/vistas/ej_29.jpg
+      + 2_recursos/guia_estilo/vistas/ej_30.jpg
+      + 2_recursos/guia_estilo/vistas/ej_31.jpg
+      + 2_recursos/guia_estilo/vistas/ej_32.jpg
+      + 2_recursos/guia_estilo/vistas/ej_33.jpg
+      + 2_recursos/guia_estilo/vistas/ej_34.jpg
+      + 2_recursos/guia_estilo/vistas/ej_35.jpg
+      + 2_recursos/guia_estilo/vistas/ej_36.jpg
+      + 2_recursos/guia_estilo/vistas/ej_37.jpg
+      + 2_recursos/guia_estilo/vistas/ej_38.jpg
+      + 2_recursos/guia_estilo/vistas/ej_39.jpg
+      + 2_recursos/guia_estilo/vistas/ej_40.jpg
+      + 2_recursos/guia_estilo/vistas/ej_41.jpg
+      + 2_recursos/guia_estilo/vistas/ej_42.jpg
+      + 2_recursos/guia_estilo/vistas/ej_43.jpg
+      + 2_recursos/guia_estilo/vistas/ej_44.jpg
+      + 2_recursos/guia_estilo/vistas/ej_45.jpg
+      + 2_recursos/guia_estilo/vistas/ej_46.jpg
+      + 2_recursos/guia_estilo/vistas/ej_47.jpg
+      + 2_recursos/guia_estilo/vistas/ej_48.jpg
+    modificados (13):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/crea_estilo_ui.py
+      ~ 1_codigo/ejemplos_estilo.py
+      ~ 1_codigo/resolve_mcp.py
+      ~ 2_recursos/generador_packs/construir_pack.py
+      ~ 2_recursos/generador_packs/generar_comps.py
+      ~ 2_recursos/guia_estilo/construir_guia.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 3_compilar/encabezados.py
+
+2026-10-06 20:56  ·  v5.3.0  ·  cambio explicado
+    v5.8 — «Crea tu estilo» renovado: galería de 30 ejemplos con imagen (posición × tipografía × colores), crea un pack de hasta 3 variantes en un clic con macros reales Luxe Shine/Slide (cada variante con su posición: se reescribe el Tilt del .drb) y arma los 30 en Resolve para retocarlos. Botón «!» con el popup que explica los nombres principal/arriba/abajo/simple, las variantes 2 y 3 y por qué sin esa estructura no funciona. Guía de Resolve con los macros del Luxe Title Pack (Crea tu estilo.drb + construir_guia.py); ya no se insertan efectos por InsertFusionTitleIntoTimeline (un nombre inválido tumbó Resolve).
+    nuevos (3):
+      + 1_codigo/crea_estilo_ui.py
+      + 1_codigo/ejemplos_estilo.py
+      + 2_recursos/guia_estilo/construir_guia.py
+    modificados (11):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/resolve_mcp.py
+      ~ 2_recursos/generador_packs/construir_pack.py
+      ~ 2_recursos/generador_packs/luxe_macro.py
+      ~ 2_recursos/guia_estilo/Crea tu estilo.drb
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 3_compilar/encabezados.py
+    quitados (1):
+      - 2_recursos/guia_estilo/Crea tu estilo.variantes.json
+
+2026-10-06 20:14  ·  v5.3.0  ·  cambio explicado
+    v5.8 — Todo texto de los packs sale del Luxe Title Pack REAL (Shine/Slide): los clips contexto/complemento/base de «Viral · superior/inferior» y de «Crea tu estilo» eran una imitación con Text+ sueltos que solo se llamaba Luxe Slide; ahora usan el macro Luxe Slide real (luxe_macro.comp_luxe, base extraída del pack Base). Los packs llevan «revisión» (plantillas.REVISION_BIN) para que un proyecto que ya tenía el bin viejo importe el nuevo. «Generar» del editor usa un pack de verdad como GO (_asegurar_pack_luxe). SFX Lab > Reglas: tercera opción «Emojis» (emojis_sfx_ui.PanelEmojis): los ~1 400 emojis y el sonido de cada uno, editable emoji por emoji (pref sfx_emoji_sonidos). Lua verificado con fuscript (loadfile).
+    nuevos (3):
+      + 1_codigo/emojis_sfx_ui.py
+      + 2_recursos/generador_packs/luxe_slide_base.lua
+      + 2_recursos/generador_packs/luxe_slide_cabecera.txt
+    modificados (20):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/emojis_sfx.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/sfx_studio.py
+      ~ 2_recursos/generador_packs/construir_pack.py
+      ~ 2_recursos/generador_packs/luxe_macro.py
+      ~ 2_recursos/guia_estilo/Crea tu estilo.drb
+      ~ 2_recursos/guia_estilo/Crea tu estilo.variantes.json
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/plantillas_incluidas/Viral Inferior/Viral Inferior vertical.drb
+      ~ 2_recursos/plantillas_incluidas/Viral Inferior/Viral Inferior vertical.variantes.json
+      ~ 2_recursos/plantillas_incluidas/Viral Superior/Viral Superior vertical.drb
+      ~ 2_recursos/plantillas_incluidas/Viral Superior/Viral Superior vertical.variantes.json
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_Subtitulos.lua
+      ~ 3_compilar/encabezados.py
+
+
+(Lo anterior está archivado por mes en DOCUMENTACION/historial/REGISTRO_<aaaa-mm>.txt)
 2026-10-06 19:08  ·  v5.3.0  ·  (automático)
     nuevos (69):
       + 2_recursos/generador_sfx_emoji/reales/FUENTES.json

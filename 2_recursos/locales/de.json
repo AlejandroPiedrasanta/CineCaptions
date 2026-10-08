@@ -2669,6 +2669,14 @@
     "Actualizar a la {v}": "Auf {v} aktualisieren",
     "Tienes la última versión (v{v}).": "Du hast die neueste Version (v{v}).",
     "CineCaptions mira solo si hay una versión nueva (cada 10 segundos) y te lo dice al momento; tú decides cuándo instalarla.": "CineCaptions prüft selbst alle 10 Sekunden, ob es eine neue Version gibt, und sagt es dir sofort; du entscheidest, wann du sie installierst.",
-    "CineCaptions vigila solo si hay una versión nueva (cada 10 segundos) y te avisa; aquí puedes buscarla a mano y leer sus mejoras.": "CineCaptions achtet selbst alle 10 Sekunden auf neue Versionen und meldet sich; hier kannst du manuell suchen und die Verbesserungen lesen."
+    "CineCaptions vigila solo si hay una versión nueva (cada 10 segundos) y te avisa; aquí puedes buscarla a mano y leer sus mejoras.": "CineCaptions achtet selbst alle 10 Sekunden auf neue Versionen und meldet sich; hier kannst du manuell suchen und die Verbesserungen lesen.",
+    "Elige hasta 3 estilos de una galería y crea tu propio pack en un clic.": "Wähle bis zu 3 Stile aus einer Galerie und erstelle dein eigenes Pack mit einem Klick.",
+    "1. Toca hasta 3 estilos que te gusten  ·  2. Ponle un nombre  ·  3. Pulsa «Crear mi pack» y aparecerá en el slider de estilos.": "1. Tippe bis zu 3 Stile an, die dir gefallen  ·  2. Gib ihm einen Namen  ·  3. Drücke „Mein Pack erstellen“ und es erscheint im Stil-Slider.",
+    "Toca para elegirlo (hasta 3). Toca otra vez para quitarlo.": "Antippen zum Auswählen (bis zu 3). Nochmal antippen zum Entfernen.",
+    "Preparando las vistas…": "Vorschauen werden vorbereitet…",
+    "Ya elegiste 3 (el máximo). Toca uno elegido para quitarlo.": "Du hast schon 3 gewählt (das Maximum). Tippe einen gewählten an, um ihn zu entfernen.",
+    "Aún no has elegido ninguno: toca los estilos que te gusten.": "Du hast noch keinen gewählt: Tippe die Stile an, die dir gefallen.",
+    "Elegidos: ": "Gewählt: ",
+    "Abre una galería de ejemplos con vista animada: toca hasta 3 que te gusten, ponle nombre y pulsa «Crear mi pack». Aparece en el slider, listo para usar.": "Öffnet eine Galerie mit Beispielen und animierter Vorschau: Tippe bis zu 3 an, die dir gefallen, gib ihm einen Namen und drücke „Mein Pack erstellen“. Es erscheint im Slider, sofort einsatzbereit."
   }
 }

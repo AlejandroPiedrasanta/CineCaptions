@@ -1820,18 +1820,14 @@ class PlantillasWindow(QWidget):
         ch.addWidget(self.cuenta_lbl)
         ch.addStretch(1)
         ch.addWidget(Etiqueta(tr('Rueda, ← → o arrastra  ·  clic en la del centro para usarla'), 12, color=TEXT_MUTED))
-        # «Crea tu estilo»: un solo botón, a la par de «Vista real · Resolve»
+        # «Crea tu estilo»: el único botón de la cabecera (las vistas reales de Resolve se piden solas)
         self.crear_btn = Boton(tr('Crea tu estilo'), self._crear_estilo, tipo='primario', alto=32, tam=13, negrita=True)
         icono_crear = ui.icono_linea('ph.sparkle-bold', '#FFFFFF')
         if icono_crear is not None:
             self.crear_btn.setIcon(icono_crear)
             self.crear_btn.setIconSize(QSize(15, 15))
-        Tooltip(self.crear_btn, tr('Abre en Resolve un timeline ya armado con 5 variantes (arriba · principal · abajo) en sus posiciones: edita fuentes y colores a tu gusto, exporta el timeline (.drt) y súbelo aquí.'))
+        Tooltip(self.crear_btn, tr('Elige hasta 3 estilos de una galería y crea tu propio pack en un clic.'))
         ch.addWidget(self.crear_btn)
-        # v5.2: «la pestaña de estilos debe renderizar la vista previa real de los .drb»
-        self.real_btn = Boton(tr('Vista real · Resolve'), self._renderizar_reales, alto=32, tam=13)
-        Tooltip(self.real_btn, tr('DaVinci Resolve renderiza cada pack de verdad (tipografía, color, posición y animación de entrada) y aquí se ven en movimiento. Usa un timeline temporal que se borra solo.'))
-        ch.addWidget(self.real_btn)
         self.tarjeta.capa.addWidget(cab)
         self.nota_modo = Etiqueta('', 13, color=ui.AMBAR, envolver=True)
         self.nota_modo.hide()
@@ -1899,8 +1895,7 @@ class PlantillasWindow(QWidget):
     def cerrar(self):
         return None
     def _crear_estilo(self):
-        """«Crea tu estilo» (v5.8): la galería de 30 ejemplos con imagen. Se tocan hasta 3 y «Crear mi pack» arma el pack en el acto; «Abrir los 30
-        en Resolve» arma además el timeline para retocarlos allí."""
+        """«Crea tu estilo»: una galería simple de ejemplos con imagen. Se tocan hasta 3, se le pone nombre y «Crear mi pack» arma el pack en el acto."""
         import crea_estilo_ui
         actual = getattr(self, '_galeria_estilo', None)
         if actual is not None and vivo(actual):
@@ -2145,7 +2140,6 @@ class PlantillasWindow(QWidget):
                 self.cuenta_lbl.configure(text=tr('Todas las vistas reales están al día'))
             return
         self._renderizando = True
-        self.real_btn.configure(state='disabled')
         estado = {'texto': tr('Abriendo Resolve…'), 'hechos': 0, 'errores': []}
         def trabajo():
             import vistas_reales
@@ -2167,7 +2161,6 @@ class PlantillasWindow(QWidget):
             self._renderizando = False
             if not vivo(self):
                 return
-            self.real_btn.configure(state='normal')
             self._recargar(self.seleccion.get())
             if estado['errores'] and not silencioso:
                 messagebox.showwarning(tr('Vista real'), '\n'.join(estado['errores'][:4]), parent=self)
@@ -2281,8 +2274,7 @@ class PlantillasWindow(QWidget):
             if self.modo_real == 'destacados':
                 self.nota_modo.configure(text=tr('Los looks destacados (Hormozi, Gadzhi, Acumulativo y Pintado) traen su propio diseño: el pack se usa en los Dinámicos.'), text_color=ui.AMBAR)
                 self.nota_modo.show()
-            cartas = [self._carta_simple('media_pool', tr('Mis plantillas del Media Pool'), tr('Tus Text+ del Media Pool, tal cual. Manda sobre todo.')),
-                      self._carta_simple('auto', tr('Diseño automático'), tr('El pack incluido, en el formato de tu timeline.'))]
+            cartas = []                               # v5.4.4: solo packs de verdad (nada de «Media Pool» ni «Diseño automático»)
             import ajustes_ui
             ocultos = [n for n in ajustes_ui.leer_prefs().get('packs_ocultos', []) if isinstance(n, str)]
             todos = [p for p in plantillas.listar_packs()
@@ -7909,11 +7901,8 @@ class SubtitleApp(QWidget):
               tr('Cada tarjeta es un pack. Haz clic en uno para elegirlo (el resaltado es el que usas). Un pack trae hasta 3 estilos, cada uno con su línea de arriba, principal y abajo. Con el lápiz lo editas en Resolve y con la papelera lo quitas.'),
               aqui('_plantillas_ventana'), 'estilos', lado='derecha'),
             P(tr('Crea tu estilo'),
-              tr('Abre una galería de 48 ejemplos con vista real animada: elige los que te gusten y arma tu pack en un clic. El «!» de al lado explica cómo se nombran los clips (principal, arriba, abajo, 2, 3) para que tu pack funcione.'),
+              tr('Abre una galería de ejemplos con vista animada: toca hasta 3 que te gusten, ponle nombre y pulsa «Crear mi pack». Aparece en el slider, listo para usar.'),
               aqui('_plantillas_ventana', 'crear_btn'), 'estilos', lado='abajo', margen=8),
-            P(tr('Vista real · Resolve'),
-              tr('Pide a Resolve que renderice cada pack de verdad (tipografía, color, posición y animación) para que veas cómo quedará, no un dibujo aproximado.'),
-              aqui('_plantillas_ventana', 'real_btn'), 'estilos', lado='abajo', margen=8),
             P(tr('Creativo: retoca las palabras'),
               tr('Después de GO se abre aquí el editor: pinta cada palabra con su rol (Arriba, Principal, Abajo o Simple). Al tocar un texto ves qué estilo lleva y dónde cae, y puedes cambiarlo. «Generar» lo vuelve a colocar en Resolve.'),
               editor, 'editor', lado='abajo'),
@@ -9244,8 +9233,18 @@ class SubtitleApp(QWidget):
         _correr_en_hilo(self, trabajo, fin)
     def _basicos_actual(self):
         return f'{self.basicos_pack}||{self.basicos_sel}' if self.basicos_sel else ''
+    def _vistas_reales_solas(self):
+        """v5.4.4: ya no hay botón «Vista real · Resolve»: con Resolve conectado, las vistas que falten se piden solas (silencioso: no abre Resolve)."""
+        try:
+            import resolve_mcp
+            if (self._plantillas_ventana is not None and getattr(self, '_recorrido', None) is None
+                    and resolve_mcp.estado_cacheado().get('conectado')):
+                despues(1200, lambda: self._plantillas_ventana._renderizar_reales(silencioso=True), self)
+        except Exception:
+            pass
     def _asegurar_estilos(self):
         if self._plantillas_ventana is not None:
+            self._vistas_reales_solas()
             return
         cuerpo, cc = caja_h(espacio=20)
         self._plantillas_ventana = PlantillasWindow(self, seleccion=self.plantilla_sel, on_elegir=self._plantilla_elegida, on_importar=self._importar_estilos, on_importar_drt=self._importar_estilos_drt, formato=self._formato_en_juego(), diseno_actual=getattr(self, 'diseno_dinamico', None), on_diseno=self._plantilla_diseno, basicos_actual=self._basicos_actual(), on_basicos=self._plantilla_basicos, modo=self._modo(), franja=self._tarjeta_fuente)

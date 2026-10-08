@@ -3,10 +3,10 @@
 """
 Dos ventanas:
 
-  * CreaEstiloDialogo : 48 ejemplos (30 con Luxe Shine de principal y 18 con un preset de Amro.Films Captions) de posición × tipografía × colores, cada uno con su imagen
-    REAL: renderizada por Resolve (vistas_guia.py; se hace sola al abrir si Resolve está conectado, o con «Vista real · Resolve»). Se tocan hasta 3 (serán las variantes 1, 2 y 3 del
-    pack), se le pone nombre y «Crear mi pack» lo arma en el acto con los macros reales del Luxe Title Pack. «Abrir los 30 en Resolve» arma además
-    un timeline con todos (efectos Luxe Shine y Luxe Slide de verdad) para retocarlos allí. Los ejemplos y su imagen viven en ejemplos_estilo.py.
+  * CreaEstiloDialogo : 48 ejemplos (30 con Luxe Shine de principal y 18 con un preset de Amro.Films Captions) de posición × tipografía × colores, todos en UNA galería,
+    cada uno con su imagen REAL renderizada por Resolve (vistas_guia.py; se pide sola al abrir si Resolve está conectado). Se tocan hasta 3 (serán las variantes 1, 2 y 3 del
+    pack), se le pone nombre y «Crear mi pack» lo arma en el acto con los macros reales del Luxe Title Pack. Sin filtros ni botones extra (v5.4.4). Los ejemplos y su imagen
+    viven en ejemplos_estilo.py.
   * AyudaEstilo       : el popup del «!»: por qué los clips se llaman principal / arriba / abajo / simple, qué son principal 2 y principal 3,
     qué pasa si falta una pieza y cómo se exporta. Con dibujos, porque «sin esa estructura el estilo no funciona».
 """
@@ -16,7 +16,7 @@ from PySide6.QtWidgets import QFrame, QGridLayout, QSizePolicy, QVBoxLayout, QWi
 
 import ejemplos_estilo as E
 import qt_kit as ui
-from qt_kit import Boton, Desplazable, Dialogo, Entrada, Etiqueta, Segmentado, StringVar, Tooltip, caja_h, despues
+from qt_kit import Boton, Desplazable, Dialogo, Entrada, Etiqueta, Tooltip, caja_h, despues
 from qt_kit import QColor
 from i18n import tr
 
@@ -34,15 +34,13 @@ def _hoja(css):
 # ====================================================================================== la galería
 class _Tarjeta(QWidget):
     """Un ejemplo: su vista REAL de Resolve REPRODUCIÉNDOSE en bucle (la animación de entrada de verdad, con fundido entre fotogramas, y el resultado final
-    sostenido), su nombre, su posición y un botón «Vista real · Resolve» que carga SOLO ese estilo en la línea de tiempo. Tocarlo lo elige (1.º, 2.º o 3.º =
-    variante 1, 2 o 3). Sin fotogramas reales todavía, se enseña la aproximación pintada."""
+    sostenido), su nombre y su posición. Tocarlo lo elige (1.º, 2.º o 3.º = variante 1, 2 o 3). Sin fotogramas reales todavía, se enseña la aproximación pintada."""
     ANCHO = 168
     ALTO_IMAGEN = int((ANCHO - 16) * 16 / 9)
-    ALTO_BOTON = 28
     SOSTENER_MS = 1700           # el resultado final se queda a la vista antes de volver a empezar
     PAUSA_MS = 350
 
-    def __init__(self, ej, al_tocar, al_resolve=None, padre=None):
+    def __init__(self, ej, al_tocar, padre=None):
         super().__init__(padre)
         self.ej = ej
         self._al_tocar = al_tocar
@@ -50,16 +48,10 @@ class _Tarjeta(QWidget):
         self._hover = False
         self._cuadros = None            # [QPixmap] ya a su tamaño y con las esquinas redondeadas (se cargan al verse por primera vez)
         self._ms = (ej['id'] * 337) % 1600       # cada tarjeta arranca en un punto distinto: no bailan todas a la vez
-        self.setFixedSize(self.ANCHO, self.ALTO_IMAGEN + 74 + self.ALTO_BOTON + 10)
+        self.setFixedSize(self.ANCHO, self.ALTO_IMAGEN + 66)
         self.setCursor(Qt.CursorShape.PointingHandCursor)
         self.setMouseTracking(True)
-        Tooltip(self, tr('Toca para elegirlo. Los tres primeros que elijas serán las variantes 1, 2 y 3 de tu pack.'))
-        self.boton = None
-        if al_resolve is not None:
-            self.boton = Boton(tr('Vista real · Resolve'), lambda _=False, i=ej['id']: al_resolve(i), alto=self.ALTO_BOTON, tam=11)
-            self.boton.setParent(self)
-            self.boton.setGeometry(8, self.ALTO_IMAGEN + 74, self.ANCHO - 16, self.ALTO_BOTON)
-            Tooltip(self.boton, tr('Carga SOLO este estilo en la línea de tiempo de DaVinci Resolve, para verlo de verdad y retocarlo allí.'))
+        Tooltip(self, tr('Toca para elegirlo (hasta 3). Toca otra vez para quitarlo.'))
 
     # -- los fotogramas
     def recargar(self):
@@ -167,9 +159,6 @@ class _Tarjeta(QWidget):
         p.setFont(ui.fuente(11))
         p.drawText(QRectF(10, self.ALTO_IMAGEN + 36, self.width() - 20, 18), int(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter),
                    tr(E.etiqueta_posicion(self.ej)))
-        p.setFont(ui.fuente(10, True))
-        p.drawText(QRectF(10, self.ALTO_IMAGEN + 36, self.width() - 20, 18), int(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter),
-                   f"#{self.ej['id']:02d}")
         if elegido:
             p.setPen(Qt.PenStyle.NoPen)
             p.setBrush(QColor(AMARILLO))
@@ -181,15 +170,15 @@ class _Tarjeta(QWidget):
 
 
 class CreaEstiloDialogo(Dialogo):
-    """La galería de 30 ejemplos. al_crear(nombre, ids) arma el pack; al_resolve() abre los 30 en Resolve; al_ayuda() abre el popup del «!»."""
+    """«Crea tu estilo», lo más simple posible: UNA galería con todos los ejemplos (sin filtros ni botones por tarjeta), se tocan hasta 3, se le pone nombre
+    y «Crear mi pack» lo arma. al_crear(nombre, ids, terminado) arma el pack. al_resolve / al_ayuda / al_resolve_uno ya no tienen botón: se aceptan
+    solo por compatibilidad. Las vistas reales de Resolve se piden solas si Resolve está abierto."""
     COLUMNAS = 5
+    TIC_MS = 40
 
-    def __init__(self, padre, al_crear, al_resolve, al_ayuda, al_resolve_uno=None):
+    def __init__(self, padre, al_crear, al_resolve=None, al_ayuda=None, al_resolve_uno=None):
         super().__init__(padre, tr('Crea tu estilo'), 1040, 800, minimo=(960, 560))
         self._al_crear = al_crear
-        self._al_resolve = al_resolve
-        self._al_ayuda = al_ayuda
-        self._al_resolve_uno = al_resolve_uno
         self._elegidos = []
         self._tarjetas = {}
         capa = QVBoxLayout(self)
@@ -198,32 +187,12 @@ class CreaEstiloDialogo(Dialogo):
         cab, cc = caja_h(espacio=10)
         cc.addWidget(Etiqueta(tr('Crea tu estilo'), 22, peso='extra', color='#FFFFFF'))
         cc.addStretch(1)
-        ayuda = _boton_ayuda(self._al_ayuda)
-        cc.addWidget(ayuda)
-        capa.addWidget(cab)
-        capa.addWidget(Etiqueta(tr('48 ejemplos con distinta posición, tipografía y colores. Toca hasta 3 (serán las variantes 1, 2 y 3 de tu pack) y créalo en un clic, o ábrelos en Resolve para retocarlos con los efectos del Luxe Title Pack y de Amro.Films Captions.'),
-                                13, color='#B4C0D6', envolver=True))
-        # filtros
-        self._pos_ops = [tr('Todas')] + [tr(E.POSICIONES[k][0]) for k in E.ORDEN_POSICIONES]
-        self._est_ops = [tr('Todos')] + [E.etiqueta_estilo(k) for k in E.ESTILOS]
-        self._pos_var = StringVar(self._pos_ops[0])
-        self._est_var = StringVar(self._est_ops[0])
-        f1, c1 = caja_h(espacio=10)
-        c1.addWidget(Etiqueta(tr('Posición'), 12, peso='negrita', color=TEXT_MUTED))
-        c1.addWidget(Segmentado(self._pos_ops, self._pos_var, lambda _v=None: self._pintar(), alto=30, tam=12))
-        c1.addStretch(1)
         self._estado_real = Etiqueta('', 12, color=TEXT_MUTED)
-        c1.addWidget(self._estado_real)
-        self._b_real = Boton(tr('Vista real · Resolve'), self._renderizar, alto=30, tam=12)
-        Tooltip(self._b_real, tr('DaVinci Resolve vuelve a renderizar de verdad la animación de todos los ejemplos (tipografía, color, posición y los efectos Luxe y Amro) en un timeline temporal que se borra solo. Tarda unos minutos. Cada tarjeta tiene además su propio botón para cargar solo ese estilo en tu línea de tiempo.'))
-        c1.addWidget(self._b_real)
-        capa.addWidget(f1)
-        f2, c2 = caja_h(espacio=10)
-        c2.addWidget(Etiqueta(tr('Estilo'), 12, peso='negrita', color=TEXT_MUTED))
-        c2.addWidget(Segmentado(self._est_ops, self._est_var, lambda _v=None: self._pintar(), alto=30, tam=12))
-        c2.addStretch(1)
-        capa.addWidget(f2)
-        # la galería
+        cc.addWidget(self._estado_real)
+        capa.addWidget(cab)
+        capa.addWidget(Etiqueta(tr('1. Toca hasta 3 estilos que te gusten  ·  2. Ponle un nombre  ·  3. Pulsa «Crear mi pack» y aparecerá en el slider de estilos.'),
+                                13, color='#B4C0D6', envolver=True))
+        # la galería: todos los estilos juntos
         self._desp = Desplazable(margenes=(0, 4, 8, 4), espacio=0, estirar_final=False)
         self._rejilla_w = QWidget()
         self._rejilla = QGridLayout(self._rejilla_w)
@@ -232,9 +201,12 @@ class CreaEstiloDialogo(Dialogo):
         self._rejilla.setVerticalSpacing(10)
         self._desp.agregar(self._rejilla_w)
         capa.addWidget(self._desp, 1)
-        for ej in E.EJEMPLOS:
-            self._tarjetas[ej['id']] = _Tarjeta(ej, self._tocar, al_resolve_uno)
-        # abajo: lo elegido + nombre + botones
+        for k, ej in enumerate(E.EJEMPLOS):
+            t = _Tarjeta(ej, self._tocar)
+            self._tarjetas[ej['id']] = t
+            self._rejilla.addWidget(t, k // self.COLUMNAS, k % self.COLUMNAS, Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
+        self._rejilla.setColumnStretch(self.COLUMNAS, 1)
+        # abajo: lo elegido + nombre + crear
         pie = QFrame()
         pie.setObjectName('pieCreaEstilo')
         pie.setStyleSheet(_hoja('QFrame#pieCreaEstilo { background-color: #0F1A30; border: 1px solid #1E2A42; border-radius: 14px; }'))
@@ -247,96 +219,60 @@ class CreaEstiloDialogo(Dialogo):
         self._nombre = Entrada(placeholder=tr('Nombre de tu estilo'), alto=38, tam=14)
         self._nombre.setText(tr('Mi estilo'))
         cf.addWidget(self._nombre, 1)
-        self._b_resolve = Boton(tr('Abrir los 48 en Resolve'), self._abrir_resolve, alto=38, tam=13)
-        Tooltip(self._b_resolve, tr('Arma en Resolve un timeline con los 48 ejemplos hechos con los efectos Luxe Shine o Amro.Films Captions (principal) y Luxe Slide (arriba y abajo) para retocarlos. Después los nombras como pide la estructura y los exportas.'))
-        cf.addWidget(self._b_resolve)
-        self._b_crear = Boton(tr('Crear mi pack'), self._crear, tipo='primario', alto=38, tam=14, negrita=True)
+        self._b_crear = Boton(tr('Crear mi pack'), self._crear, tipo='primario', alto=38, ancho=170, tam=14, negrita=True)
         cf.addWidget(self._b_crear)
         pv.addWidget(fila)
-        pv.addWidget(Etiqueta(tr('Los packs que creas aquí ya traen los nombres bien puestos (principal, arriba, abajo, simple y sus variantes 2 y 3). Pulsa «!» para entender por qué importan.'),
-                              11, color=TEXT_MUTED, envolver=True))
         capa.addWidget(pie)
         self._renderizando = False
-        self._pintar()
+        self._poner_ordenes()
         self._resumir()
         self._reloj = QTimer(self)             # el reloj de las vistas: solo mueve las tarjetas que se ven
         self._reloj.timeout.connect(self._tic)
         self._reloj.start(self.TIC_MS)
         despues(700, self._auto_vistas, self)
 
-    TIC_MS = 40
-
     def _tic(self):
         for t in self._tarjetas.values():
             if not t.isHidden() and not t.visibleRegion().isEmpty():
                 t.avanzar(self.TIC_MS)
 
-    # -- la vista REAL de Resolve
+    # -- la vista REAL de Resolve (automática)
     def _auto_vistas(self):
         """Si falta alguna vista real y Resolve está conectado, se piden solas (sin abrir Resolve si estaba cerrado)."""
         try:
             import resolve_mcp
             import vistas_guia
             if vistas_guia.faltan() and resolve_mcp.estado_cacheado().get('conectado'):
-                self._renderizar(silencioso=True)
+                self._renderizar()
         except Exception:
             pass
 
-    def _renderizar(self, silencioso=False):
+    def _renderizar(self):
         if self._renderizando or not ui.vivo(self):
             return
         self._renderizando = True
-        self._b_real.setEnabled(False)
-        estado = {'texto': tr('Abriendo Resolve…')}
+        estado = {'texto': tr('Preparando las vistas…')}
 
         def trabajo():
             import vistas_guia
-            return vistas_guia.renderizar(al_estado=lambda t: estado.__setitem__('texto', str(t)), abrir_resolve=not silencioso)
+            return vistas_guia.renderizar(al_estado=lambda t: estado.__setitem__('texto', str(t)), abrir_resolve=False)
 
         def avance():
             if self._renderizando and ui.vivo(self):
                 self._estado_real.configure(text=estado['texto'])
                 despues(300, avance, self)
 
-        def fin(resultado, error):
+        def fin(_resultado, _error):
             self._renderizando = False
             if not ui.vivo(self):
                 return
-            self._b_real.setEnabled(True)
-            ok, dato = resultado if (resultado and not error) else (False, str(error or ''))
-            self._estado_real.configure(text=tr('Vista real al día') if ok else (tr('Sin vista real: {m}', m=str(dato)[:90]) if not silencioso else ''),
-                                        text_color=TEXT_MUTED if ok or silencioso else AMBAR)
+            self._estado_real.configure(text='')
             for t in self._tarjetas.values():
                 t.recargar()
         avance()
         ui.correr_en_hilo(self, trabajo, fin)
 
-    # -- galería
-    def _filtrados(self):
-        pos = self._pos_var.get()
-        est = self._est_var.get()
-        salida = []
-        for ej in E.EJEMPLOS:
-            if pos != self._pos_ops[0] and tr(E.POSICIONES[ej['posicion']][0]) != pos:
-                continue
-            if est != self._est_ops[0] and E.etiqueta_estilo(ej['estilo']) != est:
-                continue
-            salida.append(ej)
-        return salida
-
-    def _pintar(self):
-        while self._rejilla.count():
-            it = self._rejilla.takeAt(0)
-            w = it.widget()
-            if w is not None:
-                w.hide()
-        for k, ej in enumerate(self._filtrados()):
-            t = self._tarjetas[ej['id']]
-            self._rejilla.addWidget(t, k // self.COLUMNAS, k % self.COLUMNAS, Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
-            t.show()
-        self._rejilla.setColumnStretch(self.COLUMNAS, 1)
-        self._poner_ordenes()
-
+    # -- elegir
     def _poner_ordenes(self):
         for i, t in self._tarjetas.items():
             t.poner_orden(self._elegidos.index(i) + 1 if i in self._elegidos else 0)
@@ -347,24 +283,21 @@ class CreaEstiloDialogo(Dialogo):
         elif len(self._elegidos) < E.MAX_ELEGIDOS:
             self._elegidos.append(ident)
         else:
-            self._resumen.configure(text=tr('Ya elegiste 3 (el máximo de variantes de un pack). Toca uno elegido para quitarlo.'), text_color=AMBAR)
+            self._resumen.configure(text=tr('Ya elegiste 3 (el máximo). Toca uno elegido para quitarlo.'), text_color=AMBAR)
             return
         self._poner_ordenes()
         self._resumir()
 
     def _resumir(self):
         if not self._elegidos:
-            self._resumen.configure(text=tr('Toca los ejemplos que te gusten (hasta 3).'), text_color=TEXT_MUTED)
+            self._resumen.configure(text=tr('Aún no has elegido ninguno: toca los estilos que te gusten.'), text_color=TEXT_MUTED)
             self._b_crear.setEnabled(False)
             return
-        partes = []
-        for k, i in enumerate(self._elegidos, 1):
-            ej = E.por_id(i)
-            partes.append(f"{k} · {E.nombre_visible(ej)} ({tr(E.etiqueta_posicion(ej)).lower()})")
-        self._resumen.configure(text=tr('Variantes de tu pack: ') + '   ·   '.join(partes), text_color='#E0EBFB')
+        partes = [f"{k} · {E.nombre_visible(E.por_id(i))}" for k, i in enumerate(self._elegidos, 1)]
+        self._resumen.configure(text=tr('Elegidos: ') + '   ·   '.join(partes), text_color='#E0EBFB')
         self._b_crear.setEnabled(True)
 
-    # -- acciones
+    # -- crear
     def _crear(self):
         if not self._elegidos:
             return
@@ -381,9 +314,6 @@ class CreaEstiloDialogo(Dialogo):
         self._resumir()
         if ok:
             self.cerrar()
-
-    def _abrir_resolve(self):
-        self._al_resolve()
 
 
 def _boton_ayuda(comando):
