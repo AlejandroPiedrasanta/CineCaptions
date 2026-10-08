@@ -484,7 +484,7 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
-    ('5.4.0', [
+    ('5.4.1', [
         'Estilo nuevo «Kinetic» (títulos de gancho): una palabra HÉROE enorme con degradado, líneas pequeñas que la anuncian, cintas de color, serif cursiva, pincel, anillos y subrayados. Cada bloque entra con rebote y sale junto, sin pisar al siguiente. Elígelo en Proyecto (tarjeta «Kinetic») o en el chip «Estilo» de Inicio; con él GO decide solo qué palabra es el héroe y, en Creativo, las palabras que marques como Principal lo son.',
         'Funciona con cualquier video vertical (probado en 1080×1920 y 2160×3840), cualquier duración y cantidad de palabras, y con los sonidos de Sonido. Los demás estilos no cambian.',
         'Proyecto: «Crea tu estilo» pasa a ser un solo botón junto a «Vista real · Resolve» (se quitó la banda de abajo) y la rueda del ratón en esa pantalla mueve el slider de packs en vez de bajar la página.',

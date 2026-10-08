@@ -12,6 +12,22 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-08 10:52  ·  v5.4.0  ·  (automático)
+    modificados (22):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/estilos_inicio.py
+      ~ 1_codigo/ia_texto.py
+      ~ 1_codigo/kinetic_captions.py
+      ~ 1_codigo/kinetic_planificador.py
+      ~ 1_codigo/mcp_cinecaptions.py
+      ~ 1_codigo/orbe_mecanica.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/probar_go.py
+      ~ 1_codigo/registro_ayuda.py
+      ~ 1_codigo/resolve_mcp.py
+      … y 10 más
+
 2026-10-08 09:22  ·  v5.4.0  ·  (automático)
     modificados (3):
       ~ 1_codigo/mcp_cinecaptions.py
