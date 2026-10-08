@@ -51,6 +51,15 @@ static class Programa
         Application.EnableVisualStyles();
         Application.SetCompatibleTextRenderingDefault(false);
         Opciones op = Opciones.Leer(args);
+        // Un proceso que arranca con su carpeta de trabajo DENTRO de la carpeta del programa impide renombrarla («está siendo utilizado en otro
+        // proceso»). Pasa justo al actualizar desde el propio programa (v5.3.8): CineCaptions.exe corre con esa carpeta de trabajo (así lo dejan los accesos
+        // directos) y el instalador que lanza la hereda. Se pasa a la carpeta temporal ANTES de hacer nada; la ruta de /dir se fija a absoluta antes.
+        try
+        {
+            if (!string.IsNullOrEmpty(op.Dir)) op.Dir = Path.GetFullPath(op.Dir);
+            Directory.SetCurrentDirectory(Path.GetTempPath());
+        }
+        catch { }
         Registro.EnTemp = op.Desinstalar;          // el registro del desinstalador NO va a DaVinciSubtitles (se recrearia la carpeta que se acaba de borrar)
         try
         {
@@ -1000,11 +1009,21 @@ class Instalacion
         if (Directory.Exists(dir) && Directory.GetFileSystemEntries(dir).Length > 0)
         {
             Detalle(pCopiar, "Apartando la versión instalada", -1);
-            try { Directory.Move(dir, anterior); habiaAnterior = true; }
-            catch (Exception ex)
+            // el antivirus o un proceso que acaba de cerrarse pueden retener la carpeta unos segundos: se reintenta antes de rendirse
+            Exception ultimo = null;
+            for (int intento = 1; intento <= 12 && !habiaAnterior; intento++)
             {
-                throw new Exception("No puedo reemplazar la versión instalada (algún archivo está en uso: cierra CineCaptions y vuelve a intentarlo).\r\n" + ex.Message);
+                try { Directory.Move(dir, anterior); habiaAnterior = true; }
+                catch (Exception ex)
+                {
+                    ultimo = ex;
+                    Log("No pude apartar la versión instalada (intento " + intento + " de 12): " + ex.Message);
+                    if (intento == 4 || intento == 8) { try { CerrarPrograma(); } catch { } }
+                    Thread.Sleep(1000);
+                }
             }
+            if (!habiaAnterior)
+                throw new Exception("No puedo reemplazar la versión instalada (algún archivo está en uso: cierra CineCaptions y vuelve a intentarlo).\r\n" + (ultimo != null ? ultimo.Message : ""));
         }
         try
         {

@@ -484,6 +484,9 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.3.9', [
+        'Corregido: al actualizar desde el propio programa el instalador a veces fallaba con «algún archivo está en uso». Ahora reemplaza la versión sin problema (y reintenta si el antivirus retiene la carpeta un momento) y CineCaptions se vuelve a abrir solo.',
+    ]),
     ('5.3.7', [
         'Ajustes más limpios: se quitaron «Recibir versiones beta» y el recorrido guiado (ya no sale al abrir el programa).',
     ]),

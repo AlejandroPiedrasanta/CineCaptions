@@ -12,6 +12,43 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-07 21:37  ·  v5.3.9  ·  (automático)
+    modificados (15):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_InsertarSFX.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Puente.lua
+      … y 3 más
+
+2026-10-07 21:37  ·  v5.3.8  ·  cambio explicado
+    5.3.9: arreglo del fallo al actualizar desde el programa (el instalador heredaba la carpeta de trabajo = carpeta de instalacion y Windows no dejaba renombrarla): SetCurrentDirectory en el instalador, reintentos en CopiarPrograma, cwd en actualizaciones.instalar
+    modificados (1):
+      ~ 1_codigo/ajustes_ui.py
+
+2026-10-07 21:27  ·  v5.3.8  ·  (automático)
+    modificados (17):
+      ~ 1_codigo/actualizaciones.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_InsertarSFX.lua
+      … y 5 más
+
 2026-10-07 21:01  ·  v5.3.7  ·  (automático)
     modificados (15):
       ~ 1_codigo/version.py

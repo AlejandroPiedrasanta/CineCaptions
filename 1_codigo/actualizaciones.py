@@ -190,7 +190,9 @@ def instalar(ruta):
     ruta = str(ruta)
     try:
         if sys.platform.startswith('win'):
-            subprocess.Popen([ruta, '/empezar'], close_fds=True, creationflags=0x00000008)           # DETACHED_PROCESS: sobrevive al cierre del programa
+            # DETACHED_PROCESS: sobrevive al cierre del programa. cwd = la carpeta del propio instalador: si heredara la del programa (los accesos
+            # directos la fijan a la carpeta de instalación) Windows no dejaría renombrarla ni reemplazar la versión instalada.
+            subprocess.Popen([ruta, '/empezar'], close_fds=True, creationflags=0x00000008, cwd=os.path.dirname(ruta) or tempfile.gettempdir())
         elif sys.platform == 'darwin':
             subprocess.Popen(['open', ruta], close_fds=True)
         else:
