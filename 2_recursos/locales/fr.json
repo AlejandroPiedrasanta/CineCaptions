@@ -2601,6 +2601,8 @@
     "falta el archivo .drb del pack": "le fichier .drb du pack est introuvable",
     "{n} · títulos de gancho": "{n} · titres d'accroche",
     "Títulos de gancho": "Titres d'accroche",
-    "Estilo «{p}»: {n} bloques de títulos · {s} sonidos.": "Style «{p}» : {n} blocs de titres · {s} sons."
+    "Estilo «{p}»: {n} bloques de títulos · {s} sonidos.": "Style «{p}» : {n} blocs de titres · {s} sons.",
+    "Rueda, ← → o arrastra  ·  clic en la del centro para usarla": "Molette, ← → ou glisser  ·  clic sur celle du centre pour l'utiliser",
+    "El archivo del video ya no está donde estaba ({r}).\nResolve lo muestra como «Archivo no encontrado» y por eso no hay audio: ¿lo moviste o le cambiaste el nombre? Devuélvelo a su sitio (o suéltalo otra vez en CineCaptions) y pulsa GO.": "Le fichier vidéo n'est plus là où il était ({r}).\nResolve l'affiche comme « Fichier introuvable », d'où l'absence d'audio : l'avez-vous déplacé ou renommé ? Remettez-le en place (ou déposez-le de nouveau dans CineCaptions) et appuyez sur GO."
   }
 }

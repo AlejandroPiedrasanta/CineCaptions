@@ -715,16 +715,18 @@ class CarruselPacks(QWidget):
         self._arrancar()
         e.accept()
 
-    def wheelEvent(self, e):
+    def desplazar_con_rueda(self, e):
+        """La rueda mueve el slider de una tarjeta en una (rueda abajo / derecha = la siguiente), en cualquier dirección. Devuelve True."""
         d = e.angleDelta()
-        if abs(d.x()) <= abs(d.y()) and not (e.modifiers() & Qt.KeyboardModifier.ShiftModifier):
-            e.ignore()                                    # la rueda normal sigue desplazando la pantalla
-            return
-        paso = d.x() if abs(d.x()) >= abs(d.y()) else d.y()
+        paso = d.y() if abs(d.y()) >= abs(d.x()) else d.x()
         ahora = time.perf_counter()
         if ahora - self._ult_rueda > 0.16 and paso:
             self._ult_rueda = ahora
             self._ir_a(self._obj + (-1 if paso > 0 else 1))
+        return True
+
+    def wheelEvent(self, e):
+        self.desplazar_con_rueda(e)
         e.accept()
 
     def keyPressEvent(self, e):

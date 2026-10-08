@@ -1813,7 +1813,15 @@ class PlantillasWindow(QWidget):
         self.cuenta_lbl = Etiqueta('', 13, color=TEXT_MUTED)
         ch.addWidget(self.cuenta_lbl)
         ch.addStretch(1)
-        ch.addWidget(Etiqueta(tr('Desliza o usa ← →  ·  clic en la del centro para usarla'), 12, color=TEXT_MUTED))
+        ch.addWidget(Etiqueta(tr('Rueda, ← → o arrastra  ·  clic en la del centro para usarla'), 12, color=TEXT_MUTED))
+        # «Crea tu estilo»: un solo botón, a la par de «Vista real · Resolve»
+        self.crear_btn = Boton(tr('Crea tu estilo'), self._crear_estilo, tipo='primario', alto=32, tam=13, negrita=True)
+        icono_crear = ui.icono_linea('ph.sparkle-bold', '#FFFFFF')
+        if icono_crear is not None:
+            self.crear_btn.setIcon(icono_crear)
+            self.crear_btn.setIconSize(QSize(15, 15))
+        Tooltip(self.crear_btn, tr('Abre en Resolve un timeline ya armado con 5 variantes (arriba · principal · abajo) en sus posiciones: edita fuentes y colores a tu gusto, exporta el timeline (.drt) y súbelo aquí.'))
+        ch.addWidget(self.crear_btn)
         # v5.2: «la pestaña de estilos debe renderizar la vista previa real de los .drb»
         self.real_btn = Boton(tr('Vista real · Resolve'), self._renderizar_reales, alto=32, tam=13)
         Tooltip(self.real_btn, tr('DaVinci Resolve renderiza cada pack de verdad (tipografía, color, posición y animación de entrada) y aquí se ven en movimiento. Usa un timeline temporal que se borra solo.'))
@@ -1865,35 +1873,7 @@ class PlantillasWindow(QWidget):
         self.ocultos_lnk.hide()
         self.tarjeta.capa.addWidget(self.ocultos_lnk, 0, Qt.AlignmentFlag.AlignLeft)
         capa.addWidget(self.tarjeta)
-        capa.addWidget(self._construir_crear())          # «Crea tu estilo», justo debajo del slider
         self._recargar()
-    def _construir_crear(self):
-        """La sección «Crea tu estilo» (v5.3.6): banda con halo, el texto y los botones (los de siempre: crear, «!» y estilo desde una imagen)."""
-        import crea_estilo_ui
-        hero = estilos_slider.HeroCrear()
-        h = QHBoxLayout(hero)
-        h.setContentsMargins(112, 24, 28, 24)
-        h.setSpacing(24)
-        texto, ct = caja_v(espacio=6)
-        ct.addWidget(Etiqueta(tr('Crea tu estilo'), 24, peso='extra', color='#FFFFFF'))
-        ct.addWidget(Etiqueta(tr('¿Ninguno te convence? Elige hasta 3 de los 48 ejemplos (Luxe y Amro) y arma tu propio pack en un clic, o parte de un fotograma de un video que te guste.'), 14, color='#B9C7E0', envolver=True))
-        h.addWidget(texto, 1)
-        botones, cbt = caja_h(espacio=10)
-        self.crear_btn = Boton(tr('Crea tu estilo'), self._crear_estilo, tipo='primario', alto=46, tam=15, negrita=True)
-        icono_crear = ui.icono_linea('ph.sparkle-bold', '#FFFFFF')
-        if icono_crear is not None:
-            self.crear_btn.setIcon(icono_crear)
-            self.crear_btn.setIconSize(QSize(17, 17))
-        Tooltip(self.crear_btn, tr('Abre en Resolve un timeline ya armado con 5 variantes (arriba · principal · abajo) en sus posiciones: edita fuentes y colores a tu gusto, exporta el timeline (.drt) y súbelo aquí.'))
-        cbt.addWidget(self.crear_btn)
-        self.ayuda_estilo_btn = crea_estilo_ui.boton_ayuda(self._ayuda_estilo)       # v5.8: el «!» que explica la estructura de nombres
-        cbt.addWidget(self.ayuda_estilo_btn)
-        # v5.5: un pack nuevo a partir de un fotograma (colores, peso y posicion de sus subtitulos)
-        self.imagen_btn = Boton(tr('Estilo desde una imagen'), self._estilo_desde_imagen, alto=46, tam=14)
-        Tooltip(self.imagen_btn, tr('Elige un fotograma de un video con subtítulos que te gusten: el programa saca su color de acento, qué tan gruesas son las letras y si van arriba o abajo, y arma un pack de 3 variantes listo para usar.'))
-        cbt.addWidget(self.imagen_btn)
-        h.addWidget(botones, 0, Qt.AlignmentFlag.AlignVCenter)
-        return hero
     def actualizar(self, seleccion=None, basicos_actual=None, modo=None, formato=None, diseno_actual=None):
         """La app avisa de un cambio de modo, formato o eleccion."""
         if seleccion is not None:
@@ -1912,33 +1892,6 @@ class PlantillasWindow(QWidget):
         return vivo(self)
     def cerrar(self):
         return None
-    def _estilo_desde_imagen(self):
-        ruta = filedialog.askopenfilename(parent=self, title=tr('Elige un fotograma con subtítulos'),
-                                          filetypes=[(tr('Imágenes'), '*.png *.jpg *.jpeg *.webp *.bmp'), (tr('Todos los archivos'), '*.*')])
-        if not ruta:
-            return
-        self.imagen_btn.configure(text=tr('Analizando…'), state='disabled')
-
-        def trabajo():
-            import estilo_desde_imagen
-            return estilo_desde_imagen.crear_pack(ruta)
-
-        def fin(resultado, error):
-            if not vivo(self):
-                return
-            self.imagen_btn.configure(text=tr('Estilo desde una imagen'), state='normal')
-            if error or not resultado:
-                ui.error_con_acciones(tr('Estilo desde una imagen'), tr('No pude armar el pack: {e}', e=error or '?'), parent=self)
-                return
-            nombre, _carpeta, info = resultado
-            try:
-                self._recargar(self.seleccion.get())
-            except Exception:
-                pass
-            aviso = '' if info.get('texto_visto') else ' ' + tr('(no vi texto claro en la imagen: usé colores por defecto)')
-            import ui_toast
-            ui_toast.mostrar(self.app, tr('Pack «{n}» creado: 3 variantes, {pos}.', n=nombre, pos=tr('arriba') if info['pack'] == 'superior' else tr('abajo')) + aviso, duracion_ms=6000)
-        _correr_en_hilo(self, trabajo, fin)
     def _crear_estilo(self):
         """«Crea tu estilo» (v5.8): la galería de 30 ejemplos con imagen. Se tocan hasta 3 y «Crear mi pack» arma el pack en el acto; «Abrir los 30
         en Resolve» arma además el timeline para retocarlos allí."""
@@ -6669,6 +6622,9 @@ class SubtitleApp(QWidget):
             d = Desplazable(espacio=20, margenes=(0, 4, 12, 8), estirar_final=False)
             capa.addWidget(d, 1)
             contenido = d.capa
+            if not hasattr(self, '_desplazables'):
+                self._desplazables = {}
+            self._desplazables[clave] = d
         else:
             w = QWidget()
             contenido = QVBoxLayout(w)
@@ -7512,6 +7468,17 @@ class SubtitleApp(QWidget):
             else:
                 self._go_fallo('timeline', (tr('Resolve no entregó el audio del timeline (código {c}).', c=str(err).strip()) if str(err or '').strip().isdigit() else err) or tr('Abre DaVinci Resolve con tu timeline, o suelta un vídeo en la ventana, y pulsa GO otra vez.'))
         _correr_en_hilo(self, trabajo, fin)
+    def _sin_palabras_mensaje(self):
+        """Por qué no hay palabras. Caso típico: el archivo del video ya no está donde estaba (lo moviste o le cambiaste el nombre): Resolve lo marca
+        «Archivo no encontrado», su audio sale en silencio y no es que el video no tenga voz."""
+        try:
+            import resolve_bridge
+            ruta = str((resolve_bridge.video_detectado() or {}).get('clip_principal') or '')
+            if ruta and not Path(ruta).exists():
+                return tr('El archivo del video ya no está donde estaba ({r}).\nResolve lo muestra como «Archivo no encontrado» y por eso no hay audio: ¿lo moviste o le cambiaste el nombre? Devuélvelo a su sitio (o suéltalo otra vez en CineCaptions) y pulsa GO.', r=ruta)
+        except Exception:
+            pass
+        return tr('Whisper no devolvio palabras.\nRevisa que el video tenga audio con voz.')
     def _abortar_si_fallo_el_timeline(self):
         """GO con un video soltado: si Resolve no pudo armar el proyecto/timeline con ese video, GO se detiene con un mensaje claro. NUNCA se colocan los
         captions en el timeline que hubiera abierto (otro video, sin su sonido: así se perdía el audio y se ensuciaba el proyecto del usuario)."""
@@ -9194,6 +9161,11 @@ class SubtitleApp(QWidget):
             cc.addWidget(self._composicion_ventana, 5, Qt.AlignmentFlag.AlignTop)
         self._estilos_capa.addWidget(cuerpo)
         self._estilos_capa.addStretch(1)
+        # en Proyecto la rueda del ratón mueve el slider de packs (horizontal), no la pantalla; la barra lateral y el teclado siguen desplazándola
+        desplazable = getattr(self, '_desplazables', {}).get('estilos')
+        if desplazable is not None:
+            desplazable.rueda_a = lambda ev: self._plantillas_ventana is not None and self._plantillas_ventana.carrusel.desplazar_con_rueda(ev)
+            self._rueda_estilos = ui.RuedaHacia(desplazable.interior, desplazable.rueda_a)      # también sobre etiquetas, tarjetas y botones de la pantalla
     def _plantilla_elegida(self, valor):
         self.plantilla_sel = valor
         self._sincronizar_go_pack(valor)          # auditoría v5.11: el pack de Estilos y el chip «Estilo» de Inicio son UNA sola elección
@@ -11793,7 +11765,7 @@ class SubtitleApp(QWidget):
             else:
                 words = st.transcribe(str(media_path), source_lang, MODEL_SIZE, progress_callback=on_transcribe_progress, model_loaded_callback=on_model_loaded, status_callback=lambda t: self.msg_queue.put(('status', t)))
             if not words:
-                raise SystemExit(tr('Whisper no devolvio palabras.\nRevisa que el video tenga audio con voz.'))
+                raise SystemExit(self._sin_palabras_mensaje())
             self._abortar_si_fallo_el_timeline()          # un video soltado sin su timeline en Resolve: no se sigue (ni se gastan los minutos de la IA)
             base_lang = source_lang if source_lang != 'auto' else 'es'
             manifest = {'project': project_name, 'tracks': []}

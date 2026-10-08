@@ -596,8 +596,15 @@ def main():
         except Exception:
             return por_defecto
 
+    # el archivo del clip principal (V1): si ya no está en el disco (lo moverás o le cambiaron el nombre) Resolve lo muestra «Archivo no encontrado»
+    # y su audio sale en silencio; la app lo usa para decirlo claro en vez de «Whisper no devolvió palabras».
+    try:
+        clip_principal = video_fuente_del_timeline(timeline)[0]
+    except Exception:
+        clip_principal = None
     datos = {
         "video_path": str(ruta),
+        "clip_principal": str(clip_principal) if clip_principal else None,
         "timeline_name": timeline.GetName(),
         "project_name": project.GetName(),
         "desde_timeline": desde_timeline,

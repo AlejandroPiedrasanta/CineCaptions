@@ -2601,6 +2601,8 @@
     "falta el archivo .drb del pack": "die .drb-Datei des Packs fehlt",
     "{n} · títulos de gancho": "{n} · Hook-Titel",
     "Títulos de gancho": "Hook-Titel",
-    "Estilo «{p}»: {n} bloques de títulos · {s} sonidos.": "Stil «{p}»: {n} Titelblöcke · {s} Sounds."
+    "Estilo «{p}»: {n} bloques de títulos · {s} sonidos.": "Stil «{p}»: {n} Titelblöcke · {s} Sounds.",
+    "Rueda, ← → o arrastra  ·  clic en la del centro para usarla": "Mausrad, ← → oder ziehen  ·  Klick auf die mittlere zum Verwenden",
+    "El archivo del video ya no está donde estaba ({r}).\nResolve lo muestra como «Archivo no encontrado» y por eso no hay audio: ¿lo moviste o le cambiaste el nombre? Devuélvelo a su sitio (o suéltalo otra vez en CineCaptions) y pulsa GO.": "Die Videodatei liegt nicht mehr dort, wo sie war ({r}).\nResolve zeigt sie als „Datei nicht gefunden“ an, deshalb gibt es keinen Ton: Hast du sie verschoben oder umbenannt? Leg sie zurück (oder zieh sie erneut in CineCaptions) und drücke GO."
   }
 }

@@ -945,8 +945,12 @@ local function main()
     -- El json se arma en memoria: con io va al archivo de siempre; sin io
     -- (Free 21.1) el epilogo lo manda por el registro de Resolve y la app lo
     -- lee de ahi (resolve_bridge.video_detectado).
+    -- el archivo del clip principal (V1): si ya no esta en el disco, Resolve lo muestra «Archivo no encontrado» y su audio sale en silencio
+    local clip_principal = nil
+    pcall(function() clip_principal = video_fuente(timeline) end)
     local partes = {
         '"video_path": ' .. json_str(ruta),
+        '"clip_principal": ' .. (clip_principal and json_str(clip_principal) or "null"),
         '"timeline_name": ' .. json_str(timeline:GetName()),
         '"project_name": ' .. json_str(project:GetName()),
         '"desde_timeline": ' .. tostring(desde_timeline),

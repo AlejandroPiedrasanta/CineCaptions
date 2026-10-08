@@ -36,18 +36,18 @@ import threading
 import traceback
 from pathlib import Path
 
-from PySide6.QtCore import (QEasingCurve, QObject, QPoint, QPointF, QRect, QRectF,
+from PySide6.QtCore import (QEasingCurve, QEvent, QObject, QPoint, QPointF, QRect, QRectF,
                             QSize, QSizeF, Qt, QThread, QTimer, QVariantAnimation, Signal, Slot)
 from PySide6.QtGui import (QBrush, QFont, QFontDatabase, QFontMetricsF,
                            QCursor, QGuiApplication, QIcon, QImage, QLinearGradient, QPainter,
                            QPainterPath, QPalette, QPen, QPixmap, QRadialGradient, QRegion,
                            QStandardItem, QStandardItemModel)
 from PySide6.QtGui import QColor as QColorReal
-from PySide6.QtWidgets import (QAbstractButton, QApplication, QCheckBox, QColorDialog,
+from PySide6.QtWidgets import (QAbstractButton, QAbstractItemView, QAbstractScrollArea, QAbstractSlider, QAbstractSpinBox, QApplication, QCheckBox, QColorDialog,
                                QComboBox, QCompleter, QDialog, QFileDialog, QFrame,
                                QGraphicsOpacityEffect, QHBoxLayout, QLabel, QLayout,
                                QLineEdit, QMenu, QPlainTextEdit, QPushButton, QRadioButton,
-                               QScrollArea, QSizePolicy, QSlider, QVBoxLayout, QWidget)
+                               QScrollArea, QSizePolicy, QSlider, QTextEdit, QVBoxLayout, QWidget)
 import shiboken6
 
 from i18n import tr
@@ -1974,6 +1974,7 @@ class Desplazable(QScrollArea):
         self.setWidget(self.interior)
         self.viewport().setAutoFillBackground(False)
         self.interior.setAutoFillBackground(False)
+        self.rueda_a = None       # opcional: función(evento) -> bool; si la pantalla quiere la rueda para otra cosa (el slider de Proyecto), la toma ella
 
     def agregar(self, w, estirar=0, alineacion=None):
         pos = self.capa.count() - 1 if self._estirar else self.capa.count()
@@ -1990,6 +1991,50 @@ class Desplazable(QScrollArea):
 
     def arriba(self):
         self.verticalScrollBar().setValue(0)
+
+    def wheelEvent(self, e):
+        f = self.rueda_a
+        if f is not None:
+            try:
+                if f(e):
+                    e.accept()
+                    return
+            except Exception:
+                pass
+        super().wheelEvent(e)
+
+
+class RuedaHacia(QObject):
+    """La rueda del ratón sobre CUALQUIER widget de `zona` (y los que se añadan luego) llama a `funcion(evento)`; si devuelve True se consume y la zona no
+    se desplaza. Se instala un filtro por widget (no uno global: costaría un paso por Python por cada evento de la aplicación). Los desplegables, campos
+    numéricos, deslizadores, listas y cuadros de texto conservan su propia rueda."""
+    def __init__(self, zona, funcion):
+        super().__init__(zona)
+        self._funcion = funcion
+        self._excluidos = (QComboBox, QAbstractSpinBox, QAbstractSlider, QAbstractItemView, QTextEdit, QPlainTextEdit)
+        self._poner(zona)
+
+    def _poner(self, w):
+        w.installEventFilter(self)
+        if w.isWidgetType():
+            for h in w.findChildren(QWidget):
+                h.installEventFilter(self)
+
+    def eventFilter(self, o, e):
+        t = e.type()
+        if t == QEvent.Type.Wheel:
+            if not isinstance(o, self._excluidos):
+                try:
+                    if self._funcion(e):
+                        e.accept()
+                        return True
+                except Exception:
+                    return False
+        elif t == QEvent.Type.ChildAdded:
+            h = e.child()
+            if h is not None and h.isWidgetType():
+                self._poner(h)
+        return False
 
 
 class Menu(QMenu):
