@@ -10,7 +10,7 @@
 # Cada instalador va con su SHA-256: el programa NO instala nada cuya huella no coincida.
 # ============================================================================
 param(
-    [string]$Notas = 'Mejoras y correcciones.',
+    [string]$Notas = '',          # vacío = las mejoras de esta versión tal como están en ajustes_ui.NOTAS_VERSION (una por línea): es lo que enseña el aviso de actualización
     [string]$Repo = 'AlejandroPiedrasanta/CineCaptions-releases',
     [ValidateSet('estable', 'beta')][string]$Canal = 'estable',
     [switch]$SinSubir,
@@ -25,6 +25,11 @@ function Sondear($bloque) { $antes = $ErrorActionPreference; $ErrorActionPrefere
 $version = ([regex]::Match((Get-Content '1_codigo\version.py' -Raw), "APP_VERSION\s*=\s*'([^']+)'")).Groups[1].Value
 if (-not $version) { throw 'No pude leer APP_VERSION de 1_codigo\version.py' }
 $etiqueta = "v$version"
+if ([string]::IsNullOrWhiteSpace($Notas)) {
+    $vpy = Join-Path (Get-Location) '6_compilacion/venv314/Scripts/python.exe'
+    try { $Notas = ((& $vpy -X utf8 '3_compilar/notas_de_version.py' $version) | Out-String).Trim() } catch { $Notas = '' }
+    if ([string]::IsNullOrWhiteSpace($Notas)) { $Notas = 'Mejoras y correcciones.' }
+}
 $base = "https://github.com/$Repo/releases/download/$etiqueta"
 Paso "Version $version ($Canal)"
 

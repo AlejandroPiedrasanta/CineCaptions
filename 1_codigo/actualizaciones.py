@@ -34,6 +34,7 @@ import subprocess
 import sys
 import tempfile
 import time
+import urllib.error
 import urllib.request
 from pathlib import Path
 
@@ -41,7 +42,8 @@ from pathlib import Path
 # de instaladores (público, solo trae los instaladores; el código sigue en el repositorio privado). Se puede cambiar sin recompilar con la
 # variable CINECAPTIONS_URL_ACTUALIZACIONES o la preferencia «url_actualizaciones».
 URL_MANIFIESTO = 'https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/latest/download/version.json'
-INTERVALO_AUTO_S = 12 * 3600          # el aviso automático mira como mucho cada 12 h
+INTERVALO_AUTO_S = 10                 # el programa mira cada 10 s si hay una versión nueva (con ETag: casi siempre un «304 sin cambios», casi sin tráfico)
+INTERVALO_SIN_RED_S = 60              # tras varios fallos seguidos (sin internet) mira cada minuto, sin llenar el Registro
 
 
 def _partes(v):
@@ -102,8 +104,40 @@ def comprobar(version_local, canal_beta=False, timeout=12):
     try:
         with _abrir(url, version_local, timeout) as r:
             datos = json.loads(r.read().decode('utf-8'))
+            _CACHE.update(url=url, etag=r.headers.get('ETag'), datos=datos)
     except Exception as e:
         return {'estado': 'error', 'mensaje': str(e)}
+    return _interpretar(datos, version_local, canal_beta)
+
+
+_CACHE = {'url': None, 'etag': None, 'datos': None}
+
+
+def comprobar_ligero(version_local, canal_beta=False, timeout=8):
+    """Como comprobar(), pensado para repetirse cada pocos segundos: manda el ETag de la última respuesta y, si el manifiesto no cambió, el servidor
+    contesta 304 sin cuerpo (y se reutiliza lo ya leído)."""
+    url = url_manifiesto()
+    if not url:
+        return {'estado': 'sin_canal'}
+    cabeceras = {'User-Agent': f'CineCaptions/{version_local}'}
+    if _CACHE.get('etag') and _CACHE.get('url') == url and _CACHE.get('datos') is not None:
+        cabeceras['If-None-Match'] = _CACHE['etag']
+    try:
+        pedido = urllib.request.Request(url, headers=cabeceras)
+        with urllib.request.urlopen(pedido, timeout=timeout, context=_contexto_ssl()) as r:
+            datos = json.loads(r.read().decode('utf-8'))
+            _CACHE.update(url=url, etag=r.headers.get('ETag'), datos=datos)
+    except urllib.error.HTTPError as e:
+        if e.code == 304 and _CACHE.get('datos') is not None:
+            datos = _CACHE['datos']
+        else:
+            return {'estado': 'error', 'mensaje': f'HTTP {e.code}'}
+    except Exception as e:
+        return {'estado': 'error', 'mensaje': str(e)}
+    return _interpretar(datos, version_local, canal_beta)
+
+
+def _interpretar(datos, version_local, canal_beta=False):
     candidatos = [datos.get('estable') or {}]
     if canal_beta:
         candidatos.append(datos.get('beta') or {})

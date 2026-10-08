@@ -3379,5 +3379,124 @@
   "fr": "Essaie avec un autre fichier pour voir si le problème vient seulement de celui-ci.",
   "de": "Probiere eine andere Datei, um zu sehen, ob das Problem nur diese betrifft.",
   "it": "Prova con un altro file per vedere se il problema è solo di questo."
+ },
+ "Hay una versión nueva de CineCaptions: {v}": {
+  "en": "There is a new version of CineCaptions: {v}",
+  "pt": "Há uma nova versão do CineCaptions: {v}",
+  "fr": "Une nouvelle version de CineCaptions est disponible : {v}",
+  "de": "Es gibt eine neue Version von CineCaptions: {v}",
+  "it": "C'è una nuova versione di CineCaptions: {v}"
+ },
+ "Mejoras y correcciones.": {
+  "en": "Improvements and fixes.",
+  "pt": "Melhorias e correções.",
+  "fr": "Améliorations et corrections.",
+  "de": "Verbesserungen und Fehlerbehebungen.",
+  "it": "Miglioramenti e correzioni."
+ },
+ "Estás en la {a}. Estas son las mejoras de la {v}:": {
+  "en": "You are on {a}. These are the improvements in {v}:",
+  "pt": "Você está na {a}. Estas são as melhorias da {v}:",
+  "fr": "Tu es en {a}. Voici les améliorations de la {v} :",
+  "de": "Du bist auf {a}. Das sind die Verbesserungen in {v}:",
+  "it": "Sei alla {a}. Ecco i miglioramenti della {v}:"
+ },
+ "Actualización": {
+  "en": "Update",
+  "pt": "Atualização",
+  "fr": "Mise à jour",
+  "de": "Update",
+  "it": "Aggiornamento"
+ },
+ "Actualizar ahora": {
+  "en": "Update now",
+  "pt": "Atualizar agora",
+  "fr": "Mettre à jour maintenant",
+  "de": "Jetzt aktualisieren",
+  "it": "Aggiorna ora"
+ },
+ "Más tarde": {
+  "en": "Later",
+  "pt": "Mais tarde",
+  "fr": "Plus tard",
+  "de": "Später",
+  "it": "Più tardi"
+ },
+ "Esto trae la actualización disponible.": {
+  "en": "This is what the available update brings.",
+  "pt": "Isto é o que a atualização disponível traz.",
+  "fr": "Voici ce qu'apporte la mise à jour disponible.",
+  "de": "Das bringt das verfügbare Update.",
+  "it": "Ecco cosa porta l'aggiornamento disponibile."
+ },
+ "Mejoras de la versión {v}": {
+  "en": "Improvements in version {v}",
+  "pt": "Melhorias da versão {v}",
+  "fr": "Améliorations de la version {v}",
+  "de": "Verbesserungen in Version {v}",
+  "it": "Miglioramenti della versione {v}"
+ },
+ "CineCaptions {v} está instalado": {
+  "en": "CineCaptions {v} is installed",
+  "pt": "O CineCaptions {v} está instalado",
+  "fr": "CineCaptions {v} est installé",
+  "de": "CineCaptions {v} ist installiert",
+  "it": "CineCaptions {v} è installato"
+ },
+ "Estas son las mejoras que trae.": {
+  "en": "These are the improvements it brings.",
+  "pt": "Estas são as melhorias que traz.",
+  "fr": "Voici les améliorations qu'elle apporte.",
+  "de": "Das sind die Verbesserungen.",
+  "it": "Questi sono i miglioramenti che porta."
+ },
+ "Estas son todas las mejoras desde tu versión anterior.": {
+  "en": "These are all the improvements since your previous version.",
+  "pt": "Estas são todas as melhorias desde a sua versão anterior.",
+  "fr": "Voici toutes les améliorations depuis ta version précédente.",
+  "de": "Das sind alle Verbesserungen seit deiner vorherigen Version.",
+  "it": "Questi sono tutti i miglioramenti dalla versione precedente."
+ },
+ "Leer notas": {
+  "en": "Read notes",
+  "pt": "Ler notas",
+  "fr": "Lire les notes",
+  "de": "Notizen lesen",
+  "it": "Leggi le note"
+ },
+ "Leer notas de la {v}": {
+  "en": "Read the notes for {v}",
+  "pt": "Ler as notas da {v}",
+  "fr": "Lire les notes de la {v}",
+  "de": "Notizen zu {v} lesen",
+  "it": "Leggi le note della {v}"
+ },
+ "Actualizar a la {v}": {
+  "en": "Update to {v}",
+  "pt": "Atualizar para a {v}",
+  "fr": "Mettre à jour vers la {v}",
+  "de": "Auf {v} aktualisieren",
+  "it": "Aggiorna alla {v}"
+ },
+ "Tienes la última versión (v{v}).": {
+  "en": "You have the latest version (v{v}).",
+  "pt": "Você tem a versão mais recente (v{v}).",
+  "fr": "Tu as la dernière version (v{v}).",
+  "de": "Du hast die neueste Version (v{v}).",
+  "it": "Hai l'ultima versione (v{v})."
+ },
+ "CineCaptions mira solo si hay una versión nueva (cada 10 segundos) y te lo dice al momento; tú decides cuándo instalarla.": {
+  "en": "CineCaptions checks by itself for a new version (every 10 seconds) and tells you right away; you decide when to install it.",
+  "pt": "O CineCaptions verifica sozinho se há uma versão nova (a cada 10 segundos) e avisa na hora; você decide quando instalar.",
+  "fr": "CineCaptions vérifie seul s'il y a une nouvelle version (toutes les 10 secondes) et te le dit aussitôt ; tu décides quand l'installer.",
+  "de": "CineCaptions prüft selbst alle 10 Sekunden, ob es eine neue Version gibt, und sagt es dir sofort; du entscheidest, wann du sie installierst.",
+  "it": "CineCaptions controlla da solo se c'è una nuova versione (ogni 10 secondi) e te lo dice subito; tu decidi quando installarla."
+ },
+ "CineCaptions vigila solo si hay una versión nueva (cada 10 segundos) y te avisa; aquí puedes buscarla a mano y leer sus mejoras.": {
+  "en": "CineCaptions watches for a new version by itself (every 10 seconds) and tells you; here you can search by hand and read its improvements.",
+  "pt": "O CineCaptions vigia sozinho se há uma versão nova (a cada 10 segundos) e avisa; aqui você pode procurar manualmente e ler as melhorias.",
+  "fr": "CineCaptions surveille seul les nouvelles versions (toutes les 10 secondes) et te prévient ; ici tu peux la chercher à la main et lire ses améliorations.",
+  "de": "CineCaptions achtet selbst alle 10 Sekunden auf neue Versionen und meldet sich; hier kannst du manuell suchen und die Verbesserungen lesen.",
+  "it": "CineCaptions sorveglia da solo le nuove versioni (ogni 10 secondi) e ti avvisa; qui puoi cercarla a mano e leggere i miglioramenti."
  }
 }

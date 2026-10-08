@@ -2652,6 +2652,23 @@
     "El archivo está dañado, incompleto (una descarga cortada) o no es de verdad un video/audio aunque se llame así.": "Le fichier est endommagé, incomplet (téléchargement interrompu) ou n'est pas vraiment une vidéo/audio malgré son nom.",
     "Ábrelo en un reproductor: si no se reproduce, vuelve a descargarlo o a exportarlo.": "Ouvre-le dans un lecteur : s'il ne se lit pas, retélécharge-le ou réexporte-le.",
     "Si viene de internet o de un móvil, copia el archivo completo al disco local antes de soltarlo.": "S'il vient d'internet ou d'un téléphone, copie le fichier complet sur le disque local avant de le déposer.",
-    "Prueba con otro archivo para ver si el problema es solo de este.": "Essaie avec un autre fichier pour voir si le problème vient seulement de celui-ci."
+    "Prueba con otro archivo para ver si el problema es solo de este.": "Essaie avec un autre fichier pour voir si le problème vient seulement de celui-ci.",
+    "Hay una versión nueva de CineCaptions: {v}": "Une nouvelle version de CineCaptions est disponible : {v}",
+    "Mejoras y correcciones.": "Améliorations et corrections.",
+    "Estás en la {a}. Estas son las mejoras de la {v}:": "Tu es en {a}. Voici les améliorations de la {v} :",
+    "Actualización": "Mise à jour",
+    "Actualizar ahora": "Mettre à jour maintenant",
+    "Más tarde": "Plus tard",
+    "Esto trae la actualización disponible.": "Voici ce qu'apporte la mise à jour disponible.",
+    "Mejoras de la versión {v}": "Améliorations de la version {v}",
+    "CineCaptions {v} está instalado": "CineCaptions {v} est installé",
+    "Estas son las mejoras que trae.": "Voici les améliorations qu'elle apporte.",
+    "Estas son todas las mejoras desde tu versión anterior.": "Voici toutes les améliorations depuis ta version précédente.",
+    "Leer notas": "Lire les notes",
+    "Leer notas de la {v}": "Lire les notes de la {v}",
+    "Actualizar a la {v}": "Mettre à jour vers la {v}",
+    "Tienes la última versión (v{v}).": "Tu as la dernière version (v{v}).",
+    "CineCaptions mira solo si hay una versión nueva (cada 10 segundos) y te lo dice al momento; tú decides cuándo instalarla.": "CineCaptions vérifie seul s'il y a une nouvelle version (toutes les 10 secondes) et te le dit aussitôt ; tu décides quand l'installer.",
+    "CineCaptions vigila solo si hay una versión nueva (cada 10 segundos) y te avisa; aquí puedes buscarla a mano y leer sus mejoras.": "CineCaptions surveille seul les nouvelles versions (toutes les 10 secondes) et te prévient ; ici tu peux la chercher à la main et lire ses améliorations."
   }
 }

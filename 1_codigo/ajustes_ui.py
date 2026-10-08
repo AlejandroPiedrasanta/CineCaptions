@@ -484,6 +484,11 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.4.2', [
+        'Avisa al momento de las versiones nuevas: CineCaptions mira cada 10 segundos (en Windows y en Mac) si hay una actualización y, en cuanto sale, te lo dice con un cuadro que enseña todas sus mejoras y los botones «Actualizar ahora» / «Más tarde». Ya no hace falta ir a buscarla.',
+        'Ajustes > Acerca de: «Buscar actualizaciones» ahora es un botón; arriba tiene el texto «Leer notas» con las mejoras de la versión disponible, y cuando hay una nueva el botón pasa a ser «Actualizar a la X».',
+        'Al abrir CineCaptions recién actualizado sale un cuadro de «Novedades» con TODAS las mejoras desde tu versión anterior (una sola vez).',
+    ]),
     ('5.4.1', [
         'Estilo nuevo «Kinetic» (títulos de gancho): una palabra HÉROE enorme con degradado, líneas pequeñas que la anuncian, cintas de color, serif cursiva, pincel, anillos y subrayados. Cada bloque entra con rebote y sale junto, sin pisar al siguiente. Elígelo en Proyecto (tarjeta «Kinetic») o en el chip «Estilo» de Inicio; con él GO decide solo qué palabra es el héroe y, en Creativo, las palabras que marques como Principal lo son.',
         'Funciona con cualquier video vertical (probado en 1080×1920 y 2160×3840), cualquier duración y cantidad de palabras, y con los sonidos de Sonido. Los demás estilos no cambian.',
@@ -736,6 +741,160 @@ def mostrar_notas(app):
     DialogoNotas(app).exec()
 
 
+def lineas_de_notas(texto):
+    """Las notas que publica el manifiesto (un texto con una mejora por línea, con o sin viñeta) -> lista de líneas."""
+    salida = []
+    for l in str(texto or '').replace('\r', '').split('\n'):
+        l = l.strip().lstrip('•-–·* ').strip()
+        if l:
+            salida.append(l)
+    return salida
+
+
+def notas_desde(version_vista):
+    """[(versión, [líneas])] de lo que cambió desde `version_vista` (exclusive) hasta la instalada; sin versión previa, solo la instalada."""
+    import actualizaciones
+    actual = _version()
+    if not version_vista:                       # primera vez que se anota qué versión se ve (también al venir de una anterior a la 5.4.2): la instalada y la de antes
+        return [(v, l) for v, l in NOTAS_VERSION if not actualizaciones.es_mas_nueva(v, actual)][:2] or NOTAS_VERSION[:1]
+    return [(v, l) for v, l in NOTAS_VERSION if actualizaciones.es_mas_nueva(v, version_vista) and not actualizaciones.es_mas_nueva(v, actual)] or NOTAS_VERSION[:1]
+
+
+class DialogoNotasVersion(ui.Dialogo):
+    """Un cuadro con las mejoras (viñetas) de una o varias versiones y los botones que se le pasen: lo usan «Hay una versión nueva» (Actualizar ahora /
+    Más tarde), «Leer notas» de la versión disponible y las «Novedades» que salen al abrir CineCaptions ya actualizado. `valor` = el botón pulsado."""
+
+    def __init__(self, padre, titulo, subtitulo, secciones, botones, etiqueta=''):
+        super().__init__(padre, titulo, 720, 620, redimensionable=True, minimo=(520, 380))
+        from PySide6.QtWidgets import QScrollArea
+        self.valor = None
+        capa = QVBoxLayout(self)
+        capa.setContentsMargins(28, 24, 28, 20)
+        capa.setSpacing(14)
+        if etiqueta:
+            capa.addWidget(_etiqueta_seccion(etiqueta))
+        capa.addWidget(Etiqueta(titulo, 24, peso='extra', color='#FFFFFF', envolver=True))
+        if subtitulo:
+            capa.addWidget(Etiqueta(subtitulo, 13, color='#8D9BB5', envolver=True))
+        scroll = QScrollArea()
+        scroll.setWidgetResizable(True)
+        scroll.setFrameShape(QFrame.Shape.NoFrame)
+        scroll.setStyleSheet('QScrollArea { background: transparent; border: none; } QScrollArea > QWidget > QWidget { background: transparent; }')
+        cont = QWidget()
+        v = QVBoxLayout(cont)
+        v.setContentsMargins(0, 4, 8, 4)
+        v.setSpacing(12)
+        for version, lineas in secciones:
+            caja = QFrame()
+            caja.setObjectName('notaVersion')
+            caja.setStyleSheet(ui.traducir_hoja('QFrame#notaVersion { background: #0E1628; border: 1px solid #1E2A42; border-radius: 14px; }'))
+            cv = QVBoxLayout(caja)
+            cv.setContentsMargins(0, 14, 0, 14)
+            cv.setSpacing(12)
+            if version:
+                cab = Etiqueta(f'v{version}', 15, peso='extra', color=ui.ACCENT_CLARO)
+                cab.setContentsMargins(20, 0, 20, 0)
+                cv.addWidget(cab)
+            for linea in lineas:
+                cv.addWidget(_item_nota(tr(linea)))
+            v.addWidget(caja)
+        v.addStretch(1)
+        scroll.setWidget(cont)
+        capa.addWidget(scroll, 1)
+        pie, cp = caja_h(espacio=10)
+        cp.addStretch(1)
+        for texto, valor, tipo in botones:
+            cp.addWidget(Boton(texto, lambda _=None, val=valor: self._elegir(val), tipo=tipo, alto=42, tam=14, negrita=(tipo == 'primario')))
+        capa.addWidget(pie)
+
+    def _elegir(self, valor):
+        self.valor = valor
+        self.accept()
+
+
+def pedir_actualizacion(app, r):
+    """«Hay una versión nueva»: sus mejoras y, abajo, «Actualizar ahora» / «Más tarde». True si el usuario quiere actualizar."""
+    lineas = lineas_de_notas(r.get('notas')) or [tr('Mejoras y correcciones.')]
+    d = DialogoNotasVersion(app, tr('Hay una versión nueva: {v}', v=r.get('version')),
+                            tr('Estás en la {a}. Estas son las mejoras de la {v}:', a=_version(), v=r.get('version')),
+                            [(r.get('version'), lineas)], [(tr('Más tarde'), 'luego', 'neutro'), (tr('Actualizar ahora'), 'actualizar', 'primario')], tr('Actualización'))
+    d.exec()
+    return d.valor == 'actualizar'
+
+
+def mostrar_notas_version(app, r):
+    """«Leer notas» de la versión disponible (sin actualizar todavía)."""
+    lineas = lineas_de_notas(r.get('notas')) or [tr('Mejoras y correcciones.')]
+    d = DialogoNotasVersion(app, tr('Mejoras de la versión {v}', v=r.get('version')), tr('Esto trae la actualización disponible.'), [(r.get('version'), lineas)],
+                            [(tr('Cerrar'), 'cerrar', 'neutro')] + ([(tr('Actualizar ahora'), 'actualizar', 'primario')] if hasattr(app, '_ofrecer_actualizacion') else []), tr('Novedades'))
+    d.exec()
+    if d.valor == 'actualizar' and hasattr(app, '_ofrecer_actualizacion'):
+        app._ofrecer_actualizacion(r, confirmado=True)
+
+
+def mostrar_novedades(app, version_vista=None):
+    """Al abrir CineCaptions ya actualizado: TODAS las mejoras desde la versión que tenías."""
+    secciones = notas_desde(version_vista)
+    d = DialogoNotasVersion(app, tr('CineCaptions {v} está instalado', v=_version()),
+                            tr('Estas son las mejoras que trae.') if len(secciones) == 1 else tr('Estas son todas las mejoras desde tu versión anterior.'),
+                            secciones, [(tr('Entendido'), 'ok', 'primario')], tr('Novedades'))
+    d.exec()
+
+
+class ControlActualizacion(QWidget):
+    """El bloque «Actualizaciones» de Ajustes > Acerca de: una línea de estado, arriba del botón el texto «Leer notas» (las mejoras de la versión nueva, o las
+    de la instalada si no hay) y un botón: «Buscar actualizaciones», o «Actualizar a X» cuando el programa ya sabe que hay una versión nueva (lo vigila solo)."""
+
+    def __init__(self, app, padre=None):
+        super().__init__(padre)
+        self.app = app
+        c = QVBoxLayout(self)
+        c.setContentsMargins(0, 0, 0, 0)
+        c.setSpacing(8)
+        self.estado = Etiqueta('', 13, color=ui.TEXT_MUTED, envolver=True)
+        c.addWidget(self.estado)
+        self.leer = Enlace(tr('Leer notas'), self._leer_notas, 13, color=ui.ACCENT_CLARO, color_hover='#FFFFFF', subrayada=False, peso='negrita')
+        c.addWidget(self.leer)
+        self.buscar = Boton(tr('Buscar actualizaciones'), lambda: buscar_actualizaciones(self.app, self.estado), tipo='neutro', alto=46, tam=15)
+        c.addWidget(self.buscar)
+        self.actualizar = Boton('', self._actualizar, tipo='primario', alto=46, tam=15, negrita=True)
+        c.addWidget(self.actualizar)
+        self._reloj = QTimer(self)
+        self._reloj.setInterval(1500)
+        self._reloj.timeout.connect(self.refrescar)
+        self._reloj.start()
+        self.refrescar()
+
+    def _hay(self):
+        r = getattr(self.app, '_actualizacion', None)
+        return r if isinstance(r, dict) and r.get('version') else None
+
+    def refrescar(self):
+        r = self._hay()
+        if r:
+            self.estado.configure(text=tr('Hay una versión nueva: {v}', v=r['version']))
+            self.leer.configure(text=tr('Leer notas de la {v}', v=r['version']))
+            self.actualizar.configure(text=tr('Actualizar a la {v}', v=r['version']))
+        else:
+            if not self.estado.text().endswith('…'):                  # «Buscando actualizaciones…» se respeta mientras dura
+                self.estado.configure(text=tr('Tienes la última versión (v{v}).', v=_version()) if getattr(self.app, '_act_comprobada', False) else '')
+            self.leer.configure(text=tr('Leer notas'))
+        self.actualizar.setVisible(bool(r))
+        self.buscar.setVisible(not r)
+
+    def _leer_notas(self):
+        r = self._hay()
+        if r:
+            mostrar_notas_version(self.app, r)
+        else:
+            mostrar_notas(self.app)
+
+    def _actualizar(self):
+        r = self._hay()
+        if r and hasattr(self.app, '_ofrecer_actualizacion'):
+            self.app._ofrecer_actualizacion(r)
+
+
 def buscar_actualizaciones(app, etiqueta=None):
     import actualizaciones
     beta = False
@@ -746,6 +905,8 @@ def buscar_actualizaciones(app, etiqueta=None):
         if error is not None:
             r = {'estado': 'error', 'mensaje': str(error)}
         estado = r.get('estado')
+        if estado == 'al_dia':
+            app._act_comprobada = True
         if estado == 'nueva':
             texto = tr('Hay una versión nueva: {v}', v=r.get('version'))
             if etiqueta is not None and ui.vivo(etiqueta):
@@ -831,10 +992,9 @@ class PanelRapido(_Panel):
         cn.addWidget(Enlace(tr('Leer notas de la versión'), lambda: mostrar_notas(self.app), 13, color=ui.ACCENT_CLARO,
                             color_hover='#FFFFFF', subrayada=False, peso='negrita'))
         c.addWidget(notas)
-        self.estado_act = Etiqueta('', 13, color=ui.TEXT_MUTED)
-        c.addWidget(self.estado_act)
-        c.addWidget(Enlace(tr('Buscar actualizaciones'), lambda: buscar_actualizaciones(self.app, self.estado_act), 14,
-                           color=ui.ACCENT_CLARO, color_hover='#FFFFFF', subrayada=False, peso='negrita'))
+        self.control_act = ControlActualizacion(self.app)
+        self.estado_act = self.control_act.estado
+        c.addWidget(self.control_act)
         exp = Boton(tr('Expandir ajustes'), lambda: (self.cerrar(), al_expandir()), tipo='neutro', alto=46)
         exp.setIcon(icono('expandir', '#C9D6EC'))
         exp.setLayoutDirection(Qt.LayoutDirection.RightToLeft)
@@ -1895,15 +2055,14 @@ class VentanaAjustes(_Panel):
         # actualizaciones automáticas (v5.3.5): el aviso de Inicio y la descarga con un clic
         auto_var = BooleanVar(bool(self._borrador.get('actualizaciones_auto', True)))
         f_auto = _Fila(tr('Avisarme de las actualizaciones'),
-                       tr('CineCaptions mira solo si hay una versión nueva (como mucho cada 12 horas) y te lo dice en Inicio; tú decides cuándo instalarla.'),
+                       tr('CineCaptions mira solo si hay una versión nueva (cada 10 segundos) y te lo dice al momento; tú decides cuándo instalarla.'),
                        Interruptor('', var=auto_var, comando=lambda: self._cambio('actualizaciones_auto', bool(auto_var.get()))))
         # actualizaciones
         caja_act, ca = caja_v(espacio=8)
-        ca.addWidget(Boton(tr('Buscar actualizaciones'), lambda: buscar_actualizaciones(self.app, self.act_estado),
-                           tipo='neutro', alto=46, tam=15))
-        self.act_estado = Etiqueta('', 13, color=ui.TEXT_MUTED)
-        ca.addWidget(self.act_estado)
-        f_act = _Fila(tr('Actualizaciones'), tr('Comprueba si hay una versión más nueva de CineCaptions.'), caja_act, 380)
+        self.control_act = ControlActualizacion(self.app)
+        self.act_estado = self.control_act.estado
+        ca.addWidget(self.control_act)
+        f_act = _Fila(tr('Actualizaciones'), tr('CineCaptions vigila solo si hay una versión nueva (cada 10 segundos) y te avisa; aquí puedes buscarla a mano y leer sus mejoras.'), caja_act, 380)
         # creditos
         cred, ccr = caja_v(espacio=6)
         # v5.3.5: el logo «CINEMA PRODUCTIONS» en vez del texto (si el archivo faltara, vuelve el texto)

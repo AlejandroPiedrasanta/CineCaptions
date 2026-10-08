@@ -1,23 +1,23 @@
 {
     "estable":  {
-                    "version":  "5.4.0",
-                    "notas":  "Estilo nuevo Kinetic (titulos de gancho): palabra heroe con degradado, lineas pequenas, cintas, serif, pincel, anillos y subrayados. Eligelo en Proyecto o en el chip Estilo de Inicio. Los demas estilos no cambian.",
+                    "version":  "5.4.1",
+                    "notas":  "Estilo nuevo Kinetic (titulos de gancho). Inicio muestra el tiempo restante y el paso en curso; errores claros que dicen en que paso fallo; el audio original del video se protege en A1; titulos en el idioma que se oye; mejor legibilidad. Proyecto: boton Crea tu estilo junto a Vista real y la rueda mueve el slider.",
                     "fecha":  "2026-10-08",
                     "archivos":  {
                                      "windows":  {
-                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.0/Instalar_CineCaptions_5.4.0.exe",
-                                                     "sha256":  "bc45e1deff917d82b24a91879f5aea5780dbb14df0c086e987de1de6840c8b89",
-                                                     "tam":  203403909
+                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.1/Instalar_CineCaptions_5.4.1.exe",
+                                                     "sha256":  "9c8488d1912b9abf3c4b9864fa6f20e07bc9806411744c6cc9f2cb3403508f18",
+                                                     "tam":  203446298
                                                  },
                                      "mac_arm64":  {
-                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.0/CineCaptions_Mac_AppleSilicon_5.4.0.dmg",
-                                                       "sha256":  "5ce9806240f95e7659c915f092a2c253a1d3794fed33512e2c92640bc4338dfc",
-                                                       "tam":  172421266
+                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.1/CineCaptions_Mac_AppleSilicon_5.4.1.dmg",
+                                                       "sha256":  "5fbe6a6bd1ebb3440d613c7e1f941aeae6ee896465d8787bad37d1b4c300b1af",
+                                                       "tam":  172285576
                                                    },
                                      "mac_x86_64":  {
-                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.0/CineCaptions_Mac_Intel_5.4.0.dmg",
-                                                        "sha256":  "a4909a23f0b02ba552784d42e0e48919de467e6fde7dbfb1ced4c8620e2edad3",
-                                                        "tam":  189175627
+                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.1/CineCaptions_Mac_Intel_5.4.1.dmg",
+                                                        "sha256":  "22bcee73492fb80de0a904dcbcb8538b9ed07481b03893605b24c1d960b16ce3",
+                                                        "tam":  189187634
                                                     }
                                  }
                 }

@@ -7169,11 +7169,28 @@ class SubtitleApp(QWidget):
             except Exception:
                 pass
         _correr_en_hilo(self, trabajo, fin)
-        despues(20000, self._revisar_actualizaciones_auto, self)        # v5.3.5: ya con todo cargado, mira si hay una versión nueva (sin molestar)
+        despues(8000, self._iniciar_vigia_actualizaciones, self)        # v5.4.2: desde aquí mira cada 10 s si hay una versión nueva y avisa al momento
+        despues(5000, self._mostrar_novedades_si_toca, self)            # v5.4.2: recién actualizado, sale el cuadro con TODAS las mejoras
     # -- v5.3.5: actualizaciones automáticas (actualizaciones.py) ----------------------------------------------------------
+    def _iniciar_vigia_actualizaciones(self):
+        """v5.4.2: un reloj que cada 10 s (actualizaciones.INTERVALO_AUTO_S) pregunta por una versión nueva. Con ETag casi no gasta red; sin internet pasa a un
+        minuto y no llena el Registro. Se apaga con Ajustes > Acerca de > «Avisarme de las actualizaciones»."""
+        if getattr(self, '_reloj_actualizaciones', None) is not None:
+            return
+        import actualizaciones
+        self._act_errores = 0
+        self._comprobando_act = False
+        self._aviso_act_visto = None
+        self._reloj_actualizaciones = ui.QTimer(self)
+        self._reloj_actualizaciones.setInterval(int(actualizaciones.INTERVALO_AUTO_S * 1000))
+        self._reloj_actualizaciones.timeout.connect(self._revisar_actualizaciones_auto)
+        self._reloj_actualizaciones.start()
+        self._revisar_actualizaciones_auto()
     def _revisar_actualizaciones_auto(self, forzar=False):
-        """Una vez cada 12 h (y si el interruptor de Ajustes > Acerca de lo permite) consulta el version.json publicado; si hay una versión más nueva
-        aparece el chip «Nueva versión» en Inicio y un aviso (una sola vez por versión). Nunca instala sola: pregunta."""
+        """Un sondeo (cada 10 s desde el reloj): consulta el version.json publicado; si hay una versión más nueva aparece el chip «Nueva versión», un aviso con
+        sus mejoras y el botón «Actualizar» de Ajustes. Nunca instala sola: pregunta."""
+        if getattr(self, '_comprobando_act', False):
+            return
         try:
             import actualizaciones
             import ajustes_ui
@@ -7183,62 +7200,119 @@ class SubtitleApp(QWidget):
         if prefs.get('actualizaciones_auto', True) is False or not actualizaciones.configurado():
             return
         pendiente = prefs.get('actualizacion_pendiente')
-        if isinstance(pendiente, dict) and pendiente.get('version'):
+        if getattr(self, '_actualizacion', None) is None and isinstance(pendiente, dict) and pendiente.get('version'):
             if actualizaciones.es_mas_nueva(pendiente['version'], APP_VERSION):
                 self._actualizacion = pendiente
                 self._pintar_opciones_go()
             else:                                           # ya la instalaste: se olvida
                 ajustes_ui.guardar_prefs({'actualizacion_pendiente': None})
-        if not forzar and time.time() - float(prefs.get('actualizacion_revisada') or 0) < actualizaciones.INTERVALO_AUTO_S:
-            return
-        beta = False
+        self._comprobando_act = True
         def fin(r, error):
+            self._comprobando_act = False
             if error is not None or not isinstance(r, dict):
                 return
             if r.get('estado') == 'error':
-                registro.info('Actualizaciones: no pude consultar el canal (' + str(r.get('mensaje'))[:120] + ')', 'actualizaciones')
+                self._act_errores = getattr(self, '_act_errores', 0) + 1
+                if self._act_errores == 3:                  # sin internet: se espacia y se anota UNA vez
+                    registro.info('Actualizaciones: no pude consultar el canal (' + str(r.get('mensaje'))[:120] + '); sigo intentándolo cada minuto.', 'actualizaciones')
+                    try:
+                        self._reloj_actualizaciones.setInterval(int(actualizaciones.INTERVALO_SIN_RED_S * 1000))
+                    except Exception:
+                        pass
                 return
-            guardar = {'actualizacion_revisada': time.time()}
-            if r.get('estado') == 'nueva':
-                guardar['actualizacion_pendiente'] = {k: r.get(k) for k in ('version', 'url', 'notas', 'fecha', 'archivo')}
-            else:
-                guardar['actualizacion_pendiente'] = None
-            try:
-                ajustes_ui.guardar_prefs(guardar)
-            except Exception:
-                pass
-            if r.get('estado') == 'nueva':
-                self._actualizacion = guardar['actualizacion_pendiente']
-                self._pintar_opciones_go()
-                registro.info(f"Hay una versión nueva de CineCaptions: {r.get('version')} (la instalada es la {APP_VERSION}).", 'actualizaciones')
+            if self._act_errores:
+                self._act_errores = 0
                 try:
-                    if ajustes_ui.leer_prefs().get('actualizacion_avisada') != r.get('version'):
-                        ajustes_ui.guardar_prefs({'actualizacion_avisada': r.get('version')})
-                        import ui_toast
-                        ui_toast.mostrar(self, tr('Hay una versión nueva de CineCaptions: {v}. Pulsa «Nueva versión» en Inicio para instalarla.', v=r.get('version')), duracion_ms=9000)
+                    self._reloj_actualizaciones.setInterval(int(actualizaciones.INTERVALO_AUTO_S * 1000))
                 except Exception:
                     pass
-        correr_en_hilo(self, lambda: actualizaciones.comprobar(APP_VERSION, beta), fin)
-    def _ofrecer_actualizacion(self, r=None):
-        """«Actualizar»: pregunta, descarga con avance, comprueba la huella y lanza el instalador (que cierra y vuelve a abrir CineCaptions)."""
+            if r.get('estado') == 'nueva':
+                nueva = {k: r.get(k) for k in ('version', 'url', 'notas', 'fecha', 'archivo')}
+                cambio = (getattr(self, '_actualizacion', None) or {}).get('version') != nueva['version']
+                self._actualizacion = nueva
+                if cambio:
+                    try:
+                        ajustes_ui.guardar_prefs({'actualizacion_pendiente': nueva, 'actualizacion_revisada': time.time()})
+                    except Exception:
+                        pass
+                    self._pintar_opciones_go()
+                    registro.info(f"Hay una versión nueva de CineCaptions: {r.get('version')} (la instalada es la {APP_VERSION}).", 'actualizaciones')
+                self._avisar_actualizacion()
+            elif r.get('estado') == 'al_dia':
+                self._act_comprobada = True
+                if getattr(self, '_actualizacion', None) is not None:
+                    self._actualizacion = None
+                    try:
+                        ajustes_ui.guardar_prefs({'actualizacion_pendiente': None})
+                    except Exception:
+                        pass
+                    self._pintar_opciones_go()
+        correr_en_hilo(self, lambda: actualizaciones.comprobar_ligero(APP_VERSION, False), fin)
+    def _trabajando_ahora(self):
+        return getattr(self, '_go_corriendo', False) or getattr(self, '_editor', None) is not None or (getattr(self, 'worker', None) is not None and self.worker.is_alive())
+    def _avisar_actualizacion(self):
+        """Avisa de la versión nueva con sus mejoras, UNA vez por versión en cada sesión: «Actualizar ahora» / «Más tarde». Si GO o el editor están trabajando
+        espera al siguiente sondeo (10 s) para no interrumpirlos."""
+        r = getattr(self, '_actualizacion', None)
+        if not r or not r.get('version') or getattr(self, '_aviso_act_visto', None) == r['version'] or getattr(self, '_dlg_act_abierto', False):
+            return
+        if self._trabajando_ahora():
+            return
+        self._aviso_act_visto = r['version']
+        try:
+            import ui_toast
+            ui_toast.mostrar(self, tr('Hay una versión nueva de CineCaptions: {v}', v=r['version']), duracion_ms=6000)
+        except Exception:
+            pass
+        self._dlg_act_abierto = True
+        try:
+            import ajustes_ui
+            quiere = ajustes_ui.pedir_actualizacion(self, r)
+        except Exception:
+            registro.excepcion(origen='actualizar · aviso')
+            quiere = False
+        finally:
+            self._dlg_act_abierto = False
+        if quiere:
+            self._ofrecer_actualizacion(r, confirmado=True)
+    def _mostrar_novedades_si_toca(self):
+        """Tras instalar una versión nueva (o la primera vez que se abre una instalación): el cuadro con las mejoras de lo nuevo, una sola vez."""
+        try:
+            import ajustes_ui
+            vista = ajustes_ui.leer_prefs().get('version_vista')
+        except Exception:
+            return
+        if vista == APP_VERSION:
+            return
+        if self._trabajando_ahora() or getattr(self, '_dlg_act_abierto', False):
+            despues(15000, self._mostrar_novedades_si_toca, self)
+            return
+        try:
+            ajustes_ui.guardar_prefs({'version_vista': APP_VERSION})
+            self._dlg_act_abierto = True
+            ajustes_ui.mostrar_novedades(self, vista)
+        except Exception:
+            registro.excepcion(origen='novedades · cuadro')
+        finally:
+            self._dlg_act_abierto = False
+    def _ofrecer_actualizacion(self, r=None, confirmado=False):
+        """«Actualizar»: pregunta (con las mejoras), descarga con avance, comprueba la huella y lanza el instalador (que cierra y vuelve a abrir CineCaptions)."""
         r = r or getattr(self, '_actualizacion', None)
         if not r or not r.get('version'):
             return
-        trabajando = getattr(self, '_go_corriendo', False) or getattr(self, '_editor', None) is not None or (getattr(self, 'worker', None) is not None and self.worker.is_alive())
-        if trabajando:
+        if self._trabajando_ahora():
             messagebox.showinfo(tr('Actualización disponible'), tr('Termina lo que estás haciendo (GO o el editor) y vuelve a pulsar «Nueva versión»: la actualización cierra CineCaptions.'), parent=self)
             return
-        notas = ('\n\n' + r['notas']) if r.get('notas') else ''
         archivo = r.get('archivo')
         if not archivo:
+            notas = ('\n\n' + r['notas']) if r.get('notas') else ''
             if messagebox.askyesno(tr('Actualización disponible'), tr('Hay una versión nueva: {v}', v=r['version']) + notas + '\n\n' + tr('¿Abrir la descarga?'), parent=self) and r.get('url'):
                 webbrowser.open(r['url'])
             return
-        mb = f" ({int(archivo['tam'] / 1048576)} MB)" if archivo.get('tam') else ''
-        if not messagebox.askyesno(tr('Actualización disponible'), tr('CineCaptions {v} está listo{mb}.', v=r['version'], mb=mb) + notas + '\n\n' +
-                                   tr('Se descarga, se comprueba que sea auténtica y se instala. CineCaptions se cierra y se vuelve a abrir solo. Tus proyectos, licencia y ajustes no se tocan.') + '\n\n' +
-                                   tr('¿Actualizar ahora?'), parent=self):
-            return
+        if not confirmado:
+            import ajustes_ui
+            if not ajustes_ui.pedir_actualizacion(self, r):
+                return
         self._descargar_actualizacion(r)
     def _descargar_actualizacion(self, r):
         import actualizaciones
