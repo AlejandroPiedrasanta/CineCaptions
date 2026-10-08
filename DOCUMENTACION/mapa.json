@@ -67,20 +67,65 @@
   {
    "id": "pantalla-estilos",
    "grupo": "estilos",
-   "tema": "Pantalla Estilos / packs",
+   "tema": "Pantalla Proyecto: audio, slider de estilos y «Crea tu estilo»",
    "claves": [
+    "PlantillasWindow",
+    "carrusel",
     "estilos",
     "packs",
     "pantalla",
-    "PlantillasWindow"
+    "proyecto",
+    "slider",
+    "tipografias"
    ],
    "archivos": [],
    "simbolos": [
     "PlantillasWindow",
     "_asegurar_estilos",
-    "_fila_pack"
+    "_recargar",
+    "_carta_pack",
+    "_carta_simple",
+    "_pintar_info",
+    "_construir_crear",
+    "_pagina_estilos"
    ],
    "resumen": "PlantillasWindow: _asegurar_estilos, _fila_pack"
+  },
+  {
+   "id": "estilos-slider",
+   "grupo": "estilos",
+   "tema": "Slider horizontal de «Pack de estilos» (tarjetas verticales sobre fotos)",
+   "claves": [
+    "slider",
+    "carrusel",
+    "tarjeta",
+    "vertical",
+    "foto",
+    "fondo",
+    "coverflow",
+    "captions",
+    "vista",
+    "real",
+    "hero",
+    "crea"
+   ],
+   "archivos": [
+    "1_codigo/estilos_slider.py",
+    "2_recursos/fondos_estilos/fondo_01.jpg",
+    "1_codigo/qt_kit.py"
+   ],
+   "simbolos": [
+    "CarruselPacks",
+    "Carta",
+    "HeroCrear",
+    "fotos",
+    "_pintar_cuerpo",
+    "_pixmap_estatico",
+    "_dibujar_captions",
+    "MarcoVista",
+    "_pintar_contenido"
+   ],
+   "resumen": "estilos_slider.py (CarruselPacks, Carta, HeroCrear) + fondos_estilos/*.jpg; lo arma PlantillasWindow._recargar"
   },
   {
    "id": "go-inicio",

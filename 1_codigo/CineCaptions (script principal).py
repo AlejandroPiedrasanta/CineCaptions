@@ -58,6 +58,7 @@ from PySide6.QtWidgets import (QAbstractButton, QApplication, QFrame, QGridLayou
                                QLabel, QLayout, QLineEdit, QListWidget, QListWidgetItem,
                                QScrollArea, QSizePolicy, QVBoxLayout, QWidget)
 import qt_kit as ui
+import estilos_slider
 from qt_kit import (BarraProgreso, BooleanVar, Boton, BotonNav, Casilla, Chip, Combo,
                     ComboBuscable, Deslizador, DeslizadorValores, Desplazable, Dialogo,
                     Enlace, Entrada, Etiqueta, IconoEstado, Interruptor, MarcoVista, Menu,
@@ -1714,43 +1715,6 @@ def _sangria(widget, extra=PAD_SANGRIA - PAD_MD):
     """El padx=PAD_SANGRIA de la v4: lo de dentro de una tarjeta, corrido."""
     widget.setContentsMargins(extra, 0, 0, 0)
     return widget
-class _TileAnadir(QFrame):
-    """El mosaico punteado «Añadir plantilla (.drb)»."""
-    def __init__(self, comando):
-        super().__init__()
-        self._comando = comando
-        self._hover = False
-        self.setCursor(Qt.CursorShape.PointingHandCursor)
-        self.setMinimumHeight(232)
-        capa = QVBoxLayout(self)
-        capa.setContentsMargins(16, 16, 16, 16)
-        capa.addStretch(1)
-        mas = Etiqueta('+', 34, color=ui.ACCENT_CLARO, alineacion=Qt.AlignmentFlag.AlignCenter, peso='medio')
-        capa.addWidget(mas)
-        capa.addWidget(Etiqueta(tr('Añadir plantilla (.drb)'), 14, peso='medio', alineacion=Qt.AlignmentFlag.AlignCenter))
-        capa.addWidget(Etiqueta(tr('En Resolve: clic derecho sobre el bin > Exportar bandeja…'), 12, color=TEXT_MUTED, envolver=True, alineacion=Qt.AlignmentFlag.AlignCenter))
-        capa.addStretch(1)
-    def enterEvent(self, e):
-        self._hover = True
-        self.update()
-        super().enterEvent(e)
-    def leaveEvent(self, e):
-        self._hover = False
-        self.update()
-        super().leaveEvent(e)
-    def mousePressEvent(self, e):
-        if e.button() == Qt.MouseButton.LeftButton and self.isEnabled():
-            self._comando()
-    def paintEvent(self, e):
-        super().paintEvent(e)
-        p = QPainter(self)
-        p.setRenderHint(QPainter.RenderHint.Antialiasing)
-        pen = QPen(QColor(ui.ACCENT_CLARO if self._hover else '#2A3A58'), 1.6)
-        pen.setStyle(Qt.PenStyle.CustomDashLine)
-        pen.setDashPattern([5, 4])
-        p.setPen(pen)
-        p.drawRoundedRect(QRectF(self.rect()).adjusted(1, 1, -1, -1), 12, 12)
-        p.end()
 class _EstructuraPack(QWidget):
     """La estructura de un pack de un vistazo: arriba · principal · abajo · imagen (cada uno con el color de su rol) y
     cuantas variantes trae. Un bloque que el pack no trae sale hueco y apagado."""
@@ -1793,112 +1757,6 @@ class _EstructuraPack(QWidget):
             p.drawText(QRectF(self.width() - fm.horizontalAdvance(texto) - 6, 0, fm.horizontalAdvance(texto) + 6, self.height()),
                        int(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignRight), texto)
         p.end()
-class _TilePack(QFrame):
-    """Un pack en la cuadricula: vista previa (miniatura real o aprox.),
-    nombre, formatos, estado de sus tipografias y menu ⋯."""
-    def __init__(self, ventana, valor, titulo, lineas=None, miniatura=None, formatos=None,
-                 estado=None, color_estado=None, menu=None, nota=None, aviso=None, real=None, estructura=None, acciones=None):
-        super().__init__()
-        self.setObjectName('mosaico')
-        self.setProperty('clicable', True)
-        self.setCursor(Qt.CursorShape.PointingHandCursor)
-        self._v = ventana
-        self.valor = valor
-        capa = QVBoxLayout(self)
-        capa.setContentsMargins(10, 10, 10, 12)
-        capa.setSpacing(8)
-        vista_real = None
-        if real and real[0]:
-            # v5.2: el render REAL del pack (Resolve, vistas_reales), animado
-            import efectos_ui
-            vista_real = efectos_ui.VistaRealAnimada(real[0], real[1])
-            if vista_real.vacia():
-                vista_real = None
-        if vista_real is not None:
-            capa.addWidget(vista_real)
-        elif miniatura is not None:
-            img = QLabel()
-            img.setAlignment(Qt.AlignmentFlag.AlignCenter)
-            img.setMinimumHeight(118)
-            img.setPixmap(miniatura)
-            img.setStyleSheet(ui.traducir_hoja('QLabel { background-color: #05080F; border-radius: 8px; }'))
-            capa.addWidget(img)
-        else:
-            vista = MarcoVista(alto_min=118)
-            vista.setFixedHeight(122)
-            vista.poner(lineas or [])
-            vista.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, True)
-            capa.addWidget(vista)
-            self._vista_animable = vista
-        fila, cf = caja_h(espacio=6, margenes=(4, 0, 0, 0))
-        nombre = Etiqueta(titulo, 14, peso='medio')
-        nombre.setToolTip(titulo)
-        cf.addWidget(nombre, 1)
-        if aviso:
-            marca = Etiqueta('⚠', 13, color=ui.AMBAR)
-            marca.setToolTip(aviso)
-            cf.addWidget(marca)
-        self._doble = None
-        for icono, glifo, ayuda, fn in (acciones or []):         # v5.8: ✎ editar en Resolve y 🗑 quitar, a la vista en cada estilo
-            ic = ui.icono_linea(icono, '#C9D6EC')
-            b = Boton('' if ic is not None else glifo, lambda _=False, f=fn: f(), tipo='fantasma', alto=26, ancho=30, tam=13, icono=ic)
-            b.setFixedWidth(32)
-            Tooltip(b, ayuda)
-            cf.addWidget(b)
-            if icono == 'ph.pencil-simple-bold':
-                self._doble = fn
-        if menu:
-            boton = Boton('⋯', lambda m=menu: self._menu(m), tipo='fantasma', alto=24, ancho=28, tam=15)
-            boton.setFixedWidth(30)
-            cf.addWidget(boton)
-        capa.addWidget(fila)
-        if nota:
-            capa.addWidget(_sangria(Etiqueta(f'«{nota}»', 12, color=TEXT_MUTED, envolver=True), 4))
-        abajo, ca = caja_h(espacio=6, margenes=(4, 0, 2, 0))
-        if formatos:
-            ca.addWidget(Chip(formatos, ui.ACCENT_CLARO, alto=24, tam=12))
-        ca.addStretch(1)
-        if estado:
-            ca.addWidget(Etiqueta(estado, 12, color=color_estado or ui.VERDE))
-        capa.addWidget(abajo)
-        if estructura:
-            capa.addWidget(_EstructuraPack(estructura))
-        self.extra = QVBoxLayout()
-        self.extra.setContentsMargins(4, 0, 4, 0)
-        capa.addLayout(self.extra)
-    def _menu(self, opciones):
-        menu = Menu(self)
-        for texto, fn in opciones:
-            menu.agregar(texto, fn)
-        menu.mostrar(QCursor.pos())
-    def poner_elegida(self, si):
-        if self.property('elegida') != bool(si):
-            self.setProperty('elegida', bool(si))
-            ui.repulir(self)
-    def mousePressEvent(self, e):
-        if e.button() == Qt.MouseButton.LeftButton and self.isEnabled():
-            self._v._elegir(self.valor)
-            e.accept()
-            return
-        super().mousePressEvent(e)
-    def mouseDoubleClickEvent(self, e):
-        # doble clic = abrir el timeline de ese estilo en Resolve para editarlo (el clic simple lo elige)
-        if e.button() == Qt.MouseButton.LeftButton and self._doble is not None and self.isEnabled():
-            self._doble()
-            e.accept()
-            return
-        super().mouseDoubleClickEvent(e)
-    def enterEvent(self, e):
-        # v5.5: al pasar el mouse la vista previa se anima (entrada de cada linea, como la coloca Resolve)
-        v = getattr(self, '_vista_animable', None)
-        if v is not None:
-            v.animar_bucle(True)
-        super().enterEvent(e)
-    def leaveEvent(self, e):
-        v = getattr(self, '_vista_animable', None)
-        if v is not None:
-            v.animar_bucle(False)
-        super().leaveEvent(e)
 class PlantillasWindow(QWidget):
     """Elegir el diseño de los subtitulos. DOS vistas, una por MODO
     (v1.0.70, pedido literal: «las nuevas plantillas solo deben ser
@@ -1943,73 +1801,99 @@ class PlantillasWindow(QWidget):
         self._tarjetas = {}
         self._fuentes_cache = {}
         self._envolver = []
-        self._cols = self._columnas()
-        try:
-            self.app.installEventFilter(self)
-        except Exception:
-            pass
+        import estilos_slider
         capa = QVBoxLayout(self)
         capa.setContentsMargins(0, 0, 0, 0)
-        capa.setSpacing(20)
-        self.tarjeta = Tarjeta(espacio=14)
+        capa.setSpacing(22)
+        # v5.3.6: «Pack de estilos» = un slider horizontal de tarjetas VERTICALES sobre fotos de video (estilos_slider) y, debajo, el panel del
+        # estilo que está al centro. Sin filtro de formato (las vistas son siempre verticales) y sin la tarjeta de tipografías.
+        self.tarjeta = Tarjeta(espacio=16)
         cab, ch = caja_h(espacio=12)
-        ch.addWidget(Etiqueta(tr('Pack de estilos'), 16, peso='medio', color='#FFFFFF'))
-        ch.addStretch(1)
+        ch.addWidget(Etiqueta(tr('Pack de estilos'), 18, peso='medio', color='#FFFFFF'))
         self.cuenta_lbl = Etiqueta('', 13, color=TEXT_MUTED)
         ch.addWidget(self.cuenta_lbl)
-        self.crear_btn = Boton(tr('Crea tu estilo'), self._crear_estilo, tipo='primario', alto=32, tam=13, negrita=True)
-        icono_crear = ui.icono_linea('ph.sparkle-bold', '#FFFFFF')
-        if icono_crear is not None:
-            self.crear_btn.setIcon(icono_crear)
-            self.crear_btn.setIconSize(QSize(15, 15))
-        Tooltip(self.crear_btn, tr('Abre en Resolve un timeline ya armado con 5 variantes (arriba · principal · abajo) en sus posiciones: edita fuentes y colores a tu gusto, exporta el timeline (.drt) y súbelo aquí.'))
-        ch.addWidget(self.crear_btn)
-        import crea_estilo_ui
-        self.ayuda_estilo_btn = crea_estilo_ui.boton_ayuda(self._ayuda_estilo)       # v5.8: el «!» que explica la estructura de nombres
-        ch.addWidget(self.ayuda_estilo_btn)
-        # v5.5: un pack nuevo a partir de un fotograma (colores, peso y posicion de sus subtitulos)
-        self.imagen_btn = Boton(tr('Estilo desde una imagen'), self._estilo_desde_imagen, alto=32, tam=13)
-        Tooltip(self.imagen_btn, tr('Elige un fotograma de un video con subtítulos que te gusten: el programa saca su color de acento, qué tan gruesas son las letras y si van arriba o abajo, y arma un pack de 3 variantes listo para usar.'))
-        ch.addWidget(self.imagen_btn)
+        ch.addStretch(1)
+        ch.addWidget(Etiqueta(tr('Desliza o usa ← →  ·  clic en la del centro para usarla'), 12, color=TEXT_MUTED))
         # v5.2: «la pestaña de estilos debe renderizar la vista previa real de los .drb»
         self.real_btn = Boton(tr('Vista real · Resolve'), self._renderizar_reales, alto=32, tam=13)
         Tooltip(self.real_btn, tr('DaVinci Resolve renderiza cada pack de verdad (tipografía, color, posición y animación de entrada) y aquí se ven en movimiento. Usa un timeline temporal que se borra solo.'))
-        cab2, ch2 = caja_h(espacio=12)          # segunda fila: «Vista real» y el filtro (una sola fila pedia ~780 px de ancho)
-        ch2.addWidget(self.real_btn)
-        ch2.addStretch(1)
-        inicial = plantillas.ETIQUETA_FORMATO.get(formato, tr('Todos'))
-        self.filtro = StringVar(inicial)
-        self._opciones_filtro = [tr('Todos')] + [plantillas.ETIQUETA_FORMATO[f] for f in ['h', 'v']]
-        ch2.addWidget(Segmentado(self._opciones_filtro, self.filtro, lambda _=None: self._recargar(self.seleccion.get()), alto=32, tam=13))
+        ch.addWidget(self.real_btn)
         self.tarjeta.capa.addWidget(cab)
-        self.tarjeta.capa.addWidget(cab2)
         self.nota_modo = Etiqueta('', 13, color=ui.AMBAR, envolver=True)
         self.nota_modo.hide()
         self.tarjeta.capa.addWidget(self.nota_modo)
-        self.rejilla_w = QWidget()
-        self.rejilla = QGridLayout(self.rejilla_w)
-        self.rejilla.setContentsMargins(0, 0, 0, 0)
-        self.rejilla.setSpacing(16)
-        for c in range(3):
-            self.rejilla.setColumnStretch(c, 1)
-        self.tarjeta.capa.addWidget(self.rejilla_w)
+        self.filtro = StringVar(tr('Todos'))             # (sin filtro de formato: _formato_del_filtro() siempre es None)
+        self.carrusel = estilos_slider.CarruselPacks(alto=610)
+        self.carrusel.elegida.connect(self._elegir)
+        self.carrusel.centrada.connect(self._pintar_info)
+        self.carrusel.anadir.connect(self._importar_drt)
+        self.tarjeta.capa.addWidget(self.carrusel)
+        # el panel del estilo que está al centro: nombre, aviso de tipografías, nota, estructura y botones
+        self._carta_actual = None
+        self.info_w = QWidget()
+        iv = QVBoxLayout(self.info_w)
+        iv.setContentsMargins(6, 0, 6, 2)
+        iv.setSpacing(8)
+        fila_n, cn = caja_h(espacio=12)
+        cn.addStretch(1)
+        self.info_nombre = Etiqueta('', 24, peso='extra', color='#FFFFFF')
+        cn.addWidget(self.info_nombre)
+        self.info_fuentes = ui.Enlace('', self._instalar_fuentes_central, 12, color=ui.AMBAR, color_hover=ui.NARANJA)
+        self.info_fuentes.hide()
+        cn.addWidget(self.info_fuentes)
+        cn.addStretch(1)
+        iv.addWidget(fila_n)
+        self.info_nota = Etiqueta('', 13, color=TEXT_MUTED, envolver=True, alineacion=Qt.AlignmentFlag.AlignHCenter)
+        iv.addWidget(self.info_nota)
+        self.info_extra = QVBoxLayout()
+        self.info_extra.setContentsMargins(0, 0, 0, 0)
+        self.info_extra.setSpacing(6)
+        iv.addLayout(self.info_extra)
+        fila_b, cb = caja_h(espacio=8)
+        cb.addStretch(1)
+        self.usar_btn = Boton(tr('Usar este estilo'), self._usar_central, tipo='primario', alto=42, ancho=200, tam=14, negrita=True)
+        cb.addWidget(self.usar_btn)
+        self.info_acciones_w = QWidget()
+        self.info_acciones = QHBoxLayout(self.info_acciones_w)
+        self.info_acciones.setContentsMargins(0, 0, 0, 0)
+        self.info_acciones.setSpacing(6)
+        cb.addWidget(self.info_acciones_w)
+        cb.addStretch(1)
+        iv.addWidget(fila_b)
+        self.tarjeta.capa.addWidget(self.info_w)
         self.ocultos_lnk = ui.Enlace('', self._mostrar_ocultos, 12, color=TEXT_MUTED, color_hover=ui.ACCENT_CLARO)
         self.ocultos_lnk.hide()
         self.tarjeta.capa.addWidget(self.ocultos_lnk, 0, Qt.AlignmentFlag.AlignLeft)
         capa.addWidget(self.tarjeta)
-        self.tarjeta_fuentes = Tarjeta(titulo=tr('Tipografías que usa el pack'), espacio=12)
-        self.fuentes_flujo_w = QWidget()
-        self.fuentes_flujo = ui.FlujoCapa(self.fuentes_flujo_w, 10, 10)
-        self.tarjeta_fuentes.capa.addWidget(self.fuentes_flujo_w)
-        self.fuentes_nota = Etiqueta(tr('Resolve solo ve las fuentes instaladas en el sistema. Sin ellas, el pack se ve distinto sin avisar.'), 13, color=TEXT_MUTED, envolver=True)
-        self.tarjeta_fuentes.capa.addWidget(self.fuentes_nota)
-        fila_f, cff = caja_h()
-        self.instalar_btn = Boton(tr('Instalar las que faltan (sin administrador)'), self._instalar_fuentes_elegido, tipo='primario')
-        cff.addWidget(self.instalar_btn)
-        cff.addStretch(1)
-        self.tarjeta_fuentes.capa.addWidget(fila_f)
-        capa.addWidget(self.tarjeta_fuentes)
+        capa.addWidget(self._construir_crear())          # «Crea tu estilo», justo debajo del slider
         self._recargar()
+    def _construir_crear(self):
+        """La sección «Crea tu estilo» (v5.3.6): banda con halo, el texto y los botones (los de siempre: crear, «!» y estilo desde una imagen)."""
+        import crea_estilo_ui
+        hero = estilos_slider.HeroCrear()
+        h = QHBoxLayout(hero)
+        h.setContentsMargins(112, 24, 28, 24)
+        h.setSpacing(24)
+        texto, ct = caja_v(espacio=6)
+        ct.addWidget(Etiqueta(tr('Crea tu estilo'), 24, peso='extra', color='#FFFFFF'))
+        ct.addWidget(Etiqueta(tr('¿Ninguno te convence? Elige hasta 3 de los 48 ejemplos (Luxe y Amro) y arma tu propio pack en un clic, o parte de un fotograma de un video que te guste.'), 14, color='#B9C7E0', envolver=True))
+        h.addWidget(texto, 1)
+        botones, cbt = caja_h(espacio=10)
+        self.crear_btn = Boton(tr('Crea tu estilo'), self._crear_estilo, tipo='primario', alto=46, tam=15, negrita=True)
+        icono_crear = ui.icono_linea('ph.sparkle-bold', '#FFFFFF')
+        if icono_crear is not None:
+            self.crear_btn.setIcon(icono_crear)
+            self.crear_btn.setIconSize(QSize(17, 17))
+        Tooltip(self.crear_btn, tr('Abre en Resolve un timeline ya armado con 5 variantes (arriba · principal · abajo) en sus posiciones: edita fuentes y colores a tu gusto, exporta el timeline (.drt) y súbelo aquí.'))
+        cbt.addWidget(self.crear_btn)
+        self.ayuda_estilo_btn = crea_estilo_ui.boton_ayuda(self._ayuda_estilo)       # v5.8: el «!» que explica la estructura de nombres
+        cbt.addWidget(self.ayuda_estilo_btn)
+        # v5.5: un pack nuevo a partir de un fotograma (colores, peso y posicion de sus subtitulos)
+        self.imagen_btn = Boton(tr('Estilo desde una imagen'), self._estilo_desde_imagen, alto=46, tam=14)
+        Tooltip(self.imagen_btn, tr('Elige un fotograma de un video con subtítulos que te gusten: el programa saca su color de acento, qué tan gruesas son las letras y si van arriba o abajo, y arma un pack de 3 variantes listo para usar.'))
+        cbt.addWidget(self.imagen_btn)
+        h.addWidget(botones, 0, Qt.AlignmentFlag.AlignVCenter)
+        return hero
     def actualizar(self, seleccion=None, basicos_actual=None, modo=None, formato=None, diseno_actual=None):
         """La app avisa de un cambio de modo, formato o eleccion."""
         if seleccion is not None:
@@ -2024,22 +1908,6 @@ class PlantillasWindow(QWidget):
         if formato is not None:
             self._formato_juego = formato
         self._recargar(self.seleccion.get())
-    def _columnas(self):
-        """Cuantas columnas de packs caben: cada mosaico pide ~340 px y a la derecha va «Composición»."""
-        try:
-            ancho_app = int(self.app.width())
-        except Exception:
-            ancho_app = 1700
-        disponible = (ancho_app - 310) * (8.0 / 13.0 if COMPOSICION_VISIBLE else 1.0)
-        return 3 if disponible >= 1040 else 2 if disponible >= 640 else 1
-    def eventFilter(self, obj, ev):
-        # la ventana principal cambia de tamaño: puede que ya no quepan 3 columnas de packs (o ya sí)
-        if ev.type() == QEvent.Type.Resize and obj is self.app:
-            cols = self._columnas()
-            if cols != getattr(self, '_cols', cols):
-                self._cols = cols
-                despues(0, lambda: vivo(self) and self._recargar(self.seleccion.get()), self)
-        return super().eventFilter(obj, ev)
     def existe(self):
         return vivo(self)
     def cerrar(self):
@@ -2157,19 +2025,84 @@ class PlantillasWindow(QWidget):
         self._realzar()
         if self.on_elegir:
             self.on_elegir(valor)
-        self._pintar_fuentes()
-    def _realzar(self):
-        """Pinta el borde del mosaico elegido y apaga los demas."""
+    def _valor_actual(self):
+        """El valor que está en uso (el de la tarjeta con «En uso»)."""
         if self.modo == 'normal':
-            elegido_pack = (self.basicos_var.get() or '').split('||')[0]
-            actual = elegido_pack or '__clasica__'
+            return (self.basicos_var.get() or '').split('||')[0] or '__clasica__'
+        return self.seleccion.get()
+    def _realzar(self):
+        """Marca en el slider la tarjeta en uso y actualiza el botón del panel."""
+        self.carrusel.poner_elegida(self._valor_actual())
+        self._pintar_boton_usar()
+    def _pintar_info(self, carta=None):
+        """El panel de debajo del slider con lo de la tarjeta que llegó al centro."""
+        carta = carta or self.carrusel.carta_central()
+        self._carta_actual = carta
+        limpiar_capa(self.info_acciones)
+        limpiar_capa(self.info_extra)
+        if carta is None:
+            self.info_w.hide()
+            return
+        self.info_w.show()
+        self.info_nombre.setText(tr('Trae tu propio estilo') if carta.tipo == 'anadir' else carta.titulo)
+        if carta.pack is not None and carta.estado and carta.color_estado not in (ui.VERDE, TEXT_MUTED):
+            self.info_fuentes.configure(text='⚠ ' + carta.estado + ' · ' + tr('instalar'))
+            self.info_fuentes.show()
         else:
-            actual = self.seleccion.get()
-        for valor, marco in list(self._tarjetas.items()):
-            if not vivo(marco):
-                self._tarjetas.pop(valor, None)
-                continue
-            marco.poner_elegida(valor == actual)
+            self.info_fuentes.hide()
+        texto = carta.nota or carta.detalle
+        self.info_nota.setText(texto)
+        self.info_nota.setVisible(bool(texto))
+        if carta.estructura:
+            e = _EstructuraPack(carta.estructura)
+            e.setFixedWidth(360)
+            self.info_extra.addWidget(e, 0, Qt.AlignmentFlag.AlignHCenter)
+        if carta.extra is not None:
+            self.info_extra.addWidget(carta.extra(), 0, Qt.AlignmentFlag.AlignHCenter)
+        for icono, glifo, ayuda, fn in carta.acciones:         # v5.8: ✎ editar en Resolve y 🗑 quitar
+            ic = ui.icono_linea(icono, '#C9D6EC')
+            b = Boton('' if ic is not None else glifo, lambda _=False, f=fn: f(), tipo='fantasma', alto=36, ancho=40, tam=14, icono=ic)
+            b.setFixedWidth(42)
+            Tooltip(b, ayuda)
+            self.info_acciones.addWidget(b)
+        if carta.menu:
+            m = Boton('⋯', lambda menu=carta.menu: self._menu_carta(menu), tipo='fantasma', alto=36, ancho=40, tam=16)
+            m.setFixedWidth(42)
+            self.info_acciones.addWidget(m)
+        self._pintar_boton_usar()
+    def _menu_carta(self, opciones):
+        menu = Menu(self)
+        for texto, fn in opciones:
+            menu.agregar(texto, fn)
+        menu.mostrar(QCursor.pos())
+    def _pintar_boton_usar(self):
+        c = getattr(self, '_carta_actual', None)
+        if c is None:
+            return
+        if c.tipo == 'anadir':
+            self.usar_btn.setText(tr('Añadir plantilla (.drb)'))
+            self.usar_btn.setEnabled(True)
+            self.usar_btn.setVisible(True)
+            return
+        # en el modo «normal» la elección es la combinación (chips de abajo), no el pack
+        self.usar_btn.setVisible(not (self.modo == 'normal' and c.valor != '__clasica__'))
+        en_uso = c.valor == self._valor_actual()
+        self.usar_btn.setText('✓ ' + tr('En uso') if en_uso else tr('Usar este estilo'))
+        self.usar_btn.setEnabled(not en_uso)
+        # «En uso» no es un botón apagado: es una confirmación (verde)
+        self.usar_btn.setStyleSheet(ui.traducir_hoja('QPushButton:disabled { background-color: #0F2A22; border: 1px solid #1F7A56; color: #6FE3AE; }') if en_uso else '')
+    def _usar_central(self):
+        c = getattr(self, '_carta_actual', None)
+        if c is None:
+            return
+        if c.tipo == 'anadir':
+            self._importar_drt()
+        else:
+            self._elegir(c.valor)
+    def _instalar_fuentes_central(self):
+        c = getattr(self, '_carta_actual', None)
+        if c is not None and c.pack is not None:
+            self._instalar_fuentes(c.pack)
     def _hacer_clicable(self, widget, valor):
         """Compat: el mosaico entero ya elige."""
         return None
@@ -2207,6 +2140,14 @@ class PlantillasWindow(QWidget):
             pass
         return None
     def _formato_vista(self, pack):
+        """Las vistas previas son SIEMPRE verticales (9:16); un pack sin vertical enseña su primer formato."""
+        if pack is None:
+            return None
+        if 'v' in (pack.formatos or ()):
+            return 'v'
+        return pack.formatos[0] if pack.formatos else None
+    def _formato_edicion(self, pack):
+        """El formato con el que se abre un pack en Resolve para editarlo: el del timeline en juego si el pack lo trae."""
         f = self._formato_juego
         if pack is not None and f not in (pack.formatos or ()):
             return pack.formatos[0] if pack.formatos else None
@@ -2273,14 +2214,8 @@ class PlantillasWindow(QWidget):
                 messagebox.showwarning(tr('Vista real'), '\n'.join(estado['errores'][:4]), parent=self)
         avance()
         _correr_en_hilo(self, trabajo, fin)
-    def _poner_tile(self, tile, fila_col):
-        fila, col = fila_col
-        self.rejilla.addWidget(tile, fila, col)
-    def _siguiente(self, k):
-        cols = max(1, getattr(self, '_cols', 3))
-        return (k // cols, k % cols)
-    def _fila(self, valor, titulo, detalle, color_titulo=None):
-        """Compat v4: un mosaico simple (Media Pool / Diseño automático)."""
+    def _carta_simple(self, valor, titulo, detalle):
+        """Media Pool / Diseño automático."""
         pack = self._pack_de(valor)
         if valor == 'media_pool':
             lineas = [(tr('Tus Text+'), {'familia': ui.familia_ui(), 'peso': 'Medium', 'tam': 0.13, 'color': '#C9D6EC'}),
@@ -2289,88 +2224,76 @@ class PlantillasWindow(QWidget):
         else:
             lineas = lineas_de_vista(valor, self._formato_vista(pack))
             estado, color = self._estado_fuentes(pack)
-        tile = _TilePack(self, valor, titulo, lineas=lineas, miniatura=self._miniatura(pack) if pack else None,
-                         formatos=self._texto_formatos(pack), estado=estado, color_estado=color,
-                         real=self._real_de(pack) if pack else None,
-                         estructura=plantillas.estructura_de(pack) if pack else None,
-                         acciones=self._acciones_de(pack, quitable=False) if pack else None)
-        if detalle:
-            tile.setToolTip(detalle)
-        self._tarjetas[valor] = tile
-        return tile
-    def _filas_basicos(self):
-        """La vista del MODO NORMAL (v1.0.70): «Clásica (Subtitle Template)»
-        + un mosaico por pack de SUBTITULOS BASICOS con sus combinaciones
-        'inferior/superior N' leidas del PROPIO pack (info_drb). El valor es
-        pack-scoped («<pack>||inferior 2») sobre basicos_var; se aplica AL
-        TOCAR via on_basicos."""
-        def elegir_basicos(valor):
-            self.basicos_var.set(valor)
-            if callable(self.on_basicos):
-                self.on_basicos(valor)
-            self._realzar()
-            self._pintar_basicos_chips()
-        k = 0
-        clasica = _TilePack(self, '__clasica__', tr('Clásica (Subtitle Template)'),
-                            lineas=[(tr('Así se ven'), {'familia': 'Montserrat', 'peso': 'SemiBold', 'tam': 0.13, 'color': '#FFFFFF'}),
-                                    (tr('tus subtítulos'), {'familia': 'Montserrat', 'peso': 'SemiBold', 'tam': 0.13, 'color': '#FFFFFF'})],
-                            estado=tr('Tu Media Pool'), color_estado=TEXT_MUTED)
-        clasica.setToolTip(tr('El Text+ «Subtitle Template» de tu Media Pool, como siempre.'))
-        self._tarjetas['__clasica__'] = clasica
-        self._poner_tile(clasica, self._siguiente(k))
-        k += 1
-        packs = [p for p in plantillas.listar_packs()
-                 if getattr(p, 'es_basicos', False)]
-        formato = self._formato_del_filtro()
-        visibles = [p for p in packs
-                    if formato is None or formato in p.formatos]
+        est = plantillas.estructura_de(pack) if pack else None
+        return estilos_slider.Carta(valor, titulo, lineas=lineas, real=self._real_de(pack) if pack else None,
+                                    formatos=self._texto_formatos(pack) or '', meta=self._meta_de(est) or (tr('Manda sobre todo') if valor == 'media_pool' else ''),
+                                    estado=estado, color_estado=color, estructura=est, detalle=detalle, pack=pack,
+                                    acciones=self._acciones_de(pack, quitable=False) if pack else None)
+    @staticmethod
+    def _meta_de(estructura):
+        n = int((estructura or {}).get('variantes') or 0)
+        return (tr('{n} variantes', n=n) if n != 1 else tr('1 variante')) if n else ''
+    def _cartas_basicos(self):
+        """La vista del MODO NORMAL (v1.0.70): «Clásica (Subtitle Template)» + una tarjeta por pack de SUBTITULOS BASICOS; las combinaciones
+        'inferior/superior N' (leidas del PROPIO pack, info_drb) salen como chips en el panel de la tarjeta del centro. El valor es pack-scoped
+        («<pack>||inferior 2») sobre basicos_var; se aplica AL TOCAR via on_basicos."""
+        cartas = [estilos_slider.Carta('__clasica__', tr('Clásica (Subtitle Template)'),
+                                       lineas=[(tr('Así se ven'), {'familia': 'Montserrat', 'peso': 'SemiBold', 'tam': 0.13, 'color': '#FFFFFF'}),
+                                               (tr('tus subtítulos'), {'familia': 'Montserrat', 'peso': 'SemiBold', 'tam': 0.13, 'color': '#FFFFFF'})],
+                                       estado=tr('Tu Media Pool'), color_estado=TEXT_MUTED, meta=tr('Tu Media Pool'),
+                                       detalle=tr('El Text+ «Subtitle Template» de tu Media Pool, como siempre.'))]
+        packs = [p for p in plantillas.listar_packs() if getattr(p, 'es_basicos', False)]
         elegido_pack = (self.basicos_var.get() or '').split('||')[0]
         if elegido_pack and not any(p.nombre == elegido_pack for p in packs):
             self.basicos_var.set('')
         self._chips_basicos = []
-        for pack in visibles:
+        for pack in packs:
             menu = None if pack.incorporado else [(tr('Quitar'), lambda n=pack.nombre: self._quitar_basicos(n))]
             estado, color = self._estado_fuentes(pack)
-            tile = _TilePack(self, pack.nombre, pack.nombre,
-                             lineas=[(tr('Así se ven'), {'familia': 'Montserrat', 'peso': 'Bold', 'tam': 0.13, 'color': '#FFFFFF'}),
-                                     (tr('tus subtítulos'), {'familia': 'Montserrat', 'peso': 'Bold', 'tam': 0.13, 'color': ui.ROL_PRINCIPAL})],
-                             formatos=self._texto_formatos(pack), estado=estado, color_estado=color, menu=menu)
-            combos = {}
-            for f in pack.formatos:
-                info = pack.info_drb(f) or {}
-                for pos, numeros in (info.get('basicos') or {}).items():
-                    combos.setdefault(pos, set()).update(numeros)
-            flujo_w = QWidget()
-            flujo = ui.FlujoCapa(flujo_w, 6, 6)
-            for pos in plantillas.POSICIONES_BASICOS:
-                for n in sorted(combos.get(pos, ())):
-                    valor = f'{pack.nombre}||{pos} {n}'
-                    chip = Chip(_combinacion_visible(f'{pos} {n}').capitalize(), ui.ACCENT_CLARO, lambda v=valor: elegir_basicos(v), alto=26, tam=12)
-                    chip._valor = valor
-                    flujo.addWidget(chip)
-                    self._chips_basicos.append(chip)
-            tile.extra.addWidget(flujo_w)
-            self._tarjetas[pack.nombre] = tile
-            self._poner_tile(tile, self._siguiente(k))
-            k += 1
-        self._pintar_basicos_chips()
-        self._poner_tile(_TileAnadir(self._importar_drt), self._siguiente(k))
-        k += 1
+            cartas.append(estilos_slider.Carta(pack.nombre, pack.nombre,
+                                               lineas=[(tr('Así se ven'), {'familia': 'Montserrat', 'peso': 'Bold', 'tam': 0.13, 'color': '#FFFFFF'}),
+                                                       (tr('tus subtítulos'), {'familia': 'Montserrat', 'peso': 'Bold', 'tam': 0.13, 'color': ui.ROL_PRINCIPAL})],
+                                               formatos=self._texto_formatos(pack) or '', estado=estado, color_estado=color, menu=menu, pack=pack,
+                                               extra=lambda pk=pack: self._widget_combos(pk)))
+        cartas.append(estilos_slider.Carta('__anadir__', tr('Añadir plantilla (.drb)'), tipo='anadir', detalle=tr('Exporta una bandeja desde Resolve y súbela aquí: queda guardada como un estilo más.')))
         if not packs:
             self.nota_modo.configure(text=tr('No hay plantillas de básicos: añade un .drb con clips \'basico inferior 1\', \'traducion inferior 1\'… (botón de arriba), o queda la clásica.'), text_color='#E0A030')
-            self.nota_modo.show()
-        elif not visibles:
-            self.nota_modo.configure(text=tr('Ninguna de tus {len} plantillas de básicos trae este formato: mira en «Todos».', len=len(packs)), text_color=TEXT_MUTED)
             self.nota_modo.show()
         try:
             self.cuenta_lbl.configure(text=tr('{len} de básicos', len=len(packs)) if packs else '')
         except Exception:
-            return None
+            pass
+        return cartas
+    def _widget_combos(self, pack):
+        """Los chips con las combinaciones de básicos de un pack (en el panel de su tarjeta)."""
+        combos = {}
+        for f in pack.formatos:
+            info = pack.info_drb(f) or {}
+            for pos, numeros in (info.get('basicos') or {}).items():
+                combos.setdefault(pos, set()).update(numeros)
+        flujo_w = QWidget()
+        flujo = ui.FlujoCapa(flujo_w, 6, 6)
+        for pos in plantillas.POSICIONES_BASICOS:
+            for n in sorted(combos.get(pos, ())):
+                valor = f'{pack.nombre}||{pos} {n}'
+                chip = Chip(_combinacion_visible(f'{pos} {n}').capitalize(), ui.ACCENT_CLARO, lambda v=valor: self._elegir_basicos(v), alto=26, tam=12)
+                chip._valor = valor
+                flujo.addWidget(chip)
+                self._chips_basicos.append(chip)
+        flujo_w.setMaximumWidth(620)
+        self._pintar_basicos_chips()
+        return flujo_w
+    def _elegir_basicos(self, valor):
+        self.basicos_var.set(valor)
+        if callable(self.on_basicos):
+            self.on_basicos(valor)
+        self._realzar()
+        self._pintar_basicos_chips()
     def _pintar_basicos_chips(self):
         actual = self.basicos_var.get() or ''
-        for chip in getattr(self, '_chips_basicos', []):
-            if vivo(chip):
-                chip.poner(lleno=chip._valor == actual)
+        self._chips_basicos = [c for c in getattr(self, '_chips_basicos', []) if vivo(c)]
+        for chip in self._chips_basicos:
+            chip.poner(lleno=chip._valor == actual)
     def _quitar_basicos(self, nombre):
         """Borra un pack de basicos del usuario (con confirmacion)."""
         if not messagebox.askyesno(tr('Quitar plantilla'), tr('¿Quitar la plantilla de básicos «{nombre}»?\n\nSolo se borra del programa; tu .drb original no se toca.', nombre=nombre), parent=self):
@@ -2381,33 +2304,24 @@ class PlantillasWindow(QWidget):
             messagebox.showerror(tr('No pude quitarla'), str(e), parent=self)
         self._recargar(self.seleccion.get())
     def _recargar(self, seleccionar=None):
-        """Redibuja la cuadricula. Con 'seleccionar', ademas apunta ese pack
-        (hasta la v1.0.26 no lo hacia y un pack recien importado se pisaba
-        con "auto": «simula que los importa pero al generar no los toma»)."""
+        """Rehace el slider. Con 'seleccionar', ademas apunta ese pack (hasta la v1.0.26 no lo hacia y un pack recien importado se pisaba
+        con "auto": «simula que los importa pero al generar no los toma»). Se queda en la tarjeta que estaba al centro."""
         if seleccionar:
             self.seleccion.set(seleccionar)
         self.setUpdatesEnabled(False)
         try:
-            limpiar_capa(self.rejilla)
-            for c in range(3):                     # solo las columnas que se usan se reparten el ancho
-                self.rejilla.setColumnStretch(c, 1 if c < self._cols else 0)
             self._envolver = []
-            self._tarjetas = {}
             self.nota_modo.hide()
             self.ocultos_lnk.hide()
             if self.modo == 'normal':
-                self._filas_basicos()
+                self.carrusel.poner_cartas(self._cartas_basicos(), self._valor_actual())
                 self._realzar()
-                self._pintar_fuentes()
                 return
             if self.modo_real == 'destacados':
                 self.nota_modo.configure(text=tr('Los looks destacados (Hormozi, Gadzhi, Acumulativo y Pintado) traen su propio diseño: el pack se usa en los Dinámicos.'), text_color=ui.AMBAR)
                 self.nota_modo.show()
-            k = 0
-            for valor, titulo, detalle in ((('media_pool', tr('Mis plantillas del Media Pool'), tr('Tus Text+ del Media Pool, tal cual. Manda sobre todo.'))),
-                                          (('auto', tr('Diseño automático'), tr('El pack incluido, en el formato de tu timeline.')))):
-                self._poner_tile(self._fila(valor, titulo, detalle), self._siguiente(k))
-                k += 1
+            cartas = [self._carta_simple('media_pool', tr('Mis plantillas del Media Pool'), tr('Tus Text+ del Media Pool, tal cual. Manda sobre todo.')),
+                      self._carta_simple('auto', tr('Diseño automático'), tr('El pack incluido, en el formato de tu timeline.'))]
             import ajustes_ui
             ocultos = [n for n in ajustes_ui.leer_prefs().get('packs_ocultos', []) if isinstance(n, str)]
             todos = [p for p in plantillas.listar_packs()
@@ -2419,32 +2333,22 @@ class PlantillasWindow(QWidget):
             self.ocultos_lnk.setVisible(quitados > 0)
             if quitados:
                 self.ocultos_lnk.configure(text=tr('Mostrar los packs quitados ({n})', n=quitados))
-            formato = self._formato_del_filtro()
-            visibles = [p for p in packs if formato is None or formato in p.formatos]
-            for pack in visibles:
-                self._poner_tile(self._fila_pack(pack), self._siguiente(k))
-                k += 1
-            self._poner_tile(_TileAnadir(self._importar_drt), self._siguiente(k))
-            if not visibles and packs:
-                self.nota_modo.configure(text=tr('Ninguno de tus {len} packs trae la versión {lower}.', len=len(packs), lower=plantillas.ETIQUETA_FORMATO[formato].lower()), text_color=TEXT_MUTED)
-                self.nota_modo.show()
+            for pack in packs:
+                cartas.append(self._carta_pack(pack))
+            cartas.append(estilos_slider.Carta('__anadir__', tr('Añadir plantilla (.drb)'), tipo='anadir', detalle=tr('Exporta una bandeja desde Resolve y súbela aquí: queda guardada como un estilo más.')))
+            self.carrusel.poner_cartas(cartas, self._valor_actual())
             try:
-                self.cuenta_lbl.configure(text=tr('{n} de {total}', n=len(visibles), total=len(packs)) if len(visibles) != len(packs) else tr('1 pack') if len(packs) == 1 else tr('{n} packs', n=len(packs)))
+                self.cuenta_lbl.configure(text=tr('1 pack') if len(packs) == 1 else tr('{n} packs', n=len(packs)))
             except Exception:
                 pass
             self._realzar()
-            self._pintar_fuentes()
         finally:
             self.setUpdatesEnabled(True)
     def _formato_del_filtro(self):
-        """\'h\', \'v\', \'c\' o None si esta en «Todos»."""
-        elegido = self.filtro.get()
-        for f, etiqueta in plantillas.ETIQUETA_FORMATO.items():
-            if etiqueta == elegido:
-                return f
-        return
-    def _fila_pack(self, pack):
-        """El mosaico de un pack importado o incluido (II inferior/superior)."""
+        """Ya no hay filtro de formato (las vistas son siempre verticales): siempre None = todos los packs."""
+        return None
+    def _carta_pack(self, pack):
+        """La tarjeta de un pack importado o incluido (II inferior/superior)."""
         menu = [(tr('✎ Descripción'), lambda p=pack.nombre: self._editar_descripcion(p))]
         if getattr(pack, 'notas', None) or pack.problemas:
             menu.append((tr('Detalles…'), lambda p=pack: self._detalles(p)))
@@ -2452,15 +2356,11 @@ class PlantillasWindow(QWidget):
             menu.append((tr('Quitar'), lambda p=pack.nombre: self._borrar(p)))
         estado, color = self._estado_fuentes(pack)
         aviso = '\n'.join('· ' + p for p in pack.problemas) if pack.problemas else None
-        tile = _TilePack(self, pack.nombre, pack.nombre,
-                         lineas=lineas_de_vista(pack.nombre, self._formato_vista(pack)),
-                         miniatura=self._miniatura(pack), formatos=self._texto_formatos(pack),
-                         estado=estado, color_estado=color, menu=menu,
-                         nota=plantillas.leer_descripciones().get(pack.nombre, '') or None, aviso=aviso,
-                         real=self._real_de(pack), estructura=plantillas.estructura_de(pack),
-                         acciones=self._acciones_de(pack))
-        self._tarjetas[pack.nombre] = tile
-        return tile
+        est = plantillas.estructura_de(pack)
+        return estilos_slider.Carta(pack.nombre, pack.nombre, lineas=lineas_de_vista(pack.nombre, self._formato_vista(pack)),
+                                    real=self._real_de(pack), formatos=self._texto_formatos(pack) or '', meta=self._meta_de(est),
+                                    estado=estado, color_estado=color, nota=plantillas.leer_descripciones().get(pack.nombre, '') or '',
+                                    aviso=aviso, acciones=self._acciones_de(pack), menu=menu, estructura=est, pack=pack)
     def _acciones_de(self, pack, quitable=True):
         """Los botones de la tarjeta de un estilo: ✎ editar en Resolve y 🗑 quitar (los incluidos no se borran del disco: se quitan de la lista)."""
         acciones = [('ph.pencil-simple-bold', '✎', tr('Editar en Resolve: abre el timeline de este estilo para cambiar fuente, color, tamaño o posición. Luego lo exportas (.drt) y lo añades de nuevo. También con doble clic.'),
@@ -2494,7 +2394,7 @@ class PlantillasWindow(QWidget):
         if getattr(self, '_editando_pack', False) or pack is None:
             return
         self._editando_pack = True
-        formato = self._formato_vista(pack) or (pack.formatos[0] if pack.formatos else 'v')
+        formato = self._formato_edicion(pack) or (pack.formatos[0] if pack.formatos else 'v')
         self.app.status_var.set(tr('Abriendo «{n}» en Resolve para editarlo…', n=pack.nombre))
         def trabajo():
             import edicion_pack
@@ -2522,47 +2422,6 @@ class PlantillasWindow(QWidget):
         if getattr(pack, 'notas', None):
             lineas.append(tr('Combinaciones completas por formato.\n\nDetalle:\n') + '\n'.join('· ' + n for n in pack.notas))
         messagebox.showinfo(pack.nombre, '\n\n'.join(lineas) or tr('Sin combinaciones'), parent=self)
-    def _pack_elegido(self):
-        if self.modo == 'normal':
-            nombre = (self.basicos_var.get() or '').split('||')[0]
-            return plantillas.buscar_pack(nombre) if nombre else None
-        return self._pack_de(self.seleccion.get())
-    def _pintar_fuentes(self):
-        """La tarjeta «Tipografías que usa el pack» del elegido."""
-        limpiar_capa(self.fuentes_flujo)
-        pack = self._pack_elegido()
-        self._pack_fuentes = pack
-        if pack is None:
-            self.fuentes_nota.configure(text=tr('Tus plantillas del Media Pool usan las tipografías que ya ve Resolve.'))
-            self.instalar_btn.setEnabled(False)
-            return
-        try:
-            pares = pack.fuentes()
-            arreglables, sin_remedio = instalar_fuentes.faltantes(pares)
-        except Exception:
-            pares, arreglables, sin_remedio = ([], [], [])
-        faltan_arr = {(f, e) for (f, e), _ in arreglables}
-        faltan_sin = set(sin_remedio)
-        for familia, estilo in pares:
-            nombre = f'{familia} {estilo}'.strip() if estilo and estilo.lower() not in ('regular', '') else familia
-            if (familia, estilo) in faltan_sin:
-                color = ui.ROJO
-                ayuda = tr('No la traigo incluida y no está en tu equipo: Resolve pondrá Arial.')
-            elif (familia, estilo) in faltan_arr:
-                color = ui.AMBAR
-                ayuda = tr('Falta en tu equipo; viene con el programa: «Instalar las que faltan».')
-            else:
-                color = ui.VERDE
-                ayuda = tr('Instalada en tu equipo.')
-            chip = Chip(nombre, '#C9D6EC', punto=color, alto=30, tam=13)
-            chip.setToolTip(ayuda)
-            self.fuentes_flujo.addWidget(chip)
-        self.fuentes_nota.configure(text=tr('Resolve solo ve las fuentes instaladas en el sistema. Sin ellas, el pack se ve distinto sin avisar.'))
-        self.instalar_btn.setEnabled(bool(arreglables))
-    def _instalar_fuentes_elegido(self):
-        pack = getattr(self, '_pack_fuentes', None)
-        if pack is not None:
-            self._instalar_fuentes(pack)
     def _editar_descripcion(self, nombre):
         """Pide la descripcion corta del pack y la guarda por nombre (v1.0.67:
         una nota del usuario para ubicar cada plantilla; vacio la borra)."""

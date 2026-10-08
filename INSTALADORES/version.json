@@ -1,0 +1,24 @@
+{
+    "estable":  {
+                    "version":  "5.3.5",
+                    "notas":  "Actualizaciones automaticas y logo de Cinema Productions en Inicio, instalador y Acerca de.",
+                    "fecha":  "2026-10-07",
+                    "archivos":  {
+                                     "windows":  {
+                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.3.5/Instalar_CineCaptions_5.3.5.exe",
+                                                     "sha256":  "bd7d76cf39efc861c58288a1c0130eb103aa5d95761e91a435531ee30a630690",
+                                                     "tam":  202134351
+                                                 },
+                                     "mac_arm64":  {
+                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.3.5/CineCaptions_Mac_AppleSilicon_5.3.5.dmg",
+                                                       "sha256":  "d8eecf8e2804fc1ff9de2d9acb6ffb48955c1958213495570c2d9eed027f8b69",
+                                                       "tam":  171373388
+                                                   },
+                                     "mac_x86_64":  {
+                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.3.5/CineCaptions_Mac_Intel_5.3.5.dmg",
+                                                        "sha256":  "ac782c99763a4062f27b46b71593c174f1708b55570ad909dfa925fe8a80c2a7",
+                                                        "tam":  188121281
+                                                    }
+                                 }
+                }
+}

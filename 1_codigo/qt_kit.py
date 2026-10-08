@@ -2547,6 +2547,12 @@ class MarcoVista(QWidget):
                        int(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignBottom), tr('Render real · Resolve'))
             p.end()
             return
+        self._pintar_contenido(p, dentro)
+        p.end()
+
+    def _pintar_contenido(self, p, dentro):
+        """Las lineas (y el espacio «imagen») dentro de `dentro`, con el painter de quien llama: lo usan este marco y
+        las tarjetas del carrusel de estilos (estilos_slider), que pintan los captions sobre una foto."""
         alto = dentro.height()
         medidas = []
         total = 0.0
@@ -2679,7 +2685,6 @@ class MarcoVista(QWidget):
             p.setPen(QColor('#4F607A'))
             p.drawText(dentro.adjusted(10, 0, 0, -6),
                        int(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignBottom), self._pie)
-        p.end()
 
 
 def dibujar_icono_nav(p, clave, rect, color):

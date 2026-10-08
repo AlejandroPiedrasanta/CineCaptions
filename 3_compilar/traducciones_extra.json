@@ -2938,5 +2938,61 @@
   "fr": "L'image disque de CineCaptions {v} s'est ouverte : ouvrez « Instalar_CineCaptions.pkg » pour terminer.",
   "de": "Das CineCaptions-{v}-Image wurde geöffnet: Öffne „Instalar_CineCaptions.pkg“, um fertig zu werden.",
   "it": "L'immagine disco di CineCaptions {v} è stata aperta: apri «Instalar_CineCaptions.pkg» per terminare."
+ },
+ "En uso": {
+  "en": "In use",
+  "pt": "Em uso",
+  "fr": "Utilisé",
+  "de": "In Gebrauch",
+  "it": "In uso"
+ },
+ "Usar este estilo": {
+  "en": "Use this style",
+  "pt": "Usar este estilo",
+  "fr": "Utiliser ce style",
+  "de": "Diesen Stil verwenden",
+  "it": "Usa questo stile"
+ },
+ "Todavía no hay estilos": {
+  "en": "There are no styles yet",
+  "pt": "Ainda não há estilos",
+  "fr": "Aucun style pour le moment",
+  "de": "Noch keine Stile vorhanden",
+  "it": "Non ci sono ancora stili"
+ },
+ "Desliza o usa ← →  ·  clic en la del centro para usarla": {
+  "en": "Swipe or use ← →  ·  click the center one to use it",
+  "pt": "Deslize ou use ← →  ·  clique na do centro para usá-la",
+  "fr": "Faites glisser ou utilisez ← →  ·  cliquez sur celle du centre pour l'utiliser",
+  "de": "Wischen oder ← → benutzen  ·  Klick auf die mittlere, um sie zu verwenden",
+  "it": "Scorri o usa ← →  ·  clic su quella al centro per usarla"
+ },
+ "¿Ninguno te convence? Elige hasta 3 de los 48 ejemplos (Luxe y Amro) y arma tu propio pack en un clic, o parte de un fotograma de un video que te guste.": {
+  "en": "None convinces you? Pick up to 3 of the 48 examples (Luxe and Amro) and build your own pack in one click, or start from a frame of a video you like.",
+  "pt": "Nenhum te convence? Escolha até 3 dos 48 exemplos (Luxe e Amro) e monte seu próprio pack em um clique, ou parta de um quadro de um vídeo de que você goste.",
+  "fr": "Aucun ne vous convainc ? Choisissez jusqu'à 3 des 48 exemples (Luxe et Amro) et créez votre propre pack en un clic, ou partez d'une image d'une vidéo qui vous plaît.",
+  "de": "Keiner überzeugt dich? Wähle bis zu 3 der 48 Beispiele (Luxe und Amro) und erstelle mit einem Klick dein eigenes Pack, oder starte mit einem Bild aus einem Video, das dir gefällt.",
+  "it": "Nessuno ti convince? Scegli fino a 3 dei 48 esempi (Luxe e Amro) e crea il tuo pack con un clic, oppure parti da un fotogramma di un video che ti piace."
+ },
+ "Trae tu propio estilo": {
+  "en": "Bring your own style",
+  "pt": "Traga seu próprio estilo",
+  "fr": "Apportez votre propre style",
+  "de": "Bring deinen eigenen Stil mit",
+  "it": "Porta il tuo stile"
+ },
+ "instalar": {
+  "en": "install",
+  "pt": "instalar",
+  "fr": "installer",
+  "de": "installieren",
+  "it": "installa"
+ },
+ "Exporta una bandeja desde Resolve y súbela aquí: queda guardada como un estilo más.": {
+  "en": "Export a bin from Resolve and add it here: it is saved as one more style.",
+  "pt": "Exporte um bin do Resolve e adicione-o aqui: fica salvo como mais um estilo.",
+  "fr": "Exportez un chutier depuis Resolve et ajoutez-le ici : il est enregistré comme un style de plus.",
+  "de": "Exportiere eine Ablage aus Resolve und füge sie hier hinzu: Sie wird als weiterer Stil gespeichert.",
+  "it": "Esporta un bin da Resolve e aggiungilo qui: viene salvato come uno stile in più."
  }
 }

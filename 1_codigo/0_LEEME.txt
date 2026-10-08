@@ -60,6 +60,8 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         qué estilo (variante del pack) lleva CADA bloque: lo decide la app y lo enseña Creativo, ya no el azar de Resolve.
     estilos_inicio.py
         los 10 estilos de la pantalla de Inicio: cada uno es un rediseño completo (héroe, fondo, partículas).
+    estilos_slider.py
+        el carrusel horizontal de «Pack de estilos»: tarjetas verticales sobre fotos de video con los captions de Resolve encima.
     fuentes_sistema.py
         encuentra en el disco el archivo .ttf/.otf de una familia y estilo.
     guion_captions.py

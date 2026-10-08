@@ -12,6 +12,35 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-07 20:41  ·  v5.3.6  ·  (automático)
+    nuevos (12):
+      + 1_codigo/estilos_slider.py
+      + 2_recursos/fondos_estilos/fondo_01.jpg
+      + 2_recursos/fondos_estilos/fondo_02.jpg
+      + 2_recursos/fondos_estilos/fondo_03.jpg
+      + 2_recursos/fondos_estilos/fondo_04.jpg
+      + 2_recursos/fondos_estilos/fondo_05.jpg
+      + 2_recursos/fondos_estilos/fondo_06.jpg
+      + 2_recursos/fondos_estilos/fondo_07.jpg
+      + 2_recursos/fondos_estilos/fondo_08.jpg
+      + 2_recursos/fondos_estilos/fondo_09.jpg
+      + 2_recursos/fondos_estilos/fondo_10.jpg
+      + 2_recursos/fondos_estilos/fondo_11.jpg
+    modificados (26):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/actualizaciones.py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/qt_kit.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      … y 14 más
+
 2026-10-07 19:34  ·  v5.3.5  ·  cambio explicado
     encabezado de actualizaciones.py corregido
     modificados (1):

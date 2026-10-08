@@ -485,6 +485,10 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.3.6', [
+        'Proyecto rediseñado: «Pack de estilos» ahora es un slider horizontal de tarjetas verticales con tus fotos de video de fondo; la del centro va grande y con sus captions en movimiento (la vista real de Resolve compuesta sobre la foto), las de los lados giran y se apagan, y todo se desliza con un resorte (arrastra, rueda lateral, flechas o puntos).',
+        '«Crea tu estilo» tiene su propia sección justo debajo del slider. Se quitó la tarjeta «Tipografías que usa el pack» (si a un pack le faltan fuentes, el aviso sale bajo el slider con el botón «instalar») y el filtro horizontal/vertical: las vistas son siempre verticales.',
+    ]),
     ('5.3.5', [
         'Actualizaciones automáticas: CineCaptions mira solo (como mucho cada 12 horas) si hay una versión nueva y aparece el chip «Nueva versión» en Inicio. Un clic la descarga, comprueba su huella SHA-256 y la instala; el programa se cierra y se abre solo, sin tocar proyectos, licencia ni ajustes. Se puede apagar en Ajustes > Acerca de.',
         'El logo de Cinema Productions está en la esquina de Inicio, en el instalador y en Ajustes > Acerca de.',

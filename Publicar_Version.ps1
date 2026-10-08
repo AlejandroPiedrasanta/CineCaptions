@@ -74,7 +74,13 @@ if ((Sondear { gh repo view $Repo }) -ne 0) {
         Write-Host '    powershell -ExecutionPolicy Bypass -File Publicar_Version.ps1 -CrearRepo -Notas "..."' -ForegroundColor Yellow
         exit 1
     }
-    Nativo { gh repo create $Repo --public --description 'Instaladores de CineCaptions (By Cinema Productions)' }
+    Nativo { gh repo create $Repo --public --add-readme --description 'Instaladores de CineCaptions (By Cinema Productions)' }
+}
+# GitHub no deja crear una publicacion en un repositorio VACIO (sin ningun commit): se le pone un README minimo
+if ((Sondear { gh api "repos/$Repo/commits?per_page=1" }) -ne 0) {
+    $leeme = "# CineCaptions - instaladores`n`nInstaladores publicos de CineCaptions (By Cinema Productions). Aqui solo estan los .exe y .dmg de cada version y su version.json; el programa se actualiza solo desde aqui.`n"
+    $b64 = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($leeme))
+    Nativo { gh api -X PUT "repos/$Repo/contents/README.md" -f message='README' -f content=$b64 --silent }
 }
 
 # Una publicacion por version; si ya existia (reintento) se reemplazan sus archivos

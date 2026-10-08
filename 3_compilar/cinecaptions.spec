@@ -24,7 +24,7 @@ AQUI = os.path.dirname(os.path.abspath(SPEC))
 # (sys._MEIPASS = <instalacion>\_internal).
 datas = []
 for carpeta in ('resolve_scripts', 'locales', 'plantillas_incluidas', 'fonts',
-                'sfx_library', 'sfx_emoji', 'emojis', 'motor_qwen', 'guia_estilo', 'generador_packs'):
+                'sfx_library', 'sfx_emoji', 'emojis', 'motor_qwen', 'guia_estilo', 'generador_packs', 'fondos_estilos'):
     origen = os.path.join(RECURSOS, carpeta)
     if not os.path.isdir(origen):
         raise SystemExit(f'Falta {origen}: sin eso el programa queda cojo')

@@ -10,6 +10,18 @@ porque así queda también dentro del .exe.
 QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
 ------------------------------------------------------------------------------
     emojis\   (544 archivos)  — emojis Fluent 3D de Microsoft (MIT) en PNG + LICENCIAS.txt
+    fondos_estilos\   (11 archivos)
+        fondo_01.jpg
+        fondo_02.jpg
+        fondo_03.jpg
+        fondo_04.jpg
+        fondo_05.jpg
+        fondo_06.jpg
+        fondo_07.jpg
+        fondo_08.jpg
+        fondo_09.jpg
+        fondo_10.jpg
+        fondo_11.jpg
     fonts\   (44 archivos)  — tipografías: Inter (la interfaz) y las de los packs; LICENCIAS.txt
     generador_packs\   (8 archivos)
         construir_pack.py
