@@ -42,6 +42,13 @@ def main():
     if pack != '-':
         ajustes_ui.leer_prefs = lambda: {**real(), 'plantilla': pack}
     ajustes_ui.guardar_prefs = lambda *a, **k: None                                       # NUNCA escribe las preferencias del usuario
+    import qt_kit
+    dialogos = []
+    def _dialogo(tipo, titulo, texto, parent=None, botones=None):          # un diálogo modal colgaría la prueba sin ventana: se anota y se sigue
+        dialogos.append((tipo, titulo, str(texto)[:300]))
+        print(f'DIALOGO[{tipo}] {titulo}: {str(texto)[:300]!r}', flush=True)
+        return True
+    qt_kit.mostrar_mensaje = _dialogo
     if hasattr(ajustes_ui, 'mezclar_prefs'):
         ajustes_ui.mezclar_prefs = lambda *a, **k: None
     from PySide6.QtWidgets import QApplication
@@ -72,6 +79,14 @@ def main():
         app.processEvents()
         time.sleep(0.05)
     print('GO terminado en %.0f s · corriendo=%s' % (time.time() - t0, getattr(w, '_go_corriendo', None)), flush=True)
+    try:                                              # lo que vería el usuario en Inicio
+        gp = w.go_panel
+        print('PANEL titulo=%r · linea=%r · aviso_inicio=%r · estado=%s · paso_fallido=%r · eta=%r' % (getattr(gp.titulo, '_texto', ''), getattr(gp.linea, 'text', lambda: '')(), getattr(w.aviso_inicio, 'text', lambda: '')(), gp.boton.estado, gp.paso_fallido, gp.boton._eta_texto()), flush=True)
+        import registro
+        for e in [e for e in registro.registro().lista() if e.nivel == 'error'][-3:]:
+            print('REGISTRO error · %s · %s' % (e.origen, str(e.mensaje)[:200]), flush=True)
+    except Exception as exc:
+        print('(no pude leer el panel)', exc, flush=True)
     faulthandler.cancel_dump_traceback_later()
     os._exit(0 if not getattr(w, '_go_corriendo', False) else 2)
 

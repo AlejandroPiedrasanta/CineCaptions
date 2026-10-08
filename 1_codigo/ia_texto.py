@@ -41,7 +41,8 @@ import sugerencias_ia
 PESO_IA = 0.7          # cuanto manda el modelo frente al puntaje de siempre
 DENSIDAD_UN_CLIC = 0.9
 INACTIVO_S = 180       # segundos que el modelo queda cargado sin trabajo
-SIN_SENAL_S = 240      # v5.11: sin ninguna línea del modelo durante tanto = colgado
+SIN_SENAL_S = 100      # v5.11: sin ninguna línea del modelo durante tanto = colgado (una pasada normal da una línea cada pocos segundos; antes 240 s: se veía «cargando» 4 min)
+AVISO_LENTA_S = 35     # a partir de aquí se le dice al usuario que la IA tarda y cuánto falta para probar el modelo ligero
 FALLOS_SEGUIDOS_MAX = 2
 _FALLOS = {'n': 0, 'avisado': False}
 
@@ -119,15 +120,23 @@ class _Servidor:
         self.p.stdin.write((json.dumps({'entrada': entrada, 'salida': salida}) + '\n').encode('utf-8'))
         self.p.stdin.flush()
         inicio = ultima = time.time()
+        ultimo_aviso = 0.0
         while time.time() - inicio < timeout:
             try:
                 linea = self.lineas.get(timeout=1.0)
             except queue.Empty:
                 if not self.vivo():
                     break
-                if time.time() - ultima > sin_senal:
+                callada = time.time() - ultima
+                if callada > sin_senal:
                     self.cerrar()
                     return False, f'la IA de texto se quedó sin responder {int(sin_senal)} s'
+                if callada > AVISO_LENTA_S and time.time() - ultimo_aviso > 10:
+                    ultimo_aviso = time.time()
+                    try:
+                        linea_cb('ESTADO', f'La IA de texto tarda más de lo normal… si no responde en {max(1, int(sin_senal - callada))} s pruebo con el modelo ligero.')
+                    except Exception:
+                        pass
                 continue
             ultima = time.time()
             if linea is None:
@@ -155,6 +164,7 @@ class _Servidor:
 
 
 _SRV = {'s': None}
+_PREFERIDO = {'m': None}      # el modelo que SÍ funcionó tras fallar el grande: en esta sesión se va directo a él (no se vuelven a perder ~100 s cada vez)
 _LOCK = threading.Lock()
 
 
@@ -220,6 +230,8 @@ def analizar(palabras, idioma='es', progreso=None, estado=None, modo=None):
             raise RuntimeError('la IA de texto está desactivada en esta sesión tras fallar varias veces')
         # v5.11: si el modelo grande falla, se cambia SOLO al ligero (1.7B) antes de rendirse; cada intento queda en el Registro
         modelos = [modelo] + (['1.7B'] if modelo != '1.7B' else [])
+        if _PREFERIDO['m'] and _PREFERIDO['m'] != modelo:
+            modelos = [_PREFERIDO['m']]
         ok, texto = False, ''
         for k, m in enumerate(modelos):
             with _LOCK:
@@ -240,6 +252,8 @@ def analizar(palabras, idioma='es', progreso=None, estado=None, modo=None):
             if ok:
                 if k and r:
                     r.ok(f'La IA de texto funcionó con el modelo {m}.', 'IA de texto')
+                if k:
+                    _PREFERIDO['m'] = m
                 break
             if r:
                 r.aviso(f'La IA de texto ({m}) falló: {str(texto)[:200]}', 'IA de texto')

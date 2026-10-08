@@ -145,8 +145,10 @@ def apilar(lineas, ancla_y, ancho_tl=1080, alto_tl=1920):
             y += hueco
         extra = (l.get('h_vis', l['h']) - l['h']) / 2.0
         y += extra if not (l.get('heroe') or (previo or {}).get('heroe')) else 0.0
+        hueco_anillo = 0.42 * l['h'] if l.get('anillo') else 0.0          # un anillo sobresale por arriba y por abajo de su línea
+        y += hueco_anillo
         l['_y0'] = y
-        y += l['h'] + (extra if not (l.get('heroe') or (previo or {}).get('heroe')) else 0.0)
+        y += l['h'] + hueco_anillo + (extra if not (l.get('heroe') or (previo or {}).get('heroe')) else 0.0)
         previo = l
     total = y
     arriba = ancla_y * alto_tl - total / 2.0
@@ -163,8 +165,8 @@ def apilar(lineas, ancla_y, ancho_tl=1080, alto_tl=1920):
         ref = textos[min(len(textos) - 1, int(l.get('sobre', 0)))]
         if e['tipo'] == 'anillo':
             nw, nh = AFINADO['nominal_anillo']
-            ancho = ref['w'] * 1.28 + 0.05 * ancho_tl
-            alto = ref['h'] * 2.7
+            ancho = min(ref['w'] * 1.22 + 0.04 * ancho_tl, 0.9 * ancho_tl)             # nunca más ancho que el cuadro
+            alto = ref['h'] * 2.0
             l.update(x=ref['x'], y=ref['y'], zx=round(ancho / (nw * ancho_tl), 3), zy=round(alto / (nh * ancho_tl), 3))
         else:
             nw, nh = AFINADO['nominal_linea']

@@ -87,7 +87,6 @@
     "_carta_pack",
     "_carta_simple",
     "_pintar_info",
-    
     "_pagina_estilos"
    ],
    "resumen": "PlantillasWindow: _asegurar_estilos, _fila_pack"
@@ -1457,6 +1456,37 @@
     "planificar"
    ],
    "resumen": "probar_kinetic.py --fondo video --render x → hoja de cuadros; limpiar_banco al acabar"
+  },
+  {
+   "id": "go-progreso",
+   "grupo": "go",
+   "tema": "GO: porcentaje, tiempo restante y errores claros",
+   "claves": [
+    "go",
+    "progreso",
+    "eta",
+    "tiempo",
+    "restante",
+    "errores",
+    "registro",
+    "audio",
+    "A1"
+   ],
+   "archivos": [
+    "un_clic_ui.py",
+    "registro_ayuda.py",
+    "resolve_mcp.py"
+   ],
+   "simbolos": [
+    "EstimadorGo",
+    "PanelGo",
+    "estimar_duracion",
+    "asegurar_audio_original",
+    "explicar",
+    "idioma_detectado",
+    "_sin_palabras_mensaje"
+   ],
+   "resumen": "EstimadorGo (ETA bajo el %), registro_ayuda._REGLAS (causas concretas), asegurar_audio_original (A1 nunca se quita)"
   }
  ]
 }

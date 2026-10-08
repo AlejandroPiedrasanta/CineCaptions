@@ -130,7 +130,20 @@ def _sombra(num, opacidad=0.72, dy=-0.0065, blur=10):
     ]
 
 
-def comp_texto(nombre, texto, fuente, tam, relleno, esp=1.0, entrada='pop', retardo=0, sombra=True, interlineado=None):
+def _contorno(num, grosor, opacidad=0.9):
+    """Un elemento de sombreado que dibuja el CONTORNO oscuro de la letra (ElementShape 1 = contorno del texto): el texto pequeño blanco se lee también sobre una pared clara."""
+    return [
+        f'Enabled{num} = Input {{ Value = 1, }},',
+        f'ElementShape{num} = Input {{ Value = 1, }},',
+        f'Thickness{num} = Input {{ Value = Number {{ Value = {n(grosor)} }}, }},',
+        f'Red{num} = Input {{ Value = Number {{ Value = 0 }}, }},',
+        f'Green{num} = Input {{ Value = Number {{ Value = 0 }}, }},',
+        f'Blue{num} = Input {{ Value = Number {{ Value = 0 }}, }},',
+        f'Opacity{num} = Input {{ Value = Number {{ Value = {n(opacidad)} }}, }},',
+    ]
+
+
+def comp_texto(nombre, texto, fuente, tam, relleno, esp=1.0, entrada='pop', retardo=0, sombra=True, interlineado=None, contorno=0.0):
     """Un Text+ con relleno (color liso o degradado), sombra y la entrada animada. relleno = (r,g,b) o [(pos, (r,g,b))…]."""
     extra = []
     color = (1, 1, 1)
@@ -140,7 +153,10 @@ def comp_texto(nombre, texto, fuente, tam, relleno, esp=1.0, entrada='pop', reta
         color = relleno
     if sombra:
         extra += _sombra(2, 0.8, -0.0065, 7)                 # sombra firme debajo de la letra…
-        extra += _sombra(3, 0.55, -0.002, 34)                # …y un halo oscuro ancho: la letra se lee también sobre una pared blanca
+        if contorno > 0:
+            extra += _contorno(3, contorno)                  # …y, en el texto pequeño, un contorno oscuro: se lee también sobre una pared blanca
+        else:
+            extra += _sombra(3, 0.55, -0.002, 34)            # (los héroes llevan un halo ancho)
     t = texto_plus('Template', -220, 40, texto, fuente[0], fuente[1], tam, color=color, esp=esp, extra=extra)
     t += _cadena('Template', animacion(entrada, retardo))
     return K.armar_comp(t, f'CineCaptions Kinetic - {nombre}')
@@ -214,12 +230,12 @@ def todos():
     """{nombre del clip: texto de la comp}. Los tamaños (Size) son los de partida: la app fija el real por clip."""
     c = {}
     for var in ('blanco', 'lima', 'amarillo', 'magenta', 'rojo'):
-        c[f'k hero {var}'] = comp_texto(f'héroe {var}', 'HERO', HEROE, 0.30, GRADIENTES[var], esp=1.0, entrada='pop')
-    c['k sup'] = comp_texto('sup', 'SUP', HEROE, 0.12, (1.0, 1.0, 1.0), esp=1.04, entrada='sube', sombra=True)
-    c['k serif blanco'] = comp_texto('serif', 'Serif', SERIF, 0.20, GRADIENTES['serif'], esp=1.0, entrada='abre')
+        c[f'k hero {var}'] = comp_texto(f'héroe {var}', 'HERO', HEROE, 0.30, GRADIENTES[var], esp=1.0, entrada='pop', contorno=(0.007 if var == 'blanco' else 0.0))
+    c['k sup'] = comp_texto('sup', 'SUP', HEROE, 0.12, (1.0, 1.0, 1.0), esp=1.04, entrada='sube', sombra=True, contorno=0.010)
+    c['k serif blanco'] = comp_texto('serif', 'Serif', SERIF, 0.20, GRADIENTES['serif'], esp=1.0, entrada='abre', contorno=0.012)
     for var, grad in COLOR_GUION.items():
-        c[f'k script {var}'] = comp_texto(f'guion {var}', 'script', GUION, 0.22, grad, esp=1.0, entrada='giro')
-    c['k label'] = comp_texto('etiqueta', 'LABEL', ETIQUETA, 0.07, (1.0, 1.0, 1.0), esp=1.3, entrada='sube', sombra=True)
+        c[f'k script {var}'] = comp_texto(f'guion {var}', 'script', GUION, 0.22, grad, esp=1.0, entrada='giro', contorno=0.012)
+    c['k label'] = comp_texto('etiqueta', 'LABEL', ETIQUETA, 0.07, (1.0, 1.0, 1.0), esp=1.3, entrada='sube', sombra=True, contorno=0.008)
     for var, (caja, texto) in COLOR_CINTA.items():
         c[f'k tape {var}'] = comp_cinta(f'cinta {var}', 'TAPE', HEROE, 0.10, caja, texto, entrada='giro')
     for var in ('amarillo', 'magenta', 'blanco'):

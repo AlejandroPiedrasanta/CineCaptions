@@ -6741,12 +6741,23 @@ class SubtitleApp(QWidget):
                 break
     def _soltar_archivo(self, ruta):
         """Un video o audio soltado en la ventana (o en la zona de Inicio)."""
-        if not self._entradas_activas:
-            return
         p = Path(ruta)
-        if not p.is_file():
+        if not self._entradas_activas:
+            try:
+                self.aviso_inicio.configure(text=tr('CineCaptions está trabajando: espera a que termine antes de soltar otro video.'))
+            except Exception:
+                pass
+            return
+        if not p.is_file():                               # antes se ignoraba en silencio: el usuario no sabía por qué no pasaba nada
+            texto = tr('No encuentro «{n}»: ¿lo moviste o le cambiaste el nombre?', n=p.name) if not p.exists() else tr('«{n}» es una carpeta: suelta el archivo de video.', n=p.name)
+            registro.aviso(texto, 'GO · soltar archivo')
+            try:
+                self.aviso_inicio.configure(text=texto)
+            except Exception:
+                pass
             return
         if p.suffix.lower() not in self.EXTENSIONES_MEDIO:
+            registro.aviso(tr('«{n}» no parece un video ni un audio.', n=p.name), 'GO · soltar archivo')
             try:
                 self.aviso_inicio.configure(text=tr('«{n}» no parece un video ni un audio.', n=p.name))
             except Exception:
@@ -7540,6 +7551,11 @@ class SubtitleApp(QWidget):
                                'GO · timeline del video')
                 return
             self._go_tl_info = r
+            if r.get('clip_con_audio'):
+                if r.get('audio_repuesto'):
+                    registro.aviso(tr('Resolve metió solo la imagen de tu video: añadí su audio original a la pista A1.'), 'GO · timeline del video')
+                elif not r.get('audio_a1'):
+                    registro.aviso(tr('Tu video tiene audio pero no pude ponerlo en la pista A1 del timeline. Arrástralo tú desde el Media Pool.'), 'GO · timeline del video')
             self._ancho_timeline = r.get('ancho') or medio['tl_ancho']
             self._alto_timeline = r.get('alto') or medio['tl_alto']
             registro.info(tr('Timeline «{t}» armado con tu video en el proyecto «{p}» ({w}×{h}, {f:g} fps).', t=r.get('timeline'), p=r.get('proyecto') or '—',
@@ -7596,6 +7612,7 @@ class SubtitleApp(QWidget):
     def _go_fallo(self, clave, mensaje):
         registro.error(str(mensaje).splitlines()[0][:200] if mensaje else tr('GO no pudo terminar'), f'GO · {clave}', detalle=str(mensaje or ''))
         self._fin_tarea(False, str(mensaje).splitlines()[0][:160] if mensaje else '')
+        self.go_panel.paso_fallido = clave
         self.go_panel.paso(clave, 'error')
         self.go_panel.terminar(False, str(mensaje).splitlines()[0][:160] if mensaje else '')
         self._go_corriendo = False
@@ -7716,6 +7733,8 @@ class SubtitleApp(QWidget):
         else:
             registro.error(texto or tr('GO no pudo colocar los subtítulos.'), 'GO · resolve')
         self._fin_tarea(ok, '' if ok else str(texto or '')[:160])
+        if not ok:
+            self.go_panel.paso_fallido = 'resolve'
         self.go_panel.paso('resolve', 'hecho' if ok else 'error')
         self.go_panel.terminar(ok, texto or (tr('Ya está en tu timeline. Pulsa GO para otro.') if ok else ''), self._go_estadisticas() if ok else None)
         self._go_corriendo = False
@@ -7724,6 +7743,11 @@ class SubtitleApp(QWidget):
             def ir():
                 try:
                     import resolve_mcp
+                    info = resolve_mcp.asegurar_audio_original()           # el audio original del video no se quita: se comprueba y, si faltara, se repone
+                    if info.get('repuestos'):
+                        registro.aviso(tr('El audio original del video no estaba en A1 al terminar: lo repuse.'), 'GO · resolve')
+                    elif info.get('v1') and not info.get('a1_ahora'):
+                        registro.aviso(tr('El video no tiene audio en la pista A1 del timeline (¿el archivo no tiene sonido o está «Archivo no encontrado» en Resolve?).'), 'GO · resolve')
                     resolve_mcp.ir_a_pagina('edit')
                 except Exception:
                     pass
@@ -11753,6 +11777,10 @@ class SubtitleApp(QWidget):
             except Exception:
                 pass
             project_name = media_path.stem
+            try:
+                self.msg_queue.put(('duracion', st._duracion_segundos(str(media_path))))           # los tiempos esperados de GO dependen de ella
+            except Exception:
+                pass
             transcribe_share = 0.7 if translate else 1.0
             def on_model_loaded():
                 self.msg_queue.put(('phase_determinate', None))
@@ -11767,7 +11795,11 @@ class SubtitleApp(QWidget):
             if not words:
                 raise SystemExit(self._sin_palabras_mensaje())
             self._abortar_si_fallo_el_timeline()          # un video soltado sin su timeline en Resolve: no se sigue (ni se gastan los minutos de la IA)
-            base_lang = source_lang if source_lang != 'auto' else 'es'
+            base_lang = source_lang
+            if source_lang == 'auto':
+                # con «auto» el idioma es el que se OYÓ (antes se daba por español y la corrección del texto «arreglaba» el inglés con palabras en español)
+                base_lang = st.idioma_detectado(words) or 'es'
+                registro.info(f'Idioma detectado: {base_lang}', 'voz')
             manifest = {'project': project_name, 'tracks': []}
             if modo == 'destacados':
                 import dynamic_subtitles as dyn
@@ -12005,6 +12037,9 @@ class SubtitleApp(QWidget):
                             self.go_panel.avance_dentro(getattr(self, '_go_paso_actual', 'voz'), float(payload))
                         except (TypeError, ValueError):
                             pass
+                elif kind == 'duracion':
+                    if un_clic:
+                        self.go_panel.estimar_duracion(payload)
                 elif kind == 'paso':
                     # v5.1: los pasos de GO (los manda el hilo de trabajo)
                     if un_clic:

@@ -80,6 +80,7 @@ class BotonGo(QAbstractButton):
         self._suave_t = 1.0
         self._t_ini = None               # cuándo empezó a trabajar (para el tiempo restante)
         self._eta_fin = None
+        self._eta_manual = ''            # el tiempo restante que calcula el estimador de GO (manda sobre el cálculo por ritmo)
         self._escena = None
         import efectos_ui
         self._quieto = efectos_ui.reducir_animaciones()
@@ -244,6 +245,7 @@ class BotonGo(QAbstractButton):
             self.fase = ''
             self._t_ini = self._time.perf_counter()
             self._eta_fin = None
+            self._eta_manual = ''
         if estado == 'hecho' and anterior != 'hecho':
             self._marca = 0.0
             self._cierre = 0.0
@@ -280,7 +282,13 @@ class BotonGo(QAbstractButton):
                 fin = ahora + transcurrido * (1.0 - f) / f
                 self._eta_fin = fin if self._eta_fin is None else 0.8 * self._eta_fin + 0.2 * fin
 
+    def poner_eta(self, texto):
+        self._eta_manual = str(texto or '')
+        self.update()
+
     def _eta_texto(self):
+        if self.estado == 'trabajando' and self._eta_manual:
+            return self._eta_manual
         if self.estado != 'trabajando' or self._eta_fin is None or self._t_ini is None:
             return ''
         ahora = self._time.perf_counter()
@@ -697,6 +705,143 @@ class SalidaGo(QWidget):
         self.setFixedHeight(max(0, int(46 * float(v))))
 
 
+class EstimadorGo:
+    """Cuánto falta en GO. Cada paso tiene una duración esperada (base + lo que cuesta por minuto de video, escalada por lo que tardó en las últimas veces en
+    ESTE equipo: se aprende y se guarda en las preferencias, «go_ritmo»). Con eso el porcentaje avanza con el reloj dentro de cada paso (no se queda quieto
+    entre un paso y otro) y debajo sale el tiempo que queda; si un paso tarda mucho más de lo normal lo dice."""
+    ORDEN = ('timeline', 'voz', 'ia', 'diseno', 'sfx', 'resolve')
+    BASE = {'timeline': 8.0, 'voz': 8.0, 'ia': 22.0, 'diseno': 3.0, 'sfx': 6.0, 'resolve': 18.0}
+    POR_MIN = {'timeline': 0.0, 'voz': 5.0, 'ia': 6.0, 'diseno': 0.5, 'sfx': 3.0, 'resolve': 6.0}
+
+    def __init__(self):
+        import time as _t
+        self._time = _t
+        self.factor = {k: 1.0 for k in self.ORDEN}
+        try:
+            import ajustes_ui
+            guardado = ajustes_ui.leer_prefs().get('go_ritmo') or {}
+            for k in self.ORDEN:
+                v = float(guardado.get(k, 1.0))
+                if 0.2 <= v <= 6.0:
+                    self.factor[k] = v
+        except Exception:
+            pass
+        self.minutos = 1.0
+        self.reiniciar()
+
+    def reiniciar(self):
+        self.t0 = None
+        self.actual = None
+        self.t_paso = None
+        self.hechos = {}              # clave -> segundos reales (0 si se saltó)
+        self.saltados = set()
+        self.dentro_f = 0.0
+
+    def empezar(self):
+        self.reiniciar()
+        self.t0 = self._time.perf_counter()
+
+    def duracion(self, segundos):
+        try:
+            self.minutos = max(0.2, min(90.0, float(segundos) / 60.0))
+        except (TypeError, ValueError):
+            pass
+
+    def _base(self, k):
+        return self.BASE[k] + self.POR_MIN[k] * self.minutos
+
+    def esperado(self, k):
+        if k in self.saltados:
+            return 0.0
+        return max(1.0, self._base(k) * self.factor[k])
+
+    def paso(self, clave, estado):
+        if clave not in self.ORDEN or self.t0 is None:
+            return
+        ahora = self._time.perf_counter()
+        if estado == 'activo':
+            if self.actual and self.actual != clave and self.actual not in self.hechos:
+                self.hechos[self.actual] = ahora - (self.t_paso or ahora)
+            self.actual, self.t_paso, self.dentro_f = clave, ahora, 0.0
+        elif estado in ('hecho', 'saltado'):
+            if estado == 'saltado':
+                self.saltados.add(clave)
+                self.hechos[clave] = 0.0
+            else:
+                self.hechos[clave] = (ahora - self.t_paso) if (self.actual == clave and self.t_paso) else 0.0
+            if self.actual == clave:
+                self.actual, self.t_paso, self.dentro_f = None, None, 0.0
+
+    def dentro(self, clave, fraccion):
+        if clave == self.actual:
+            self.dentro_f = max(self.dentro_f, max(0.0, min(1.0, float(fraccion))))
+
+    def _en_paso(self):
+        return (self._time.perf_counter() - self.t_paso) if self.t_paso else 0.0
+
+    def _f_actual(self):
+        """Qué parte del paso en curso va hecha: lo que diga el paso (transcribir, IA) o, si no dice, el reloj (sin pasar del 93 %)."""
+        if not self.actual:
+            return 0.0
+        por_reloj = min(0.93, self._en_paso() / self.esperado(self.actual))
+        return max(self.dentro_f * 0.97, por_reloj)
+
+    def fraccion(self):
+        if self.t0 is None:
+            return 0.0
+        total = sum(self.esperado(k) for k in self.ORDEN) or 1.0
+        hecho = sum(self.esperado(k) for k in self.hechos)
+        if self.actual:
+            hecho += self.esperado(self.actual) * self._f_actual()
+        return max(0.0, min(0.985, hecho / total))
+
+    def restante(self):
+        r = sum(self.esperado(k) for k in self.ORDEN if k not in self.hechos and k != self.actual)
+        if self.actual:
+            e = self.esperado(self.actual)
+            r += max(e * (1.0 - self._f_actual()), min(5.0, e * 0.25))
+        return r
+
+    def tarda_mas(self):
+        return bool(self.actual) and self._en_paso() > max(25.0, 2.2 * self.esperado(self.actual))
+
+    def eta_texto(self):
+        if self.t0 is None:
+            return ''
+        if self._time.perf_counter() - self.t0 < 1.2:
+            return tr('calculando…')
+        if self.tarda_mas():
+            return tr('tarda más de lo normal…')
+        r = self.restante()
+        if r < 8:
+            return tr('unos segundos')
+        if r < 90:
+            return tr('~ {s} s', s=int(round(r / 5.0) * 5))
+        m, s = int(r // 60), int(round((r % 60) / 10.0) * 10)
+        if s >= 60:
+            m, s = m + 1, 0
+        return tr('~ {m} min {s} s', m=m, s=s) if s else tr('~ {m} min', m=m)
+
+    def numero_de_paso(self, clave):
+        pend = [k for k in self.ORDEN if k not in self.saltados]
+        return (pend.index(clave) + 1, len(pend)) if clave in pend else (0, len(pend))
+
+    def guardar(self):
+        """Aprende: cuánto tardó cada paso respecto a lo esperado sin escalar (media móvil) y lo guarda."""
+        try:
+            nuevo = dict(self.factor)
+            for k, real in self.hechos.items():
+                if k in self.saltados or real < 0.5:
+                    continue
+                razon = real / max(1.0, self._base(k))
+                nuevo[k] = round(max(0.2, min(6.0, 0.6 * self.factor[k] + 0.4 * razon)), 3)
+            import ajustes_ui
+            ajustes_ui.guardar_prefs({'go_ritmo': nuevo})
+            self.factor = nuevo
+        except Exception:
+            pass
+
+
 class PanelGo(QWidget):
     """Inicio: el boton, una demo viva en reposo, una linea de estado, las
     opciones rapidas (las pone SubtitleApp), los pasos y «Detalles».
@@ -745,6 +890,11 @@ class PanelGo(QWidget):
         self._ficha = 0                         # para cancelar los temporizadores del final si empieza otro GO
         self._texto_reposo = ''
         self._reserva_final = 0                 # alto que ocupan los contadores y botones del final (el orbe cede ese sitio)
+        self.estimador = EstimadorGo()
+        self.paso_fallido = None                # el paso en que falló GO (lo pone la app antes de terminar(False))
+        self._reloj_eta = QTimer(self)
+        self._reloj_eta.setInterval(500)
+        self._reloj_eta.timeout.connect(self._tic_eta)
         # las opciones rapidas de GO (fuente, idioma, estilo, efectos): las pone la app
         self.opciones = QWidget()
         self.opciones_capa = QHBoxLayout(self.opciones)
@@ -831,8 +981,12 @@ class PanelGo(QWidget):
         self.resumen.hide()
         self.salida.ocultar()
         self.titulo.configure(text=tr('Trabajando…'))
+        self.paso_fallido = None
+        self.estimador.empezar()
         self.boton.poner_estado('trabajando', centro=tr('Preparando'))
         self.boton.poner_progreso(0.0)
+        self.boton.poner_eta(self.estimador.eta_texto())
+        self._reloj_eta.start()
         self.opciones.hide()
         self.linea.poner_color('#D3E0F5')           # se lee aunque la esfera brille detrás
         self.pasos.entrar()
@@ -843,34 +997,49 @@ class PanelGo(QWidget):
 
     def paso(self, clave, estado='activo', detalle=None):
         self.pasos.marcar(clave, estado, detalle)
+        self.estimador.paso(clave, estado)
         if self.escena is not None:
             self.escena.paso(clave, estado, detalle)
         if estado == 'activo':
-            self.boton.poner_estado('trabajando', centro=self.CORTO.get(clave) or dict(self.PASOS).get(clave, ''))
+            n, total = self.estimador.numero_de_paso(clave)
+            nombre = self.CORTO.get(clave) or dict(self.PASOS).get(clave, '')
+            self.boton.poner_estado('trabajando', centro=(f'{nombre} · {n}/{total}' if n else nombre))
             self.boton.poner_fase(clave)
             if self.escena is not None:
                 self.escena.poner_fase(clave)
         orden = [k for k, _ in self.PASOS]
-        if clave in orden and estado in ('activo', 'hecho'):
-            i = orden.index(clave) + (1 if estado == 'hecho' else 0.15)
-            self.boton.poner_progreso(i / len(orden))
-            if self.escena is not None:
-                self.escena.progreso(i / len(orden))
+        if clave in orden and estado in ('activo', 'hecho', 'saltado'):
+            self._tic_eta()
 
     def avance_dentro(self, clave, fraccion):
         """El progreso DENTRO de un paso (transcribir, IA) mueve el anillo."""
-        orden = [k for k, _ in self.PASOS]
-        if clave in orden:
-            f = (orden.index(clave) + 0.15 + 0.8 * max(0.0, min(1.0, fraccion))) / len(orden)
-            self.boton.poner_progreso(f)
-            if self.escena is not None:
-                self.escena.progreso(f)
+        self.estimador.dentro(clave, fraccion)
+        self._tic_eta()
+
+    def estimar_duracion(self, segundos):
+        """La duración del audio / video (la manda el hilo de trabajo en cuanto la conoce): los tiempos esperados de cada paso dependen de ella."""
+        self.estimador.duracion(segundos)
+        self._tic_eta()
+
+    def _tic_eta(self):
+        """Cada medio segundo: el porcentaje sigue al reloj dentro del paso y debajo del porcentaje sale lo que falta."""
+        if self.boton.estado != 'trabajando':
+            self._reloj_eta.stop()
+            return
+        f = self.estimador.fraccion()
+        self.boton.poner_progreso(f)
+        self.boton.poner_eta(self.estimador.eta_texto())
+        if self.escena is not None:
+            self.escena.progreso(f)
 
     def terminar(self, ok, texto, stats=None):
         """El final. stats: [(valor, etiqueta, 'n'|'t')] para los contadores. Con avisos el orbe se pone ámbar; con error se apaga y se
         propone un primer paso concreto."""
         import registro
         import time as _t
+        self._reloj_eta.stop()
+        if ok:
+            self.estimador.guardar()
         nuevos = [e for e in registro.registro().lista() if e.tiempo >= self._inicio_t]
         n_av = sum(1 for e in nuevos if e.nivel == 'aviso')
         errores = [e for e in nuevos if e.nivel == 'error']
@@ -893,6 +1062,8 @@ class PanelGo(QWidget):
                     import registro_ayuda
                     a = registro_ayuda.explicar(errores[-1])
                     consejo = (a.titulo + '. ' + (tr('Prueba esto: {p}', p=a.pasos[0]) if a.pasos else '')).strip()
+                    if self.paso_fallido in self.CORTO:
+                        consejo = tr('Falló en «{p}»: ', p=self.CORTO[self.paso_fallido]) + consejo
                 except Exception:
                     consejo = ''
             self.linea.configure(text=consejo or __import__('i18n').tr_libre(texto))
@@ -950,6 +1121,7 @@ class PanelGo(QWidget):
     def reposo(self, texto, listo=True, forzar=False):
         if self.boton.estado in ('trabajando',):
             return
+        self._reloj_eta.stop()
         self._texto_reposo = texto
         import time as _t
         # el refresco periódico de la app no debe borrar el final (contadores, botones) nada más aparecer

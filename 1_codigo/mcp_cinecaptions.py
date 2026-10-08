@@ -397,7 +397,8 @@ if tl:
     res['A1'] = [(it.GetName(), bool(it.GetClipEnabled())) for it in a1]
     res['V1'] = [(it.GetName(), bool(it.GetClipEnabled())) for it in v1]
     res['A1_activa'] = bool(tl.GetIsTrackEnabled('audio', 1))
-    res['pistas_texto'] = sum(1 for t in range(1, tl.GetTrackCount('video') + 1) if tl.GetTrackName('video', t).startswith('ES-'))
+    import re
+    res['pistas_texto'] = sum(1 for t in range(1, tl.GetTrackCount('video') + 1) if re.match(r'^[A-Za-z]{2,3}-[KT]\d+$', tl.GetTrackName('video', t)))
     res['pistas_sfx'] = sum(1 for t in range(1, tl.GetTrackCount('audio') + 1) if tl.GetTrackName('audio', t).startswith('SFX'))
 result = res
 """
@@ -454,11 +455,12 @@ def t_arrastrar_video(a):
         a1_ok = any(Path(media).name == n and on for n, on in (estado_tl or {}).get('A1', []))
         sonido['VEREDICTO'] = ('OK: el audio del video está en A1 y suena en el render' if (a1_ok and tiene_render and (vol_render is None or vol_render > -60))
                                else 'FALLA: el audio del video no llegó al timeline o al render')
-        base = Path.home() / 'DaVinciSubtitles' / f'{Path(media).stem}.{a.get("idioma", "es")}'
-        datos = next((p for p in (base.with_suffix(base.suffix + '.kinetic.json'), base.with_suffix(base.suffix + '.guion.json')) if p.exists()), base.with_suffix(base.suffix + '.guion.json'))
+        candidatos = sorted([q for pat in ('.kinetic.json', '.guion.json') for q in (Path.home() / 'DaVinciSubtitles').glob(f'{Path(media).stem}.*{pat}')],
+                            key=lambda q: q.stat().st_mtime, reverse=True)
+        datos = candidatos[0] if candidatos else Path.home() / 'DaVinciSubtitles' / 'no_existe.json'
         tiempos = a.get('tiempos')
         if not tiempos and datos.exists():
-            tiempos = [round(max(0.0, c['end'] - 0.15), 2) for c in json.loads(datos.read_text(encoding='utf-8'))['cues']]
+            tiempos = [round(max(0.0, c['end'] - 0.5), 2) for c in json.loads(datos.read_text(encoding='utf-8'))['cues']]          # con todo ya dentro y antes de la salida
         CARPETA.mkdir(parents=True, exist_ok=True)
         hoja = b.hoja(render, tiempos or [1, 3, 5, 7, 9, 11, 13, 15], CARPETA / 'hoja_arrastrar.jpg', columnas=int(a.get('columnas', 4)))
     finally:

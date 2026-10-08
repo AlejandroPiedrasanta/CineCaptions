@@ -3036,5 +3036,348 @@
   "fr": "Le fichier vidéo n'est plus là où il était ({r}).\nResolve l'affiche comme « Fichier introuvable », d'où l'absence d'audio : l'avez-vous déplacé ou renommé ? Remettez-le en place (ou déposez-le de nouveau dans CineCaptions) et appuyez sur GO.",
   "de": "Die Videodatei liegt nicht mehr dort, wo sie war ({r}).\nResolve zeigt sie als „Datei nicht gefunden“ an, deshalb gibt es keinen Ton: Hast du sie verschoben oder umbenannt? Leg sie zurück (oder zieh sie erneut in CineCaptions) und drücke GO.",
   "it": "Il file video non è più dove si trovava ({r}).\nResolve lo mostra come «File non trovato» e per questo non c'è audio: l'hai spostato o rinominato? Rimettilo al suo posto (o trascinalo di nuovo in CineCaptions) e premi GO."
+ },
+ "calculando…": {
+  "en": "calculating…",
+  "pt": "calculando…",
+  "fr": "calcul en cours…",
+  "de": "wird berechnet…",
+  "it": "calcolo in corso…"
+ },
+ "tarda más de lo normal…": {
+  "en": "taking longer than usual…",
+  "pt": "está demorando mais que o normal…",
+  "fr": "plus long que d'habitude…",
+  "de": "dauert länger als sonst…",
+  "it": "ci mette più del solito…"
+ },
+ "~ {m} min {s} s": {
+  "en": "~ {m} min {s} s",
+  "pt": "~ {m} min {s} s",
+  "fr": "~ {m} min {s} s",
+  "de": "~ {m} Min. {s} s",
+  "it": "~ {m} min {s} s"
+ },
+ "Falló en «{p}»: ": {
+  "en": "Failed at «{p}»: ",
+  "pt": "Falhou em «{p}»: ",
+  "fr": "Échec à l'étape « {p} » : ",
+  "de": "Fehler bei «{p}»: ",
+  "it": "Errore in «{p}»: "
+ },
+ "Resolve metió solo la imagen de tu video: añadí su audio original a la pista A1.": {
+  "en": "Resolve only brought in the picture of your video: I added its original audio to track A1.",
+  "pt": "O Resolve trouxe só a imagem do seu vídeo: adicionei o áudio original à faixa A1.",
+  "fr": "Resolve n'a importé que l'image de ta vidéo : j'ai ajouté son audio d'origine sur la piste A1.",
+  "de": "Resolve hat nur das Bild deines Videos übernommen: Ich habe den Originalton auf Spur A1 ergänzt.",
+  "it": "Resolve ha portato solo l'immagine del video: ho aggiunto l'audio originale sulla traccia A1."
+ },
+ "Tu video tiene audio pero no pude ponerlo en la pista A1 del timeline. Arrástralo tú desde el Media Pool.": {
+  "en": "Your video has audio but I could not put it on track A1 of the timeline. Drag it yourself from the Media Pool.",
+  "pt": "Seu vídeo tem áudio, mas não consegui colocá-lo na faixa A1 da timeline. Arraste-o você mesmo do Media Pool.",
+  "fr": "Ta vidéo a de l'audio mais je n'ai pas pu le mettre sur la piste A1 du timeline. Glisse-la toi-même depuis le Media Pool.",
+  "de": "Dein Video hat Ton, aber ich konnte ihn nicht auf Spur A1 der Timeline legen. Zieh es selbst aus dem Media Pool.",
+  "it": "Il video ha l'audio ma non sono riuscito a metterlo sulla traccia A1 della timeline. Trascinalo tu dal Media Pool."
+ },
+ "El audio original del video no estaba en A1 al terminar: lo repuse.": {
+  "en": "The video's original audio was missing from A1 at the end: I put it back.",
+  "pt": "O áudio original do vídeo não estava na A1 ao terminar: eu o repus.",
+  "fr": "L'audio d'origine de la vidéo n'était plus sur A1 à la fin : je l'ai remis.",
+  "de": "Der Originalton des Videos fehlte am Ende auf A1: Ich habe ihn wieder eingefügt.",
+  "it": "L'audio originale del video non era su A1 alla fine: l'ho rimesso."
+ },
+ "El video no tiene audio en la pista A1 del timeline (¿el archivo no tiene sonido o está «Archivo no encontrado» en Resolve?).": {
+  "en": "The video has no audio on track A1 of the timeline (does the file have no sound, or is it \"File not found\" in Resolve?).",
+  "pt": "O vídeo não tem áudio na faixa A1 da timeline (o arquivo não tem som ou está como «Arquivo não encontrado» no Resolve?).",
+  "fr": "La vidéo n'a pas d'audio sur la piste A1 du timeline (le fichier n'a pas de son ou est « Fichier introuvable » dans Resolve ?).",
+  "de": "Das Video hat keinen Ton auf Spur A1 der Timeline (hat die Datei keinen Ton oder steht sie in Resolve auf „Datei nicht gefunden“?).",
+  "it": "Il video non ha audio sulla traccia A1 della timeline (il file non ha suono o in Resolve risulta «File non trovato»?)."
+ },
+ "El video ya no está donde estaba": {
+  "en": "The video is no longer where it was",
+  "pt": "O vídeo já não está onde estava",
+  "fr": "La vidéo n'est plus là où elle était",
+  "de": "Das Video liegt nicht mehr dort, wo es war",
+  "it": "Il video non è più dove si trovava"
+ },
+ "Resolve (y CineCaptions) apuntan a un archivo que se movió, se renombró o se borró: Resolve lo muestra como «Archivo no encontrado» y por eso no hay audio.": {
+  "en": "Resolve (and CineCaptions) point to a file that was moved, renamed or deleted: Resolve shows it as \"File not found\", which is why there is no audio.",
+  "pt": "O Resolve (e o CineCaptions) apontam para um arquivo que foi movido, renomeado ou apagado: o Resolve o mostra como «Arquivo não encontrado» e por isso não há áudio.",
+  "fr": "Resolve (et CineCaptions) pointent vers un fichier déplacé, renommé ou supprimé : Resolve l'affiche « Fichier introuvable », d'où l'absence d'audio.",
+  "de": "Resolve (und CineCaptions) verweisen auf eine Datei, die verschoben, umbenannt oder gelöscht wurde: Resolve zeigt sie als „Datei nicht gefunden“ an, deshalb gibt es keinen Ton.",
+  "it": "Resolve (e CineCaptions) puntano a un file spostato, rinominato o eliminato: Resolve lo mostra come «File non trovato» e per questo non c'è audio."
+ },
+ "Devuelve el archivo a su carpeta original con su nombre de siempre (o suéltalo otra vez en la ventana de CineCaptions).": {
+  "en": "Put the file back in its original folder with its usual name (or drop it into the CineCaptions window again).",
+  "pt": "Devolva o arquivo à pasta original com o nome de sempre (ou solte-o outra vez na janela do CineCaptions).",
+  "fr": "Remets le fichier dans son dossier d'origine avec son nom habituel (ou dépose-le de nouveau dans la fenêtre de CineCaptions).",
+  "de": "Leg die Datei mit ihrem gewohnten Namen in den ursprünglichen Ordner zurück (oder zieh sie erneut ins CineCaptions-Fenster).",
+  "it": "Rimetti il file nella cartella originale con il suo nome di sempre (o trascinalo di nuovo nella finestra di CineCaptions)."
+ },
+ "Si el archivo está en una unidad externa o de red, comprueba que esté conectada.": {
+  "en": "If the file is on an external or network drive, check that it is connected.",
+  "pt": "Se o arquivo estiver em uma unidade externa ou de rede, verifique se está conectada.",
+  "fr": "Si le fichier est sur un disque externe ou réseau, vérifie qu'il est connecté.",
+  "de": "Liegt die Datei auf einem externen oder Netzlaufwerk, prüfe, ob es verbunden ist.",
+  "it": "Se il file è su un'unità esterna o di rete, controlla che sia collegata."
+ },
+ "No se oyó voz en el audio": {
+  "en": "No speech was heard in the audio",
+  "pt": "Não se ouviu voz no áudio",
+  "fr": "Aucune voix dans l'audio",
+  "de": "Im Audio war keine Stimme zu hören",
+  "it": "Nessuna voce nell'audio"
+ },
+ "La transcripción terminó sin encontrar palabras: el audio está vacío, solo tiene música o ruido, o es otro idioma del elegido.": {
+  "en": "The transcription finished without finding words: the audio is empty, has only music or noise, or is in a different language than chosen.",
+  "pt": "A transcrição terminou sem encontrar palavras: o áudio está vazio, só tem música ou ruído, ou é de outro idioma que o escolhido.",
+  "fr": "La transcription s'est terminée sans mots : l'audio est vide, ne contient que de la musique ou du bruit, ou est dans une autre langue que celle choisie.",
+  "de": "Die Transkription fand keine Wörter: Das Audio ist leer, enthält nur Musik oder Rauschen oder hat eine andere Sprache als gewählt.",
+  "it": "La trascrizione è finita senza trovare parole: l'audio è vuoto, ha solo musica o rumore, o è in una lingua diversa da quella scelta."
+ },
+ "Comprueba que el video suena y que se oye a alguien hablando.": {
+  "en": "Check that the video plays sound and someone can be heard speaking.",
+  "pt": "Verifique se o vídeo tem som e se alguém fala.",
+  "fr": "Vérifie que la vidéo a du son et qu'on entend quelqu'un parler.",
+  "de": "Prüfe, ob das Video Ton hat und jemand spricht.",
+  "it": "Controlla che il video abbia audio e che si senta qualcuno parlare."
+ },
+ "Si el idioma no es el que CineCaptions espera, elígelo en el chip «Idioma» de Inicio (en vez de «Detectar»).": {
+  "en": "If the language is not the one CineCaptions expects, choose it in the \"Language\" chip on Home (instead of \"Detect\").",
+  "pt": "Se o idioma não for o esperado, escolha-o no chip «Idioma» do Início (em vez de «Detectar»).",
+  "fr": "Si la langue n'est pas celle attendue, choisis-la dans le chip « Langue » d'Accueil (au lieu de « Détecter »).",
+  "de": "Wenn die Sprache nicht die erwartete ist, wähle sie im Chip „Sprache“ auf der Startseite (statt „Erkennen“).",
+  "it": "Se la lingua non è quella attesa, sceglila nel chip «Lingua» di Home (invece di «Rileva»)."
+ },
+ "Si el video está en Resolve, mira que su audio no esté silenciado ni «Archivo no encontrado».": {
+  "en": "If the video is in Resolve, check that its audio is not muted or \"File not found\".",
+  "pt": "Se o vídeo está no Resolve, veja que o áudio não esteja silenciado nem como «Arquivo não encontrado».",
+  "fr": "Si la vidéo est dans Resolve, vérifie que son audio n'est pas coupé ni « Fichier introuvable ».",
+  "de": "Ist das Video in Resolve, prüfe, dass sein Ton nicht stummgeschaltet oder „Datei nicht gefunden“ ist.",
+  "it": "Se il video è in Resolve, controlla che l'audio non sia disattivato né «File non trovato»."
+ },
+ "Resolve no pudo cargar el pack de estilos": {
+  "en": "Resolve could not load the style pack",
+  "pt": "O Resolve não conseguiu carregar o pacote de estilos",
+  "fr": "Resolve n'a pas pu charger le pack de styles",
+  "de": "Resolve konnte das Stilpaket nicht laden",
+  "it": "Resolve non è riuscito a caricare il pacchetto di stili"
+ },
+ "El estilo elegido guarda sus piezas en un bin del Media Pool y Resolve no dejó crearlo o importarlo.": {
+  "en": "The chosen style keeps its pieces in a Media Pool bin and Resolve would not create or import it.",
+  "pt": "O estilo escolhido guarda suas peças em um bin do Media Pool e o Resolve não deixou criá-lo ou importá-lo.",
+  "fr": "Le style choisi garde ses éléments dans un bin du Media Pool et Resolve n'a pas permis de le créer ou de l'importer.",
+  "de": "Der gewählte Stil legt seine Teile in einem Media-Pool-Ordner ab und Resolve ließ ihn nicht anlegen oder importieren.",
+  "it": "Lo stile scelto tiene i suoi elementi in un bin del Media Pool e Resolve non ha permesso di crearlo o importarlo."
+ },
+ "Espera unos segundos a que Resolve termine lo que esté haciendo y vuelve a pulsar GO.": {
+  "en": "Wait a few seconds for Resolve to finish what it is doing and press GO again.",
+  "pt": "Aguarde alguns segundos até o Resolve terminar o que está fazendo e pressione GO novamente.",
+  "fr": "Attends quelques secondes que Resolve termine puis appuie à nouveau sur GO.",
+  "de": "Warte ein paar Sekunden, bis Resolve fertig ist, und drücke erneut auf GO.",
+  "it": "Attendi qualche secondo che Resolve finisca e premi di nuovo GO."
+ },
+ "Abre el Media Pool en Resolve y borra el bin «RCS · …» de ese estilo si está a medias; se recrea solo.": {
+  "en": "Open the Media Pool in Resolve and delete the \"RCS · …\" bin of that style if it is half-done; it is recreated automatically.",
+  "pt": "Abra o Media Pool no Resolve e apague o bin «RCS · …» desse estilo se estiver incompleto; ele é recriado sozinho.",
+  "fr": "Ouvre le Media Pool dans Resolve et supprime le bin « RCS · … » de ce style s'il est incomplet ; il se recrée tout seul.",
+  "de": "Öffne den Media Pool in Resolve und lösche den Ordner „RCS · …“ dieses Stils, falls er unvollständig ist; er wird automatisch neu erstellt.",
+  "it": "Apri il Media Pool in Resolve ed elimina il bin «RCS · …» di quello stile se è incompleto; si ricrea da solo."
+ },
+ "Si sigue fallando, elige otro estilo en el chip «Estilo» de Inicio y avisa a soporte con el informe.": {
+  "en": "If it keeps failing, choose another style in the \"Style\" chip on Home and tell support, with the report.",
+  "pt": "Se continuar falhando, escolha outro estilo no chip «Estilo» do Início e avise o suporte com o relatório.",
+  "fr": "Si cela continue d'échouer, choisis un autre style dans le chip « Style » d'Accueil et préviens le support avec le rapport.",
+  "de": "Schlägt es weiter fehl, wähle auf der Startseite im Chip „Stil“ einen anderen Stil und informiere den Support mit dem Bericht.",
+  "it": "Se continua a fallire, scegli un altro stile nel chip «Stile» di Home e avvisa l'assistenza con il rapporto."
+ },
+ "Resolve no pudo crear el proyecto de CineCaptions": {
+  "en": "Resolve could not create the CineCaptions project",
+  "pt": "O Resolve não conseguiu criar o projeto do CineCaptions",
+  "fr": "Resolve n'a pas pu créer le projet CineCaptions",
+  "de": "Resolve konnte das CineCaptions-Projekt nicht anlegen",
+  "it": "Resolve non è riuscito a creare il progetto CineCaptions"
+ },
+ "Para cada video nuevo CineCaptions crea un proyecto en Resolve y Resolve no lo permitió (nombre ocupado o base de datos ocupada).": {
+  "en": "For each new video CineCaptions creates a project in Resolve and Resolve did not allow it (name taken or database busy).",
+  "pt": "Para cada vídeo novo o CineCaptions cria um projeto no Resolve e o Resolve não permitiu (nome ocupado ou banco de dados ocupado).",
+  "fr": "Pour chaque nouvelle vidéo, CineCaptions crée un projet dans Resolve et Resolve ne l'a pas permis (nom pris ou base occupée).",
+  "de": "Für jedes neue Video legt CineCaptions ein Projekt in Resolve an und Resolve erlaubte es nicht (Name vergeben oder Datenbank beschäftigt).",
+  "it": "Per ogni nuovo video CineCaptions crea un progetto in Resolve e Resolve non lo ha permesso (nome occupato o database occupato)."
+ },
+ "Cierra los cuadros de diálogo que haya abiertos en Resolve y vuelve a pulsar GO.": {
+  "en": "Close any dialogs open in Resolve and press GO again.",
+  "pt": "Feche as caixas de diálogo abertas no Resolve e pressione GO novamente.",
+  "fr": "Ferme les boîtes de dialogue ouvertes dans Resolve et appuie à nouveau sur GO.",
+  "de": "Schließe alle in Resolve geöffneten Dialoge und drücke erneut auf GO.",
+  "it": "Chiudi le finestre di dialogo aperte in Resolve e premi di nuovo GO."
+ },
+ "Comprueba en el Project Manager de Resolve que no haya un proyecto «CineCaptions» a medio borrar.": {
+  "en": "Check in Resolve's Project Manager that there is no half-deleted \"CineCaptions\" project.",
+  "pt": "Verifique no Project Manager do Resolve se não há um projeto «CineCaptions» apagado pela metade.",
+  "fr": "Vérifie dans le Project Manager de Resolve qu'il n'y a pas de projet « CineCaptions » à moitié supprimé.",
+  "de": "Prüfe im Project Manager von Resolve, ob es kein halb gelöschtes „CineCaptions“-Projekt gibt.",
+  "it": "Controlla nel Project Manager di Resolve che non ci sia un progetto «CineCaptions» cancellato a metà."
+ },
+ "En Ajustes puedes elegir que GO trabaje en el proyecto que tengas abierto.": {
+  "en": "In Settings you can choose for GO to work in the project you have open.",
+  "pt": "Em Ajustes você pode escolher que o GO trabalhe no projeto que estiver aberto.",
+  "fr": "Dans Réglages tu peux choisir que GO travaille dans le projet ouvert.",
+  "de": "In den Einstellungen kannst du wählen, dass GO im geöffneten Projekt arbeitet.",
+  "it": "In Impostazioni puoi scegliere che GO lavori nel progetto aperto."
+ },
+ "Resolve se cerró o no está abierto": {
+  "en": "Resolve closed or is not open",
+  "pt": "O Resolve fechou ou não está aberto",
+  "fr": "Resolve s'est fermé ou n'est pas ouvert",
+  "de": "Resolve wurde geschlossen oder ist nicht geöffnet",
+  "it": "Resolve si è chiuso o non è aperto"
+ },
+ "CineCaptions perdió el contacto con DaVinci Resolve en mitad del trabajo (Resolve se cerró, se colgó o aún no había terminado de abrir).": {
+  "en": "CineCaptions lost contact with DaVinci Resolve in the middle of the job (Resolve closed, froze or had not finished opening).",
+  "pt": "O CineCaptions perdeu o contato com o DaVinci Resolve no meio do trabalho (o Resolve fechou, travou ou ainda não terminou de abrir).",
+  "fr": "CineCaptions a perdu le contact avec DaVinci Resolve en plein travail (Resolve s'est fermé, a planté ou n'avait pas fini de s'ouvrir).",
+  "de": "CineCaptions hat mitten in der Arbeit den Kontakt zu DaVinci Resolve verloren (Resolve wurde geschlossen, hängt oder war noch nicht fertig geöffnet).",
+  "it": "CineCaptions ha perso il contatto con DaVinci Resolve a metà lavoro (Resolve si è chiuso, si è bloccato o non aveva finito di aprirsi)."
+ },
+ "Abre DaVinci Resolve y espera a que cargue por completo (hasta ver el timeline).": {
+  "en": "Open DaVinci Resolve and wait until it has fully loaded (until you see the timeline).",
+  "pt": "Abra o DaVinci Resolve e espere carregar por completo (até ver a timeline).",
+  "fr": "Ouvre DaVinci Resolve et attends qu'il soit entièrement chargé (jusqu'à voir le timeline).",
+  "de": "Öffne DaVinci Resolve und warte, bis es vollständig geladen ist (bis du die Timeline siehst).",
+  "it": "Apri DaVinci Resolve e attendi che si carichi del tutto (finché vedi la timeline)."
+ },
+ "Vuelve a pulsar GO: lo que ya estaba transcrito se rehace en unos segundos.": {
+  "en": "Press GO again: what was already transcribed is redone in a few seconds.",
+  "pt": "Pressione GO novamente: o que já estava transcrito é refeito em poucos segundos.",
+  "fr": "Appuie à nouveau sur GO : ce qui était déjà transcrit se refait en quelques secondes.",
+  "de": "Drücke erneut auf GO: Was schon transkribiert war, ist in wenigen Sekunden neu erstellt.",
+  "it": "Premi di nuovo GO: ciò che era già trascritto si rifà in pochi secondi."
+ },
+ "Si Resolve se cierra solo, anota qué estabas haciendo y mira Ajustes > Registro: ahí queda el momento exacto.": {
+  "en": "If Resolve closes by itself, note what you were doing and look at Settings > Log: the exact moment is recorded there.",
+  "pt": "Se o Resolve fechar sozinho, anote o que estava fazendo e veja Ajustes > Registro: ali fica o momento exato.",
+  "fr": "Si Resolve se ferme tout seul, note ce que tu faisais et regarde Réglages > Journal : le moment exact y est enregistré.",
+  "de": "Schließt sich Resolve von selbst, notiere, was du gerade getan hast, und sieh unter Einstellungen > Protokoll nach: Dort steht der genaue Moment.",
+  "it": "Se Resolve si chiude da solo, annota cosa stavi facendo e guarda Impostazioni > Registro: lì c'è il momento esatto."
+ },
+ "Resolve no respondió a tiempo": {
+  "en": "Resolve did not respond in time",
+  "pt": "O Resolve não respondeu a tempo",
+  "fr": "Resolve n'a pas répondu à temps",
+  "de": "Resolve hat nicht rechtzeitig geantwortet",
+  "it": "Resolve non ha risposto in tempo"
+ },
+ "Resolve estaba ocupado (cargando un proyecto, renderizando o con un cuadro de diálogo abierto) y no contestó a CineCaptions.": {
+  "en": "Resolve was busy (loading a project, rendering or with a dialog open) and did not answer CineCaptions.",
+  "pt": "O Resolve estava ocupado (carregando um projeto, renderizando ou com uma caixa de diálogo aberta) e não respondeu ao CineCaptions.",
+  "fr": "Resolve était occupé (chargement d'un projet, rendu ou boîte de dialogue ouverte) et n'a pas répondu à CineCaptions.",
+  "de": "Resolve war beschäftigt (Projekt laden, rendern oder offener Dialog) und antwortete CineCaptions nicht.",
+  "it": "Resolve era occupato (caricava un progetto, renderizzava o aveva una finestra di dialogo aperta) e non ha risposto a CineCaptions."
+ },
+ "Mira si Resolve tiene algún cuadro de diálogo abierto y ciérralo.": {
+  "en": "Check whether Resolve has any dialog open and close it.",
+  "pt": "Veja se o Resolve tem alguma caixa de diálogo aberta e feche-a.",
+  "fr": "Regarde si Resolve a une boîte de dialogue ouverte et ferme-la.",
+  "de": "Prüfe, ob in Resolve ein Dialog offen ist, und schließe ihn.",
+  "it": "Controlla se Resolve ha una finestra di dialogo aperta e chiudila."
+ },
+ "Espera a que termine lo que esté haciendo y vuelve a pulsar GO.": {
+  "en": "Wait for it to finish what it is doing and press GO again.",
+  "pt": "Aguarde terminar o que está fazendo e pressione GO novamente.",
+  "fr": "Attends qu'il termine puis appuie à nouveau sur GO.",
+  "de": "Warte, bis es fertig ist, und drücke erneut auf GO.",
+  "it": "Attendi che finisca e premi di nuovo GO."
+ },
+ "Si pasa seguido, cierra y abre Resolve.": {
+  "en": "If it happens often, close and reopen Resolve.",
+  "pt": "Se acontecer com frequência, feche e abra o Resolve.",
+  "fr": "Si cela arrive souvent, ferme et rouvre Resolve.",
+  "de": "Passiert es oft, schließe Resolve und öffne es neu.",
+  "it": "Se succede spesso, chiudi e riapri Resolve."
+ },
+ "No hay un timeline abierto en Resolve": {
+  "en": "There is no timeline open in Resolve",
+  "pt": "Não há uma timeline aberta no Resolve",
+  "fr": "Aucun timeline ouvert dans Resolve",
+  "de": "In Resolve ist keine Timeline geöffnet",
+  "it": "Nessuna timeline aperta in Resolve"
+ },
+ "El script de Resolve no encontró un timeline activo donde colocar los títulos.": {
+  "en": "The Resolve script did not find an active timeline to place the titles in.",
+  "pt": "O script do Resolve não encontrou uma timeline ativa onde colocar os títulos.",
+  "fr": "Le script de Resolve n'a pas trouvé de timeline actif où placer les titres.",
+  "de": "Das Resolve-Skript fand keine aktive Timeline für die Titel.",
+  "it": "Lo script di Resolve non ha trovato una timeline attiva dove mettere i titoli."
+ },
+ "En Resolve, abre el timeline que quieres subtitular (doble clic en el Media Pool).": {
+  "en": "In Resolve, open the timeline you want to caption (double-click it in the Media Pool).",
+  "pt": "No Resolve, abra a timeline que quer legendar (duplo clique no Media Pool).",
+  "fr": "Dans Resolve, ouvre le timeline à sous-titrer (double-clic dans le Media Pool).",
+  "de": "Öffne in Resolve die Timeline, die du untertiteln willst (Doppelklick im Media Pool).",
+  "it": "In Resolve, apri la timeline da sottotitolare (doppio clic nel Media Pool)."
+ },
+ "O suelta el video en la ventana de CineCaptions y deja que prepare él mismo el proyecto.": {
+  "en": "Or drop the video into the CineCaptions window and let it prepare the project itself.",
+  "pt": "Ou solte o vídeo na janela do CineCaptions e deixe que ele prepare o projeto.",
+  "fr": "Ou dépose la vidéo dans la fenêtre de CineCaptions et laisse-le préparer le projet.",
+  "de": "Oder zieh das Video ins CineCaptions-Fenster und lass es das Projekt selbst vorbereiten.",
+  "it": "Oppure trascina il video nella finestra di CineCaptions e lascia che prepari il progetto."
+ },
+ "CineCaptions está trabajando: espera a que termine antes de soltar otro video.": {
+  "en": "CineCaptions is working: wait for it to finish before dropping another video.",
+  "pt": "O CineCaptions está trabalhando: espere terminar antes de soltar outro vídeo.",
+  "fr": "CineCaptions travaille : attends la fin avant de déposer une autre vidéo.",
+  "de": "CineCaptions arbeitet: Warte, bis es fertig ist, bevor du ein weiteres Video ablegst.",
+  "it": "CineCaptions sta lavorando: attendi che finisca prima di trascinare un altro video."
+ },
+ "No encuentro «{n}»: ¿lo moviste o le cambiaste el nombre?": {
+  "en": "I cannot find \"{n}\": did you move or rename it?",
+  "pt": "Não encontro «{n}»: você o moveu ou renomeou?",
+  "fr": "Je ne trouve pas « {n} » : l'as-tu déplacé ou renommé ?",
+  "de": "„{n}“ nicht gefunden: Hast du die Datei verschoben oder umbenannt?",
+  "it": "Non trovo «{n}»: l'hai spostato o rinominato?"
+ },
+ "«{n}» es una carpeta: suelta el archivo de video.": {
+  "en": "\"{n}\" is a folder: drop the video file.",
+  "pt": "«{n}» é uma pasta: solte o arquivo de vídeo.",
+  "fr": "« {n} » est un dossier : dépose le fichier vidéo.",
+  "de": "„{n}“ ist ein Ordner: Zieh die Videodatei ab.",
+  "it": "«{n}» è una cartella: trascina il file video."
+ },
+ "El archivo no se puede leer como video o audio": {
+  "en": "The file cannot be read as video or audio",
+  "pt": "O arquivo não pode ser lido como vídeo ou áudio",
+  "fr": "Le fichier ne peut pas être lu comme vidéo ou audio",
+  "de": "Die Datei lässt sich nicht als Video oder Audio lesen",
+  "it": "Il file non si può leggere come video o audio"
+ },
+ "El archivo está dañado, incompleto (una descarga cortada) o no es de verdad un video/audio aunque se llame así.": {
+  "en": "The file is damaged, incomplete (a cut-off download) or is not really a video/audio even if it is named so.",
+  "pt": "O arquivo está danificado, incompleto (um download cortado) ou não é de verdade um vídeo/áudio mesmo que tenha esse nome.",
+  "fr": "Le fichier est endommagé, incomplet (téléchargement interrompu) ou n'est pas vraiment une vidéo/audio malgré son nom.",
+  "de": "Die Datei ist beschädigt, unvollständig (abgebrochener Download) oder in Wahrheit kein Video/Audio, auch wenn sie so heißt.",
+  "it": "Il file è danneggiato, incompleto (download interrotto) o non è davvero un video/audio anche se si chiama così."
+ },
+ "Ábrelo en un reproductor: si no se reproduce, vuelve a descargarlo o a exportarlo.": {
+  "en": "Open it in a player: if it does not play, download or export it again.",
+  "pt": "Abra-o em um reprodutor: se não tocar, baixe ou exporte novamente.",
+  "fr": "Ouvre-le dans un lecteur : s'il ne se lit pas, retélécharge-le ou réexporte-le.",
+  "de": "Öffne es in einem Player: Spielt es nicht ab, lade es neu herunter oder exportiere es erneut.",
+  "it": "Aprilo in un lettore: se non si riproduce, scaricalo o esportalo di nuovo."
+ },
+ "Si viene de internet o de un móvil, copia el archivo completo al disco local antes de soltarlo.": {
+  "en": "If it comes from the internet or a phone, copy the complete file to the local disk before dropping it.",
+  "pt": "Se vem da internet ou de um celular, copie o arquivo completo para o disco local antes de soltá-lo.",
+  "fr": "S'il vient d'internet ou d'un téléphone, copie le fichier complet sur le disque local avant de le déposer.",
+  "de": "Stammt es aus dem Internet oder von einem Handy, kopiere die vollständige Datei auf die lokale Festplatte, bevor du sie ablegst.",
+  "it": "Se viene da internet o da un telefono, copia il file completo sul disco locale prima di trascinarlo."
+ },
+ "Prueba con otro archivo para ver si el problema es solo de este.": {
+  "en": "Try another file to see whether the problem is only with this one.",
+  "pt": "Teste com outro arquivo para ver se o problema é só deste.",
+  "fr": "Essaie avec un autre fichier pour voir si le problème vient seulement de celui-ci.",
+  "de": "Probiere eine andere Datei, um zu sehen, ob das Problem nur diese betrifft.",
+  "it": "Prova con un altro file per vedere se il problema è solo di questo."
  }
 }

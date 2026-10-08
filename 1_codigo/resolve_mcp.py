@@ -727,6 +727,28 @@ if clip:
         project.SetCurrentTimeline(tl)
         puestos = mp.AppendToTimeline([clip])
         res['anadido'] = len(puestos or [])
+        # el audio ORIGINAL del video tiene que estar en A1 y sonar: se comprueba y, si Resolve solo metió la imagen, se añade el audio aparte
+        try:
+            def _a1():
+                return tl.GetItemListInTrack('audio', 1) or []
+            tipo = str(clip.GetClipProperty('Type') or '').lower()
+            try:
+                canales = int(float(clip.GetClipProperty('Audio Ch') or 0))
+            except Exception:
+                canales = 0
+            res['clip_con_audio'] = bool('audio' in tipo or canales > 0)
+            res['audio_a1'] = len(_a1())
+            if res['clip_con_audio'] and not _a1():
+                mp.AppendToTimeline([{'mediaPoolItem': clip, 'mediaType': 2, 'trackIndex': 1, 'recordFrame': tl.GetStartFrame()}])
+                res['audio_repuesto'] = len(_a1())
+            try:
+                tl.SetTrackEnable('audio', 1, True)
+                for it in _a1():
+                    it.SetClipEnabled(True)
+            except Exception:
+                pass
+        except Exception as e:
+            res['audio_error'] = repr(e)
         for it in (tl.GetItemListInTrack('video', 1) or []):
             try:
                 it.SetProperty('Scaling', resolve.SCALE_FIT)
@@ -774,12 +796,26 @@ if p is not None:
 pm.GotoRootFolder()
 existentes = todos(0, set())
 pm.GotoRootFolder()
+# Un nombre puede estar tomado sin verse en la lista (una entrada borrada a medias de la base de datos): CreateProject devuelve None. En vez de rendirse se
+# prueba con el siguiente número; si ninguno vale, se vuelve a abrir el proyecto que había (nunca se deja al usuario en un «Untitled Project»).
 nombre, k = BASE, 2
-while nombre in existentes:
-    nombre = '%%s %%d' %% (BASE, k)
-    k += 1
-nuevo = pm.CreateProject(nombre)
+nuevo = None
+res['rechazados'] = []
+for _intento in range(8):
+    while nombre in existentes:
+        nombre = '%%s %%d' %% (BASE, k)
+        k += 1
+    nuevo = pm.CreateProject(nombre)
+    if nuevo:
+        break
+    res['rechazados'].append(nombre)
+    existentes.add(nombre)
 res['accion'] = 'creado' if nuevo else 'no_creo'
+if not nuevo and res.get('previo'):
+    try:
+        pm.LoadProject(res['previo'])
+    except Exception:
+        pass
 q = pm.GetCurrentProject()
 res['proyecto'] = q.GetName() if q else None
 try:
@@ -898,6 +934,53 @@ def crear_timeline_con_video(ruta, nombre=None, ancho=1080, alto=1920, fps=30.0)
     if not r.get('timeline'):
         return {'error': 'Resolve no pudo crear el timeline', **r}
     return r
+
+
+_ASEGURAR_AUDIO = r"""
+tl = project.GetCurrentTimeline() if project else None
+res = {'timeline': tl.GetName() if tl else None, 'v1': 0, 'a1_antes': 0, 'repuestos': 0, 'a1_ahora': 0}
+if tl:
+    a1 = tl.GetItemListInTrack('audio', 1) or []
+    v1 = [it for it in (tl.GetItemListInTrack('video', 1) or []) if it]
+    res['v1'], res['a1_antes'] = len(v1), len(a1)
+    mp = project.GetMediaPool()
+    for it in v1:
+        try:
+            mpi = it.GetMediaPoolItem()
+            if not mpi:
+                continue
+            tipo = str(mpi.GetClipProperty('Type') or '').lower()
+            canales = int(float(mpi.GetClipProperty('Audio Ch') or 0))
+            if not ('audio' in tipo or canales > 0):
+                continue
+            ini, fin = it.GetStart(), it.GetEnd()
+            cubierto = any(a.GetStart() < fin and a.GetEnd() > ini for a in a1)
+            if not cubierto:
+                mp.AppendToTimeline([{'mediaPoolItem': mpi, 'mediaType': 2, 'trackIndex': 1, 'recordFrame': ini,
+                                      'startFrame': it.GetLeftOffset(), 'endFrame': it.GetLeftOffset() + it.GetDuration() - 1}])
+                res['repuestos'] += 1
+                a1 = tl.GetItemListInTrack('audio', 1) or []
+        except Exception as e:
+            res['error'] = repr(e)
+    try:
+        tl.SetTrackEnable('audio', 1, True)
+        for a in (tl.GetItemListInTrack('audio', 1) or []):
+            a.SetClipEnabled(True)
+    except Exception:
+        pass
+    res['a1_ahora'] = len(tl.GetItemListInTrack('audio', 1) or [])
+result = res
+"""
+
+
+def asegurar_audio_original():
+    """Después de colocar los captions: el audio original del video sigue en A1 (y sonando). Si faltara se repone. Devuelve el informe
+    {'v1', 'a1_antes', 'repuestos', 'a1_ahora'} o {} si Resolve no contestó. Nunca lanza."""
+    try:
+        ok, r, _err = script(_ASEGURAR_AUDIO, timeout=30)
+        return r if ok and isinstance(r, dict) else {}
+    except Exception:
+        return {}
 
 
 def _anotar_registro(nombre, r):

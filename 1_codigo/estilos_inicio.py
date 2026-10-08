@@ -130,13 +130,14 @@ def centro_estado(p, ctx, R, rd, col, col2=None, emblema=None, fam='extra'):
         p.setPen(QColor(255, 255, 255))
         p.setFont(fuente(max(20, int(rd * 0.78)), peso=fam))
         p.drawText(QRectF(-rd, -rd * 0.78, 2 * rd, rd * 1.2), int(Qt.AlignmentFlag.AlignCenter), f'{int(round(ctx.progreso * 100))}%')
-        p.setPen(_c(col.name(), 235))
-        p.setFont(fuente(max(9, int(rd * 0.19)), peso='medio'))
-        p.drawText(QRectF(-rd * 0.95, rd * 0.34, 1.9 * rd, rd * 0.5), int(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignTop | Qt.TextFlag.TextWordWrap), ctx.texto)
+        # justo debajo del porcentaje: cuánto falta; debajo, qué se está haciendo (paso n/N)
         if ctx.eta:
-            p.setPen(QColor(220, 235, 245, 170))
-            p.setFont(fuente(max(8, int(rd * 0.15)), peso='medio'))
-            p.drawText(QRectF(-rd, rd * 0.78, 2 * rd, rd * 0.3), int(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignTop), ctx.eta)
+            p.setPen(QColor(255, 236, 170, 245))
+            p.setFont(fuente(max(10, int(rd * 0.22)), peso='extra'))
+            p.drawText(QRectF(-rd, rd * 0.36, 2 * rd, rd * 0.3), int(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignTop), ctx.eta)
+        p.setPen(_c(col.name(), 235))
+        p.setFont(fuente(max(9, int(rd * 0.17)), peso='medio'))
+        p.drawText(QRectF(-rd * 0.95, rd * (0.7 if ctx.eta else 0.34), 1.9 * rd, rd * 0.5), int(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignTop | Qt.TextFlag.TextWordWrap), ctx.texto)
     elif est == 'hecho':
         palomita(p, rd, ctx.marca, QColor('#FFC857') if ctx.tono == 'aviso' else col)
     elif est == 'error':

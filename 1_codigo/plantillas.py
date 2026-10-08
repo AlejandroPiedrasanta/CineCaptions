@@ -333,7 +333,7 @@ def cargar(carpeta, incorporado=False):
 NOMBRE_INCORPORADO = 'Base títulos dinámicos'
 # v5.8: los packs que cambiaron de contenido llevan una «revisión»; los scripts de Resolve la suman al nombre del bin del pack
 # ('RCS · <pack> · <revisión> · v'), asi un bin viejo que ya estaba en el proyecto (con los clips anteriores) no se reutiliza.
-REVISION_BIN = {'Viral · superior': 'Luxe 2', 'Viral · inferior': 'Luxe 2', 'Referencia': 'Ref 1', 'Kinetic': 'Kin 2'}
+REVISION_BIN = {'Viral · superior': 'Luxe 2', 'Viral · inferior': 'Luxe 2', 'Referencia': 'Ref 1', 'Kinetic': 'Kin 3'}
 NOMBRE_BASICOS = 'Subtítulos básicos'
 POSICIONES_BASICOS = ('inferior', 'superior')
 _PISTAS_FORMATO = (('horizontal', 'h'), ('vertical', 'v'), ('cuadrado', 'c'), ('square', 'c'))

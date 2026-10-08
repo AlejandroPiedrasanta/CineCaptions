@@ -489,6 +489,10 @@ NOTAS_VERSION = [
         'Funciona con cualquier video vertical (probado en 1080×1920 y 2160×3840), cualquier duración y cantidad de palabras, y con los sonidos de Sonido. Los demás estilos no cambian.',
         'Proyecto: «Crea tu estilo» pasa a ser un solo botón junto a «Vista real · Resolve» (se quitó la banda de abajo) y la rueda del ratón en esa pantalla mueve el slider de packs en vez de bajar la página.',
         'Si el archivo del video ya no está donde estaba (lo moviste o le cambiaste el nombre), GO lo dice claro en vez de «la transcripción no pudo terminar».',
+        'Inicio ahora dice cuánto falta: debajo del porcentaje sale el tiempo restante («~ 75 s») y el paso en curso («Transcribiendo · 2/6»); si un paso tarda más de lo normal lo avisa. Aprende lo que tarda en tu equipo.',
+        'Errores que explican: si GO falla dice en qué paso falló y por qué (video renombrado o movido, sin voz, Resolve cerrado o sin responder, pack que no cargó, proyecto que no se pudo crear, archivo dañado) y qué probar. Soltar un archivo que no existe también avisa.',
+        'El audio original de tu video se comprueba en la pista A1 al armar el timeline y al terminar GO, y se repone si faltara. Con el idioma en «Detectar», los títulos usan el idioma que se oye (antes un video en inglés podía salir con palabras en español).',
+        'Kinetic: el texto pequeño lleva contorno oscuro (se lee sobre fondos claros) y los anillos solo rodean palabras cortas, sin pisar a las líneas de al lado. Si la IA de texto se cuelga, pasa al modelo ligero a los 100 s y lo recuerda.',
     ]),
     ('5.3.9', [
         'Corregido: al actualizar desde el propio programa el instalador a veces fallaba con «algún archivo está en uso». Ahora reemplaza la versión sin problema (y reintenta si el antivirus retiene la carpeta un momento) y CineCaptions se vuelve a abrir solo.',

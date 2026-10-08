@@ -185,9 +185,10 @@ def armar_bloque(pal, bloque, k_receta, forzados=None, ancla=0.64):
         a = receta.get(atributo)
         if not a:
             continue
-        candidatas = [i for i, l in enumerate(textos) if l['nombre'] == a[1]]
+        candidatas = [i for i, l in enumerate(textos) if l['nombre'] == a[1] and len(str(l.get('texto') or '')) <= 14]       # un anillo rodea una palabra corta
         if candidatas:
             i = candidatas[extremo]
+            textos[i]['anillo'] = True                      # la pila le deja sitio al anillo (si no, pisaba a la línea de al lado)
             lineas.append(dict(k=a[0], texto='', t=textos[i]['t'] + 0.1, cap=0.0, sobre=i, nombre='anillo'))
     return dict(lineas=lineas, receta=receta['nombre'], heroe=h, palabras=bloque, ancla=ancla)
 

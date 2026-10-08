@@ -23,3 +23,5 @@
 **Qué:** Prueba de punta a punta sin tocar el video del usuario: voz SAPI → palabras con tiempos → plan → Resolve (timeline temporal `zz_BANCO`) → render → hoja de cuadros.
 
 **Dónde:** `1_codigo/probar_kinetic.py [vista] [--fondo gris|video] [--ancla …] [--render nombre]` (usa `tts_prueba.ps1` y `banco_pruebas.colocar_kinetic`; espera `~/DaVinciSubtitles/mcp/palabras_voz_kinetic.json`); `hacer_vista_kinetic.py`. Acabar siempre con `banco_pruebas.limpiar()` (o el MCP `limpiar_banco`). Los arneses parchean `ajustes_ui.guardar_prefs`.
+
+**Legibilidad y anillos (v5.4.0):** el texto pequeño (`k sup`, `k label`, serif, pincel) y el héroe blanco llevan un **contorno oscuro** (elemento 3 del Text+, `ElementShape=1` + `Thickness`; `_contorno`) para leerse sobre paredes claras. Un **anillo** solo rodea una palabra corta (≤14 letras), nunca es más ancho que el cuadro y la pila le deja sitio (`l['anillo']` en `apilar`). El idioma de los títulos es el que se oyó (no se «corrige» el inglés con palabras en español).

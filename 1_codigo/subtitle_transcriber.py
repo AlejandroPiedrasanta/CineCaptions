@@ -221,6 +221,37 @@ def _al_registro(nivel, texto, origen=''):
 
 ESCALERA_MODELOS_MEMORIA = ('small', 'base')
 _TAMANO_DESCARGA = {'small': '~460 MB', 'base': '~140 MB'}
+_IDIOMA_DETECTADO = {'v': None}
+_PALABRAS_COMUNES = {
+    'es': 'el la los las de del que y en un una es se no por con para su al lo como más pero sus le ya o este sí porque esta entre cuando muy sin sobre también me hasta hay donde quien desde todo nos durante todos uno les ni contra otros ese eso ante ellos e esto mí antes algunos qué unos yo otro otras otra él tanto esa estos mucho quienes nada muchos cual poco ella estar estas algunas algo nosotros mi mis tú te ti tu tus ellas nosotras vosotros vosotras os mío mía míos mías tuyo tuya suyo suya nuestro nuestra'.split(),
+    'en': 'the of and to a in is that it was for on are as with his they at be this from have or by one had not but what all were when we there can an your which their said if do will each about how up out them then she many some so these would other into has more her two like him see time could no make than first been its who now people my made over did down only way find use may water long little very after words called just where most know get through back much before go good new write our me man too any day same right look think also around another came come work three word must because does part even place well such here take why things help put years different away again off went old number great tell men say small every found still between name should home big give air line set own under read last never us left end along while might next sound below saw something thing doesn\'t didn\'t i\'m it\'s you\'re we\'re that\'s he she you'.split(),
+    'pt': 'o a os as de do da dos das que e em um uma é se não por com para seu ao como mais mas seus já ou este sim porque esta entre quando muito sem sobre também me até há onde quem desde tudo nos durante todos uns ni contra outros esse isso ante eles isto antes alguns qual você vocês nós não está são foi ser tem têm'.split(),
+    'fr': 'le la les de du des un une et en est que qui dans pour pas sur au avec ce il elle ils elles nous vous je tu on se ne plus par mais ou où son sa ses leur leurs cette ces être avoir fait très aussi comme tout tous bien sans sous entre chez'.split(),
+    'de': 'der die das und in den von zu mit sich des auf für ist im dem nicht ein eine als auch es an werden aus er hat dass sie nach wird bei einer um am sind noch wie einem über einen so zum war haben nur oder aber vor zur bis mehr durch man sein wurde sei ich du wir ihr'.split(),
+    'it': 'il lo la i gli le di del della dei delle che e in un una è si non per con su al come più ma suoi già o questo sì perché questa tra quando molto senza sopra anche me fino c\'è dove chi da tutto noi durante tutti uno loro ni contro altri quello ante essi ciò prima alcuni quale io tu lui lei voi sono ho hai ha abbiamo hanno'.split(),
+}
+
+
+def _idioma_por_palabras(palabras):
+    """Un idioma probable (es/en/pt/fr/de/it) contando palabras de función; None si no hay base para decirlo."""
+    try:
+        textos = [str(w.get('word', '')).lower().strip(".,;:!?¡¿\"'()") for w in (palabras or [])]
+        if len(textos) < 8:
+            return None
+        puntos = {k: sum(1 for t in textos if t in set(v)) for k, v in _PALABRAS_COMUNES.items()}
+        orden = sorted(puntos.items(), key=lambda kv: -kv[1])
+        if orden[0][1] >= 3 and orden[0][1] >= 1.4 * max(1, orden[1][1]):
+            return orden[0][0]
+    except Exception:
+        pass
+    return None
+
+
+def idioma_detectado(palabras=None):
+    """El idioma de lo que se acaba de transcribir: el que detectó Whisper o, si fue otro motor, el que sale de contar las palabras. None = no se sabe."""
+    return _IDIOMA_DETECTADO.get('v') or _idioma_por_palabras(palabras)
+
+
 def transcribe(media_path: str, source_lang: str, model_size: str, progress_callback=None, model_loaded_callback=None, status_callback=None):
     """Transcribe el audio y devuelve una lista de palabras con timestamps.
 
@@ -306,6 +337,7 @@ def transcribe(media_path: str, source_lang: str, model_size: str, progress_call
             if progress_callback and total > 0:
                 progress_callback(min(1.0, seg.end / total))
         print(f'Idioma detectado/usado: {info.language}  ({len(palabras)} palabras)')
+        _IDIOMA_DETECTADO['v'] = str(info.language or '').lower() or None
         _al_registro('info', f'Voz: Whisper {tamano} en {device.upper()} · idioma {info.language} · {len(palabras)} palabras', 'voz')
         return palabras
 

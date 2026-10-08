@@ -12,6 +12,12 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-08 09:22  ·  v5.4.0  ·  (automático)
+    modificados (3):
+      ~ 1_codigo/mcp_cinecaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_Subtitulos.lua
+
 2026-10-08 08:50  ·  v5.4.0  ·  (automático)
     modificados (12):
       ~ 1_codigo/CineCaptions (script principal).py
