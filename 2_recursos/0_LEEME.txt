@@ -94,3 +94,4 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         el icono del .exe y del instalador
     logo_cinecaptions.png
         el icono del programa (lo crea 4_diseno/icono/crear_icono.py)
+    logo_cinema_productions.png

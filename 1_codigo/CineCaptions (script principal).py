@@ -143,6 +143,7 @@ def _base_recursos():
     return Path(__file__).resolve().parent.parent / '2_recursos'
 BASE_RECURSOS = _base_recursos()
 LOGO_PATH = BASE_RECURSOS / 'logo_cinecaptions.png'
+LOGO_MARCA_PATH = BASE_RECURSOS / 'logo_cinema_productions.png'      # v5.3.5: «CINEMA PRODUCTIONS» (blanco, transparente): Inicio y Ajustes > Acerca de
 # v5.2 (pedido: «que diga Cinema Productions en vez de By Alejandro, en todo»)
 CREDIT_TEXT = 'Cinema Productions'
 CREDIT_URL = ''
@@ -6581,6 +6582,8 @@ class SubtitleApp(QWidget):
         self.isla.accion.connect(self._accion_isla)
         self.ctrl_ventana = isla_ui.ControlesVentana(self)
         self.ctrl_ventana.accion.connect(self._accion_isla)
+        self.marca_cinema = isla_ui.MarcaCinema(self, LOGO_MARCA_PATH if LOGO_MARCA_PATH.exists() else None)       # el logo, arriba a la izquierda de Inicio
+        self.marca_cinema.poner_en_inicio(getattr(self, '_pagina_actual', 'inicio') == 'inicio')
         self.marco_ventana = isla_ui.MarcoVentana(self)
         self.marco_ventana.setGeometry(self.rect())
         # el estado de Resolve (la tarjeta de antes) sale debajo del punto de la isla
@@ -6594,11 +6597,16 @@ class SubtitleApp(QWidget):
         for w in (getattr(self, '_pop_estado', None), getattr(self, 'isla', None), getattr(self, 'ctrl_ventana', None), getattr(self, 'marco_ventana', None)):
             if w is not None:
                 w.raise_()
+        marca = getattr(self, 'marca_cinema', None)
+        if marca is not None and marca.isVisible():
+            marca.raise_()
     def _reposicionar_isla(self):
         if not hasattr(self, 'isla'):
             return
         self.isla.reposicionar()
         self.ctrl_ventana.reposicionar()
+        if hasattr(self, 'marca_cinema'):
+            self.marca_cinema.reposicionar(self.isla)
         self.marco_ventana.setGeometry(self.rect())
         self.ctrl_ventana.poner_maximizada(self.isMaximized())
         self._subir_isla()
@@ -6861,7 +6869,9 @@ class SubtitleApp(QWidget):
         if clave == 'inicio':
             self._refrescar_recientes()
             self._pintar_go_reposo()
-        elif clave == 'editor':
+        if hasattr(self, 'marca_cinema'):
+            self.marca_cinema.poner_en_inicio(clave == 'inicio')
+        if clave == 'editor':
             self._al_entrar_en_creativo()          # v5.3.2: detecta el audio / la línea de tiempo de Proyecto (y abre el editor si ya hay palabras)
     def _marcar_nav(self, clave):
         for c, b in self._nav.items():
@@ -7140,6 +7150,15 @@ class SubtitleApp(QWidget):
                  (tr('Proyecto: {p}', p=self._go_proyecto() or tr('el abierto')), self._alternar_proyecto_go,
                   tr('Al soltar un video en Inicio: se arma en el proyecto «CineCaptions» de Resolve (se abre o se crea solo) o en el proyecto que tengas abierto. Clic: cambiar.'))]
         chips = [(t, f, a, ui.ACCENT_CLARO) for t, f, a in chips]
+        act = getattr(self, '_actualizacion', None)
+        if isinstance(act, dict) and act.get('version'):
+            try:
+                import actualizaciones
+                if actualizaciones.es_mas_nueva(act['version'], APP_VERSION):
+                    chips.insert(0, (tr('Nueva versión {v} ↑', v=act['version']), self._ofrecer_actualizacion,
+                                     tr('Hay una versión nueva de CineCaptions. Clic: descargarla, comprobar que es auténtica e instalarla (se cierra y se vuelve a abrir solo).'), ui.AMBAR))
+            except Exception:
+                pass
         # v5.8 (auditoría del flujo): lo que cambia el resultado y GO no enseñaba (se quedaba guardado de otra vez) sale en ámbar y se quita con un clic
         # (con un pack «guion» —palabra a palabra— el planificador decide posición y estilo: esos dos ajustes no se aplican y no se avisa de ellos)
         try:
@@ -7322,6 +7341,143 @@ class SubtitleApp(QWidget):
             except Exception:
                 pass
         _correr_en_hilo(self, trabajo, fin)
+        despues(20000, self._revisar_actualizaciones_auto, self)        # v5.3.5: ya con todo cargado, mira si hay una versión nueva (sin molestar)
+    # -- v5.3.5: actualizaciones automáticas (actualizaciones.py) ----------------------------------------------------------
+    def _revisar_actualizaciones_auto(self, forzar=False):
+        """Una vez cada 12 h (y si el interruptor de Ajustes > Acerca de lo permite) consulta el version.json publicado; si hay una versión más nueva
+        aparece el chip «Nueva versión» en Inicio y un aviso (una sola vez por versión). Nunca instala sola: pregunta."""
+        try:
+            import actualizaciones
+            import ajustes_ui
+            prefs = ajustes_ui.leer_prefs()
+        except Exception:
+            return
+        if prefs.get('actualizaciones_auto', True) is False or not actualizaciones.configurado():
+            return
+        pendiente = prefs.get('actualizacion_pendiente')
+        if isinstance(pendiente, dict) and pendiente.get('version'):
+            if actualizaciones.es_mas_nueva(pendiente['version'], APP_VERSION):
+                self._actualizacion = pendiente
+                self._pintar_opciones_go()
+            else:                                           # ya la instalaste: se olvida
+                ajustes_ui.guardar_prefs({'actualizacion_pendiente': None})
+        if not forzar and time.time() - float(prefs.get('actualizacion_revisada') or 0) < actualizaciones.INTERVALO_AUTO_S:
+            return
+        beta = bool(prefs.get('canal_beta'))
+        def fin(r, error):
+            if error is not None or not isinstance(r, dict):
+                return
+            if r.get('estado') == 'error':
+                registro.info('Actualizaciones: no pude consultar el canal (' + str(r.get('mensaje'))[:120] + ')', 'actualizaciones')
+                return
+            guardar = {'actualizacion_revisada': time.time()}
+            if r.get('estado') == 'nueva':
+                guardar['actualizacion_pendiente'] = {k: r.get(k) for k in ('version', 'url', 'notas', 'fecha', 'archivo')}
+            else:
+                guardar['actualizacion_pendiente'] = None
+            try:
+                ajustes_ui.guardar_prefs(guardar)
+            except Exception:
+                pass
+            if r.get('estado') == 'nueva':
+                self._actualizacion = guardar['actualizacion_pendiente']
+                self._pintar_opciones_go()
+                registro.info(f"Hay una versión nueva de CineCaptions: {r.get('version')} (la instalada es la {APP_VERSION}).", 'actualizaciones')
+                try:
+                    if ajustes_ui.leer_prefs().get('actualizacion_avisada') != r.get('version'):
+                        ajustes_ui.guardar_prefs({'actualizacion_avisada': r.get('version')})
+                        import ui_toast
+                        ui_toast.mostrar(self, tr('Hay una versión nueva de CineCaptions: {v}. Pulsa «Nueva versión» en Inicio para instalarla.', v=r.get('version')), duracion_ms=9000)
+                except Exception:
+                    pass
+        correr_en_hilo(self, lambda: actualizaciones.comprobar(APP_VERSION, beta), fin)
+    def _ofrecer_actualizacion(self, r=None):
+        """«Actualizar»: pregunta, descarga con avance, comprueba la huella y lanza el instalador (que cierra y vuelve a abrir CineCaptions)."""
+        r = r or getattr(self, '_actualizacion', None)
+        if not r or not r.get('version'):
+            return
+        trabajando = getattr(self, '_go_corriendo', False) or getattr(self, '_editor', None) is not None or (getattr(self, 'worker', None) is not None and self.worker.is_alive())
+        if trabajando:
+            messagebox.showinfo(tr('Actualización disponible'), tr('Termina lo que estás haciendo (GO o el editor) y vuelve a pulsar «Nueva versión»: la actualización cierra CineCaptions.'), parent=self)
+            return
+        notas = ('\n\n' + r['notas']) if r.get('notas') else ''
+        archivo = r.get('archivo')
+        if not archivo:
+            if messagebox.askyesno(tr('Actualización disponible'), tr('Hay una versión nueva: {v}', v=r['version']) + notas + '\n\n' + tr('¿Abrir la descarga?'), parent=self) and r.get('url'):
+                webbrowser.open(r['url'])
+            return
+        mb = f" ({int(archivo['tam'] / 1048576)} MB)" if archivo.get('tam') else ''
+        if not messagebox.askyesno(tr('Actualización disponible'), tr('CineCaptions {v} está listo{mb}.', v=r['version'], mb=mb) + notas + '\n\n' +
+                                   tr('Se descarga, se comprueba que sea auténtica y se instala. CineCaptions se cierra y se vuelve a abrir solo. Tus proyectos, licencia y ajustes no se tocan.') + '\n\n' +
+                                   tr('¿Actualizar ahora?'), parent=self):
+            return
+        self._descargar_actualizacion(r)
+    def _descargar_actualizacion(self, r):
+        import actualizaciones
+        import editor_ui
+        archivo = r['archivo']
+        try:
+            dlg = Dialogo(self, tr('Actualizando CineCaptions'), 500, 430, redimensionable=False)
+            capa = _capa_dialogo(dlg, (0, 0, 0, 0), 0)
+            panel = editor_ui.PanelAsistencia(tr('Actualizando CineCaptions'), tr('Listo'), tr('Descargando…'),
+                                              [tr('Descargar la versión nueva'), tr('Comprobar que es auténtica'), tr('Instalarla')], f"v{r['version']}",
+                                              tr('CineCaptions se cierra y se vuelve a abrir solo'))
+            capa.addWidget(panel, 1)
+            dlg.show()
+        except Exception:
+            registro.excepcion(origen='actualizar · ventana')
+            return
+        est = {'texto': '', 'fase': 0, 'ruta': None, 'error': None, 'cancelado': False}
+        dlg.finished.connect(lambda _r: est.__setitem__('cancelado', True))
+        def progreso(h, t):
+            est['texto'] = tr('{h} de {t} MB', h=f'{h / 1048576:.0f}', t=f'{(t or h) / 1048576:.0f}')
+            if t and h >= t:
+                est['fase'] = 1
+        def trabajo():
+            try:
+                est['ruta'] = actualizaciones.descargar(archivo, APP_VERSION, progreso=progreso, cancelado=lambda: est['cancelado'])
+            except BaseException as e:
+                est['error'] = str(e) or type(e).__name__
+        hilo = threading.Thread(target=trabajo, daemon=True, name='descarga-actualizacion')
+        hilo.start()
+        def revisar():
+            if hilo.is_alive():
+                if vivo(dlg):
+                    panel.poner_fase(est['fase'])
+                    if est['texto']:
+                        panel.poner_detalle(est['texto'])
+                    despues(150, revisar, self)
+                return
+            if est['cancelado'] and not est['ruta']:
+                return
+            if est['error'] or not est['ruta']:
+                try:
+                    dlg.cerrar()
+                except Exception:
+                    pass
+                registro.error('No se pudo actualizar: ' + str(est['error']), 'actualizaciones', detalle=str(archivo.get('url')))
+                if messagebox.askyesno(tr('No se pudo actualizar'), tr('La descarga o la comprobación falló: {e}', e=str(est['error'])[:200]) + '\n\n' +
+                                       tr('Tu versión sigue como estaba. ¿Abrir la descarga en el navegador?'), parent=self) and r.get('url'):
+                    webbrowser.open(r['url'])
+                return
+            panel.poner_fase(2)
+            panel.poner_detalle(tr('Lanzando el instalador…'))
+            ok = actualizaciones.instalar(est['ruta'])
+            registro.info(f"Actualización a {r['version']}: instalador lanzado ({est['ruta']})" if ok else 'Actualización: no pude lanzar el instalador', 'actualizaciones')
+            if not ok:
+                try:
+                    dlg.cerrar()
+                except Exception:
+                    pass
+                messagebox.showerror(tr('No se pudo actualizar'), tr('No pude abrir el instalador descargado: {r}', r=str(est['ruta'])), parent=self)
+                return
+            panel.terminar(tr('Instalando…'))
+            if sys.platform.startswith('win'):
+                despues(1500, lambda: QApplication.instance().quit(), self)       # el instalador ya está en marcha: CineCaptions se cierra y él lo vuelve a abrir
+            else:
+                despues(1200, lambda: dlg.cerrar(), self)
+                messagebox.showinfo(tr('Actualización descargada'), tr('Se abrió el disco de CineCaptions {v}: abre «Instalar_CineCaptions.pkg» para terminar.', v=r['version']), parent=self)
+        despues(150, revisar, self)
     def _sincronizar_sfx(self):
         """Auditoría v5.11: «Efectos» de Inicio (go_sfx) manda sobre la casilla vieja (sfx_var), que es la que miran los puntos de sonido del editor."""
         try:

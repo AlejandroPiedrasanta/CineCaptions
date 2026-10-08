@@ -484,6 +484,64 @@ class ControlesVentana(QWidget):
             self.accion.emit(self._claves[i])
 
 
+class MarcaCinema(QWidget):
+    """La marca «CINEMA PRODUCTIONS» (blanca, fondo transparente) en la esquina de arriba a la izquierda de Inicio, a la altura de la isla.
+    No recibe el ratón (arrastrar la franja de arriba sigue moviendo la ventana) y se oculta si la ventana es tan estrecha que chocaría con la isla."""
+    ALTO_LOGO = 26
+    MARGEN_X = 28
+
+    def __init__(self, padre, ruta):
+        super().__init__(padre)
+        self.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents)
+        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+        self._origen = QPixmap(str(ruta)) if ruta else QPixmap()
+        self._pm = None
+        self._dpr = 0.0
+        self._en_inicio = False
+        self.hide()
+
+    def _preparar(self):
+        dpr = max(1.0, float(self.devicePixelRatioF()))
+        if self._pm is None or abs(dpr - self._dpr) > 0.01:
+            self._dpr = dpr
+            if self._origen.isNull():
+                self._pm = QPixmap()
+            else:
+                self._pm = self._origen.scaledToHeight(int(round(self.ALTO_LOGO * dpr)), Qt.TransformationMode.SmoothTransformation)
+                self._pm.setDevicePixelRatio(dpr)
+            self.setFixedSize(int(round(self._pm.width() / dpr)), int(round(self._pm.height() / dpr))) if not self._pm.isNull() else self.setFixedSize(1, 1)
+
+    def poner_en_inicio(self, si):
+        self._en_inicio = bool(si)
+        self.reposicionar()
+
+    def reposicionar(self, isla=None):
+        p = self.parentWidget()
+        if p is None:
+            return
+        self._preparar()
+        isla = isla if isla is not None else getattr(p, 'isla', None)
+        if self._pm is None or self._pm.isNull() or not self._en_inicio:
+            self.hide()
+            return
+        # la isla ENTRA animada y se recentra con resorte: se usa su sitio de REPOSO (centrada, asentada a 6 px), no su posición de este instante
+        y = int(6 + isla.height() / 2 - self.height() / 2) if isla is not None else 22
+        x = self.MARGEN_X
+        if isla is not None and x + self.width() + 24 > (p.width() - isla.width()) / 2 + MARGEN:         # no cabe junto a la isla: se oculta
+            self.hide()
+            return
+        self.move(x, max(8, y))
+        self.show()
+        self.raise_()
+
+    def paintEvent(self, _e):
+        if self._pm is None or self._pm.isNull():
+            return
+        p = QPainter(self)
+        p.setOpacity(0.92)
+        p.drawPixmap(0, 0, self._pm)
+
+
 class MarcoVentana(QWidget):
     """El borde de 1 px de la ventana sin barra de titulo (no recibe el raton)."""
     def __init__(self, padre):

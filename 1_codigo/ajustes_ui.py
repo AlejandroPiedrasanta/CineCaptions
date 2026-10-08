@@ -485,6 +485,10 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.3.5', [
+        'Actualizaciones automáticas: CineCaptions mira solo (como mucho cada 12 horas) si hay una versión nueva y aparece el chip «Nueva versión» en Inicio. Un clic la descarga, comprueba su huella SHA-256 y la instala; el programa se cierra y se abre solo, sin tocar proyectos, licencia ni ajustes. Se puede apagar en Ajustes > Acerca de.',
+        'El logo de Cinema Productions está en la esquina de Inicio, en el instalador y en Ajustes > Acerca de.',
+    ]),
     ('5.3.4', [
         'Mac: GO por fin encuentra el servidor MCP de DaVinci Resolve (estaba buscándolo en una carpeta equivocada y caía al Puente de Resolve gratuito, que a veces perdía la conexión). Con Resolve Studio ya no hace falta el Puente.',
         'Si Resolve Studio tiene los scripts externos apagados (Preferencias > Sistema > General > External scripting using), el aviso lo dice con los pasos exactos en vez de hablar del Puente.',
@@ -727,6 +731,9 @@ def buscar_actualizaciones(app, etiqueta=None):
             texto = tr('Hay una versión nueva: {v}', v=r.get('version'))
             if etiqueta is not None and ui.vivo(etiqueta):
                 etiqueta.configure(text=texto)
+            if hasattr(app, '_ofrecer_actualizacion'):
+                app._ofrecer_actualizacion(r)           # v5.3.5: la app la descarga, comprueba su huella y la instala (o abre la descarga si no hay archivo para este equipo)
+                return
             if messagebox.askyesno(tr('Actualización disponible'),
                                    texto + ('\n\n' + r['notas'] if r.get('notas') else '')
                                    + '\n\n' + tr('¿Abrir la descarga?'), parent=app) and r.get('url'):
@@ -1450,6 +1457,7 @@ class VentanaAjustes(_Panel):
         self._borrador = dict(self._previos)
         self._borrador.update(motor_voz=prefs.get('motor_voz') or 'qwen3',
                               canal_beta=bool(prefs.get('canal_beta')),
+                              actualizaciones_auto=prefs.get('actualizaciones_auto', True) is not False,
                               ventana_encima=bool(prefs.get('ventana_encima')),
                               go_estilo=str(prefs.get('go_estilo') or 'astrolabio'))
         self._inicial = dict(self._borrador)
@@ -1923,6 +1931,11 @@ class VentanaAjustes(_Panel):
         f_beta = _Fila(tr('Recibir versiones beta'),
                        tr('Al desactivarlo conservarás tu versión actual hasta que haya una estable más nueva.'),
                        Interruptor('', var=beta_var, comando=cambiar_beta))
+        # actualizaciones automáticas (v5.3.5): el aviso de Inicio y la descarga con un clic
+        auto_var = BooleanVar(bool(self._borrador.get('actualizaciones_auto', True)))
+        f_auto = _Fila(tr('Avisarme de las actualizaciones'),
+                       tr('CineCaptions mira solo si hay una versión nueva (como mucho cada 12 horas) y te lo dice en Inicio; tú decides cuándo instalarla.'),
+                       Interruptor('', var=auto_var, comando=lambda: self._cambio('actualizaciones_auto', bool(auto_var.get()))))
         # actualizaciones
         caja_act, ca = caja_v(espacio=8)
         ca.addWidget(Boton(tr('Buscar actualizaciones'), lambda: buscar_actualizaciones(self.app, self.act_estado),
@@ -1932,12 +1945,30 @@ class VentanaAjustes(_Panel):
         f_act = _Fila(tr('Actualizaciones'), tr('Comprueba si hay una versión más nueva de CineCaptions.'), caja_act, 380)
         # creditos
         cred, ccr = caja_v(espacio=6)
-        ccr.addWidget(Etiqueta('By Cinema Productions', 15, peso='negrita', color='#FFFFFF'))
+        # v5.3.5: el logo «CINEMA PRODUCTIONS» en vez del texto (si el archivo faltara, vuelve el texto)
+        try:
+            import instalador_scripts
+            from PySide6.QtGui import QPixmap
+            ruta_marca = instalador_scripts.BASE_RECURSOS / 'logo_cinema_productions.png'
+            pm_marca = QPixmap(str(ruta_marca)) if ruta_marca.exists() else QPixmap()
+            if pm_marca.isNull():
+                raise OSError('sin logo')
+            dpr = max(1.0, float(self.devicePixelRatioF()))
+            pm_marca = pm_marca.scaledToHeight(int(round(28 * dpr)), Qt.TransformationMode.SmoothTransformation)
+            pm_marca.setDevicePixelRatio(dpr)
+            marca = QLabel()
+            marca.setPixmap(pm_marca)
+            marca.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
+            marca.setStyleSheet('background: transparent;')
+            marca.setAccessibleName('By Cinema Productions')
+            ccr.addWidget(marca)
+        except Exception:
+            ccr.addWidget(Etiqueta('By Cinema Productions', 15, peso='negrita', color='#FFFFFF'))
         ccr.addWidget(Etiqueta('© 2026 Cinema Productions', 13, color=ui.TEXT_MUTED))
         f_cred = _Fila(tr('Créditos'), tr('Transcripción: Qwen3-ASR y Whisper · Traducción: Argos · Interfaz: Qt (PySide6).'),
                        cred, 380, ultima=True)
         capa.addWidget(g_cab)
-        capa.addWidget(_grupo(f_lic, f_notas, f_beta, f_act, f_cred))
+        capa.addWidget(_grupo(f_lic, f_notas, f_beta, f_auto, f_act, f_cred))
 
     def _pintar_licencia(self):
         if not ui.vivo(getattr(self, 'lic_estado', None)):
@@ -1996,7 +2027,7 @@ class VentanaAjustes(_Panel):
         b = self._borrador
         guardar_prefs({'tema': b['tema'], 'acento': b['acento'], 'acento_personal': b['acento_personal'],
                        'tamano_interfaz': b['tamano'], 'lateral_inicio': b['lateral'], 'motor_voz': b['motor_voz'],
-                       'canal_beta': b['canal_beta'], 'ventana_encima': b['ventana_encima'], 'go_estilo': b['go_estilo']})
+                       'canal_beta': b['canal_beta'], 'actualizaciones_auto': b.get('actualizaciones_auto', True), 'ventana_encima': b['ventana_encima'], 'go_estilo': b['go_estilo']})
         reiniciar = any(b.get(k) != self._inicial.get(k) for k in ('tema', 'acento', 'acento_personal', 'tamano'))
         if b.get('idioma_ui') != self._inicial.get('idioma_ui'):
             try:

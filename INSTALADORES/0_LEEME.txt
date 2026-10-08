@@ -18,5 +18,8 @@ CÓMO SE ACTUALIZAN (después de CUALQUIER mejora del programa; salen del mismo 
     powershell -ExecutionPolicy Bypass -File Actualizar_Windows.ps1 -Comprobar ¿está al día?
     powershell -ExecutionPolicy Bypass -File Actualizar_Mac.ps1                Mac (los compila GitHub Actions y los baja aquí)
 
+    powershell -ExecutionPolicy Bypass -File Publicar_Version.ps1 -Notas "..."   PUBLICA la versión para que los programas instalados se actualicen solos
+                                                                                (genera version.json con huellas SHA-256 y sube a GitHub Releases; -SinSubir solo lo genera)
+
 Se corren desde la raíz del proyecto. Los .exe / .dmg no se suben a git (.gitignore).
 El instalador del ADMINISTRADOR de licencias es otro producto y vive en 5_licencias\.

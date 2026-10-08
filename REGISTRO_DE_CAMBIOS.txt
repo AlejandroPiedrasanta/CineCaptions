@@ -12,6 +12,46 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-07 19:34  ·  v5.3.5  ·  cambio explicado
+    encabezado de actualizaciones.py corregido
+    modificados (1):
+      ~ 3_compilar/encabezados.py
+
+2026-10-07 19:31  ·  v5.3.5  ·  (automático)
+    modificados (16):
+      ~ 1_codigo/actualizaciones.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_InsertarSFX.lua
+      … y 4 más
+
+2026-10-07 19:31  ·  v5.3.4  ·  cambio explicado
+    5.3.5: actualizaciones automáticas (actualizaciones.py + chip Nueva versión + Publicar_Version.ps1), logo Cinema Productions en Inicio, instalador y Acerca de
+    nuevos (1):
+      + 2_recursos/logo_cinema_productions.png
+    modificados (13):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/actualizaciones.py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/isla_ui.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 3_compilar/Construir_Instalador.ps1
+      ~ 3_compilar/Instalador.cs
+      ~ 3_compilar/cinecaptions.spec
+      … y 1 más
+
 2026-10-07 18:29  ·  v5.3.4  ·  (automático)
     modificados (15):
       ~ 1_codigo/version.py

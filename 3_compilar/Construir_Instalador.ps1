@@ -157,7 +157,7 @@ $fw = Split-Path -Parent $csc
 $logo = Join-Path $recursos 'logo_cinecaptions.png'
 & $csc /nologo /optimize+ /target:winexe /platform:anycpu /codepage:65001 "/out:$base" `
     "/win32icon:$(Join-Path $recursos 'logo_cinecaptions.ico')" "/win32manifest:$(Join-Path $aqui 'app.manifest')" `
-    "/resource:$logo,logo.png" "/resource:$(Join-Path $aqui 'banner.jpg'),banner.jpg"  `
+    "/resource:$logo,logo.png" "/resource:$(Join-Path $recursos 'logo_cinema_productions.png'),marca.png" "/resource:$(Join-Path $aqui 'banner.jpg'),banner.jpg"  `
     "/resource:$(Join-Path $aqui 'banner_capas\astro_runas.png'),astro_runas.png" "/resource:$(Join-Path $aqui 'banner_capas\astro_engr.png'),astro_engr.png" `
     "/resource:$(Join-Path $aqui 'banner_capas\astro_fili.png'),astro_fili.png" "/resource:$(Join-Path $aqui 'banner_capas\astro_nucleo.png'),astro_nucleo.png" "/reference:$fw\System.IO.Compression.dll" /reference:System.Windows.Forms.dll /reference:System.Drawing.dll $cs
 if ($LASTEXITCODE -ne 0 -or -not (Test-Path $base)) { throw 'No se pudo compilar Instalador.cs' }

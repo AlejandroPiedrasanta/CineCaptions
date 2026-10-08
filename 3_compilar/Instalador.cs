@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
 using System.IO.Compression;
 using System.Reflection;
@@ -2221,6 +2222,7 @@ class Ventana : Form
     BotonPildora boton;
     LinkLabel lnkDetalles, lnkOmitir;
     CheckBox chkDatos, chkModelos;
+    PictureBox picMarca;
     RichTextBox log;
 
     public Ventana(Opciones op)
@@ -2348,8 +2350,36 @@ class Ventana : Form
         lnkOmitir.Visible = false;
         lnkOmitir.LinkClicked += delegate { lnkOmitir.Enabled = false; lnkOmitir.Text = "Omitiendo..."; ins.OmitirDescarga(); };
 
-        lblFirma = Etiqueta("CineCaptions  ·  By Cinema Productions", 9f, false, Color.FromArgb(78, 96, 126));
-        lblFirma.SetBounds(E(40), E(314), E(380), E(20));
+        // v5.3.5: la firma es el LOGO «CINEMA PRODUCTIONS» (blanco, transparente, atenuado) en vez del texto «By Cinema Productions»; sin el recurso queda el texto de siempre
+        Image marca = Recurso("marca.png");
+        if (marca != null)
+        {
+            lblFirma = Etiqueta("CineCaptions", 9f, false, Color.FromArgb(78, 96, 126));
+            lblFirma.SetBounds(E(40), E(314), E(74), E(20));
+            int altoM = E(15), anchoM = (int)Math.Round(altoM * (double)marca.Width / marca.Height);
+            Bitmap tenue = new Bitmap(anchoM, altoM);
+            using (Graphics g = Graphics.FromImage(tenue))
+            using (ImageAttributes ia = new ImageAttributes())
+            {
+                ColorMatrix cm = new ColorMatrix();
+                cm.Matrix33 = 0.62f;                                              // opacidad: que acompañe sin gritar
+                ia.SetColorMatrix(cm);
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+                g.DrawImage(marca, new Rectangle(0, 0, anchoM, altoM), 0, 0, marca.Width, marca.Height, GraphicsUnit.Pixel, ia);
+            }
+            picMarca = new PictureBox();
+            picMarca.Image = tenue;
+            picMarca.SizeMode = PictureBoxSizeMode.Normal;
+            picMarca.BackColor = Tema.Fondo;
+            picMarca.SetBounds(E(40) + E(74), E(317), anchoM, altoM);
+            cuerpo.Controls.Add(picMarca);
+        }
+        else
+        {
+            lblFirma = Etiqueta("CineCaptions  ·  By Cinema Productions", 9f, false, Color.FromArgb(78, 96, 126));
+            lblFirma.SetBounds(E(40), E(314), E(380), E(20));
+        }
 
         lnkRutas = Enlace("Rutas de instalación", E(452), E(306));
         lnkRutas.Visible = !op.Desinstalar;
@@ -2528,6 +2558,7 @@ class Ventana : Form
         if (verRutas && panel == "log") MostrarPanel("log");          // el registro se cierra: no cabrian los dos
         lista.Visible = !verRutas; sep.Visible = !verRutas; lblEstado.Visible = !verRutas; barra.Visible = !verRutas;
         lblInfo.Visible = !verRutas; lblFirma.Visible = !verRutas; lnkDetalles.Visible = !verRutas;
+        if (picMarca != null) picMarca.Visible = !verRutas;
         rutas.Visible = verRutas;
         boton.Bounds = verRutas ? new Rectangle(E(452), E(296), E(398), E(44)) : new Rectangle(E(452), E(211), E(398), E(56));
         lnkRutas.Text = verRutas ? "←  Volver a los pasos" : "Rutas de instalación";

@@ -31,6 +31,7 @@ for carpeta in ('resolve_scripts', 'locales', 'plantillas_incluidas', 'fonts',
         raise SystemExit(f'Falta {origen}: sin eso el programa queda cojo')
     datas.append((origen, carpeta))
 datas.append((os.path.join(RECURSOS, 'logo_cinecaptions.png'), '.'))
+datas.append((os.path.join(RECURSOS, 'logo_cinema_productions.png'), '.'))
 datas.append((os.path.join(RECURSOS, 'fondo_esfera.jpg'), '.'))
 
 datas += collect_data_files('faster_whisper')

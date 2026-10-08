@@ -27,3 +27,13 @@
 ## mac-actualizar — Mantener el instalador de Mac al día
 
 Tras CUALQUIER mejora del programa (`1_codigo`, `2_recursos`, `3_compilar` o `7_mac`): `powershell -ExecutionPolicy Bypass -File Actualizar_Mac.ps1` (sube a GitHub privado, compila Apple Silicon + Intel y deja `CineCaptions_Mac_*_<ver>.dmg` en `INSTALADORES/Mac`; ~15 min, correr en segundo plano). `-SoloDescargar` solo baja la última compilación buena. Detalles en `7_mac/0_LEEME.txt`. Sin probar en una Mac real.
+
+## actualizaciones — Actualizaciones automáticas (cliente y publicación)
+
+**Qué:** v5.3.5. El programa lee un `version.json` público, avisa con el chip «Nueva versión X ↑» de Inicio, descarga el instalador de SU plataforma, comprueba el SHA-256 y lo lanza. Nunca instala sin que el usuario pulse y confirme.
+
+**Cliente:** `actualizaciones.py` · `comprobar` (manifiesto → estado `nueva`/`al_dia`/`error` + `archivo` {url, sha256, tam}), `descargar` (a `%TEMP%/cinecaptions_actualizacion`, avance, **rechaza** sin huella o con huella distinta y borra el archivo), `instalar` (Windows: `Instalar_….exe /empezar` desprendido, él cierra el programa, reemplaza y reabre; Mac: `open` del .dmg), `clave_plataforma` (`windows`/`mac_arm64`/`mac_x86_64`). Script principal: `_revisar_actualizaciones_auto` (20 s tras abrir, como mucho cada 12 h; prefs `actualizaciones_auto`, `actualizacion_revisada`, `actualizacion_pendiente`, `actualizacion_avisada`, `canal_beta`, `url_actualizaciones`), `_ofrecer_actualizacion` (pregunta; no deja si GO/editor trabajan), `_descargar_actualizacion` (Dialogo + `PanelAsistencia`; cierra la app 1,5 s después en Windows), chip en `_pintar_opciones_go`. Ajustes > Acerca de: interruptor «Avisarme de las actualizaciones», «Buscar actualizaciones» (`ajustes_ui.buscar_actualizaciones` → `_ofrecer_actualizacion`), «Recibir versiones beta».
+
+**Publicar:** `Publicar_Version.ps1 -Notas "…"` (tras `Actualizar_Windows.ps1` y `Actualizar_Mac.ps1`): arma `INSTALADORES/version.json` (sha256/tam por plataforma), crea la release `v<ver>` en el repositorio PÚBLICO `AlejandroPiedrasanta/CineCaptions-releases` (solo instaladores; el código sigue en el privado) y comprueba `releases/latest/download/version.json`. `-SinSubir` solo genera el manifiesto; `-CrearRepo` crea el repositorio la primera vez; `-Canal beta` guarda la versión en la clave `beta`. Se puede apuntar a otro sitio sin recompilar con `CINECAPTIONS_URL_ACTUALIZACIONES` o la pref `url_actualizaciones`.
+
+**Pruebas:** servidor HTTP local + `version.json` falso (huella buena, mala, ausente, cancelar, 404, servidor caído) y la app `offscreen` con `USERPROFILE` falso para no ensuciar las prefs reales.

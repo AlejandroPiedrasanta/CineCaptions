@@ -26,7 +26,7 @@ AUTOR = 'CineCaptions · By Cinema Productions'
 DESCRIPCIONES = {
     # ---------------------------------------------------------------- el programa (va dentro del .exe)
     '1_codigo/CineCaptions (script principal).py': 'el programa: ventana principal (Inicio/GO, Proyecto, Editor, SFX Lab), editor de palabras, licencia, generar y colocar en Resolve, main().',
-    '1_codigo/actualizaciones.py': '«Buscar actualizaciones» y canal beta (lee un version.json publicado en internet).',
+    '1_codigo/actualizaciones.py': 'actualizaciones automáticas: lee un version.json publicado, descarga el instalador, comprueba su huella SHA-256 y lo lanza.',
     '1_codigo/ajustes_ui.py': 'Ajustes: panel rápido y ventana completa (General, Interfaz, Atajos, Acerca de, Ayuda) + notas de la versión.',
     '1_codigo/composicion.py': 'Composición de los bloques dinámicos: layouts (alineación de contexto/complemento) y desplazamientos.',
     '1_codigo/copias.py': 'copias de seguridad de ~/DaVinciSubtitles (crear y restaurar un .zip).',

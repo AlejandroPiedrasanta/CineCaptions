@@ -693,25 +693,29 @@
    "grupo": "ui",
    "tema": "Isla de navegación y controles de ventana",
    "claves": [
-    "isla",
-    "navegacion",
+    "borde",
     "controles",
-    "ventana",
-    "borde"
+    "isla",
+    "logo",
+    "marca",
+    "navegacion",
+    "ventana"
    ],
    "archivos": [
-    "isla_ui.py"
+    "isla_ui.py",
+    "2_recursos/logo_cinema_productions.png"
    ],
    "simbolos": [
     "IslaNav",
     "ControlesVentana",
     "BordesVentana",
+    "MarcaCinema",
     "_build_isla",
     "_accion_isla",
     "_alternar_pop_estado",
     "_build_lateral"
    ],
-   "resumen": "isla_ui: IslaNav, ControlesVentana, BordesVentana"
+   "resumen": "isla_ui: IslaNav, ControlesVentana, BordesVentana, MarcaCinema (logo de Inicio)"
   },
   {
    "id": "aurora",
@@ -981,6 +985,39 @@
     "scripts"
    ],
    "resumen": "Actualizar_Windows.ps1, Construir_Instalador.ps1, sincronizar_version.py, Instalador.cs"
+  },
+  {
+   "id": "actualizaciones",
+   "grupo": "compilar",
+   "tema": "Actualizaciones automáticas (cliente y publicación)",
+   "claves": [
+    "actualizaciones",
+    "actualizar",
+    "version",
+    "manifiesto",
+    "sha256",
+    "releases",
+    "publicar",
+    "beta",
+    "chip"
+   ],
+   "archivos": [
+    "1_codigo/actualizaciones.py",
+    "Publicar_Version.ps1",
+    "1_codigo/ajustes_ui.py"
+   ],
+   "simbolos": [
+    "comprobar",
+    "descargar",
+    "instalar",
+    "es_mas_nueva",
+    "clave_plataforma",
+    "_revisar_actualizaciones_auto",
+    "_ofrecer_actualizacion",
+    "_descargar_actualizacion",
+    "buscar_actualizaciones"
+   ],
+   "resumen": "actualizaciones.py (comprobar/descargar/instalar), Publicar_Version.ps1; cliente en el script principal"
   },
   {
    "id": "recorrido",

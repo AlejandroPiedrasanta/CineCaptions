@@ -40,7 +40,7 @@
 
 **Qué:** Isla de navegación, controles de ventana, borde (ventana SIN barra del sistema)
 
-**Dónde:** `isla_ui.py` · `IslaNav`, `ControlesVentana`, `BordesVentana`; en el script principal `_build_isla`, `_accion_isla`, `_alternar_pop_estado`. El lateral viejo se construye OCULTO (`_build_lateral`) porque sus piezas siguen en uso
+**Dónde:** `isla_ui.py` · `IslaNav`, `ControlesVentana`, `BordesVentana`, `MarcaCinema` (logo blanco «CINEMA PRODUCTIONS» arriba a la izquierda, solo en Inicio, se oculta si no cabe junto a la isla; `2_recursos/logo_cinema_productions.png`, también en el instalador —recurso `marca.png`— y en Ajustes > Acerca de); en el script principal `_build_isla`, `_accion_isla`, `_alternar_pop_estado`. El lateral viejo se construye OCULTO (`_build_lateral`) porque sus piezas siguen en uso
 
 ## aurora — Diseño «Aurora» (vidrio, neón, resortes)
 

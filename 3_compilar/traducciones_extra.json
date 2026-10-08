@@ -2770,5 +2770,173 @@
   "fr": "Avec Resolve gratuit : Espace de travail > Scripts > Utility > CineCaptions_Puente. Sur Mac, CineCaptions essaie de cliquer tout seul si vous accordez l'autorisation Accessibilité.",
   "de": "Mit dem kostenlosen Resolve: Arbeitsbereich > Skripte > Utility > CineCaptions_Puente. Auf dem Mac versucht CineCaptions, es selbst anzuklicken, wenn du die Bedienungshilfen-Berechtigung erteilst.",
   "it": "Con Resolve gratuito: Area di lavoro > Script > Utility > CineCaptions_Puente. Su Mac, CineCaptions prova a premerlo da solo se concedi il permesso di Accessibilità."
+ },
+ "Avisarme de las actualizaciones": {
+  "en": "Notify me about updates",
+  "pt": "Avisar-me das atualizações",
+  "fr": "Me prévenir des mises à jour",
+  "de": "Über Updates benachrichtigen",
+  "it": "Avvisami degli aggiornamenti"
+ },
+ "CineCaptions mira solo si hay una versión nueva (como mucho cada 12 horas) y te lo dice en Inicio; tú decides cuándo instalarla.": {
+  "en": "CineCaptions checks by itself whether there is a new version (at most every 12 hours) and tells you on Home; you decide when to install it.",
+  "pt": "O CineCaptions verifica sozinho se há uma versão nova (no máximo a cada 12 horas) e avisa no Início; você decide quando instalar.",
+  "fr": "CineCaptions vérifie seul s'il existe une nouvelle version (au plus toutes les 12 heures) et vous le dit sur l'Accueil ; vous décidez quand l'installer.",
+  "de": "CineCaptions prüft selbst, ob es eine neue Version gibt (höchstens alle 12 Stunden) und sagt es dir auf der Startseite; du entscheidest, wann installiert wird.",
+  "it": "CineCaptions controlla da solo se c'è una nuova versione (al massimo ogni 12 ore) e te lo dice in Home; sei tu a decidere quando installarla."
+ },
+ "Nueva versión {v} ↑": {
+  "en": "New version {v} ↑",
+  "pt": "Nova versão {v} ↑",
+  "fr": "Nouvelle version {v} ↑",
+  "de": "Neue Version {v} ↑",
+  "it": "Nuova versione {v} ↑"
+ },
+ "Hay una versión nueva de CineCaptions. Clic: descargarla, comprobar que es auténtica e instalarla (se cierra y se vuelve a abrir solo).": {
+  "en": "There is a new version of CineCaptions. Click: download it, verify it is authentic and install it (it closes and reopens by itself).",
+  "pt": "Há uma nova versão do CineCaptions. Clique: baixar, verificar que é autêntica e instalar (fecha e reabre sozinho).",
+  "fr": "Une nouvelle version de CineCaptions est disponible. Clic : la télécharger, vérifier son authenticité et l'installer (il se ferme et se rouvre tout seul).",
+  "de": "Es gibt eine neue Version von CineCaptions. Klick: herunterladen, auf Echtheit prüfen und installieren (schließt und öffnet sich von selbst).",
+  "it": "C'è una nuova versione di CineCaptions. Clic: scaricarla, verificarne l'autenticità e installarla (si chiude e si riapre da solo)."
+ },
+ "Hay una versión nueva de CineCaptions: {v}. Pulsa «Nueva versión» en Inicio para instalarla.": {
+  "en": "There is a new version of CineCaptions: {v}. Press \"New version\" on Home to install it.",
+  "pt": "Há uma nova versão do CineCaptions: {v}. Toque em «Nova versão» no Início para instalar.",
+  "fr": "Une nouvelle version de CineCaptions est disponible : {v}. Appuyez sur « Nouvelle version » sur l'Accueil pour l'installer.",
+  "de": "Es gibt eine neue Version von CineCaptions: {v}. Tippe auf „Neue Version“ auf der Startseite, um sie zu installieren.",
+  "it": "C'è una nuova versione di CineCaptions: {v}. Premi «Nuova versione» in Home per installarla."
+ },
+ "Termina lo que estás haciendo (GO o el editor) y vuelve a pulsar «Nueva versión»: la actualización cierra CineCaptions.": {
+  "en": "Finish what you are doing (GO or the editor) and press \"New version\" again: the update closes CineCaptions.",
+  "pt": "Termine o que está fazendo (GO ou o editor) e toque em «Nova versão» de novo: a atualização fecha o CineCaptions.",
+  "fr": "Terminez ce que vous faites (GO ou l'éditeur) puis appuyez de nouveau sur « Nouvelle version » : la mise à jour ferme CineCaptions.",
+  "de": "Beende, was du gerade tust (GO oder den Editor), und tippe erneut auf „Neue Version“: Das Update schließt CineCaptions.",
+  "it": "Termina quello che stai facendo (GO o l'editor) e premi di nuovo «Nuova versione»: l'aggiornamento chiude CineCaptions."
+ },
+ "CineCaptions {v} está listo{mb}.": {
+  "en": "CineCaptions {v} is ready{mb}.",
+  "pt": "O CineCaptions {v} está pronto{mb}.",
+  "fr": "CineCaptions {v} est prêt{mb}.",
+  "de": "CineCaptions {v} ist bereit{mb}.",
+  "it": "CineCaptions {v} è pronto{mb}."
+ },
+ "Se descarga, se comprueba que sea auténtica y se instala. CineCaptions se cierra y se vuelve a abrir solo. Tus proyectos, licencia y ajustes no se tocan.": {
+  "en": "It is downloaded, verified as authentic and installed. CineCaptions closes and reopens by itself. Your projects, license and settings are not touched.",
+  "pt": "É baixada, verificada como autêntica e instalada. O CineCaptions fecha e reabre sozinho. Seus projetos, licença e ajustes não são tocados.",
+  "fr": "Elle est téléchargée, vérifiée comme authentique puis installée. CineCaptions se ferme et se rouvre tout seul. Vos projets, licence et réglages ne sont pas touchés.",
+  "de": "Sie wird heruntergeladen, auf Echtheit geprüft und installiert. CineCaptions schließt und öffnet sich von selbst. Deine Projekte, Lizenz und Einstellungen bleiben unberührt.",
+  "it": "Viene scaricata, verificata come autentica e installata. CineCaptions si chiude e si riapre da solo. Progetti, licenza e impostazioni non vengono toccati."
+ },
+ "¿Actualizar ahora?": {
+  "en": "Update now?",
+  "pt": "Atualizar agora?",
+  "fr": "Mettre à jour maintenant ?",
+  "de": "Jetzt aktualisieren?",
+  "it": "Aggiornare ora?"
+ },
+ "Actualizando CineCaptions": {
+  "en": "Updating CineCaptions",
+  "pt": "Atualizando o CineCaptions",
+  "fr": "Mise à jour de CineCaptions",
+  "de": "CineCaptions wird aktualisiert",
+  "it": "Aggiornamento di CineCaptions"
+ },
+ "Descargando…": {
+  "en": "Downloading…",
+  "pt": "Baixando…",
+  "fr": "Téléchargement…",
+  "de": "Wird heruntergeladen…",
+  "it": "Download in corso…"
+ },
+ "Comprobar que es auténtica": {
+  "en": "Verify it is authentic",
+  "pt": "Verificar que é autêntica",
+  "fr": "Vérifier son authenticité",
+  "de": "Auf Echtheit prüfen",
+  "it": "Verificare che sia autentica"
+ },
+ "Descargar la versión nueva": {
+  "en": "Download the new version",
+  "pt": "Baixar a versão nova",
+  "fr": "Télécharger la nouvelle version",
+  "de": "Neue Version herunterladen",
+  "it": "Scaricare la nuova versione"
+ },
+ "Instalarla": {
+  "en": "Install it",
+  "pt": "Instalá-la",
+  "fr": "L'installer",
+  "de": "Installieren",
+  "it": "Installarla"
+ },
+ "CineCaptions se cierra y se vuelve a abrir solo": {
+  "en": "CineCaptions closes and reopens by itself",
+  "pt": "O CineCaptions fecha e reabre sozinho",
+  "fr": "CineCaptions se ferme et se rouvre tout seul",
+  "de": "CineCaptions schließt und öffnet sich von selbst",
+  "it": "CineCaptions si chiude e si riapre da solo"
+ },
+ "{h} de {t} MB": {
+  "en": "{h} of {t} MB",
+  "pt": "{h} de {t} MB",
+  "fr": "{h} sur {t} Mo",
+  "de": "{h} von {t} MB",
+  "it": "{h} di {t} MB"
+ },
+ "La descarga o la comprobación falló: {e}": {
+  "en": "The download or the verification failed: {e}",
+  "pt": "O download ou a verificação falhou: {e}",
+  "fr": "Le téléchargement ou la vérification a échoué : {e}",
+  "de": "Der Download oder die Prüfung ist fehlgeschlagen: {e}",
+  "it": "Il download o la verifica non è riuscito: {e}"
+ },
+ "No se pudo actualizar": {
+  "en": "Could not update",
+  "pt": "Não foi possível atualizar",
+  "fr": "Mise à jour impossible",
+  "de": "Update nicht möglich",
+  "it": "Impossibile aggiornare"
+ },
+ "Tu versión sigue como estaba. ¿Abrir la descarga en el navegador?": {
+  "en": "Your version stays as it was. Open the download in the browser?",
+  "pt": "Sua versão continua como estava. Abrir o download no navegador?",
+  "fr": "Votre version reste inchangée. Ouvrir le téléchargement dans le navigateur ?",
+  "de": "Deine Version bleibt unverändert. Den Download im Browser öffnen?",
+  "it": "La tua versione resta com'era. Aprire il download nel browser?"
+ },
+ "Lanzando el instalador…": {
+  "en": "Starting the installer…",
+  "pt": "Iniciando o instalador…",
+  "fr": "Lancement de l'installateur…",
+  "de": "Installer wird gestartet…",
+  "it": "Avvio dell'installer…"
+ },
+ "No pude abrir el instalador descargado: {r}": {
+  "en": "I could not open the downloaded installer: {r}",
+  "pt": "Não consegui abrir o instalador baixado: {r}",
+  "fr": "Impossible d'ouvrir l'installateur téléchargé : {r}",
+  "de": "Der heruntergeladene Installer ließ sich nicht öffnen: {r}",
+  "it": "Non sono riuscito ad aprire l'installer scaricato: {r}"
+ },
+ "Instalando…": {
+  "en": "Installing…",
+  "pt": "Instalando…",
+  "fr": "Installation…",
+  "de": "Wird installiert…",
+  "it": "Installazione…"
+ },
+ "Actualización descargada": {
+  "en": "Update downloaded",
+  "pt": "Atualização baixada",
+  "fr": "Mise à jour téléchargée",
+  "de": "Update heruntergeladen",
+  "it": "Aggiornamento scaricato"
+ },
+ "Se abrió el disco de CineCaptions {v}: abre «Instalar_CineCaptions.pkg» para terminar.": {
+  "en": "The CineCaptions {v} disk image opened: open \"Instalar_CineCaptions.pkg\" to finish.",
+  "pt": "A imagem de disco do CineCaptions {v} foi aberta: abra «Instalar_CineCaptions.pkg» para terminar.",
+  "fr": "L'image disque de CineCaptions {v} s'est ouverte : ouvrez « Instalar_CineCaptions.pkg » pour terminer.",
+  "de": "Das CineCaptions-{v}-Image wurde geöffnet: Öffne „Instalar_CineCaptions.pkg“, um fertig zu werden.",
+  "it": "L'immagine disco di CineCaptions {v} è stata aperta: apri «Instalar_CineCaptions.pkg» per terminare."
  }
 }

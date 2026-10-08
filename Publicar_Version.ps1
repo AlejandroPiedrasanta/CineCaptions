@@ -1,0 +1,96 @@
+# CineCaptions - By Cinema Productions
+# Publicar_Version.ps1 - publica la version actual para que los programas instalados se actualicen solos (actualizaciones.py).
+# ============================================================================
+#   powershell -ExecutionPolicy Bypass -File Publicar_Version.ps1 -Notas "Lo nuevo en una linea"            genera version.json y lo SUBE
+#   powershell -ExecutionPolicy Bypass -File Publicar_Version.ps1 -SinSubir                                  solo genera INSTALADORES\version.json (para revisarlo)
+#   powershell -ExecutionPolicy Bypass -File Publicar_Version.ps1 -CrearRepo -Notas "..."                     crea (una vez) el repositorio PUBLICO de instaladores
+#   powershell -ExecutionPolicy Bypass -File Publicar_Version.ps1 -Canal beta -Notas "..."                    publica como beta (solo la ven quienes activaron 'Recibir versiones beta')
+# Antes: Actualizar_Windows.ps1 y Actualizar_Mac.ps1 (los instaladores de la version actual tienen que estar en INSTALADORES\).
+# El repositorio de instaladores es PUBLICO y solo trae los .exe/.dmg y version.json; el codigo sigue en el repositorio privado.
+# Cada instalador va con su SHA-256: el programa NO instala nada cuya huella no coincida.
+# ============================================================================
+param(
+    [string]$Notas = 'Mejoras y correcciones.',
+    [string]$Repo = 'AlejandroPiedrasanta/CineCaptions-releases',
+    [ValidateSet('estable', 'beta')][string]$Canal = 'estable',
+    [switch]$SinSubir,
+    [switch]$CrearRepo
+)
+$ErrorActionPreference = 'Stop'
+Set-Location (Split-Path -Parent $MyInvocation.MyCommand.Path)
+function Paso($t) { Write-Host ''; Write-Host "== $t" -ForegroundColor Cyan }
+function Nativo($bloque) { & $bloque; if ($LASTEXITCODE -ne 0) { throw "Fallo: $bloque" } }
+function Sondear($bloque) { $antes = $ErrorActionPreference; $ErrorActionPreference = 'Continue'; try { & $bloque 2>&1 | Out-Null } finally { $ErrorActionPreference = $antes }; return $LASTEXITCODE }
+
+$version = ([regex]::Match((Get-Content '1_codigo\version.py' -Raw), "APP_VERSION\s*=\s*'([^']+)'")).Groups[1].Value
+if (-not $version) { throw 'No pude leer APP_VERSION de 1_codigo\version.py' }
+$etiqueta = "v$version"
+$base = "https://github.com/$Repo/releases/download/$etiqueta"
+Paso "Version $version ($Canal)"
+
+# Los instaladores de ESTA version, uno por plataforma
+$piezas = [ordered]@{
+    'windows'    = "INSTALADORES\Windows\Instalar_CineCaptions_$version.exe"
+    'mac_arm64'  = "INSTALADORES\Mac\CineCaptions_Mac_AppleSilicon_$version.dmg"
+    'mac_x86_64' = "INSTALADORES\Mac\CineCaptions_Mac_Intel_$version.dmg"
+}
+$archivos = [ordered]@{}
+$subir = @()
+foreach ($clave in $piezas.Keys) {
+    $ruta = $piezas[$clave]
+    if (-not (Test-Path -LiteralPath $ruta)) { Write-Host "    FALTA  $ruta  (corre Actualizar_Windows.ps1 / Actualizar_Mac.ps1)" -ForegroundColor Yellow; continue }
+    $f = Get-Item -LiteralPath $ruta
+    $huella = (Get-FileHash -LiteralPath $ruta -Algorithm SHA256).Hash.ToLower()
+    $archivos[$clave] = [ordered]@{ url = "$base/$($f.Name)"; sha256 = $huella; tam = [int64]$f.Length }
+    $subir += $f.FullName
+    Write-Host ("    {0,-11} {1}  {2:N1} MB  {3}" -f $clave, $f.Name, ($f.Length / 1MB), $huella.Substring(0, 12))
+}
+if ($archivos.Count -eq 0) { throw "No hay ningun instalador de la $version en INSTALADORES\" }
+if (-not $archivos.Contains('windows')) { Write-Host '    (aviso) sin el .exe de Windows: los Windows no verian esta version' -ForegroundColor Yellow }
+
+# El manifiesto: la entrada de este canal es la nueva; la del otro canal se conserva de la publicacion anterior (si la hay)
+$manifiesto = [ordered]@{}
+if (-not $SinSubir) {
+    $previo = Join-Path ([IO.Path]::GetTempPath()) 'cc_version_previa.json'
+    Remove-Item -LiteralPath $previo -ErrorAction SilentlyContinue
+    $rc = Sondear { gh release download --repo $Repo --pattern 'version.json' --output $previo }
+    if ($rc -eq 0 -and (Test-Path $previo)) {
+        try { $p = Get-Content $previo -Raw | ConvertFrom-Json; foreach ($c in 'estable', 'beta') { if ($c -ne $Canal -and $p.$c) { $manifiesto[$c] = $p.$c } } } catch { }
+    }
+}
+$manifiesto[$Canal] = [ordered]@{ version = $version; notas = $Notas; fecha = (Get-Date -Format 'yyyy-MM-dd'); archivos = $archivos }
+$json = $manifiesto | ConvertTo-Json -Depth 8
+$salida = Join-Path (Get-Location) 'INSTALADORES\version.json'
+[IO.File]::WriteAllText($salida, $json, (New-Object Text.UTF8Encoding $false))       # UTF-8 SIN BOM (el programa lo lee con json.loads)
+Write-Host "    manifiesto: $salida"
+if ($SinSubir) { Write-Host ''; Write-Host 'Listo (sin subir). Revisa INSTALADORES\version.json.' -ForegroundColor Green; return }
+
+# El repositorio publico de instaladores
+Paso "Repositorio $Repo"
+if ((Sondear { gh repo view $Repo }) -ne 0) {
+    if (-not $CrearRepo) {
+        Write-Host "    El repositorio $Repo no existe todavia." -ForegroundColor Yellow
+        Write-Host '    Sera PUBLICO (solo trae los instaladores y version.json, no el codigo). Para crearlo una vez:' -ForegroundColor Yellow
+        Write-Host '    powershell -ExecutionPolicy Bypass -File Publicar_Version.ps1 -CrearRepo -Notas "..."' -ForegroundColor Yellow
+        exit 1
+    }
+    Nativo { gh repo create $Repo --public --description 'Instaladores de CineCaptions (By Cinema Productions)' }
+}
+
+# Una publicacion por version; si ya existia (reintento) se reemplazan sus archivos
+Paso "Subiendo $etiqueta"
+if ((Sondear { gh release view $etiqueta --repo $Repo }) -eq 0) {
+    Nativo { gh release upload $etiqueta @($subir + $salida) --repo $Repo --clobber }
+    Nativo { gh release edit $etiqueta --repo $Repo --notes $Notas }
+} else {
+    Nativo { gh release create $etiqueta @($subir + $salida) --repo $Repo --title "CineCaptions $version" --notes $Notas --latest }
+}
+
+Paso 'Comprobando lo publicado'
+$url = "https://github.com/$Repo/releases/latest/download/version.json"
+$publicado = Invoke-RestMethod -Uri $url -UseBasicParsing
+$v = $publicado.$Canal.version
+Write-Host "    $url  ->  $Canal $v"
+if ($v -ne $version) { throw "El manifiesto publicado dice $v y se esperaba $version" }
+Write-Host ''
+Write-Host "Publicada la $version. Los CineCaptions instalados la veran en menos de 12 h (o al pulsar 'Buscar actualizaciones')." -ForegroundColor Green

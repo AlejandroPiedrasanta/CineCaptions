@@ -11,7 +11,7 @@ Cada archivo dice en su 2.ª línea qué es. La lógica completa: LEEME.txt, sec
 QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
 ------------------------------------------------------------------------------
     actualizaciones.py
-        «Buscar actualizaciones» y canal beta (lee un version.json publicado en internet).
+        actualizaciones automáticas: lee un version.json publicado, descarga el instalador, comprueba su huella SHA-256 y lo lanza.
     ajustes_ui.py
         Ajustes: panel rápido y ventana completa (General, Interfaz, Atajos, Acerca de, Ayuda) + notas de la versión.
     archivos_seguros.py

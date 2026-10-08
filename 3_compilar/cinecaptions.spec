@@ -30,6 +30,7 @@ for carpeta in ('resolve_scripts', 'locales', 'plantillas_incluidas', 'fonts',
         raise SystemExit(f'Falta {origen}: sin eso el programa queda cojo')
     datas.append((origen, carpeta))
 datas.append((os.path.join(RECURSOS, 'logo_cinecaptions.png'), '.'))
+datas.append((os.path.join(RECURSOS, 'logo_cinema_productions.png'), '.'))      # v5.3.5: la marca «CINEMA PRODUCTIONS» (blanca, transparente): Inicio y Ajustes > Acerca de
 datas.append((os.path.join(RECURSOS, 'fondo_esfera.jpg'), '.'))      # v5.2.1: la imagen de referencia de la escena de Inicio
 
 # Datos de librerias que PyInstaller no ve solo (v5.0.0: la interfaz es
