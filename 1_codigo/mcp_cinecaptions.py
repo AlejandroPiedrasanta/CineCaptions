@@ -454,7 +454,8 @@ def t_arrastrar_video(a):
         a1_ok = any(Path(media).name == n and on for n, on in (estado_tl or {}).get('A1', []))
         sonido['VEREDICTO'] = ('OK: el audio del video está en A1 y suena en el render' if (a1_ok and tiene_render and (vol_render is None or vol_render > -60))
                                else 'FALLA: el audio del video no llegó al timeline o al render')
-        datos = Path.home() / 'DaVinciSubtitles' / f'{Path(media).stem}.{a.get("idioma", "es")}.guion.json'
+        base = Path.home() / 'DaVinciSubtitles' / f'{Path(media).stem}.{a.get("idioma", "es")}'
+        datos = next((p for p in (base.with_suffix(base.suffix + '.kinetic.json'), base.with_suffix(base.suffix + '.guion.json')) if p.exists()), base.with_suffix(base.suffix + '.guion.json'))
         tiempos = a.get('tiempos')
         if not tiempos and datos.exists():
             tiempos = [round(max(0.0, c['end'] - 0.15), 2) for c in json.loads(datos.read_text(encoding='utf-8'))['cues']]

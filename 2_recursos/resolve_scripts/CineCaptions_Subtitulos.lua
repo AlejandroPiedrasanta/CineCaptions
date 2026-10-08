@@ -5321,12 +5321,22 @@ local function preparar_pack_kinetic(media_pool, nombre_pack, formato, ruta_drb)
     if not ruta_drb or not dato_existe(ruta_drb) then
         return nil, "el pack '" .. tostring(nombre_pack) .. "' no trae su .drb en este equipo (" .. tostring(ruta_drb or "sin ruta") .. ")."
     end
+    -- Resolve a veces devuelve nil justo despues de crear el proyecto o el timeline: se reintenta, y antes de rendirse se mira si el bin se creo igual
     local carpeta = existente
-    if not carpeta then
-        local ok_c, nueva = pcall(function() return media_pool:AddSubFolder(raiz, nombre_bin) end)
-        carpeta = ok_c and nueva or nil
+    local ultimo_error = nil
+    for _ = 1, 5 do
+        if carpeta then break end
+        local ok_c, nueva = pcall(function() return media_pool:AddSubFolder(media_pool:GetRootFolder(), nombre_bin) end)
+        if ok_c then carpeta = nueva or nil else ultimo_error = nueva end
+        if not carpeta then
+            local ok_r, raiz2 = pcall(function() return media_pool:GetRootFolder() end)
+            if ok_r and raiz2 then carpeta = subcarpeta(raiz2, nombre_bin) end
+        end
+        if not carpeta and os and os.execute then pcall(os.execute, "ping -n 2 127.0.0.1 > nul") end
     end
-    if not carpeta then return nil, "no pude crear el bin '" .. nombre_bin .. "' en el Media Pool." end
+    if not carpeta then
+        return nil, "no pude crear el bin '" .. nombre_bin .. "' en el Media Pool" .. (ultimo_error and (" (" .. tostring(ultimo_error) .. ").") or " (Resolve no devolvio la carpeta).")
+    end
     local ok_p, previa = pcall(function() return media_pool:GetCurrentFolder() end)
     pcall(function() media_pool:SetCurrentFolder(carpeta) end)
     local importo = false

@@ -3680,12 +3680,23 @@ def preparar_pack_kinetic(media_pool, nombre_pack, formato, ruta_drb):
         return existente, None
     if not ruta_drb or not Path(ruta_drb).is_file():
         return None, f"el pack '{nombre_pack}' no trae su .drb en este equipo ({ruta_drb or 'sin ruta'})."
-    try:
-        carpeta = existente or media_pool.AddSubFolder(raiz, nombre_bin)
-    except Exception:
-        carpeta = None
+    # Resolve a veces devuelve None (o falla) justo después de crear el proyecto o el timeline: se reintenta unas veces, y antes de rendirse se mira si el bin
+    # se creó aunque la llamada no lo dijera (si no, quedaría un bin huérfano y el siguiente intento chocaría con su nombre).
+    carpeta = existente
+    ultimo_error = None
+    for intento in range(5):
+        if carpeta is not None:
+            break
+        try:
+            carpeta = media_pool.AddSubFolder(media_pool.GetRootFolder(), nombre_bin)
+        except Exception as exc:
+            carpeta, ultimo_error = None, exc
+        if carpeta is None:
+            carpeta = _subcarpeta(media_pool.GetRootFolder(), nombre_bin)
+        if carpeta is None:
+            _time.sleep(0.8)
     if carpeta is None:
-        return None, f"no pude crear el bin '{nombre_bin}' en el Media Pool."
+        return None, f"no pude crear el bin '{nombre_bin}' en el Media Pool" + (f" ({type(ultimo_error).__name__}: {ultimo_error})." if ultimo_error else " (Resolve no devolvió la carpeta).")
     try:
         previa = media_pool.GetCurrentFolder()
     except Exception:
