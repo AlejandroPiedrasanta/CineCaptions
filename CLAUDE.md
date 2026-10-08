@@ -21,7 +21,7 @@ App PySide6 (v5.3.2) que subtitula vídeos con IA local y coloca los subtítulos
 - **sonido** (Sonido y emojis (SFX Lab, reglas, emojis)): `sfx-lab` [sfx_studio sfx_rules sfx_editor] · `ducking-energia` [estilo_desde_imagen ducking energia] · `sonido-palabra` [sfx_rules] · `sonido-emojis` [emojis_sfx generar_sfx_emoji emojis_sfx_ui]
 - **guion** (Estilo «guion» (pack Referencia, palabra a palabra)): `guion-planificador` [guion_planificador guion_referencia guion_captions] · `creativo-guion` [guion_editor guion_vista CineCaptions - Vista Real] · `estilo-oracion` [guion_planificador guion_captions]
 - **voz-ia** (Voz e IA de texto): `voz-ia` [subtitle_transcriber motor_voz ia_texto]
-- **resolve** (Resolve (API, MCP, scripts, vistas reales)): `resolve-api` [resolve_bridge resolve_mcp instalador_scripts] · `vista-real-previo` [vistas_reales]
+- **resolve** (Resolve (API, MCP, scripts, vistas reales)): `resolve-api` [resolve_bridge resolve_mcp instalador_scripts] · `vista-real-previo` [vistas_reales] · `resolve-mcp-mac` [resolve_mcp resolve_bridge]
 - **compilar** (Compilar, versiones, instaladores (Windows y Mac)): `instalador-cs` [3_compilar/Instalador.cs 4_diseno/banner/crear_banner] · `version` [version] · `mac` [Construir_Instalador_Mac.sh cinecaptions_mac.spec] · `compilar-win` [Actualizar_Windows.ps1 Construir_Instalador.ps1 3_compilar/sincronizar_version] · `mac-actualizar` [Actualizar_Mac.ps1]
 - **vigilancia** (Vigilancia, logs y respaldo de modelos): `vigilancia` [vigilancia registro]
 - **datos** (Datos del usuario, licencia y ajustes): `licencia` [licencia ventana_licencia] · `archivos-seguros` [archivos_seguros] · `carpetas-del-usuario` [archivos_seguros copias]

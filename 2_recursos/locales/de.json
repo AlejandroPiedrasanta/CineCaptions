@@ -2563,6 +2563,8 @@
     "Hay una línea de tiempo abierta en Resolve": "In Resolve ist eine Timeline geöffnet",
     "Trae su audio, se transcribe y el editor se abre solo. También puedes pulsar GO en Inicio.": "Das Audio wird geholt, transkribiert und der Editor öffnet sich von selbst. Du kannst auch auf der Startseite GO drücken.",
     "Traer el audio de Resolve": "Audio aus Resolve holen",
-    "Aún no hay audio. En Proyecto pulsa «Obtener» (o suelta un video en la ventana) y vuelve aquí: lo detecto solo. Con GO todo se hace en un clic.": "Noch kein Audio. Drücke im Projekt „Holen“ (oder ziehe ein Video ins Fenster) und komm zurück: Ich erkenne es selbst. Mit GO geht alles mit einem Klick."
+    "Aún no hay audio. En Proyecto pulsa «Obtener» (o suelta un video en la ventana) y vuelve aquí: lo detecto solo. Con GO todo se hace en un clic.": "Noch kein Audio. Drücke im Projekt „Holen“ (oder ziehe ein Video ins Fenster) und komm zurück: Ich erkenne es selbst. Mit GO geht alles mit einem Klick.",
+    "Si tienes DaVinci Resolve STUDIO no necesitas el Puente: en Resolve ve a Preferencias > Sistema > General, pon «External scripting using» en «Local», cierra Resolve del todo y ábrelo otra vez.": "Wenn du DaVinci Resolve STUDIO hast, brauchst du die Brücke nicht: Gehe in Resolve zu Einstellungen > System > Allgemein, stelle „External scripting using“ auf „Local“, beende Resolve vollständig und öffne es erneut.",
+    "Con Resolve gratuito: Área de trabajo > Scripts > Utility > CineCaptions_Puente (en inglés: Workspace > Scripts > Utility). En Mac, CineCaptions intenta pulsarlo solo si le das el permiso de Accesibilidad.": "Mit dem kostenlosen Resolve: Arbeitsbereich > Skripte > Utility > CineCaptions_Puente. Auf dem Mac versucht CineCaptions, es selbst anzuklicken, wenn du die Bedienungshilfen-Berechtigung erteilst."
   }
 }

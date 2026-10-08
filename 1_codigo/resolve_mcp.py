@@ -43,8 +43,9 @@ CACHE_ESTADO_S = 3.0
 
 
 def ruta_exe():
-    """Donde esta ResolveMCP, o None."""
+    """Donde esta ResolveMCP, o None. RESOLVE_MCP_PATH manda (igual que en el paquete oficial de Blackmagic)."""
     candidatos = []
+    forzada = os.environ.get('RESOLVE_MCP_PATH')
     if sys.platform == 'win32':
         for var in ('ProgramW6432', 'ProgramFiles'):
             base = os.environ.get(var)
@@ -58,10 +59,16 @@ def ruta_exe():
         except Exception:
             pass
     elif sys.platform == 'darwin':
-        app = Path('/Applications/DaVinci Resolve/DaVinci Resolve.app/Contents')
-        candidatos += [app / 'MacOS' / 'ResolveMCP', app / 'Libraries' / 'ResolveMCP']
+        # v5.3.4: la ruta REAL en Mac la dice el paquete oficial de Blackmagic (DaVinciResolve.mcpb > server/index.js):
+        #   /Applications/DaVinci Resolve/DaVinci Resolve.app/Contents/Applications/ResolveMCP
+        # (antes se buscaba en Contents/MacOS y Contents/Libraries: no existe ahí, así que en Mac el MCP nunca se encontraba y GO caía al Puente de Resolve Free)
+        for raiz in (Path('/Applications/DaVinci Resolve/DaVinci Resolve.app'), Path('/Applications/DaVinci Resolve.app'), Path.home() / 'Applications' / 'DaVinci Resolve' / 'DaVinci Resolve.app'):
+            app = raiz / 'Contents'
+            candidatos += [app / 'Applications' / 'ResolveMCP', app / 'MacOS' / 'ResolveMCP', app / 'Libraries' / 'ResolveMCP']
     else:
         candidatos += [Path('/opt/resolve/bin/ResolveMCP'), Path('/opt/resolve/ResolveMCP')]
+    if forzada:
+        candidatos.insert(0, Path(forzada))
     for c in candidatos:
         try:
             if c.is_file():
@@ -76,7 +83,8 @@ def ruta_exe():
 # failed to start because no Qt platform plugin could be initialized» (así se rompió el arranque de Resolve en las pruebas con
 # QT_QPA_PLATFORM=offscreen). El entorno de Resolve se limpia de todo eso.
 _VARIABLES_AJENAS = ('QT_QPA_PLATFORM', 'QT_QPA_PLATFORM_PLUGIN_PATH', 'QT_PLUGIN_PATH', 'QT_QPA_FONTDIR', 'QT_QPA_GENERIC_PLUGINS', 'QT_QPA_EGLFS_INTEGRATION',
-                     'QML2_IMPORT_PATH', 'QML_IMPORT_PATH', 'QT_DEBUG_PLUGINS', 'PYTHONHOME', 'PYTHONPATH', 'PYTHONEXECUTABLE', '_MEIPASS2')
+                     'QML2_IMPORT_PATH', 'QML_IMPORT_PATH', 'QT_DEBUG_PLUGINS', 'PYTHONHOME', 'PYTHONPATH', 'PYTHONEXECUTABLE', '_MEIPASS2',
+                     'DYLD_LIBRARY_PATH', 'DYLD_FRAMEWORK_PATH', 'DYLD_FALLBACK_LIBRARY_PATH', 'DYLD_INSERT_LIBRARIES', 'LD_LIBRARY_PATH', 'LD_PRELOAD')    # (Mac / Linux: las del programa empaquetado)
 
 
 def entorno_para_resolve(base=None):

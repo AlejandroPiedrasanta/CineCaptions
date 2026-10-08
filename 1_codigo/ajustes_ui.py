@@ -485,6 +485,10 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.3.4', [
+        'Mac: GO por fin encuentra el servidor MCP de DaVinci Resolve (estaba buscándolo en una carpeta equivocada y caía al Puente de Resolve gratuito, que a veces perdía la conexión). Con Resolve Studio ya no hace falta el Puente.',
+        'Si Resolve Studio tiene los scripts externos apagados (Preferencias > Sistema > General > External scripting using), el aviso lo dice con los pasos exactos en vez de hablar del Puente.',
+    ]),
     ('5.3.3', [
         'Creativo detecta solo lo que hay en Proyecto: si ya trajiste el audio de Resolve o elegiste un video, la pantalla lo muestra; si ya tiene palabras transcritas, el editor se abre solo, y si falta transcribir basta un botón (Transcribir y retocar). También avisa de la línea de tiempo abierta en Resolve.',
     ]),

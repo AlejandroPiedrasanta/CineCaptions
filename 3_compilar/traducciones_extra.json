@@ -2756,5 +2756,19 @@
   "fr": "Il n'y a pas encore d'audio. Dans Projet appuyez sur « Obtenir » (ou déposez une vidéo dans la fenêtre) et revenez ici : je le détecte tout seul. Avec GO, tout se fait en un clic.",
   "de": "Noch kein Audio. Drücke im Projekt „Holen“ (oder ziehe ein Video ins Fenster) und komm zurück: Ich erkenne es selbst. Mit GO geht alles mit einem Klick.",
   "it": "Non c'è ancora audio. In Progetto premi «Ottieni» (o trascina un video nella finestra) e torna qui: lo rilevo da solo. Con GO tutto si fa con un clic."
+ },
+ "Si tienes DaVinci Resolve STUDIO no necesitas el Puente: en Resolve ve a Preferencias > Sistema > General, pon «External scripting using» en «Local», cierra Resolve del todo y ábrelo otra vez.": {
+  "en": "If you have DaVinci Resolve STUDIO you do not need the Bridge: in Resolve go to Preferences > System > General, set “External scripting using” to “Local”, quit Resolve completely and open it again.",
+  "pt": "Se você tem o DaVinci Resolve STUDIO não precisa da Ponte: no Resolve vá em Preferências > Sistema > Geral, coloque «External scripting using» em «Local», feche o Resolve por completo e abra de novo.",
+  "fr": "Si vous avez DaVinci Resolve STUDIO, vous n'avez pas besoin du Pont : dans Resolve, allez dans Préférences > Système > Général, réglez « External scripting using » sur « Local », quittez complètement Resolve et rouvrez-le.",
+  "de": "Wenn du DaVinci Resolve STUDIO hast, brauchst du die Brücke nicht: Gehe in Resolve zu Einstellungen > System > Allgemein, stelle „External scripting using“ auf „Local“, beende Resolve vollständig und öffne es erneut.",
+  "it": "Se hai DaVinci Resolve STUDIO non ti serve il Ponte: in Resolve vai su Preferenze > Sistema > Generali, imposta «External scripting using» su «Local», chiudi completamente Resolve e riaprilo."
+ },
+ "Con Resolve gratuito: Área de trabajo > Scripts > Utility > CineCaptions_Puente (en inglés: Workspace > Scripts > Utility). En Mac, CineCaptions intenta pulsarlo solo si le das el permiso de Accesibilidad.": {
+  "en": "With the free Resolve: Workspace > Scripts > Utility > CineCaptions_Puente. On Mac, CineCaptions tries to click it by itself if you grant the Accessibility permission.",
+  "pt": "Com o Resolve gratuito: Área de trabalho > Scripts > Utility > CineCaptions_Puente. No Mac, o CineCaptions tenta clicar sozinho se você der a permissão de Acessibilidade.",
+  "fr": "Avec Resolve gratuit : Espace de travail > Scripts > Utility > CineCaptions_Puente. Sur Mac, CineCaptions essaie de cliquer tout seul si vous accordez l'autorisation Accessibilité.",
+  "de": "Mit dem kostenlosen Resolve: Arbeitsbereich > Skripte > Utility > CineCaptions_Puente. Auf dem Mac versucht CineCaptions, es selbst anzuklicken, wenn du die Bedienungshilfen-Berechtigung erteilst.",
+  "it": "Con Resolve gratuito: Area di lavoro > Script > Utility > CineCaptions_Puente. Su Mac, CineCaptions prova a premerlo da solo se concedi il permesso di Accessibilità."
  }
 }

@@ -1228,6 +1228,36 @@
     "_vigilar_editor_vacio"
    ],
    "resumen": "Pantalla Creativo sin sesión: muestra el audio/timeline de Proyecto y abre el editor sola si ya hay palabras"
+  },
+  {
+   "id": "resolve-mcp-mac",
+   "grupo": "resolve",
+   "tema": "Dónde está ResolveMCP en cada sistema (Mac, Windows, Linux)",
+   "claves": [
+    "resolveMCP",
+    "mac",
+    "macos",
+    "ruta",
+    "puente",
+    "studio",
+    "scripting",
+    "externo",
+    "local",
+    "falla",
+    "error",
+    "conexion",
+    "perdio"
+   ],
+   "archivos": [
+    "resolve_mcp.py",
+    "resolve_bridge.py"
+   ],
+   "simbolos": [
+    "ruta_exe",
+    "ejecutar",
+    "scripting_desactivado"
+   ],
+   "resumen": "En Mac está en Contents/Applications/ResolveMCP; si falta, GO cae al Puente. Studio: External scripting = Local"
   }
  ]
 }

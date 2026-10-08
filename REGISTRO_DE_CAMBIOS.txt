@@ -12,6 +12,36 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-07 18:29  ·  v5.3.4  ·  (automático)
+    modificados (15):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_InsertarSFX.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Puente.lua
+      … y 3 más
+
+2026-10-07 18:29  ·  v5.3.3  ·  cambio explicado
+    Mac: ResolveMCP se buscaba en una ruta que no existe (Contents/MacOS|Libraries); la real es Contents/Applications/ResolveMCP (lo dice el paquete oficial DaVinciResolve.mcpb), asi que en Mac GO caia al Puente de Resolve Free y decia que perdio la conexion aunque hubiera Studio. Ahora la encuentra (y RESOLVE_MCP_PATH manda), el entorno de ResolveMCP no hereda DYLD_/LD_ del programa empaquetado y, si Studio tiene el scripting externo apagado, el aviso lo dice con los pasos exactos
+    modificados (10):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/registro_ayuda.py
+      ~ 1_codigo/resolve_bridge.py
+      ~ 1_codigo/resolve_mcp.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 3_compilar/traducciones_extra.json
+
 2026-10-07 18:08  ·  v5.3.3  ·  (automático)
     modificados (15):
       ~ 1_codigo/version.py

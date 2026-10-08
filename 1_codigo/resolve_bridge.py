@@ -831,6 +831,11 @@ def ejecutar(accion, carpeta_scripts=None, datos=None, timeout=90, on_progreso=N
                 if puente_vivo:
                     return (False, MENSAJE_PUENTE_VIEJO)
                 else:
+                    if scripting_desactivado():
+                        # v5.3.4: Resolve ESTÁ ahí pero no acepta scripts externos (Studio con «External scripting using» en None): el Puente no es el camino,
+                        # se le dice lo que hay que cambiar (antes salía «el Puente perdió la conexión» y el usuario de Studio no sabía qué hacer)
+                        traer_resolve_al_frente()
+                        return (False, mensaje_para_el_usuario())
                     if lanzar_puente_mac():             # Mac (Resolve Free): se pulsa solo Workspace > Scripts > Utility > CineCaptions_Puente
                         ok, mensaje = _encolar(accion, datos=datos, timeout=timeout, on_progreso=on_progreso)
                         return _con_motivo_real(ok, mensaje, empezo)
