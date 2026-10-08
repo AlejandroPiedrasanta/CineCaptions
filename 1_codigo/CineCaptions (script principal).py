@@ -6071,7 +6071,6 @@ class SubtitleApp(QWidget):
             self._sin_licencia = not licencia.vigente()
             self._revisar_licencia_al_arrancar()
             despues(2500, self._ofrecer_fuentes_al_arrancar, self)
-            despues(4500, self._recorrido_auto, self)
             if initial_video:
                 self.video_var.set(str(initial_video))
                 self.ir_a('nuevo', animar=False)
@@ -7222,7 +7221,7 @@ class SubtitleApp(QWidget):
                 ajustes_ui.guardar_prefs({'actualizacion_pendiente': None})
         if not forzar and time.time() - float(prefs.get('actualizacion_revisada') or 0) < actualizaciones.INTERVALO_AUTO_S:
             return
-        beta = bool(prefs.get('canal_beta'))
+        beta = False
         def fin(r, error):
             if error is not None or not isinstance(r, dict):
                 return

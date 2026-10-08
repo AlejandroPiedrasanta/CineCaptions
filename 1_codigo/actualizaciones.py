@@ -3,7 +3,7 @@
 """
 actualizaciones.py  (v5.3.5)
 ----------------------------
-«Buscar actualizaciones», el aviso automático de Inicio y «Recibir versiones beta» (Ajustes > Acerca de).
+«Buscar actualizaciones», el aviso automático de Inicio (Ajustes > Acerca de). El canal beta ya no se ofrece en la interfaz.
 
 El programa lee un archivo version.json publicado en internet (ver Publicar_Version.ps1, que lo genera y lo sube junto con los instaladores):
 

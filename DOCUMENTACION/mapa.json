@@ -1067,7 +1067,7 @@
   {
    "id": "recorrido",
    "grupo": "ui",
-   "tema": "Recorrido visual por pasos",
+   "tema": "Recorrido visual por pasos (RETIRADO en v5.3.7)",
    "claves": [
     "recorrido",
     "tour",
@@ -1088,10 +1088,9 @@
     "_recorrido_auto",
     "_recorrido_fin",
     "_recorrido_no_mostrar",
-    "PanelRapido",
-    "_guardar_recorrido"
+    "PanelRapido"
    ],
-   "resumen": "recorrido_ui.Recorrido; prefs recorrido_activo/recorrido_visto"
+   "resumen": "recorrido_ui.py sigue en el código pero ya no se arranca ni hay interruptor en Ajustes"
   },
   {
    "id": "vista-real-previo",

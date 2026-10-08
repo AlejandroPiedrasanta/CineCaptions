@@ -48,9 +48,11 @@
 
 **Dónde:** `qt_kit.py` · `Resorte`, `motor_resortes`, `Tarjeta.paintEvent`, `Boton.paintEvent` (escala 0,97), `Segmentado`/`Interruptor` con resorte, `BarraProgreso` neón; fondo por página `efectos_ui.py` · `PALETAS_PAGINA`, `poner_pagina`; entrada `mograf_ui.entrada_escalonada`
 
-## recorrido — Recorrido visual por pasos
+## recorrido — Recorrido visual por pasos (RETIRADO en v5.3.7)
 
-**Qué:** Recorrido visual por pasos (13 pasos por toda la interfaz; se desactiva y se repite desde Ajustes)
+**Qué:** RETIRADO a petición del usuario (v5.3.7): ya no sale al abrir (se quitó `despues(4500, self._recorrido_auto, …)` de `__init__`) y no hay interruptor ni «Ver el recorrido ahora» en Ajustes. El código (`recorrido_ui.py`, `_pasos_recorrido`, `iniciar_recorrido`) sigue ahí sin conectar por si se reactiva. Tampoco existe ya el interruptor «Recibir versiones beta»: `canal_beta` se ignora (siempre canal estable).
+
+Antes: Recorrido visual por pasos (13 pasos por toda la interfaz; se desactiva y se repite desde Ajustes)
 
 **Dónde:** `recorrido_ui.py` · `Paso`, `Recorrido` (capa con foco que sigue a la zona, tarjeta, teclado ←/→/Esc); pasos y arranque en el script principal · `_pasos_recorrido`, `iniciar_recorrido`, `_recorrido_auto`, `_recorrido_fin`, `_recorrido_no_mostrar`; prefs `recorrido_activo` (interruptor) y `recorrido_visto`; interruptor en `ajustes_ui.py` · `PanelRapido` y pestaña Interfaz (`_guardar_recorrido`). Mientras dura NO se renderizan solas las vistas reales
 

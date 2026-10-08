@@ -63,9 +63,8 @@ def _version():
 
 
 def texto_canal(beta=None):
-    if beta is None:
-        beta = bool(leer_prefs().get('canal_beta'))
-    return tr('Canal beta') if beta else tr('Canal estable')
+    """Siempre «Canal estable»: el canal beta se retiró (v5.3.7)."""
+    return tr('Canal estable')
 
 
 def hace_cuanto(dt):
@@ -485,6 +484,9 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.3.7', [
+        'Ajustes más limpios: se quitaron «Recibir versiones beta» y el recorrido guiado (ya no sale al abrir el programa).',
+    ]),
     ('5.3.6', [
         'Proyecto rediseñado: «Pack de estilos» ahora es un slider horizontal de tarjetas verticales con tus fotos de video de fondo; la del centro va grande y con sus captions en movimiento (la vista real de Resolve compuesta sobre la foto), las de los lados giran y se apagan, y todo se desliza con un resorte (arrastra, rueda lateral, flechas o puntos).',
         '«Crea tu estilo» tiene su propia sección justo debajo del slider. Se quitó la tarjeta «Tipografías que usa el pack» (si a un pack le faltan fuentes, el aviso sale bajo el slider con el botón «instalar») y el filtro horizontal/vertical: las vistas son siempre verticales.',
@@ -723,7 +725,7 @@ def mostrar_notas(app):
 
 def buscar_actualizaciones(app, etiqueta=None):
     import actualizaciones
-    beta = bool(leer_prefs().get('canal_beta'))
+    beta = False
     if etiqueta is not None:
         etiqueta.configure(text=tr('Buscando actualizaciones…'))
 
@@ -753,9 +755,7 @@ def buscar_actualizaciones(app, etiqueta=None):
 
 # ---------------------------------------------------------------------------
 # Panel rapido (imagen 2 de la referencia): se abre con «Ajustes»
-def _guardar_recorrido(activo):
-    """El interruptor «Recorrido guiado»: apagado = no sale solo nunca más; encendido = vuelve a salir la próxima vez que se abra el programa."""
-    guardar_prefs({'recorrido_activo': bool(activo), 'recorrido_visto': False} if activo else {'recorrido_activo': False})
+
 
 
 class PanelRapido(_Panel):
@@ -818,29 +818,6 @@ class PanelRapido(_Panel):
         cn.addWidget(Enlace(tr('Leer notas de la versión'), lambda: mostrar_notas(self.app), 13, color=ui.ACCENT_CLARO,
                             color_hover='#FFFFFF', subrayada=False, peso='negrita'))
         c.addWidget(notas)
-        # beta
-        fb, cb = caja_h(espacio=14, margenes=(4, 4, 0, 0))
-        col, cc = caja_v(espacio=2)
-        cc.addWidget(Etiqueta(tr('Recibir versiones beta'), 14, peso='negrita', color='#FFFFFF'))
-        cc.addWidget(TextoAjustable(tr('Al desactivarlo conservarás tu versión actual hasta que haya una estable más nueva.'), 12,
-                                    ancho=self.ANCHO - 56 - 70))
-        cb.addWidget(col, 1)
-        self.beta_var = BooleanVar(bool(leer_prefs().get('canal_beta')))
-        cb.addWidget(Interruptor('', var=self.beta_var, comando=self._cambiar_beta), 0, Qt.AlignmentFlag.AlignVCenter)
-        c.addWidget(fb)
-        # v5.8: el recorrido guiado (activar / desactivar y verlo cuando quieras)
-        fr, cr = caja_h(espacio=14, margenes=(4, 4, 0, 0))
-        col_r, cc_r = caja_v(espacio=2)
-        cc_r.addWidget(Etiqueta(tr('Recorrido guiado'), 14, peso='negrita', color='#FFFFFF'))
-        cc_r.addWidget(TextoAjustable(tr('Una guía paso a paso por toda la interfaz. Desactívala y no vuelve a salir al abrir el programa.'), 12,
-                                      ancho=self.ANCHO - 56 - 70))
-        cr.addWidget(col_r, 1)
-        self.recorrido_var = BooleanVar(leer_prefs().get('recorrido_activo', True) is not False)
-        cr.addWidget(Interruptor('', var=self.recorrido_var, comando=lambda: _guardar_recorrido(bool(self.recorrido_var.get()))), 0,
-                     Qt.AlignmentFlag.AlignVCenter)
-        c.addWidget(fr)
-        c.addWidget(Enlace(tr('Ver el recorrido ahora'), self._ver_recorrido, 14, color=ui.ACCENT_CLARO, color_hover='#FFFFFF',
-                           subrayada=False, peso='negrita'))
         self.estado_act = Etiqueta('', 13, color=ui.TEXT_MUTED)
         c.addWidget(self.estado_act)
         c.addWidget(Enlace(tr('Buscar actualizaciones'), lambda: buscar_actualizaciones(self.app, self.estado_act), 14,
@@ -868,18 +845,6 @@ class PanelRapido(_Panel):
 
     def _desactivar(self):
         desactivar_licencia(self.app, self.pintar)
-
-    def _ver_recorrido(self):
-        self.cerrar()
-        ui.QTimer.singleShot(320, lambda: self.app.iniciar_recorrido(manual=True))
-
-    def _cambiar_beta(self):
-        guardar_prefs({'canal_beta': bool(self.beta_var.get())})
-        self.version_lbl.configure(text=f'v{_version()} · ' + texto_canal(bool(self.beta_var.get())))
-        try:
-            self.app._pintar_pie_lateral()
-        except Exception:
-            pass
 
     def abrir(self, ancla, rect=None):
         """Con la isla: sale DEBAJO del engranaje, dentro del contenido (centrado en el, sin tocar el borde ni la isla).
@@ -1460,7 +1425,7 @@ class VentanaAjustes(_Panel):
         prefs = leer_prefs()
         self._borrador = dict(self._previos)
         self._borrador.update(motor_voz=prefs.get('motor_voz') or 'qwen3',
-                              canal_beta=bool(prefs.get('canal_beta')),
+                              canal_beta=False,
                               actualizaciones_auto=prefs.get('actualizaciones_auto', True) is not False,
                               ventana_encima=bool(prefs.get('ventana_encima')),
                               go_estilo=str(prefs.get('go_estilo') or 'astrolabio'))
@@ -1801,19 +1766,7 @@ class VentanaAjustes(_Panel):
                         'Con la ventana inactiva Inicio baja solo a 30 fps.'),
                      Segmentado(list(etiquetas_go.values()), go_var,
                                 lambda *_: guardar_prefs({'go_animaciones': inverso_go.get(go_var.get(), 'completo')}), alto=34, tam=13))
-        # v5.8: el recorrido guiado
-        rec_var = BooleanVar(leer_prefs().get('recorrido_activo', True) is not False)
-        f_rec = _Fila(tr('Recorrido guiado'),
-                      tr('Una guía paso a paso por toda la interfaz que se muestra al abrir el programa. Desactívala y no vuelve a salir; al activarla se '
-                         'muestra la próxima vez que abras CineCaptions.'),
-                      Interruptor('', var=rec_var, comando=lambda: _guardar_recorrido(bool(rec_var.get()))))
-
-        def ver_recorrido():
-            self.cerrar()
-            ui.QTimer.singleShot(320, lambda: self.app.iniciar_recorrido(manual=True))
-        f_rec_ver = _Fila(tr('Ver el recorrido ahora'), tr('Repite la guía paso a paso desde el principio.'),
-                          Boton(tr('Empezar recorrido'), ver_recorrido, tipo='neutro', alto=46, tam=15), 340)
-        capa.addWidget(_grupo(f_estilos, f_go, f_anim, f_rec, f_rec_ver, f_lat, f_tam, f_acento))
+        capa.addWidget(_grupo(f_estilos, f_go, f_anim, f_lat, f_tam, f_acento))
 
     def _elegir_estilo(self, clave):
         """Un estilo de Inicio = un conjunto: el diseño de Inicio, el tema de la interfaz y el color de resaltado."""
@@ -1926,15 +1879,6 @@ class VentanaAjustes(_Panel):
         # notas
         f_notas = _Fila(tr('Notas de la versión'), tr('Lo nuevo de esta versión, también sin conexión.'),
                         Boton(tr('Leer notas de la versión'), lambda: mostrar_notas(self.app), tipo='neutro', alto=46, tam=15), 380)
-        # beta
-        beta_var = BooleanVar(self._borrador['canal_beta'])
-
-        def cambiar_beta():
-            self._cambio('canal_beta', bool(beta_var.get()))
-            self.acerca_version.configure(text=f'v{_version()} · ' + texto_canal(bool(beta_var.get())))
-        f_beta = _Fila(tr('Recibir versiones beta'),
-                       tr('Al desactivarlo conservarás tu versión actual hasta que haya una estable más nueva.'),
-                       Interruptor('', var=beta_var, comando=cambiar_beta))
         # actualizaciones automáticas (v5.3.5): el aviso de Inicio y la descarga con un clic
         auto_var = BooleanVar(bool(self._borrador.get('actualizaciones_auto', True)))
         f_auto = _Fila(tr('Avisarme de las actualizaciones'),
@@ -1972,7 +1916,7 @@ class VentanaAjustes(_Panel):
         f_cred = _Fila(tr('Créditos'), tr('Transcripción: Qwen3-ASR y Whisper · Traducción: Argos · Interfaz: Qt (PySide6).'),
                        cred, 380, ultima=True)
         capa.addWidget(g_cab)
-        capa.addWidget(_grupo(f_lic, f_notas, f_beta, f_auto, f_act, f_cred))
+        capa.addWidget(_grupo(f_lic, f_notas, f_auto, f_act, f_cred))
 
     def _pintar_licencia(self):
         if not ui.vivo(getattr(self, 'lic_estado', None)):
@@ -2031,7 +1975,7 @@ class VentanaAjustes(_Panel):
         b = self._borrador
         guardar_prefs({'tema': b['tema'], 'acento': b['acento'], 'acento_personal': b['acento_personal'],
                        'tamano_interfaz': b['tamano'], 'lateral_inicio': b['lateral'], 'motor_voz': b['motor_voz'],
-                       'canal_beta': b['canal_beta'], 'actualizaciones_auto': b.get('actualizaciones_auto', True), 'ventana_encima': b['ventana_encima'], 'go_estilo': b['go_estilo']})
+                       'canal_beta': False, 'actualizaciones_auto': b.get('actualizaciones_auto', True), 'ventana_encima': b['ventana_encima'], 'go_estilo': b['go_estilo']})
         reiniciar = any(b.get(k) != self._inicial.get(k) for k in ('tema', 'acento', 'acento_personal', 'tamano'))
         if b.get('idioma_ui') != self._inicial.get('idioma_ui'):
             try:
