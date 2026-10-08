@@ -2123,6 +2123,7 @@ class PlantillasWindow(QWidget):
         la tienen (o de 'solo'). En un hilo; la cuadricula se rehace al final."""
         if getattr(self, '_renderizando', False):
             return
+        import vistas_slider
         packs = []
         if solo is not None:
             packs = [solo]
@@ -2133,7 +2134,7 @@ class PlantillasWindow(QWidget):
                 if p is None or (formato is not None and formato not in p.formatos) or p.nombre in vistos:
                     continue
                 vistos.add(p.nombre)
-                if not self._real_de(p):
+                if not self._real_de(p) and not vistas_slider.ruta_video(p.nombre):
                     packs.append(p)
         if not packs:
             if not silencioso:
@@ -2281,11 +2282,9 @@ class PlantillasWindow(QWidget):
                      if not (getattr(p, 'incorporado', False)
                              and p.nombre == plantillas.NOMBRE_INCORPORADO)
                      and not getattr(p, 'es_basicos', False)]
-            packs = [p for p in todos if not (p.incorporado and p.nombre in ocultos)]
+            packs = [p for p in todos if not (p.incorporado and p.nombre in ocultos and not plantillas.es_de_fabrica(p.nombre))]
             quitados = len(todos) - len(packs)
-            self.ocultos_lnk.setVisible(quitados > 0)
-            if quitados:
-                self.ocultos_lnk.configure(text=tr('Mostrar los packs quitados ({n})', n=quitados))
+            self.ocultos_lnk.hide()                   # v5.4.5: sin «Mostrar los packs quitados» (se quitó el enlace de Proyecto)
             for pack in packs:
                 cartas.append(self._carta_pack(pack))
             cartas.append(estilos_slider.Carta('__anadir__', tr('Añadir plantilla (.drb)'), tipo='anadir', detalle=tr('Exporta una bandeja desde Resolve y súbela aquí: queda guardada como un estilo más.')))
@@ -2310,10 +2309,12 @@ class PlantillasWindow(QWidget):
         estado, color = self._estado_fuentes(pack)
         aviso = '\n'.join('· ' + p for p in pack.problemas) if pack.problemas else None
         est = plantillas.estructura_de(pack)
-        return estilos_slider.Carta(pack.nombre, pack.nombre, lineas=lineas_de_vista(pack.nombre, self._formato_vista(pack)),
+        import vistas_slider
+        return estilos_slider.Carta(pack.nombre, plantillas.nombre_visible(pack.nombre), lineas=lineas_de_vista(pack.nombre, self._formato_vista(pack)),
+                                    video=vistas_slider.ruta_video(pack.nombre), poster=vistas_slider.ruta_poster(pack.nombre),
                                     real=self._real_de(pack), formatos=self._texto_formatos(pack) or '', meta=self._meta_de(est),
                                     estado=estado, color_estado=color, nota=plantillas.leer_descripciones().get(pack.nombre, '') or '',
-                                    aviso=aviso, acciones=self._acciones_de(pack), menu=menu, estructura=est, pack=pack)
+                                    aviso=aviso, acciones=self._acciones_de(pack, quitable=not plantillas.es_de_fabrica(pack.nombre)), menu=menu, estructura=est, pack=pack)
     def _acciones_de(self, pack, quitable=True):
         """Los botones de la tarjeta de un estilo: ✎ editar en Resolve y 🗑 quitar (los incluidos no se borran del disco: se quitan de la lista)."""
         acciones = [('ph.pencil-simple-bold', '✎', tr('Editar en Resolve: abre el timeline de este estilo para cambiar fuente, color, tamaño o posición. Luego lo exportas (.drt) y lo añades de nuevo. También con doble clic.'),
@@ -2323,6 +2324,8 @@ class PlantillasWindow(QWidget):
             acciones.append(('ph.trash-bold', '🗑', ayuda, lambda p=pack: self._quitar_pack(p)))
         return acciones
     def _quitar_pack(self, pack):
+        if plantillas.es_de_fabrica(pack.nombre):            # v5.4.5: los Shine vienen de fábrica y no se quitan
+            return
         if not pack.incorporado:
             self._borrar(pack.nombre)
             return
@@ -5951,7 +5954,7 @@ class BarraTitulo(Tarjeta):
         self.ayuda.setToolTip(self._texto_ayuda)
 
 
-NUMERO_PAGINA = {'nuevo': '01', 'estilos': '01', 'editor': '02', 'sfx': '03'}
+NUMERO_PAGINA = {'nuevo': '01', 'estilos': '01', 'editor': '02', 'sfx': '03', 'efectos': '04'}
 
 
 class SubtitleApp(QWidget):
@@ -5967,7 +5970,7 @@ class SubtitleApp(QWidget):
     # («Proyecto»), con un conmutador arriba; Inicio elige pack, idioma, efectos
     # y formato con chips debajo de GO.
     PAGINAS = (('inicio', 'Inicio'), ('nuevo', 'Proyecto'), ('editor', 'Creativo'),
-               ('sfx', 'Sonido'))
+               ('sfx', 'Sonido'), ('efectos', 'Efectos'))
     ANCHO_PLEGAR = 1400
     def __init__(self, initial_video=None):
         super().__init__()
@@ -6314,6 +6317,7 @@ class SubtitleApp(QWidget):
         self._pagina_editor()
         self._pagina_estilos()
         self._pagina_sfx()
+        self._pagina_efectos()
     def _build_lateral(self):
         self.lateral = QFrame()
         self.lateral.setObjectName('lateral')
@@ -6652,6 +6656,9 @@ class SubtitleApp(QWidget):
         elif clave == 'sfx' and not self._asegurar_sfx():
             self._marcar_nav(self._pagina_actual)
             return
+        elif clave == 'efectos' and not self._asegurar_efectos():
+            self._marcar_nav(self._pagina_actual)
+            return
         pagina = self._paginas.get(clave)
         if pagina is None:
             return
@@ -6962,7 +6969,7 @@ class SubtitleApp(QWidget):
             return
         limpiar_capa(panel.opciones_capa)
         pack = self._plantilla_un_clic()
-        nombre_pack = tr('Diseño automático') if pack in ('auto', 'dinamico', 'Base títulos dinámicos') else pack
+        nombre_pack = tr('Diseño automático') if pack in ('auto', 'dinamico', 'Base títulos dinámicos') else plantillas.nombre_visible(pack)
         formato = self.formato_var.get() if hasattr(self, 'formato_var') else tr('Detectar solo')
         chips = [(tr('Estilo: {p}', p=nombre_pack), self._menu_estilo_go,
                   tr('Clic: elegir el estilo de GO (Referencia = captions palabra a palabra, línea fina y negrita + palabra grande; Diseño automático = 3 líneas).')),
@@ -6970,6 +6977,8 @@ class SubtitleApp(QWidget):
                   tr('Clic: con o sin emojis en los subtítulos.')),
                  (tr('Efectos: {v}', v=tr('sí') if self._go_sfx() else tr('no')), self._alternar_sfx_go,
                   tr('Clic: con o sin efectos de sonido por palabra.')),
+                 (tr('Visuales: {v}', v=tr('sí') if self._go_visuales() else tr('no')), self._alternar_visuales_go,
+                  tr('Clic: con o sin efectos visuales (intro, transiciones en los cortes e iconos flotantes). Se eligen en la página «Efectos».')),
                  (tr('Formato: {f}', f=formato), self._ciclar_formato_go,
                   tr('Clic: Detectar solo · Horizontal · Vertical.')),
                  (tr('Proyecto: {p}', p=self._go_proyecto() or tr('el abierto')), self._alternar_proyecto_go,
@@ -7013,7 +7022,7 @@ class SubtitleApp(QWidget):
         base = 'Base títulos dinámicos'
         try:
             import ajustes_ui
-            ocultos = {n for n in ajustes_ui.leer_prefs().get('packs_ocultos', []) if isinstance(n, str)}
+            ocultos = {n for n in ajustes_ui.leer_prefs().get('packs_ocultos', []) if isinstance(n, str) and not plantillas.es_de_fabrica(n)}
             packs = [p for p in plantillas.listar_packs() if plantillas.sirve_en_go(p) and p.nombre not in ocultos]
         except Exception:
             packs = []
@@ -7023,13 +7032,14 @@ class SubtitleApp(QWidget):
         for p in guion:
             marca = '✓  ' if p.nombre == actual else '      '
             extra = '' if plantillas.sirve_en_go(p, formato) else tr('  (solo vertical)')
-            etiqueta = tr('{n} · títulos de gancho', n=p.nombre) if getattr(p, 'kinetic', False) else tr('{n} · captions palabra a palabra', n=p.nombre)
+            etiqueta = (tr('{n} · títulos de gancho', n=plantillas.nombre_visible(p.nombre)) if getattr(p, 'kinetic', False)
+                        else tr('{n} · captions palabra a palabra', n=plantillas.nombre_visible(p.nombre)))
             menu.agregar(marca + etiqueta + extra, lambda n=p.nombre: self._poner_go_pack(n))
         marca = '✓  ' if actual in (base, 'dinamico', 'auto') else '      '
         menu.agregar(marca + tr('Diseño automático · 3 líneas'), lambda: self._poner_go_pack('auto'))
         for p in otros:
             marca = '✓  ' if p.nombre == actual else '      '
-            menu.agregar(marca + p.nombre, lambda n=p.nombre: self._poner_go_pack(n))
+            menu.agregar(marca + plantillas.nombre_visible(p.nombre), lambda n=p.nombre: self._poner_go_pack(n))
         menu.separador()
         menu.agregar(tr('Más estilos y vista real…'), lambda: self.ir_a('estilos'))
         menu.mostrar(QCursor.pos())
@@ -7085,6 +7095,21 @@ class SubtitleApp(QWidget):
             ajustes_ui.guardar_prefs({'go_emojis': not self._go_emojis()})
         except Exception:
             pass
+        self._pintar_opciones_go()
+    def _go_visuales(self):
+        try:
+            import efectos_visuales
+            return efectos_visuales.activado()
+        except Exception:
+            return False
+    def _alternar_visuales_go(self):
+        try:
+            import ajustes_ui
+            ajustes_ui.guardar_prefs({'go_efectos_visuales': not self._go_visuales()})
+        except Exception:
+            pass
+        if getattr(self, '_efectos_widget', None) is not None:
+            self._efectos_widget.refrescar()
         self._pintar_opciones_go()
     def _alternar_sfx_go(self):
         try:
@@ -9294,6 +9319,25 @@ class SubtitleApp(QWidget):
     def _pagina_sfx(self):
         _pag, capa = self._nueva_pagina('sfx', tr('Elegir y retocar sonidos'), tr('Elige el sonido de cada momento, recórtalo y ajusta su volumen · se aplica al generar con GO'))
         self._sfx_capa = capa
+    # -- Efectos visuales (v5.4.6): intro, transiciones en los cortes e iconos flotantes -------------------------------------------------------------------
+    def _pagina_efectos(self):
+        _pag, capa = self._nueva_pagina('efectos', tr('Efectos visuales'), tr('Intro, transiciones en los cortes e iconos flotantes que acompañan a los captions · se aplican al generar con GO'))
+        self._efectos_capa = capa
+        self._efectos_widget = None
+    def _asegurar_efectos(self):
+        """Arma la página Efectos la primera vez que se abre (lee las vistas previas); las demás veces solo sincroniza su interruptor."""
+        if self._efectos_widget is not None:
+            self._efectos_widget.refrescar()
+            return True
+        try:
+            import efectos_pagina
+            self._efectos_widget = efectos_pagina.PaginaEfectos(self, al_cambiar=self._pintar_opciones_go)
+            self._efectos_capa.addWidget(self._efectos_widget)
+        except Exception:
+            self._efectos_widget = None
+            registro.excepcion(origen='página Efectos')
+            return False
+        return True
     def _asegurar_sfx(self):
         """Arma el SFX Lab la primera vez (av/numpy solo si se usa)."""
         if self._estudio_ventana is not None:
@@ -9866,7 +9910,7 @@ class SubtitleApp(QWidget):
             preset = d.get('preset') or 'clasico'
             nombre = plantillas.PRESETS_DINAMICOS.get(preset, {}).get('nombre', preset)
             return tr('Diseño dinámico: {nombre}  >', nombre=nombre)
-        return f'Pack: {self.plantilla_sel}  >'
+        return f'Pack: {plantillas.nombre_visible(self.plantilla_sel)}  >'
     def _pista_basicos(self):
         """Las claves 'plantilla_basicos' para los tracks SRT, o {}.
 
@@ -10378,6 +10422,62 @@ class SubtitleApp(QWidget):
         self._gen_fin(False)
         self.status_var.set(tr('Listo: {n_cues} bloques ({langs}). Guardado en {folder}.', n_cues=n_cues, langs=langs, folder=folder))
         self._avisar_correr_a_mano(tr('Subtítulos listos'), tr('Se generaron {n_cues} bloques ({langs}).', n_cues=n_cues, langs=langs))
+    # -- efectos visuales (página «Efectos»): intro, transiciones en los cortes e iconos flotantes en las frases clave ---------------------------------------
+    def _buscar_cortes_en_paralelo(self, media_path):
+        """Si los efectos están activos y hay transiciones, un hilo busca los cortes entre tomas mientras la voz se transcribe. Devuelve un contenedor con .resultado."""
+        import types
+        caja = types.SimpleNamespace(resultado=None, hilo=None)
+        try:
+            import efectos_visuales
+            if efectos_visuales.activado() and efectos_visuales.opciones_guardadas().get('fx_cortes'):
+                def buscar():
+                    try:
+                        caja.resultado = efectos_visuales.detectar_cortes(str(media_path))
+                    except Exception:
+                        registro.excepcion(origen='efectos visuales (cortes)')
+                caja.hilo = threading.Thread(target=buscar, daemon=True, name='fx-cortes')
+                caja.hilo.start()
+        except Exception:
+            registro.excepcion(origen='efectos visuales (inicio)')
+        return caja
+    def _planificar_efectos(self, media_path, words, cortes_fx):
+        """El plan de efectos de ESTE video (nunca rompe GO: si algo falla, se sigue sin efectos)."""
+        self._efectos_plan = None
+        try:
+            import efectos_visuales
+            if not efectos_visuales.activado():
+                return
+            self.msg_queue.put(('status', tr('Preparando los efectos visuales…')))
+            if cortes_fx is not None and cortes_fx.hilo is not None:
+                cortes_fx.hilo.join(120)
+            plan = efectos_visuales.planificar(str(media_path), words, cortes=cortes_fx.resultado if cortes_fx is not None else None)
+            plan['video'] = str(media_path)
+            self._efectos_plan = plan
+            registro.info('Efectos visuales: ' + plan.get('resumen', ''), 'efectos')
+        except Exception:
+            registro.excepcion(origen='efectos visuales (plan)')
+    def _colocar_efectos(self):
+        """Pone el plan de efectos en el timeline de Resolve (tras los captions). Devuelve un texto corto para el estado, o ''."""
+        plan = getattr(self, '_efectos_plan', None)
+        if not plan or not plan.get('eventos'):
+            return ''
+        try:                                   # el plan es de un video: si ahora hay otro cargado (regenerar), no se aplica el de antes
+            actual = self.video_var.get().strip().strip('"')
+            if plan.get('video') and actual and Path(plan['video']).resolve() != Path(actual).expanduser().resolve():
+                return ''
+        except Exception:
+            pass
+        try:
+            import efectos_visuales
+            self.msg_queue.put(('status', tr('Colocando los efectos visuales en Resolve…')))
+            ok, mensaje = efectos_visuales.aplicar(plan, al_estado=lambda t: self.msg_queue.put(('status', str(t))), offset_frames=self._offset_frames())
+            if not ok:
+                registro.aviso(f'Efectos visuales: {mensaje}', 'efectos')
+                return tr('Los efectos visuales no se pudieron colocar: {m}', m=str(mensaje)[:120])
+            return tr('con efectos visuales')
+        except Exception:
+            registro.excepcion(origen='efectos visuales (colocar)')
+            return ''
     def _colocar_en_resolve(self, n_cues, langs):
         """Manda los subtitulos (y los SFX si toca) a Resolve, en un hilo.
 
@@ -10405,6 +10505,7 @@ class SubtitleApp(QWidget):
             except Exception:
                 pass
             ok, err = resolve_bridge.ejecutar('subtitulos')
+            nota_fx = self._colocar_efectos() if ok else ''
             if not ok:
                 try:
                     if resolve_bridge.modo_actual() == 'manual':
@@ -10437,6 +10538,8 @@ class SubtitleApp(QWidget):
                         self.msg_queue.put(('puente_viejo', resolve_bridge.version_del_puente() or '?'))
             except Exception:
                 pass
+            if nota_fx:
+                extra = (extra + ' · ' if extra else ' (') + nota_fx + ('' if extra else ')')
             self.msg_queue.put(('colocado_en_resolve', (ok, err, extra, n_cues, langs)))
         threading.Thread(target=worker, daemon=True).start()
         return True
@@ -11854,6 +11957,8 @@ class SubtitleApp(QWidget):
                 self.msg_queue.put(('duracion', st._duracion_segundos(str(media_path))))           # los tiempos esperados de GO dependen de ella
             except Exception:
                 pass
+            self._efectos_plan = None
+            cortes_fx = self._buscar_cortes_en_paralelo(media_path)           # v5.4.6: la página «Efectos» (si está activa) busca los cortes mientras se transcribe
             transcribe_share = 0.7 if translate else 1.0
             def on_model_loaded():
                 self.msg_queue.put(('phase_determinate', None))
@@ -12050,6 +12155,7 @@ class SubtitleApp(QWidget):
             archivos_seguros.escribir_json(manifest_path, manifest, indent=2)
             sidecar_lua.escribir_sidecar(manifest_path, manifest)
             langs = ', '.join((t['language'].upper() for t in manifest['tracks']))
+            self._planificar_efectos(media_path, words, cortes_fx)
             ev_tl = getattr(self, '_go_tl_listo', None)
             if ev_tl is not None and not ev_tl.is_set():
                 # GO con un video soltado: Resolve todavía está armando el timeline con él (los captions se colocan ahí)

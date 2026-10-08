@@ -331,6 +331,20 @@ def cargar(carpeta, incorporado=False):
         pack.revisar()
         return pack
 NOMBRE_INCORPORADO = 'Base títulos dinámicos'
+# v5.4.5: los dos packs de FÁBRICA (nombre interno -> nombre que ve el usuario). El nombre interno no cambia (preferencias, GO, carpetas y proyectos guardados
+# lo siguen usando); en pantalla se llaman «Shine …» y NO se pueden quitar de la lista.
+FABRICA = {'Kinetic': 'Shine Kinetic', 'Referencia': 'Shine Referencia'}
+
+
+def nombre_visible(nombre):
+    """El nombre con el que se enseña un pack (los de fábrica son «Shine …»; el resto, el suyo)."""
+    return FABRICA.get(nombre, nombre)
+
+
+def es_de_fabrica(nombre):
+    return nombre in FABRICA
+
+
 # v5.8: los packs que cambiaron de contenido llevan una «revisión»; los scripts de Resolve la suman al nombre del bin del pack
 # ('RCS · <pack> · <revisión> · v'), asi un bin viejo que ya estaba en el proyecto (con los clips anteriores) no se reutiliza.
 REVISION_BIN = {'Viral · superior': 'Luxe 2', 'Viral · inferior': 'Luxe 2', 'Referencia': 'Ref 1', 'Kinetic': 'Kin 3'}

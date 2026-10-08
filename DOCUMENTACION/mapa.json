@@ -15,7 +15,8 @@
   "compilar": "Compilar, versiones, instaladores (Windows y Mac)",
   "vigilancia": "Vigilancia, logs y respaldo de modelos",
   "datos": "Datos del usuario, licencia y ajustes",
-  "pruebas": "Pruebas y MCP del programa"
+  "pruebas": "Pruebas y MCP del programa",
+  "efectos": "Efectos visuales (intro, transiciones en los cortes, iconos flotantes)"
  },
  "temas": [
   {
@@ -107,10 +108,15 @@
     "vista",
     "real",
     "hero",
-    "crea"
+    "crea",
+    "video",
+    "shine",
+    "fabrica"
    ],
    "archivos": [
     "1_codigo/estilos_slider.py",
+    "1_codigo/vistas_slider.py",
+    "1_codigo/hacer_vista_slider.py",
     "2_recursos/fondos_estilos/fondo_01.jpg",
     "1_codigo/qt_kit.py"
    ],
@@ -123,9 +129,13 @@
     "_pixmap_estatico",
     "_dibujar_captions",
     "MarcoVista",
-    "_pintar_contenido"
+    "_pintar_contenido",
+    "Reproductor",
+    "_gestionar_video",
+    "nombre_visible",
+    "es_de_fabrica"
    ],
-   "resumen": "estilos_slider.py (CarruselPacks, Carta, HeroCrear) + fondos_estilos/*.jpg; lo arma PlantillasWindow._recargar"
+   "resumen": "estilos_slider.py (CarruselPacks, Carta, HeroCrear) + fondos_estilos/*.jpg; lo arma PlantillasWindow._recargar. v5.4.5: los packs de fábrica «Shine» reproducen un video real de Resolve (vistas_slider.py, 2_recursos/vistas_slider/, hacer_vista_slider.py) y no se pueden quitar"
   },
   {
    "id": "go-inicio",
@@ -626,6 +636,7 @@
     "ejemplos_estilo.py",
     "vistas_guia.py",
     "crea_estilo_ui.py",
+    "hacer_vistas_guia_video.py",
     "2_recursos/guia_estilo/construir_guia.py"
    ],
    "simbolos": [
@@ -1487,6 +1498,49 @@
     "_sin_palabras_mensaje"
    ],
    "resumen": "EstimadorGo (ETA bajo el %), registro_ayuda._REGLAS (causas concretas), asegurar_audio_original (A1 nunca se quita)"
+  },
+  {
+   "id": "efectos-visuales",
+   "grupo": "efectos",
+   "tema": "Página «Efectos»: intro, transiciones en los cortes e iconos flotantes en frases importantes",
+   "claves": [
+    "efectos",
+    "visuales",
+    "intro",
+    "transicion",
+    "cortes",
+    "iconos",
+    "flotantes",
+    "overlay",
+    "sprites",
+    "fuga",
+    "luz",
+    "destello",
+    "FX",
+    "pagina"
+   ],
+   "archivos": [
+    "efectos_visuales.py",
+    "efectos_pagina.py",
+    "2_recursos/efectos/colocar_efectos.py",
+    "preparar_efectos.py",
+    "hacer_previas_efectos.py",
+    "probar_efectos.py"
+   ],
+   "simbolos": [
+    "planificar",
+    "aplicar",
+    "detectar_cortes",
+    "elegir_cortes",
+    "elegir_frases",
+    "secuencia_iconos",
+    "PaginaEfectos",
+    "TarjetaEfecto",
+    "_planificar_efectos",
+    "_colocar_efectos",
+    "_buscar_cortes_en_paralelo"
+   ],
+   "resumen": "efectos_visuales.py (núcleo) + efectos_pagina.py (página) + 2_recursos/efectos (sprites, clips, previas, colocar_efectos.py que corre DENTRO de Resolve); chip «Visuales» de Inicio"
   }
  ]
 }

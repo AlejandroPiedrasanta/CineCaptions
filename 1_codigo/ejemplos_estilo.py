@@ -263,6 +263,18 @@ def rutas_vista(ej):
     return []
 
 
+def ruta_video(ej):
+    """El clip de 4 s con la animación COMPLETA del ejemplo (entrada, texto y salida; sobre negro) o None. Manda el que hizo el Resolve de este equipo; si no, el de fábrica."""
+    try:
+        for base in (CARPETA_VISTAS, carpeta_recursos() / 'vistas'):
+            ruta = base / f"ej_{int(ej['id']):02d}.mp4"
+            if ruta.is_file() and ruta.stat().st_size > 500:
+                return ruta
+    except Exception:
+        pass
+    return None
+
+
 def ruta_vista(ej):
     """La vista REAL estática (el último fotograma, con la entrada terminada) o None."""
     lista = rutas_vista(ej)

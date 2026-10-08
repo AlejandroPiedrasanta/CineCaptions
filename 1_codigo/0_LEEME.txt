@@ -36,8 +36,12 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         «Editar en Resolve»: abre un pack de «Pack de estilos» como timeline para modificarlo y exportarlo de nuevo.
     editor_ui.py
         piezas del editor Creativo: barra de herramientas, tarjeta del párrafo, palabras por línea, play y el panel de avance de Asistencia/Generar.
+    efectos_pagina.py
+        la página «Efectos»: elegir la intro (con su sonido), las transiciones de los cortes y los iconos flotantes (y en qué palabras salen).
     efectos_ui.py
         animaciones de la interfaz: fondo vivo, vistas reales animadas, entrada escalonada de tarjetas.
+    efectos_visuales.py
+        efectos visuales que acompañan a los captions: intro, transiciones en los cortes e iconos flotantes en las frases clave.
     ejemplos_estilo.py
         los 48 ejemplos de «Crea tu estilo» (posición, tipografía y colores; 18 con un principal de Amro.Films Captions), su vista y cómo se vuelven un pack o un timeline de Resolve.
     emojis.py
@@ -74,8 +78,14 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         los 15 bloques de REFERENCIA.mp4 medidos a mano (tiempos, palabras, pesos, estilos y sitios): la «verdad» contra la que se prueba el planificador.
     guion_vista.py
         «Así se verá este bloque» del estilo «guion»: dibuja el bloque con la MISMA geometría que coloca Resolve (cada palabra en su x, y y tamaño).
+    hacer_previas_efectos.py
+        herramienta de desarrollo: las vistas previas (mp4 + jpg) de la página «Efectos».
     hacer_vista_kinetic.py
         genera la vista previa INCLUIDA del estilo «Kinetic» (los fotogramas que enseña la tarjeta del slider de Estilos).
+    hacer_vista_slider.py
+        genera el VIDEO que se reproduce en la tarjeta de un pack del slider «Pack de estilos» (captions reales de Resolve).
+    hacer_vistas_guia_video.py
+        genera los CLIPS de 4 s (entrada, texto sostenido y SALIDA) de los 48 ejemplos de «Crea tu estilo», renderizados por Resolve.
     i18n.py
         idiomas de la interfaz: tr("texto en español") y los catálogos de 2_recursos/locales.
     ia_texto.py
@@ -112,6 +122,10 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         lee los packs .drt/.drb SIN abrir Resolve (sets, formatos, tipografías).
     plantillas.py
         packs de estilos: leer, guardar, elegir y preparar el pack que se aplica.
+    preparar_efectos.py
+        herramienta de desarrollo: convierte las imágenes de iconos sobre fondo blanco en SPRITES con transparencia (uno por icono).
+    probar_efectos.py
+        prueba de punta a punta de la página «Efectos»: suelta un video en la app sin pantalla (GO real con los efectos visuales ENCENDIDOS), Resolve renderiza y se saca una hoja de cuadros.
     probar_go.py
         pulsa GO de la app SIN pantalla sobre un archivo y un pack, y deja los bloques en el timeline actual de Resolve (el banco zz_BANCO).
     probar_kinetic.py
@@ -170,3 +184,5 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         las vistas REALES (renderizadas por Resolve) de los ejemplos de «Crea tu estilo»: se piden, se reducen y se guardan en caché.
     vistas_reales.py
         vistas previas renderizadas DE VERDAD por Resolve (packs y bloques de GO).
+    vistas_slider.py
+        los VIDEOS que se reproducen dentro de las tarjetas del slider «Pack de estilos» (captions reales de Resolve, no imágenes fijas).

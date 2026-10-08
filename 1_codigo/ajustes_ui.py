@@ -484,6 +484,13 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.4.7', [
+        'Nueva página «Efectos» (viene activada): intro con sonido —sube el riser y, cuando llega al final, el destello cubre la imagen; puedes cambiar o silenciar el sonido—, transiciones que esconden cada corte entre tomas e iconos flotantes animados con desenfoque. Se colocan solos al hacer GO, junto a los captions, la música y los emojis, en pistas propias «FX» de Resolve Studio (tu video y tus captions no se tocan).',
+        'Iconos flotantes a tu gusto: apágalos o deja solo los packs que quieras y, al hacer clic en un pack, escribe en qué palabras sale. También pueden salir en las frases importantes (un número, un aviso, una pregunta, el gancho).',
+        'Chip «Visuales» en Inicio para activar o desactivar todos los efectos de un clic.',
+        'Los estilos de fábrica pasan a llamarse «Shine Kinetic» y «Shine Referencia»: vienen con el programa y no se pueden quitar. El slider de Proyecto reproduce un video real con los captions de cada uno, tal como quedan en la línea de tiempo.',
+        '«Crea tu estilo» más fácil: cada ejemplo se ve sobre una foto de muestra con su animación completa (entrada, texto y salida) y se ordena con los botones «Texto alto», «Texto medio» y «Texto bajo». En Proyecto se quitó «Mostrar los packs quitados».',
+    ]),
     ('5.4.4', [
         'Proyecto más simple: el slider ahora muestra solo tus packs (se quitaron las tarjetas «Mis plantillas del Media Pool» y «Diseño automático») y desaparece el botón «Vista real · Resolve»: las vistas reales se piden solas cuando Resolve está abierto.',
         '«Crea tu estilo» mucho más fácil: una sola galería con todos los estilos (sin filtros, sin botones por tarjeta, sin «Abrir en Resolve» ni «!»). Tocas hasta 3, le pones nombre y pulsas «Crear mi pack».',

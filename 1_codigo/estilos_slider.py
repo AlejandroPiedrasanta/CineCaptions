@@ -74,7 +74,7 @@ class Carta:
     """Lo que el carrusel sabe de un estilo (el script principal lo arma desde un Pack)."""
 
     def __init__(self, valor, titulo, tipo='pack', lineas=None, real=None, formatos='', meta='', estado=None, color_estado=None,
-                 nota='', aviso=None, acciones=None, menu=None, estructura=None, extra=None, detalle='', pack=None):
+                 nota='', aviso=None, acciones=None, menu=None, estructura=None, extra=None, detalle='', pack=None, video=None, poster=None):
         self.valor = valor
         self.titulo = titulo
         self.tipo = tipo                      # 'pack' | 'anadir'
@@ -92,9 +92,18 @@ class Carta:
         self.extra = extra                    # fn() -> QWidget con lo propio de esa tarjeta (p. ej. las combinaciones de básicos)
         self.detalle = detalle
         self.pack = pack
+        self.video = video                    # v5.4.5: mp4 con los captions REALES de Resolve (vistas_slider); se reproduce cuando la tarjeta está al centro
+        self.poster = poster                  # el fotograma que se ve cuando no está al centro
         self.foto = 0
         self._marco = None
         self._cuadros = None
+        self._poster_img = None
+
+    def imagen_poster(self):
+        if self._poster_img is None and self.poster:
+            img = QImage(str(self.poster))
+            self._poster_img = img if not img.isNull() else False
+        return self._poster_img or None
 
     def cuadros_reales(self):
         """[[QImage, …] por variante] de la vista real (cargados una vez)."""
@@ -146,6 +155,7 @@ class CarruselPacks(QWidget):
         self._rueda = 0
         self._ult_rueda = 0.0
         self._px = {}
+        self._reprod = {}                        # valor de la carta -> vistas_slider.Reproductor (solo suena el de la tarjeta del centro)
         self._glow = QColor(ui.ACCENT)
         self.setMinimumHeight(int(alto))
         if flexible:                                  # Proyecto: ocupa todo el alto que sobra (las tarjetas se escalan con él)
@@ -188,6 +198,7 @@ class CarruselPacks(QWidget):
         self._actualizar_glow()
         self._arrancar()
         self._emitir_centro()
+        self._gestionar_video()
         self.update()
 
     def poner_elegida(self, valor):
@@ -213,6 +224,7 @@ class CarruselPacks(QWidget):
             self._obj = k
             self._t0_centro = time.perf_counter() + 0.22        # el caption arranca cuando la tarjeta ya casi llegó
             self._emitir_centro()
+            self._gestionar_video()
         self._arrancar()
 
     def _emitir_centro(self):
@@ -230,11 +242,35 @@ class CarruselPacks(QWidget):
             self._entrada_t0 = time.perf_counter()
         self._entro = True
         self._arrancar()
+        self._gestionar_video()
         super().showEvent(e)
 
     def hideEvent(self, e):
         self._reloj.stop()
+        self._gestionar_video()
         super().hideEvent(e)
+
+    def _gestionar_video(self):
+        """Solo la tarjeta del centro reproduce su video (desde el principio al llegar); las demás se paran. Con el slider oculto no suena ninguno."""
+        centro = self.carta_central() if self.isVisible() else None
+        for valor, r in self._reprod.items():
+            if centro is None or valor != centro.valor:
+                r.parar()
+        if centro is not None and getattr(centro, 'video', None):
+            r = self._reprod.get(centro.valor)
+            if r is None or r.ruta != str(centro.video):
+                import vistas_slider
+                r = self._reprod[centro.valor] = vistas_slider.Reproductor(centro.video)
+            r.arrancar()
+
+    def _cuadro_video(self, carta, centro):
+        """El cuadro del video si la tarjeta está al centro y ya suena; si no, su fotograma fijo (o None = se pinta con la foto y los captions de siempre)."""
+        if centro:
+            r = self._reprod.get(carta.valor)
+            img = r.imagen() if r is not None else None
+            if img is not None:
+                return img
+        return carta.imagen_poster()
 
     def _en_movimiento(self):
         return self._arrastre is not None or abs(self._obj - self._pos) > 0.0008 or abs(self._vel) > 0.004
@@ -407,9 +443,13 @@ class CarruselPacks(QWidget):
         camino.addRoundedRect(rect, radio, radio)
         p.save()
         p.setClipPath(camino)
+        # v5.4.5: con video, el video (captions de Resolve ya puestos) ocupa la tarjeta; sin él, la foto de siempre con los captions encima
+        fuente = self._cuadro_video(carta, centro) if (getattr(carta, 'video', None) or getattr(carta, 'poster', None)) else None
         # la foto, un poco más grande que la tarjeta y desplazada al revés que el deslizamiento (paralaje)
-        px = self._foto_px(carta.foto, w * 1.14, h * 1.14)
-        if px is not None:
+        px = self._foto_px(carta.foto, w * 1.14, h * 1.14) if fuente is None else None
+        if fuente is not None:
+            p.drawImage(rect, fuente)
+        elif px is not None:
             pw, ph = px.width() / px.devicePixelRatio(), px.height() / px.devicePixelRatio()
             desp = max(-1.5, min(1.5, d)) * -0.05 * w * esc
             p.drawPixmap(QRectF(rect.center().x() - pw * esc / 2 + desp, rect.center().y() - ph * esc / 2, pw * esc, ph * esc), px, QRectF(px.rect()))
@@ -417,12 +457,19 @@ class CarruselPacks(QWidget):
             p.fillRect(rect, QColor('#10192B'))
         # sombreado para que se lea el caption y el nombre
         v = QLinearGradient(rect.topLeft(), rect.bottomLeft())
-        v.setColorAt(0.0, QColor(0, 0, 0, 70))
-        v.setColorAt(0.34, QColor(0, 0, 0, 0))
-        v.setColorAt(0.60, QColor(0, 0, 0, 40))
-        v.setColorAt(1.0, QColor(0, 0, 0, 205))
+        if fuente is None:
+            v.setColorAt(0.0, QColor(0, 0, 0, 70))
+            v.setColorAt(0.34, QColor(0, 0, 0, 0))
+            v.setColorAt(0.60, QColor(0, 0, 0, 40))
+            v.setColorAt(1.0, QColor(0, 0, 0, 205))
+        else:                                          # con video los captions de Resolve se ven tal cual: solo se oscurece el pie para el nombre
+            v.setColorAt(0.0, QColor(0, 0, 0, 36))
+            v.setColorAt(0.12, QColor(0, 0, 0, 0))
+            v.setColorAt(0.78, QColor(0, 0, 0, 0))
+            v.setColorAt(1.0, QColor(0, 0, 0, 200))
         p.fillRect(rect, QBrush(v))
-        self._dibujar_captions(p, carta, rect, centro)
+        if fuente is None:
+            self._dibujar_captions(p, carta, rect, centro)
         self._dibujar_textos(p, carta, rect, esc)
         p.restore()
 

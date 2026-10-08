@@ -40,7 +40,10 @@ def main():
     M.SubtitleApp._revisar_licencia_al_arrancar = lambda s: None
     real = ajustes_ui.leer_prefs
     if pack != '-':
-        ajustes_ui.leer_prefs = lambda: {**real(), 'plantilla': pack}
+        ajustes_ui.leer_prefs = lambda: {**real(), 'plantilla': pack, 'go_pack': pack}        # (el chip «Estilo» del usuario, 'go_pack', mandaría sobre 'plantilla')
+    if os.environ.get('CINECAPTIONS_FX'):                                                  # prueba de los efectos visuales (página Efectos): se enciende solo en memoria
+        _leer_antes = ajustes_ui.leer_prefs
+        ajustes_ui.leer_prefs = lambda: {**_leer_antes(), 'go_efectos_visuales': True}
     ajustes_ui.guardar_prefs = lambda *a, **k: None                                       # NUNCA escribe las preferencias del usuario
     import qt_kit
     dialogos = []

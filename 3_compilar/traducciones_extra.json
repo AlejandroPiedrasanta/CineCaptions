@@ -3554,5 +3554,453 @@
   "fr": "Ouvre une galerie d'exemples avec aperçu animé : touche jusqu'à 3 styles qui te plaisent, donne-lui un nom et appuie sur « Créer mon pack ». Il apparaît dans le slider, prêt à l'emploi.",
   "de": "Öffnet eine Galerie mit Beispielen und animierter Vorschau: Tippe bis zu 3 an, die dir gefallen, gib ihm einen Namen und drücke „Mein Pack erstellen“. Es erscheint im Slider, sofort einsatzbereit.",
   "it": "Apre una galleria di esempi con anteprima animata: tocca fino a 3 stili che ti piacciono, dagli un nome e premi «Crea il mio pack». Appare nello slider, pronto all'uso."
+ },
+ "Texto alto": {
+  "en": "High text",
+  "pt": "Texto alto",
+  "fr": "Texte haut",
+  "de": "Text oben",
+  "it": "Testo alto"
+ },
+ "Texto medio": {
+  "en": "Middle text",
+  "pt": "Texto no meio",
+  "fr": "Texte au milieu",
+  "de": "Text in der Mitte",
+  "it": "Testo centrale"
+ },
+ "Texto bajo": {
+  "en": "Low text",
+  "pt": "Texto baixo",
+  "fr": "Texte bas",
+  "de": "Text unten",
+  "it": "Testo basso"
+ },
+ "1. Elige dónde va el texto  ·  2. Toca hasta 3 estilos que te gusten  ·  3. Ponle un nombre y pulsa «Crear mi pack»: aparecerá en el slider de estilos.": {
+  "en": "1. Choose where the text goes  ·  2. Tap up to 3 styles you like  ·  3. Name it and press “Create my pack”: it will appear in the styles slider.",
+  "pt": "1. Escolha onde vai o texto  ·  2. Toque em até 3 estilos de que goste  ·  3. Dê um nome e pressione «Criar meu pack»: ele aparecerá no slider de estilos.",
+  "fr": "1. Choisis où va le texte  ·  2. Touche jusqu'à 3 styles qui te plaisent  ·  3. Donne-lui un nom et appuie sur « Créer mon pack » : il apparaîtra dans le slider de styles.",
+  "de": "1. Wähle, wo der Text steht  ·  2. Tippe bis zu 3 Stile an, die dir gefallen  ·  3. Gib ihm einen Namen und drücke „Mein Pack erstellen“: es erscheint im Stil-Slider.",
+  "it": "1. Scegli dove va il testo  ·  2. Tocca fino a 3 stili che ti piacciono  ·  3. Dagli un nome e premi «Crea il mio pack»: apparirà nello slider degli stili."
+ },
+ "Visuales: {v}": {
+  "en": "Visuals: {v}",
+  "pt": "Visuais: {v}",
+  "fr": "Visuels : {v}",
+  "de": "Visuals: {v}",
+  "it": "Visual: {v}"
+ },
+ "Clic: con o sin efectos visuales (intro, transiciones en los cortes e iconos flotantes). Se eligen en la página «Efectos».": {
+  "en": "Click: with or without visual effects (intro, transitions on cuts and floating icons). You choose them on the “Effects” page.",
+  "pt": "Clique: com ou sem efeitos visuais (intro, transições nos cortes e ícones flutuantes). Você os escolhe na página «Efeitos».",
+  "fr": "Clic : avec ou sans effets visuels (intro, transitions sur les coupes et icônes flottantes). Tu les choisis dans la page « Effets ».",
+  "de": "Klick: mit oder ohne visuelle Effekte (Intro, Übergänge bei Schnitten und schwebende Icons). Du wählst sie auf der Seite „Effekte“.",
+  "it": "Clic: con o senza effetti visivi (intro, transizioni sui tagli e icone fluttuanti). Li scegli nella pagina «Effetti»."
+ },
+ "Efectos visuales": {
+  "en": "Visual effects",
+  "pt": "Efeitos visuais",
+  "fr": "Effets visuels",
+  "de": "Visuelle Effekte",
+  "it": "Effetti visivi"
+ },
+ "Intro, transiciones en los cortes e iconos flotantes que acompañan a los captions · se aplican al generar con GO": {
+  "en": "Intro, transitions on cuts and floating icons that go with the captions · applied when you generate with GO",
+  "pt": "Intro, transições nos cortes e ícones flutuantes que acompanham as legendas · aplicados ao gerar com o GO",
+  "fr": "Intro, transitions sur les coupes et icônes flottantes qui accompagnent les sous-titres · appliqués avec GO",
+  "de": "Intro, Übergänge bei Schnitten und schwebende Icons zu den Untertiteln · werden mit GO angewendet",
+  "it": "Intro, transizioni sui tagli e icone fluttuanti che accompagnano i sottotitoli · si applicano con GO"
+ },
+ "Preparando los efectos visuales…": {
+  "en": "Preparing the visual effects…",
+  "pt": "Preparando os efeitos visuais…",
+  "fr": "Préparation des effets visuels…",
+  "de": "Visuelle Effekte werden vorbereitet…",
+  "it": "Preparazione degli effetti visivi…"
+ },
+ "Colocando los efectos visuales en Resolve…": {
+  "en": "Placing the visual effects in Resolve…",
+  "pt": "Colocando os efeitos visuais no Resolve…",
+  "fr": "Placement des effets visuels dans Resolve…",
+  "de": "Visuelle Effekte werden in Resolve platziert…",
+  "it": "Inserimento degli effetti visivi in Resolve…"
+ },
+ "Los efectos visuales no se pudieron colocar: {m}": {
+  "en": "The visual effects could not be placed: {m}",
+  "pt": "Não foi possível colocar os efeitos visuais: {m}",
+  "fr": "Les effets visuels n'ont pas pu être placés : {m}",
+  "de": "Die visuellen Effekte konnten nicht platziert werden: {m}",
+  "it": "Non è stato possibile inserire gli effetti visivi: {m}"
+ },
+ "con efectos visuales": {
+  "en": "with visual effects",
+  "pt": "com efeitos visuais",
+  "fr": "avec effets visuels",
+  "de": "mit visuellen Effekten",
+  "it": "con effetti visivi"
+ },
+ "Efectos visuales al hacer GO": {
+  "en": "Visual effects when you press GO",
+  "pt": "Efeitos visuais ao usar o GO",
+  "fr": "Effets visuels avec GO",
+  "de": "Visuelle Effekte bei GO",
+  "it": "Effetti visivi con GO"
+ },
+ "Acompañan a los captions, la música y los emojis: se colocan solos en pistas propias «FX» (tu video y tus captions no se tocan). También se enciende con el chip «Visuales» de Inicio.": {
+  "en": "They go with the captions, the music and the emojis: they are placed automatically on their own “FX” tracks (your video and captions are not touched). You can also turn them on with the “Visuals” chip on Home.",
+  "pt": "Acompanham as legendas, a música e os emojis: são colocados sozinhos em trilhas próprias «FX» (seu vídeo e suas legendas não são tocados). Também se ativa com o chip «Visuais» do Início.",
+  "fr": "Ils accompagnent les sous-titres, la musique et les emojis : ils se placent seuls sur des pistes « FX » à eux (ta vidéo et tes sous-titres ne sont pas touchés). Ils s'activent aussi avec la puce « Visuels » de l'Accueil.",
+  "de": "Sie begleiten Untertitel, Musik und Emojis: Sie werden automatisch auf eigene „FX“-Spuren gelegt (dein Video und deine Untertitel bleiben unberührt). Du kannst sie auch mit dem Chip „Visuals“ auf der Startseite einschalten.",
+  "it": "Accompagnano i sottotitoli, la musica e le emoji: si mettono da soli su tracce «FX» dedicate (il tuo video e i tuoi sottotitoli non vengono toccati). Si attivano anche con il chip «Visual» della Home."
+ },
+ "Intro": {
+  "en": "Intro",
+  "pt": "Intro",
+  "fr": "Intro",
+  "de": "Intro",
+  "it": "Intro"
+ },
+ "Un destello de luz en el primer segundo del video.": {
+  "en": "A flash of light in the first second of the video.",
+  "pt": "Um flash de luz no primeiro segundo do vídeo.",
+  "fr": "Un éclat de lumière dans la première seconde de la vidéo.",
+  "de": "Ein Lichtblitz in der ersten Sekunde des Videos.",
+  "it": "Un lampo di luce nel primo secondo del video."
+ },
+ "El video empieza limpio.": {
+  "en": "The video starts clean.",
+  "pt": "O vídeo começa limpo.",
+  "fr": "La vidéo commence sans effet.",
+  "de": "Das Video beginnt ohne Effekt.",
+  "it": "Il video inizia pulito."
+ },
+ "Sin intro": {
+  "en": "No intro",
+  "pt": "Sem intro",
+  "fr": "Sans intro",
+  "de": "Ohne Intro",
+  "it": "Senza intro"
+ },
+ "Se detecta cada salto entre tomas del video y se esconde con un efecto.": {
+  "en": "Every jump between shots in the video is detected and hidden with an effect.",
+  "pt": "Cada salto entre tomadas do vídeo é detectado e escondido com um efeito.",
+  "fr": "Chaque saut entre les plans de la vidéo est détecté et masqué par un effet.",
+  "de": "Jeder Sprung zwischen Einstellungen im Video wird erkannt und mit einem Effekt kaschiert.",
+  "it": "Ogni stacco tra le inquadrature del video viene rilevato e nascosto con un effetto."
+ },
+ "Transiciones en los cortes": {
+  "en": "Transitions on cuts",
+  "pt": "Transições nos cortes",
+  "fr": "Transitions sur les coupes",
+  "de": "Übergänge bei Schnitten",
+  "it": "Transizioni sui tagli"
+ },
+ "Pocos": {
+  "en": "Few",
+  "pt": "Poucos",
+  "fr": "Peu",
+  "de": "Wenige",
+  "it": "Pochi"
+ },
+ "Muchos": {
+  "en": "Many",
+  "pt": "Muitos",
+  "fr": "Beaucoup",
+  "de": "Viele",
+  "it": "Molti"
+ },
+ "Normales": {
+  "en": "Normal",
+  "pt": "Normais",
+  "fr": "Normal",
+  "de": "Normal",
+  "it": "Normali"
+ },
+ "Todos": {
+  "en": "All",
+  "pt": "Todos",
+  "fr": "Tous",
+  "de": "Alle",
+  "it": "Tutti"
+ },
+ "Cuántos cortes": {
+  "en": "How many cuts",
+  "pt": "Quantos cortes",
+  "fr": "Combien de coupes",
+  "de": "Wie viele Schnitte",
+  "it": "Quanti tagli"
+ },
+ "Los cortes quedan secos.": {
+  "en": "Cuts stay plain.",
+  "pt": "Os cortes ficam secos.",
+  "fr": "Les coupes restent sèches.",
+  "de": "Die Schnitte bleiben hart.",
+  "it": "I tagli restano netti."
+ },
+ "Sin transición": {
+  "en": "No transition",
+  "pt": "Sem transição",
+  "fr": "Sans transition",
+  "de": "Ohne Übergang",
+  "it": "Senza transizione"
+ },
+ "Cuando el texto dice algo importante (un número, un aviso, una pregunta, el gancho) salen iconos animados. Puedes dejar activos los que quieras.": {
+  "en": "When the text says something important (a number, a warning, a question, the hook) animated icons appear. Leave on the ones you like.",
+  "pt": "Quando o texto diz algo importante (um número, um aviso, uma pergunta, o gancho) aparecem ícones animados. Deixe ativos os que quiser.",
+  "fr": "Quand le texte dit quelque chose d'important (un chiffre, un avertissement, une question, l'accroche), des icônes animées apparaissent. Garde actifs ceux que tu veux.",
+  "de": "Wenn der Text etwas Wichtiges sagt (eine Zahl, eine Warnung, eine Frage, der Hook), erscheinen animierte Icons. Lass die aktiv, die du magst.",
+  "it": "Quando il testo dice qualcosa di importante (un numero, un avviso, una domanda, il gancio) compaiono icone animate. Lascia attive quelle che vuoi."
+ },
+ "Iconos flotantes": {
+  "en": "Floating icons",
+  "pt": "Ícones flutuantes",
+  "fr": "Icônes flottantes",
+  "de": "Schwebende Icons",
+  "it": "Icone fluttuanti"
+ },
+ "Cuántos iconos": {
+  "en": "How many icons",
+  "pt": "Quantos ícones",
+  "fr": "Combien d'icônes",
+  "de": "Wie viele Icons",
+  "it": "Quante icone"
+ },
+ "Fuga de luz": {
+  "en": "Light leak",
+  "pt": "Vazamento de luz",
+  "fr": "Fuite de lumière",
+  "de": "Lichtleck",
+  "it": "Perdita di luce"
+ },
+ "Destello": {
+  "en": "Flash",
+  "pt": "Flash",
+  "fr": "Flash",
+  "de": "Blitz",
+  "it": "Lampo"
+ },
+ "Un destello de luz con colores que se apaga en el primer segundo.": {
+  "en": "A flash of colored light that fades out in the first second.",
+  "pt": "Um flash de luz colorida que se apaga no primeiro segundo.",
+  "fr": "Un éclat de lumière colorée qui s'éteint dans la première seconde.",
+  "de": "Ein farbiger Lichtblitz, der in der ersten Sekunde verlischt.",
+  "it": "Un lampo di luce colorata che si spegne nel primo secondo."
+ },
+ "Un fogonazo blanco corto y limpio.": {
+  "en": "A short, clean white flash.",
+  "pt": "Um flash branco curto e limpo.",
+  "fr": "Un flash blanc court et net.",
+  "de": "Ein kurzer, sauberer weißer Blitz.",
+  "it": "Un lampo bianco breve e pulito."
+ },
+ "Una fuga de luz que tapa el corte y se apaga.": {
+  "en": "A light leak that covers the cut and fades away.",
+  "pt": "Um vazamento de luz que cobre o corte e se apaga.",
+  "fr": "Une fuite de lumière qui masque la coupe puis s'éteint.",
+  "de": "Ein Lichtleck, das den Schnitt überdeckt und verlischt.",
+  "it": "Una perdita di luce che copre il taglio e si spegne."
+ },
+ "Un fogonazo blanco que esconde el salto entre tomas.": {
+  "en": "A white flash that hides the jump between shots.",
+  "pt": "Um flash branco que esconde o salto entre tomadas.",
+  "fr": "Un flash blanc qui masque le saut entre les plans.",
+  "de": "Ein weißer Blitz, der den Sprung zwischen Einstellungen verbirgt.",
+  "it": "Un lampo bianco che nasconde lo stacco tra le inquadrature."
+ },
+ "Destellos": {
+  "en": "Sparkles",
+  "pt": "Brilhos",
+  "fr": "Étincelles",
+  "de": "Funkeln",
+  "it": "Scintille"
+ },
+ "Estrellas verdes brillantes: ideas, novedades y cosas buenas.": {
+  "en": "Bright green stars: ideas, news and good things.",
+  "pt": "Estrelas verdes brilhantes: ideias, novidades e coisas boas.",
+  "fr": "Étoiles vertes brillantes : idées, nouveautés et bonnes choses.",
+  "de": "Leuchtend grüne Sterne: Ideen, Neuigkeiten und Gutes.",
+  "it": "Stelle verdi brillanti: idee, novità e cose belle."
+ },
+ "Alertas": {
+  "en": "Alerts",
+  "pt": "Alertas",
+  "fr": "Alertes",
+  "de": "Warnungen",
+  "it": "Avvisi"
+ },
+ "Señales de aviso amarillas: errores, ojo y cuidado.": {
+  "en": "Yellow warning signs: mistakes, watch out and be careful.",
+  "pt": "Sinais de aviso amarelos: erros, atenção e cuidado.",
+  "fr": "Panneaux d'avertissement jaunes : erreurs, attention et prudence.",
+  "de": "Gelbe Warnschilder: Fehler, Achtung und Vorsicht.",
+  "it": "Segnali di avviso gialli: errori, attenzione e prudenza."
+ },
+ "Prohibido": {
+  "en": "Forbidden",
+  "pt": "Proibido",
+  "fr": "Interdit",
+  "de": "Verboten",
+  "it": "Vietato"
+ },
+ "Botones rojos con X y cinta de precaución: lo que NO hay que hacer.": {
+  "en": "Red X buttons and caution tape: what NOT to do.",
+  "pt": "Botões vermelhos com X e fita de precaução: o que NÃO se deve fazer.",
+  "fr": "Boutons rouges avec X et ruban de sécurité : ce qu'il NE faut PAS faire.",
+  "de": "Rote X-Buttons und Warnband: was man NICHT tun soll.",
+  "it": "Pulsanti rossi con X e nastro di sicurezza: cosa NON fare."
+ },
+ "Creador": {
+  "en": "Creator",
+  "pt": "Criador",
+  "fr": "Créateur",
+  "de": "Creator",
+  "it": "Creator"
+ },
+ "Libreta, cámara y flechas: contenido, video y crecimiento.": {
+  "en": "Notepad, camera and arrows: content, video and growth.",
+  "pt": "Caderno, câmera e setas: conteúdo, vídeo e crescimento.",
+  "fr": "Carnet, caméra et flèches : contenu, vidéo et croissance.",
+  "de": "Notizblock, Kamera und Pfeile: Inhalte, Video und Wachstum.",
+  "it": "Blocco note, fotocamera e frecce: contenuti, video e crescita."
+ },
+ "Activar o desactivar este pack de iconos": {
+  "en": "Turn this icon pack on or off",
+  "pt": "Ativar ou desativar este pack de ícones",
+  "fr": "Activer ou désactiver ce pack d'icônes",
+  "de": "Dieses Icon-Pack ein- oder ausschalten",
+  "it": "Attiva o disattiva questo pack di icone"
+ },
+ "Palabras": {
+  "en": "Words",
+  "pt": "Palavras",
+  "fr": "Mots",
+  "de": "Wörter",
+  "it": "Parole"
+ },
+ "Elige en qué palabras sale este pack de iconos.": {
+  "en": "Choose on which words this icon pack appears.",
+  "pt": "Escolha em quais palavras este pack de ícones aparece.",
+  "fr": "Choisis sur quels mots ce pack d'icônes apparaît.",
+  "de": "Wähle, bei welchen Wörtern dieses Icon-Pack erscheint.",
+  "it": "Scegli su quali parole appare questo pack di icone."
+ },
+ "Palabras de «{n}»": {
+  "en": "Words for “{n}”",
+  "pt": "Palavras de «{n}»",
+  "fr": "Mots de « {n} »",
+  "de": "Wörter für „{n}“",
+  "it": "Parole di «{n}»"
+ },
+ "El icono sale en el momento en que se dice una de estas palabras. Escríbelas separadas por comas (también valen frases cortas, como «no lo hagas»). Si la lista queda vacía, este pack solo sale en las frases importantes.": {
+  "en": "The icon appears the moment one of these words is said. Write them separated by commas (short phrases like “don't do it” work too). If the list is empty, this pack only appears on important sentences.",
+  "pt": "O ícone aparece no momento em que uma destas palavras é dita. Escreva-as separadas por vírgulas (frases curtas como «não faça» também valem). Se a lista ficar vazia, este pack só aparece nas frases importantes.",
+  "fr": "L'icône apparaît au moment où l'un de ces mots est prononcé. Écris-les séparés par des virgules (les phrases courtes comme « ne le fais pas » marchent aussi). Si la liste est vide, ce pack n'apparaît que sur les phrases importantes.",
+  "de": "Das Icon erscheint in dem Moment, in dem eines dieser Wörter gesagt wird. Schreibe sie durch Kommas getrennt (auch kurze Sätze wie „mach es nicht“ gehen). Ist die Liste leer, erscheint dieses Pack nur bei wichtigen Sätzen.",
+  "it": "L'icona compare nel momento in cui viene detta una di queste parole. Scrivile separate da virgole (vanno bene anche frasi brevi, come «non farlo»). Se la lista è vuota, questo pack compare solo nelle frasi importanti."
+ },
+ "Volver a las de fábrica": {
+  "en": "Back to the factory ones",
+  "pt": "Voltar às de fábrica",
+  "fr": "Revenir à celles d'origine",
+  "de": "Zurück zu den Werkseinstellungen",
+  "it": "Torna a quelle di fabbrica"
+ },
+ "1 palabra": {
+  "en": "1 word",
+  "pt": "1 palavra",
+  "fr": "1 mot",
+  "de": "1 Wort",
+  "it": "1 parola"
+ },
+ "{n} palabras": {
+  "en": "{n} words",
+  "pt": "{n} palavras",
+  "fr": "{n} mots",
+  "de": "{n} Wörter",
+  "it": "{n} parole"
+ },
+ "Un destello de luz con su sonido: primero sube el riser y, cuando llega al final, el destello cubre la imagen.": {
+  "en": "A flash of light with its sound: the riser builds up first and, when it reaches the end, the flash covers the picture.",
+  "pt": "Um flash de luz com seu som: primeiro o riser sobe e, quando chega ao fim, o flash cobre a imagem.",
+  "fr": "Un éclat de lumière avec son son : le riser monte d'abord et, quand il arrive à la fin, l'éclat recouvre l'image.",
+  "de": "Ein Lichtblitz mit Ton: Zuerst baut sich der Riser auf und, wenn er das Ende erreicht, überdeckt der Blitz das Bild.",
+  "it": "Un lampo di luce con il suo suono: prima sale il riser e, quando arriva alla fine, il lampo copre l'immagine."
+ },
+ "Sonido en la intro": {
+  "en": "Intro sound",
+  "pt": "Som na intro",
+  "fr": "Son de l'intro",
+  "de": "Ton im Intro",
+  "it": "Suono nell'intro"
+ },
+ "Oír": {
+  "en": "Listen",
+  "pt": "Ouvir",
+  "fr": "Écouter",
+  "de": "Anhören",
+  "it": "Ascolta"
+ },
+ "Cambiar sonido…": {
+  "en": "Change sound…",
+  "pt": "Trocar som…",
+  "fr": "Changer le son…",
+  "de": "Ton ändern…",
+  "it": "Cambia suono…"
+ },
+ "Riser 1": {
+  "en": "Riser 1",
+  "pt": "Riser 1",
+  "fr": "Riser 1",
+  "de": "Riser 1",
+  "it": "Riser 1"
+ },
+ "Volver al sonido que trae el programa (los últimos segundos del Riser 1).": {
+  "en": "Back to the sound that comes with the program (the last seconds of Riser 1).",
+  "pt": "Voltar ao som que vem com o programa (os últimos segundos do Riser 1).",
+  "fr": "Revenir au son fourni avec le programme (les dernières secondes du Riser 1).",
+  "de": "Zurück zum mitgelieferten Ton (die letzten Sekunden von Riser 1).",
+  "it": "Torna al suono incluso nel programma (gli ultimi secondi del Riser 1)."
+ },
+ "Salen iconos animados cuando se dice una palabra que tú eliges (haz clic en un pack para escribirlas) y, si quieres, también en las frases importantes: un número, un aviso, una pregunta o el gancho.": {
+  "en": "Animated icons appear when a word you choose is said (click a pack to write them) and, if you want, also on important sentences: a number, a warning, a question or the hook.",
+  "pt": "Aparecem ícones animados quando é dita uma palavra que você escolhe (clique em um pack para escrevê-las) e, se quiser, também nas frases importantes: um número, um aviso, uma pergunta ou o gancho.",
+  "fr": "Des icônes animées apparaissent quand un mot que tu choisis est prononcé (clique sur un pack pour les écrire) et, si tu veux, aussi sur les phrases importantes : un chiffre, un avertissement, une question ou l'accroche.",
+  "de": "Animierte Icons erscheinen, wenn ein von dir gewähltes Wort gesagt wird (klicke auf ein Pack, um sie einzugeben) und, wenn du willst, auch bei wichtigen Sätzen: einer Zahl, einer Warnung, einer Frage oder dem Hook.",
+  "it": "Compaiono icone animate quando viene detta una parola che scegli tu (clicca su un pack per scriverle) e, se vuoi, anche nelle frasi importanti: un numero, un avviso, una domanda o il gancio."
+ },
+ "También en frases importantes": {
+  "en": "Also on important sentences",
+  "pt": "Também nas frases importantes",
+  "fr": "Aussi sur les phrases importantes",
+  "de": "Auch bei wichtigen Sätzen",
+  "it": "Anche nelle frasi importanti"
+ },
+ "últimos segundos": {
+  "en": "last seconds",
+  "pt": "últimos segundos",
+  "fr": "dernières secondes",
+  "de": "letzte Sekunden",
+  "it": "ultimi secondi"
+ },
+ "Silenciado": {
+  "en": "Muted",
+  "pt": "Silenciado",
+  "fr": "Muet",
+  "de": "Stumm",
+  "it": "Silenziato"
+ },
+ "Elige el sonido de la intro": {
+  "en": "Choose the intro sound",
+  "pt": "Escolha o som da intro",
+  "fr": "Choisis le son de l'intro",
+  "de": "Wähle den Intro-Ton",
+  "it": "Scegli il suono dell'intro"
+ },
+ "Audio": {
+  "en": "Audio",
+  "pt": "Áudio",
+  "fr": "Audio",
+  "de": "Audio",
+  "it": "Audio"
  }
 }

@@ -31,7 +31,7 @@ def ruta_de(ident, k):
 
 def faltan():
     """Los ejemplos que todavía no tienen su vista real animada (ni la del equipo ni la de fábrica)."""
-    return [e['id'] for e in E.EJEMPLOS if len(E.rutas_vista(e)) < len(E.CUADROS_VISTA_S)]
+    return [e['id'] for e in E.EJEMPLOS if E.ruta_video(e) is None and len(E.rutas_vista(e)) < len(E.CUADROS_VISTA_S)]
 
 
 def _reducir(origen, destino):

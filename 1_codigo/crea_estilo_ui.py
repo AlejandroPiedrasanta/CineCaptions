@@ -3,10 +3,10 @@
 """
 Dos ventanas:
 
-  * CreaEstiloDialogo : 48 ejemplos (30 con Luxe Shine de principal y 18 con un preset de Amro.Films Captions) de posición × tipografía × colores, todos en UNA galería,
-    cada uno con su imagen REAL renderizada por Resolve (vistas_guia.py; se pide sola al abrir si Resolve está conectado). Se tocan hasta 3 (serán las variantes 1, 2 y 3 del
-    pack), se le pone nombre y «Crear mi pack» lo arma en el acto con los macros reales del Luxe Title Pack. Sin filtros ni botones extra (v5.4.4). Los ejemplos y su imagen
-    viven en ejemplos_estilo.py.
+  * CreaEstiloDialogo : 48 ejemplos (30 con Luxe Shine de principal y 18 con un preset de Amro.Films Captions) de posición × tipografía × colores en UNA galería, ordenada
+    con tres botones «Texto alto / medio / bajo». Cada uno se ve sobre una foto de muestra con su animación COMPLETA (entrada, texto y salida) renderizada por Resolve: un
+    clip de 4 s por ejemplo (hacer_vistas_guia_video.py → 2_recursos/guia_estilo/vistas/ej_NN.mp4). Se tocan hasta 3 (serán las variantes 1, 2 y 3 del pack), se le pone
+    nombre y «Crear mi pack» lo arma en el acto con los macros reales del Luxe Title Pack. Los ejemplos y sus vistas viven en ejemplos_estilo.py.
   * AyudaEstilo       : el popup del «!»: por qué los clips se llaman principal / arriba / abajo / simple, qué son principal 2 y principal 3,
     qué pasa si falta una pieza y cómo se exporta. Con dibujos, porque «sin esa estructura el estilo no funciona».
 """
@@ -16,7 +16,7 @@ from PySide6.QtWidgets import QFrame, QGridLayout, QSizePolicy, QVBoxLayout, QWi
 
 import ejemplos_estilo as E
 import qt_kit as ui
-from qt_kit import Boton, Desplazable, Dialogo, Entrada, Etiqueta, Tooltip, caja_h, despues
+from qt_kit import Boton, Desplazable, Dialogo, Entrada, Etiqueta, Segmentado, StringVar, Tooltip, caja_h, despues
 from qt_kit import QColor
 from i18n import tr
 
@@ -33,11 +33,12 @@ def _hoja(css):
 
 # ====================================================================================== la galería
 class _Tarjeta(QWidget):
-    """Un ejemplo: su vista REAL de Resolve REPRODUCIÉNDOSE en bucle (la animación de entrada de verdad, con fundido entre fotogramas, y el resultado final
-    sostenido), su nombre y su posición. Tocarlo lo elige (1.º, 2.º o 3.º = variante 1, 2 o 3). Sin fotogramas reales todavía, se enseña la aproximación pintada."""
+    """Un ejemplo sobre una FOTO de muestra (las del slider de packs): su animación COMPLETA de Resolve —entrada, texto sostenido y SALIDA— reproduciéndose en
+    bucle y mezclada en «Screen» sobre la foto (hacer_vistas_guia_video.py renderiza un clip de 4 s por ejemplo). Sin clip todavía, los fotogramas de la entrada
+    y, sin ellos, la aproximación pintada. Tocarlo lo elige (1.º, 2.º o 3.º = variante 1, 2 o 3). El reloj de la galería solo mueve las tarjetas que se ven."""
     ANCHO = 168
     ALTO_IMAGEN = int((ANCHO - 16) * 16 / 9)
-    SOSTENER_MS = 1700           # el resultado final se queda a la vista antes de volver a empezar
+    SOSTENER_MS = 1700           # (solo sin clip) el resultado final se queda a la vista antes de volver a empezar
     PAUSA_MS = 350
 
     def __init__(self, ej, al_tocar, padre=None):
@@ -46,59 +47,99 @@ class _Tarjeta(QWidget):
         self._al_tocar = al_tocar
         self._orden = 0
         self._hover = False
-        self._cuadros = None            # [QPixmap] ya a su tamaño y con las esquinas redondeadas (se cargan al verse por primera vez)
-        self._ms = (ej['id'] * 337) % 1600       # cada tarjeta arranca en un punto distinto: no bailan todas a la vez
+        self._cuadros = None            # [QImage] de la entrada (sin clip)
+        self._foto = None               # QPixmap de la foto de muestra, ya redondeada
+        self._foto_idx = int(ej['id'])  # cuál de las fotos de muestra (la galería reparte distintas a las tarjetas vecinas)
+        self._clip = None               # vistas_slider.Reproductor del clip de 4 s (o None)
+        self._clip_listo = False
+        self._ms = (ej['id'] * 337) % 1600       # sin clip: cada tarjeta arranca en un punto distinto
         self.setFixedSize(self.ANCHO, self.ALTO_IMAGEN + 66)
         self.setCursor(Qt.CursorShape.PointingHandCursor)
         self.setMouseTracking(True)
         Tooltip(self, tr('Toca para elegirlo (hasta 3). Toca otra vez para quitarlo.'))
 
-    # -- los fotogramas
+    # -- la foto de fondo y los fotogramas
     def recargar(self):
         """Tras renderizar vistas nuevas: se vuelven a leer."""
         self._cuadros = None
+        self._clip_listo = False
         self.update()
 
+    def _rect_imagen(self):
+        return QRectF(8, 8, self.ANCHO - 16, self.ALTO_IMAGEN)
+
+    def _camino(self):
+        from PySide6.QtGui import QPainterPath
+        c = QPainterPath()
+        c.addRoundedRect(self._rect_imagen(), 12, 12)
+        return c
+
+    def _foto_px(self):
+        """La foto de muestra de este ejemplo (cubre la tarjeta, oscurecida un poco para que el texto claro se lea)."""
+        if self._foto is None:
+            from PySide6.QtGui import QPixmap
+            import estilos_slider
+            dpr = self.devicePixelRatioF()
+            ancho, alto = self.ANCHO - 16, self.ALTO_IMAGEN
+            pm = QPixmap(int(ancho * dpr), int(alto * dpr))
+            pm.setDevicePixelRatio(dpr)
+            pm.fill(Qt.GlobalColor.black)
+            fs = estilos_slider.fotos()
+            if fs:
+                img = fs[self._foto_idx % len(fs)]
+                esc = max(ancho * dpr / img.width(), alto * dpr / img.height())
+                ver = img.scaled(int(img.width() * esc + 1), int(img.height() * esc + 1), Qt.AspectRatioMode.IgnoreAspectRatio, Qt.TransformationMode.SmoothTransformation)
+                q = QPainter(pm)
+                q.drawImage(0, 0, ver, (ver.width() - pm.width()) // 2, (ver.height() - pm.height()) // 2, pm.width(), pm.height())
+                q.fillRect(0, 0, pm.width(), pm.height(), QColor(0, 0, 0, 70))
+                q.end()
+            self._foto = pm
+        return self._foto
+
+    def poner_foto(self, k):
+        if k != self._foto_idx:
+            self._foto_idx = k
+            self._foto = None
+            self.update()
+
     def _cargar(self):
-        from PySide6.QtCore import QRectF as _R
-        from PySide6.QtGui import QImage, QPainterPath, QPixmap
-        dpr = self.devicePixelRatioF()
-        ancho = self.ANCHO - 16
+        from PySide6.QtGui import QImage
         lista = []
         for ruta in E.rutas_vista(self.ej):
             img = QImage(str(ruta))
-            if img.isNull():
-                continue
-            pm = QPixmap(int(ancho * dpr), int(self.ALTO_IMAGEN * dpr))
-            pm.setDevicePixelRatio(dpr)
-            pm.fill(Qt.GlobalColor.transparent)
-            q = QPainter(pm)
-            q.setRenderHint(QPainter.RenderHint.Antialiasing)
-            q.setRenderHint(QPainter.RenderHint.SmoothPixmapTransform)
-            recorte = QPainterPath()
-            recorte.addRoundedRect(_R(0, 0, ancho, self.ALTO_IMAGEN), 12, 12)
-            q.setClipPath(recorte)
-            q.drawImage(_R(0, 0, ancho, self.ALTO_IMAGEN), img)
-            q.end()
-            lista.append(pm)
+            if not img.isNull():
+                lista.append(img)
         self._cuadros = lista
 
     def _tiempos(self, n):
         return [int(s * 1000) for s in E.CUADROS_VISTA_S][:n]
 
+    def poner_visible(self, visible):
+        """El reloj de la galería avisa si la tarjeta se ve: el clip solo suena mientras tanto."""
+        if self._clip is None and not self._clip_listo:
+            self._clip_listo = True
+            ruta = E.ruta_video(self.ej)
+            if ruta is not None:
+                import vistas_slider
+                self._clip = vistas_slider.Reproductor(ruta)
+        if self._clip is not None:
+            if visible:
+                self._clip.arrancar()
+            else:
+                self._clip.parar()
+
     def avanzar(self, ms):
-        """El reloj de la galería: solo lo llaman las tarjetas que se ven."""
         self._ms += ms
         self.update()
 
     def _fotograma(self):
-        """(fotograma, siguiente, mezcla 0..1) en este instante de la reproducción."""
+        """(fotograma, siguiente, mezcla 0..1) de los fotogramas de la entrada (sin clip)."""
         cuadros = self._cuadros
         tiempos = self._tiempos(len(cuadros))
         ciclo = tiempos[-1] + self.SOSTENER_MS + self.PAUSA_MS
         t = self._ms % ciclo
         if t >= tiempos[-1] + self.SOSTENER_MS:
-            return None, None, 0.0                       # un instante en negro antes de volver a empezar
+            return None, None, 0.0
         if t >= tiempos[-1]:
             return cuadros[-1], None, 0.0
         if t < tiempos[0]:
@@ -136,21 +177,29 @@ class _Tarjeta(QWidget):
         p.setBrush(QColor('#13203A' if (elegido or self._hover) else '#0F1A30'))
         p.setPen(QPen(QColor(AMARILLO if elegido else ('#2C4068' if self._hover else '#1E2A42')), 2.0 if elegido else 1.0))
         p.drawRoundedRect(marco, 14, 14)
-        if self._cuadros is None:
-            self._cargar()
-        if self._cuadros:
-            p.setPen(Qt.PenStyle.NoPen)
-            p.setBrush(QColor('#000000'))
-            p.drawRoundedRect(QRectF(8, 8, self.ANCHO - 16, self.ALTO_IMAGEN), 12, 12)
-            actual, siguiente, mezcla = self._fotograma()
-            if actual is not None:
-                p.drawPixmap(8, 8, actual)
-            if siguiente is not None:
-                p.setOpacity(mezcla)
-                p.drawPixmap(8, 8, siguiente)
-                p.setOpacity(1.0)
-        else:
-            p.drawPixmap(8, 8, E.miniatura(self.ej, self.ANCHO - 16, self.devicePixelRatioF()))
+        # la foto de muestra y, encima, el texto del ejemplo mezclado en «Screen» (el negro del render no tapa nada)
+        rect = self._rect_imagen()
+        p.save()
+        p.setClipPath(self._camino())
+        p.drawPixmap(rect.toRect().topLeft(), self._foto_px())
+        p.setCompositionMode(QPainter.CompositionMode.CompositionMode_Screen)
+        clip = self._clip.imagen() if self._clip is not None else None
+        if clip is not None:
+            p.drawImage(rect, clip)
+        elif self._clip is None or not self._clip.activo:
+            if self._cuadros is None:
+                self._cargar()
+            if self._cuadros:
+                actual, siguiente, mezcla = self._fotograma()
+                if actual is not None:
+                    p.drawImage(rect, actual)
+                if siguiente is not None:
+                    p.setOpacity(mezcla)
+                    p.drawImage(rect, siguiente)
+                    p.setOpacity(1.0)
+            else:
+                p.drawPixmap(rect.toRect().topLeft(), E.miniatura(self.ej, self.ANCHO - 16, self.devicePixelRatioF()))
+        p.restore()
         # nombre y qué es
         p.setPen(QColor('#FFFFFF'))
         p.setFont(ui.fuente(13, True))
@@ -170,11 +219,13 @@ class _Tarjeta(QWidget):
 
 
 class CreaEstiloDialogo(Dialogo):
-    """«Crea tu estilo», lo más simple posible: UNA galería con todos los ejemplos (sin filtros ni botones por tarjeta), se tocan hasta 3, se le pone nombre
-    y «Crear mi pack» lo arma. al_crear(nombre, ids, terminado) arma el pack. al_resolve / al_ayuda / al_resolve_uno ya no tienen botón: se aceptan
-    solo por compatibilidad. Las vistas reales de Resolve se piden solas si Resolve está abierto."""
+    """«Crea tu estilo», simple: una galería con los ejemplos (fondo de muestra y animación completa), tres botones «Texto alto / medio / bajo» para ordenarlos,
+    se tocan hasta 3, se le pone nombre y «Crear mi pack» lo arma. al_crear(nombre, ids, terminado) arma el pack. al_resolve / al_ayuda / al_resolve_uno ya
+    no tienen botón: se aceptan solo por compatibilidad."""
     COLUMNAS = 5
     TIC_MS = 40
+    GRUPOS = (('Texto alto', ('superior', 'alto')), ('Texto medio', ('centro',)), ('Texto bajo', ('bajo', 'inferior')))
+    GRUPO_INICIAL = 'Texto medio'
 
     def __init__(self, padre, al_crear, al_resolve=None, al_ayuda=None, al_resolve_uno=None):
         super().__init__(padre, tr('Crea tu estilo'), 1040, 800, minimo=(960, 560))
@@ -190,9 +241,16 @@ class CreaEstiloDialogo(Dialogo):
         self._estado_real = Etiqueta('', 12, color=TEXT_MUTED)
         cc.addWidget(self._estado_real)
         capa.addWidget(cab)
-        capa.addWidget(Etiqueta(tr('1. Toca hasta 3 estilos que te gusten  ·  2. Ponle un nombre  ·  3. Pulsa «Crear mi pack» y aparecerá en el slider de estilos.'),
+        capa.addWidget(Etiqueta(tr('1. Elige dónde va el texto  ·  2. Toca hasta 3 estilos que te gusten  ·  3. Ponle un nombre y pulsa «Crear mi pack»: aparecerá en el slider de estilos.'),
                                 13, color='#B4C0D6', envolver=True))
-        # la galería: todos los estilos juntos
+        # tres botones para ordenar la galería por la altura del texto
+        self._grupos = {tr(n): pos for n, pos in self.GRUPOS}
+        self._pos_var = StringVar(tr(self.GRUPO_INICIAL))
+        fila_pos, cp = caja_h(espacio=10)
+        cp.addWidget(Segmentado(list(self._grupos.keys()), self._pos_var, lambda _v=None: self._pintar(), alto=34, tam=13))
+        cp.addStretch(1)
+        capa.addWidget(fila_pos)
+        # la galería
         self._desp = Desplazable(margenes=(0, 4, 8, 4), espacio=0, estirar_final=False)
         self._rejilla_w = QWidget()
         self._rejilla = QGridLayout(self._rejilla_w)
@@ -201,11 +259,8 @@ class CreaEstiloDialogo(Dialogo):
         self._rejilla.setVerticalSpacing(10)
         self._desp.agregar(self._rejilla_w)
         capa.addWidget(self._desp, 1)
-        for k, ej in enumerate(E.EJEMPLOS):
-            t = _Tarjeta(ej, self._tocar)
-            self._tarjetas[ej['id']] = t
-            self._rejilla.addWidget(t, k // self.COLUMNAS, k % self.COLUMNAS, Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
-        self._rejilla.setColumnStretch(self.COLUMNAS, 1)
+        for ej in E.EJEMPLOS:
+            self._tarjetas[ej['id']] = _Tarjeta(ej, self._tocar)
         # abajo: lo elegido + nombre + crear
         pie = QFrame()
         pie.setObjectName('pieCreaEstilo')
@@ -224,21 +279,22 @@ class CreaEstiloDialogo(Dialogo):
         pv.addWidget(fila)
         capa.addWidget(pie)
         self._renderizando = False
-        self._poner_ordenes()
+        self._pintar()
         self._resumir()
-        self._reloj = QTimer(self)             # el reloj de las vistas: solo mueve las tarjetas que se ven
+        self._reloj = QTimer(self)             # el reloj de las vistas: solo mueve (y hace sonar el clip de) las tarjetas que se ven
         self._reloj.timeout.connect(self._tic)
         self._reloj.start(self.TIC_MS)
         despues(700, self._auto_vistas, self)
 
     def _tic(self):
         for t in self._tarjetas.values():
-            if not t.isHidden() and not t.visibleRegion().isEmpty():
+            visible = (not t.isHidden()) and (not t.visibleRegion().isEmpty())
+            t.poner_visible(visible)
+            if visible:
                 t.avanzar(self.TIC_MS)
 
-    # -- la vista REAL de Resolve (automática)
+    # -- las vistas reales de Resolve (solo si faltan: de fábrica ya vienen los clips)
     def _auto_vistas(self):
-        """Si falta alguna vista real y Resolve está conectado, se piden solas (sin abrir Resolve si estaba cerrado)."""
         try:
             import resolve_mcp
             import vistas_guia
@@ -271,6 +327,25 @@ class CreaEstiloDialogo(Dialogo):
                 t.recargar()
         avance()
         ui.correr_en_hilo(self, trabajo, fin)
+
+    # -- la galería, ordenada por la altura del texto
+    def _filtrados(self):
+        pos = self._grupos.get(self._pos_var.get()) or ()
+        return [ej for ej in E.EJEMPLOS if ej['posicion'] in pos]
+
+    def _pintar(self):
+        while self._rejilla.count():
+            it = self._rejilla.takeAt(0)
+            w = it.widget()
+            if w is not None:
+                w.hide()
+        for k, ej in enumerate(self._filtrados()):
+            t = self._tarjetas[ej['id']]
+            t.poner_foto(k)
+            self._rejilla.addWidget(t, k // self.COLUMNAS, k % self.COLUMNAS, Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
+            t.show()
+        self._rejilla.setColumnStretch(self.COLUMNAS, 1)
+        self._poner_ordenes()
 
     # -- elegir
     def _poner_ordenes(self):

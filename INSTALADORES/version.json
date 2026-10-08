@@ -1,23 +1,23 @@
 {
     "estable":  {
-                    "version":  "5.4.3",
-                    "notas":  "• Proyecto compacto: el audio (Obtener, archivo, onda y motor de voz) pasa a una sola franja arriba del slider, dentro de la tarjeta de «Pack de estilos». La pantalla ya no se desplaza hacia abajo y el slider se estira con el alto de la ventana para que resalte.\r\n• Ajustes \u003e Acerca de más limpio: estando al día solo queda el botón «Buscar actualizaciones» (sin «Leer notas» ni «Tienes la última versión»); si hay una versión nueva aparecen sus notas y el botón «Actualizar».",
+                    "version":  "5.4.4",
+                    "notas":  "• Proyecto más simple: el slider ahora muestra solo tus packs (se quitaron las tarjetas «Mis plantillas del Media Pool» y «Diseño automático») y desaparece el botón «Vista real · Resolve»: las vistas reales se piden solas cuando Resolve está abierto.\r\n• «Crea tu estilo» mucho más fácil: una sola galería con todos los estilos (sin filtros, sin botones por tarjeta, sin «Abrir en Resolve» ni «!»). Tocas hasta 3, le pones nombre y pulsas «Crear mi pack».",
                     "fecha":  "2026-10-08",
                     "archivos":  {
                                      "windows":  {
-                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.3/Instalar_CineCaptions_5.4.3.exe",
-                                                     "sha256":  "0d5014b19984ecb90e1363d053933e4b7abbb727f0743bad16ab5a5b92c60786",
-                                                     "tam":  203456715
+                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.4/Instalar_CineCaptions_5.4.4.exe",
+                                                     "sha256":  "4b0adc0df46a8c8a4e70f081236ce84611b797ab4f4ce6dbcdeff37c3374d0c2",
+                                                     "tam":  203456187
                                                  },
                                      "mac_arm64":  {
-                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.3/CineCaptions_Mac_AppleSilicon_5.4.3.dmg",
-                                                       "sha256":  "2e9b5caa0ca285f29538f43f096e6a2c5fe4692f4031dcb338d12079095a3e5b",
-                                                       "tam":  172412692
+                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.4/CineCaptions_Mac_AppleSilicon_5.4.4.dmg",
+                                                       "sha256":  "1d98bcb373baab67d087c6449b8484fa81d45fe2c7047af136e68ab257ee8a54",
+                                                       "tam":  172415315
                                                    },
                                      "mac_x86_64":  {
-                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.3/CineCaptions_Mac_Intel_5.4.3.dmg",
-                                                        "sha256":  "e2412390602f2e9dd54a1bb0f02d468f52a914900d57f4ee3e027f97d81f01df",
-                                                        "tam":  189178043
+                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.4/CineCaptions_Mac_Intel_5.4.4.dmg",
+                                                        "sha256":  "1878a034181589de86a64578eede5cb43b899cb46726690feac5f4a6d559000f",
+                                                        "tam":  189179728
                                                     }
                                  }
                 }

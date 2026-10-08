@@ -34,6 +34,7 @@ ICONOS = {
     'nuevo': 'ph.folder-open-bold',
     'editor': 'ph.text-aa-bold',
     'sfx': 'ph.speaker-high-bold',
+    'efectos': 'ph.magic-wand-bold',
     'estado': 'ph.plugs-connected-bold',
     'ajustes': 'ph.gear-six-bold',
     'pin': 'ph.push-pin-bold',
