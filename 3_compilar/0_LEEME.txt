@@ -34,6 +34,8 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         huellas de cada archivo: con ellas documentar.py anota qué cambió
     Instalador.cs
         el instalador y desinstalador (C#, .NET Framework 4): pasos, banner, registro.
+    notas_de_version.py
+        imprime las mejoras de una versión (las de ajustes_ui.NOTAS_VERSION), una por línea con viñeta: Publicar_Version.ps1 las manda al manifiesto.
     requirements.txt
         librerías del programa con versión FIJA (Python 3.14)
     rthook_stanza_stub.py

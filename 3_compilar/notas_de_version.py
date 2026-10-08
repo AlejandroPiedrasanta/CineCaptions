@@ -10,10 +10,15 @@ from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
 version = sys.argv[1] if len(sys.argv) > 1 else ''
+salida = sys.argv[2] if len(sys.argv) > 2 else ''          # archivo de salida opcional (UTF-8)
 arbol = ast.parse((RAIZ / '1_codigo' / 'ajustes_ui.py').read_text(encoding='utf-8'))
 for nodo in arbol.body:
     if isinstance(nodo, ast.Assign) and any(getattr(t, 'id', '') == 'NOTAS_VERSION' for t in nodo.targets):
         for v, lineas in ast.literal_eval(nodo.value):
             if v == version:
-                sys.stdout.reconfigure(encoding='utf-8')
-                print('\n'.join('• ' + l for l in lineas))
+                texto = '\n'.join('• ' + l for l in lineas)
+                if salida:                                    # por archivo UTF-8: la consola de Windows rompe las tildes
+                    Path(salida).write_text(texto, encoding='utf-8')
+                else:
+                    sys.stdout.reconfigure(encoding='utf-8')
+                    print(texto)

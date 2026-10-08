@@ -130,7 +130,7 @@ class CarruselPacks(QWidget):
     PASO = 0.90                                   # separación de las tarjetas vecinas, en anchos de tarjeta
     ALTO_CONTROLES = 66
 
-    def __init__(self, alto=600, padre=None):
+    def __init__(self, alto=600, padre=None, flexible=False):
         super().__init__(padre)
         self._cartas = []
         self._elegido = None
@@ -148,8 +148,11 @@ class CarruselPacks(QWidget):
         self._px = {}
         self._glow = QColor(ui.ACCENT)
         self.setMinimumHeight(int(alto))
-        self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
-        self.setFixedHeight(int(alto))
+        if flexible:                                  # Proyecto: ocupa todo el alto que sobra (las tarjetas se escalan con él)
+            self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        else:
+            self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+            self.setFixedHeight(int(alto))
         self.setMouseTracking(True)
         self.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
         self._reloj = QTimer(self)

@@ -484,6 +484,10 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.4.3', [
+        'Proyecto compacto: el audio (Obtener, archivo, onda y motor de voz) pasa a una sola franja arriba del slider, dentro de la tarjeta de «Pack de estilos». La pantalla ya no se desplaza hacia abajo y el slider se estira con el alto de la ventana para que resalte.',
+        'Ajustes > Acerca de más limpio: estando al día solo queda el botón «Buscar actualizaciones» (sin «Leer notas» ni «Tienes la última versión»); si hay una versión nueva aparecen sus notas y el botón «Actualizar».',
+    ]),
     ('5.4.2', [
         'Avisa al momento de las versiones nuevas: CineCaptions mira cada 10 segundos (en Windows y en Mac) si hay una actualización y, en cuanto sale, te lo dice con un cuadro que enseña todas sus mejoras y los botones «Actualizar ahora» / «Más tarde». Ya no hace falta ir a buscarla.',
         'Ajustes > Acerca de: «Buscar actualizaciones» ahora es un botón; arriba tiene el texto «Leer notas» con las mejoras de la versión disponible, y cuando hay una nueva el botón pasa a ser «Actualizar a la X».',
@@ -873,12 +877,15 @@ class ControlActualizacion(QWidget):
         r = self._hay()
         if r:
             self.estado.configure(text=tr('Hay una versión nueva: {v}', v=r['version']))
+            self._estado_auto = True
             self.leer.configure(text=tr('Leer notas de la {v}', v=r['version']))
             self.actualizar.configure(text=tr('Actualizar a la {v}', v=r['version']))
-        else:
-            if not self.estado.text().endswith('…'):                  # «Buscando actualizaciones…» se respeta mientras dura
-                self.estado.configure(text=tr('Tienes la última versión (v{v}).', v=_version()) if getattr(self.app, '_act_comprobada', False) else '')
-            self.leer.configure(text=tr('Leer notas'))
+        elif getattr(self, '_estado_auto', False):        # la versión nueva ya no está (se instaló): se apaga el aviso
+            self.estado.configure(text='')
+            self._estado_auto = False
+        # al día = nada que decir: sin «tienes la última versión» ni «Leer notas»; el estado solo se ve al buscar a mano o cuando hay una versión nueva
+        self.estado.setVisible(bool(self.estado.text()))
+        self.leer.setVisible(bool(r))
         self.actualizar.setVisible(bool(r))
         self.buscar.setVisible(not r)
 

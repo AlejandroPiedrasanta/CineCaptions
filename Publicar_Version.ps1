@@ -27,7 +27,10 @@ if (-not $version) { throw 'No pude leer APP_VERSION de 1_codigo\version.py' }
 $etiqueta = "v$version"
 if ([string]::IsNullOrWhiteSpace($Notas)) {
     $vpy = Join-Path (Get-Location) '6_compilacion/venv314/Scripts/python.exe'
-    try { $Notas = ((& $vpy -X utf8 '3_compilar/notas_de_version.py' $version) | Out-String).Trim() } catch { $Notas = '' }
+    $tmpNotas = Join-Path ([IO.Path]::GetTempPath()) 'cc_notas_version.txt'
+    Remove-Item -LiteralPath $tmpNotas -ErrorAction SilentlyContinue
+    # por archivo UTF-8: la consola de Windows PowerShell rompe las tildes de lo que imprime Python
+    try { & $vpy -X utf8 '3_compilar/notas_de_version.py' $version $tmpNotas | Out-Null; if (Test-Path $tmpNotas) { $Notas = [IO.File]::ReadAllText($tmpNotas, (New-Object Text.UTF8Encoding $false)).Trim() } } catch { $Notas = '' }
     if ([string]::IsNullOrWhiteSpace($Notas)) { $Notas = 'Mejoras y correcciones.' }
 }
 $base = "https://github.com/$Repo/releases/download/$etiqueta"
@@ -90,11 +93,14 @@ if ((Sondear { gh api "repos/$Repo/commits?per_page=1" }) -ne 0) {
 
 # Una publicacion por version; si ya existia (reintento) se reemplazan sus archivos
 Paso "Subiendo $etiqueta"
+# las notas viajan por archivo UTF-8 (por la linea de comandos de Windows las tildes se estropean)
+$archivoNotas = Join-Path ([IO.Path]::GetTempPath()) 'cc_notas_publicacion.txt'
+[IO.File]::WriteAllText($archivoNotas, $Notas, (New-Object Text.UTF8Encoding $false))
 if ((Sondear { gh release view $etiqueta --repo $Repo }) -eq 0) {
     Nativo { gh release upload $etiqueta @($subir + $salida) --repo $Repo --clobber }
-    Nativo { gh release edit $etiqueta --repo $Repo --notes $Notas }
+    Nativo { gh release edit $etiqueta --repo $Repo --notes-file $archivoNotas }
 } else {
-    Nativo { gh release create $etiqueta @($subir + $salida) --repo $Repo --title "CineCaptions $version" --notes $Notas --latest }
+    Nativo { gh release create $etiqueta @($subir + $salida) --repo $Repo --title "CineCaptions $version" --notes-file $archivoNotas --latest }
 }
 
 Paso 'Comprobando lo publicado'

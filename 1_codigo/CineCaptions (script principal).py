@@ -1780,7 +1780,7 @@ class PlantillasWindow(QWidget):
     def __init__(self, master, seleccion=None, on_elegir=None,
                  on_importar=None, on_importar_drt=None, formato=None,
                  diseno_actual=None, on_diseno=None,
-                 basicos_actual=None, on_basicos=None, modo='dinamico'):
+                 basicos_actual=None, on_basicos=None, modo='dinamico', franja=None):
         super().__init__()
         self.app = master
         self.on_elegir = on_elegir
@@ -1804,10 +1804,16 @@ class PlantillasWindow(QWidget):
         import estilos_slider
         capa = QVBoxLayout(self)
         capa.setContentsMargins(0, 0, 0, 0)
-        capa.setSpacing(22)
+        capa.setSpacing(8)
         # v5.3.6: «Pack de estilos» = un slider horizontal de tarjetas VERTICALES sobre fotos de video (estilos_slider) y, debajo, el panel del
         # estilo que está al centro. Sin filtro de formato (las vistas son siempre verticales) y sin la tarjeta de tipografías.
-        self.tarjeta = Tarjeta(espacio=16)
+        self.tarjeta = Tarjeta(espacio=8, margenes=(18, 12, 18, 10))
+        if franja is not None:                        # v5.4.3: el audio (Obtener · archivo · onda · motor) va en UNA franja arriba de «Pack de estilos», en la misma tarjeta
+            self.tarjeta.capa.addWidget(franja)
+            separador = QFrame()
+            separador.setFixedHeight(1)
+            separador.setStyleSheet(ui.traducir_hoja('QFrame { background-color: #1E2A42; border: none; }'))
+            self.tarjeta.capa.addWidget(separador)
         cab, ch = caja_h(espacio=12)
         ch.addWidget(Etiqueta(tr('Pack de estilos'), 18, peso='medio', color='#FFFFFF'))
         self.cuenta_lbl = Etiqueta('', 13, color=TEXT_MUTED)
@@ -1831,17 +1837,17 @@ class PlantillasWindow(QWidget):
         self.nota_modo.hide()
         self.tarjeta.capa.addWidget(self.nota_modo)
         self.filtro = StringVar(tr('Todos'))             # (sin filtro de formato: _formato_del_filtro() siempre es None)
-        self.carrusel = estilos_slider.CarruselPacks(alto=610)
+        self.carrusel = estilos_slider.CarruselPacks(alto=360, flexible=True)
         self.carrusel.elegida.connect(self._elegir)
         self.carrusel.centrada.connect(self._pintar_info)
         self.carrusel.anadir.connect(self._importar_drt)
-        self.tarjeta.capa.addWidget(self.carrusel)
+        self.tarjeta.capa.addWidget(self.carrusel, 1)
         # el panel del estilo que está al centro: nombre, aviso de tipografías, nota, estructura y botones
         self._carta_actual = None
         self.info_w = QWidget()
         iv = QVBoxLayout(self.info_w)
-        iv.setContentsMargins(6, 0, 6, 2)
-        iv.setSpacing(8)
+        iv.setContentsMargins(6, 0, 6, 0)
+        iv.setSpacing(4)
         fila_n, cn = caja_h(espacio=12)
         cn.addStretch(1)
         self.info_nombre = Etiqueta('', 24, peso='extra', color='#FFFFFF')
@@ -1859,7 +1865,7 @@ class PlantillasWindow(QWidget):
         iv.addLayout(self.info_extra)
         fila_b, cb = caja_h(espacio=8)
         cb.addStretch(1)
-        self.usar_btn = Boton(tr('Usar este estilo'), self._usar_central, tipo='primario', alto=42, ancho=200, tam=14, negrita=True)
+        self.usar_btn = Boton(tr('Usar este estilo'), self._usar_central, tipo='primario', alto=38, ancho=200, tam=14, negrita=True)
         cb.addWidget(self.usar_btn)
         self.info_acciones_w = QWidget()
         self.info_acciones = QHBoxLayout(self.info_acciones_w)
@@ -1872,7 +1878,7 @@ class PlantillasWindow(QWidget):
         self.ocultos_lnk = ui.Enlace('', self._mostrar_ocultos, 12, color=TEXT_MUTED, color_hover=ui.ACCENT_CLARO)
         self.ocultos_lnk.hide()
         self.tarjeta.capa.addWidget(self.ocultos_lnk, 0, Qt.AlignmentFlag.AlignLeft)
-        capa.addWidget(self.tarjeta)
+        capa.addWidget(self.tarjeta, 1)
         self._recargar()
     def actualizar(self, seleccion=None, basicos_actual=None, modo=None, formato=None, diseno_actual=None):
         """La app avisa de un cambio de modo, formato o eleccion."""
@@ -8358,35 +8364,37 @@ class SubtitleApp(QWidget):
         capa.addWidget(cuerpo)
         capa.addStretch(1)
         # Audio (v5.3, antes «Fuente»): un solo botón, «Obtener», que trae el audio del timeline de Resolve por MCP
-        t = Tarjeta(titulo=tr('Audio'), espacio=14)
+        # v5.4.3: el audio es UNA franja compacta que se coloca arriba de «Pack de estilos» (dentro de su tarjeta): Obtener · archivo · onda · duración · motor
+        t = Tarjeta(nombre='franja_audio', margenes=(0, 0, 0, 0), espacio=0)
         self._tarjeta_audio = t
         self._insignias_audio = {}
         def _numero(n):
-            # la insignia numerada de cada paso: 1 Obtener (y su audio) -> 2 Transcribir
-            lbl = QLabel(str(n))
+            # (las insignias 1 y 2 ya no se ven en la franja; el resto del programa sigue pintándolas según el paso)
+            lbl = QLabel(str(n), t)
             lbl.setFixedSize(26, 26)
             lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
             lbl.setFont(ui.fuente(12, peso='negrita'))
             lbl.setStyleSheet(ui.traducir_hoja('QLabel { background-color: #12301F; border: 1px solid #22B573; border-radius: 13px; color: #6FE3AE; }'))
+            lbl.hide()
             self._insignias_audio[n] = lbl
             return lbl
         self.insignia = QLabel('—')
         self.insignia.setObjectName('insignia')
-        self.insignia.setFixedSize(50, 50)
+        self.insignia.setFixedSize(40, 40)
         self.insignia.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.insignia.setFont(ui.fuente(13, peso='negrita'))
-        self.insignia.setStyleSheet(ui.traducir_hoja('QLabel#insignia { background-color: #111D33; border: 1px solid #1E2A42; border-radius: 10px; color: #4589FF; }'))
-        info, cinf = caja_v(espacio=3)
-        self.fuente_nombre = _Elidida(tr('Ningún archivo elegido'), 16, peso='medio', color='#FFFFFF')
+        self.insignia.setFont(ui.fuente(11, peso='negrita'))
+        self.insignia.setStyleSheet(ui.traducir_hoja('QLabel#insignia { background-color: #111D33; border: 1px solid #1E2A42; border-radius: 9px; color: #4589FF; }'))
+        info, cinf = caja_v(espacio=1)
+        self.fuente_nombre = _Elidida(tr('Ningún archivo elegido'), 14, peso='medio', color='#FFFFFF')
         cinf.addWidget(self.fuente_nombre)
-        self.fuente_meta = _Elidida(tr('Pulsa «Obtener» para traer el audio de tu timeline de Resolve'), 13, color=TEXT_MUTED)
+        self.fuente_meta = _Elidida(tr('Pulsa «Obtener» para traer el audio de tu timeline de Resolve'), 12, color=TEXT_MUTED)
         cinf.addWidget(self.fuente_meta)
-        self.fuente_onda = Onda(ui.ACCENT_CLARO, alto=50, barra=3.0, hueco=2.6)
-        self.fuente_onda.setMinimumWidth(200)
-        self.fuente_onda.setMaximumWidth(380)
+        self.fuente_onda = Onda(ui.ACCENT_CLARO, alto=36, barra=3.0, hueco=2.6)
+        self.fuente_onda.setMinimumWidth(110)
+        self.fuente_onda.setMaximumWidth(260)
         # La entrada, «Buscar» y «Proyectos guardados» siguen existiendo (el resto del programa lee y bloquea sus
         # valores) pero fuera de pantalla: aquí solo se ve «Obtener». Soltar un video en la ventana y el clic derecho
-        # sobre esta tarjeta siguen sirviendo para elegir un archivo a mano.
+        # sobre esta franja siguen sirviendo para elegir un archivo a mano.
         oculto = QWidget()
         co = QHBoxLayout(oculto)
         co.setContentsMargins(0, 0, 0, 0)
@@ -8399,37 +8407,30 @@ class SubtitleApp(QWidget):
         co.addWidget(proy_btn)
         oculto.hide()
         t.capa.addWidget(oculto)
-        fila, cf = caja_h(espacio=14)
-        cf.addWidget(_numero(1))
-        self.detect_btn = Boton(tr('Obtener'), lambda: self._detectar_desde_resolve(silencioso=False), tipo='primario', alto=46, ancho=150, tam=15, negrita=True)
+        fila, cf = caja_h(espacio=12)
+        _numero(1)
+        _numero(2)
+        self.detect_btn = Boton(tr('Obtener'), lambda: self._detectar_desde_resolve(silencioso=False), tipo='primario', alto=40, ancho=132, tam=14, negrita=True)
         icono_obtener = ui.icono_linea('ph.download-simple-bold', '#FFFFFF')
         if icono_obtener is not None:
             self.detect_btn.setIcon(icono_obtener)
-            self.detect_btn.setIconSize(QSize(18, 18))
+            self.detect_btn.setIconSize(QSize(16, 16))
         Tooltip(self.detect_btn, tr('Trae el audio del timeline que tienes abierto en Resolve (conexión MCP, rápida). Si Resolve está cerrado, lo abre.'))
         cf.addWidget(self.detect_btn)
-        # v5.5 (propuesta B): la fila de arriba lleva TODO el audio: Obtener, el archivo (nombre y datos) y su onda
         cf.addWidget(self.insignia)
-        cf.addWidget(info, 1)
+        cf.addWidget(info, 2)
         cf.addWidget(self.fuente_onda, 1)
-        # v5.5 «Aurora»: la cifra grande (como el 300 % de las referencias): lo que dura el audio, de un vistazo
         col_t, ct_ = caja_v(espacio=0)
-        self.fuente_duracion = Etiqueta('--:--', 30, peso='extra', color='#FFFFFF', alineacion=Qt.AlignmentFlag.AlignRight)
+        self.fuente_duracion = Etiqueta('--:--', 22, peso='extra', color='#FFFFFF', alineacion=Qt.AlignmentFlag.AlignRight)
         ct_.addWidget(self.fuente_duracion)
-        self.fuente_duracion_lbl = Etiqueta(tr('duración'), 11, color=TEXT_MUTED, alineacion=Qt.AlignmentFlag.AlignRight)
+        self.fuente_duracion_lbl = Etiqueta(tr('duración'), 10, color=TEXT_MUTED, alineacion=Qt.AlignmentFlag.AlignRight)
         ct_.addWidget(self.fuente_duracion_lbl)
         cf.addWidget(col_t)
+        cf.addSpacing(10)
         self.obtener_nota = Etiqueta(tr('Del timeline abierto en Resolve · conexión MCP'), 12, color=TEXT_MUTED, envolver=True)
         self.obtener_nota.hide()
-        t.capa.addWidget(fila)
-        separador = QFrame()
-        separador.setFixedHeight(1)
-        separador.setStyleSheet(ui.traducir_hoja('QFrame { background-color: #1E2A42; border: none; }'))
-        t.capa.addWidget(separador)
         # el motor que transcribe ese audio: la IA (Qwen3-ASR) o Whisper large-v3-turbo; el mismo ajuste que Ajustes > General
-        fila_m, cm = caja_h(espacio=12)
-        cm.addWidget(_numero(2))
-        cm.addWidget(Etiqueta(tr('Transcribir con'), 14, color='#E0EBFB'))
+        cf.addWidget(Etiqueta(tr('Transcribir con'), 13, color='#E0EBFB'))
         self._motores_voz = {tr('IA · Qwen3-ASR'): 'qwen3', tr('Whisper large-v3-turbo'): 'whisper'}
         try:
             import ajustes_ui
@@ -8437,12 +8438,12 @@ class SubtitleApp(QWidget):
         except Exception:
             motor_guardado = 'qwen3'
         self.motor_var = StringVar(next((k for k, v in self._motores_voz.items() if v == motor_guardado), tr('IA · Qwen3-ASR')))
-        self.motor_seg = Segmentado(list(self._motores_voz.keys()), self.motor_var, self._cambio_motor_voz, alto=34, tam=13)
+        self.motor_seg = Segmentado(list(self._motores_voz.keys()), self.motor_var, self._cambio_motor_voz, alto=32, tam=12)
         Tooltip(self.motor_seg, tr('Qué motor convierte la voz en palabras con su tiempo. La IA (Qwen3-ASR) usa la GPU y es la más fina; Whisper large-v3-turbo es el de respaldo y entiende 99 idiomas.'))
-        cm.addWidget(self.motor_seg)
+        cf.addWidget(self.motor_seg)
         self.motor_nota = Etiqueta('', 12, color=TEXT_MUTED, envolver=True)
-        cm.addWidget(self.motor_nota, 1)
-        t.capa.addWidget(fila_m)
+        self.motor_nota.hide()                       # (el detalle de GPU/modelo queda en el tooltip del selector)
+        t.capa.addWidget(fila)
         self._pintar_motor_voz()
         t.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         t.customContextMenuRequested.connect(lambda _pos: self._menu_audio())
@@ -9162,10 +9163,9 @@ class SubtitleApp(QWidget):
         return True
     # -- Estilos y composición -------------------------------------------------
     def _pagina_estilos(self):
-        _pag, capa = self._nueva_pagina('estilos', tr('Elegir audio y estilo'), tr('Obtén el audio de tu timeline, elige el pack de estilos y mira cómo queda cada estilo en tu bloque'))
-        self._estilos_capa = capa
-        # Proyecto unificado: la tarjeta «Fuente» (el video) se construye en _pagina_nuevo y se muestra aquí
-        capa.addWidget(self._tarjeta_fuente)
+        _pag, capa = self._nueva_pagina('estilos', tr('Elegir audio y estilo'), tr('Obtén el audio de tu timeline, elige el pack de estilos y mira cómo queda cada estilo en tu bloque'), desplazable=False)
+        self._estilos_capa = capa                     # v5.4.3: la página NO se desplaza: todo cabe y el slider se lleva el alto que sobra
+        # el audio («Fuente», se construye en _pagina_nuevo) va dentro de la tarjeta de «Pack de estilos» (ver _asegurar_estilos)
     def _cambio_motor_voz(self, _v=None):
         motor = self._motores_voz.get(self.motor_var.get(), 'qwen3')
         try:
@@ -9190,6 +9190,10 @@ class SubtitleApp(QWidget):
         except Exception:
             texto = ''
         self.motor_nota.configure(text=texto)
+        try:
+            Tooltip(self.motor_seg, tr('Qué motor convierte la voz en palabras con su tiempo. La IA (Qwen3-ASR) usa la GPU y es la más fina; Whisper large-v3-turbo es el de respaldo y entiende 99 idiomas.') + '\n\n' + texto)
+        except Exception:
+            pass
     def _menu_audio(self):
         """Clic derecho sobre «Audio»: lo que ya no tiene botón (elegir un archivo a mano, proyectos guardados)."""
         menu = Menu(self)
@@ -9244,8 +9248,8 @@ class SubtitleApp(QWidget):
         if self._plantillas_ventana is not None:
             return
         cuerpo, cc = caja_h(espacio=20)
-        self._plantillas_ventana = PlantillasWindow(self, seleccion=self.plantilla_sel, on_elegir=self._plantilla_elegida, on_importar=self._importar_estilos, on_importar_drt=self._importar_estilos_drt, formato=self._formato_en_juego(), diseno_actual=getattr(self, 'diseno_dinamico', None), on_diseno=self._plantilla_diseno, basicos_actual=self._basicos_actual(), on_basicos=self._plantilla_basicos, modo=self._modo())
-        cc.addWidget(self._plantillas_ventana, 8, Qt.AlignmentFlag.AlignTop)
+        self._plantillas_ventana = PlantillasWindow(self, seleccion=self.plantilla_sel, on_elegir=self._plantilla_elegida, on_importar=self._importar_estilos, on_importar_drt=self._importar_estilos_drt, formato=self._formato_en_juego(), diseno_actual=getattr(self, 'diseno_dinamico', None), on_diseno=self._plantilla_diseno, basicos_actual=self._basicos_actual(), on_basicos=self._plantilla_basicos, modo=self._modo(), franja=self._tarjeta_fuente)
+        cc.addWidget(self._plantillas_ventana, 8)
         # v5.2: con Resolve conectado, las vistas reales que falten se renderizan solas
         try:
             import resolve_mcp
@@ -9257,13 +9261,9 @@ class SubtitleApp(QWidget):
             self._composicion_ventana = ComposicionWindow(self)
             self._composicion_ventana.poner_habilitado(self._modo() != 'normal')
             cc.addWidget(self._composicion_ventana, 5, Qt.AlignmentFlag.AlignTop)
-        self._estilos_capa.addWidget(cuerpo)
-        self._estilos_capa.addStretch(1)
-        # en Proyecto la rueda del ratón mueve el slider de packs (horizontal), no la pantalla; la barra lateral y el teclado siguen desplazándola
-        desplazable = getattr(self, '_desplazables', {}).get('estilos')
-        if desplazable is not None:
-            desplazable.rueda_a = lambda ev: self._plantillas_ventana is not None and self._plantillas_ventana.carrusel.desplazar_con_rueda(ev)
-            self._rueda_estilos = ui.RuedaHacia(desplazable.interior, desplazable.rueda_a)      # también sobre etiquetas, tarjetas y botones de la pantalla
+        self._estilos_capa.addWidget(cuerpo, 1)
+        # en Proyecto la rueda del ratón mueve el slider de packs en cualquier punto de la pantalla (la página ya no se desplaza)
+        self._rueda_estilos = ui.RuedaHacia(self._paginas['estilos'], lambda ev: self._plantillas_ventana is not None and self._plantillas_ventana.carrusel.desplazar_con_rueda(ev))
     def _plantilla_elegida(self, valor):
         self.plantilla_sel = valor
         self._sincronizar_go_pack(valor)          # auditoría v5.11: el pack de Estilos y el chip «Estilo» de Inicio son UNA sola elección
