@@ -9,6 +9,7 @@
   "bloques": "Bloques de subtítulos (cerebro, estilo por bloque, pausas)",
   "sonido": "Sonido y emojis (SFX Lab, reglas, emojis)",
   "guion": "Estilo «guion» (pack Referencia, palabra a palabra)",
+  "kinetic": "Estilo «Kinetic» (títulos de gancho: héroe, cintas, anillos)",
   "voz-ia": "Voz e IA de texto",
   "resolve": "Resolve (API, MCP, scripts, vistas reales)",
   "compilar": "Compilar, versiones, instaladores (Windows y Mac)",
@@ -1339,6 +1340,123 @@
     "scripting_desactivado"
    ],
    "resumen": "En Mac está en Contents/Applications/ResolveMCP; si falta, GO cae al Puente. Studio: External scripting = Local"
+  },
+  {
+   "id": "kinetic-planificador",
+   "grupo": "kinetic",
+   "tema": "Estilo «Kinetic»: planificador y geometría",
+   "claves": [
+    "kinetic",
+    "gancho",
+    "titulos",
+    "planificador",
+    "heroe",
+    "cinta",
+    "recetas",
+    "pila"
+   ],
+   "archivos": [
+    "kinetic_planificador.py",
+    "kinetic_captions.py",
+    "kinetic_vista.py"
+   ],
+   "simbolos": [
+    "planificar",
+    "armar_bloque",
+    "_repartir",
+    "_heroe",
+    "RECETAS",
+    "apilar",
+    "_medir",
+    "construir_cues"
+   ],
+   "resumen": "kinetic_planificador.planificar, kinetic_captions.apilar/construir_cues; place_kinetic_track"
+  },
+  {
+   "id": "kinetic-pack",
+   "grupo": "kinetic",
+   "tema": "Pack Kinetic y sus comps de Fusion",
+   "claves": [
+    "kinetic",
+    "pack",
+    "comps",
+    "fusion",
+    "cinta",
+    "heroe",
+    "degradado",
+    "drb"
+   ],
+   "archivos": [
+    "2_recursos/generador_packs/pack_kinetic.py",
+    "2_recursos/generador_packs/kinetic_elementos.py",
+    "2_recursos/generador_packs/kinetic_pack.py",
+    "2_recursos/generador_packs/kinetic_comps.py",
+    "2_recursos/generador_packs/leer_comp.py"
+   ],
+   "simbolos": [
+    "construir",
+    "todos",
+    "comp_texto",
+    "comp_cinta",
+    "comp_anillo",
+    "comp_linea",
+    "construir_clips",
+    "blob_con_nombre"
+   ],
+   "resumen": "pack_kinetic.construir → Kinetic vertical.drb (25 clips); subir REVISION_BIN al cambiar"
+  },
+  {
+   "id": "kinetic-app-resolve",
+   "grupo": "kinetic",
+   "tema": "Estilo «Kinetic»: app, tarjeta y Resolve",
+   "claves": [
+    "kinetic",
+    "generar",
+    "go",
+    "tarjeta",
+    "vista",
+    "resolve",
+    "pistas"
+   ],
+   "archivos": [
+    "hacer_vista_kinetic.py",
+    "vistas_reales.py",
+    "plantillas.py"
+   ],
+   "simbolos": [
+    "_pack_kinetic",
+    "_generar_con_kinetic",
+    "sirve_en_go",
+    "place_kinetic_track",
+    "place_kinetic",
+    "preparar_pack_kinetic",
+    "_incluida"
+   ],
+   "resumen": "_generar_con_kinetic (app) → place_kinetic_track (py) / place_kinetic (lua), pistas ES-K1…"
+  },
+  {
+   "id": "kinetic-pruebas",
+   "grupo": "kinetic",
+   "tema": "Probar el estilo Kinetic de punta a punta",
+   "claves": [
+    "kinetic",
+    "probar",
+    "banco",
+    "voz",
+    "sapi",
+    "render"
+   ],
+   "archivos": [
+    "probar_kinetic.py",
+    "tts_prueba.ps1",
+    "banco_pruebas.py"
+   ],
+   "simbolos": [
+    "colocar_kinetic",
+    "asegurar_voz",
+    "planificar"
+   ],
+   "resumen": "probar_kinetic.py --fondo video --render x → hoja de cuadros; limpiar_banco al acabar"
   }
  ]
 }

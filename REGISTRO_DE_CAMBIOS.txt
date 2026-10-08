@@ -12,6 +12,36 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-08 08:07  ·  v5.4.0  ·  (automático)
+    nuevos (19):
+      + 1_codigo/hacer_vista_kinetic.py
+      + 1_codigo/kinetic_captions.py
+      + 1_codigo/kinetic_planificador.py
+      + 1_codigo/kinetic_vista.py
+      + 1_codigo/probar_kinetic.py
+      + 1_codigo/tts_prueba.ps1
+      + 2_recursos/generador_packs/kinetic_comps.py
+      + 2_recursos/generador_packs/kinetic_elementos.py
+      + 2_recursos/generador_packs/kinetic_pack.py
+      + 2_recursos/generador_packs/leer_comp.py
+      + 2_recursos/generador_packs/pack_kinetic.py
+      + 2_recursos/plantillas_incluidas/Kinetic/Kinetic vertical.drb
+      … y 7 más
+    modificados (27):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/banco_pruebas.py
+      ~ 1_codigo/guion_editor.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/version.py
+      ~ 1_codigo/vistas_reales.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      … y 15 más
+
 2026-10-07 21:37  ·  v5.3.9  ·  (automático)
     modificados (15):
       ~ 1_codigo/version.py

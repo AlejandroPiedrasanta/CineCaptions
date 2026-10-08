@@ -484,6 +484,10 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.4.0', [
+        'Estilo nuevo «Kinetic» (títulos de gancho): una palabra HÉROE enorme con degradado, líneas pequeñas que la anuncian, cintas de color, serif cursiva, pincel, anillos y subrayados. Cada bloque entra con rebote y sale junto, sin pisar al siguiente. Elígelo en Proyecto (tarjeta «Kinetic») o en el chip «Estilo» de Inicio; con él GO decide solo qué palabra es el héroe y, en Creativo, las palabras que marques como Principal lo son.',
+        'Funciona con cualquier video vertical (probado en 1080×1920 y 2160×3840), cualquier duración y cantidad de palabras, y con los sonidos de Sonido. Los demás estilos no cambian.',
+    ]),
     ('5.3.9', [
         'Corregido: al actualizar desde el propio programa el instalador a veces fallaba con «algún archivo está en uso». Ahora reemplaza la versión sin problema (y reintenta si el antivirus retiene la carpeta un momento) y CineCaptions se vuelve a abrir solo.',
     ]),

@@ -29,7 +29,7 @@ def es_guion(nombre_pack, formato='v'):
         p = plantillas.buscar_pack(nombre_pack or '')
     except Exception:
         return False
-    return bool(p is not None and getattr(p, 'guion', None) and (formato or 'v') in p.formatos and (formato or 'v') == 'v')
+    return bool(p is not None and getattr(p, 'guion', None) and not getattr(p, 'kinetic', False) and (formato or 'v') in p.formatos and (formato or 'v') == 'v')
 
 
 def parametros_de_marcas(palabras, roles):

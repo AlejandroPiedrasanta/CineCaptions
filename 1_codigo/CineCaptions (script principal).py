@@ -2231,6 +2231,8 @@ class PlantillasWindow(QWidget):
                                     acciones=self._acciones_de(pack, quitable=False) if pack else None)
     @staticmethod
     def _meta_de(estructura):
+        if (estructura or {}).get('kinetic'):
+            return tr('Títulos de gancho')
         n = int((estructura or {}).get('variantes') or 0)
         return (tr('{n} variantes', n=n) if n != 1 else tr('1 variante')) if n else ''
     def _cartas_basicos(self):
@@ -7047,7 +7049,7 @@ class SubtitleApp(QWidget):
         try:
             import ajustes_ui
             ocultos = {n for n in ajustes_ui.leer_prefs().get('packs_ocultos', []) if isinstance(n, str)}
-            packs = [p for p in plantillas.listar_packs() if (p.numeros_de_set('h') or p.numeros_de_set('v')) and p.nombre not in ocultos]
+            packs = [p for p in plantillas.listar_packs() if plantillas.sirve_en_go(p) and p.nombre not in ocultos]
         except Exception:
             packs = []
         formato = self._formato_forzado() or self._formato_en_juego() or 'v'
@@ -7055,8 +7057,9 @@ class SubtitleApp(QWidget):
         otros = [p for p in packs if not getattr(p, 'guion', None) and p.nombre != base]
         for p in guion:
             marca = '✓  ' if p.nombre == actual else '      '
-            extra = '' if p.numeros_de_set(formato) else tr('  (solo vertical)')
-            menu.agregar(marca + tr('{n} · captions palabra a palabra', n=p.nombre) + extra, lambda n=p.nombre: self._poner_go_pack(n))
+            extra = '' if plantillas.sirve_en_go(p, formato) else tr('  (solo vertical)')
+            etiqueta = tr('{n} · títulos de gancho', n=p.nombre) if getattr(p, 'kinetic', False) else tr('{n} · captions palabra a palabra', n=p.nombre)
+            menu.agregar(marca + etiqueta + extra, lambda n=p.nombre: self._poner_go_pack(n))
         marca = '✓  ' if actual in (base, 'dinamico', 'auto') else '      '
         menu.agregar(marca + tr('Diseño automático · 3 líneas'), lambda: self._poner_go_pack('auto'))
         for p in otros:
@@ -7400,14 +7403,14 @@ class SubtitleApp(QWidget):
         actual = getattr(self, 'plantilla_sel', '') or ''
         formato = self._formato_forzado() or self._formato_en_juego() or 'v'
         try:
-            nombres = [p.nombre for p in plantillas.listar_packs() if p.numeros_de_set('h') or p.numeros_de_set('v')]
+            nombres = [p.nombre for p in plantillas.listar_packs() if plantillas.sirve_en_go(p)]
         except Exception:
             nombres = []
 
         def sirve(n):
             try:
                 p = plantillas.buscar_pack(n)
-                return p is not None and bool(p.numeros_de_set(formato))
+                return plantillas.sirve_en_go(p, formato)
             except Exception:
                 return False
         base = 'Base títulos dinámicos' if 'Base títulos dinámicos' in nombres else 'dinamico'
@@ -11311,7 +11314,7 @@ class SubtitleApp(QWidget):
         escribe el manifiesto y devuelve cuántos bloques hay. No toca widgets: los avisos van por la cola."""
         import dynamic_subtitles as dyn
         avisar = lambda m: self.msg_queue.put(('status', m))
-        estilos_previos = ('destacados',) if modo == 'destacados' else ('dynamic', 'destacados', 'guion')
+        estilos_previos = ('destacados',) if modo == 'destacados' else ('dynamic', 'destacados', 'guion', 'kinetic')
         manifest_path = st.SHARED_FOLDER / 'subtitles_manifest.json'
         manifest = {'project': project_name, 'tracks': []}
         pista_previa = {}
@@ -11539,7 +11542,14 @@ class SubtitleApp(QWidget):
             p = plantillas.buscar_pack(getattr(self, 'plantilla_sel', '') or '')
         except Exception:
             return None
-        return p if p is not None and getattr(p, 'guion', None) else None
+        return p if p is not None and getattr(p, 'guion', None) and not getattr(p, 'kinetic', False) else None
+    def _pack_kinetic(self):
+        """El pack elegido si es el estilo «Kinetic» (títulos de gancho: elementos sueltos —héroe, cintas, anillos…—; kinetic_planificador.py), o None."""
+        try:
+            p = plantillas.buscar_pack(getattr(self, 'plantilla_sel', '') or '')
+        except Exception:
+            return None
+        return p if p is not None and getattr(p, 'kinetic', False) else None
     def _emojis_con_la_palabra_grande(self, bloques):
         """Estilo «guion»: el emoji de un bloque entra junto con su PALABRA GRANDE (sin ella, con la palabra del emoji) y se queda hasta que se va la
         pila, como los captions. (emojis.asignar lo había pegado a una línea por rol y lo dejaba vivo solo lo que dura la palabra.)"""
@@ -11619,6 +11629,60 @@ class SubtitleApp(QWidget):
         n_emojis = sum(1 for b in bloques if b.get('emoji'))
         avisar(tr('Estilo «{p}»: {n} bloques, {m} con palabra grande · {s} sonidos · {e} emojis.', p=pack.nombre, n=len(cues), m=sum(1 for b in plan if b['mains']), s=n_sonidos, e=n_emojis))
         return (bloques, track, pista_sfx)
+    def _generar_con_kinetic(self, pack, palabras_finales, roles_finales, pista_plantilla, project_name, base_lang, avisar, con_sfx=False):
+        """El estilo «Kinetic» (pack Kinetic: títulos de gancho): el planificador (kinetic_planificador.py) parte lo hablado en bloques, elige la palabra
+        héroe y una receta (héroe con degradado, líneas pequeñas, cintas, serif, pincel, anillo, subrayado) y apila los elementos; el script de Resolve
+        coloca cada elemento como su propio clip del pack. Con el editor mandan las palabras marcadas como Principal (héroes forzados); GO decide solo.
+        Sonidos: el mismo modo de Sonido (un golpe cuando entra la palabra héroe). Sin emojis (no forman parte de este estilo).
+        Devuelve (bloques, track, pista_sfx) con el .json ya escrito (el mismo contrato que _generar_con_guion), o None si no se puede."""
+        formato = self._formato_forzado() or self._formato_en_juego() or 'v'
+        if formato != 'v' or 'v' not in pack.formatos:
+            avisar(tr('El estilo «{p}» es para vídeo vertical: uso el diseño de siempre.', p=pack.nombre))
+            return None
+        import kinetic_captions as kc
+        import kinetic_planificador as kp
+        try:
+            import ajustes_ui
+            ancla = str(ajustes_ui.leer_prefs().get('kinetic_ancla', 'bajo'))
+        except Exception:
+            ancla = 'bajo'
+        mains = None
+        if not getattr(self, '_un_clic', False):
+            try:
+                import guion_editor
+                mains = guion_editor.parametros_de_marcas(palabras_finales, roles_finales)[0]
+            except Exception:
+                mains = None
+        res = kp.planificar(palabras_finales, idioma=base_lang, ancla=ancla, mains=mains, fin_video=self._fin_video())
+        cues, plan = res['cues'], res['plan']
+        if not cues:
+            avisar(tr('No encontré palabras para armar el estilo «{p}»: uso el diseño de siempre.', p=pack.nombre))
+            return None
+        bloques = [{'start': c['start'], 'end': c['end'], 'fin_hablado': c['end'],
+                    'lines': [{'role': l['role'], 'text': l['text'], 'start': l['start']} for l in c['lines']]} for c in cues]
+        pista_sfx = {}
+        try:
+            self._registrar_sfx_manuales(palabras_finales)
+            if con_sfx:
+                self.msg_queue.put(('status', tr('Eligiendo los efectos de sonido...')))
+                pista_sfx = self._preparar_sfx(bloques)
+        except Exception:
+            registro.excepcion(origen='estilo kinetic · sonidos')
+        for c, b in zip(cues, bloques):
+            for k in ('sfx', 'sfx_archivo', 'sfx_nombre', 'sfx_manual', 'sfx_original', 'sfx_eventos'):
+                if k in b:
+                    c[k] = b[k]
+        json_path = kc.escribir(cues, st.SHARED_FOLDER / f'{project_name}.{base_lang}.kinetic.json', base_lang)
+        srt_path = st.SHARED_FOLDER / f'{project_name}.{base_lang}.srt'
+        try:
+            st.write_srt([st.Cue(start=b['start'], end=b['end'], text=' '.join(l['text'] for l in b['lines'])) for b in bloques], 42, 2, srt_path)
+        except Exception:
+            srt_path = ''
+        track = {'language': base_lang, 'style': 'kinetic', 'data_path': str(json_path), 'srt_path': str(srt_path), 'fonts': {}, 'adelanto_frames': 0,
+                 'offset_frames': self._offset_frames(), **pista_plantilla, **pista_sfx}
+        n_sonidos = sum(len(b.get('sfx_eventos') or [1]) for b in bloques if b.get('sfx'))
+        avisar(tr('Estilo «{p}»: {n} bloques de títulos · {s} sonidos.', p=pack.nombre, n=len(cues), s=n_sonidos))
+        return (bloques, track, pista_sfx)
     def _generar_con_motor(self, dyn, palabras_finales, roles_finales, pista_plantilla, project_name, base_lang, con_sfx, avisar):
         """El MOTOR del preset del Diseño dinámico (v1.0.51).
 
@@ -11636,6 +11700,9 @@ class SubtitleApp(QWidget):
         'avisar' recibe los mensajes de estado (la cola en el hilo de
         generar, status_var en regenerar): las degradaciones no son mudas.
         """
+        pack_kinetic = self._pack_kinetic()
+        if pack_kinetic is not None:
+            return self._generar_con_kinetic(pack_kinetic, palabras_finales, roles_finales, pista_plantilla, project_name, base_lang, avisar, con_sfx)
         pack_guion = self._pack_guion()
         if pack_guion is not None:
             return self._generar_con_guion(pack_guion, palabras_finales, roles_finales, pista_plantilla, project_name, base_lang, avisar, con_sfx)

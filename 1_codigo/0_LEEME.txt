@@ -74,6 +74,8 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         los 15 bloques de REFERENCIA.mp4 medidos a mano (tiempos, palabras, pesos, estilos y sitios): la «verdad» contra la que se prueba el planificador.
     guion_vista.py
         «Así se verá este bloque» del estilo «guion»: dibuja el bloque con la MISMA geometría que coloca Resolve (cada palabra en su x, y y tamaño).
+    hacer_vista_kinetic.py
+        genera la vista previa INCLUIDA del estilo «Kinetic» (los fotogramas que enseña la tarjeta del slider de Estilos).
     i18n.py
         idiomas de la interfaz: tr("texto en español") y los catálogos de 2_recursos/locales.
     ia_texto.py
@@ -84,6 +86,12 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         instala en el sistema las tipografías de las plantillas (para que Resolve/Fusion las vea).
     isla_ui.py
         la «isla dinámica»: el menú de navegación flotante de arriba, los controles de la ventana y el borde.
+    kinetic_captions.py
+        estilo «Kinetic»: la geometría de la pila de elementos (tamaños con la tipografía real, posiciones, giros, tiempos) y el .json para Resolve.
+    kinetic_planificador.py
+        del texto con tiempos (ASR) a los bloques del estilo «Kinetic»: frases, palabra héroe, receta (plantilla), elementos y momentos.
+    kinetic_vista.py
+        vista aproximada (Pillow) de un bloque del estilo «Kinetic»: la pila ya armada, dibujada sin pasar por Resolve.
     licencia.py
         la licencia (Lemon Squeezy / Gumroad): activar, verificar, desactivar, estado firmado, 7 días sin internet.
     mapa_codigo.py
@@ -106,6 +114,8 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         packs de estilos: leer, guardar, elegir y preparar el pack que se aplica.
     probar_go.py
         pulsa GO de la app SIN pantalla sobre un archivo y un pack, y deja los bloques en el timeline actual de Resolve (el banco zz_BANCO).
+    probar_kinetic.py
+        prueba del estilo «Kinetic» de punta a punta: voz → bloques → Resolve (banco zz_BANCO) → render → hoja de cuadros.
     proyectos.py
         registro de proyectos (vídeos) trabajados: recientes, abrir, borrar.
     qt_kit.py
@@ -144,6 +154,8 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         lo que el instalador pide al programa (--tarea verificar/scripts/fuentes/modelo/motor_ia...).
     tema.py
         temas de la interfaz (superficies, color de resaltado, tamaño) y su traductor de colores.
+    tts_prueba.ps1
+        voz de prueba (Windows SAPI) → WAV: para probar los captions con un video SIN audio útil.
     ui_toast.py
         avisos que se cierran solos (toasts).
     un_clic_ui.py

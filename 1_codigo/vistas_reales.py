@@ -77,8 +77,24 @@ def carpeta_de(nombre_pack, formato, textos=None):
     return CARPETA / _slug(pack.nombre) / formato / _firma(pack, formato, textos)
 
 
+def _incluida(nombre_pack):
+    """Los fotogramas que el PACK trae ya renderizados (el estilo «Kinetic»: sus clips son elementos, no sets, y no hay «vista del pack» que pedirle a Resolve;
+    se hacen con hacer_vista_kinetic.py y viajan en pack/vista/). Devuelve (carpeta, indice) o (None, {})."""
+    try:
+        pack = _pack(nombre_pack)
+        if pack is None or not getattr(pack, 'kinetic', False):
+            return None, {}
+        d = pack.carpeta / 'vista'
+        return d, json.loads((d / 'indice.json').read_text(encoding='utf-8'))
+    except Exception:
+        return None, {}
+
+
 def cacheadas(nombre_pack, formato, textos=None):
     """{numero_de_set: [rutas de los cuadros en orden]} ya renderizados, o {}."""
+    d, indice = _incluida(nombre_pack)
+    if d is not None:
+        return {int(k): [str(d / r) for r in v if (d / r).is_file()] for k, v in (indice.get('sets') or {}).items() if any((d / r).is_file() for r in v)}
     try:
         d = carpeta_de(nombre_pack, formato, textos)
         indice = json.loads((d / 'indice.json').read_text(encoding='utf-8')) if d else {}
@@ -95,6 +111,9 @@ def cacheadas(nombre_pack, formato, textos=None):
 def recortes(nombre_pack, formato, textos=None):
     """{numero_de_set: (x, y, w, h)} en fraccion del cuadro: la zona donde esta
     el texto (para que el mosaico lo muestre grande)."""
+    d, indice = _incluida(nombre_pack)
+    if d is not None:
+        return {int(k): tuple(v) for k, v in (indice.get('recortes') or {}).items() if v and len(v) == 4}
     try:
         d = carpeta_de(nombre_pack, formato, textos)
         indice = json.loads((d / 'indice.json').read_text(encoding='utf-8')) if d else {}
@@ -264,6 +283,8 @@ def renderizar_pack(nombre_pack, formato='v', textos=None, sets=None, al_estado=
     pack = _pack(nombre_pack)
     if pack is None:
         return False, tr('No encuentro el pack «{p}».', p=nombre_pack)
+    if getattr(pack, 'kinetic', False):
+        return True, cacheadas(nombre_pack, formato, textos)          # su vista viene incluida en el pack (hacer_vista_kinetic.py)
     if formato not in pack.formatos:
         formato = pack.formatos[0] if pack.formatos else 'v'
     textos = textos or TEXTOS_MUESTRA

@@ -42,7 +42,7 @@ function frames_de_audio(item, fps)
     return 0
 end
 
-local VERSION = "5.3.9 (subtitulos)"
+local VERSION = "5.4.0 (subtitulos)"
 
 -- La ENTREGA del Puente (v1.0.43): el resolve validado llega como
 -- argumento del chunk, porque las globales del Puente NO cruzan el
@@ -3486,8 +3486,11 @@ local function place_dynamic(timeline, media_pool, track, fps, start_frame, proj
             indices[rol] = existente
         end
     end
-    retirar_pistas_nuestras(timeline, { string.upper(lang) },
-                            "subtitulos normales", "esta corrida es dinamica")
+    do
+        local nombres_k = { string.upper(lang) }
+        for k = 1, 24 do nombres_k[#nombres_k + 1] = string.format("%s-K%d", string.upper(lang), k) end
+        retirar_pistas_nuestras(timeline, nombres_k, "subtitulos normales", "esta corrida es dinamica")
+    end
 
     local fade_frames = math.floor(FADE_OUT_SECONDS * fps + 0.5)
 
@@ -5121,9 +5124,11 @@ local function place_guion(timeline, media_pool, track, fps, start_frame, projec
     for _, linea in ipairs(informe_sets) do print(linea) end
 
     -- fuera lo de otras corridas (dinamico / normal) y lo propio de la anterior
-    retirar_pistas_nuestras(timeline,
-        { L .. "-CTX", L .. "-MAIN", L .. "-CMP", L, L .. "-EMOJI" },
-        "subtitulos", "esta corrida es de estilo guion")
+    do
+        local nombres_g = { L .. "-CTX", L .. "-MAIN", L .. "-CMP", L, L .. "-EMOJI" }
+        for k = 1, 24 do nombres_g[#nombres_g + 1] = string.format("%s-K%d", L, k) end
+        retirar_pistas_nuestras(timeline, nombres_g, "subtitulos", "esta corrida es de estilo guion")
+    end
 
     -- PISTAS. Las palabras GRANDES van en las pistas de abajo y las pequeñas
     -- encima: el macro «Luxe Shine» es de cristal y refracta lo que tiene
@@ -5297,6 +5302,203 @@ local function place_guion(timeline, media_pool, track, fps, start_frame, projec
     if sin_pista > 0 then
         print(string.format("  Aviso: %d palabra(s) no se colocaron (sin pista o sin clip para ese rol).", sin_pista))
     end
+    return colocados, 0
+end
+
+-- v5.4 — estilo «Kinetic» (gemela de place_kinetic_track de CineCaptions.py): titulos de gancho. Cada ELEMENTO de la pila (heroe, linea pequeña,
+-- serif, pincel, cinta, anillo, subrayado) es su propio clip del pack «Kinetic», con su posicion, su tamaño, su giro y su momento. El archivo de
+-- datos trae bloques {start, end, runs: [{k, texto, t, x, y, size, rot, zx, zy}]} que ya armo la app (kinetic_planificador / kinetic_captions):
+-- `k` = clip del pack («k hero lima»); `texto` y `size` van al Text+ «Template» del clip; x/y = centro en fraccion del cuadro (y desde ARRIBA);
+-- `rot` = giro en grados; zx/zy = zoom de los trazos. Cada elemento va en la primera pista libre de su capa («ES-K1»…).
+local KINETIC_CLIP_PRUEBA = "k hero blanco"
+
+local function preparar_pack_kinetic(media_pool, nombre_pack, formato, ruta_drb)
+    local nombre_bin = nombre_bin_pack(nombre_pack, formato)
+    local raiz_ok, raiz = pcall(function() return media_pool:GetRootFolder() end)
+    if not raiz_ok or not raiz then return nil, "no pude leer el Media Pool." end
+    local existente = subcarpeta(raiz, nombre_bin)
+    if existente and find_clip_by_name(media_pool, KINETIC_CLIP_PRUEBA, existente) then return existente, nil end
+    if not ruta_drb or not dato_existe(ruta_drb) then
+        return nil, "el pack '" .. tostring(nombre_pack) .. "' no trae su .drb en este equipo (" .. tostring(ruta_drb or "sin ruta") .. ")."
+    end
+    local carpeta = existente
+    if not carpeta then
+        local ok_c, nueva = pcall(function() return media_pool:AddSubFolder(raiz, nombre_bin) end)
+        carpeta = ok_c and nueva or nil
+    end
+    if not carpeta then return nil, "no pude crear el bin '" .. nombre_bin .. "' en el Media Pool." end
+    local ok_p, previa = pcall(function() return media_pool:GetCurrentFolder() end)
+    pcall(function() media_pool:SetCurrentFolder(carpeta) end)
+    local importo = false
+    local ok_i, res_i = pcall(function() return media_pool:ImportFolderFromFile(ruta_drb) end)
+    if ok_i then
+        importo = res_i and true or false
+    else
+        print("  ImportFolderFromFile no esta en este Resolve (" .. tostring(res_i) .. ").")
+    end
+    if ok_p and previa then pcall(function() media_pool:SetCurrentFolder(previa) end) end
+    if importo and find_clip_by_name(media_pool, KINETIC_CLIP_PRUEBA, carpeta) then
+        print("  El bin del pack '" .. tostring(nombre_pack) .. "' entro DIRECTO al Media Pool (desde el .drb).")
+        return carpeta, nil
+    end
+    return nil, "importe el .drb del pack '" .. tostring(nombre_pack) .. "' pero no encuentro sus clips («" .. KINETIC_CLIP_PRUEBA .. "»…)."
+end
+
+-- capa del elemento: de la de abajo (heroe) a la de arriba (lineas pequeñas); cada capa tiene sus propias pistas
+local function grupo_kinetic(nombre)
+    local n = string.lower(tostring(nombre))
+    if n:sub(1, 6) == "k hero" then return 0 end
+    if n:sub(1, 6) == "k line" then return 1 end
+    if n:sub(1, 6) == "k ring" then return 3 end
+    if n:sub(1, 5) == "k sup" or n:sub(1, 7) == "k label" then return 4 end
+    return 2          -- cintas, serif, pincel
+end
+
+local function place_kinetic(timeline, media_pool, track, fps, start_frame, project)
+    local lang = track.language
+    local L = string.upper(tostring(lang))
+    local data_path = track.data_path
+    if not data_path or not dato_existe(data_path) then
+        print("  Aviso: no encuentro el .json de '" .. tostring(lang) .. "', lo salto.")
+        return 0, 0
+    end
+    local datos = cargar_tabla(data_path) or {}
+    local cues = datos.cues or {}
+    if #cues == 0 then
+        print("  Aviso: '" .. tostring(lang) .. "' no tiene bloques.")
+        return 0, 0
+    end
+    if track.sfx_library or track.sfx_archivos then
+        place_sfx(timeline, media_pool, cues, track, fps, start_frame)
+    end
+
+    local function res_tl(clave, por_defecto)
+        local ok, v = pcall(function() return timeline:GetSetting(clave) end)
+        if ok and v and tonumber(v) then return math.floor(tonumber(v)) end
+        return por_defecto
+    end
+    local ancho_tl = res_tl("timelineResolutionWidth", 1080)
+    local alto_tl = res_tl("timelineResolutionHeight", 1920)
+
+    local pack_previo = nil
+    if type(track.plantilla) == "table" then pack_previo = pack_del_manifiesto(track, ancho_tl, alto_tl) end
+    if not pack_previo or not pack_previo.drb then
+        fail("el estilo «Kinetic» necesita su pack (.drb) y el manifiesto no lo trae. Elige el pack «Kinetic» en Estilos.")
+    end
+    local carpeta, aviso = preparar_pack_kinetic(media_pool, pack_previo.nombre, pack_previo.formato, pack_previo.drb)
+    if not carpeta then fail("no pude preparar el pack «Kinetic»: " .. tostring(aviso)) end
+    local clips = {}
+    local function clip_de(nombre)
+        if clips[nombre] == nil then clips[nombre] = find_clip_by_name(media_pool, nombre, carpeta) or false end
+        return clips[nombre] or nil
+    end
+    print(string.format("\nIdioma '%s': %d bloques (estilo Kinetic).", lang, #cues))
+
+    local nombres_previos = { L .. "-CTX", L .. "-MAIN", L .. "-CMP", L, L .. "-EMOJI" }
+    for k = 1, 24 do nombres_previos[#nombres_previos + 1] = string.format("%s-T%d", L, k) end
+    retirar_pistas_nuestras(timeline, nombres_previos, "subtitulos", "esta corrida es de estilo Kinetic")
+
+    local function a_fotogramas(segundos) return math.floor(segundos * fps + 0.5) end
+    local extra_fin = tonumber(track.extra_fin_s) or 0.05
+    local min_frames = a_fotogramas(0.45)       -- la entrada (8 fotogramas) y la salida (5) del comp necesitan ~13 fotogramas para verse enteras
+    local pendientes, sin_clip = {}, {}
+    for _, cue in ipairs(cues) do
+        for _, run in ipairs(cue.runs or {}) do
+            local nombre = run.k
+            local plantilla = nombre and clip_de(nombre) or nil
+            if plantilla == nil then
+                if nombre then sin_clip[nombre] = true end
+            else
+                local ini = math.max(start_frame, start_frame + a_fotogramas(tonumber(run.t) or cue.start))
+                local fin_s = tonumber(run.fin) or cue["end"]
+                local fin = start_frame + a_fotogramas(fin_s + extra_fin)
+                fin = math.max(fin, ini + min_frames)
+                pendientes[#pendientes + 1] = { run = run, nombre = nombre, plantilla = plantilla, ini = ini, fin = fin,
+                                                grupo = grupo_kinetic(nombre), orden = #pendientes + 1 }
+            end
+        end
+    end
+    table.sort(pendientes, function(a, b)
+        if a.grupo ~= b.grupo then return a.grupo < b.grupo end
+        if a.ini ~= b.ini then return a.ini < b.ini end
+        return a.orden < b.orden
+    end)
+    local huecos = {}          -- capa -> { fotograma desde el que esta libre cada hueco }
+    for _, d in ipairs(pendientes) do
+        huecos[d.grupo] = huecos[d.grupo] or {}
+        local lista = huecos[d.grupo]
+        local puesto_en = nil
+        for k, libre in ipairs(lista) do
+            if libre <= d.ini then puesto_en = k; break end
+        end
+        puesto_en = puesto_en or (#lista + 1)
+        lista[puesto_en] = d.fin
+        d.hueco = puesto_en
+    end
+    local grupos = {}
+    for g in pairs(huecos) do grupos[#grupos + 1] = g end
+    table.sort(grupos)
+    local orden, n_pista = {}, 0
+    for _, g in ipairs(grupos) do
+        for k = 1, #huecos[g] do
+            n_pista = n_pista + 1
+            orden[g .. ":" .. k] = n_pista
+        end
+    end
+    local idx_pista = {}
+    for n = 1, n_pista do
+        local nombre = string.format("%s-K%d", L, n)
+        local idx, err = conseguir_pista_video(timeline, nombre)
+        if err or not idx then
+            print("  ERROR: no pude crear la pista '" .. nombre .. "' de forma segura (" .. tostring(err) .. ").")
+        else
+            idx_pista[n] = idx
+        end
+    end
+    local colocados, sin_pista, sin_texto = 0, 0, 0
+    for _, d in ipairs(pendientes) do
+        local run = d.run
+        local idx = idx_pista[orden[d.grupo .. ":" .. d.hueco]]
+        if idx == nil then
+            sin_pista = sin_pista + 1
+        else
+            local item = colocar_medido(media_pool, timeline, d.plantilla, 0, d.fin - d.ini, idx, d.ini, fps, COLORES_CC.texto)
+            if item == nil then
+                print("  Aviso: no pude colocar «" .. tostring(run.texto or d.nombre) .. "» en " .. tostring(run.t) .. "s")
+            else
+                local ok_texto = true
+                if run.texto ~= nil then
+                    local tool = get_text_plus(item)
+                    if tool == nil or not set_input(tool, "StyledText", tostring(run.texto)) then
+                        ok_texto = false
+                        sin_texto = sin_texto + 1
+                    elseif type(run.size) == "number" then
+                        set_input(tool, "Size", run.size)
+                    end
+                end
+                if ok_texto then
+                    local props = {}
+                    if type(run.x) == "number" then props.Pan = pan_px(run.x - 0.5, ancho_tl) end
+                    if type(run.y) == "number" then props.Tilt = tilt_px(0.5 - run.y, alto_tl) end
+                    if type(run.rot) == "number" and math.abs(run.rot) > 0.01 then props.RotationAngle = run.rot end
+                    if type(run.zx) == "number" and run.zx > 0 then props.ZoomX = run.zx end
+                    if type(run.zy) == "number" and run.zy > 0 then props.ZoomY = run.zy end
+                    if next(props) ~= nil then poner_props(item, props) end
+                    colocados = colocados + 1
+                end
+            end
+        end
+    end
+    local sobran = {}
+    for k = n_pista + 1, n_pista + 24 do sobran[#sobran + 1] = string.format("%s-K%d", L, k) end
+    retirar_pistas_nuestras(timeline, sobran, "elementos", "esta corrida necesita menos pistas")
+    print(string.format("  Colocados %d elementos en %d pista(s) (%s-K1…%s-K%d).", colocados, n_pista, L, L, n_pista))
+    local faltan = {}
+    for nombre in pairs(sin_clip) do faltan[#faltan + 1] = nombre end
+    table.sort(faltan)
+    if #faltan > 0 then print("  Aviso: el pack no trae estos clips: " .. table.concat(faltan, ", ") .. ".") end
+    if sin_texto > 0 then print(string.format("  Aviso: %d elemento(s) se colocaron pero no pude escribir su texto.", sin_texto)) end
+    if sin_pista > 0 then print(string.format("  Aviso: %d elemento(s) no se colocaron (sin pista).", sin_pista)) end
     return colocados, 0
 end
 
@@ -6442,9 +6644,11 @@ local function place_srt(timeline, media_pool, track, fps, start_frame)
     -- despues se reutiliza la primera LANG que sea nuestra o se crea, con
     -- el mismo criterio que las dinamicas.
     local L = string.upper(lang)
-    retirar_pistas_nuestras(timeline, { L .. "-CTX", L .. "-MAIN",
-                                        L .. "-CMP", L, L .. "-EMOJI" },
-                            "subtitulos", "esta corrida es de subtitulos normales")
+    do
+        local nombres_n = { L .. "-CTX", L .. "-MAIN", L .. "-CMP", L, L .. "-EMOJI" }
+        for k = 1, 24 do nombres_n[#nombres_n + 1] = string.format("%s-K%d", L, k) end
+        retirar_pistas_nuestras(timeline, nombres_n, "subtitulos", "esta corrida es de subtitulos normales")
+    end
     local idx, error_msg = conseguir_pista_video(timeline, L)
     if error_msg then
         print("  ERROR: no pude crear la pista '" .. string.upper(lang)
@@ -6939,7 +7143,7 @@ local function main()
             total_lineas = total_lineas
                 + place_srt(timeline, media_pool, track, fps, start_frame)
         end
-        if track.style == "dynamic" or track.style == "destacados" or track.style == "guion" then
+        if track.style == "dynamic" or track.style == "destacados" or track.style == "guion" or track.style == "kinetic" then
             -- El origen de coordenadas.
             --
             -- Normalmente es el inicio del timeline, como siempre. Pero si
@@ -6973,6 +7177,9 @@ local function main()
             elseif track.style == "guion" then
                 lineas, efectos = place_guion(timeline, media_pool, track,
                                               fps, start_frame, project)
+            elseif track.style == "kinetic" then
+                lineas, efectos = place_kinetic(timeline, media_pool, track,
+                                                fps, start_frame, project)
             else
                 -- 6 argumentos, como declara la funcion (leccion de
                 -- test_v1034: en Lua un argumento de menos es un nil

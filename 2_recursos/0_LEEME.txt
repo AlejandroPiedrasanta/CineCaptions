@@ -23,16 +23,26 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         fondo_10.jpg
         fondo_11.jpg
     fonts\   (44 archivos)  — tipografías: Inter (la interfaz) y las de los packs; LICENCIAS.txt
-    generador_packs\   (8 archivos)
+    generador_packs\   (13 archivos)
         construir_pack.py
             arma los .drb (bin de Resolve) de los packs nuevos con los macros reales Luxe Shine / Luxe Slide (luxe_macro.py).
         generar_comps.py
+        kinetic_comps.py
+            escribe las comps de Fusion (.comp) de los elementos del estilo «Kinetic» (héroe, serie, cinta, anillo, subrayado…).
+        kinetic_elementos.py
+            los elementos del estilo «Kinetic»: héroe, serie, serif, guion, etiqueta, cinta, anillo y subrayado.
+        kinetic_pack.py
+            arma un .drb con clips de nombre libre y una comp de Fusion propia en cada uno (pack «Kinetic»).
+        leer_comp.py
+            lee la comp de Fusion (texto) que lleva un clip de un .drb: para ver cómo escribe Resolve cada herramienta.
         luxe_macro.py
             pone los macros REALES «Luxe Shine» (principal) y «Luxe Slide» (el resto) del Luxe Title Pack en cada clip, con la tipografía, el color y la posición de cada variante.
         luxe_shine_base.lua
         luxe_shine_cabecera.txt
         luxe_slide_base.lua
         luxe_slide_cabecera.txt
+        pack_kinetic.py
+            arma el pack «Kinetic»: los elementos del estilo de títulos de gancho (héroe, líneas, serif, pincel, cintas, anillos, subrayados).
         pack_referencia.py
             arma el pack «Referencia»: 8 estilos de principal (Luxe Shine y presets de Amro) con las líneas pequeñas en dos pesos.
     generador_sfx_emoji\   (69 archivos)
@@ -50,7 +60,8 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
             IA de texto Qwen3 Instruct: correcciones, pesos y emojis por frase (modo servidor).
         requisitos_motor_qwen.txt
             versiones FIJAS del motor (Python 3.12 + torch + qwen-asr)
-    plantillas_incluidas\   (20 archivos)  — los packs de estilos que trae el programa (.drt/.drb + posiciones + pack.json)
+    plantillas_incluidas\   (28 archivos)  — los packs de estilos que trae el programa (.drt/.drb + posiciones + pack.json)
+        Kinetic\   (8 archivos)
         Referencia\   (4 archivos)
         Viral Inferior\   (4 archivos)
         Viral Superior\   (4 archivos)

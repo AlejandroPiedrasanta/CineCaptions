@@ -46,7 +46,7 @@ TEMPLATE_CLIP_NAME = "Subtitle Template"
 # coincide con la del programa (ver version.py). Se estampa en
 # ultimo_resultado.json: hasta la v1.0.28 este archivo no tenia version
 # ninguna y no habia forma de saber que build habia colocado los subtitulos.
-VERSION = "5.3.9 (subtitulos)"
+VERSION = "5.4.0 (subtitulos)"
 
 # Donde se escribe el resultado para que la app lo lea. Hasta la v1.0.26 este
 # script no escribia nada aca -a diferencia del de Importar Estilos, que si
@@ -3536,7 +3536,7 @@ def place_guion_track(timeline, media_pool, track_info, base_template,
 
     # fuera lo de otras corridas (dinámico / normal) y lo propio de la anterior
     _retirar_pistas_nuestras(
-        timeline, [f"{L}-CTX", f"{L}-MAIN", f"{L}-CMP", L, f"{L}-EMOJI"],
+        timeline, [f"{L}-CTX", f"{L}-MAIN", f"{L}-CMP", L, f"{L}-EMOJI"] + [f"{L}-K{k}" for k in range(1, 25)],
         "subtítulos", "esta corrida es de estilo guion")
 
     # PISTAS. Las palabras GRANDES van en las pistas de abajo y las pequeñas encima: el macro «Luxe Shine» es de cristal y refracta lo que tiene
@@ -3666,6 +3666,203 @@ def place_guion_track(timeline, media_pool, track_info, base_template,
         print(f"  Aviso: {sin_texto} palabra(s) se colocaron pero no pude escribir su texto.")
     if sin_pista:
         print(f"  Aviso: {sin_pista} palabra(s) no se colocaron (sin pista o sin clip para ese rol).")
+    if colocados:
+        _ALGO_COLOCADO[0] = True
+
+
+def preparar_pack_kinetic(media_pool, nombre_pack, formato, ruta_drb):
+    """v5.4 — el bin del pack «Kinetic»: se importa el .drb una vez (ImportFolderFromFile) en su propio bin y se reutiliza. Devuelve (carpeta, aviso).
+    No usa preparar_pack_drt: aquel da por bueno un bin solo si trae sets completos (principal / arriba / abajo) y este pack tiene otros clips."""
+    nombre_bin = _nombre_bin_pack(nombre_pack, formato)
+    raiz = media_pool.GetRootFolder()
+    existente = _subcarpeta(raiz, nombre_bin)
+    if existente is not None and find_clip_by_name(media_pool, KINETIC_CLIP_PRUEBA, existente):
+        return existente, None
+    if not ruta_drb or not Path(ruta_drb).is_file():
+        return None, f"el pack '{nombre_pack}' no trae su .drb en este equipo ({ruta_drb or 'sin ruta'})."
+    try:
+        carpeta = existente or media_pool.AddSubFolder(raiz, nombre_bin)
+    except Exception:
+        carpeta = None
+    if carpeta is None:
+        return None, f"no pude crear el bin '{nombre_bin}' en el Media Pool."
+    try:
+        previa = media_pool.GetCurrentFolder()
+    except Exception:
+        previa = None
+    try:
+        media_pool.SetCurrentFolder(carpeta)
+    except Exception:
+        pass
+    importo = False
+    try:
+        importo = bool(media_pool.ImportFolderFromFile(str(ruta_drb)))
+    except Exception as exc:
+        print(f"  ImportFolderFromFile no está en este Resolve ({exc}).")
+    try:
+        if previa is not None:
+            media_pool.SetCurrentFolder(previa)
+    except Exception:
+        pass
+    if importo and find_clip_by_name(media_pool, KINETIC_CLIP_PRUEBA, carpeta):
+        print(f"  El bin del pack '{nombre_pack}' entró DIRECTO al Media Pool (desde el .drb).")
+        return carpeta, None
+    return None, f"importé el .drb del pack '{nombre_pack}' pero no encuentro sus clips («{KINETIC_CLIP_PRUEBA}»…)."
+
+
+KINETIC_CLIP_PRUEBA = "k hero blanco"
+
+
+def _grupo_kinetic(nombre):
+    """Capa del elemento: de la de abajo (héroe) a la de arriba (líneas pequeñas). Cada capa tiene sus propias pistas."""
+    n = str(nombre).lower()
+    if n.startswith("k hero"):
+        return 0
+    if n.startswith("k line"):
+        return 1
+    if n.startswith("k ring"):
+        return 3
+    if n.startswith("k sup") or n.startswith("k label"):
+        return 4
+    return 2          # cintas, serif, pincel
+
+
+def place_kinetic_track(timeline, media_pool, track_info, base_template,
+                        fps, timeline_start_frame, project=None):
+    """v5.4 — estilo «Kinetic» (títulos de gancho): cada ELEMENTO de la pila (héroe, línea pequeña, serif, pincel, cinta, anillo, subrayado) es su propio
+    clip del pack «Kinetic», con su posición, su tamaño, su giro y su momento.
+
+    El archivo de datos trae bloques {start, end, runs: [{k, texto, t, x, y, size, rot, zx, zy}]} que ya armó la app (kinetic_planificador.py /
+    kinetic_captions.py): `k` es el clip del pack («k hero lima»), `texto` y `size` van al Text+ «Template» del clip (el Size es una entrada del
+    Text+: el texto se rasteriza al tamaño final), x/y = centro en fracción del cuadro (y desde ARRIBA), `rot` = giro en grados y zx/zy = zoom de los
+    trazos (anillo, subrayado). Cada elemento va en la primera pista libre de su capa («ES-K1»…): los héroes abajo y las líneas pequeñas arriba.
+    """
+    lang = track_info["language"]
+    L = str(lang).upper()
+    data_path = Path(track_info["data_path"])
+    if not data_path.exists():
+        print(f"  Aviso: no encuentro {data_path}, salto '{lang}'")
+        return
+    datos = json.loads(data_path.read_text(encoding="utf-8"))
+    cues = datos.get("cues", [])
+    if not cues:
+        print(f"  Aviso: '{data_path.name}' no tiene bloques.")
+        return
+    if track_info.get("sfx_library") or track_info.get("sfx_archivos"):
+        place_sfx_track(timeline, media_pool, cues, track_info, fps, timeline_start_frame)
+
+    def _res(clave, por_defecto):
+        try:
+            v = timeline.GetSetting(clave)
+            return int(float(v)) if v else por_defecto
+        except Exception:
+            return por_defecto
+    ancho_tl = _res("timelineResolutionWidth", 1080)
+    alto_tl = _res("timelineResolutionHeight", 1920)
+
+    pack_previo = pack_del_manifiesto(track_info, ancho_tl, alto_tl) if isinstance(track_info.get("plantilla"), dict) else None
+    if not pack_previo or not pack_previo.get("drb"):
+        fail("el estilo «Kinetic» necesita su pack (.drb) y el manifiesto no lo trae. Elige el pack «Kinetic» en Estilos.")
+    carpeta, aviso = preparar_pack_kinetic(media_pool, pack_previo["nombre"], pack_previo["formato"], pack_previo.get("drb"))
+    if carpeta is None:
+        fail(f"no pude preparar el pack «Kinetic»: {aviso}")
+    clips = {}
+
+    def _clip(nombre):
+        if nombre not in clips:
+            clips[nombre] = find_clip_by_name(media_pool, nombre, carpeta)
+        return clips[nombre]
+    print(f"\nIdioma '{lang}': {len(cues)} bloques (estilo Kinetic).")
+
+    _retirar_pistas_nuestras(
+        timeline, [f"{L}-CTX", f"{L}-MAIN", f"{L}-CMP", L, f"{L}-EMOJI"] + [f"{L}-T{k}" for k in range(1, 25)],
+        "subtítulos", "esta corrida es de estilo Kinetic")
+
+    try:
+        extra_fin = float(track_info.get("extra_fin_s", 0.05))
+    except (TypeError, ValueError):
+        extra_fin = 0.05
+    min_frames = a_fotogramas(0.45, fps)          # la entrada (8 fotogramas) y la salida (5) del comp necesitan ~13 fotogramas para verse enteras
+    pendientes = []
+    sin_clip = set()
+    for cue in cues:
+        for run in cue.get("runs") or []:
+            nombre = run.get("k")
+            plantilla = _clip(nombre) if nombre else None
+            if plantilla is None:
+                if nombre:
+                    sin_clip.add(nombre)
+                continue
+            ini = max(timeline_start_frame, timeline_start_frame + a_fotogramas(float(run.get("t") or cue["start"]), fps))
+            fin_s = run.get("fin")
+            fin = timeline_start_frame + a_fotogramas(float(fin_s if isinstance(fin_s, (int, float)) else cue["end"]) + extra_fin, fps)
+            fin = max(fin, ini + min_frames)
+            pendientes.append({"run": run, "nombre": nombre, "plantilla": plantilla, "ini": ini, "fin": fin, "grupo": _grupo_kinetic(nombre)})
+    pendientes.sort(key=lambda d: (d["grupo"], d["ini"]))
+    huecos = {}               # capa -> [fotograma desde el que está libre cada hueco]
+    for d in pendientes:
+        lista = huecos.setdefault(d["grupo"], [])
+        for k, libre in enumerate(lista):
+            if libre <= d["ini"]:
+                d["hueco"] = k
+                lista[k] = d["fin"]
+                break
+        else:
+            d["hueco"] = len(lista)
+            lista.append(d["fin"])
+    orden = {}
+    n_pista = 0
+    for g in sorted(huecos):
+        for k in range(len(huecos[g])):
+            n_pista += 1
+            orden[(g, k)] = n_pista
+    idx_pista = {}
+    for (g, k), n in sorted(orden.items(), key=lambda kv: kv[1]):
+        idx, error = _conseguir_pista_video(timeline, f"{L}-K{n}")
+        if error:
+            print(f"  ERROR: no pude crear la pista '{L}-K{n}' de forma segura ({error}).")
+            continue
+        idx_pista[n] = idx
+    colocados = sin_pista = sin_texto = 0
+    for d in pendientes:
+        run, plantilla = d["run"], d["plantilla"]
+        idx = idx_pista.get(orden[(d["grupo"], d["hueco"])])
+        if idx is None:
+            sin_pista += 1
+            continue
+        item, puesto = colocar_medido(media_pool, timeline, plantilla, 0, d["fin"] - d["ini"], idx, d["ini"], fps, color=COLOR_TEXTO)
+        if item is None:
+            print(f"  Aviso: no pude colocar «{run.get('texto') or d['nombre']}» en {run.get('t')}s")
+            continue
+        if run.get("texto") is not None:
+            tool = get_text_plus_tool(item)
+            if tool is None or not set_input_safe(tool, "StyledText", str(run["texto"])):
+                sin_texto += 1
+                continue
+            if isinstance(run.get("size"), (int, float)):
+                set_input_safe(tool, "Size", float(run["size"]))
+        props = {}
+        if isinstance(run.get("x"), (int, float)):
+            props["Pan"] = _pan_px(float(run["x"]) - 0.5, ancho_tl)
+        if isinstance(run.get("y"), (int, float)):
+            props["Tilt"] = _tilt_px(0.5 - float(run["y"]), alto_tl)
+        if isinstance(run.get("rot"), (int, float)) and abs(run["rot"]) > 0.01:
+            props["RotationAngle"] = float(run["rot"])
+        if isinstance(run.get("zx"), (int, float)) and run["zx"] > 0:
+            props["ZoomX"] = float(run["zx"])
+        if isinstance(run.get("zy"), (int, float)) and run["zy"] > 0:
+            props["ZoomY"] = float(run["zy"])
+        if props:
+            _poner_props(item, props)
+        colocados += 1
+    _retirar_pistas_nuestras(timeline, [f"{L}-K{k}" for k in range(n_pista + 1, n_pista + 25)], "elementos", "esta corrida necesita menos pistas")
+    print(f"  Colocados {colocados} elementos en {n_pista} pista(s) ({L}-K1…{L}-K{n_pista}).")
+    if sin_clip:
+        print(f"  Aviso: el pack no trae estos clips: {', '.join(sorted(sin_clip))}.")
+    if sin_texto:
+        print(f"  Aviso: {sin_texto} elemento(s) se colocaron pero no pude escribir su texto.")
+    if sin_pista:
+        print(f"  Aviso: {sin_pista} elemento(s) no se colocaron (sin pista).")
     if colocados:
         _ALGO_COLOCADO[0] = True
 
@@ -3955,7 +4152,7 @@ def place_dynamic_track(timeline, media_pool, track_info, base_template,
     if limpiadas_total:
         print(f"  Total: {limpiadas_total} clips previos removidos antes "
               "de re-generar.")
-    _retirar_pistas_nuestras(timeline, [lang.upper()],
+    _retirar_pistas_nuestras(timeline, [lang.upper()] + [f"{lang.upper()}-K{k}" for k in range(1, 25)],
                              "subtítulos normales", "esta corrida es dinámica")
 
     estilos = estilos_con_fuentes(track_info.get("fonts"))
@@ -6559,6 +6756,12 @@ def main():
         lang = track_info["language"]
         timeline_start_frame = origen_de(track_info)
 
+        if track_info.get("style") == "kinetic":
+            place_kinetic_track(timeline, media_pool, track_info,
+                                template_clip, fps, timeline_start_frame,
+                                project)
+            continue
+
         if track_info.get("style") == "guion":
             place_guion_track(timeline, media_pool, track_info,
                               template_clip, fps, timeline_start_frame,
@@ -6643,7 +6846,7 @@ def main():
         # o se crea, con el mismo criterio que las dinamicas.
         L = lang.upper()
         _retirar_pistas_nuestras(
-            timeline, [f"{L}-CTX", f"{L}-MAIN", f"{L}-CMP", L, f"{L}-EMOJI"],
+            timeline, [f"{L}-CTX", f"{L}-MAIN", f"{L}-CMP", L, f"{L}-EMOJI"] + [f"{L}-K{k}" for k in range(1, 25)],
             "subtítulos", "esta corrida es de subtítulos normales")
         new_track_index, error = _conseguir_pista_video(timeline, L)
         if error:

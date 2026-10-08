@@ -84,6 +84,9 @@ audio = mp.ImportMedia([%(audio)r]) if %(audio)r else None
 tl = mp.CreateEmptyTimeline(NOMBRE)
 res['timeline'] = bool(tl)
 if tl:
+    # sin «useCustomSettings» el timeline usa los ajustes del PROYECTO (p. ej. 1920x1080 a 29,97) y las demás claves se ignoran sin avisar
+    try: tl.SetSetting('useCustomSettings', '1')
+    except Exception: pass
     for k, v in (('timelineResolutionWidth', %(ancho)r), ('timelineResolutionHeight', %(alto)r), ('timelineFrameRate', %(fps)r), ('timelineOutputResolutionWidth', %(ancho)r), ('timelineOutputResolutionHeight', %(alto)r)):
         try: tl.SetSetting(k, v)
         except Exception: pass
@@ -128,7 +131,15 @@ res = {'timeline': tl.GetName()}
 for j in (project.GetRenderJobList() or []):
     project.DeleteRenderJob(j['JobId'])
 res['preset'] = bool(project.LoadRenderPreset('H.264 Master'))
-res['ajustes'] = bool(project.SetRenderSettings({'SelectAllFrames': True, 'TargetDir': destino, 'CustomName': nombre}))
+ajustes = {'SelectAllFrames': True, 'TargetDir': destino, 'CustomName': nombre}
+# el preajuste trae 1920x1080 a 29,97: se pide la resolución y los fps del PROPIO timeline (si no, un timeline vertical sale con barras a los lados)
+try:
+    ajustes['FormatWidth'] = int(float(tl.GetSetting('timelineResolutionWidth')))
+    ajustes['FormatHeight'] = int(float(tl.GetSetting('timelineResolutionHeight')))
+    ajustes['FrameRate'] = float(tl.GetSetting('timelineFrameRate'))
+except Exception:
+    pass
+res['ajustes'] = bool(project.SetRenderSettings(ajustes))
 for ruta in glob.glob(os.path.join(destino, nombre + '.*')):
     try: os.remove(ruta)
     except Exception: pass
@@ -301,6 +312,21 @@ def colocar_guion(cues, pack='Referencia', idioma='es', archivo='guion_prueba', 
     datos = guion_captions.escribir(cues, CARPETA / f'datos_{archivo}.{idioma}.guion.json', idioma)
     pl = plantillas.para_manifiesto(pack, formato_forzado='v')
     track = {'language': idioma, 'style': 'guion', 'data_path': datos, 'srt_path': '', 'fonts': {}, 'adelanto_frames': 0, 'offset_frames': None,
+             'plantilla': pl.get('plantilla') if isinstance(pl, dict) and 'plantilla' in pl else pl}
+    manifiesto = Path.home() / 'DaVinciSubtitles' / 'subtitles_manifest.json'
+    archivos_seguros.escribir_json(manifiesto, {'project': archivo, 'tracks': [track]})
+    return resolve_bridge.ejecutar('subtitulos', timeout=timeout)
+
+
+def colocar_kinetic(cues, pack='Kinetic', idioma='es', archivo='kinetic_prueba', timeout=300):
+    """Como colocar_guion pero para el estilo «Kinetic»: escribe sus datos y el manifiesto (style='kinetic') y corre el script de Resolve sobre el timeline ACTUAL."""
+    import archivos_seguros
+    import kinetic_captions
+    import plantillas
+    import resolve_bridge
+    datos = kinetic_captions.escribir(cues, CARPETA / f'datos_{archivo}.{idioma}.kinetic.json', idioma)
+    pl = plantillas.para_manifiesto(pack, formato_forzado='v')
+    track = {'language': idioma, 'style': 'kinetic', 'data_path': datos, 'srt_path': '', 'fonts': {}, 'adelanto_frames': 0, 'offset_frames': None,
              'plantilla': pl.get('plantilla') if isinstance(pl, dict) and 'plantilla' in pl else pl}
     manifiesto = Path.home() / 'DaVinciSubtitles' / 'subtitles_manifest.json'
     archivos_seguros.escribir_json(manifiesto, {'project': archivo, 'tracks': [track]})

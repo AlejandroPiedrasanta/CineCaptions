@@ -2994,5 +2994,33 @@
   "fr": "Exportez un chutier depuis Resolve et ajoutez-le ici : il est enregistré comme un style de plus.",
   "de": "Exportiere eine Ablage aus Resolve und füge sie hier hinzu: Sie wird als weiterer Stil gespeichert.",
   "it": "Esporta un bin da Resolve e aggiungilo qui: viene salvato come uno stile in più."
+ },
+ "falta el archivo .drb del pack": {
+  "en": "the pack's .drb file is missing",
+  "pt": "falta o arquivo .drb do pack",
+  "fr": "le fichier .drb du pack est introuvable",
+  "de": "die .drb-Datei des Packs fehlt",
+  "it": "manca il file .drb del pack"
+ },
+ "{n} · títulos de gancho": {
+  "en": "{n} · hook titles",
+  "pt": "{n} · títulos de gancho",
+  "fr": "{n} · titres d'accroche",
+  "de": "{n} · Hook-Titel",
+  "it": "{n} · titoli d'impatto"
+ },
+ "Títulos de gancho": {
+  "en": "Hook titles",
+  "pt": "Títulos de gancho",
+  "fr": "Titres d'accroche",
+  "de": "Hook-Titel",
+  "it": "Titoli d'impatto"
+ },
+ "Estilo «{p}»: {n} bloques de títulos · {s} sonidos.": {
+  "en": "Style «{p}»: {n} title blocks · {s} sounds.",
+  "pt": "Estilo «{p}»: {n} blocos de títulos · {s} sons.",
+  "fr": "Style «{p}» : {n} blocs de titres · {s} sons.",
+  "de": "Stil «{p}»: {n} Titelblöcke · {s} Sounds.",
+  "it": "Stile «{p}»: {n} blocchi di titoli · {s} suoni."
  }
 }

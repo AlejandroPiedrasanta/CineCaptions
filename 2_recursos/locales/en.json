@@ -2597,6 +2597,10 @@
     "¿Ninguno te convence? Elige hasta 3 de los 48 ejemplos (Luxe y Amro) y arma tu propio pack en un clic, o parte de un fotograma de un video que te guste.": "None convinces you? Pick up to 3 of the 48 examples (Luxe and Amro) and build your own pack in one click, or start from a frame of a video you like.",
     "Trae tu propio estilo": "Bring your own style",
     "instalar": "install",
-    "Exporta una bandeja desde Resolve y súbela aquí: queda guardada como un estilo más.": "Export a bin from Resolve and add it here: it is saved as one more style."
+    "Exporta una bandeja desde Resolve y súbela aquí: queda guardada como un estilo más.": "Export a bin from Resolve and add it here: it is saved as one more style.",
+    "falta el archivo .drb del pack": "the pack's .drb file is missing",
+    "{n} · títulos de gancho": "{n} · hook titles",
+    "Títulos de gancho": "Hook titles",
+    "Estilo «{p}»: {n} bloques de títulos · {s} sonidos.": "Style «{p}»: {n} title blocks · {s} sounds."
   }
 }

@@ -126,6 +126,10 @@ class Pack:
         """Marca del estilo «guion» (la frase se arma palabra a palabra: guion_captions.py / guion_planificador.py) o None."""
         return self.datos.get('guion') or None
     @property
+    def kinetic(self):
+        """True si es el estilo «Kinetic» (títulos de gancho: kinetic_planificador.py; sus clips son elementos —héroe, cinta, anillo…— y no sets arriba/principal/abajo)."""
+        return self.datos.get('guion') == 'kinetic'
+    @property
     def formatos(self):
         """Los formatos que este pack trae de verdad, en orden estable."""
         traidos = self.datos.get('formatos') or {}
@@ -265,6 +269,10 @@ class Pack:
         if not self.formatos:
             self.problemas.append(tr('no tiene ningun formato guardado'))
             return self.problemas
+        if self.kinetic:                     # sus clips no son sets: lo único que puede faltarle es el .drb
+            if not any(self.ruta_drb(f) for f in self.formatos):
+                self.problemas.append(tr('falta el archivo .drb del pack'))
+            return self.problemas
         else:
             por_aviso, por_nota = ({}, {})
             for formato in self.formatos:
@@ -325,7 +333,7 @@ def cargar(carpeta, incorporado=False):
 NOMBRE_INCORPORADO = 'Base títulos dinámicos'
 # v5.8: los packs que cambiaron de contenido llevan una «revisión»; los scripts de Resolve la suman al nombre del bin del pack
 # ('RCS · <pack> · <revisión> · v'), asi un bin viejo que ya estaba en el proyecto (con los clips anteriores) no se reutiliza.
-REVISION_BIN = {'Viral · superior': 'Luxe 2', 'Viral · inferior': 'Luxe 2', 'Referencia': 'Ref 1'}
+REVISION_BIN = {'Viral · superior': 'Luxe 2', 'Viral · inferior': 'Luxe 2', 'Referencia': 'Ref 1', 'Kinetic': 'Kin 2'}
 NOMBRE_BASICOS = 'Subtítulos básicos'
 POSICIONES_BASICOS = ('inferior', 'superior')
 _PISTAS_FORMATO = (('horizontal', 'h'), ('vertical', 'v'), ('cuadrado', 'c'), ('square', 'c'))
@@ -920,9 +928,18 @@ def variantes_de(nombre, formato=None):
         return salida
     except Exception:
         return []
+def sirve_en_go(pack, formato=None):
+    """¿Se puede elegir este pack para GO / Generar? Un pack de sets (arriba/principal/abajo) sí si trae sets; el estilo «Kinetic» (sus clips son elementos) si trae el formato."""
+    if pack is None:
+        return False
+    if getattr(pack, 'kinetic', False):
+        return (formato or 'v') in pack.formatos
+    return bool(pack.numeros_de_set(formato)) if formato else bool(pack.numeros_de_set('h') or pack.numeros_de_set('v'))
 def estructura_de(pack):
     """Que bloques trae un pack, para el mosaico: {'arriba','principal','abajo','imagen','simple': bool, 'variantes': n}."""
     try:
+        if getattr(pack, 'kinetic', False):
+            return {'arriba': False, 'principal': False, 'abajo': False, 'imagen': False, 'simple': False, 'variantes': 0, 'nuevo': False, 'kinetic': True}
         f = pack.formatos[0] if pack.formatos else None
         info = (pack.info_drb(f) if f else None) or (pack.info_drt(f) if f else None) or {}
         completos = list(info.get('completos') or [])
