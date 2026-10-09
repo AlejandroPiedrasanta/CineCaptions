@@ -8,7 +8,17 @@
                                                      "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.14/Instalar_CineCaptions_5.4.14.exe",
                                                      "sha256":  "bb59348441abb9e4a56be542b496939880458aa5c52047aea2227fdfa5c6fb1f",
                                                      "tam":  228882674
-                                                 }
+                                                 },
+                                     "mac_arm64":  {
+                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.14/CineCaptions_Mac_AppleSilicon_5.4.14.dmg",
+                                                       "sha256":  "c4b91355456bbb842f1947da0a2cf0953349ee7e6bdbeb86ac19d18651292b68",
+                                                       "tam":  197587650
+                                                   },
+                                     "mac_x86_64":  {
+                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.14/CineCaptions_Mac_Intel_5.4.14.dmg",
+                                                        "sha256":  "6c47edfc2a20559420a2bdb1e7cbc9bb182379ac9f8200cd21ffa0f55d98544c",
+                                                        "tam":  214318687
+                                                    }
                                  }
                 }
 }
