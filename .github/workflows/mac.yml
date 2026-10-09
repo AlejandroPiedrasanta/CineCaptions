@@ -38,3 +38,4 @@ jobs:
           name: CineCaptions-Mac-${{ matrix.nombre }}
           path: INSTALADORES/Mac/CineCaptions_Mac_*.dmg
           if-no-files-found: error
+          retention-days: 1          # el .dmg se baja al terminar: no se acumulan GB de artefactos (el plan gratis da 500 MB)

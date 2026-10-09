@@ -1,24 +1,14 @@
 {
     "estable":  {
-                    "version":  "5.4.13",
-                    "notas":  "• Sonido por palabra: ahora alterna tres sonidos (TAP_POP, typewriter e Iphone Taping) y eliges en qué palabras suena: en cada una, solo en la principal (con un sonido propio por efecto: cristal, selección, arrastre, héroe) o en ninguna. Cada sonido empieza un poco antes de su pico para que el golpe caiga justo cuando entra la palabra.\r\n• Intro: el «Viral Hooks Riser» (sus últimos 2 s, hasta su pico) con el destello de luz y un golpe de zoom justo en ese pico (página Efectos). Las transiciones «destello» suenan como el obturador de una cámara (Shuter 11 y 13).\r\n• Al elegir VIRAL, Kinetic o Referencia, el sonido y la página Efectos quedan ya configurados como recomendación para ese estilo (lo cambias después donde quieras).\r\n• Referencia: el barrido de luz recorre ahora toda la palabra (antes se quedaba a medias) y hay variantes «Screen» y «Sólido» con colores distintos. VIRAL: cada efecto sale en 4 colores (Shatter: azul cielo, rosa, lima y oro; Select: caja roja, azul, verde y naranja; Drag: blanco, amarillo, cian y rosa).\r\n• Emojis: elige el estilo en el selector (Animado, 3D de Microsoft Fluent, Google o Sistema); los 3D y los de Google se bajan al usarlos y se pueden bajar todos de una vez. El sonido del emoji sustituye al toque de su palabra para que no suenen dos a la vez.",
+                    "version":  "5.4.14",
+                    "notas":  "• GO ya no dice «¡Listo!» si en Resolve no apareció nada: cuenta las líneas que Resolve colocó de verdad. Si no colocó ninguna, intenta repararlo solo (abrir el timeline, volver a Edit) y lo reintenta una vez; si sigue igual, te dice la causa en palabras claras y qué probar, y el Registro lo explica igual.\r\n• Inicio dice qué DaVinci Resolve detectó (Studio o Free) y por dónde se conecta, o si está cerrado / falta lanzar el Puente, antes de seguir con el proceso.\r\n• Al terminar GO, Resolve queda en la página Edit con tu disposición de pantalla guardada (Ajustes \u003e «Guardar la vista actual de Resolve»: ponla vertical y expandida una vez), el cabezal al inicio y reproduce el timeline desde el principio. Todo se puede apagar en Ajustes.\r\n• Un video soltado arma siempre un timeline vertical (1080×1920), sea cual sea su orientación; se apaga en Ajustes con «Abrir siempre en vertical».",
                     "fecha":  "2026-10-09",
                     "archivos":  {
                                      "windows":  {
-                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.13/Instalar_CineCaptions_5.4.13.exe",
-                                                     "sha256":  "883b5ad0d0bc086209142bdb5a7809dbdf41a7df8c6b568d485d1b33e1ef4217",
-                                                     "tam":  228856488
-                                                 },
-                                     "mac_arm64":  {
-                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.13/CineCaptions_Mac_AppleSilicon_5.4.13.dmg",
-                                                       "sha256":  "8706ebb4aeb5dddd5aa7851e00f5897c2967529bab8537a2ea21a84b5c410d6b",
-                                                       "tam":  197586213
-                                                   },
-                                     "mac_x86_64":  {
-                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.13/CineCaptions_Mac_Intel_5.4.13.dmg",
-                                                        "sha256":  "849967926c15d30cbc40f6c5eb4923a42806767e04bcedde1e523b0b180393ad",
-                                                        "tam":  214256756
-                                                    }
+                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.14/Instalar_CineCaptions_5.4.14.exe",
+                                                     "sha256":  "bb59348441abb9e4a56be542b496939880458aa5c52047aea2227fdfa5c6fb1f",
+                                                     "tam":  228882674
+                                                 }
                                  }
                 }
 }
