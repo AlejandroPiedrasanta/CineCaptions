@@ -10,6 +10,7 @@
   "sonido": "Sonido y emojis (SFX Lab, reglas, emojis)",
   "guion": "Estilo «guion» (pack Referencia, palabra a palabra)",
   "kinetic": "Estilo «Kinetic» (títulos de gancho: héroe, cintas, anillos)",
+  "viral": "Estilo «VIRAL» (pila fina + negrita cursiva y los efectos shatter, select, drag)",
   "voz-ia": "Voz e IA de texto",
   "resolve": "Resolve (API, MCP, scripts, vistas reales)",
   "compilar": "Compilar, versiones, instaladores (Windows y Mac)",
@@ -1469,6 +1470,136 @@
    "resumen": "probar_kinetic.py --fondo video --render x → hoja de cuadros; limpiar_banco al acabar"
   },
   {
+   "id": "viral-planificador",
+   "grupo": "viral",
+   "tema": "Estilo «VIRAL»: planificador y geometría",
+   "claves": [
+    "viral",
+    "virales",
+    "shatter",
+    "select",
+    "drag",
+    "pila",
+    "negrita",
+    "fina",
+    "efecto",
+    "planificador",
+    "creativo",
+    "marcas"
+   ],
+   "archivos": [
+    "viral_planificador.py",
+    "viral_captions.py"
+   ],
+   "simbolos": [
+    "planificar",
+    "armar_bloque",
+    "_bloques_con_tiempos",
+    "unir_fragmentos",
+    "_lineas_finas",
+    "apilar",
+    "construir_cues",
+    "lado_de_referencia"
+   ],
+   "resumen": "viral_planificador.planificar (pila o efecto por bloque; Creativo: efecto solo en las palabras marcadas), viral_captions.apilar; mismo JSON y colocador que Kinetic"
+  },
+  {
+   "id": "viral-pack",
+   "grupo": "viral",
+   "tema": "Pack VIRAL y sus comps de Fusion",
+   "claves": [
+    "viral",
+    "pack",
+    "comps",
+    "fusion",
+    "write on",
+    "typewriter",
+    "punteado",
+    "poligono",
+    "glitch",
+    "drb"
+   ],
+   "archivos": [
+    "2_recursos/generador_packs/pack_viral.py",
+    "2_recursos/generador_packs/viral_elementos.py",
+    "2_recursos/generador_packs/viral_comps.py",
+    "2_recursos/generador_packs/viral_lab.py",
+    "2_recursos/generador_packs/kinetic_pack.py"
+   ],
+   "simbolos": [
+    "construir",
+    "todos",
+    "configurar",
+    "comp_shatter",
+    "comp_select",
+    "comp_drag",
+    "comp_fina",
+    "comp_negrita",
+    "poligono",
+    "cadena"
+   ],
+   "resumen": "pack_viral.construir → VIRAL vertical.drb + VIRAL horizontal.drb (5 clips «v …»); una expresión que falla deja el clip NEGRO; subir REVISION_BIN al cambiar"
+  },
+  {
+   "id": "viral-app-resolve",
+   "grupo": "viral",
+   "tema": "Estilo «VIRAL»: app, tarjeta y Resolve",
+   "claves": [
+    "viral",
+    "generar",
+    "go",
+    "creativo",
+    "sonidos",
+    "emojis",
+    "tarjeta",
+    "vista",
+    "resolve",
+    "horizontal"
+   ],
+   "archivos": [
+    "hacer_vista_viral.py",
+    "plantillas.py",
+    "vistas_reales.py"
+   ],
+   "simbolos": [
+    "_generar_con_kinetic",
+    "estructura_de",
+    "sirve_en_go",
+    "place_kinetic_track",
+    "place_kinetic",
+    "preparar_pack_kinetic",
+    "colocar_emojis"
+   ],
+   "resumen": "_generar_con_kinetic (rama es_viral) → place_kinetic_track (py) / place_kinetic (lua) con clip_prueba y emojis; vertical y horizontal"
+  },
+  {
+   "id": "viral-pruebas",
+   "grupo": "viral",
+   "tema": "Probar el estilo VIRAL de punta a punta",
+   "claves": [
+    "viral",
+    "probar",
+    "banco",
+    "render",
+    "calibrar",
+    "go",
+    "creativo",
+    "marcar"
+   ],
+   "archivos": [
+    "probar_viral.py",
+    "probar_viral_app.py",
+    "banco_pruebas.py"
+   ],
+   "simbolos": [
+    "colocar_viral",
+    "colocar_y_render",
+    "medir_texto",
+    "hoja"
+   ],
+   "resumen": "probar_viral.py video <media> [--res 1920x1080] → hoja de cuadros; probar_viral_app.py <palabras.json> [--marcar 8,24] prueba GO/Creativo/sonidos sin Resolve; NO usar go_real con el usuario en Resolve"
+  },
+  {
    "id": "go-progreso",
    "grupo": "go",
    "tema": "GO: porcentaje, tiempo restante y errores claros",
@@ -1806,6 +1937,142 @@
     "sonidos_de_cortes"
    ],
    "resumen": "musica_go hornea la música (bucle, nivel, ducking fino, hueco antes del golpe) alineada al pulso; sonidos_extra planifica los sonidos de corte y de gancho"
+  },
+  {
+   "id": "sonido-estilo",
+   "grupo": "sonido",
+   "tema": "Sonido por estilo: 3 toques por palabra, «solo la principal», sonido por efecto, alineado al pico, riser/transiciones y recomendaciones por estilo",
+   "claves": [
+    "sonido",
+    "palabra",
+    "principal",
+    "riser",
+    "pico",
+    "obturador",
+    "shutter",
+    "transicion",
+    "recomendacion",
+    "estilo",
+    "iphone",
+    "tap",
+    "viral hooks"
+   ],
+   "archivos": [
+    "sfx_rules.py",
+    "recomendaciones.py",
+    "sonidos_extra.py",
+    "efectos_visuales.py",
+    "emojis_sfx.py",
+    "2_recursos/generador_sfx_estilo/preparar_sonidos.py"
+   ],
+   "simbolos": [
+    "asignar_eventos_por_palabra",
+    "_instantes_principales",
+    "adelanto_natural",
+    "con_volumen",
+    "preparar_riser",
+    "sonidos_del_gancho",
+    "categoria_de_corte",
+    "aplicar",
+    "categoria_de_clave"
+   ],
+   "resumen": "Modo simple con 3 sonidos y «Cada palabra / Solo la principal / Ninguna»; el pico del sonido cae en la palabra; Viral Hooks Riser (2 s) + destello + zoom; Shutter en transiciones; recomendaciones.aplicar al elegir estilo"
+  },
+  {
+   "id": "barrido-referencia",
+   "grupo": "guion",
+   "tema": "Barrido de luz de «Referencia» (Luxe Shine): completo en cada palabra, variantes Screen / Sólido y colores",
+   "claves": [
+    "barrido",
+    "luz",
+    "shine",
+    "sweep",
+    "screen",
+    "solido",
+    "referencia",
+    "luxe",
+    "variantes",
+    "color"
+   ],
+   "archivos": [
+    "luxe_macro.py",
+    "pack_referencia.py",
+    "guion_planificador.py",
+    "guion_captions.py",
+    "construir_pack.py",
+    "probar_barrido.py",
+    "medir_barrido.py"
+   ],
+   "simbolos": [
+    "_barrido",
+    "combinaciones",
+    "BARRIDOS",
+    "ajustar_barrido",
+    "construir_cues"
+   ],
+   "resumen": "16 variantes (9-12 Screen, 13-16 Sólido); el script de Resolve ajusta inicio, duración y recorrido a cada palabra (inputOffset/inputLength/inputShine)"
+  },
+  {
+   "id": "viral-colores",
+   "grupo": "viral",
+   "tema": "Colores de los efectos de VIRAL (4 por efecto, rotan)",
+   "claves": [
+    "viral",
+    "color",
+    "paleta",
+    "shatter",
+    "select",
+    "drag",
+    "rosa",
+    "lima",
+    "oro",
+    "azul"
+   ],
+   "archivos": [
+    "viral_captions.py",
+    "viral_planificador.py",
+    "2_recursos/generador_packs/viral_elementos.py"
+   ],
+   "simbolos": [
+    "COLORES",
+    "nombre_variante",
+    "base_de",
+    "PALETAS_SHATTER"
+   ],
+   "resumen": "Cada efecto sale en 4 colores («v shatter rosa»…); la 1.ª vez es el de siempre y luego rotan"
+  },
+  {
+   "id": "emojis-estilos",
+   "grupo": "sonido",
+   "tema": "Estilos de emoji: animado, 3D (Fluent), Google (Noto) o sistema; descarga al usarlos",
+   "claves": [
+    "emoji",
+    "estilo",
+    "3d",
+    "fluent",
+    "noto",
+    "google",
+    "animado",
+    "lottie",
+    "descargar",
+    "set"
+   ],
+   "archivos": [
+    "emojis_sets.py",
+    "emojis.py",
+    "emojis_animados.py",
+    "2_recursos/emojis/construir_mapa_fluent.py"
+   ],
+   "simbolos": [
+    "estilo",
+    "asegurar",
+    "pedir",
+    "bajar_todo",
+    "origen_de",
+    "copia_para_resolve",
+    "EmojiPickerWindow"
+   ],
+   "resumen": "pref emoji_estilo; fluent_mapa.json (1 354 de 1 390 con 3D); sets en ~/DaVinciSubtitles/emojis_sets"
   }
  ]
 }

@@ -132,8 +132,10 @@ def construir_cues(bloques, pack='Referencia', ancho_tl=1080, tam=TAM_PEQUENA):
                     if len(parte) > 2 and parte[2]:
                         r['estilo'] = parte[2]
                     z = z_fijo
+                    a = ancho_main(texto, n, pack, ancho_tl)
+                    if a and not d.get('amro'):
+                        r['ancho_rel'] = round(a / float(ancho_tl), 3)      # v5.5: lo que mide la palabra (fracción del ancho del comp, SIN zoom): el script ajusta el recorrido del barrido de luz a eso
                     if z is None and w:
-                        a = ancho_main(texto, n, pack, ancho_tl)
                         if a:
                             z = max(0.3, min(2.5, w * ancho_tl / a))
                     if z and abs(z - 1.0) > 0.005:

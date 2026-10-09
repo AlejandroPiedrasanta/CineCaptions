@@ -128,8 +128,10 @@ destino = %(destino)r
 nombre = %(nombre)r
 tl = project.GetCurrentTimeline()
 res = {'timeline': tl.GetName()}
+# solo se borran los trabajos DEL BANCO (los que van a su carpeta): la cola de render del usuario no se toca
 for j in (project.GetRenderJobList() or []):
-    project.DeleteRenderJob(j['JobId'])
+    if os.path.normcase(os.path.normpath(str(j.get('TargetDir') or ''))) == os.path.normcase(os.path.normpath(destino)):
+        project.DeleteRenderJob(j['JobId'])
 res['preset'] = bool(project.LoadRenderPreset('H.264 Master'))
 ajustes = {'SelectAllFrames': True, 'TargetDir': destino, 'CustomName': nombre}
 # el preajuste trae 1920x1080 a 29,97: se pide la resolución y los fps del PROPIO timeline (si no, un timeline vertical sale con barras a los lados)
@@ -151,8 +153,11 @@ result = res
 '''
 
 _BORRAR_TRABAJOS = r'''
+import os
+destino = %(destino)r
 for j in (project.GetRenderJobList() or []):
-    project.DeleteRenderJob(j['JobId'])
+    if os.path.normcase(os.path.normpath(str(j.get('TargetDir') or ''))) == os.path.normcase(os.path.normpath(destino)):
+        project.DeleteRenderJob(j['JobId'])
 result = True
 '''
 
@@ -213,7 +218,7 @@ def renderizar(nombre='banco', esperar=True, tope_s=300, **_):
         for ruta in sorted(CARPETA.glob(nombre + '.*')):
             if ruta.suffix.lower() in ('.mov', '.mp4') and ruta.stat().st_size > 1000:
                 time.sleep(0.5)
-                _script(_BORRAR_TRABAJOS, 20)
+                _script(_BORRAR_TRABAJOS % {'destino': destino}, 20)
                 return str(ruta)
         time.sleep(0.5)
     return None
@@ -255,12 +260,12 @@ def lado_a_lado(ruta_a, ruta_b, indices, salida, recorte=(0.15, 0.85), ancho=540
     return salida
 
 
-def hoja(ruta, tiempos, salida, ancho=270, recorte=(0.12, 0.88), columnas=4, fps=30):
-    """Una imagen con los cuadros de `ruta` en esos instantes (segundos), en una rejilla de `columnas`; cada celda lleva su hora."""
+def hoja(ruta, tiempos, salida, ancho=270, recorte=(0.12, 0.88), columnas=4, fps=30, aspecto=16 / 9):
+    """Una imagen con los cuadros de `ruta` en esos instantes (segundos), en una rejilla de `columnas`; cada celda lleva su hora. `aspecto` = alto/ancho del cuadro (16/9 vertical; 9/16 horizontal)."""
     from PIL import Image, ImageDraw
     indices = [int(round(t * fps)) for t in tiempos]
-    D = cuadros(ruta, indices, ancho, int(ancho * 16 / 9))
-    alto = int(ancho * 16 / 9)
+    D = cuadros(ruta, indices, ancho, int(ancho * aspecto))
+    alto = int(ancho * aspecto)
     y0, y1 = int(alto * recorte[0]), int(alto * recorte[1])
     h = y1 - y0
     filas = (len(indices) + columnas - 1) // columnas
@@ -276,11 +281,11 @@ def hoja(ruta, tiempos, salida, ancho=270, recorte=(0.12, 0.88), columnas=4, fps
     return str(salida)
 
 
-def medir_texto(ruta, indices, fondo=(70, 70, 70), umbral=28, ancho=540):
+def medir_texto(ruta, indices, fondo=(70, 70, 70), umbral=28, ancho=540, aspecto=16 / 9):
     """Sobre el fondo liso: por cuadro, las filas/columnas ocupadas por texto → [{'f', 'cajas': [(y0, y1, x0, x1)…]}] en fracciones del cuadro.
     Agrupa las filas con texto en «líneas» separadas por huecos de más de 6 px."""
     import numpy as np
-    alto = int(ancho * 16 / 9)
+    alto = int(ancho * aspecto)
     D = cuadros(ruta, indices, ancho, alto)
     fondo = np.array(fondo, dtype=np.int16)
     salida = []
@@ -327,6 +332,22 @@ def colocar_kinetic(cues, pack='Kinetic', idioma='es', archivo='kinetic_prueba',
     datos = kinetic_captions.escribir(cues, CARPETA / f'datos_{archivo}.{idioma}.kinetic.json', idioma)
     pl = plantillas.para_manifiesto(pack, formato_forzado='v')
     track = {'language': idioma, 'style': 'kinetic', 'data_path': datos, 'srt_path': '', 'fonts': {}, 'adelanto_frames': 0, 'offset_frames': None,
+             'plantilla': pl.get('plantilla') if isinstance(pl, dict) and 'plantilla' in pl else pl}
+    manifiesto = Path.home() / 'DaVinciSubtitles' / 'subtitles_manifest.json'
+    archivos_seguros.escribir_json(manifiesto, {'project': archivo, 'tracks': [track]})
+    return resolve_bridge.ejecutar('subtitulos', timeout=timeout)
+
+
+def colocar_viral(cues, pack='VIRAL', idioma='es', archivo='viral_prueba', timeout=300, formato='v'):
+    """Como colocar_kinetic pero para el estilo «VIRAL» (mismo colocador de Resolve, otros clips: «v fina»…): escribe los datos y el manifiesto y corre el script sobre el timeline ACTUAL."""
+    import archivos_seguros
+    import kinetic_captions
+    import plantillas
+    import resolve_bridge
+    datos = kinetic_captions.escribir(cues, CARPETA / f'datos_{archivo}.{idioma}.kinetic.json', idioma)
+    pl = plantillas.para_manifiesto(pack, formato_forzado=formato)
+    clip_prueba = next((r['k'] for c in cues for r in (c.get('runs') or []) if r.get('k')), 'v fina')
+    track = {'language': idioma, 'style': 'kinetic', 'clip_prueba': clip_prueba, 'data_path': datos, 'srt_path': '', 'fonts': {}, 'adelanto_frames': 0, 'offset_frames': None,
              'plantilla': pl.get('plantilla') if isinstance(pl, dict) and 'plantilla' in pl else pl}
     manifiesto = Path.home() / 'DaVinciSubtitles' / 'subtitles_manifest.json'
     archivos_seguros.escribir_json(manifiesto, {'project': archivo, 'tracks': [track]})

@@ -10,6 +10,10 @@ El pack «Referencia» es el estilo de los captions virales de la referencia del
         2 Editorial rosa (serif cursiva rosa)        6 Amro Fire (rojo fuego)
         3 Amro Highlight naranja (pastilla dorada)   7 Amro Strike rojo (tachado)
         4 Moderno blanco (negrita blanca)            8 Amro Underline lima (subrayado verde)
+    v5.5 — variantes del BARRIDO DE LUZ de los cuatro estilos Luxe (1, 2, 4 y 5): el original (sutil, realza el brillo) y
+        9-12  «Screen»: una banda de luz de color que se suma al texto (se ve claramente)
+        13-16 «Sólido»: una banda opaca de color que tapa las letras a su paso
+    El planificador (guion_planificador.py) las va alternando, así cada palabra grande no repite barrido ni color.
 
 Todos los clips van CENTRADOS en el cuadro (Tilt 0): la posición de cada palabra la pone el script (Pan/Tilt por línea, estilo «guion»).
 Uso:  python pack_referencia.py [<carpeta de salida>]
@@ -41,11 +45,20 @@ NEGRITA = _rol(('Poppins', 'Bold'), TAM_NEGRITA)
 
 AMRO = 'Amro principales.drb'
 ANIM = (0.14, 0.10)          # entrada y salida del macro en segundos (la referencia entra en 3-4 fotogramas)
+# el barrido de fábrica tarda 1,75 s en acabar y las palabras grandes se ven ~0,55 s: aquí empieza enseguida y dura 0,40 s (el script de Resolve lo ajusta a cada palabra)
+BARRIDO_BRILLO = {'modo': 'brillo', 'inicio': 0.06, 'largo': 0.40}
+# (estilo base, color de la banda 'screen', color de la banda 'sólido'): cada variante lleva un color DISTINTO al del texto para que el barrido se note
+VARIANTES_BARRIDO = ((1, (1.00, 0.86, 0.50), (1.00, 1.00, 1.00)),     # Impacto cian: luz dorada / banda blanca
+                     (2, (1.00, 1.00, 1.00), (1.00, 0.93, 0.62)),     # Editorial rosa: luz blanca / banda oro pálido
+                     (4, (0.55, 0.90, 1.00), (1.00, 0.55, 0.78)),     # Moderno blanco: luz azul hielo / banda rosa
+                     (5, (1.00, 0.82, 0.92), (0.60, 1.00, 0.88)))     # Editorial azul: luz rosada / banda aguamarina
 
 
-def _combo(nombre, main, amro=None, entrada='pop'):
+def _combo(nombre, main, amro=None, entrada='pop', barrido=None):
     c = {'nombre': nombre, 'context': dict(FINA), 'main': main, 'complement': dict(NEGRITA), 'entrada': entrada, 'luxe': True, 'mayus_real': True,
          'anim': ANIM}
+    if barrido is not None and not amro:
+        c['barrido'] = barrido
     if amro:
         c['rel'] = (0.0836, 0.0847)
         c['principal_drb'] = {'drb': amro[0], 'clip': 'principal' if amro[1] == 1 else f'principal {amro[1]}'}
@@ -53,16 +66,23 @@ def _combo(nombre, main, amro=None, entrada='pop'):
 
 
 def combinaciones(ruta_amro):
-    return [
-        _combo('Impacto cian', _rol(('Poppins', 'ExtraBold'), 0.257, CIAN, mayus=True, esp=0.99)),
-        _combo('Editorial rosa', _rol(('DM Serif Text', 'Italic'), 0.28, ROSA, esp=0.99), entrada='abre'),
+    base = [
+        _combo('Impacto cian', _rol(('Poppins', 'ExtraBold'), 0.257, CIAN, mayus=True, esp=0.99), barrido=BARRIDO_BRILLO),
+        _combo('Editorial rosa', _rol(('DM Serif Text', 'Italic'), 0.28, ROSA, esp=0.99), entrada='abre', barrido=BARRIDO_BRILLO),
         _combo('Amro Highlight naranja', _rol(('Inter', 'Black'), 0.17, (1.0, 0.55, 0.15), mayus=True), amro=(ruta_amro, 1)),
-        _combo('Moderno blanco', _rol(('Poppins', 'Bold'), 0.118, BLANCO, esp=0.99), entrada='sube'),
-        _combo('Editorial azul', _rol(('DM Serif Text', 'Italic'), 0.28, AZUL, esp=0.99), entrada='abre'),
+        _combo('Moderno blanco', _rol(('Poppins', 'Bold'), 0.118, BLANCO, esp=0.99), entrada='sube', barrido=BARRIDO_BRILLO),
+        _combo('Editorial azul', _rol(('DM Serif Text', 'Italic'), 0.28, AZUL, esp=0.99), entrada='abre', barrido=BARRIDO_BRILLO),
         _combo('Amro Fire', _rol(('Inter', 'Black'), 0.17, (1.0, 0.30, 0.15), mayus=True), amro=(ruta_amro, 5)),
         _combo('Amro Strike rojo', _rol(('Inter', 'Black'), 0.17, (1.0, 0.28, 0.28), mayus=True), amro=(ruta_amro, 6)),
         _combo('Amro Underline lima', _rol(('Inter', 'Black'), 0.17, (0.62, 1.0, 0.30), mayus=True), amro=(ruta_amro, 3)),
     ]
+    # 9-12 «Screen» y 13-16 «Sólido»: el mismo texto de los estilos 1, 2, 4 y 5 con otra forma y otro color de barrido
+    screen, solido = [], []
+    for n, c_screen, c_solido in VARIANTES_BARRIDO:
+        b = base[n - 1]
+        for lista, modo, color, etiqueta in ((screen, 'screen', c_screen, 'Screen'), (solido, 'solido', c_solido, 'Sólido')):
+            lista.append(dict(b, nombre=f"{b['nombre']} · {etiqueta}", barrido={'modo': modo, 'inicio': 0.06, 'largo': 0.40, 'ancho': 0.09, 'color': color, 'mezcla': 1.0}))
+    return base + screen + solido
 
 
 def construir(carpeta_salida, nombre='Referencia', contenedor=None, ruta_amro=None):

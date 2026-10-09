@@ -12,6 +12,153 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-09 11:00  ·  v5.4.13  ·  (automático)
+    nuevos (14):
+      + 1_codigo/emojis_sets.py
+      + 1_codigo/medir_barrido.py
+      + 1_codigo/probar_barrido.py
+      + 1_codigo/probar_estilos_app.py
+      + 1_codigo/proyecto_pruebas.py
+      + 1_codigo/recomendaciones.py
+      + 2_recursos/efectos/sonidos/viral_hooks_riser.mp3
+      + 2_recursos/emojis/construir_mapa_fluent.py
+      + 2_recursos/emojis/fluent_mapa.json
+      + 2_recursos/generador_sfx_estilo/preparar_sonidos.py
+      + 2_recursos/sfx_library/Modo simple/Iphone Taping.wav
+      + 2_recursos/sfx_library/Riser/Viral Hooks Riser.mp3
+      … y 2 más
+    modificados (40):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/efectos_pagina.py
+      ~ 1_codigo/efectos_visuales.py
+      ~ 1_codigo/emojis.py
+      ~ 1_codigo/emojis_sfx.py
+      ~ 1_codigo/fusion_v1.py
+      ~ 1_codigo/guion_captions.py
+      ~ 1_codigo/guion_planificador.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/probar_viral.py
+      ~ 1_codigo/sfx_rules.py
+      … y 28 más
+
+2026-10-08 23:09  ·  v5.4.12  ·  (automático)
+    modificados (15):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_InsertarSFX.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Puente.lua
+      … y 3 más
+
+2026-10-08 23:08  ·  v5.4.11  ·  cambio explicado
+    Instalar 5.4.11 fallaba con «No puedo reemplazar la versión instalada… Acceso denegado a …\Programs\CineCaptions»: Resolve (abierto con el proyecto del GO) tenía ABIERTO _internal\efectos\intro\fuga_de_luz_v.mp4, porque efectos_visuales._clip le daba la ruta del programa. Ahora _clip entrega una copia en ~/DaVinciSubtitles/efectos_clips (no en la caché, que el mantenimiento vacía) y el instalador ya no choca con Resolve. Se desbloqueó a mano: se guardó y cerró el proyecto de prueba «CineCaptions 2» en Resolve. Falta compilar (5.4.12).
+    modificados (1):
+      ~ 1_codigo/efectos_visuales.py
+
+2026-10-08 23:04  ·  v5.4.11  ·  (automático)
+    modificados (15):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_InsertarSFX.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Puente.lua
+      … y 3 más
+
+2026-10-08 23:03  ·  v5.4.10  ·  cambio explicado
+    VIRAL · Shatter rehecho a partir de ESTILO VIRAL (1).mp4 y del comentario del usuario («es como un vidrio quebrado… tiene que romperse en varios fragmentos»; azul cielo; barrido de luz): árbol de cortes de 9 fragmentos con bordes inclinados (semiplanos de RectangleMask), recortados antes de moverse, con giro y tono distinto, y barrido de luz (Merge Atop). Planificador: select → shatter → drag en rotación y MINIMO más bajo, porque con habla rápida siempre caía en shatter y el usuario solo veía ese efecto. Select y Drag: brillo blanco suave y contorno/sombra oscuros (se perdían sobre fondos claros; el elemento de sombra necesita ElementShape=0 explícito o sale como rectángulo). Vista de la tarjeta regenerada. Sin compilar todavía.
+    modificados (11):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/viral_captions.py
+      ~ 1_codigo/viral_planificador.py
+      ~ 2_recursos/generador_packs/viral_elementos.py
+      ~ 2_recursos/plantillas_incluidas/VIRAL/VIRAL horizontal.drb
+      ~ 2_recursos/plantillas_incluidas/VIRAL/VIRAL vertical.drb
+      ~ 2_recursos/plantillas_incluidas/VIRAL/vista/indice.json
+      ~ 2_recursos/plantillas_incluidas/VIRAL/vista/vir_01.jpg
+      ~ 2_recursos/plantillas_incluidas/VIRAL/vista/vir_02.jpg
+      ~ 2_recursos/plantillas_incluidas/VIRAL/vista/vir_03.jpg
+      ~ 2_recursos/plantillas_incluidas/VIRAL/vista/vir_04.jpg
+
+2026-10-08 22:41  ·  v5.4.10  ·  (automático)
+    modificados (15):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_InsertarSFX.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Puente.lua
+      … y 3 más
+
+2026-10-08 22:40  ·  v5.4.9  ·  cambio explicado
+    Arreglo del error «'NoneType' object has no attribute 'GetClipList'» al soltar un video (GO, 2026-10-08 22:38, CLIENTE.mp4): recién creado el proyecto, Resolve a veces devuelve None en AddSubFolder (o en el Media Pool) y el script de resolve_mcp._CREAR_TIMELINE no reintentaba. Ahora reintenta hasta 8 veces, mira si la carpeta se creó aunque no la devolviera y, si no hay manera, usa la carpeta raíz (comprobado con una simulación de Resolve). No tiene relación con el estilo VIRAL: ese código no se había tocado.
+    modificados (1):
+      ~ 1_codigo/resolve_mcp.py
+
+2026-10-08 22:33  ·  v5.4.9  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/generador_packs/pack_viral.py
+      ~ 2_recursos/generador_packs/viral_elementos.py
+      ~ 2_recursos/plantillas_incluidas/VIRAL/VIRAL horizontal.drb
+      ~ 2_recursos/plantillas_incluidas/VIRAL/VIRAL vertical.drb
+      ~ 2_recursos/plantillas_incluidas/VIRAL/vista/vir_01.jpg
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      … y 8 más
+
+2026-10-08 22:24  ·  v5.4.8  ·  cambio explicado
+    Estilo nuevo «VIRAL» (carpeta ESTILO VIRAL del usuario): pack 2_recursos/plantillas_incluidas/VIRAL (vertical y horizontal; 5 clips: v fina, v negrita, v shatter, v select, v drag) con planificador propio (viral_planificador.py / viral_captions.py) que comparte con Kinetic _generar_con_kinetic y el colocador de Resolve (generalizado: clip_prueba, grupo 'v ' y emojis; Kinetic comprobado sin cambios). Efecto cada 2 bloques (GO) o solo en las palabras marcadas Principal (Creativo); sonidos por palabra y emojis funcionan. Hallazgos de Fusion en DOCUMENTACION/temas/viral.md. El banco de pruebas ya no borra toda la cola de render del usuario. Sin compilar ni publicar (a la espera del permiso del usuario).
+    nuevos (32):
+      + 1_codigo/hacer_vista_viral.py
+      + 1_codigo/probar_viral.py
+      + 1_codigo/probar_viral_app.py
+      + 1_codigo/viral_captions.py
+      + 1_codigo/viral_planificador.py
+      + 2_recursos/generador_packs/pack_viral.py
+      + 2_recursos/generador_packs/viral_comps.py
+      + 2_recursos/generador_packs/viral_elementos.py
+      + 2_recursos/generador_packs/viral_lab.py
+      + 2_recursos/plantillas_incluidas/VIRAL/VIRAL horizontal.drb
+      + 2_recursos/plantillas_incluidas/VIRAL/VIRAL vertical.drb
+      + 2_recursos/plantillas_incluidas/VIRAL/pack.json
+      … y 20 más
+    modificados (7):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/banco_pruebas.py
+      ~ 1_codigo/plantillas.py
+      ~ 2_recursos/generador_packs/kinetic_comps.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_Subtitulos.lua
+
+2026-10-08 19:59  ·  v5.4.8  ·  cambio explicado
+    5.4.8: efectos con movimiento (Fusion), más efectos, quitar pausas, sonido extra, B-roll opcional, pausar/cancelar/reanudar GO, caché de voz y GPU. Publicada para Windows y Mac (Mac sin probar en una Mac real); pendiente Lote D parcial (S7,S9,S13), Creativo, Proyecto y Conexiones: ver DOCUMENTACION/PLAN_MEJORAS.md
+
 2026-10-08 19:42  ·  v5.4.8  ·  (automático)
     nuevos (24):
       + 1_codigo/avisos_sistema.py
@@ -520,224 +667,6 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
       ~ 3_compilar/documentar.py
       ~ 3_compilar/encabezados.py
       ~ 3_compilar/sincronizar_version.py
-
-2026-10-07 16:59  ·  v5.3.2  ·  cambio explicado
-    Orden del proyecto: INSTALADORES\Windows y INSTALADORES\Mac (un .exe / .dmg por sistema, con la version en el nombre), DOCUMENTACION\ (LOGICA_INTERNA, auditorias, contexto) y raiz limpia; Actualizar_Windows/Actualizar_Mac y el flujo de GitHub Actions escriben ahi; limpiados los __pycache__
-    modificados (3):
-      ~ 3_compilar/Construir_Instalador.ps1
-      ~ 3_compilar/documentar.py
-      ~ 3_compilar/encabezados.py
-
-2026-10-07 16:55  ·  v5.3.2  ·  cambio explicado
-    Windows: Actualizar_Windows.ps1 (instalador con la version en el nombre, sube la version si el codigo cambio, borra los viejos, -Comprobar) y sincronizar_version.py (los scripts de Resolve y el Puente quedaban en 5.3.0 con la app en 5.3.1: ahora se igualan solos en Windows y Mac). Desinstalador a fondo: cierra motores por ruta, borra con rutas largas/solo lectura/enlaces, quita scripts de Resolve (tarea del programa + barrido propio), tipografias identicas a las del programa, accesos incluidos los anclados, claves de Windows, temporales, programa+motor+AppData, y con casillas tus datos/licencia (libera la activacion) y los modelos de Hugging Face/Argos; lo que siga en uso se programa en RunOnce; el log del desinstalador va a TEMP y se borra si todo salio bien; probado en sandbox (instalar sobre version vieja y desinstalar sin dejar nada)
-
-2026-10-07 16:53  ·  v5.3.2  ·  (automático)
-    modificados (1):
-      ~ 3_compilar/Instalador.cs
-
-2026-10-07 16:26  ·  v5.3.2  ·  (automático)
-    nuevos (4):
-      + 3_compilar/aplicar_traducciones.py
-      + 3_compilar/auditar_traducciones.py
-      + 3_compilar/sincronizar_version.py
-      + 3_compilar/traducciones_extra.json
-    modificados (31):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/i18n.py
-      ~ 1_codigo/qt_kit.py
-      ~ 1_codigo/registro_ayuda.py
-      ~ 1_codigo/registro_ui.py
-      ~ 1_codigo/resolve_bridge.py
-      ~ 1_codigo/un_clic_ui.py
-      ~ 1_codigo/version.py
-      ~ 1_codigo/vigilancia.py
-      ~ 2_recursos/locales/de.json
-      ~ 2_recursos/locales/en.json
-      ~ 2_recursos/locales/fr.json
-      ~ 2_recursos/locales/it.json
-      ~ 2_recursos/locales/pt.json
-      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
-      ~ 2_recursos/resolve_scripts/CineCaptions.py
-      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_InsertarSFX.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_Puente.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_SfxMarcadores.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_SfxReemplazar.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_Subtitulos.lua
-      ~ 3_compilar/Construir_Instalador.ps1
-      ~ 3_compilar/Instalador.cs
-
-2026-10-07 15:49  ·  v5.3.1  ·  cambio explicado
-    Auditoría del flujo: un solo dueño del pack (Estilos <-> chip Estilo de GO; el editor se abre con el pack con el que se genera), GO con Referencia guarda los roles del planificador (no los de 3 líneas de la IA), el chip Emojis: no se respeta, Efectos sincroniza sfx_var, Asistencia usa el planificador en modo guion y los chips de posición/estilo fijo no salen con packs guion. Vigilancia v5.11 (vigilancia.py): guardián de GO/Generar (avisa y destraba motores sin señales), monitor de disco/memoria/escritura, arranque atascado, chequeo de librerías al iniciar; motores con tiempo máximo sin señal y respaldo automático de modelo (Qwen 1.7B->0.6B->CPU->Whisper, IA texto 4B->1.7B->reglas); errores.log persistente, entorno Windows/Mac e informe de soporte en Copiar informe
-    nuevos (1):
-      + 1_codigo/vigilancia.py
-    modificados (9):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/ia_texto.py
-      ~ 1_codigo/motor_voz.py
-      ~ 1_codigo/registro.py
-      ~ 1_codigo/registro_ui.py
-      ~ 1_codigo/resolve_mcp.py
-      ~ 1_codigo/subtitle_transcriber.py
-      ~ 1_codigo/version.py
-      ~ 3_compilar/encabezados.py
-
-2026-10-07 12:02  ·  v5.3.0  ·  cambio explicado
-    Creativo con el estilo «guion» (Referencia): «Así se verá este bloque» ahora dibuja EXACTAMENTE lo que Generar manda a Resolve (mismo plan: guion_editor.planear, nuevo guion_vista.py); Principal = palabra grande, Abajo = negrita, Arriba = fina, Simple = automático; botón «Auto (como GO)» y «Quitar mis marcas»; estilo (8 chips) y altura (Alta/Media/Baja/Alterna) por bloque; emojis y sonidos del bloque a la vista; botón «Comprobar en Resolve» (fotograma real renderizado por Resolve, sin cola de render). Prueba de paridad vista == .json de Generar en 20 escenarios, 0 diferencias.
-
-2026-10-07 12:02  ·  v5.3.0  ·  (automático)
-    nuevos (2):
-      + 1_codigo/guion_editor.py
-      + 1_codigo/guion_vista.py
-    modificados (5):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/guion_captions.py
-      ~ 1_codigo/guion_planificador.py
-      ~ 1_codigo/vistas_reales.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
-
-2026-10-07 11:16  ·  v5.3.0  ·  cambio explicado
-    Arrastrar un video: cada video crea un proyecto de Resolve NUEVO («CineCaptions», «CineCaptions 2»…) tras guardar y cerrar el abierto; se reintenta CreateProject mientras Resolve termina de arrancar (antes fallaba con «no_creo» y los captions caían en otro timeline, sin el video ni su sonido); si no se puede armar el proyecto/timeline GO se detiene y no toca ningún otro timeline; Resolve se lanza sin variables de Qt/Python heredadas; se arregla el falso «Falta un clic en Resolve» tras un GO largo. MCP arrastrar_video verifica el audio del video en A1 y en el render.
-    modificados (4):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/mcp_cinecaptions.py
-      ~ 1_codigo/resolve_bridge.py
-      ~ 1_codigo/resolve_mcp.py
-
-2026-10-07 10:48  ·  v5.3.0  ·  cambio explicado
-    Arrastrar un video a Inicio: abre Resolve (con reintentos), abre o crea el proyecto «CineCaptions», arma ahí un timeline con el video y procesa; sirve aunque el proyecto abierto esté vacío (antes fallaba con «No hay ningún timeline activo»); chip «Proyecto» para usar el abierto; si Resolve no deja armar el timeline, GO avisa con un mensaje claro. MCP arrastrar_video restaura tu proyecto.
-    modificados (3):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/mcp_cinecaptions.py
-      ~ 1_codigo/resolve_mcp.py
-
-2026-10-07 10:16  ·  v5.3.0  ·  cambio explicado
-    Estilo «guion» (Referencia): ahora lleva SONIDOS (un efecto por palabra/bloque cayendo cuando entra la palabra grande, según el modo de Sonido) y EMOJIS (entran con la palabra grande, encima o debajo de la pila según tu preferencia) y el sonido de cada emoji; GO respeta el chip «Efectos: no»; place_guion (lua) también coloca los efectos.
-    modificados (5):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/guion_captions.py
-      ~ 1_codigo/guion_planificador.py
-      ~ 2_recursos/resolve_scripts/CineCaptions.py
-      ~ 2_recursos/resolve_scripts/CineCaptions_Subtitulos.lua
-
-2026-10-07 09:59  ·  v5.3.0  ·  cambio explicado
-    GO ya usa por defecto el estilo «Referencia» (palabra a palabra) y el chip «Estilo» de Inicio abre un menú para cambiarlo; arrastrar un video a Inicio arranca GO solo: Resolve arma un timeline nuevo con ese video (orientación y fps del video) y GO le pone los captions; GO espera a que termine la vista real de los estilos (su timeline temporal hacía fallar el audio: «Whisper no devolvió palabras»); la ayuda de «Crea tu estilo» explica el papel fina/negrita/principal del estilo palabra a palabra; MCP: arrastrar_video.
-    modificados (6):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/crea_estilo_ui.py
-      ~ 1_codigo/mcp_cinecaptions.py
-      ~ 1_codigo/probar_go.py
-      ~ 1_codigo/resolve_mcp.py
-      ~ 1_codigo/un_clic_ui.py
-
-2026-10-07 09:36  ·  v5.3.0  ·  (automático)
-    modificados (1):
-      ~ 1_codigo/guion_planificador.py
-
-2026-10-07 09:33  ·  v5.3.0  ·  cambio explicado
-    Estilo «guion» (pack Referencia): los presets de Amro (Strike, Underline, Highlight, Fire) arrancan adelantados (salto_amro) para entrar enteros como en la referencia; el planificador reparte el estilo por ORACIÓN (Luxe de base, acento de Amro como remate, fuego/negación por significado) en vez de rotar por bloque; MCP: nuevas herramientas go_real y probar_referencia, recarga en caliente; probar_go.py (GO de la app sin pantalla).
-    nuevos (1):
-      + 1_codigo/probar_go.py
-    modificados (3):
-      ~ 1_codigo/guion_captions.py
-      ~ 1_codigo/guion_planificador.py
-      ~ 1_codigo/mcp_cinecaptions.py
-
-2026-10-07 03:27  ·  v5.3.0  ·  cambio explicado
-    v5.9 estilo «guion» (pack Referencia, como REFERENCIA.mp4): cada palabra es su propio clip con su estilo, sitio y momento. Planificador automático (guion_planificador: frases, palabra grande, negritas, pila, estilo por bloque; 12/13 palabras grandes de la referencia), pack Referencia incorporado (8 estilos), scripts de Resolve py y lua idénticos (grandes en pistas inferiores porque Luxe Shine refracta lo de abajo), GO usa packs del usuario (antes ignorados), banco de pruebas (zz_BANCO) y servidor MCP del programa (mcp_cinecaptions.py, .mcp.json).
-    nuevos (10):
-      + 1_codigo/banco_pruebas.py
-      + 1_codigo/guion_captions.py
-      + 1_codigo/guion_planificador.py
-      + 1_codigo/guion_referencia.py
-      + 1_codigo/mcp_cinecaptions.py
-      + 2_recursos/generador_packs/pack_referencia.py
-      + 2_recursos/plantillas_incluidas/Referencia/Referencia vertical.drb
-      + 2_recursos/plantillas_incluidas/Referencia/Referencia vertical.posiciones.json
-      + 2_recursos/plantillas_incluidas/Referencia/Referencia vertical.variantes.json
-      + 2_recursos/plantillas_incluidas/Referencia/pack.json
-    modificados (14):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/packs_drt.py
-      ~ 1_codigo/plantillas.py
-      ~ 2_recursos/generador_packs/construir_pack.py
-      ~ 2_recursos/generador_packs/luxe_macro.py
-      ~ 2_recursos/locales/de.json
-      ~ 2_recursos/locales/en.json
-      ~ 2_recursos/locales/fr.json
-      ~ 2_recursos/locales/it.json
-      ~ 2_recursos/locales/pt.json
-      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
-      ~ 2_recursos/resolve_scripts/CineCaptions.py
-      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_Subtitulos.lua
-
-2026-10-07 01:37  ·  v5.3.0  ·  (automático)
-    modificados (1):
-      ~ 1_codigo/recorrido_ui.py
-
-2026-10-07 01:34  ·  v5.3.0  ·  cambio explicado
-    v5.8 recorrido visual por pasos (recorrido_ui.py) con interruptor y repetición en Ajustes; bloques que no acaban en artículo; reparación del timeline temporal de las vistas reales; emojis animados portados al gemelo .lua (Free). Ver AUDITORIA_FLUJO.md.
-    nuevos (1):
-      + 1_codigo/recorrido_ui.py
-    modificados (12):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/dynamic_subtitles.py
-      ~ 1_codigo/resolve_mcp.py
-      ~ 1_codigo/vistas_reales.py
-      ~ 2_recursos/locales/de.json
-      ~ 2_recursos/locales/en.json
-      ~ 2_recursos/locales/fr.json
-      ~ 2_recursos/locales/it.json
-      ~ 2_recursos/locales/pt.json
-      ~ 2_recursos/resolve_scripts/CineCaptions_Subtitulos.lua
-      ~ 3_compilar/encabezados.py
-
-2026-10-06 23:05  ·  v5.3.0  ·  cambio explicado
-    v5.8 prueba E2E de GO contra Resolve: las secuencias de emoji animadas ya se reconocen como nuestras (al volver a generar no se apila otra pista EMOJI); chips ámbar en Inicio para el ajuste fino y el estilo fijo olvidados; el aviso de «mismo set seguido» no salta si el estilo lo decidió la app. Ver AUDITORIA_FLUJO.md.
-    modificados (8):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 2_recursos/locales/de.json
-      ~ 2_recursos/locales/en.json
-      ~ 2_recursos/locales/fr.json
-      ~ 2_recursos/locales/it.json
-      ~ 2_recursos/locales/pt.json
-      ~ 2_recursos/resolve_scripts/CineCaptions.py
-      ~ 2_recursos/resolve_scripts/CineCaptions_Subtitulos.lua
-
-2026-10-06 22:29  ·  v5.3.0  ·  (automático)
-    modificados (2):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/editor_ui.py
-
-2026-10-06 22:27  ·  v5.3.0  ·  cambio explicado
-    v5.8 auditoría del flujo: el estilo de cada bloque lo decide la app (estilos_bloque.py) y Creativo lo enseña/cambia con su posición; en Proyecto «Composición del bloque» pasa a «Estilo del bloque» con el ajuste fino plegado y aviso de estilo fijo/alternando. Ver AUDITORIA_FLUJO.md.
-    nuevos (1):
-      + 1_codigo/estilos_bloque.py
-    modificados (11):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/editor_ui.py
-      ~ 1_codigo/plantillas.py
-      ~ 2_recursos/locales/de.json
-      ~ 2_recursos/locales/en.json
-      ~ 2_recursos/locales/fr.json
-      ~ 2_recursos/locales/it.json
-      ~ 2_recursos/locales/pt.json
-      ~ 2_recursos/resolve_scripts/CineCaptions.py
-      ~ 2_recursos/resolve_scripts/CineCaptions_Subtitulos.lua
-      ~ 3_compilar/encabezados.py
-
-2026-10-06 21:55  ·  v5.3.0  ·  (automático)
-    modificados (1):
-      ~ 1_codigo/vistas_guia.py
 
 
 (Lo anterior está archivado por mes en DOCUMENTACION/historial/REGISTRO_<aaaa-mm>.txt)

@@ -880,11 +880,22 @@ class EmojiPickerWindow(QFrame):
         carpeta_btn = Boton('📁', self._abrir_carpeta, ancho=36, **estilo)
         cb.addWidget(carpeta_btn)
         Tooltip(carpeta_btn, tr('Tus PNG en {carpeta}. Un archivo llamado como el emoji (🔥.png, 1F525.png o fire.png) reemplaza su imagen; cualquier otro aparece en «Míos».', carpeta=emojis.carpeta_usuario()))
-        if emojis.fuente_sistema() is not None:
-            self.sistema_var = BooleanVar(emojis.usar_sistema())
-            casilla_s = Casilla(tr('Emojis del sistema'), self.sistema_var, self._on_sistema, tam=12)
-            cb.addWidget(casilla_s)
-            Tooltip(casilla_s, tr('Encendida: los emojis se dibujan con la fuente de tu equipo (Apple Color Emoji en Mac, Segoe UI Emoji en Windows) y hay ~1 400. Apagada: los Fluent 3D que trae el programa.'))
+        # v5.5: el ESTILO de los emojis: 3D (Fluent, de Microsoft), Google (Noto) o los del sistema (planos). Lo que el programa no trae se baja la primera vez que se usa y queda guardado.
+        self._estilos = [('animado', tr('Animado')), ('fluent3d', tr('3D')), ('noto', tr('Google'))] + ([('sistema', tr('Sistema'))] if emojis.fuente_sistema() is not None else [])
+        self.estilo_var = StringVar(next((n for k, n in self._estilos if k == emojis.estilo()), self._estilos[0][1]))
+        seg_estilo = Segmentado([n for _k, n in self._estilos], self.estilo_var, self._on_estilo, alto=28, tam=12)
+        cb.addWidget(seg_estilo)
+        Tooltip(seg_estilo, tr('El estilo de los emojis. Animado: los emojis que se mueven (Noto Animated, de Google) y, los que no, en 3D. 3D: Fluent de Microsoft (licencia MIT), fijos. Google: Noto, fijos. '
+                               'Sistema: la fuente de tu equipo (Apple Color Emoji en Mac, Segoe UI Emoji en Windows; planos). Lo que no trae el programa se baja la primera vez que se usa y queda guardado; '
+                               'sin internet, o si ese estilo no lo tiene, sale el del sistema.'))
+        self.bajar_btn = Boton(tr('⬇ Bajar todos'), self._bajar_todos, ancho=104, **estilo)
+        cb.addWidget(self.bajar_btn)
+        Tooltip(self.bajar_btn, tr('Baja ahora todos los emojis de este estilo (~40 MB): aparecen al instante y funcionan sin internet.'))
+        self.bajar_btn.setVisible(emojis.estilo() != 'sistema')
+        self._descarga = {'activo': False, 'hechos': 0, 'total': 0, 'fallos': 0, 'cancelar': False}
+        self._reloj_sets = ui.QTimer(self)
+        self._reloj_sets.timeout.connect(self._tic_sets)
+        self._reloj_sets.start(1200)
         cb.addStretch(1)
         capa.addWidget(botones)
         self._sugeridos = emojis.sugerir(palabra, self._idioma)
@@ -915,6 +926,11 @@ class EmojiPickerWindow(QFrame):
             return
         self._cerrado = True
         try:
+            self._reloj_sets.stop()
+            self._descarga['cancelar'] = True
+        except Exception:
+            pass
+        try:
             self.hide()
             self.deleteLater()
         except Exception:
@@ -940,14 +956,16 @@ class EmojiPickerWindow(QFrame):
         if self._celdas:
             self._elegir(self._celdas[0][4])
         return 'break'
-    def _on_sistema(self):
-        activo = bool(self.sistema_var.get())
-        self._emojis.usar_sistema(activo)
+    def _on_estilo(self, _v=None):
+        clave = next((k for k, n in self._estilos if n == self.estilo_var.get()), 'animado')
+        self._emojis.estilo(clave)
         recordar = getattr(self.master, '_recordar', None)
         if recordar:
-            recordar('emojis_sistema', activo)
-        if activo and not self._emojis.puede_dibujar_sistema():
-            self._avisar(tr('Tu equipo no tiene una fuente de emojis que pueda dibujar: se usan los Fluent 3D.'))
+            recordar('emoji_estilo', clave)
+            recordar('emojis_sistema', clave == 'sistema')
+        if clave == 'sistema' and not self._emojis.puede_dibujar_sistema():
+            self._avisar(tr('Tu equipo no tiene una fuente de emojis que pueda dibujar: se usan los 3D.'))
+        self.bajar_btn.setVisible(clave != 'sistema')
         self._imagenes.clear()
         self._error_imagenes = None
         self._pintar()
@@ -956,6 +974,46 @@ class EmojiPickerWindow(QFrame):
             if refrescar:
                 self.master._imgs_emoji.clear()
                 refrescar()
+        except Exception:
+            pass
+    def _bajar_todos(self):
+        """Baja en segundo plano todos los emojis del estilo elegido que faltan (con el progreso en el pie)."""
+        import threading
+        d = self._descarga
+        if d['activo']:
+            d['cancelar'] = True
+            return
+        estilo = 'noto' if self._emojis.estilo() == 'noto' else 'fluent3d'
+        import emojis_sets
+        d.update(activo=True, hechos=0, total=len(emojis_sets.faltan(estilo, self._emojis.catalogo())), fallos=0, cancelar=False)
+        if not d['total']:
+            d['activo'] = False
+            self._avisar(tr('Ya están todos bajados.'))
+            return
+        self.bajar_btn.configure(text=tr('Parar'))
+
+        def trabajo():
+            try:
+                emojis_sets.bajar_todo(estilo, self._emojis.catalogo(), al_progreso=lambda h, t, f: d.update(hechos=h, fallos=f), cancelar=lambda: d['cancelar'])
+            finally:
+                d['activo'] = False
+        threading.Thread(target=trabajo, daemon=True).start()
+    def _tic_sets(self):
+        """Cada ~1 s: si están llegando emojis (en segundo plano) las imágenes se vuelven a leer, y el pie cuenta cuántos van."""
+        if self._cerrado or not vivo(self):
+            return
+        d = self._descarga
+        try:
+            import emojis_sets
+            if d['activo']:
+                self._avisar(tr('Bajando emojis… {h} de {t}', h=d['hechos'], t=d['total']) + (tr(' ({f} sin internet o sin versión)', f=d['fallos']) if d['fallos'] else ''))
+                self._imagenes.clear()
+            elif d['total'] and d['hechos'] + d['fallos'] >= d['total'] - 0 and self.bajar_btn.text() != tr('⬇ Bajar todos'):
+                self.bajar_btn.configure(text=tr('⬇ Bajar todos'))
+                self._avisar(tr('Listo: {h} emojis bajados.', h=d['hechos']) + (tr(' {f} no se pudieron bajar (el del sistema los sustituye).', f=d['fallos']) if d['fallos'] else ''))
+                self._imagenes.clear()
+            elif emojis_sets.pendientes():
+                self._imagenes.clear()
         except Exception:
             pass
     def _abrir_carpeta(self):
@@ -2200,6 +2258,8 @@ class PlantillasWindow(QWidget):
                                     acciones=self._acciones_de(pack, quitable=False) if pack else None)
     @staticmethod
     def _meta_de(estructura):
+        if (estructura or {}).get('viral'):
+            return tr('Subtítulos virales')
         if (estructura or {}).get('kinetic'):
             return tr('Títulos de gancho')
         n = int((estructura or {}).get('variantes') or 0)
@@ -3356,7 +3416,7 @@ class WordTagWindow(QWidget):
         self.espacio_parrafos = self._espacio_valido(getattr(master, 'espacio_parrafos', None))
         try:
             import emojis
-            emojis.usar_sistema(getattr(master, 'emojis_sistema', True) is not False)
+            emojis.estilo(getattr(master, 'emoji_estilo', 'animado'))
             if modo == self.MODO_MARCAS and emojis.catalogo():
                 emojis.preparar_minis(al_terminar=self._minis_listas)
         except Exception:
@@ -7066,7 +7126,8 @@ class SubtitleApp(QWidget):
         for p in guion:
             marca = '✓  ' if p.nombre == actual else '      '
             extra = '' if plantillas.sirve_en_go(p, formato) else tr('  (solo vertical)')
-            etiqueta = (tr('{n} · títulos de gancho', n=plantillas.nombre_visible(p.nombre)) if getattr(p, 'kinetic', False)
+            etiqueta = (tr('{n} · subtítulos virales', n=plantillas.nombre_visible(p.nombre)) if getattr(p, 'viral', False)
+                        else tr('{n} · títulos de gancho', n=plantillas.nombre_visible(p.nombre)) if getattr(p, 'kinetic', False)
                         else tr('{n} · captions palabra a palabra', n=plantillas.nombre_visible(p.nombre)))
             menu.agregar(marca + etiqueta + extra, lambda n=p.nombre: self._poner_go_pack(n))
         marca = '✓  ' if actual in (base, 'dinamico', 'auto') else '      '
@@ -7474,12 +7535,33 @@ class SubtitleApp(QWidget):
             return str(ajustes_ui.leer_prefs().get('go_pack') or '')
         except Exception:
             return ''
+    def _aplicar_recomendacion(self, pack):
+        """v5.5: al ELEGIR un estilo con recomendación (VIRAL, Kinetic, Referencia) el sonido y la página Efectos quedan ya configurados como le van a ese estilo
+        (recomendaciones.py); un aviso lo dice y se puede cambiar después en Sonido y en Efectos."""
+        try:
+            import recomendaciones
+            texto = recomendaciones.aplicar(pack)
+            if not texto:
+                return
+            w = getattr(self, '_efectos_widget', None)
+            if w is not None:
+                w.refrescar()
+            self._pintar_opciones_go()
+            import ui_toast
+            ui_toast.mostrar(self, tr('Recomendado para {t}. Puedes cambiarlo en Sonido y en Efectos.', t=texto), duracion_ms=8000)
+        except Exception:
+            registro.excepcion(origen='recomendación por estilo')
+
     def _poner_go_pack(self, valor):
+        anterior = None
         try:
             import ajustes_ui
+            anterior = str(ajustes_ui.leer_prefs().get('go_pack') or '')
             ajustes_ui.guardar_prefs({'go_pack': valor})
         except Exception:
             pass
+        if anterior is not None and valor != anterior:
+            self._aplicar_recomendacion(valor)
         # auditoría v5.11: lo que se elige en el chip es también el pack de Estilos / Creativo / Generar (antes quedaban dos dueños)
         nuevo = self._plantilla_un_clic()
         if nuevo != getattr(self, 'plantilla_sel', None):
@@ -7508,6 +7590,7 @@ class SubtitleApp(QWidget):
             import ajustes_ui
             if str(ajustes_ui.leer_prefs().get('go_pack') or '') != guardar:
                 ajustes_ui.guardar_prefs({'go_pack': guardar})
+                self._aplicar_recomendacion(guardar)
         except Exception:
             pass
     def _plantilla_un_clic(self):
@@ -11352,6 +11435,7 @@ class SubtitleApp(QWidget):
                     getattr(self, 'composicion', None)),
                 'emojis_sistema': getattr(self, 'emojis_sistema', True)
                 is not False,
+                'emoji_estilo': getattr(self, 'emoji_estilo', 'animado'),
                 'aviso_ajustes_visto': bool(getattr(
                     self, 'aviso_ajustes_visto', False)),
                 'recetas': self.recetas if isinstance(getattr(self, 'recetas', None), list) else None,
@@ -11413,12 +11497,13 @@ class SubtitleApp(QWidget):
         self.composicion = (composicion.valida(p.get('composicion'))
                             if COMPOSICION_VISIBLE else composicion.valida(None))
         self.emojis_sistema = p.get('emojis_sistema', True) is not False
+        self.emoji_estilo = p.get('emoji_estilo') if p.get('emoji_estilo') in ('animado', 'fluent3d', 'noto', 'sistema') else 'animado'          # v5.5: el estilo de los emojis (por defecto animado/3D)
         self.aviso_ajustes_visto = bool(p.get('aviso_ajustes_visto'))
         recetas = p.get('recetas')
         self.recetas = [r for r in recetas if isinstance(r, dict)] if isinstance(recetas, list) else None
         try:
             import emojis
-            emojis.usar_sistema(self.emojis_sistema)
+            emojis.estilo(self.emoji_estilo)
         except Exception:
             pass
         self.diseno_dinamico = p.get('diseno_dinamico') or None
@@ -11889,13 +11974,16 @@ class SubtitleApp(QWidget):
         self._sfx_manuales = {round(float(w.get('start') or 0), 3): w.get('sfx_archivo') for w in (palabras or []) if 'sfx_archivo' in w}
         self._sfx_inicios = [round(float(w.get('start') or 0), 3) for w in (palabras or []) if str(w.get('word', '')).strip()]
         self._sfx_palabras = [{'t': round(float(w.get('start') or 0), 3), 'fin': round(float(w.get('end') or w.get('start') or 0), 3), 'texto': str(w.get('word', '')).strip()} for w in (palabras or []) if str(w.get('word', '')).strip()]
-    def _preparar_sfx(self, bloques):
+    def _preparar_sfx(self, bloques, principales=None):
         """Le pone a cada bloque su categoria de efecto y devuelve lo que
         Resolve necesita para encontrar los audios.
 
         Corre en el hilo de trabajo. Si algo falla (falta la biblioteca, el
         JSON de reglas esta roto), se sigue sin efectos: los subtitulos son
         lo importante y no se pierden por esto.
+
+        `principales` (v5.5): los instantes en que el estilo (VIRAL, Kinetic, «guion») hace entrar su palabra clave; con el modo simple en «Solo la principal»
+        el sonido cae ahí. Sin esto se deduce del rol de cada palabra en el bloque.
         """
         if getattr(self, '_un_clic', False):
             self.msg_queue.put(('paso', 'sfx'))
@@ -11912,7 +12000,18 @@ class SubtitleApp(QWidget):
                 return {}
             sfx_rules.asignar_sfx(bloques, config, categoria=elegida)
             sfx_rules.asignar_archivos(bloques, getattr(self, '_sfx_manuales', None))     # v5.4: el archivo de cada bloque (y lo que cambio el usuario)
-            sfx_rules.asignar_eventos_por_palabra(bloques, getattr(self, '_sfx_inicios', None), getattr(self, '_sfx_manuales', None), config=config, palabras=getattr(self, '_sfx_palabras', None))   # modo simple: un sonido por palabra
+            try:                                               # dos risers seguidos abruman: si la página Efectos ya pone el suyo en la intro (con su destello y su zoom), el modo simple no pone otro
+                import efectos_visuales as _fx
+                if _fx.activado() and _fx.fuente_sonido_intro() is not None:
+                    config['simple_intro'] = False
+            except Exception:
+                pass
+            try:
+                import recomendaciones
+                config['categoria_por_clave'] = recomendaciones.categoria_de_clave          # el sonido propio de cada efecto (solo con «Solo la principal»)
+            except Exception:
+                pass
+            sfx_rules.asignar_eventos_por_palabra(bloques, getattr(self, '_sfx_inicios', None), getattr(self, '_sfx_manuales', None), config=config, palabras=getattr(self, '_sfx_palabras', None), principales=principales)   # modo simple: un sonido por palabra
             perdidas = set()
             for bloque in bloques:
                 if bloque.get('sfx') and bloque['sfx'] not in disponibles and not bloque.get('sfx_manual'):
@@ -11941,6 +12040,21 @@ class SubtitleApp(QWidget):
         except Exception:
             return None
         return p if p is not None and getattr(p, 'kinetic', False) else None
+    def _instantes_main(self, bloques, cues=None):
+        """v5.5: los instantes en que entra la palabra PRINCIPAL de cada bloque de un estilo con planificador (la grande de «guion», el héroe de Kinetic, la clave de VIRAL): la línea
+        con rol 'main' lleva en 'start' el momento en que sale. Con el modo simple en «Solo la principal» el sonido cae ahí. Devuelve [(instante, clip del efecto o None)]: con los `cues`
+        se sabe qué EFECTO lleva (VIRAL: 'v shatter rosa'…; Kinetic: 'k hero …') y el sonido se elige por efecto (recomendaciones.SONIDO_POR_CLAVE)."""
+        salida = []
+        for i, b in enumerate(bloques):
+            clave = None
+            cue = cues[i] if cues is not None and i < len(cues) else None
+            if cue:
+                claves = [str(r.get('k') or '') for r in (cue.get('runs') or [])]
+                clave = next((k for k in claves if k.startswith('v shatter') or k.startswith('v select') or k.startswith('v drag')), None) or next((k for k in claves if k.startswith('k hero')), None)
+            for l in (b.get('lines') or []):
+                if l.get('role') == 'main' and l.get('start') is not None:
+                    salida.append((float(l['start']), clave))
+        return salida
     def _emojis_con_la_palabra_grande(self, bloques):
         """Estilo «guion»: el emoji de un bloque entra junto con su PALABRA GRANDE (sin ella, con la palabra del emoji) y se queda hasta que se va la
         pila, como los captions. (emojis.asignar lo había pegado a una línea por rol y lo dejaba vivo solo lo que dura la palabra.)"""
@@ -11995,7 +12109,7 @@ class SubtitleApp(QWidget):
             self._registrar_sfx_manuales(palabras_finales)          # los inicios de cada palabra, para los modos de un sonido por palabra
             if con_sfx:
                 self.msg_queue.put(('status', tr('Eligiendo los efectos de sonido...')))
-                pista_sfx = self._preparar_sfx(bloques)
+                pista_sfx = self._preparar_sfx(bloques, self._instantes_main(bloques, cues))
             self.msg_queue.put(('gen_fase', 'emojis'))
             pista_emojis = self._preparar_emojis(bloques, palabras_finales, roles_finales)
             self._emojis_con_la_palabra_grande(bloques)
@@ -12027,14 +12141,20 @@ class SubtitleApp(QWidget):
         Sonidos: el mismo modo de Sonido (un golpe cuando entra la palabra héroe). Sin emojis (no forman parte de este estilo).
         Devuelve (bloques, track, pista_sfx) con el .json ya escrito (el mismo contrato que _generar_con_guion), o None si no se puede."""
         formato = self._formato_forzado() or self._formato_en_juego() or 'v'
-        if formato != 'v' or 'v' not in pack.formatos:
-            avisar(tr('El estilo «{p}» es para vídeo vertical: uso el diseño de siempre.', p=pack.nombre))
-            return None
-        import kinetic_captions as kc
-        import kinetic_planificador as kp
+        es_viral = bool(getattr(pack, 'viral', False))
+        if formato not in (('v', 'h') if es_viral else ('v',)) or formato not in pack.formatos:
+            avisar(tr('El estilo «{p}» es para vídeo vertical u horizontal: uso el diseño de siempre.', p=pack.nombre) if es_viral
+                   else tr('El estilo «{p}» es para vídeo vertical: uso el diseño de siempre.', p=pack.nombre))
+            return None          # el estilo «VIRAL» comparte este camino (mismo contrato de bloques, sonidos y colocador de Resolve): otro planificador y otros clips
+        if es_viral:
+            import viral_captions as kc
+            import viral_planificador as kp
+        else:
+            import kinetic_captions as kc
+            import kinetic_planificador as kp
         try:
             import ajustes_ui
-            ancla = str(ajustes_ui.leer_prefs().get('kinetic_ancla', 'bajo'))
+            ancla = str(ajustes_ui.leer_prefs().get('viral_ancla' if es_viral else 'kinetic_ancla', 'bajo'))
         except Exception:
             ancla = 'bajo'
         mains = None
@@ -12044,23 +12164,35 @@ class SubtitleApp(QWidget):
                 mains = guion_editor.parametros_de_marcas(palabras_finales, roles_finales)[0]
             except Exception:
                 mains = None
-        res = kp.planificar(palabras_finales, idioma=base_lang, ancla=ancla, mains=mains, fin_video=self._fin_video())
+        if es_viral:
+            ancho_tl, alto_tl = int(getattr(self, '_ancho_timeline', 0) or 0), int(getattr(self, '_alto_timeline', 0) or 0)
+            if not (ancho_tl > 0 and alto_tl > 0):
+                ancho_tl, alto_tl = (1920, 1080) if formato == 'h' else (1080, 1920)
+            res = kp.planificar(palabras_finales, idioma=base_lang, ancho_tl=ancho_tl, alto_tl=alto_tl, ancla=ancla, mains=mains, fin_video=self._fin_video())
+        else:
+            res = kp.planificar(palabras_finales, idioma=base_lang, ancla=ancla, mains=mains, fin_video=self._fin_video())
         cues, plan = res['cues'], res['plan']
         if not cues:
             avisar(tr('No encontré palabras para armar el estilo «{p}»: uso el diseño de siempre.', p=pack.nombre))
             return None
         bloques = [{'start': c['start'], 'end': c['end'], 'fin_hablado': c['end'],
                     'lines': [{'role': l['role'], 'text': l['text'], 'start': l['start']} for l in c['lines']]} for c in cues]
-        pista_sfx = {}
+        pista_sfx, pista_emojis = {}, {}
         try:
             self._registrar_sfx_manuales(palabras_finales)
             if con_sfx:
                 self.msg_queue.put(('status', tr('Eligiendo los efectos de sonido...')))
-                pista_sfx = self._preparar_sfx(bloques)
+                pista_sfx = self._preparar_sfx(bloques, self._instantes_main(bloques, cues))
+            if es_viral:                                          # VIRAL sí lleva emojis (Kinetic no): con la palabra clave, y su sonido, como el estilo «guion»
+                self.msg_queue.put(('gen_fase', 'emojis'))
+                pista_emojis = self._preparar_emojis(bloques, palabras_finales, roles_finales)
+                self._emojis_con_la_palabra_grande(bloques)
+                if con_sfx:
+                    pista_sfx = self._sfx_de_emojis(bloques, pista_sfx)
         except Exception:
-            registro.excepcion(origen='estilo kinetic · sonidos')
+            registro.excepcion(origen='estilo kinetic · sonidos' if not es_viral else 'estilo viral · sonidos y emojis')
         for c, b in zip(cues, bloques):
-            for k in ('sfx', 'sfx_archivo', 'sfx_nombre', 'sfx_manual', 'sfx_original', 'sfx_eventos'):
+            for k in ('sfx', 'sfx_archivo', 'sfx_nombre', 'sfx_manual', 'sfx_original', 'sfx_eventos', 'emoji', 'emoji_ini', 'emoji_fin', 'emoji_linea'):
                 if k in b:
                     c[k] = b[k]
         json_path = kc.escribir(cues, st.SHARED_FOLDER / f'{project_name}.{base_lang}.kinetic.json', base_lang)
@@ -12070,7 +12202,9 @@ class SubtitleApp(QWidget):
         except Exception:
             srt_path = ''
         track = {'language': base_lang, 'style': 'kinetic', 'data_path': str(json_path), 'srt_path': str(srt_path), 'fonts': {}, 'adelanto_frames': 0,
-                 'offset_frames': self._offset_frames(), **pista_plantilla, **pista_sfx}
+                 'offset_frames': self._offset_frames(), **pista_plantilla, **pista_sfx, **pista_emojis}
+        if es_viral:
+            track['clip_prueba'] = 'v fina'                       # el clip que prueba que el bin del pack VIRAL está completo (el de Kinetic es «k hero blanco»)
         n_sonidos = sum(len(b.get('sfx_eventos') or [1]) for b in bloques if b.get('sfx'))
         avisar(tr('Estilo «{p}»: {n} bloques de títulos · {s} sonidos.', p=pack.nombre, n=len(cues), s=n_sonidos))
         return (bloques, track, pista_sfx)

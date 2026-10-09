@@ -42,7 +42,7 @@ function frames_de_audio(item, fps)
     return 0
 end
 
-local VERSION = "5.4.8 (subtitulos)"
+local VERSION = "5.4.13 (subtitulos)"
 
 -- La ENTREGA del Puente (v1.0.43): el resolve validado llega como
 -- argumento del chunk, porque las globales del Puente NO cruzan el
@@ -82,10 +82,10 @@ local NOMBRES = {
     base = { "simple", "base" },
     imagen = "imagen",
     solo_nuevos = { arriba = true, abajo = true, imagen = true },
-    max_variantes = 3,
+    max_variantes = 16,        -- v5.5: gemela de MAX_VARIANTES de CineCaptions.py (aquí se había quedado en 3)
 }
 -- Cuantos juegos numerados se buscan: contexto, contexto 2, contexto 3...
-local MAX_SETS = 10
+local MAX_SETS = 16
 -- Formas de numerar que se aceptan, para no obligar a escribirlo de una
 -- manera concreta: "contexto 2", "contexto2", "contexto-2", "contexto_2",
 -- "contexto 02".
@@ -898,6 +898,40 @@ end
 local function set_input(tool, nombre, valor)
     local ok = pcall(function() tool:SetInput(nombre, valor) end)
     return ok
+end
+
+-- v5.5 — el BARRIDO DE LUZ del macro Luxe Shine (palabras grandes del estilo «guion»); gemela de ajustar_barrido de CineCaptions.py. De fábrica empieza a los 0,25 s y
+-- tarda 1,5 s, pero una palabra grande se ve ~0,55 s (mediana): el barrido se quedaba a medias. Aquí empieza justo al entrar (salto = lo que ya se adelantó el comp) y
+-- termina antes de que la palabra salga (dura 0,18-0,50 s). Si el clip no es un Luxe Shine (presets de Amro) no hace nada.
+-- El macro calcula el RECORRIDO de la banda con el DataWindow del texto, que dentro de un macro no llega: recorre siempre ~0,31 del ancho del cuadro y en una palabra ancha sólo pasaba
+-- por el centro. Medido en Resolve: recorrido (en anchos de cuadro) ~ 2,17 x (0,193 + inputShine). Gemela de BARRIDO_K / BARRIDO_BASE de CineCaptions.py.
+local BARRIDO_K = 2.17
+local BARRIDO_BASE = 0.193
+local function ajustar_barrido(item, visible_s, salto_s, ancho_rel)
+    local hecho = false
+    pcall(function()
+        local comp = item:GetFusionCompByIndex(1)
+        if not comp then return end
+        local macro = comp:FindTool("LuxeShine")
+        if not macro then
+            for _, herramienta in ipairs(lista_api(comp:GetToolList())) do
+                local ok, v = pcall(function() return herramienta:GetInput("inputLength") end)
+                if ok and v ~= nil then
+                    macro = herramienta
+                    break
+                end
+            end
+        end
+        if not macro then return end
+        local largo = math.max(0.16, math.min(0.50, visible_s - 0.22))        -- la entrada del macro tarda 0,14 s y la salida 0,10: el barrido va entre las dos
+        local a = set_input(macro, "inputOffset", (salto_s or 0) + 0.10)
+        local b = set_input(macro, "inputLength", largo)
+        if type(ancho_rel) == "number" and ancho_rel > 0 then
+            set_input(macro, "inputShine", math.max(-0.05, (ancho_rel + 0.16) / BARRIDO_K - BARRIDO_BASE))
+        end
+        hecho = a and b
+    end)
+    return hecho
 end
 
 -- Los clips de las plantillas tienen SU frame rate (los .drb se crearon
@@ -5249,6 +5283,7 @@ local function place_guion(timeline, media_pool, track, fps, start_frame, projec
                         props.ZoomY = run.zoom
                     end
                     if next(props) ~= nil then poner_props(item, props) end
+                    if rol == "main" then ajustar_barrido(item, (fin - ini) / fps, salto, run.ancho_rel) end
                     colocados = colocados + 1
                 end
             end
@@ -5312,12 +5347,13 @@ end
 -- `rot` = giro en grados; zx/zy = zoom de los trazos. Cada elemento va en la primera pista libre de su capa («ES-K1»…).
 local KINETIC_CLIP_PRUEBA = "k hero blanco"
 
-local function preparar_pack_kinetic(media_pool, nombre_pack, formato, ruta_drb)
+local function preparar_pack_kinetic(media_pool, nombre_pack, formato, ruta_drb, clip_prueba)
+    clip_prueba = clip_prueba or KINETIC_CLIP_PRUEBA            -- el clip que prueba que el bin del pack esta completo (el pack «VIRAL» trae otros: v fina…)
     local nombre_bin = nombre_bin_pack(nombre_pack, formato)
     local raiz_ok, raiz = pcall(function() return media_pool:GetRootFolder() end)
     if not raiz_ok or not raiz then return nil, "no pude leer el Media Pool." end
     local existente = subcarpeta(raiz, nombre_bin)
-    if existente and find_clip_by_name(media_pool, KINETIC_CLIP_PRUEBA, existente) then return existente, nil end
+    if existente and find_clip_by_name(media_pool, clip_prueba, existente) then return existente, nil end
     if not ruta_drb or not dato_existe(ruta_drb) then
         return nil, "el pack '" .. tostring(nombre_pack) .. "' no trae su .drb en este equipo (" .. tostring(ruta_drb or "sin ruta") .. ")."
     end
@@ -5347,16 +5383,17 @@ local function preparar_pack_kinetic(media_pool, nombre_pack, formato, ruta_drb)
         print("  ImportFolderFromFile no esta en este Resolve (" .. tostring(res_i) .. ").")
     end
     if ok_p and previa then pcall(function() media_pool:SetCurrentFolder(previa) end) end
-    if importo and find_clip_by_name(media_pool, KINETIC_CLIP_PRUEBA, carpeta) then
+    if importo and find_clip_by_name(media_pool, clip_prueba, carpeta) then
         print("  El bin del pack '" .. tostring(nombre_pack) .. "' entro DIRECTO al Media Pool (desde el .drb).")
         return carpeta, nil
     end
-    return nil, "importe el .drb del pack '" .. tostring(nombre_pack) .. "' pero no encuentro sus clips («" .. KINETIC_CLIP_PRUEBA .. "»…)."
+    return nil, "importe el .drb del pack '" .. tostring(nombre_pack) .. "' pero no encuentro sus clips («" .. clip_prueba .. "»…)."
 end
 
 -- capa del elemento: de la de abajo (heroe) a la de arriba (lineas pequeñas); cada capa tiene sus propias pistas
 local function grupo_kinetic(nombre)
     local n = string.lower(tostring(nombre))
+    if n:sub(1, 2) == "v " then return (n == "v fina") and 1 or 0 end          -- pack «VIRAL»: palabras con efecto abajo, lineas finas aparte
     if n:sub(1, 6) == "k hero" then return 0 end
     if n:sub(1, 6) == "k line" then return 1 end
     if n:sub(1, 6) == "k ring" then return 3 end
@@ -5395,8 +5432,8 @@ local function place_kinetic(timeline, media_pool, track, fps, start_frame, proj
     if not pack_previo or not pack_previo.drb then
         fail("el estilo «Kinetic» necesita su pack (.drb) y el manifiesto no lo trae. Elige el pack «Kinetic» en Estilos.")
     end
-    local carpeta, aviso = preparar_pack_kinetic(media_pool, pack_previo.nombre, pack_previo.formato, pack_previo.drb)
-    if not carpeta then fail("no pude preparar el pack «Kinetic»: " .. tostring(aviso)) end
+    local carpeta, aviso = preparar_pack_kinetic(media_pool, pack_previo.nombre, pack_previo.formato, pack_previo.drb, track.clip_prueba)
+    if not carpeta then fail("no pude preparar el pack «" .. tostring(pack_previo.nombre) .. "»: " .. tostring(aviso)) end
     local clips = {}
     local function clip_de(nombre)
         if clips[nombre] == nil then clips[nombre] = find_clip_by_name(media_pool, nombre, carpeta) or false end
@@ -5498,6 +5535,37 @@ local function place_kinetic(timeline, media_pool, track, fps, start_frame, proj
                 end
             end
         end
+    end
+    -- v5.5 — EMOJIS (los manda el estilo VIRAL; Kinetic no): gemela del bloque de place_kinetic_track de CineCaptions.py. Sin cue.emoji no se hace nada.
+    local planes_emoji = {}
+    for _, cue in ipairs(cues) do
+        if cue.emoji then
+            local arriba_y, abajo_y = nil, nil
+            local caja = cue.caja
+            if type(caja) == "table" and tonumber(caja[1]) and tonumber(caja[2]) then
+                arriba_y, abajo_y = 0.5 - tonumber(caja[1]), 0.5 - tonumber(caja[2])
+            else
+                local ymin, ymax = nil, nil
+                for _, r in ipairs(cue.runs or {}) do
+                    if type(r.y) == "number" then
+                        ymin = (ymin == nil) and r.y or math.min(ymin, r.y)
+                        ymax = (ymax == nil) and r.y or math.max(ymax, r.y)
+                    end
+                end
+                if ymin ~= nil then arriba_y, abajo_y = 0.5 - ymin, 0.5 - ymax end
+            end
+            if arriba_y ~= nil then
+                local ini_p = math.max(start_frame, start_frame + a_fotogramas(tonumber(cue.emoji_ini) or cue.start))
+                local fin_p = start_frame + a_fotogramas(cue["end"] + extra_fin)
+                if fin_p > ini_p + 1 then
+                    planes_emoji[#planes_emoji + 1] = { emoji = cue.emoji, ini = ini_p, fin = fin_p, y_arriba = arriba_y, y_abajo = abajo_y }
+                end
+            end
+        end
+    end
+    if #planes_emoji > 0 then
+        local ok_em, err_em = pcall(colocar_emojis, timeline, media_pool, track, planes_emoji, fps)
+        if not ok_em then print("  Aviso: no pude colocar los emojis (" .. tostring(err_em) .. ").") end
     end
     local sobran = {}
     for k = n_pista + 1, n_pista + 24 do sobran[#sobran + 1] = string.format("%s-K%d", L, k) end

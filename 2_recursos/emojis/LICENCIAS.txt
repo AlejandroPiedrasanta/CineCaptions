@@ -68,3 +68,10 @@ Unicode CLDR (cldr-json, annotations) — https://github.com/unicode-org/cldr-js
     not be used in advertising or otherwise to promote the sale, use or other
     dealings in these Data Files or Software without prior written
     authorization of the copyright holder.
+
+Estilos de emoji que se bajan al usarlos (v5.4.13)
+--------------------------------------------------
+- «3D» (Fluent Emoji 3D): los PNG de https://github.com/microsoft/fluentui-emoji (licencia MIT, la de arriba) se bajan uno a uno la primera vez que se usan, de
+  cdn.jsdelivr.net / raw.githubusercontent.com, y quedan en ~/DaVinciSubtitles/emojis_sets/fluent3d. fluent_mapa.json dice qué carpeta del repositorio es cada emoji.
+- «Google» y «Animado» (Noto Emoji / Noto Emoji Animation, Google LLC): licencia CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/); se bajan de
+  fonts.gstatic.com (https://googlefonts.github.io/noto-emoji-animation/) y quedan en ~/DaVinciSubtitles/emojis_sets/noto y emojis_animados.

@@ -9,8 +9,8 @@ porque así queda también dentro del .exe.
 
 QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
 ------------------------------------------------------------------------------
-    efectos\   (53 archivos)
-    emojis\   (544 archivos)  — emojis Fluent 3D de Microsoft (MIT) en PNG + LICENCIAS.txt
+    efectos\   (54 archivos)
+    emojis\   (546 archivos)  — emojis Fluent 3D de Microsoft (MIT) en PNG + LICENCIAS.txt
     fondos_estilos\   (11 archivos)
         fondo_01.jpg
         fondo_02.jpg
@@ -24,7 +24,7 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         fondo_10.jpg
         fondo_11.jpg
     fonts\   (44 archivos)  — tipografías: Inter (la interfaz) y las de los packs; LICENCIAS.txt
-    generador_packs\   (13 archivos)
+    generador_packs\   (17 archivos)
         construir_pack.py
             arma los .drb (bin de Resolve) de los packs nuevos con los macros reales Luxe Shine / Luxe Slide (luxe_macro.py).
         generar_comps.py
@@ -46,7 +46,18 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
             arma el pack «Kinetic»: los elementos del estilo de títulos de gancho (héroe, líneas, serif, pincel, cintas, anillos, subrayados).
         pack_referencia.py
             arma el pack «Referencia»: 8 estilos de principal (Luxe Shine y presets de Amro) con las líneas pequeñas en dos pesos.
+        pack_viral.py
+            arma el pack «VIRAL»: los elementos del estilo de subtítulos virales (línea fina, negrita, shatter, select, drag).
+        viral_comps.py
+            piezas de Fusion propias del estilo «VIRAL» (polígonos, medida del texto, animaciones): se suman a kinetic_comps.py.
+        viral_elementos.py
+            los elementos del estilo «VIRAL»: línea fina, negrita, shatter, select y drag.
+        viral_lab.py
+            laboratorio del estilo «VIRAL»: comps de PRUEBA para ver en Resolve qué admite Fusion (herramienta de desarrollo, no va en el pack).
     generador_sfx_emoji\   (69 archivos)
+    generador_sfx_estilo\   (1 archivos)
+        preparar_sonidos.py
+            prepara los sonidos que el usuario aportó para los estilos (riser de gancho, golpecito del iPhone, obturadores de transición).
     guia_estilo\   (388 archivos)
     locales\   (5 archivos)  — textos de la interfaz en en, pt, fr, de, it (la clave es el español)
         de.json
@@ -61,19 +72,7 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
             IA de texto Qwen3 Instruct: correcciones, pesos y emojis por frase (modo servidor).
         requisitos_motor_qwen.txt
             versiones FIJAS del motor (Python 3.12 + torch + qwen-asr)
-    plantillas_incluidas\   (28 archivos)  — los packs de estilos que trae el programa (.drt/.drb + posiciones + pack.json)
-        Kinetic\   (8 archivos)
-        Referencia\   (4 archivos)
-        Viral Inferior\   (4 archivos)
-        Viral Superior\   (4 archivos)
-        Base titulos dinamicos Horizontal.drb
-        Base titulos dinamicos Horizontal.drt
-        Base titulos dinamicos Horizontal.posiciones.json
-        Base titulos dinamicos Horizontal.variantes.json
-        Base titulos dinamicos vertical.drb
-        Base titulos dinamicos vertical.drt
-        Base titulos dinamicos vertical.posiciones.json
-        Base titulos dinamicos vertical.variantes.json
+    plantillas_incluidas\   (37 archivos)  — los packs de estilos que trae el programa (.drt/.drb + posiciones + pack.json)
     resolve_scripts\   (18 archivos)  — los scripts que se instalan en DaVinci Resolve (Lua = Free, Python = Studio) y sfx_rules.json
         CineCaptions - Detectar Video.py
             renderiza el audio del timeline activo para transcribirlo (Studio).
@@ -112,7 +111,7 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         sfx_rules.json
             cuándo suena cada efecto de sonido (editable sin tocar código)
     sfx_emoji\   (101 archivos)
-    sfx_library\   (124 archivos)  — los efectos de sonido, una carpeta por categoría
+    sfx_library\   (128 archivos)  — los efectos de sonido, una carpeta por categoría
     vistas_slider\   (4 archivos)
         Kinetic.jpg
         Kinetic.mp4

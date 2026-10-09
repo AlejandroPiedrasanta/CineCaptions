@@ -130,6 +130,28 @@ def blob_de_comp(texto_comp, hex_plantilla):
     return binascii.hexlify(struct.pack('>I', len(cab)) + zlib.compress(cab, 6)).decode()
 
 
+def _blob_con_nombre(copia, origen, destino):
+    """Cambia el nombre del clip dentro de su FieldsBlob (de donde Resolve lo lee). El blob es protobuf con LARGOS: el total (4 bytes, big-endian, en el byte 4) y los dos del nombre
+    (0a <largo externo> 12 <largo interno> <nombre>); si el nombre nuevo tiene otra longitud («contexto 10» frente a «contexto 3») hay que corregir los tres. Sin esto los clips de la
+    combinación 10 en adelante salían corruptos en Resolve (sin su Text+): sólo funcionaban las 9 primeras."""
+    import struct
+    o, d = origen.encode(), destino.encode()
+
+    def sustituir(m):
+        raw = bytearray(binascii.unhexlify(m.group(2)))
+        i = bytes(raw).find(o)
+        if i < 3:
+            return m.group(0)
+        delta = len(d) - len(o)
+        raw[i:i + len(o)] = d
+        if delta:
+            raw[i - 1] += delta
+            raw[i - 3] += delta
+            raw[4:8] = struct.pack('>I', struct.unpack('>I', bytes(raw[4:8]))[0] + delta)
+        return m.group(1) + binascii.hexlify(bytes(raw)).decode() + m.group(3)
+    return re.sub(r'(<FieldsBlob>)([0-9a-f]+)(</FieldsBlob>)', sustituir, copia)
+
+
 def _clonar_combinaciones(xml, proyecto, hasta):
     """v5.9: el contenedor trae solo las combinaciones 1-3; para un pack de hasta N variantes se CLONAN los clips de la 3 (contexto / principal /
     complemento) con ids nuevos, el nombre «contexto 4»… (en el XML y dentro del FieldsBlob, que es de donde Resolve lee el nombre) y su blob de posicion."""
@@ -145,10 +167,10 @@ def _clonar_combinaciones(xml, proyecto, hasta):
                 mapa[i] = str(uuid.uuid4())
                 copia = copia.replace(i, mapa[i])
             copia = copia.replace(f'<Name>{origen}</Name>', f'<Name>{destino}</Name>', 1)
-            viejo_hex, nuevo_hex = binascii.hexlify(origen.encode()).decode(), binascii.hexlify(destino.encode()).decode()
+            viejo_hex = binascii.hexlify(origen.encode()).decode()
             if viejo_hex not in copia:
                 raise ValueError(f'el FieldsBlob de «{origen}» no lleva su nombre: no se puede clonar')
-            copia = copia.replace(viejo_hex, nuevo_hex)
+            copia = _blob_con_nombre(copia, origen, destino)
             xml = xml.replace(bloque, bloque + copia, 1)
             mb = re.search(r'[ 	]*<Element>\s*<Sm2MpItemLockableBlob DbId="([^"]+)">(?:(?!</Sm2MpItemLockableBlob>).)*?<BlobOwner>' + re.escape(db_gen)
                            + r'</BlobOwner>\s*</Sm2MpItemLockableBlob>\s*</Element>\s*', proyecto, re.S)
@@ -218,7 +240,8 @@ def construir(plantilla, salida, nombre_bin, pack, combinaciones=(1, 2, 3), y_po
             texto = None                                    # el principal es un preset de Amro.Films Captions: su comp se copia tal cual
         elif rol in ('main', 'base'):
             mayus = r['mayus'] if g.COMBINACIONES[comb].get('mayus_real') else True
-            texto = luxe_macro.comp_luxe_shine(r['f1'][0], r['f1'][1], r['tam'], r['color'], y_abs, mayus=mayus and not guia, esp=r['esp'], ajustar=not guia, anim=g.COMBINACIONES[comb].get('anim'))
+            texto = luxe_macro.comp_luxe_shine(r['f1'][0], r['f1'][1], r['tam'], r['color'], y_abs, mayus=mayus and not guia, esp=r['esp'], ajustar=not guia, anim=g.COMBINACIONES[comb].get('anim'),
+                                               barrido=g.COMBINACIONES[comb].get('barrido'))
         else:
             texto = luxe_macro.comp_luxe_slide(r['f1'][0], r['f1'][1], r['tam'], r['color'], y_abs, mayus=r['mayus'] and not guia, esp=r['esp'], ajustar=not guia, anim=g.COMBINACIONES[comb].get('anim'))
         bloque = m.group(0)

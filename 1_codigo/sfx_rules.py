@@ -17,15 +17,19 @@ ARCHIVO_MODO = CARPETA_USUARIO / 'sfx_modo.json'
 # Modo simple: un efecto al PRINCIPIO de cada bloque, alternando dos sonidos (los de fábrica van en
 # sfx_library/Modo simple; el usuario puede cambiarlos desde la pantalla Sonido)
 CATEGORIA_SIMPLE = 'Modo simple'
-SONIDOS_SIMPLES_DE_FABRICA = ('TAP_POP.mp3', 'typewriter copy.mp3')
+SONIDOS_SIMPLES_DE_FABRICA = ('TAP_POP.mp3', 'typewriter copy.mp3', 'Iphone Taping.wav')
 # (5.3) El modo simple tiene 3 secciones: al inicio de cada palabra/bloque, la introducción (primer bloque: un riser) y el final
-# (último bloque: un boom). Cada una guarda 2 sonidos para variar (el usuario los cambia desde la pantalla Sonido).
+# (último bloque: un boom). Cada una guarda sonidos para variar (el usuario los cambia desde la pantalla Sonido). v5.5: el sonido por palabra alterna TRES
+# (TAP_POP, typewriter, Iphone Taping) y el riser de la introducción de fábrica es el «Viral Hooks Riser».
 CATEGORIA_INTRO = 'Modo simple · Introducción'
 CATEGORIA_FINAL = 'Modo simple · Final'
 SECCIONES_SIMPLES = {'inicio': ('Modo simple', SONIDOS_SIMPLES_DE_FABRICA),
-                     'intro': ('Riser', ('Riser 1.wav', 'Riser 2.wav')),
+                     'intro': ('Riser', ('Viral Hooks Riser.mp3', 'Riser 2.wav')),
                      'final': ('Bass Hit', ('Bass Hit 1.wav', 'Bass Hit 2.wav'))}
 CATEGORIA_DE_SECCION = {'inicio': CATEGORIA_SIMPLE, 'intro': CATEGORIA_INTRO, 'final': CATEGORIA_FINAL}
+CUANTOS_SIMPLES = {'inicio': 3, 'intro': 2, 'final': 2}          # cuántos sonidos guarda cada sección
+# v5.5: en QUÉ palabras suena el modo simple: en todas, solo en la principal (la grande / el héroe / la del efecto) o en ninguna (quedan la introducción y el final)
+DONDE_SIMPLE = ('todas', 'principal', 'ninguna')
 def _leer_lista(archivo):
     try:
         datos = json.loads(Path(archivo).read_text(encoding='utf-8'))
@@ -50,7 +54,7 @@ def cargar_carpetas_usuario():
 def guardar_carpetas_usuario(carpetas):
     _escribir_lista(ARCHIVO_CARPETAS, carpetas)
 def cargar_modo():
-    """{'modo': 'simple' | 'avanzado', 'sonidos': [2 del inicio], 'intro': [2], 'final': [2]} que dejó el usuario. Por defecto: simple."""
+    """{'modo': 'simple' | 'avanzado', 'donde': 'todas' | 'principal' | 'ninguna', 'sonidos': [3 del inicio], 'intro': [2], 'final': [2]} que dejó el usuario. Por defecto: simple, en todas las palabras."""
     try:
         datos = json.loads(ARCHIVO_MODO.read_text(encoding='utf-8'))
     except Exception:
@@ -58,18 +62,20 @@ def cargar_modo():
     if not isinstance(datos, dict):
         datos = {}
     modo = 'avanzado' if datos.get('modo') == 'avanzado' else 'simple'
-    salida = {'modo': modo}
+    salida = {'modo': modo, 'donde': datos.get('donde') if datos.get('donde') in DONDE_SIMPLE else 'todas'}
     for clave in ('sonidos', 'intro', 'final'):
-        salida[clave] = [str(x) for x in (datos.get(clave) or []) if isinstance(x, str)][:2]
+        salida[clave] = [str(x) for x in (datos.get(clave) or []) if isinstance(x, str)][:CUANTOS_SIMPLES[{'sonidos': 'inicio'}.get(clave, clave)]]
     return salida
-def guardar_modo(modo=None, sonidos=None, intro=None, final=None):
-    """Guarda el modo y/o los sonidos de cada sección del modo simple (lo que no se pasa se conserva)."""
+def guardar_modo(modo=None, sonidos=None, intro=None, final=None, donde=None):
+    """Guarda el modo, en qué palabras suena el modo simple y/o los sonidos de cada sección (lo que no se pasa se conserva)."""
     actual = cargar_modo()
     if modo in ('simple', 'avanzado'):
         actual['modo'] = modo
+    if donde in DONDE_SIMPLE:
+        actual['donde'] = donde
     for clave, valor in (('sonidos', sonidos), ('intro', intro), ('final', final)):
         if valor is not None:
-            actual[clave] = [str(x) for x in valor][:2]
+            actual[clave] = [str(x) for x in valor][:CUANTOS_SIMPLES[{'sonidos': 'inicio'}.get(clave, clave)]]
     try:
         CARPETA_USUARIO.mkdir(parents=True, exist_ok=True)
         ARCHIVO_MODO.write_text(json.dumps(actual, ensure_ascii=False, indent=2), encoding='utf-8')
@@ -87,7 +93,7 @@ def sonidos_simples(seccion='inicio'):
     elegidos = cargar_modo()[clave]
     fabrica = sonidos_de_fabrica(seccion)
     salida = []
-    for i in range(2):
+    for i in range(CUANTOS_SIMPLES[seccion]):
         propio = Path(elegidos[i]) if i < len(elegidos) else None
         if propio is not None and propio.is_file():
             salida.append(propio)
@@ -231,9 +237,22 @@ def cargar_recortes():
         except (TypeError, ValueError):
             pass
     return salida
+# v5.5: la parte buena de los sonidos de fábrica del modo simple (el TAP_POP dura 1,07 s con un chasquido de 70 ms; el typewriter son 7,5 s de teclas y sólo suena UNA). Antes
+# esto sólo existía como recorte guardado por el usuario en SU instalación (ruta absoluta), así que un programa recién instalado sonaba con el archivo entero (el primer golpe del
+# typewriter llega al segundo 1,4: cada palabra sonaba tarde). Lo que el usuario recorte con «Editar» manda sobre esto.
+RECORTES_DE_FABRICA = {'modo simple/tap_pop.mp3': (0.048, 0.119), 'modo simple/typewriter copy.mp3': (1.339, 1.523)}
+def _de_fabrica(ruta):
+    """La clave 'carpeta/archivo' (minúsculas) si el sonido está dentro de la biblioteca que trae el programa o su copia en _internal; si no, None."""
+    p = Path(str(ruta))
+    if 'sfx_library' not in [x.lower() for x in p.parts]:
+        return None
+    return f'{p.parent.name}/{p.name}'.lower()
 def recorte_de(ruta):
-    """(inicio_s, fin_s) guardado para un sonido, o None si se usa entero."""
-    return cargar_recortes().get(_clave_ruta(ruta))
+    """(inicio_s, fin_s) guardado para un sonido, o None si se usa entero. Los sonidos de fábrica del modo simple traen su recorte."""
+    propio = cargar_recortes().get(_clave_ruta(ruta))
+    if propio:
+        return propio
+    return RECORTES_DE_FABRICA.get(_de_fabrica(ruta) or '')
 def guardar_recorte(ruta, inicio, fin, duracion=None):
     """Guarda la parte del sonido que se usa. Si cubre todo el archivo se borra el recorte."""
     datos = {k: list(v) for k, v in cargar_recortes().items()}
@@ -331,22 +350,70 @@ def ganancia_de_normalizado_db(ruta):
         return 0.0 if abs(ganancia) < 0.3 else float(ganancia)
     except Exception:
         return 0.0
-def con_volumen(ruta, db_extra=0.0, tope_s=None):
+ADELANTO_MAX_S = 0.40            # lo más que un sonido empieza ANTES de su instante para que su pico caiga en él (el remolino de un whoosh, la subida de un riser corto)
+_PICOS = {}
+
+
+def adelanto_natural(ruta, recorte=None):
+    """(adelanto_s, instante_del_pico_s) de un sonido (ya recortado): la ventana de 10 ms más fuerte es su PICO; para que ese pico caiga en el instante de la palabra el sonido tiene que
+    empezar `adelanto` segundos antes (como mucho ADELANTO_MAX_S: los golpes secos, cuyo pico está al principio, no se adelantan; un whoosh de 6 s cuyo pico está en el 0,9 s sólo se queda con
+    el 0,4 s anterior al pico). Se mide una vez por archivo."""
+    try:
+        origen = Path(str(ruta))
+        clave = (str(origen), origen.stat().st_mtime_ns, tuple(recorte) if recorte else None)
+    except OSError:
+        return 0.0, 0.0
+    if clave in _PICOS:
+        return _PICOS[clave]
+    salida = (0.0, 0.0)
+    try:
+        import numpy as np
+        import sfx_audio
+        audio, sr = sfx_audio.cargar(origen)
+        a = np.asarray(audio, dtype='float32')
+        if recorte:
+            a = a[int(recorte[0] * sr):int(recorte[1] * sr)]
+        if a.ndim > 1:
+            a = np.abs(a).max(axis=1)
+        else:
+            a = np.abs(a)
+        n = max(1, int(sr * 0.010))
+        k = len(a) // n
+        if k >= 2:
+            energia = (a[:k * n].reshape(k, n) ** 2).sum(axis=1)
+            tp = (int(energia.argmax()) + 0.5) * n / float(sr)
+            salida = (round(min(ADELANTO_MAX_S, tp), 3) if tp > 0.06 else 0.0, round(tp, 3))
+    except Exception:
+        salida = (0.0, 0.0)
+    _PICOS[clave] = salida
+    return salida
+
+
+def adelanto_de(ruta):
+    """El adelanto (s) con el que se preparó un sonido alineado al pico (va en el nombre del archivo: «…_a350.wav»), o 0.0."""
+    m = re.search(r'_a(\d+)\.wav$', str(ruta))
+    return int(m.group(1)) / 1000.0 if m else 0.0
+
+
+def con_volumen(ruta, db_extra=0.0, tope_s=None, alinear=False):
     """La ruta del sonido con su volumen guardado (y el general, en dB) y su recorte ya aplicados. Si no hay nada que cambiar sale
     la misma ruta; si no, un WAV en ~/DaVinciSubtitles/sfx_volumen (se rehace solo si cambia). Es lo que viaja a la línea de
-    tiempo: Resolve no deja cambiar el volumen de un clip por script, así que el volumen y el recorte quedan dentro del archivo."""
+    tiempo: Resolve no deja cambiar el volumen de un clip por script, así que el volumen y el recorte quedan dentro del archivo.
+    v5.5 `alinear`: el WAV empieza `adelanto` s antes de su pico (adelanto_natural) y el nombre acaba en «_a<ms>.wav»; quien lo coloca lo pone ese tiempo ANTES de su instante (adelanto_de),
+    así el PICO del sonido (el golpe del hit, lo más fuerte del whoosh) cae justo cuando entra la palabra y no medio segundo después."""
     g_norm = ganancia_de_normalizado_db(ruta)
     factor = volumen_de(ruta) * (10 ** ((float(db_extra or 0.0) + g_norm) / 20.0))
     recorte = recorte_de(ruta)
-    if abs(factor - 1.0) < 0.005 and not recorte and not tope_s:
+    adelanto, tp = adelanto_natural(ruta, recorte) if alinear else (0.0, 0.0)
+    if abs(factor - 1.0) < 0.005 and not recorte and not tope_s and not adelanto:
         return ruta
     try:
         import hashlib
         import numpy as np
         import sfx_audio
         origen = Path(str(ruta))
-        sello = hashlib.sha1(f'{origen}|{origen.stat().st_mtime_ns}|{factor:.3f}|{recorte}|{tope_s}'.encode('utf-8')).hexdigest()[:10]
-        destino = CARPETA_SFX_VOLUMEN / f'{origen.stem}_g{int(round(factor * 100))}_{sello}.wav'
+        sello = hashlib.sha1(f'{origen}|{origen.stat().st_mtime_ns}|{factor:.3f}|{recorte}|{tope_s}|{adelanto}'.encode('utf-8')).hexdigest()[:10]
+        destino = CARPETA_SFX_VOLUMEN / f'{origen.stem}_g{int(round(factor * 100))}_{sello}{("_a%d" % int(round(adelanto * 1000))) if adelanto else ""}.wav'
         if not destino.is_file():
             audio, sr = sfx_audio.cargar(origen)
             if recorte:
@@ -357,13 +424,18 @@ def con_volumen(ruta, db_extra=0.0, tope_s=None):
                     rampa = np.linspace(0.0, 1.0, paso, dtype='float32')
                     audio[:paso] *= rampa
                     audio[-paso:] *= rampa[::-1]
+            if adelanto and tp - adelanto > 0.004:
+                audio = np.array(audio[int((tp - adelanto) * sr):], dtype='float32')          # sin lo que sobra antes de la subida hacia el pico
+                paso = min(int(sr * 0.006), len(audio) // 2)
+                if paso > 1:
+                    audio[:paso] *= np.linspace(0.0, 1.0, paso, dtype='float32')
             if tope_s and len(audio) > int(float(tope_s) * sr):
                 # v5.4: un sonido por PALABRA no puede durar mas que unas palabras: se corta al tope con una salida suave (120 ms)
                 audio = np.array(audio[:int(float(tope_s) * sr)], dtype='float32')
                 cola = min(int(sr * 0.12), len(audio) // 2)
                 if cola > 1:
                     audio[-cola:] *= np.linspace(1.0, 0.0, cola, dtype='float32')
-            elif tope_s and abs(factor - 1.0) < 0.005 and not recorte:
+            elif tope_s and abs(factor - 1.0) < 0.005 and not recorte and not adelanto:
                 return ruta                       # ya es corto: se usa tal cual
             if not len(audio):
                 return ruta
@@ -419,8 +491,10 @@ def cargar_reglas(ruta=None):
 def _aplicar_modo(config):
     """Modo simple: todos los bloques suenan, al principio, con la categoría «Modo simple»; las reglas
     (modo avanzado) quedan guardadas pero no mandan."""
-    modo = cargar_modo()['modo']
+    guardado = cargar_modo()
+    modo = guardado['modo']
     config['modo'] = modo
+    config['simple_donde'] = guardado['donde']
     if modo == 'simple' and sonidos_simples():
         config['categoria_por_defecto'] = CATEGORIA_SIMPLE
         config['reglas'] = []
@@ -704,13 +778,20 @@ def archivos_de(categoria):
     base = carpeta_libreria() / categoria
     if not base.is_dir():
         return []
-    return [ruta_persistente(con_volumen(str(a), db)) for a in sorted(base.iterdir())
+    return [ruta_persistente(con_volumen(str(a), db)) for a in sorted(base.iterdir(), key=_orden_de_biblioteca)
             if a.is_file() and a.suffix.lower() in EXTENSIONES_AUDIO]
 
 
 # ---------------------------------------------------------------------------------------------------------------------
 # v5.4: QUE ARCHIVO suena en cada bloque. El editor muestra un punto en la palabra donde empieza cada efecto y deja
 # cambiarlo; lo que se ve ahi es EXACTAMENTE lo que llega a Resolve (el bloque lleva 'sfx_archivo' y los scripts lo usan).
+PRIMEROS_DE_FABRICA = ('Viral Hooks Riser.mp3',)          # v5.5: los sonidos que el usuario pidió «por defecto» salen primero de su categoría (el riser de «Riser»)
+
+
+def _orden_de_biblioteca(ruta):
+    return (0 if ruta.name in PRIMEROS_DE_FABRICA else 1, ruta.name)
+
+
 def _rutas_de(categoria):
     """Las rutas originales (sin volumen ni recorte) de una categoria, en el orden de siempre."""
     propias = fuentes_del_usuario()
@@ -719,13 +800,13 @@ def _rutas_de(categoria):
     base = carpeta_libreria() / categoria
     if not base.is_dir():
         return []
-    return [str(a) for a in sorted(base.iterdir()) if a.is_file() and a.suffix.lower() in EXTENSIONES_AUDIO]
+    return [str(a) for a in sorted(base.iterdir(), key=_orden_de_biblioteca) if a.is_file() and a.suffix.lower() in EXTENSIONES_AUDIO]
 
 
-def para_resolve(ruta, tope_s=None):
-    """La ruta que viaja a Resolve: con el volumen y el recorte elegidos en la pantalla Sonido y fuera del programa."""
+def para_resolve(ruta, tope_s=None, alinear=False):
+    """La ruta que viaja a Resolve: con el volumen y el recorte elegidos en la pantalla Sonido y fuera del programa. `alinear` (v5.5): empieza antes de su pico, ver con_volumen y adelanto_de."""
     db = cargar_avanzado()['volumen_global_db'] if cargar_modo()['modo'] == 'avanzado' else 0.0
-    return str(ruta_persistente(con_volumen(str(ruta), db, tope_s)))
+    return str(ruta_persistente(con_volumen(str(ruta), db, tope_s, alinear)))
 
 
 def _manual_de(bloque, manuales):
@@ -785,9 +866,35 @@ def asignar_archivos(bloques, manuales=None, para_resolver=True):
 TOPE_SONIDO_PALABRA_S = 1.2        # lo que dura, como mucho, el sonido de una palabra (el resto se reparte en pistas SFX, SFX 2…)
 
 
-def asignar_eventos_por_palabra(bloques, inicios, manuales=None, para_resolver=True, config=None, palabras=None):
+def _instantes_principales(bloques, palabras, principales=None, inicios=()):
+    """{inicio de la palabra (s, 3 decimales): (instante del sonido, clip del efecto o None)} de las palabras PRINCIPALES. `principales` = los instantes en que el estilo hace entrar su palabra clave (la de VIRAL, el
+    héroe de Kinetic, la palabra grande de «guion»): cada uno se casa con la palabra hablada más cercana (a menos de 0,35 s) y el sonido cae cuando ENTRA en pantalla; sin eso se saca el
+    rol de cada palabra por su POSICIÓN en el bloque (el diseño de 3 líneas: la línea «main»)."""
+    salida = {}
+    if principales is not None:
+        libres = sorted(float(t) for t in inicios)
+        for entrada in sorted(principales, key=lambda x: float(x[0] if isinstance(x, (tuple, list)) else x)):
+            p, clave = (float(entrada[0]), entrada[1]) if isinstance(entrada, (tuple, list)) else (float(entrada), None)
+            mejor = min(libres, key=lambda t: abs(t - p), default=None)
+            if mejor is not None and abs(mejor - p) <= 0.35:
+                salida[round(mejor, 3)] = (round(p, 3), clave)
+                libres.remove(mejor)
+        return salida
+    vistas = {}
+    inicios_bloques = _inicios_de(bloques)
+    for p in sorted((p for p in (palabras or []) if str(p.get('texto', '')).strip()), key=lambda p: float(p['t'])):
+        bloque = _dueno_de(bloques, float(p['t']), inicios_bloques)
+        k = vistas.get(id(bloque), 0)
+        vistas[id(bloque)] = k + 1
+        if _rol_por_posicion(bloque, k) == 'main':
+            salida[round(float(p['t']), 3)] = (round(float(p['t']), 3), None)
+    return salida
+
+
+def asignar_eventos_por_palabra(bloques, inicios, manuales=None, para_resolver=True, config=None, palabras=None, principales=None):
     """Si el modo es simple (al inicio), reparte un sonido por palabra respetando la separacion minima. 'inicios' = los
-    segundos donde empieza cada palabra. Devuelve True si lo aplico (si no, queda lo de asignar_archivos por bloque)."""
+    segundos donde empieza cada palabra. Devuelve True si lo aplico (si no, queda lo de asignar_archivos por bloque).
+    v5.5: con config['simple_donde'] = 'principal' solo suenan las palabras principales (`principales` = sus instantes, si el estilo los conoce) y con 'ninguna' ninguna."""
     config = config or cargar_reglas()
     if config.get('modo') == 'avanzado' and palabras:
         return _eventos_avanzados(bloques, palabras, manuales, para_resolver, config)
@@ -800,8 +907,11 @@ def asignar_eventos_por_palabra(bloques, inicios, manuales=None, para_resolver=T
     inicios = sorted(float(t) for t in inicios)
     ultimo = None
     eventos = []
+    veces_efecto = {}
     energia = None
-    if curva_energia_activa():
+    donde = config.get('simple_donde') if config.get('simple_donde') in DONDE_SIMPLE else 'todas'
+    principales = _instantes_principales(bloques, palabras, principales, inicios) if donde == 'principal' else None
+    if curva_energia_activa() and donde == 'todas':
         import energia as _en
         energia = _en.energia_de_palabras([{'start': t, 'end': t + 0.25} for t in inicios])
     for n, t in enumerate(inicios):
@@ -814,19 +924,39 @@ def asignar_eventos_por_palabra(bloques, inicios, manuales=None, para_resolver=T
                 continue            # tramo calmado: esta palabra no suena (el video respira)
         if ultimo is not None and t - ultimo < minimo and not m and n != len(inicios) - 1:
             continue
+        es_intro = n == 0 and config.get('simple_intro') and intro
+        es_final = n == len(inicios) - 1 and config.get('simple_final') and final and len(inicios) > 1
+        t_sonido = t
+        clave = None
+        if not m and not es_intro and not es_final:
+            if donde == 'ninguna' or (donde == 'principal' and round(t, 3) not in principales):
+                continue            # «solo la principal» / «ninguna»: las demás palabras no suenan (lo que el usuario puso a mano, la introducción y el final sí)
+            if donde == 'principal':
+                t_sonido, clave = principales[round(t, 3)]          # el golpe cae cuando la palabra ENTRA en pantalla (el estilo puede retrasar un bloque un instante)
         if m and Path(str(m)).is_file():
             ruta, cat, manual = str(m), (Path(str(m)).parent.name or 'Manual'), True
-        elif n == 0 and config.get('simple_intro') and intro:
+        elif es_intro:
             ruta, cat, manual = intro[0], CATEGORIA_INTRO, False
-        elif n == len(inicios) - 1 and config.get('simple_final') and final and len(inicios) > 1:
+        elif es_final:
             ruta, cat, manual = final[0], CATEGORIA_FINAL, False
         else:
-            if not simples:
-                continue
-            ruta, cat, manual = simples[len(eventos) % len(simples)], CATEGORIA_SIMPLE, False
+            propia = None                                   # v5.5: el sonido propio del EFECTO que lleva esta palabra principal (cristal, selección, arrastre, héroe)
+            if clave and callable(config.get('categoria_por_clave')):
+                cat_efecto = config['categoria_por_clave'](clave)
+                rutas_efecto = _rutas_de(cat_efecto) if cat_efecto else []
+                if rutas_efecto:
+                    veces_efecto[cat_efecto] = veces_efecto.get(cat_efecto, 0) + 1
+                    propia = (str(rutas_efecto[(veces_efecto[cat_efecto] - 1) % len(rutas_efecto)]), cat_efecto)
+            if propia:
+                ruta, cat, manual = propia[0], propia[1], False
+            else:
+                if not simples:
+                    continue
+                ruta, cat, manual = simples[len(eventos) % len(simples)], CATEGORIA_SIMPLE, False
         tope = None if cat in (CATEGORIA_INTRO, CATEGORIA_FINAL) else TOPE_SONIDO_PALABRA_S
-        eventos.append({'t': round(t, 3), 'sfx': cat, 'sfx_nombre': Path(ruta).name, 'sfx_original': ruta,
-                        'sfx_archivo': para_resolve(ruta, tope) if para_resolver else ruta, 'sfx_manual': manual})
+        archivo = para_resolve(ruta, tope, alinear=not manual and cat not in (CATEGORIA_INTRO, CATEGORIA_FINAL)) if para_resolver else ruta           # v5.5: lo que el usuario eligió a mano y el riser / boom de la introducción y el final van tal cual; el resto, con su pico en la palabra
+        t_ev = max(0.0, t_sonido - adelanto_de(archivo)) if para_resolver else t_sonido
+        eventos.append({'t': round(t_ev, 3), 't_dueno': round(t_sonido, 3), 'sfx': cat, 'sfx_nombre': Path(ruta).name, 'sfx_original': ruta, 'sfx_archivo': archivo, 'sfx_manual': manual})
         ultimo = t
     _repartir_eventos(bloques, eventos)
     return True
@@ -862,7 +992,7 @@ def _repartir_eventos(bloques, eventos):
             b.pop(k, None)
     inicios = _inicios_de(bloques)
     for ev in eventos:
-        dueno = _dueno_de(bloques, ev['t'], inicios)
+        dueno = _dueno_de(bloques, ev.pop('t_dueno', ev['t']), inicios)          # el bloque lo decide la hora de la PALABRA; 't' puede ir adelantado (alinear al pico)
         if dueno is None:
             continue
         dueno.setdefault('sfx_eventos', []).append(ev)
@@ -955,8 +1085,9 @@ def _eventos_avanzados(bloques, palabras, manuales, para_resolver, config):
             k = turno.get(cat, 0)
             turno[cat] = k + 1
             ruta = rutas[k % len(rutas)]
-        eventos.append({'t': round(t, 3), 'sfx': cat, 'sfx_nombre': Path(ruta).name, 'sfx_original': ruta,
-                        'sfx_archivo': para_resolve(ruta, TOPE_SONIDO_PALABRA_S) if para_resolver else ruta, 'sfx_manual': manual})
+        archivo = para_resolve(ruta, TOPE_SONIDO_PALABRA_S, alinear=not manual) if para_resolver else ruta
+        t_ev = max(0.0, t - adelanto_de(archivo)) if para_resolver else t
+        eventos.append({'t': round(t_ev, 3), 't_dueno': round(t, 3), 'sfx': cat, 'sfx_nombre': Path(ruta).name, 'sfx_original': ruta, 'sfx_archivo': archivo, 'sfx_manual': manual})
         ultimo_t, ultima_cat = t, cat
         tiempos.append(t)
     _repartir_eventos(bloques, eventos)

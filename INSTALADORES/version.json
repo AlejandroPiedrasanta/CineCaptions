@@ -1,23 +1,23 @@
 {
     "estable":  {
-                    "version":  "5.4.7",
-                    "notas":  "• Nueva página «Efectos» (viene activada): intro con sonido —sube el riser y, cuando llega al final, el destello cubre la imagen; puedes cambiar o silenciar el sonido—, transiciones que esconden cada corte entre tomas e iconos flotantes animados con desenfoque. Se colocan solos al hacer GO, junto a los captions, la música y los emojis, en pistas propias «FX» de Resolve Studio (tu video y tus captions no se tocan).\r\n• Iconos flotantes a tu gusto: apágalos o deja solo los packs que quieras y, al hacer clic en un pack, escribe en qué palabras sale. También pueden salir en las frases importantes (un número, un aviso, una pregunta, el gancho).\r\n• Chip «Visuales» en Inicio para activar o desactivar todos los efectos de un clic.\r\n• Los estilos de fábrica pasan a llamarse «Shine Kinetic» y «Shine Referencia»: vienen con el programa y no se pueden quitar. El slider de Proyecto reproduce un video real con los captions de cada uno, tal como quedan en la línea de tiempo.\r\n• «Crea tu estilo» más fácil: cada ejemplo se ve sobre una foto de muestra con su animación completa (entrada, texto y salida) y se ordena con los botones «Texto alto», «Texto medio» y «Texto bajo». En Proyecto se quitó «Mostrar los packs quitados».",
+                    "version":  "5.4.8",
+                    "notas":  "• Efectos con movimiento en la página «Efectos»: zoom lento, temblor con los golpes de sonido, transiciones nuevas en los cortes (zoom desenfocado, barrido y glitch RGB) y fondo desenfocado cuando el video no llena el cuadro. Se aplican con Fusion al propio video, así que tu corrección de color sigue valiendo. Hay una intensidad general y una vista previa de 3 segundos.\r\n• «Más efectos» (plegado en la página Efectos): números 1, 2, 3 cuando enumeras, pegatinas en palabras clave, subrayado o círculo dibujado a mano, polvo, grano o luz suave, tus propios efectos (MOV, MP4, PNG, GIF o WebP) y un cierre con tu logo y su sonido. Esquivan los captions y la cara.\r\n• Quitar pausas: GO recorta los silencios del video que sueltas en Inicio antes de poner los captions (que ya salen con los tiempos nuevos) y puede alternar un zoom en cada corte.\r\n• Sonido extra: un sonido en cada transición, riser y golpe antes de la palabra clave del gancho, música de fondo que baja sola cuando hablas (con detección de BPM para alinear su pulso), volumen de los sonidos igualado y sonido de los emojis según la frase.\r\n• B-roll opcional: tomas de apoyo gratuitas de Pexels en las palabras concretas (casa, playa, coche…), debajo de los captions. Necesita tu clave de API gratuita.\r\n• GO se puede pausar, cancelar y reanudar; si el programa se cierra a mitad, te ofrece seguir donde se quedó. Dice el idioma que oyó y te deja corregirlo, y te avisa con una notificación del sistema al terminar. El cuadro de Novedades ahora enseña clips en movimiento.\r\n• Más rápido y robusto: reutiliza la transcripción de un video ya hecho, usa tu tarjeta gráfica para la voz (se repara desde Ajustes), avisa si Resolve se quedó colgado y las descargas se reanudan si se cortan.",
                     "fecha":  "2026-10-08",
                     "archivos":  {
                                      "windows":  {
-                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.7/Instalar_CineCaptions_5.4.7.exe",
-                                                     "sha256":  "a3c3392316b0e92c8e12c1faf998d1440b39c5cf5c0228d1ffa017bc51f0515a",
-                                                     "tam":  227112724
+                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.8/Instalar_CineCaptions_5.4.8.exe",
+                                                     "sha256":  "ba4c6daf176bc78dc90dfb404f19529aac12997028894318d11de71598755949",
+                                                     "tam":  227566083
                                                  },
                                      "mac_arm64":  {
-                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.7/CineCaptions_Mac_AppleSilicon_5.4.7.dmg",
-                                                       "sha256":  "cedb0f66a5b11126b524d2c4f7ef1cad481d8692bf3ab4330bc35e43ce133f24",
-                                                       "tam":  196377314
+                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.8/CineCaptions_Mac_AppleSilicon_5.4.8.dmg",
+                                                       "sha256":  "6a77a1b2de714fd50034559a72260a30668ea866408e8a553dfade0059a58656",
+                                                       "tam":  196532249
                                                    },
                                      "mac_x86_64":  {
-                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.7/CineCaptions_Mac_Intel_5.4.7.dmg",
-                                                        "sha256":  "1f9ab02073c9a86bc9343cecf4ea4fa5c66ab84a66dba8069f7794a74a4e4c79",
-                                                        "tam":  212258079
+                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.8/CineCaptions_Mac_Intel_5.4.8.dmg",
+                                                        "sha256":  "e2fd14b9f2b913fe22ac6c270098e7a69decce123178123fb2f698e1013bd549",
+                                                        "tam":  213291874
                                                     }
                                  }
                 }

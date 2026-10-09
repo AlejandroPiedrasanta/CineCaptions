@@ -128,7 +128,11 @@ class Pack:
     @property
     def kinetic(self):
         """True si es el estilo «Kinetic» (títulos de gancho: kinetic_planificador.py; sus clips son elementos —héroe, cinta, anillo…— y no sets arriba/principal/abajo)."""
-        return self.datos.get('guion') == 'kinetic'
+        return self.datos.get('guion') in ('kinetic', 'viral')
+    @property
+    def viral(self):
+        """True si es el estilo «VIRAL» (viral_planificador.py): también un pack de ELEMENTOS —por eso `kinetic` también es True y comparten el camino de la app y de Resolve—, pero con sus propios clips («v fina», «v shatter»…) y su propio planificador."""
+        return self.datos.get('guion') == 'viral'
     @property
     def formatos(self):
         """Los formatos que este pack trae de verdad, en orden estable."""
@@ -333,7 +337,7 @@ def cargar(carpeta, incorporado=False):
 NOMBRE_INCORPORADO = 'Base títulos dinámicos'
 # v5.4.5: los dos packs de FÁBRICA (nombre interno -> nombre que ve el usuario). El nombre interno no cambia (preferencias, GO, carpetas y proyectos guardados
 # lo siguen usando); en pantalla se llaman «Shine …» y NO se pueden quitar de la lista.
-FABRICA = {'Kinetic': 'Shine Kinetic', 'Referencia': 'Shine Referencia'}
+FABRICA = {'Kinetic': 'Shine Kinetic', 'Referencia': 'Shine Referencia', 'VIRAL': 'VIRAL'}       # VIRAL (v5.4.9) también viene de fábrica y no se quita; conserva su nombre
 
 
 def nombre_visible(nombre):
@@ -347,7 +351,7 @@ def es_de_fabrica(nombre):
 
 # v5.8: los packs que cambiaron de contenido llevan una «revisión»; los scripts de Resolve la suman al nombre del bin del pack
 # ('RCS · <pack> · <revisión> · v'), asi un bin viejo que ya estaba en el proyecto (con los clips anteriores) no se reutiliza.
-REVISION_BIN = {'Viral · superior': 'Luxe 2', 'Viral · inferior': 'Luxe 2', 'Referencia': 'Ref 1', 'Kinetic': 'Kin 3'}
+REVISION_BIN = {'Viral · superior': 'Luxe 2', 'Viral · inferior': 'Luxe 2', 'Referencia': 'Ref 2', 'Kinetic': 'Kin 3', 'VIRAL': 'Vir 2'}
 NOMBRE_BASICOS = 'Subtítulos básicos'
 POSICIONES_BASICOS = ('inferior', 'superior')
 _PISTAS_FORMATO = (('horizontal', 'h'), ('vertical', 'v'), ('cuadrado', 'c'), ('square', 'c'))
@@ -953,7 +957,7 @@ def estructura_de(pack):
     """Que bloques trae un pack, para el mosaico: {'arriba','principal','abajo','imagen','simple': bool, 'variantes': n}."""
     try:
         if getattr(pack, 'kinetic', False):
-            return {'arriba': False, 'principal': False, 'abajo': False, 'imagen': False, 'simple': False, 'variantes': 0, 'nuevo': False, 'kinetic': True}
+            return {'arriba': False, 'principal': False, 'abajo': False, 'imagen': False, 'simple': False, 'variantes': 0, 'nuevo': False, 'kinetic': True, 'viral': bool(getattr(pack, 'viral', False))}
         f = pack.formatos[0] if pack.formatos else None
         info = (pack.info_drb(f) if f else None) or (pack.info_drt(f) if f else None) or {}
         completos = list(info.get('completos') or [])

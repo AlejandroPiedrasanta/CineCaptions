@@ -728,15 +728,38 @@ BASE = %(nombre)r
 ANCHO, ALTO, FPS = %(ancho)r, %(alto)r, %(fps)r
 PISTA_BROLL = %(pista_broll)r
 res = {'proyecto': project.GetName(), 'previo': (project.GetCurrentTimeline().GetName() if project.GetCurrentTimeline() else None)}
-mp = project.GetMediaPool()
-raiz = mp.GetRootFolder()
+import time
+# Recién creado el proyecto, Resolve a veces devuelve None (el Media Pool, la carpeta raíz o la subcarpeta que acaba de crear): se reintenta, y antes de rendirse
+# se mira si la carpeta se creó aunque la llamada no la devolviera. Sin su bin propio, el video va a la carpeta raíz.
+mp = None
+raiz = None
 carpeta = None
-for c in (raiz.GetSubFolderList() or []):
-    if c.GetName() == 'CineCaptions · videos':
-        carpeta = c
-        break
+for intento in range(8):
+    mp = project.GetMediaPool()
+    raiz = mp.GetRootFolder() if mp else None
+    if raiz is not None:
+        for c in (raiz.GetSubFolderList() or []):
+            if c.GetName() == 'CineCaptions · videos':
+                carpeta = c
+                break
+        if carpeta is None:
+            try:
+                carpeta = mp.AddSubFolder(raiz, 'CineCaptions · videos')
+            except Exception:
+                carpeta = None
+            if carpeta is None:
+                for c in (raiz.GetSubFolderList() or []):
+                    if c.GetName() == 'CineCaptions · videos':
+                        carpeta = c
+                        break
+        if carpeta is not None:
+            break
+    time.sleep(0.8)
+res['reintentos_media_pool'] = intento
 if carpeta is None:
-    carpeta = mp.AddSubFolder(raiz, 'CineCaptions · videos')
+    carpeta = raiz
+if carpeta is None:
+    raise Exception('Resolve no entregó el Media Pool del proyecto nuevo')
 mp.SetCurrentFolder(carpeta)
 clip = None
 for it in (carpeta.GetClipList() or []):

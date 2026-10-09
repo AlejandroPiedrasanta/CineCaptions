@@ -484,6 +484,23 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.4.13', [
+        'Sonido por palabra: ahora alterna tres sonidos (TAP_POP, typewriter e Iphone Taping) y eliges en qué palabras suena: en cada una, solo en la principal (con un sonido propio por efecto: cristal, selección, arrastre, héroe) o en ninguna. Cada sonido empieza un poco antes de su pico para que el golpe caiga justo cuando entra la palabra.',
+        'Intro: el «Viral Hooks Riser» (sus últimos 2 s, hasta su pico) con el destello de luz y un golpe de zoom justo en ese pico (página Efectos). Las transiciones «destello» suenan como el obturador de una cámara (Shuter 11 y 13).',
+        'Al elegir VIRAL, Kinetic o Referencia, el sonido y la página Efectos quedan ya configurados como recomendación para ese estilo (lo cambias después donde quieras).',
+        'Referencia: el barrido de luz recorre ahora toda la palabra (antes se quedaba a medias) y hay variantes «Screen» y «Sólido» con colores distintos. VIRAL: cada efecto sale en 4 colores (Shatter: azul cielo, rosa, lima y oro; Select: caja roja, azul, verde y naranja; Drag: blanco, amarillo, cian y rosa).',
+        'Emojis: elige el estilo en el selector (Animado, 3D de Microsoft Fluent, Google o Sistema); los 3D y los de Google se bajan al usarlos y se pueden bajar todos de una vez. El sonido del emoji sustituye al toque de su palabra para que no suenen dos a la vez.',
+    ]),
+    ('5.4.11', [
+        'VIRAL · «Shatter» rehecho como en la referencia: azul cielo, con un barrido de luz que cruza la palabra y se rompe como un vidrio quebrado en varios fragmentos con bordes inclinados que se separan y giran.',
+        'VIRAL · los tres efectos (Select, Shatter y Drag) salen turnándose también en videos de habla rápida: antes, si el efecto que tocaba no cabía en el tiempo del bloque, siempre caía en Shatter.',
+        'Soltar un video: si Resolve devuelve un Media Pool vacío justo al crear el proyecto («NoneType… GetClipList»), ahora reintenta en vez de detenerse.',
+    ]),
+    ('5.4.9', [
+        'Estilo nuevo «VIRAL» (carpeta ESTILO VIRAL): subtítulos palabra a palabra con líneas finas y la palabra con peso en negrita cursiva, y tres efectos para la palabra clave: «Shatter» (rosa que se parte en franjas), «Select» (se escribe, un cursor la selecciona y se dibuja una caja roja punteada) y «Drag» (una mano arrastra su contorno punteado y lo rellena de blanco con brillo).',
+        'VIRAL funciona en vertical y en horizontal, con los sonidos por palabra, los emojis y los efectos visuales de la página Efectos. En Creativo, las palabras que pintas como «Principal» llevan el efecto (si pintas alguna, solo ellas; sin marcas, GO reparte los efectos solo, uno de cada dos bloques).',
+        'El colocador de Resolve que comparten Kinetic y VIRAL ahora acepta packs con otros clips y pone también los emojis; el banco de pruebas ya no borra tu cola de render.',
+    ]),
     ('5.4.8', [
         'Efectos con movimiento en la página «Efectos»: zoom lento, temblor con los golpes de sonido, transiciones nuevas en los cortes (zoom desenfocado, barrido y glitch RGB) y fondo desenfocado cuando el video no llena el cuadro. Se aplican con Fusion al propio video, así que tu corrección de color sigue valiendo. Hay una intensidad general y una vista previa de 3 segundos.',
         '«Más efectos» (plegado en la página Efectos): números 1, 2, 3 cuando enumeras, pegatinas en palabras clave, subrayado o círculo dibujado a mano, polvo, grano o luz suave, tus propios efectos (MOV, MP4, PNG, GIF o WebP) y un cierre con tu logo y su sonido. Esquivan los captions y la cara.',

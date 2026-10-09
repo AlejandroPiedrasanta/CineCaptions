@@ -7,7 +7,8 @@ Tres tarjetas —Intro, Transiciones en los cortes, Iconos flotantes— con una 
 hacer_previas_efectos.py y reproducidas con vistas_slider.Reproductor solo mientras se ven). Lo que se elige se guarda en las preferencias y lo lee
 efectos_visuales.planificar al hacer GO:
 
-    fx_intro / fx_intro_sonido            la intro y su sonido (el Riser 1 de fábrica, otro archivo o 'ninguno' = silenciada)
+    fx_intro / fx_intro_sonido / fx_intro_zoom  la intro, su sonido (el Viral Hooks Riser de fábrica, el Riser 1, otro archivo o 'ninguno' = silenciada) y el golpe de zoom en su pico
+    fx_sonido_corte                       el sonido de las transiciones (auto | shutter | whoosh | glitch | power_up | ninguno)
     fx_cortes / fx_cortes_cuanto          la transición de los cortes y cuántas
     fx_iconos_activo / fx_iconos          los iconos flotantes (interruptor general y packs activos)
     fx_iconos_palabras {pack: [palabras]} en qué palabras sale cada pack (clic en el pack); fx_iconos_extra = también en frases importantes
@@ -319,7 +320,7 @@ class PaginaEfectos(QWidget):
         capa.addWidget(general)
         # ---- intro (y su sonido)
         self._intro = op.get('fx_intro') or ''
-        t1 = self._tarjeta(tr('Intro'), tr('Un destello de luz con su sonido: primero sube el riser y, cuando llega al final, el destello cubre la imagen.'))
+        t1 = self._tarjeta(tr('Intro'), tr('Un destello de luz con su sonido: sube el riser (sus últimos 2 s) y, justo en su pico, el destello cubre la imagen y el cuadro se suelta con un golpe de zoom.'))
         fila_s, cs = caja_h(espacio=12)
         self._var_sonido = ui.BooleanVar(F.fuente_sonido_intro(op) is not None)
         self._sw_sonido = Interruptor(tr('Sonido en la intro'), self._var_sonido, self._cambio_sonido_on, tam=14, color='#FFFFFF')
@@ -331,10 +332,19 @@ class PaginaEfectos(QWidget):
         cs.addWidget(self._b_oir)
         self._b_cambiar = Boton(tr('Cambiar sonido…'), self._cambiar_sonido, alto=30, tam=12)
         cs.addWidget(self._b_cambiar)
-        self._b_original = Boton(tr('Riser 1'), self._sonido_original, tipo='fantasma', alto=30, tam=12)
-        Tooltip(self._b_original, tr('Volver al sonido que trae el programa (los últimos segundos del Riser 1).'))
+        self._b_original = Boton(tr('Viral Hooks Riser'), self._sonido_original, tipo='fantasma', alto=30, tam=12)
+        Tooltip(self._b_original, tr('Volver al sonido que trae el programa (los últimos 2 segundos del Viral Hooks Riser, que acaban en su pico).'))
         cs.addWidget(self._b_original)
         t1.capa.addWidget(fila_s)
+        niv_i = (('no', tr('No')), ('suave', tr('Suave')), ('normal', tr('Normal')), ('fuerte', tr('Fuerte')))
+        fila_z, cz_ = caja_h(espacio=10)
+        cz_.addWidget(Etiqueta(tr('Zoom en la intro'), 13, color=TEXT_MUTED))
+        self._v_zoom_intro = StringVar(self._texto_cuanto(op.get('fx_intro_zoom'), niv_i))
+        seg_zi = Segmentado([t for _k, t in niv_i], self._v_zoom_intro, self._cambio_zoom_intro, alto=32, tam=13)
+        Tooltip(seg_zi, tr('El cuadro se acerca mientras sube el riser y se suelta de golpe, con el destello, justo en su pico.'))
+        cz_.addWidget(seg_zi)
+        cz_.addStretch(1)
+        t1.capa.addWidget(fila_z)
         fila1, c1 = caja_h(espacio=12)
         self._c_intro = {}
         for ident, nombre, detalle in [('', tr('Sin intro'), tr('El video empieza limpio.'))] + [(i, tr(n), tr(d)) for i, n, d in F.INTROS]:
@@ -353,6 +363,15 @@ class PaginaEfectos(QWidget):
         c2a.addWidget(Segmentado([tr('Pocos'), tr('Normales'), tr('Todos')], self._v_cortes, self._cambio_cortes, alto=32, tam=13))
         c2a.addStretch(1)
         t2.capa.addWidget(fila2a)
+        self._sonidos_corte = (('auto', tr('Automático')), ('shutter', tr('Obturador')), ('whoosh', tr('Whoosh')), ('ninguno', tr('Sin sonido')))
+        fila2s, c2s = caja_h(espacio=10)
+        c2s.addWidget(Etiqueta(tr('Sonido de la transición'), 13, color=TEXT_MUTED))
+        self._v_corte_sonido = StringVar(self._texto_cuanto(op.get('fx_sonido_corte') or 'auto', self._sonidos_corte))
+        seg_cs = Segmentado([t for _k, t in self._sonidos_corte], self._v_corte_sonido, self._cambio_corte_sonido, alto=32, tam=13)
+        Tooltip(seg_cs, tr('Automático: el destello suena como el disparo de una cámara (Shuter 11 y 13) y las demás transiciones con un whoosh o un glitch. El clic o el pico del sonido cae justo en el corte.'))
+        c2s.addWidget(seg_cs)
+        c2s.addStretch(1)
+        t2.capa.addWidget(fila2s)
         fila2, c2 = caja_h(espacio=12)
         self._c_cortes = {}
         for ident, nombre, detalle in [('', tr('Sin transición'), tr('Los cortes quedan secos.'))] + [(i, tr(n), tr(d)) for i, n, d in F.TRANSICIONES]:
@@ -473,9 +492,33 @@ class PaginaEfectos(QWidget):
 
     # -- cambios
     def refrescar(self):
-        """Al volver a la página: el interruptor general puede haberse movido desde el chip de Inicio."""
+        """Al volver a la página: el interruptor general puede haberse movido desde el chip de Inicio y, desde la v5.5, las opciones pueden haber cambiado al elegir un estilo
+        (la recomendación de cada estilo deja la intro, el zoom, las transiciones y los iconos ya configurados): se vuelve a leer todo."""
         try:
             self._var_activo.set(F.activado())
+        except Exception:
+            pass
+        try:
+            op = F.opciones_guardadas()
+            niv = (('no', tr('No')), ('suave', tr('Suave')), ('normal', tr('Normal')), ('fuerte', tr('Fuerte')))
+            for var, clave in ((self._v_zoom_intro, 'fx_intro_zoom'), (self._v_zoom, 'fx_zoom'), (self._v_temblor, 'fx_temblor'), (self._v_saltos, 'fx_zoom_saltos')):
+                var.set(self._texto_cuanto(op.get(clave), niv))
+            self._v_pausas.set(self._texto_cuanto(op.get('fx_pausas'), (('no', tr('No')), ('suave', tr('Pocas pausas')), ('normal', tr('Normal')), ('fuerte', tr('Todas')))))
+            self._v_intens.set(self._texto_cuanto(op.get('fx_intensidad'), (('suave', tr('Suave')), ('normal', tr('Normal')), ('fuerte', tr('Fuerte')))))
+            self._v_cortes.set(self._texto_cuanto(op.get('fx_cortes_cuanto'), (('pocos', tr('Pocos')), ('normal', tr('Normales')), ('todos', tr('Todos')))))
+            self._v_iconos.set(self._texto_cuanto(op.get('fx_iconos_cuanto'), (('pocos', tr('Pocos')), ('normal', tr('Normales')), ('muchos', tr('Muchos')))))
+            self._v_corte_sonido.set(self._texto_cuanto(op.get('fx_sonido_corte') or 'auto', self._sonidos_corte))
+            self._intro, self._cortes = op.get('fx_intro') or '', op.get('fx_cortes') or ''
+            self._pintar_unico(self._c_intro, self._intro)
+            self._pintar_unico(self._c_cortes, self._cortes)
+            self._var_fondo.set(bool(op.get('fx_fondo', True)))
+            self._var_iconos_on.set(bool(op.get('fx_iconos_activo', True)))
+            self._var_extra.set(bool(op.get('fx_iconos_extra', True)))
+            self._iconos = set(op.get('fx_iconos') or [])
+            for ident, c in self._c_iconos.items():
+                c.poner_seleccionada(ident in self._iconos)
+            self._aplicar_iconos_on()
+            self._refrescar_sonido()
         except Exception:
             pass
 
@@ -524,6 +567,12 @@ class PaginaEfectos(QWidget):
         clave = {tr('Pocos'): 'pocos', tr('Normales'): 'normal', tr('Todos'): 'todos'}.get(self._v_cortes.get(), 'pocos')
         _guardar({'fx_cortes_cuanto': clave})
 
+    def _cambio_corte_sonido(self, _v=None):
+        _guardar({'fx_sonido_corte': {t: k for k, t in self._sonidos_corte}.get(self._v_corte_sonido.get(), 'auto')})
+
+    def _cambio_zoom_intro(self, _v=None):
+        _guardar({'fx_intro_zoom': {tr('No'): 'no', tr('Suave'): 'suave', tr('Normal'): 'normal', tr('Fuerte'): 'fuerte'}.get(self._v_zoom_intro.get(), 'normal')})
+
     # -- el sonido de la intro
     def _refrescar_sonido(self):
         op = F.opciones_guardadas()
@@ -531,15 +580,16 @@ class PaginaEfectos(QWidget):
         on = f is not None
         if bool(self._var_sonido.get()) != on:
             self._var_sonido.set(on)
-        self._lbl_sonido.configure(text=(F.nombre_sonido_intro(op) + ('' if str(op.get('fx_intro_sonido')) != 'riser_1' else ' · ' + tr('últimos segundos')))
+        de_fabrica = str(op.get('fx_intro_sonido') or 'viral_hooks_riser') in {i for i, _n, _a in F.SONIDOS_INTRO}
+        self._lbl_sonido.configure(text=(F.nombre_sonido_intro(op) + (' · ' + tr('últimos 2 s') if de_fabrica else ''))
                                    if on else tr('Silenciado'))
         self._b_oir.setEnabled(on)
-        self._b_original.setVisible(on and str(op.get('fx_intro_sonido')) != 'riser_1')
+        self._b_original.setVisible(on and str(op.get('fx_intro_sonido') or 'viral_hooks_riser') != 'viral_hooks_riser')
 
     def _cambio_sonido_on(self):
         if self._var_sonido.get():
             actual = F.opciones_guardadas().get('fx_intro_sonido')
-            _guardar({'fx_intro_sonido': 'riser_1' if str(actual or 'ninguno').lower() in ('ninguno', '') else actual})
+            _guardar({'fx_intro_sonido': 'viral_hooks_riser' if str(actual or 'ninguno').lower() in ('ninguno', '') else actual})
         else:
             _guardar({'fx_intro_sonido': 'ninguno'})
         self._refrescar_sonido()
@@ -555,7 +605,7 @@ class PaginaEfectos(QWidget):
             self._refrescar_sonido()
 
     def _sonido_original(self):
-        _guardar({'fx_intro_sonido': 'riser_1'})
+        _guardar({'fx_intro_sonido': 'viral_hooks_riser'})
         self._refrescar_sonido()
 
     def _oir_sonido(self):

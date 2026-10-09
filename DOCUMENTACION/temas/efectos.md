@@ -50,3 +50,7 @@ Sin efectos propios del usuario todavía (los clips y packs son los de fábrica)
 
 **Probar:** un `http.server` falso que conteste `/videos/search` con `{'videos': [{'id', 'duration', 'video_files': [{'file_type', 'width', 'height', 'link'}]}]}` y sirva un `clip.mp4`, con `CINECAPTIONS_PEXELS_URL` apuntándole y `CINECAPTIONS_FX_OPC='{"fx_broll": true, "pexels_key": "x"}'`; sin clave real NO se ha probado contra Pexels.
 
+
+## nota — v5.4.13 · Intro con el pico del riser, zoom de intro y sonido de transición
+
+Intro: `fx_intro_sonido` = `viral_hooks_riser` por defecto (`SONIDOS_INTRO`; el Riser 1 sigue); el riser es los últimos 2 s hasta su pico (`efectos_visuales.preparar_riser`), el destello (brillante al EMPEZAR: 0-0,08 s) cae EN el pico (`intro_ini = pico`) y `fx_intro_zoom` (no | suave | normal | fuerte, 'normal' por defecto) mete en la comp de V1 un zoom que sube con el cuadrado del tiempo hasta el pico y se suelta en 0,45 s (`fusion_v1.texto_comp(zoom_intro={'pico': fotograma, 'nivel': …})`, sólo el primer clip de V1). Transiciones: `fx_sonido_corte` (auto | shutter | whoosh | ninguno) en la tarjeta «Transiciones en los cortes». La página relee todas sus opciones en `refrescar()` (las recomendaciones por estilo las cambian). La expresión se evaluó en Lua (fuscript): 1,00 → 1,09 en el pico → 1,00 a los 13,5 fotogramas; falta ver su render en Resolve.

@@ -15,6 +15,8 @@ TEMBLOR = {'suave': (0.006, 0.020), 'normal': (0.011, 0.035), 'fuerte': (0.018, 
 DURACION_TEMBLOR_S = 0.36
 TRANSICIONES_V1 = ('zoom_blur', 'whip', 'glitch')
 ZOOM_SALTOS = {'suave': 0.06, 'normal': 0.10, 'fuerte': 0.16}              # el «punch-in» que alterna en cada corte seco (pausas quitadas)
+ZOOM_INTRO = {'suave': 0.05, 'normal': 0.09, 'fuerte': 0.15}               # v5.5: cuánto se acerca el cuadro mientras sube el riser de la intro (se suelta de golpe en su pico)
+SUELTA_INTRO_S = 0.45                                                        # lo que tarda en volver a su tamaño después del pico
 VENTANA_CORTE_S = 0.34                                                       # lo que dura la transición (la mitad antes y la mitad después del corte)
 NOMBRE_COMP = 'CineCaptions FX'
 BORDES_ESPEJO = 3                                                            # Transform › Edges: 0 Canvas · 1 Wrap · 2 Duplicate · 3 Mirror
@@ -54,7 +56,7 @@ def _origen(nombre, de='Output'):
     return 'Input = Input { SourceOp = "%s", Source = "%s", },' % (nombre, de)
 
 
-def texto_comp(duracion_frames, fps, zoom=None, golpes=None, nivel_temblor='normal', cortes=None, transicion=None, fondo=None, saltos=None, zoom_saltos=None):
+def texto_comp(duracion_frames, fps, zoom=None, golpes=None, nivel_temblor='normal', cortes=None, transicion=None, fondo=None, saltos=None, zoom_saltos=None, zoom_intro=None):
     """El texto de la composición (None si no hay nada que hacer).
 
     zoom       'suave' | 'normal' | 'fuerte' | None   zoom lento continuo (de 100 % a 100 % + x a lo largo del clip)
@@ -62,6 +64,7 @@ def texto_comp(duracion_frames, fps, zoom=None, golpes=None, nivel_temblor='norm
     cortes     [fotograma, …]                          dónde hay cortes entre tomas
     transicion 'zoom_blur' | 'whip' | 'glitch' | None  qué se hace en cada corte
     saltos     [fotograma, …] + zoom_saltos 'suave'|'normal'|'fuerte'  el cuadro se acerca en un tramo sí y en el siguiente no (cada corte seco del «quitar pausas»)
+    zoom_intro {'pico': fotograma, 'nivel': 'suave'|'normal'|'fuerte'} | None   el cuadro se acerca cada vez más deprisa hasta `pico` (el pico del riser) y se suelta de golpe: «zoom hit»
     fondo      {'lienzo': (W, H), 'clip': (w, h), 'desenfoque': px} | None
                                                        copia del video ampliada y desenfocada DETRÁS (cuando el video no tiene la forma del timeline)
     """
@@ -74,7 +77,9 @@ def texto_comp(duracion_frames, fps, zoom=None, golpes=None, nivel_temblor='norm
     if zoom not in ZOOM_LENTO:
         zoom = None
     saltos = sorted(set(int(c) for c in (saltos or []) if 0 < c < dur)) if zoom_saltos in ZOOM_SALTOS else []
-    if not (zoom or golpes or cortes or fondo or saltos):
+    if not (isinstance(zoom_intro, dict) and zoom_intro.get('nivel') in ZOOM_INTRO):
+        zoom_intro = None
+    if not (zoom or golpes or cortes or fondo or saltos or zoom_intro):
         return None
     herramientas = []
     ultimo = 'MediaIn1'
@@ -109,7 +114,7 @@ def texto_comp(duracion_frames, fps, zoom=None, golpes=None, nivel_temblor='norm
                                                          'PerformDepthMerge = Input { Value = 0, },'], x))
         encadenar('FondoMerge2')
     # --- Transform: zoom lento + golpe de zoom + temblor + whip pan + sacudida del glitch
-    hay_tr = bool(zoom or golpes or saltos or (cortes and transicion in ('whip', 'glitch')))
+    hay_tr = bool(zoom or golpes or saltos or zoom_intro or (cortes and transicion in ('whip', 'glitch')))
     if hay_tr:
         dur_golpe = max(3.0, DURACION_TEMBLOR_S * fps)
         desp, pico = TEMBLOR.get(nivel_temblor, TEMBLOR['normal'])
@@ -123,6 +128,14 @@ def texto_comp(duracion_frames, fps, zoom=None, golpes=None, nivel_temblor='norm
         if saltos:                                                # n = cuántos cortes secos van ya; los tramos impares llevan el acercamiento
             n = '+'.join('((time>=%s) and 1 or 0)' % _n(c, 2) for c in saltos)
             size_expr = '%s*(1+%s*math.fmod(%s,2))' % (size_expr, _n(ZOOM_SALTOS[zoom_saltos]), n)
+        if zoom_intro:                                            # sube con el cuadrado del tiempo (cada vez más tensión) hasta el pico y se suelta en SUELTA_INTRO_S con la misma curva
+            h = float(zoom_intro.get('pico') or 0)
+            a = ZOOM_INTRO[zoom_intro['nivel']]
+            suelta = max(3.0, SUELTA_INTRO_S * fps)
+            termino = '(time>=%s and %s*(math.max(0,1-(time-%s)/%s))^2 or 0)' % (_n(h, 2), _n(a), _n(h, 2), _n(suelta, 2))
+            if h > 1:
+                termino = '(time<%s and %s*(time/%s)^2 or 0)+%s' % (_n(h, 2), _n(a), _n(h, 2), termino)
+            size_expr = '%s*(1+%s)' % (size_expr, termino)
         # el whip y el glitch mueven el cuadro: se agranda un poco ESE tramo para no enseñar el borde negro
         if cortes and transicion == 'whip':
             size_expr = '%s*(1+0.10*%s)' % (size_expr, _suma([_triangulo(c, medio) for c in cortes]))

@@ -31,6 +31,9 @@ ESTILOS_BASE = (1, 2, 4, 5)                  # Luxe: el estilo «de fondo» de c
 ESTILOS_ACENTO = (3, 8)                      # presets de Amro sueltos (pastilla, subrayado): el REMATE de la oración; fuego (6) y negación (7) van por significado
 ROTACION = ESTILOS_BASE + ESTILOS_ACENTO + (6, 7)
 ESTILOS_FUEGO = (6,)
+# v5.5: los estilos Luxe de base (1, 2, 4, 5) tienen tres formas de BARRIDO DE LUZ en el pack: el original (sutil), «Screen» (una banda de luz de color que se suma) y «Sólido» (una banda opaca).
+# {estilo base: (original, screen, sólido)}; las palabras grandes los van alternando para que el barrido (y su color) no se repita. Sólo cuando el pack trae esas variantes (9-16).
+BARRIDOS = {1: (1, 9, 13), 2: (2, 10, 14), 4: (4, 11, 15), 5: (5, 12, 16)}
 ESTILOS_NEGACION = (7,)
 AFINADO = {'adelanto': 0.03, 'hold': 0.22, 'min_bloque': 0.7, 'gap_minimo': 0.06, 'puntaje_min': 8.0, 'puntaje_2': 9.0, 'dist_mains': 4,
            'pausa_frase': 0.45, 'pausa_coma': 0.12, 'combinar_s': 2.0, 'cap_len': 10, 'bonus_det': 4.0, 'bonus_ultima': 4.0, 'bonus_gancho': 8.0,
@@ -356,13 +359,14 @@ def _agrupar(ms):
     return cabezas, grupos
 
 
-def planificar(palabras, idioma='es', pack='Referencia', ancho_tl=1080, ancla='medio', mains=None, estilos=None, fin_video=None, pesos=None, estilos_palabra=None):
+def planificar(palabras, idioma='es', pack='Referencia', ancho_tl=1080, ancla='medio', mains=None, estilos=None, fin_video=None, pesos=None, estilos_palabra=None, variar_barrido=True):
     """palabras [{'word','start','end'}] -> (bloques para guion_captions.construir_cues, plan para depurar).
 
     mains: palabras (texto) o índices que se fuerzan como palabras grandes (None = las elige el planificador); varias seguidas = una sola palabra grande.
     estilos: {índice de bloque: n de estilo} para forzar la variante de un bloque.
     pesos: {índice de palabra: 'L'|'B'} lo que el usuario marcó a mano en el editor: fina (Arriba) o negrita (Abajo); el resto, automático.
     estilos_palabra: {índice de palabra: n}: el estilo que el usuario eligió para el bloque de esa palabra (manda en TODAS las grandes del bloque).
+    variar_barrido: alterna la forma del barrido de luz de las palabras grandes Luxe (original → Screen → Sólido, ver BARRIDOS) si el pack trae esas variantes; lo que el usuario fijó a mano no se toca.
     ancla: 'medio' | 'alto' | 'bajo' | 'alterna' (el centro vertical de la pila).
     Cada elemento del plan lleva 'orig' (los índices de las palabras que se entregaron y quedaron en el bloque) para que el editor sepa qué palabra va en qué bloque.
     """
@@ -386,6 +390,11 @@ def planificar(palabras, idioma='es', pack='Referencia', ancho_tl=1080, ancla='m
         forzados |= {k['i'] for k in pal if idx_pedidos & set(k['orig'])}
     bloques, plan = [], []
     ult_base = ult_acento = base_oracion = None
+    n_barridos = 0
+    try:
+        con_variantes = set(G.datos_variantes(pack).keys())
+    except Exception:
+        con_variantes = set()
     for n_frase, frase in enumerate(frases(pal, A)):
         ms = elegir_mains(pal, frase, primera=(n_frase == 0), forzados=forzados, A=A)
         cabezas, grupos = _agrupar(ms)
@@ -464,7 +473,11 @@ def planificar(palabras, idioma='es', pack='Referencia', ancho_tl=1080, ancla='m
                 e = ult_base = _estilo_para(pack, texto, ult_base, None, ancho_tl, ESTILOS_BASE)
                 if not est and base_oracion is None and n > 0:
                     base_oracion = e                               # el estilo con el que arranca la oración (el gancho del bloque 0 no cuenta)
-            est.append(e)
+            if variar_barrido and not forzado and e in BARRIDOS and all(v in con_variantes for v in BARRIDOS[e]):
+                est.append(BARRIDOS[e][n_barridos % 3])        # la forma del barrido va rotando; el estilo BASE (e) sigue siendo el que cuenta para la oración
+                n_barridos += 1
+            else:
+                est.append(e)
         b['estilos'] = est
         # alturas
         alturas, anchos = [], {}
@@ -516,6 +529,7 @@ def evaluar(palabras=None, **kw):
     import guion_referencia as R
     if palabras is None:
         palabras = R.palabras_de_la_referencia()
+    kw.setdefault('variar_barrido', False)                  # la referencia usa los estilos 1-8: las variantes de barrido (9-16) no cuentan en la comparación
     bloques, plan = planificar(palabras, **kw)
     ref = []
     for b in R.BLOQUES:

@@ -54,7 +54,9 @@ GRUPO_USUARIO = 'mios'
 POSICIONES = ('arriba', 'abajo')
 
 _CACHE = {}
-_PREF = {'sistema': True}
+_PREF = {'sistema': False, 'estilo': 'animado'}
+ESTILOS = ('animado', 'fluent3d', 'noto', 'sistema')          # v5.5: el estilo de los emojis: «animado» (los Noto animados cuando existen y, si no, 3D), 3D (Fluent), Google (Noto) o los del sistema (planos); 3D y Google se bajan al usarlos (emojis_sets.py)
+CARPETA_CACHE_MINI_SET = sfx_rules.CARPETA_USUARIO / 'emojis_cache' / 'mini_set'
 _RANGO_GRUPO = {
     'simbolos': 0, 'dinero': 0, 'trabajo': 0, 'corazones': 0, 'objetos': 0,
     'personas': 2, 'manos': 2, 'caras': 3,
@@ -75,11 +77,39 @@ def carpeta_usuario():
 def usar_sistema(valor=None):
     """La preferencia «Emojis del sistema» (la App la fija al arrancar y
     al tocar la casilla del selector). Cambiarla invalida el catalogo:
-    la lista de emojis disponibles depende de ella."""
+    la lista de emojis disponibles depende de ella. v5.5: es el caso «sistema» de estilo():
+    True lo elige; False vuelve al animado/3D si estaba en el del sistema."""
     if valor is not None and bool(valor) != _PREF['sistema']:
-        _PREF['sistema'] = bool(valor)
-        _CACHE.pop('lista', None)
+        estilo('sistema' if valor else 'animado')
     return _PREF['sistema']
+
+
+def estilo(valor=None):
+    """v5.5: el estilo de los emojis: 'animado' (los Noto animados cuando existen; si no, 3D), 'fluent3d' (3D fijo, Microsoft; lo que no trae el programa se baja al usarlo), 'noto' (Google fijo) o 'sistema' (la fuente del equipo, planos).
+    Cambiarlo invalida el catálogo. Sin argumento devuelve el actual."""
+    if valor in ESTILOS and valor != _PREF['estilo']:
+        _PREF['estilo'] = valor
+        _PREF['sistema'] = valor == 'sistema'
+        _CACHE.pop('lista', None)
+    return _PREF['estilo']
+
+
+def _clave_set():
+    """El set de imágenes fijas que corresponde al estilo: el 3D de Fluent para «animado» y «fluent3d»; Noto para «noto»; ninguno para «sistema»."""
+    return 'fluent3d' if _PREF['estilo'] == 'animado' else _PREF['estilo']
+
+
+def animados_activo():
+    """True si los emojis que tienen versión animada (Noto Animated) viajan como secuencia que se mueve: sólo con el estilo «animado»."""
+    return _PREF['estilo'] == 'animado'
+
+
+def _set_activo():
+    """El módulo de sets si el estilo actual es uno que se baja (3D / Google), o None."""
+    if _clave_set() in ('fluent3d', 'noto'):
+        import emojis_sets
+        return emojis_sets
+    return None
 
 
 def fuente_sistema():
@@ -196,11 +226,12 @@ def sistema_activo():
     return usar_sistema() and puede_dibujar_sistema()
 
 
-def renderizar_sistema(eid):
+def renderizar_sistema(eid, forzar=False):
     """El PNG del emoji dibujado con la fuente del sistema, en cache
-    (emojis_cache/sistema/<id>.png), o None."""
+    (emojis_cache/sistema/<id>.png), o None. `forzar`: aunque el estilo elegido no sea el del
+    sistema (v5.5: el que no tiene su versión 3D o Google se dibuja así)."""
     e = por_id(eid)
-    if not e or not e.get('glifo') or not sistema_activo():
+    if not e or not e.get('glifo') or not (sistema_activo() or (forzar and puede_dibujar_sistema())):
         return None
     if not _sistema_dibuja(e['glifo']):
         return None
@@ -401,6 +432,11 @@ def _disponible(e):
     sistema los dibuja)."""
     if e.get('usuario') or e.get('archivo'):
         return True
+    S = _set_activo()
+    if S is not None and S.hay(_clave_set(), e):
+        return True
+    if S is not None:                                         # 3D / Google: lo que no tienen se dibuja con la fuente del sistema, si la hay
+        return puede_dibujar_sistema() and _sistema_dibuja(e.get('glifo'))
     return sistema_activo() and _sistema_dibuja(e.get('glifo'))
 
 
@@ -412,7 +448,7 @@ def catalogo():
     los dibuja). [] si la carpeta no esta (un compilado sin emojis/): el
     resto del programa sigue igual, sin emojis. Los cambios en la carpeta
     del usuario se ven en la siguiente llamada."""
-    firma = (_firma_usuario(), usar_sistema())
+    firma = (_firma_usuario(), usar_sistema(), _clave_set())
     if 'lista' not in _CACHE or _CACHE.get('firma') != firma:
         base = _catalogo_base()
         lista = _con_usuario(base) if firma[0] is not None else list(base)
@@ -437,6 +473,21 @@ def origen_de(eid):
         return (None, None)
     if e.get('usuario'):
         return ('usuario', Path(e['archivo']))
+    S = _set_activo()
+    if S is not None:
+        r = S.ruta(_clave_set(), eid)
+        if r is not None:
+            return ('set', r)
+        if S.hay(_clave_set(), e):
+            S.pedir(_clave_set(), e)                         # sin bajar todavía: se pide en segundo plano (copia_para_resolve lo baja al momento) y mientras sale el de siempre
+        if e.get('archivo') and _clave_set() == 'fluent3d':
+            return ('fluent', carpeta() / 'png' / e['archivo'])
+        ruta = renderizar_sistema(eid, forzar=True)
+        if ruta is not None:
+            return ('sistema', ruta)
+        if e.get('archivo'):
+            return ('fluent', carpeta() / 'png' / e['archivo'])
+        return (None, None)
     if sistema_activo():
         ruta = renderizar_sistema(eid)
         if ruta is not None:
@@ -482,7 +533,14 @@ def ruta_mini(eid, fabricar=True):
         if e.get('usuario'):
             mini = CARPETA_CACHE_MINI / f'{eid}.png'
             return mini if mini.is_file() else None
-        if sistema_activo() and _sistema_dibuja(e.get('glifo')):
+        S = _set_activo()
+        if S is not None:
+            r = S.ruta(_clave_set(), eid)
+            if r is not None:                                  # el PNG de este set ya está bajado: su miniatura se hace al momento (48 px, una sola)
+                return _fabricar_mini(r, CARPETA_CACHE_MINI_SET / _clave_set() / f'{eid}.png')
+            if S.hay(_clave_set(), e):
+                S.pedir(_clave_set(), e)
+        if (sistema_activo() or (S is not None and puede_dibujar_sistema())) and _sistema_dibuja(e.get('glifo')) and not (S is not None and e.get('archivo')):
             mini = CARPETA_CACHE_MINI_SISTEMA / f'{eid}.png'
             return mini if mini.is_file() else None
         if e.get('archivo'):
@@ -491,6 +549,8 @@ def ruta_mini(eid, fabricar=True):
     origen, ruta = origen_de(eid)
     if ruta is None:
         return None
+    if origen == 'set':
+        return _fabricar_mini(ruta, CARPETA_CACHE_MINI_SET / _clave_set() / f'{eid}.png')
     if origen == 'fluent':
         return carpeta() / 'mini' / ruta.name
     if origen == 'sistema':
@@ -508,6 +568,11 @@ def copia_para_resolve(eid):
     para uno del usuario o del sistema se copia con ese nombre y se
     re-copia si el PNG cambio de tamaño o de fecha. None si no hay
     archivo; si copiar falla, la ruta original (nunca peor que antes)."""
+    S = _set_activo()
+    if S is not None:                                          # v5.5: en 3D / Google el emoji se baja AHORA si falta (unos segundos; sin internet sale el de siempre)
+        e = por_id(eid)
+        if e is not None and S.ruta(_clave_set(), eid) is None and S.hay(_clave_set(), e):
+            S.asegurar(_clave_set(), e)
     origen, png = origen_de(eid)
     if png is None or not png.is_file():
         return None
@@ -518,7 +583,8 @@ def copia_para_resolve(eid):
         st_o = png.stat()
         if (not destino.is_file()
                 or destino.stat().st_size != st_o.st_size
-                or destino.stat().st_mtime < st_o.st_mtime):
+                or destino.stat().st_mtime < st_o.st_mtime
+                or (origen == 'set' and not _mismo_contenido(png, destino))):      # al cambiar de estilo el nombre es el mismo: se compara el contenido
             destino.parent.mkdir(parents=True, exist_ok=True)
             temporal = destino.with_name(destino.name + '.copiando')
             shutil.copyfile(png, temporal)
@@ -911,7 +977,7 @@ def para_manifiesto(bloques, posicion=None, forzar=False):
     try:
         import emojis_animados
         secuencias = {}
-        for eid in rutas:
+        for eid in (rutas if animados_activo() else ()):
             e = por_id(eid) or {}
             if e.get('glifo') and not e.get('usuario'):
                 datos = emojis_animados.secuencia_resolve(e['glifo'])

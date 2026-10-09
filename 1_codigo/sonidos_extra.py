@@ -16,10 +16,15 @@ from pathlib import Path
 
 import efectos_visuales as F
 
-SONIDO_CORTE = {'fuga_de_luz': 'Whoosh', 'destello': 'Power Up', 'zoom_blur': 'Whoosh', 'whip': 'Whoosh', 'glitch': 'Glitch'}
-ANTICIPO_CORTE_S = 0.10
+# v5.5: el sonido de cada transición. 'destello' (un fogonazo blanco) suena como el DISPARO de una cámara (los obturadores Shuter 11 y 13 de la carpeta del usuario, categoría «Shutter»);
+# lo demás conserva su familia. La página Efectos deja elegir otra (pref fx_sonido_corte: auto | shutter | whoosh | glitch | power_up | ninguno).
+SONIDO_CORTE = {'fuga_de_luz': 'Whoosh', 'destello': 'Shutter', 'zoom_blur': 'Whoosh', 'whip': 'Whoosh', 'glitch': 'Glitch'}
+SONIDOS_CORTE_ELEGIBLES = (('auto', 'Automático', None), ('shutter', 'Obturador', 'Shutter'), ('whoosh', 'Whoosh', 'Whoosh'), ('glitch', 'Glitch', 'Glitch'), ('power_up', 'Power Up', 'Power Up'),
+                           ('ninguno', 'Sin sonido', ''))
+ANTICIPO_CORTE_S = 0.03            # el PICO del sonido (whoosh, glitch…) cae 0,03 s antes del corte (v5.5: antes el sonido EMPEZABA 0,10 s antes y su pico llegaba después)
+ANTICIPO_POR_CATEGORIA = {'Shutter': 0.03}      # el obturador suena en el instante del corte (su clic está a 0,16-0,24 s del inicio del audio: se compensa abajo)
 HUECO_GANCHO_S = 0.20
-RISER_MAX_S = 1.6
+RISER_MAX_S = 2.0
 GANCHO_DESDE_S = 2.6                 # antes de esto ya suena la intro (su riser y su destello)
 GANCHO_HASTA_S = 14.0
 TIPOS_AL_PULSO = ('icono', 'pegatina', 'numero', 'enfasis')
@@ -33,7 +38,8 @@ def opciones(prefs=None):
         except Exception:
             prefs = {}
     import musica_go
-    return {'musica': musica_go.config(prefs), 'cortes': prefs.get('fx_sonido_cortes', True) is not False, 'gancho': prefs.get('fx_sonido_gancho', True) is not False}
+    return {'musica': musica_go.config(prefs), 'cortes': prefs.get('fx_sonido_cortes', True) is not False, 'gancho': prefs.get('fx_sonido_gancho', True) is not False,
+            'corte_sonido': prefs.get('fx_sonido_corte') or 'auto'}
 
 
 def palabra_del_gancho(palabras, duracion):
@@ -66,24 +72,51 @@ def _duracion(ruta):
     return F.duracion_video(ruta) or 1.0
 
 
-def _evento_sonido(ruta, t, tope_s, asset, db=None):
-    """Un evento de sonido ya con el archivo que viaja a Resolve (volumen, normalizado y recorte aplicados)."""
+def _evento_sonido(ruta, t, tope_s, asset, db=None, alinear=True):
+    """Un evento de sonido ya con el archivo que viaja a Resolve (volumen, normalizado y recorte aplicados). v5.5 `alinear`: el sonido empieza antes de su pico (el remolino de un whoosh) y se
+    pone ese tiempo ANTES de `t`, así su PICO cae EN `t` (antes un whoosh de 6 s con el pico a los 0,9 s sonaba casi un segundo tarde)."""
     import sfx_rules
     if not ruta:
         return None
-    archivo = sfx_rules.para_resolve(ruta, tope_s)
+    archivo = sfx_rules.para_resolve(ruta, tope_s, alinear=alinear)
     dur = min(float(tope_s), max(0.2, _duracion(archivo) - 0.02))
-    return {'tipo': 'sonido', 'ini': round(max(0.0, t), 3), 'archivo': str(archivo), 'dur': round(dur, 3), 'asset': asset, 'extra': True}
+    ini = float(t) - (sfx_rules.adelanto_de(archivo) if alinear else 0.0)
+    return {'tipo': 'sonido', 'ini': round(max(0.0, ini), 3), 'archivo': str(archivo), 'dur': round(dur, 3), 'asset': asset, 'extra': True}
 
 
-def sonidos_de_cortes(cortes, transicion):
-    """Un sonido por corte con transición (`transicion` = id de la transición). Alterna entre los de la categoría para no repetir el mismo."""
-    categoria = SONIDO_CORTE.get(transicion)
+def categoria_de_corte(transicion, eleccion='auto'):
+    """La categoría de sonido de la transición, según la elección del usuario (pref fx_sonido_corte). '' = sin sonido."""
+    for ident, _nombre, categoria in SONIDOS_CORTE_ELEGIBLES:
+        if ident == eleccion and categoria is not None:
+            return categoria
+    return SONIDO_CORTE.get(transicion) or ''
+
+
+def _clic_de(ruta):
+    """Cuántos segundos después del inicio del archivo cae su primer golpe fuerte (el clic del obturador no está en el segundo 0). 0.0 si no se puede medir."""
+    try:
+        import numpy as np
+        a = F._decodificar_audio(ruta, 22050)
+        m = np.abs(a).max(axis=0)
+        pico = float(m.max())
+        if pico <= 1e-6:
+            return 0.0
+        return float(np.nonzero(m > pico * 0.5)[0][0]) / 22050.0
+    except Exception:
+        return 0.0
+
+
+def sonidos_de_cortes(cortes, transicion, eleccion='auto'):
+    """Un sonido por corte con transición (`transicion` = id de la transición). Alterna entre los de la categoría para no repetir el mismo; el GOLPE del sonido (el clic del obturador,
+    el pico del whoosh) cae en el corte, no su principio."""
+    categoria = categoria_de_corte(transicion, eleccion)
     if not categoria or not cortes:
         return []
     eventos = []
     for k, t in enumerate(cortes):
-        e = _evento_sonido(_ruta_de_categoria(categoria, k), float(t) - ANTICIPO_CORTE_S, 1.4, f'corte · {categoria}')
+        ruta = _ruta_de_categoria(categoria, k)
+        golpe = _clic_de(ruta) if (ruta and categoria == 'Shutter') else 0.0
+        e = _evento_sonido(ruta, float(t) - ANTICIPO_POR_CATEGORIA.get(categoria, ANTICIPO_CORTE_S) - golpe, 1.4, f'corte · {categoria}', alinear=(categoria != 'Shutter'))
         if e:
             eventos.append(e)
     return eventos
@@ -99,19 +132,20 @@ def sonidos_de_saltos(saltos):
     return eventos
 
 
-def sonidos_del_gancho(t_palabra):
-    """Riser que termina 0,2 s antes de la palabra clave + el golpe EN la palabra. Devuelve (eventos, hueco) con hueco = (t0, t1) el silencio donde la música se calla."""
+def sonidos_del_gancho(t_palabra, hay_intro=False):
+    """v5.5: el riser (el mismo de la intro, por defecto el Viral Hooks Riser: sus últimos 2 s) con su PICO exactamente en la palabra clave, y el golpe EN la palabra. Devuelve (eventos, hueco)
+    con hueco = (t0, t1) el silencio donde la música se calla justo antes del golpe. `hay_intro`: ya suena el riser de la intro; el del gancho espera a que pase para no encadenar dos."""
     eventos = []
-    riser = _ruta_de_categoria('Riser', 0)
-    if riser is not None:
+    riser = F.fuente_sonido_intro() or (F.carpeta_efectos() / 'sonidos' / 'viral_hooks_riser.mp3')
+    if riser is not None and Path(riser).is_file():
         try:
-            wav, dur = F.preparar_sonido_intro(riser, maximo_s=RISER_MAX_S)
+            wav, dur, pico = F.preparar_riser(riser, antes_s=RISER_MAX_S)
         except Exception:
-            wav, dur = None, 0.0
+            wav, dur, pico = None, 0.0, 0.0
         if wav and dur > 0.3:
-            ini = float(t_palabra) - HUECO_GANCHO_S - dur
-            if ini >= GANCHO_DESDE_S - 0.5:
-                eventos.append({'tipo': 'sonido', 'ini': round(ini, 3), 'archivo': str(wav), 'dur': round(dur, 3), 'asset': 'gancho · riser', 'extra': True})
+            ini = float(t_palabra) - pico
+            if ini >= (F.SONIDO_INTRO_S + 1.2 if hay_intro else GANCHO_DESDE_S - 0.5):
+                eventos.append({'tipo': 'sonido', 'ini': round(ini, 3), 'archivo': str(wav), 'dur': round(dur, 3), 'asset': 'gancho · riser', 'extra': True, 'pico': round(pico, 3)})
     golpe = _evento_sonido(_ruta_de_categoria('Hit', 0), float(t_palabra), 1.0, 'gancho · golpe')
     if golpe:
         eventos.append(golpe)
@@ -126,13 +160,13 @@ def planificar(video, palabras, duracion, cortes=None, transicion=None, saltos=N
     t_gancho = palabra_del_gancho(palabras, duracion) if op['gancho'] else None
     hoyos = None
     if t_gancho is not None:
-        ev_g, hueco = sonidos_del_gancho(t_gancho)
+        ev_g, hueco = sonidos_del_gancho(t_gancho, hay_intro=F.fuente_sonido_intro() is not None and bool(F.activado()))
         eventos.extend(ev_g)
         hoyos = [hueco]
         if ev_g:
             resumen.append('riser y golpe en el gancho')
     if op['cortes']:
-        ev_c = sonidos_de_cortes(cortes, transicion)
+        ev_c = sonidos_de_cortes(cortes, transicion, op.get('corte_sonido', 'auto'))
         ev_s = sonidos_de_saltos(saltos)
         eventos.extend(ev_c + ev_s)
         if ev_c or ev_s:

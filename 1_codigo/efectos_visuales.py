@@ -50,7 +50,7 @@ CANTIDAD_CORTES = {'pocos': (9.0, 6), 'normal': (5.0, 12), 'todos': (1.6, 60)}
 CANTIDAD_ICONOS = {'pocos': (18.0, 3), 'normal': (11.0, 6), 'muchos': (7.0, 12)}
 
 # v5.4.7: los efectos vienen ACTIVADOS (el usuario los apaga en la página Efectos o con el chip «Visuales» de Inicio)
-OPCIONES_POR_DEFECTO = {'fx_intro': 'fuga_de_luz', 'fx_intro_sonido': 'riser_1', 'fx_cortes': 'fuga_de_luz', 'fx_cortes_cuanto': 'pocos',
+OPCIONES_POR_DEFECTO = {'fx_intro': 'fuga_de_luz', 'fx_intro_sonido': 'viral_hooks_riser', 'fx_intro_zoom': 'normal', 'fx_cortes': 'fuga_de_luz', 'fx_cortes_cuanto': 'pocos', 'fx_sonido_corte': 'auto',
                         'fx_iconos_activo': True, 'fx_iconos': ['pack1', 'pack2', 'pack3', 'pack4'], 'fx_iconos_cuanto': 'normal',
                         'fx_iconos_palabras': {}, 'fx_iconos_extra': True,
                         # v5.4.8: movimiento sobre el video (Fusion) e intensidad global; los nuevos vienen apagados (el usuario los enciende en la página Efectos)
@@ -63,8 +63,11 @@ OPCIONES_POR_DEFECTO = {'fx_intro': 'fuga_de_luz', 'fx_intro_sonido': 'riser_1',
                         'fx_pausas': 'no', 'fx_zoom_saltos': 'no',
                         # B-roll de bancos de stock (broll.py): necesita la clave de API gratuita de Pexels
                         'fx_broll': False, 'fx_broll_cuanto': 'normal', 'pexels_key': ''}
-SONIDO_INTRO_S = 3.0                          # como mucho, los últimos 3 s del sonido con contenido (el Riser 1 tiene ~1,75 s audibles)
-SONIDO_INTRO_DB = -3.0
+SONIDO_INTRO_S = 2.0                          # v5.5: los ÚLTIMOS 2 s del riser, los que acaban en su pico (el Viral Hooks Riser sube durante todo el archivo y se corta en el golpe)
+SONIDO_INTRO_DB = 0.0                         # ajuste extra sobre el nivel normalizado
+SONIDO_INTRO_PICO_DBFS = -5.0                 # el pico del riser queda a este nivel (el Viral Hooks Riser original sólo llega a -17 dBFS: sonaba débil junto a los demás sonidos)
+SONIDOS_INTRO = (('viral_hooks_riser', 'Viral Hooks Riser', 'viral_hooks_riser.mp3'), ('riser_1', 'Riser 1', 'riser_1.mp3'))
+ZOOM_INTRO_NIVELES = ('suave', 'normal', 'fuerte')
 
 # palabras que hacen importante una frase y qué icono piden (es / en; el resto de idiomas usa solo números, preguntas y el gancho)
 CLAVES_ALERTA = ('error', 'errores', 'mistake', 'mistakes', 'wrong', 'never', 'nunca', 'stop', 'evita', 'evitar', 'avoid', "don't", 'dont', 'cuidado', 'careful',
@@ -129,13 +132,31 @@ def activado():
         return True
 
 
+CLIPS_USUARIO = Path.home() / 'DaVinciSubtitles' / 'efectos_clips'          # (no es la caché: «mantenimiento» la vacía y los proyectos de Resolve seguirían apuntando a esos archivos)
+
+
+def _copia_de_usuario(r):
+    """Resolve deja ABIERTO el video que se le da. Si apunta a la carpeta del programa, el instalador no puede reemplazar el programa mientras Resolve esté abierto («Acceso denegado a
+    la ruta …/Programs/CineCaptions», v5.4.11): se le entrega una COPIA en la carpeta del usuario (se recrea si falta o cambió de tamaño)."""
+    try:
+        destino = CLIPS_USUARIO / r.parent.name / r.name
+        if not destino.is_file() or destino.stat().st_size != r.stat().st_size:
+            destino.parent.mkdir(parents=True, exist_ok=True)
+            import shutil
+            shutil.copy2(r, destino)
+        return destino
+    except Exception:
+        return r
+
+
 def _clip(tipo, ident, formato):
-    """El mp4 sobre negro (se mezcla en Screen) de una intro o transición: _v para vertical y cuadrado, _h para horizontal."""
+    """El mp4 sobre negro (se mezcla en Screen) de una intro o transición: _v para vertical y cuadrado, _h para horizontal.
+    Devuelve una copia en la carpeta del usuario (ver _copia_de_usuario), no el archivo del programa."""
     carpeta = carpeta_efectos() / ('intro' if tipo == 'intro' else 'corte')
     for base in (carpeta, carpeta_efectos() / 'corte'):
         r = base / f'{ident}_{formato}.mp4'
         if r.is_file():
-            return r
+            return _copia_de_usuario(r)
     return None
 
 
@@ -595,12 +616,13 @@ def _pack_para(clase, permitidos, usados):
 def fuente_sonido_intro(op=None):
     """El archivo de sonido de la intro según las preferencias: el Riser 1 que trae el programa, el que eligió el usuario, o None si está silenciado."""
     op = op or opciones_guardadas()
-    v = str(op.get('fx_intro_sonido') if op.get('fx_intro_sonido') is not None else 'riser_1').strip()
+    v = str(op.get('fx_intro_sonido') if op.get('fx_intro_sonido') is not None else 'viral_hooks_riser').strip()
     if v.lower() in ('', 'ninguno', 'none', 'mute'):
         return None
-    if v == 'riser_1':
-        r = carpeta_efectos() / 'sonidos' / 'riser_1.mp3'
-        return r if r.is_file() else None
+    for ident, _nombre, archivo in SONIDOS_INTRO:
+        if v == ident:
+            r = carpeta_efectos() / 'sonidos' / archivo
+            return r if r.is_file() else None
     r = Path(v)
     return r if r.is_file() else None
 
@@ -609,7 +631,7 @@ def nombre_sonido_intro(op=None):
     f = fuente_sonido_intro(op)
     if f is None:
         return ''
-    return 'Riser 1' if f.name == 'riser_1.mp3' else f.stem
+    return next((nombre for _i, nombre, archivo in SONIDOS_INTRO if archivo == f.name), f.stem)
 
 
 def _decodificar_audio(ruta, rate=48000):
@@ -631,54 +653,66 @@ def _decodificar_audio(ruta, rate=48000):
     return np.concatenate(partes, axis=1) if partes else np.zeros((2, 0), dtype=np.float32)
 
 
-def preparar_sonido_intro(ruta, maximo_s=SONIDO_INTRO_S, db=SONIDO_INTRO_DB, rate=48000):
-    """Los ÚLTIMOS `maximo_s` segundos CON CONTENIDO del sonido (sin el silencio del principio ni el del final: el Riser 1 tiene ~1,25 s de nada al empezar y ~2 s al
-    acabar), con un fundido de entrada de 15 ms, uno de salida de 40 ms y `db` de ganancia, como WAV estéreo de 48 kHz en la caché. Devuelve (ruta_wav, duración_s) o (None, 0)."""
+COLA_RISER_S = 0.04                  # lo que se deja después del pico (el golpe termina de sonar sin cortarse en seco)
+
+
+def preparar_riser(ruta, antes_s=SONIDO_INTRO_S, db=SONIDO_INTRO_DB, rate=48000, pico_dbfs=SONIDO_INTRO_PICO_DBFS):
+    """v5.5: el riser listo para ponerlo en el timeline, de modo que su PICO caiga donde tú quieras.
+
+    Busca el instante más fuerte del archivo (el pico del riser), se queda con los `antes_s` segundos que LO PRECEDEN (por defecto los últimos 2 s: «solo son 2 segundos») más
+    una cola de 40 ms, sube o baja el conjunto hasta que ese pico llegue a `pico_dbfs` (el Viral Hooks Riser original está a -17 dBFS) y lo guarda como WAV estéreo de 48 kHz.
+    Fundido de entrada de 25 ms y de salida de 8 ms (uno largo se comería justo el pico). Devuelve (ruta_wav, duración_s, instante_del_pico_s dentro del WAV) o (None, 0, 0)."""
     import wave
     import numpy as np
     ruta = Path(ruta)
     try:
-        clave = hashlib.md5(f'{ruta.resolve()}|{ruta.stat().st_mtime_ns}|{maximo_s}|{db}|{REVISION}'.encode('utf-8')).hexdigest()[:12]
+        clave = hashlib.md5(f'{ruta.resolve()}|{ruta.stat().st_mtime_ns}|{antes_s}|{db}|{pico_dbfs}|{REVISION}|riser2'.encode('utf-8')).hexdigest()[:12]
     except OSError:
-        return None, 0.0
-    destino = CACHE / f'sonido_intro_{clave}.wav'
-    if destino.is_file() and destino.stat().st_size > 1000:
+        return None, 0.0, 0.0
+    for previo in sorted(CACHE.glob(f'riser_{clave}_*.wav')):                      # el nombre lleva el instante del pico en milisegundos
         try:
-            with wave.open(str(destino), 'rb') as w:
-                return str(destino), w.getnframes() / float(w.getframerate())
+            with wave.open(str(previo), 'rb') as w:
+                dur = w.getnframes() / float(w.getframerate())
+            if previo.stat().st_size > 1000:
+                return str(previo), dur, int(previo.stem.rsplit('_', 1)[1]) / 1000.0
         except Exception:
             pass
     try:
         a = _decodificar_audio(ruta, rate)
     except Exception:
-        return None, 0.0
-    if a.shape[1] == 0:
-        return None, 0.0
-    pico = float(np.abs(a).max())
-    if pico <= 1e-6:
-        return None, 0.0
-    umbral = pico * (10.0 ** (-45.0 / 20.0))
-    activo = np.nonzero(np.abs(a).max(axis=0) > umbral)[0]
-    if len(activo) == 0:
-        return None, 0.0
-    fin = int(activo[-1]) + 1
-    ini = max(int(activo[0]), fin - int(maximo_s * rate))
+        return None, 0.0, 0.0
+    if a.shape[1] == 0 or float(np.abs(a).max()) <= 1e-6:
+        return None, 0.0, 0.0
+    m = np.abs(a).max(axis=0)
+    paso = max(1, int(0.010 * rate))
+    # el pico = la ventana de 10 ms con más energía (un solo muestreo suelto no manda)
+    energia = np.array([float((a[:, i:i + paso] ** 2).sum()) for i in range(0, a.shape[1] - paso + 1, paso)])
+    pico_i = int(energia.argmax()) * paso + int(m[int(energia.argmax()) * paso:int(energia.argmax()) * paso + paso].argmax())
+    fin = min(a.shape[1], pico_i + int(COLA_RISER_S * rate))
+    ini = max(0, pico_i - int(antes_s * rate))
     t = a[:, ini:fin].copy()
     n = t.shape[1]
-    f_in, f_out = min(n // 4, int(0.015 * rate)), min(n // 4, int(0.040 * rate))
+    f_in, f_out = min(n // 4, int(0.025 * rate)), min(n // 8, int(0.008 * rate))
     if f_in > 0:
         t[:, :f_in] *= np.linspace(0.0, 1.0, f_in, dtype=np.float32)
     if f_out > 0:
         t[:, -f_out:] *= np.linspace(1.0, 0.0, f_out, dtype=np.float32)
-    t *= 10.0 ** (db / 20.0)
+    t *= (10.0 ** (pico_dbfs / 20.0)) / float(np.abs(t).max()) * (10.0 ** (db / 20.0))
     pcm = (np.clip(t, -1.0, 1.0) * 32767.0).astype('<i2').T.copy()          # (muestras, canales) intercalado
     CACHE.mkdir(parents=True, exist_ok=True)
+    destino = CACHE / f'riser_{clave}_{int(round((pico_i - ini) * 1000.0 / rate))}.wav'
     with wave.open(str(destino), 'wb') as w:
         w.setnchannels(2)
         w.setsampwidth(2)
         w.setframerate(rate)
         w.writeframes(pcm.tobytes())
-    return str(destino), n / float(rate)
+    return str(destino), n / float(rate), (pico_i - ini) / float(rate)
+
+
+def preparar_sonido_intro(ruta, maximo_s=SONIDO_INTRO_S, db=SONIDO_INTRO_DB, rate=48000):
+    """(ruta_wav, duración_s) del riser de la intro: los últimos `maximo_s` segundos hasta su pico (ver preparar_riser)."""
+    wav, dur, _pico = preparar_riser(ruta, maximo_s, db, rate)
+    return wav, dur
 
 
 def oir_sonido_intro(op=None):
@@ -845,23 +879,29 @@ def planificar(video, palabras, duracion=None, opciones=None, al_estado=None, co
             duracion = max(duracion, float(palabras[-1].get('end', 0.0)))
     # el sonido de la intro (los últimos segundos con contenido del Riser 1, o el que eligió el usuario; silenciable). El riser SUBE: el destello cae justo al acabar
     # el sonido, no antes (con el sonido silenciado, el destello va en el segundo 0 como siempre).
+    # v5.5: el riser son los ÚLTIMOS 2 s del archivo, los que acaban en su pico; el destello (que es más brillante justo al empezar) y el golpe de zoom caen EN ese pico.
     intro_ini = 0.0
+    pico_intro = 0.0
     fuente = fuente_sonido_intro(op)
     if fuente is not None:
         try:
-            wav, dur_s = preparar_sonido_intro(fuente)
+            wav, dur_s, pico_s = preparar_riser(fuente)
         except Exception:
-            wav, dur_s = None, 0.0
+            wav, dur_s, pico_s = None, 0.0, 0.0
         if wav and dur_s > 0.2 and (not duracion or dur_s < duracion * 0.6):
-            eventos.append({'tipo': 'sonido', 'ini': 0.0, 'archivo': wav, 'dur': round(dur_s, 3), 'asset': nombre_sonido_intro(op)})
-            intro_ini = round(dur_s, 2) if op.get('fx_intro') else 0.0
-            resumen.append('sonido de intro')
+            eventos.append({'tipo': 'sonido', 'ini': 0.0, 'archivo': wav, 'dur': round(dur_s, 3), 'asset': nombre_sonido_intro(op), 'pico': round(pico_s, 3)})
+            pico_intro = round(pico_s, 3)
+            intro_ini = pico_intro if op.get('fx_intro') else 0.0
+            resumen.append('riser de intro')
     if op.get('fx_intro'):
         eventos.append({'tipo': 'intro', 'ini': intro_ini, 'asset': op['fx_intro']})
         resumen.append('intro')
     delta = DESPLAZA.get(op.get('fx_intensidad', 'normal'), 0)               # la intensidad global (suave / normal / fuerte) mueve cuánto y cómo de fuerte
     v1 = {'tipo': 'v1', 'ini': 0.0, 'zoom': nivel_de(op.get('fx_zoom'), delta), 'temblor': nivel_de(op.get('fx_temblor'), delta), 'transicion': None, 'cortes': [], 'golpes': [],
-          'fondo': bool(op.get('fx_fondo', True)), 'asset': 'movimiento', 'saltos': [], 'zoom_saltos': None}
+          'fondo': bool(op.get('fx_fondo', True)), 'asset': 'movimiento', 'saltos': [], 'zoom_saltos': None, 'zoom_intro': None}
+    if op.get('fx_intro_zoom') in ZOOM_INTRO_NIVELES:                        # el cuadro se acerca mientras sube el riser y se suelta de golpe en su pico (con el destello)
+        v1['zoom_intro'] = {'pico': pico_intro, 'nivel': nivel_de(op['fx_intro_zoom'], delta)}
+        resumen.append('zoom de intro')
     if saltos and op.get('fx_zoom_saltos') in NIVELES:
         v1['saltos'] = [round(float(t), 3) for t in saltos]
         v1['zoom_saltos'] = nivel_de(op['fx_zoom_saltos'], delta)
@@ -887,7 +927,7 @@ def planificar(video, palabras, duracion=None, opciones=None, al_estado=None, co
         resumen.append('zoom lento ' + v1['zoom'])
     if v1['temblor']:
         resumen.append('temblor ' + v1['temblor'])
-    if v1['zoom'] or v1['temblor'] or v1['transicion'] or v1['fondo'] or v1['zoom_saltos']:
+    if v1['zoom'] or v1['temblor'] or v1['transicion'] or v1['fondo'] or v1['zoom_saltos'] or v1['zoom_intro']:
         eventos.append(v1)
     packs = [p for p in (op.get('fx_iconos') or []) if p in {x[0] for x in PACKS_ICONOS}]
     if op.get('fx_iconos_activo', True) and packs and palabras:
@@ -994,6 +1034,12 @@ def comps_de_v1(evento_v1, info, fps, offset_frames, video=None):
         golpes = [f for f in (local(t) for t in (evento_v1 or {}).get('golpes') or []) if dentro(f)] if (evento_v1 or {}).get('temblor') else []
         cortes = [f for f in (local(t) for t in (evento_v1 or {}).get('cortes') or []) if dentro(f)] if (evento_v1 or {}).get('transicion') else []
         saltos = [f for f in (local(t) for t in (evento_v1 or {}).get('saltos') or []) if dentro(f)] if (evento_v1 or {}).get('zoom_saltos') else []
+        zoom_intro = None
+        zi = (evento_v1 or {}).get('zoom_intro')
+        if zi and k == 0:                                                   # el golpe de la intro es del primer clip del timeline
+            f_pico = local(zi.get('pico') or 0.0)
+            if f_pico < dur:
+                zoom_intro = {'pico': max(0, f_pico), 'nivel': zi.get('nivel') or 'normal'}
         fondo = None
         try:
             cw, ch = (int(x) for x in str(it.get('res') or '').lower().replace(' ', '').split('x')[:2])
@@ -1003,7 +1049,7 @@ def comps_de_v1(evento_v1, info, fps, offset_frames, video=None):
             fondo = {'lienzo': (ancho, alto), 'clip': (cw, ch), 'desenfoque': 40}
         ruta = CACHE / f'v1_{k}.comp'
         hecho = bool(evento_v1) and fusion_v1.escribir_comp(ruta, dur, fps, zoom=evento_v1.get('zoom'), golpes=golpes, nivel_temblor=evento_v1.get('temblor') or 'normal',
-                                                           cortes=cortes, transicion=evento_v1.get('transicion'), fondo=fondo, saltos=saltos, zoom_saltos=evento_v1.get('zoom_saltos'))
+                                                           cortes=cortes, transicion=evento_v1.get('transicion'), fondo=fondo, saltos=saltos, zoom_saltos=evento_v1.get('zoom_saltos'), zoom_intro=zoom_intro)
         salida.append({'inicio': ini, 'ruta': str(ruta) if hecho else None})
     return salida
 
@@ -1059,7 +1105,7 @@ def aplicar(plan, al_estado=None, offset_frames=0):
             e['modo'] = 'normal'
         listos.append(e)
     datos = {'eventos': listos, 'fps': fps, 'inicio': info['inicio'], 'offset_frames': int(offset_frames or 0), 'v1': v1_comps, 'solo_audio': bool((plan or {}).get('solo_audio')),
-             'movimiento': ({k: evento_v1.get(k) for k in ('zoom', 'temblor', 'transicion', 'cortes', 'golpes', 'fondo', 'saltos', 'zoom_saltos')} if evento_v1 else None)}
+             'movimiento': ({k: evento_v1.get(k) for k in ('zoom', 'temblor', 'transicion', 'cortes', 'golpes', 'fondo', 'saltos', 'zoom_saltos', 'zoom_intro')} if evento_v1 else None)}
     PLAN_JSON.parent.mkdir(parents=True, exist_ok=True)
     try:
         import archivos_seguros

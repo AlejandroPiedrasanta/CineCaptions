@@ -351,6 +351,25 @@ def _inicio_de_linea(bloque):
     return t0
 
 
+VENTANA_TOQUE_S = 0.15          # el toque de una palabra que cae a menos de esto del sonido de su emoji se quita
+
+
+def _quitar_toque_de_palabra(bloques, t):
+    """v5.5: el sonido del emoji ya marca esa palabra: el toque genérico del modo simple (TAP_POP, typewriter, Iphone Taping) que cae encima se quita, para que no suenen dos a la vez
+    (con el emoji de la palabra clave sonaba «pop» + «tap» pegados y se oía abrumador). Lo que el usuario puso a mano no se toca."""
+    for b in bloques:
+        eventos = b.get('sfx_eventos')
+        if not eventos:
+            continue
+        quedan = [e for e in eventos if not (e.get('sfx') == sfx_rules.CATEGORIA_SIMPLE and not e.get('sfx_manual') and abs(float(e.get('t') or 0) - t) <= VENTANA_TOQUE_S)]
+        if len(quedan) != len(eventos):
+            if quedan:
+                b['sfx_eventos'] = quedan
+            else:
+                b.pop('sfx_eventos', None)
+                b.pop('sfx', None)
+
+
 def agregar_eventos(bloques, pista_sfx=None):
     """Suma el sonido de cada emoji a 'bloques' (en su sitio) y devuelve (cuántos, pista_sfx actualizada para el manifiesto).
     No hace nada si el interruptor está apagado o ningún bloque lleva emoji."""
@@ -386,6 +405,7 @@ def agregar_eventos(bloques, pista_sfx=None):
             para_resolve = sfx_rules.para_resolve(ruta, None)
         except Exception:
             para_resolve = str(ruta)
+        _quitar_toque_de_palabra(bloques, t)
         b.setdefault('sfx_eventos', []).append({'t': round(t, 3), 'sfx': CATEGORIA, 'sfx_nombre': Path(ruta).name, 'sfx_original': str(ruta),
                                                 'sfx_archivo': para_resolve, 'sfx_manual': False, 'emoji': b['emoji']})
         b.setdefault('sfx', CATEGORIA)

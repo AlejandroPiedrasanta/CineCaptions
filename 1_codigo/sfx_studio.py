@@ -1245,7 +1245,7 @@ class SfxStudio(QWidget):
     # -- reglas y marcadores (columna derecha) ---------------------------------
     def _pintar_reglas(self, animar=True):
         """«Reglas automáticas por bloque», repartidas en HORIZONTAL por toda la zona, con dos modos:
-        Simple   — un efecto al PRINCIPIO de cada bloque, alternando dos sonidos (los de fábrica son TAP_POP y typewriter).
+        Simple   — un efecto al PRINCIPIO de cada palabra (o solo de la principal), alternando tres sonidos (los de fábrica son TAP_POP, typewriter e Iphone Taping).
         Avanzado — interruptores por regla (preguntas, cifras, pausas, mayúsculas…) y ajustes de cuándo y cuánto suena."""
         import sfx_rules
         _ENTRADA[0] = bool(animar)
@@ -1264,7 +1264,7 @@ class SfxStudio(QWidget):
                 sfx_rules.guardar_modo('simple' if var.get() == self._modos_reglas[0] else 'avanzado')
             despues(0, self._pintar_reglas, self)
         seg = Segmentado(self._modos_reglas, var, elegir, alto=34, tam=13)
-        Tooltip(seg, tr('Simple: un efecto al principio de CADA PALABRA, alternando dos sonidos (si se pisan, pasan a otra pista: SFX 2, SFX 3…). Avanzado: reglas por PALABRA (todas apagadas hasta que enciendas las que quieras) y ajustes de cuándo y cuánto suenan; si dos suenan juntos, pasan a otra pista. Emojis: todos los emojis y el sonido de cada uno, para cambiarlo emoji por emoji.'))
+        Tooltip(seg, tr('Simple: un efecto al principio de CADA PALABRA (o solo de la principal), alternando tres sonidos (si se pisan, pasan a otra pista: SFX 2, SFX 3…). Avanzado: reglas por PALABRA (todas apagadas hasta que enciendas las que quieras) y ajustes de cuándo y cuánto suenan; si dos suenan juntos, pasan a otra pista. Emojis: todos los emojis y el sonido de cada uno, para cambiarlo emoji por emoji.'))
         cc.addWidget(seg)
         # v5.5: dos ideas nuevas del ritmo: la curva de energia (cuantas palabras suenan) y la musica con ducking
         try:
@@ -1316,7 +1316,7 @@ class SfxStudio(QWidget):
         cv.setSpacing(espacio)
         return caja, cv
     SECCIONES_UI = (
-        ('inicio', 'Al inicio de cada palabra', 'Suena en cada palabra. Los dos sonidos se alternan; si se pisan, pasan a otra pista.', '#4589FF'),
+        ('inicio', 'Sonido por palabra', 'Suena cuando entra cada palabra (o solo la principal: elígelo arriba). Los tres sonidos se alternan; si se pisan, pasan a otra pista.', '#4589FF'),
         ('intro', 'Introducción', 'Un riser sube la tensión en el primer bloque del video. Cámbialo o agrega otro.', '#B388FF'),
         ('final', 'Final', 'Un boom cierra el video en el último bloque. Elige al azar entre los dos.', '#FB7185'),
     )
@@ -1333,6 +1333,18 @@ class SfxStudio(QWidget):
         return '  ·  '.join(partes)
     def _pintar_reglas_simple(self, t):
         import sfx_rules
+        # v5.5: en QUÉ palabras suena el modo simple (cada palabra / solo la principal / ninguna); la introducción y el final siguen sonando
+        opciones_donde = [('todas', tr('Cada palabra')), ('principal', tr('Solo la principal')), ('ninguna', tr('Ninguna'))]
+        var_donde = StringVar(next(n for k, n in opciones_donde if k == sfx_rules.cargar_modo()['donde']))
+        def cambio_donde(_v=None):
+            sfx_rules.guardar_modo(donde=next((k for k, n in opciones_donde if n == var_donde.get()), 'todas'))
+        fila_d, cd_ = caja_h(espacio=12)
+        cd_.addWidget(Etiqueta(tr('Sonido por palabra'), 14, peso='medio', color='#FFFFFF'))
+        seg_d = Segmentado([n for _k, n in opciones_donde], var_donde, cambio_donde, alto=34, tam=13)
+        Tooltip(seg_d, tr('Cada palabra: suena una vez por cada palabra que entra. Solo la principal: suena únicamente en la palabra grande de cada bloque (la que lleva el efecto), así hay menos sonidos y cada uno pesa más. Ninguna: no suenan las palabras; la introducción y el final se mantienen.'))
+        cd_.addWidget(seg_d)
+        cd_.addStretch(1)
+        t.addWidget(fila_d)
         fila = QWidget()
         lay = QHBoxLayout(fila)
         lay.setContentsMargins(0, 0, 0, 0)
@@ -1359,14 +1371,14 @@ class SfxStudio(QWidget):
             escena = _Escena(seccion, color, 130)
             cv.addWidget(escena, 1)
             caja.enlazar(icono, escena)
-            Tooltip(caja, tr({'inicio': 'Suena al inicio de CADA palabra, alternando los dos sonidos de abajo. Si dos caen juntos, el segundo pasa a otra pista (SFX 2, SFX 3…) para que no se pisen.',
+            Tooltip(caja, tr({'inicio': 'Suena al inicio de CADA palabra (o solo de la principal), alternando los tres sonidos de abajo. Si dos caen juntos, el segundo pasa a otra pista (SFX 2, SFX 3…) para que no se pisen.',
                               'intro': 'Suena UNA vez, en la primera palabra del video (un riser que abre). Si hay dos sonidos, se usa el primero.',
                               'final': 'Suena UNA vez, en la última palabra del video (un golpe que cierra). Si hay dos sonidos, se usa el primero.'}.get(seccion, nota)))   # al pasar el mouse: el icono se anima y este texto explica qué hace
             sn_ = Etiqueta(tr('SONIDOS · SE ALTERNAN') if seccion == 'inicio' else tr('SONIDOS · UNO AL AZAR'), 10, peso='negrita', color=TEXT_MUTED)
             sn_.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
             cv.addWidget(sn_)
             sonidos = sfx_rules.sonidos_simples(seccion)
-            for i in range(2):
+            for i in range(sfx_rules.CUANTOS_SIMPLES[seccion]):
                 ruta = sonidos[i] if i < len(sonidos) else None
                 sub = _TarjetaViva(color, 10, '#0B1426', '#0E1930')
                 sl = QVBoxLayout(sub)
@@ -1414,7 +1426,7 @@ class SfxStudio(QWidget):
         import sfx_rules
         actuales = [str(x) for x in sfx_rules.sonidos_simples(seccion)]
         fabrica = [str(x) for x in sfx_rules.sonidos_de_fabrica(seccion)]
-        while len(actuales) < 2:
+        while len(actuales) < sfx_rules.CUANTOS_SIMPLES[seccion]:
             actuales.append(fabrica[len(actuales)])
         actuales[indice] = str(ruta)
         clave = {'inicio': 'sonidos'}.get(seccion, seccion)

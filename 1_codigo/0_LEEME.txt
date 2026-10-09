@@ -65,6 +65,8 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         emojis de las palabras clave: catálogo, biblioteca Fluent 3D, PNG propios y sugerencias por idioma.
     emojis_animados.py
         emojis ANIMADOS del selector: Noto Animated Emoji (Google, CC BY 4.0), bajados al pedirlos y cacheados.
+    emojis_sets.py
+        SETS de emojis (estilos de imagen) que se bajan al pedirlos: Fluent 3D completo (Microsoft, MIT) y Noto de Google (Apache 2.0).
     emojis_sfx.py
         el sonido de cada emoji (fuego → fuego, beso → beso…): qué familia le toca, el que el usuario eligió y los eventos que se mandan a Resolve.
     emojis_sfx_ui.py
@@ -102,6 +104,8 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         genera la vista previa INCLUIDA del estilo «Kinetic» (los fotogramas que enseña la tarjeta del slider de Estilos).
     hacer_vista_slider.py
         genera el VIDEO que se reproduce en la tarjeta de un pack del slider «Pack de estilos» (captions reales de Resolve).
+    hacer_vista_viral.py
+        genera la vista previa INCLUIDA del estilo «VIRAL» (los fotogramas que enseña la tarjeta del slider de Estilos).
     hacer_vistas_guia_video.py
         genera los CLIPS de 4 s (entrada, texto sostenido y SALIDA) de los 48 ejemplos de «Crea tu estilo», renderizados por Resolve.
     i18n.py
@@ -128,6 +132,8 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         consulta el código y la documentación POR TEMA sin leer archivos enteros (mapa, símbolo, módulo, cambios); lo usan el MCP y la línea de comandos.
     mcp_cinecaptions.py
         servidor MCP (stdio, sin dependencias) de CineCaptions: estado, packs, transcribir, planificar, colocar, renderizar y comparar.
+    medir_barrido.py
+        mide, sobre un render de probar_barrido.py, si el barrido de luz recorre TODA la palabra y cuánto dura.
     medir_texto.py
         mide cuánto ocupa cada palabra en pantalla (look «pintado»).
     mograf_ui.py
@@ -149,18 +155,30 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         packs de estilos: leer, guardar, elegir y preparar el pack que se aplica.
     preparar_efectos.py
         herramienta de desarrollo: convierte las imágenes de iconos sobre fondo blanco en SPRITES con transparencia (uno por icono).
+    probar_barrido.py
+        prueba en el banco zz_BANCO (Resolve) del BARRIDO DE LUZ de las palabras grandes del pack «Referencia»: ¿llega hasta el final de la palabra, en cuánto tiempo?
     probar_efectos.py
         prueba de punta a punta de la página «Efectos»: suelta un video en la app sin pantalla (GO real con los efectos visuales ENCENDIDOS), Resolve renderiza y se saca una hoja de cuadros.
+    probar_estilos_app.py
+        prueba de los 3 estilos (VIRAL, Kinetic, Referencia) DENTRO de la app, sin pantalla y SIN Resolve: sonidos, emojis y colores que salen en cada uno.
     probar_fusion_v1.py
         prueba en Resolve del movimiento sobre el video (fusion_v1.py): zoom lento, temblor, transiciones y fondo desenfocado.
     probar_go.py
         pulsa GO de la app SIN pantalla sobre un archivo y un pack, y deja los bloques en el timeline actual de Resolve (el banco zz_BANCO).
     probar_kinetic.py
         prueba del estilo «Kinetic» de punta a punta: voz → bloques → Resolve (banco zz_BANCO) → render → hoja de cuadros.
+    probar_viral.py
+        prueba del estilo «VIRAL»: laboratorio de comps, planificador sobre un video real y render con hoja de cuadros.
+    probar_viral_app.py
+        prueba del estilo «VIRAL» DENTRO de la app (sin pantalla y SIN Resolve): GO, Creativo (palabras marcadas), sonidos y emojis.
+    proyecto_pruebas.py
+        un proyecto TEMPORAL y vacío de Resolve para probar sin ensuciar el del usuario.
     proyectos.py
         registro de proyectos (vídeos) trabajados: recientes, abrir, borrar.
     qt_kit.py
         kit de interfaz Qt: colores, tipografía Inter, controles, mensajes, hilos (correr_en_hilo, despues).
+    recomendaciones.py
+        lo que recomendamos para cada estilo: al elegir VIRAL, Kinetic o Referencia el sonido y la página Efectos quedan ya configurados.
     recorrido_ui.py
         recorrido visual por pasos: una capa sobre la ventana que ilumina cada zona de la interfaz y la explica (se desactiva en Ajustes).
     registro.py
@@ -211,6 +229,10 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         la versión del programa (APP_VERSION) y el autor, en un solo sitio.
     vigilancia.py
         guardián de tareas largas (GO, Generar): detecta atascos, destraba motores, chequeos periódicos y arranque atascado.
+    viral_captions.py
+        estilo «VIRAL»: la geometría de la pila (tamaños con la tipografía real, posiciones, tiempos) y el .json para Resolve.
+    viral_planificador.py
+        del texto con tiempos (ASR) a los bloques del estilo «VIRAL»: frases, palabra con efecto, líneas finas y negritas, y momentos.
     vista_previa_fx.py
         la vista previa de 3 segundos de la página «Efectos» (v5.4.8): TODO lo que está encendido, sobre fotos de muestra, sin abrir Resolve.
     vistas_guia.py

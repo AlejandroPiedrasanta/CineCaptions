@@ -134,8 +134,8 @@ def armar_comp(herramientas, id_plantilla, fin=FIN):
 				},
 			},
 			FrameFormat = {
-				Width = 1080,
-				Height = 1920,
+				Width = %d,
+				Height = %d,
 				GuideRatio = 1.77777777777778,
 				DepthFull = 3,
 				DepthPreview = 3,
@@ -148,7 +148,7 @@ def armar_comp(herramientas, id_plantilla, fin=FIN):
 			},
 		}
 	},
-}''' % fin
+}''' % (ANCHO, ALTO, fin)
     return cabecera + herramientas + pie
 
 

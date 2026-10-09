@@ -46,7 +46,7 @@ TEMPLATE_CLIP_NAME = "Subtitle Template"
 # coincide con la del programa (ver version.py). Se estampa en
 # ultimo_resultado.json: hasta la v1.0.28 este archivo no tenia version
 # ninguna y no habia forma de saber que build habia colocado los subtitulos.
-VERSION = "5.4.8 (subtitulos)"
+VERSION = "5.4.13 (subtitulos)"
 
 # Donde se escribe el resultado para que la app lo lea. Hasta la v1.0.26 este
 # script no escribia nada aca -a diferencia del de Importar Estilos, que si
@@ -101,7 +101,7 @@ NOMBRES_ROL = {
 NOMBRES_BASE = ("simple", "base")
 NOMBRE_IMAGEN = "imagen"      # el bloque donde va el icono o la imagen (el emoji)
 NOMBRES_SOLO_NUEVOS = ("arriba", "abajo", "imagen")
-MAX_VARIANTES = 10            # con los nombres nuevos (v5.9: antes 3)
+MAX_VARIANTES = 16            # con los nombres nuevos (v5.9: antes 3; v5.5: 16 por las variantes de barrido de «Referencia», 9-16)
 
 # Si quieres varios estilos que se vayan alternando, duplica las plantillas
 # agregando un numero: "contexto 2", "principal 2", "complemento 2", despues
@@ -109,7 +109,7 @@ MAX_VARIANTES = 10            # con los nombres nuevos (v5.9: antes 3)
 # se queda con todos los que encuentre, y los va alternando bloque a bloque
 # sin repetir nunca el mismo dos veces seguidas. No hace falta numerar de
 # corrido: si tienes el 1, el 2 y el 5, usa esos tres.
-MAX_SETS = 10
+MAX_SETS = 16
 
 # Formas de numerar que se aceptan: "contexto 2", "contexto2", "contexto-2",
 # "contexto_2". Asi un nombre escrito distinto no deja el set afuera.
@@ -808,6 +808,43 @@ def set_input_safe(tool, nombre, valor):
     try:
         tool.SetInput(nombre, valor)
         return True
+    except Exception:
+        return False
+
+
+# El macro calcula el RECORRIDO de la banda con el DataWindow del texto, que dentro de un macro no llega (queda en su valor por defecto): la banda recorre siempre ~0,31 del ancho del
+# cuadro, así que en una palabra ancha (IMPACT, REMARKABLE) sólo pasaba por el centro. Medido en Resolve: recorrido (en anchos de cuadro) ~ 2,17 x (0,193 + inputShine). Se pide
+# que la banda vaya de antes de la primera letra a después de la última: ancho de la palabra + 0,16.
+BARRIDO_K = 2.17
+BARRIDO_BASE = 0.193
+
+
+def ajustar_barrido(item, visible_s, salto_s=0.0, ancho_rel=None):
+    """v5.5 — el BARRIDO DE LUZ del macro Luxe Shine (palabras grandes del estilo «guion»). De fábrica empieza a los 0,25 s y tarda 1,5 s, pero una palabra grande se ve
+    ~0,55 s (mediana): el barrido se quedaba a medias en casi todas. Aquí empieza justo al entrar (salto = lo que ya se adelantó el comp) y termina antes de que la palabra
+    salga: dura lo que la palabra permite (0,16-0,50 s). Usa las entradas inputOffset / inputLength del macro; si el clip no es un Luxe Shine (presets de Amro) no hace nada.
+    Gemela de ajustar_barrido del .lua. Devuelve True si pudo."""
+    try:
+        comp = item.GetFusionCompByIndex(1)
+        if not comp:
+            return False
+        macro = comp.FindTool("LuxeShine")
+        if macro is None:
+            for _n, herramienta in comp.GetToolList().items():
+                try:
+                    if herramienta.GetInput("inputLength") is not None:
+                        macro = herramienta
+                        break
+                except Exception:
+                    continue
+        if macro is None:
+            return False
+        largo = max(0.16, min(0.50, float(visible_s) - 0.22))           # la entrada del macro tarda 0,14 s y la salida 0,10: el barrido va entre las dos
+        a = set_input_safe(macro, "inputOffset", float(salto_s) + 0.10)
+        b = set_input_safe(macro, "inputLength", largo)
+        if ancho_rel:
+            set_input_safe(macro, "inputShine", max(-0.05, (float(ancho_rel) + 0.16) / BARRIDO_K - BARRIDO_BASE))
+        return bool(a and b)
     except Exception:
         return False
 
@@ -3628,6 +3665,8 @@ def place_guion_track(timeline, media_pool, track_info, base_template,
             props["ZoomX"] = props["ZoomY"] = float(run["zoom"])
         if props:
             _poner_props(item, props)
+        if rol == "main":
+            ajustar_barrido(item, (fin - ini) / float(fps), salto, run.get("ancho_rel"))
         colocados += 1
         clave = (juego.get("numero"), rol)
         uso[clave] = uso.get(clave, 0) + 1
@@ -3670,13 +3709,14 @@ def place_guion_track(timeline, media_pool, track_info, base_template,
         _ALGO_COLOCADO[0] = True
 
 
-def preparar_pack_kinetic(media_pool, nombre_pack, formato, ruta_drb):
+def preparar_pack_kinetic(media_pool, nombre_pack, formato, ruta_drb, clip_prueba=None):
     """v5.4 — el bin del pack «Kinetic»: se importa el .drb una vez (ImportFolderFromFile) en su propio bin y se reutiliza. Devuelve (carpeta, aviso).
     No usa preparar_pack_drt: aquel da por bueno un bin solo si trae sets completos (principal / arriba / abajo) y este pack tiene otros clips."""
+    clip_prueba = clip_prueba or KINETIC_CLIP_PRUEBA            # el clip que prueba que el bin del pack está completo (el pack «VIRAL» trae otros: v fina…)
     nombre_bin = _nombre_bin_pack(nombre_pack, formato)
     raiz = media_pool.GetRootFolder()
     existente = _subcarpeta(raiz, nombre_bin)
-    if existente is not None and find_clip_by_name(media_pool, KINETIC_CLIP_PRUEBA, existente):
+    if existente is not None and find_clip_by_name(media_pool, clip_prueba, existente):
         return existente, None
     if not ruta_drb or not Path(ruta_drb).is_file():
         return None, f"el pack '{nombre_pack}' no trae su .drb en este equipo ({ruta_drb or 'sin ruta'})."
@@ -3715,10 +3755,10 @@ def preparar_pack_kinetic(media_pool, nombre_pack, formato, ruta_drb):
             media_pool.SetCurrentFolder(previa)
     except Exception:
         pass
-    if importo and find_clip_by_name(media_pool, KINETIC_CLIP_PRUEBA, carpeta):
+    if importo and find_clip_by_name(media_pool, clip_prueba, carpeta):
         print(f"  El bin del pack '{nombre_pack}' entró DIRECTO al Media Pool (desde el .drb).")
         return carpeta, None
-    return None, f"importé el .drb del pack '{nombre_pack}' pero no encuentro sus clips («{KINETIC_CLIP_PRUEBA}»…)."
+    return None, f"importé el .drb del pack '{nombre_pack}' pero no encuentro sus clips («{clip_prueba}»…)."
 
 
 KINETIC_CLIP_PRUEBA = "k hero blanco"
@@ -3727,6 +3767,8 @@ KINETIC_CLIP_PRUEBA = "k hero blanco"
 def _grupo_kinetic(nombre):
     """Capa del elemento: de la de abajo (héroe) a la de arriba (líneas pequeñas). Cada capa tiene sus propias pistas."""
     n = str(nombre).lower()
+    if n.startswith("v "):                  # pack «VIRAL»: las palabras con efecto (negrita, shatter, select, drag) y, aparte, las líneas finas
+        return 1 if n == "v fina" else 0
     if n.startswith("k hero"):
         return 0
     if n.startswith("k line"):
@@ -3774,9 +3816,9 @@ def place_kinetic_track(timeline, media_pool, track_info, base_template,
     pack_previo = pack_del_manifiesto(track_info, ancho_tl, alto_tl) if isinstance(track_info.get("plantilla"), dict) else None
     if not pack_previo or not pack_previo.get("drb"):
         fail("el estilo «Kinetic» necesita su pack (.drb) y el manifiesto no lo trae. Elige el pack «Kinetic» en Estilos.")
-    carpeta, aviso = preparar_pack_kinetic(media_pool, pack_previo["nombre"], pack_previo["formato"], pack_previo.get("drb"))
+    carpeta, aviso = preparar_pack_kinetic(media_pool, pack_previo["nombre"], pack_previo["formato"], pack_previo.get("drb"), track_info.get("clip_prueba"))
     if carpeta is None:
-        fail(f"no pude preparar el pack «Kinetic»: {aviso}")
+        fail(f"no pude preparar el pack «{pack_previo['nombre']}»: {aviso}")
     clips = {}
 
     def _clip(nombre):
@@ -3866,6 +3908,34 @@ def place_kinetic_track(timeline, media_pool, track_info, base_template,
         if props:
             _poner_props(item, props)
         colocados += 1
+    # v5.5 — EMOJIS (los manda el estilo VIRAL; Kinetic no): igual que place_guion_track, el del bloque entra con su palabra clave (cue.emoji_ini) y se queda hasta que
+    # se va la pila, encima o debajo de su caja (cue.caja, fracción del alto desde ARRIBA). Sin cue.emoji no se hace nada.
+    planes_emoji = []
+    for cue in cues:
+        eid = cue.get("emoji")
+        if not eid:
+            continue
+        try:
+            caja = cue.get("caja")
+            if isinstance(caja, (list, tuple)) and len(caja) == 2:
+                arriba_y, abajo_y = 0.5 - float(caja[0]), 0.5 - float(caja[1])
+            else:
+                ys = [float(r["y"]) for r in (cue.get("runs") or []) if isinstance(r.get("y"), (int, float))]
+                if not ys:
+                    continue
+                arriba_y, abajo_y = 0.5 - min(ys), 0.5 - max(ys)
+            ini_s = cue.get("emoji_ini")
+            ini_p = max(timeline_start_frame, timeline_start_frame + a_fotogramas(float(ini_s if ini_s is not None else cue["start"]), fps))
+            fin_p = timeline_start_frame + a_fotogramas(float(cue["end"]) + extra_fin, fps)
+        except (TypeError, ValueError):
+            continue
+        if fin_p > ini_p + 1:
+            planes_emoji.append({"emoji": eid, "ini": ini_p, "fin": fin_p, "y_arriba": arriba_y, "y_abajo": abajo_y})
+    if planes_emoji:
+        try:
+            colocar_emojis(timeline, media_pool, track_info, planes_emoji, fps)
+        except Exception as exc:
+            print(f"  Aviso: no pude colocar los emojis ({type(exc).__name__}: {exc}).")
     _retirar_pistas_nuestras(timeline, [f"{L}-K{k}" for k in range(n_pista + 1, n_pista + 25)], "elementos", "esta corrida necesita menos pistas")
     print(f"  Colocados {colocados} elementos en {n_pista} pista(s) ({L}-K1…{L}-K{n_pista}).")
     if sin_clip:
