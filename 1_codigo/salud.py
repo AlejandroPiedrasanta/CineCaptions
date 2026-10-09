@@ -86,6 +86,15 @@ def comprobar():
             filas.append({'nombre': 'Motor de IA (Qwen3)', 'ok': None, 'detalle': 'no instalado (se usa Whisper)'})
     except Exception as e:
         filas.append({'nombre': 'Motor de IA (Qwen3)', 'ok': False, 'detalle': str(e)[:160]})
+    try:                                   # v5.4.8: la GPU para Whisper (antes el chequeo decía «todo en orden» aunque faltara cuBLAS y la voz cayera a la CPU)
+        import cuda_libs
+        d = cuda_libs.diagnostico()
+        if d['estado'] in ('ok', 'faltan'):
+            filas.append({'nombre': 'GPU para la voz (CUDA)', 'ok': d['estado'] == 'ok', 'detalle': cuda_libs.texto_diagnostico(d)})
+        elif d['estado'] == 'sin_gpu':
+            filas.append({'nombre': 'GPU para la voz (CUDA)', 'ok': None, 'detalle': cuda_libs.texto_diagnostico(d)})
+    except Exception as e:
+        filas.append({'nombre': 'GPU para la voz (CUDA)', 'ok': False, 'detalle': str(e)[:160]})
     try:
         import resolve_mcp
         exe = resolve_mcp.ruta_exe()

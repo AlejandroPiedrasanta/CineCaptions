@@ -131,6 +131,110 @@ def _resolve_en_ejecucion():
             k32.CloseHandle(snap)
     except Exception:
         return True
+def _pids_de_resolve():
+    """Los PID de Resolve.exe (Windows); [] si no hay o no se pudo mirar."""
+    if not sys.platform.startswith('win'):
+        return []
+    pids = []
+    try:
+        import ctypes
+        from ctypes import wintypes
+
+        class _Proc(ctypes.Structure):
+            _fields_ = [('dwSize', wintypes.DWORD), ('cntUsage', wintypes.DWORD), ('th32ProcessID', wintypes.DWORD),
+                        ('th32DefaultHeapID', ctypes.c_void_p), ('th32ModuleID', wintypes.DWORD),
+                        ('cntThreads', wintypes.DWORD), ('th32ParentProcessID', wintypes.DWORD),
+                        ('pcPriClassBase', wintypes.LONG), ('dwFlags', wintypes.DWORD),
+                        ('szExeFile', ctypes.c_wchar * 260)]
+        k32 = ctypes.windll.kernel32
+        k32.CreateToolhelp32Snapshot.restype = wintypes.HANDLE
+        k32.CreateToolhelp32Snapshot.argtypes = [wintypes.DWORD, wintypes.DWORD]
+        k32.Process32FirstW.argtypes = k32.Process32NextW.argtypes = [wintypes.HANDLE, ctypes.POINTER(_Proc)]
+        k32.CloseHandle.argtypes = [wintypes.HANDLE]
+        snap = k32.CreateToolhelp32Snapshot(0x2, 0)
+        if not snap or snap == wintypes.HANDLE(-1).value:
+            return []
+        try:
+            e = _Proc()
+            e.dwSize = ctypes.sizeof(_Proc)
+            ok = k32.Process32FirstW(snap, ctypes.byref(e))
+            while ok:
+                if e.szExeFile.lower() == 'resolve.exe':
+                    pids.append(int(e.th32ProcessID))
+                ok = k32.Process32NextW(snap, ctypes.byref(e))
+        finally:
+            k32.CloseHandle(snap)
+    except Exception:
+        return []
+    return pids
+
+
+_COLGADO = {'t': 0.0, 'desde': None, 'hilo': None}
+
+
+def _muestrear_colgado():
+    """Una mirada: ¿alguna ventana visible de Resolve.exe «No responde» ahora mismo? (IsHungAppWindow: el hilo de su ventana lleva >5 s sin atender mensajes)."""
+    try:
+        pids = set(_pids_de_resolve())
+        if not pids:
+            return False
+        import ctypes
+        from ctypes import wintypes
+        user32 = ctypes.windll.user32
+        user32.IsHungAppWindow.argtypes = [wintypes.HWND]
+        user32.IsWindowVisible.argtypes = [wintypes.HWND]
+        user32.GetWindowThreadProcessId.argtypes = [wintypes.HWND, ctypes.POINTER(wintypes.DWORD)]
+        enum_proc = ctypes.WINFUNCTYPE(wintypes.BOOL, wintypes.HWND, wintypes.LPARAM)
+        visto = {'colgado': False}
+
+        def cb(hwnd, _lp):
+            pid = wintypes.DWORD()
+            user32.GetWindowThreadProcessId(hwnd, ctypes.byref(pid))
+            if pid.value in pids and user32.IsWindowVisible(hwnd) and user32.IsHungAppWindow(hwnd):
+                visto['colgado'] = True
+            return True
+        user32.EnumWindows(enum_proc(cb), 0)
+        return bool(visto['colgado'])
+    except Exception:
+        return False
+
+
+def _tomar_muestra(maxima_edad_s=3.0):
+    ahora = time.time()
+    if ahora - _COLGADO['t'] < maxima_edad_s:
+        return
+    colgado = _muestrear_colgado()
+    _COLGADO['t'] = ahora
+    if colgado:
+        _COLGADO['desde'] = _COLGADO['desde'] or ahora
+    else:
+        _COLGADO['desde'] = None
+
+
+def _vigia_colgado():
+    while True:
+        time.sleep(3.0)
+        try:
+            _tomar_muestra(2.5)
+        except Exception:
+            pass
+
+
+def resolve_colgado(umbral_s=0.0):
+    """v5.4.8: True si Resolve está abierto pero su ventana «No responde» desde hace al menos `umbral_s` s (0 = ahora mismo). Llamar a fusionscript con Resolve colgado deja TODO
+    el proceso congelado (no suelta el GIL), así que ni se intenta; y esperar 75 s a un MCP que no va a contestar tampoco ayuda. Un hilo vigía mira cada 3 s (ms de coste) para
+    medir cuánto lleva así. En Mac devuelve False."""
+    if not sys.platform.startswith('win'):
+        return False
+    if _COLGADO['hilo'] is None:
+        import threading
+        _COLGADO['hilo'] = threading.Thread(target=_vigia_colgado, daemon=True, name='vigia-resolve-colgado')
+        _COLGADO['hilo'].start()
+    _tomar_muestra()
+    desde = _COLGADO['desde']
+    return desde is not None and (time.time() - desde) >= float(umbral_s)
+
+
 def _conexion_viva(resolve):
     """True si el objeto responde de verdad, no solo si existe.\n\n    scriptapp() puede devolver un objeto HUECO: no es None, pero sus metodos\n    valen None. La causa mas comun, y la que le vimos a un cliente con\n    STUDIO en Mac, es que Resolve tiene el scripting externo desactivado:\n\n        Preferencias > Sistema > General > \"External scripting using\"\n\n    Si esta en \"None\", Resolve rechaza la conexion pero la libreria devuelve\n    igual un cascaron. Tiene que estar en \"Local\".\n\n    Sin esta comprobacion, conectar() daba ese cascaron por bueno y el script\n    reventaba con un traceback de Python en la cara del usuario:\n\n        File \"CineCaptions.py\", line 1221, in main\n          project = resolve.GetProjectManager().GetCurrentProject()\n        TypeError: \'NoneType\' object is not callable\n\n    ...despues de haber generado los 124 bloques, o sea con todo el trabajo\n    hecho y tirado. Validando aqui, se detecta antes de empezar y se puede\n    decir que hay que tocar (ver MENSAJE_SCRIPTING_DESACTIVADO).\n\n    Es el mismo criterio que usa obtener_resolve() en los scripts .lua: no se\n    da por buena una conexion hasta que GetProjectManager() responde.\n    """
     try:
@@ -162,6 +266,9 @@ def conectar(refrescar=False, pasivo=False):
                     if time.time() - _CACHE['ultimo_fallo'] < REINTENTO_TRAS_FALLO_S:
                         return
         if not _resolve_en_ejecucion():       # (5.3) Resolve cerrado: no se llama a scriptapp() (congela la interfaz ~4 s)
+            _CACHE['resolve'], _CACHE['intentado'], _CACHE['hueco'], _CACHE['ultimo_fallo'] = None, True, False, time.time()
+            return None
+        if resolve_colgado():                  # v5.4.8: abierto pero «No responde»: no se llama a scriptapp (congelaría la app entera)
             _CACHE['resolve'], _CACHE['intentado'], _CACHE['hueco'], _CACHE['ultimo_fallo'] = None, True, False, time.time()
             return None
         _setear_variables_de_entorno()

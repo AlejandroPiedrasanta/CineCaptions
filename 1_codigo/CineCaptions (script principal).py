@@ -2066,10 +2066,26 @@ class PlantillasWindow(QWidget):
         if valor == 'auto':
             return plantillas.pack_incorporado()
         return plantillas.buscar_pack(valor)
+    def _fuentes_listas(self):
+        """El índice de fuentes terminó: las tarjetas se repintan con el estado real de las tipografías."""
+        self._fuentes_esperando = False
+        try:
+            if vivo(self):
+                self._recargar(self.seleccion.get())
+        except Exception:
+            pass
     def _estado_fuentes(self, pack):
         """('Tipografías ok', verde) / ('Faltan N tipografías', ambar)."""
         if pack is None:
             return (None, None)
+        try:                                   # v5.4.8: sin esperar al primer índice de fuentes (la interfaz no se queda parada): se muestra «Comprobando…» y se refresca al terminar
+            if not fuentes_sistema.indice_listo():
+                if not getattr(self, '_fuentes_esperando', False):
+                    self._fuentes_esperando = True
+                    fuentes_sistema.al_estar_listo(lambda: ejecutar_en_ui(self._fuentes_listas))
+                return (tr('Comprobando tipografías…'), TEXT_MUTED)
+        except Exception:
+            pass
         try:
             arreglables, sin_remedio = instalar_fuentes.faltantes(pack.fuentes())
         except Exception:
@@ -5685,11 +5701,11 @@ class _EvGlobal:
     __slots__ = ('x_root', 'y_root')
     def __init__(self, x, y):
         self.x_root, self.y_root = (int(x), int(y))
-def _correr_en_hilo(widget, trabajo, al_terminar):
+def _correr_en_hilo(widget, trabajo, al_terminar, baja=False):
     """Corre `trabajo()` en un hilo y llama `al_terminar(resultado, error)`
     en el hilo de la interfaz (ver qt_kit.correr_en_hilo). La red de las
     licencias no puede congelar la ventana (el «no responde» de Windows)."""
-    correr_en_hilo(widget, trabajo, al_terminar)
+    correr_en_hilo(widget, trabajo, al_terminar, baja=baja)
 # v5.2.1: la ventana de la licencia es ventana_licencia.DialogoLicencia (el formato de la de
 # CineSlide: Lemon Squeezy, ya no correo + código de Hotmart)
 # ---------------------------------------------------------------------------
@@ -6047,6 +6063,13 @@ class SubtitleApp(QWidget):
         despues(3500, self._chequear_librerias, self)
         # v5.4: el indice de fuentes del sistema (~1100 archivos) se arma en un hilo nada mas abrir, no al pulsar «Estilos»
         despues(400, self._precalentar_fuentes, self)
+        despues(1800, self._ofrecer_reanudar_go, self)                 # v5.4.8: un GO que quedó a medias se ofrece reanudar
+        despues(45000, self._limpiar_caches, self)               # v5.4.8: tope de MB por caché (mantenimiento.py), 45 s después de abrir y en un hilo
+        try:                                                     # v5.4.8: lo de fondo (cola_trabajos) cede ante GO
+            import cola_trabajos
+            cola_trabajos.registrar_alta(lambda: bool(getattr(self, '_go_corriendo', False)))
+        except Exception:
+            pass
         despues(1500, self._precalentar_packs, self)
         despues(6000, self._descargar_emojis_animados, self)
         despues(2500, self._precalentar_mcp, self)
@@ -6082,15 +6105,24 @@ class SubtitleApp(QWidget):
             rutas = []
             for cat in sfx_rules.categorias_disponibles():
                 rutas += [str(r) for r in sfx_rules._rutas_de(cat)[:3]]
-            sfx_studio.precalentar_picos(rutas)
+            import cola_trabajos
+            cola_trabajos.lanzar_bajo(lambda: sfx_studio.precalentar_picos(rutas), 'ondas-sfx')
         except Exception:
             pass
     def _precalentar_secuencias_emoji(self):
         try:
+            import cola_trabajos
             import emojis
-            emojis.precalentar_secuencias()
+            cola_trabajos.lanzar_bajo(emojis.precalentar_secuencias, 'secuencias-emoji')
         except Exception:
             pass
+    def _limpiar_caches(self):
+        def trabajo():
+            import mantenimiento
+            mb, n = mantenimiento.limpiar_todo()
+            if n:
+                registro.info(f'Cachés: {n} entradas viejas borradas ({mb:.0f} MB liberados)', 'mantenimiento')
+        _correr_en_hilo(self, trabajo, lambda _r, _e: None, baja=True)
     def _precalentar_fuentes(self):
         try:
             import fuentes_sistema
@@ -6106,7 +6138,7 @@ class SubtitleApp(QWidget):
                     continue
                 estilos_de_pack(pack.nombre)
                 pack.fuentes()
-        _correr_en_hilo(self, trabajo, lambda _r, _e: None)
+        _correr_en_hilo(self, trabajo, lambda _r, _e: None, baja=True)
     def _descargar_emojis_animados(self):
         """v5.4: baja en segundo plano todos los emojis animados del catalogo (Noto Animated Emoji) para que el selector los
         muestre moviéndose al instante; el progreso se ve en «Detalles y estado del sistema»."""
@@ -6973,6 +7005,8 @@ class SubtitleApp(QWidget):
         formato = self.formato_var.get() if hasattr(self, 'formato_var') else tr('Detectar solo')
         chips = [(tr('Estilo: {p}', p=nombre_pack), self._menu_estilo_go,
                   tr('Clic: elegir el estilo de GO (Referencia = captions palabra a palabra, línea fina y negrita + palabra grande; Diseño automático = 3 líneas).')),
+                 (self._texto_chip_idioma(), self._menu_idioma_go,
+                  tr('El idioma que se habla en el video. En «Automático» GO lo detecta al transcribir y aquí te dice cuál oyó; si se equivocó, elige el correcto y pulsa GO otra vez.')),
                  (tr('Emojis: {v}', v=tr('sí') if self._go_emojis() else tr('no')), self._alternar_emojis_go,
                   tr('Clic: con o sin emojis en los subtítulos.')),
                  (tr('Efectos: {v}', v=tr('sí') if self._go_sfx() else tr('no')), self._alternar_sfx_go,
@@ -7069,6 +7103,23 @@ class SubtitleApp(QWidget):
         except Exception:
             registro.excepcion(origen='quitar estilo fijo')
         self._pintar_opciones_go()
+    def _texto_chip_idioma(self):
+        """«Idioma: Inglés», o con «Automático» el que GO oyó en el último video: «Idioma: Inglés (detectado)»."""
+        nombre = self.lang_var.get()
+        if LANG_CODE_BY_NAME.get(nombre) == 'auto':
+            oido = getattr(self, '_idioma_detectado_go', None)
+            if oido:
+                return tr('Idioma: {i} (detectado)', i=NOMBRE_POR_CODIGO.get(oido, oido))
+            return tr('Idioma: automático')
+        return tr('Idioma: {i}', i=nombre)
+    def _cambiar_idioma_go(self, nombre):
+        """Elegir el idioma desde Inicio. Si GO ya terminó con otro idioma, se deja listo para repetirlo con el correcto (un solo clic en GO)."""
+        self._elegir_idioma(nombre)
+        self._pintar_opciones_go()
+        ultimo = getattr(self, '_ultimo_go_archivo', None)
+        if ultimo and getattr(self, '_go_termino', False) and not getattr(self, '_go_corriendo', False) and Path(ultimo).exists():
+            self._go_archivo = ultimo
+            self.go_panel.reposo(tr('Idioma: {i}. Pulsa GO para repetir «{n}» con ese idioma.', i=nombre, n=Path(ultimo).name), forzar=True)
     def _menu_idioma_go(self):
         menu = Menu(self)
         favoritos = [NOMBRE_POR_CODIGO.get(f, f) for f in (getattr(self, 'favoritos_idiomas', []) or [])]
@@ -7079,7 +7130,7 @@ class SubtitleApp(QWidget):
                 continue
             vistos.add(nombre)
             marca = '✓  ' if nombre == self.lang_var.get() else '      '
-            menu.agregar(marca + nombre, lambda n=nombre: (self._elegir_idioma(n), self._pintar_opciones_go()))
+            menu.agregar(marca + nombre, lambda n=nombre: self._cambiar_idioma_go(n))
         menu.separador()
         menu.agregar(tr('Más idiomas…'), lambda: (self._abrir_buscador_idioma(), despues(400, self._pintar_opciones_go, self)))
         menu.mostrar(QCursor.pos())
@@ -7503,6 +7554,12 @@ class SubtitleApp(QWidget):
             return
         self._go_corriendo = True
         self._un_clic = True
+        self._pausa_go = False                # v5.4.8: «Pausar» / «Cancelar» (se miran en los puntos de control del trabajo)
+        self._cancelar_go = False
+        self._go_termino = False
+        self._idioma_detectado_go = None
+        self.go_panel.al_pausar = self._go_pausar
+        self.go_panel.al_cancelar = self._go_cancelar
         self._go_paso_actual = 'timeline'
         self._vigilar_tarea('go', 'timeline')          # v5.11: desde el primer paso (Resolve apagado / sin responder) hay alguien mirando
         self._resumen_ia = None
@@ -7511,6 +7568,9 @@ class SubtitleApp(QWidget):
         self.go_panel.paso('timeline')
         self._precargar_motores()          # v5.3: la voz y la IA de texto se cargan y se calientan mientras Resolve da el audio
         archivo = getattr(self, '_go_archivo', None)
+        if archivo:
+            self._ultimo_go_archivo = archivo
+            self._marcar_go_en_curso(archivo)
         import resolve_mcp
         hay_mcp = resolve_mcp.ruta_exe() is not None
         self._go_tl_listo = None
@@ -7641,7 +7701,12 @@ class SubtitleApp(QWidget):
                                'GO · timeline del video')
                 return
             self.msg_queue.put(('status', tr('Armando en Resolve un timeline con tu video…')))
-            r = resolve_mcp.crear_timeline_con_video(archivo, ancho=medio['tl_ancho'], alto=medio['tl_alto'], fps=medio['tl_fps'])
+            try:
+                import efectos_visuales as _fx
+                con_broll = bool(_fx.activado() and _fx.opciones_guardadas().get('fx_broll') and _fx.broll_clave(_fx.opciones_guardadas()))
+            except Exception:
+                con_broll = False
+            r = resolve_mcp.crear_timeline_con_video(archivo, ancho=medio['tl_ancho'], alto=medio['tl_alto'], fps=medio['tl_fps'], pista_broll=con_broll)
             if r.get('error'):
                 self._go_tl_error = r['error']
                 registro.aviso(tr('Resolve no armó el timeline con tu video ({m}): GO se detiene (no se toca ningún otro timeline).', m=r['error']),
@@ -7701,17 +7766,94 @@ class SubtitleApp(QWidget):
         self._set_inputs_enabled(False)
         self._guardar_preferencias()
         self._arrancar_reloj()
+        try:
+            self.go_panel.estimador.poner_efectos(self._go_visuales())
+        except Exception:
+            pass
         self._go_paso_actual = 'voz'
         self.go_panel.paso('voz')
         # v5.10: «Efectos: no» de Inicio se respeta (antes GO ponía los sonidos aunque el chip dijera «no»)
         self.worker = threading.Thread(target=self._run_pipeline, args=(media_path.resolve(), source_lang, False, 0, 0, 'dinamico', bool(self.sfx_var.get()), None, None), daemon=True)
         self.worker.start()
+    # -- v5.4.8: pausar, cancelar y reanudar GO ---------------------------------------------------------------------------------------------------------------
+    def _go_pausar(self):
+        self._pausa_go = not getattr(self, '_pausa_go', False)
+        self.go_panel.poner_pausa(self._pausa_go)
+        self.status_var.set(tr('GO en pausa: pulsa «Reanudar» para seguir.') if self._pausa_go else tr('Sigo con GO…'))
+    def _go_cancelar(self):
+        if getattr(self, '_cancelar_go', False):
+            return
+        if not messagebox.askyesno(tr('Cancelar GO'), tr('¿Cancelo GO? Lo ya hecho se conserva (la voz transcrita no se repite) y puedes reanudarlo.'), parent=self):
+            return
+        self._cancelar_go = True
+        self._pausa_go = False
+        try:
+            import motor_voz
+            motor_voz.abortar()                       # la voz de Qwen (otro proceso) se corta ya; Whisper para al siguiente avance
+        except Exception:
+            pass
+        self.go_panel.linea.configure(text=tr('Cancelando…'))
+    def _punto_control_go(self):
+        """Lo llama el HILO de trabajo en cada avance: si GO está en pausa espera; si se canceló, termina (SystemExit llega al manejo de errores de siempre)."""
+        if not getattr(self, '_un_clic', False):
+            return
+        while getattr(self, '_pausa_go', False) and not getattr(self, '_cancelar_go', False):
+            time.sleep(0.2)
+        if getattr(self, '_cancelar_go', False):
+            raise SystemExit(tr('GO cancelado.'))
+    def _go_cancelado(self):
+        """El trabajo paró por la cancelación del usuario: el panel lo dice sin alarma y ofrece «Reanudar»."""
+        registro.info('GO cancelado por el usuario', 'GO')
+        self._fin_tarea(False, tr('GO cancelado'))
+        self._borrar_go_en_curso()
+        self._go_corriendo = False
+        self._un_clic = False
+        self._cancelar_go = False
+        self._pausa_go = False
+        self._set_inputs_enabled(True)
+        if getattr(self, '_ultimo_go_archivo', None):
+            self._go_archivo = self._ultimo_go_archivo           # «Reanudar» (el orbe) vuelve a lanzar GO con ese mismo video
+        self.go_panel.cancelado(tr('Lo ya hecho se conserva: al reanudar, la voz no se transcribe otra vez.'))
+    def _ruta_go_en_curso(self):
+        return Path.home() / 'DaVinciSubtitles' / 'go_en_curso.json'
+    def _marcar_go_en_curso(self, archivo):
+        """Si el programa se cierra a mitad de GO, al abrirlo se ofrece reanudarlo (go_en_curso.json)."""
+        try:
+            archivos_seguros.escribir_json(self._ruta_go_en_curso(), {'archivo': str(archivo), 'cuando': time.time()})
+        except Exception:
+            pass
+    def _borrar_go_en_curso(self):
+        try:
+            self._ruta_go_en_curso().unlink(missing_ok=True)
+        except Exception:
+            pass
+    def _ofrecer_reanudar_go(self):
+        """Al abrir: un GO que quedó a medias (el programa se cerró o se apagó el equipo) se ofrece reanudar en el propio botón."""
+        try:
+            f = self._ruta_go_en_curso()
+            if getattr(self, '_go_corriendo', False) or not f.is_file():
+                return                                   # con un GO en marcha la marca es suya: no se toca
+            d = json.loads(f.read_text(encoding='utf-8'))
+            f.unlink(missing_ok=True)
+            ruta = d.get('archivo')
+            if ruta and Path(ruta).exists() and time.time() - float(d.get('cuando') or 0) < 3 * 86400 and not getattr(self, '_go_corriendo', False):
+                self._go_archivo = ruta
+                self._ultimo_go_archivo = ruta
+                self.go_panel.reposo(tr('Quedó a medias el GO de «{n}»: pulsa GO para reanudarlo.', n=Path(ruta).name), forzar=True)
+        except Exception:
+            pass
     def _go_fallo(self, clave, mensaje):
+        self._borrar_go_en_curso()
         registro.error(str(mensaje).splitlines()[0][:200] if mensaje else tr('GO no pudo terminar'), f'GO · {clave}', detalle=str(mensaje or ''))
         self._fin_tarea(False, str(mensaje).splitlines()[0][:160] if mensaje else '')
         self.go_panel.paso_fallido = clave
         self.go_panel.paso(clave, 'error')
         self.go_panel.terminar(False, str(mensaje).splitlines()[0][:160] if mensaje else '')
+        try:
+            import avisos_sistema
+            avisos_sistema.avisar(self, tr('GO no pudo terminar'), (str(mensaje).splitlines()[0] if mensaje else tr('Abre CineCaptions para ver qué pasó.'))[:140], error=True)
+        except Exception:
+            pass
         self._go_corriendo = False
         self._un_clic = False
         self._set_inputs_enabled(True)
@@ -7833,7 +7975,19 @@ class SubtitleApp(QWidget):
         if not ok:
             self.go_panel.paso_fallido = 'resolve'
         self.go_panel.paso('resolve', 'hecho' if ok else 'error')
+        self._go_termino = bool(ok)
+        try:
+            import avisos_sistema
+            if ok:
+                avisos_sistema.avisar(self, tr('GO terminó'), tr('Tus subtítulos ya están en el timeline de Resolve.'))
+            else:
+                avisos_sistema.avisar(self, tr('GO no pudo terminar'), str(texto or tr('Abre CineCaptions para ver qué pasó.'))[:140], error=True)
+        except Exception:
+            pass
+        if ok and not texto and getattr(self, '_idioma_detectado_go', None):
+            texto = tr('Ya está en tu timeline · idioma oído: {i}. Si no era ese, cámbialo arriba y pulsa GO.', i=NOMBRE_POR_CODIGO.get(self._idioma_detectado_go, self._idioma_detectado_go))
         self.go_panel.terminar(ok, texto or (tr('Ya está en tu timeline. Pulsa GO para otro.') if ok else ''), self._go_estadisticas() if ok else None)
+        self._borrar_go_en_curso()
         self._go_corriendo = False
         self._un_clic = False
         if ok:
@@ -10440,20 +10594,79 @@ class SubtitleApp(QWidget):
         except Exception:
             registro.excepcion(origen='efectos visuales (inicio)')
         return caja
+    def _recortar_pausas(self, words, media_path):
+        """Con «Quitar pausas» encendido y un timeline que GO armó con ESTE video, recorta los silencios de V1/A1 en Resolve y devuelve las palabras con los tiempos nuevos.
+        Si algo falla o no hay casi nada que quitar, las palabras quedan como estaban."""
+        self._recorte = None
+        try:
+            import efectos_visuales
+            import pausas
+            nivel = efectos_visuales.opciones_guardadas().get('fx_pausas')
+            tl_listo = getattr(self, '_go_tl_listo', None)
+            if nivel not in pausas.UMBRALES or not getattr(self, '_un_clic', False) or tl_listo is None or not words:
+                return words
+            tl_listo.wait(120)
+            self._abortar_si_fallo_el_timeline()
+            dur = efectos_visuales.duracion_video(media_path) or float(words[-1].get('end') or 0.0)
+            fps = float(getattr(self, '_fps_timeline', 0) or 30.0)
+            info = pausas.calcular(words, dur, fps, nivel)
+            if not info:
+                registro.info('Quitar pausas: casi no hay silencios que quitar', 'GO')
+                return words
+            self.msg_queue.put(('status', tr('Quitando las pausas…')))
+            r = pausas.recortar_en_resolve(info['segmentos'])
+            if not r.get('ok'):
+                registro.aviso('Quitar pausas no se pudo aplicar: ' + str(r.get('error') or r)[:160], 'GO')
+                return words
+            self._recorte = info
+            registro.info('Quitar pausas: %.1f s menos (%d tramos)' % (info['quitado'], len(info['segmentos'])), 'GO')
+            return pausas.remapear_palabras(words, info['segmentos'])
+        except SystemExit:
+            raise
+        except Exception:
+            registro.excepcion(origen='GO · quitar pausas')
+            return words
     def _planificar_efectos(self, media_path, words, cortes_fx):
         """El plan de efectos de ESTE video (nunca rompe GO: si algo falla, se sigue sin efectos)."""
         self._efectos_plan = None
         try:
             import efectos_visuales
-            if not efectos_visuales.activado():
-                return
-            self.msg_queue.put(('status', tr('Preparando los efectos visuales…')))
-            if cortes_fx is not None and cortes_fx.hilo is not None:
-                cortes_fx.hilo.join(120)
-            plan = efectos_visuales.planificar(str(media_path), words, cortes=cortes_fx.resultado if cortes_fx is not None else None)
+            visuales = efectos_visuales.activado()
+            if visuales:
+                self.msg_queue.put(('status', tr('Preparando los efectos visuales…')))
+                if cortes_fx is not None and cortes_fx.hilo is not None:
+                    cortes_fx.hilo.join(120)
+            cortes = cortes_fx.resultado if (cortes_fx is not None and visuales) else None
+            duracion, saltos = None, None
+            recorte = getattr(self, '_recorte', None)
+            if recorte:                                # con las pausas quitadas, los tiempos de la fuente ya no valen: se pasan al timeline recortado
+                import pausas
+                cortes = pausas.remapear_cortes(cortes, recorte['segmentos']) if cortes else cortes
+                duracion, saltos = recorte['duracion_nueva'], recorte['saltos']
+            if visuales:
+                plan = efectos_visuales.planificar(str(media_path), words, duracion=duracion, cortes=cortes, saltos=saltos)
+            else:                                      # sin efectos visuales el audio extra (música, sonidos de gancho) sale igual
+                dur = duracion or (efectos_visuales.duracion_video(str(media_path)) or (float(words[-1].get('end') or 0.0) if words else 0.0))
+                plan = {'eventos': [], 'duracion': dur, 'resumen': '', 'zonas': [], 'solo_audio': True}
             plan['video'] = str(media_path)
+            # v5.4.8: el audio extra (música de fondo, sonidos de las transiciones, riser + golpe del gancho) y los efectos que se acercan al pulso
+            try:
+                import sonidos_extra
+                evs = plan.get('eventos') or []
+                tiempos_corte = sorted([float(e['ini']) for e in evs if e.get('tipo') == 'corte'] + [float(t) for e in evs if e.get('tipo') == 'v1' for t in (e.get('cortes') or [])])
+                trans = next((e.get('asset') for e in evs if e.get('tipo') == 'corte'), None) or next((e.get('transicion') for e in evs if e.get('tipo') == 'v1' and e.get('transicion')), None)
+                audio_extra, resumen_audio = sonidos_extra.planificar(str(media_path), words, plan.get('duracion') or duracion, cortes=tiempos_corte, transicion=trans, saltos=saltos,
+                                                                       eventos_visuales=evs, al_estado=lambda t: self.msg_queue.put(('status', tr(t))))
+                if audio_extra:
+                    evs.extend(audio_extra)
+                    plan['eventos'] = evs
+                    plan['resumen'] = ', '.join(x for x in ([plan.get('resumen')] + resumen_audio) if x)
+            except Exception:
+                registro.excepcion(origen='GO · audio extra')
+            if not plan.get('eventos'):
+                return
             self._efectos_plan = plan
-            registro.info('Efectos visuales: ' + plan.get('resumen', ''), 'efectos')
+            registro.info('Efectos: ' + plan.get('resumen', ''), 'efectos')
         except Exception:
             registro.excepcion(origen='efectos visuales (plan)')
     def _colocar_efectos(self):
@@ -10470,6 +10683,12 @@ class SubtitleApp(QWidget):
         try:
             import efectos_visuales
             self.msg_queue.put(('status', tr('Colocando los efectos visuales en Resolve…')))
+            try:
+                n_golpes = efectos_visuales.completar_golpes(plan, getattr(self, '_ultimos_bloques', None))      # el temblor sigue los golpes de sonido reales
+                if n_golpes:
+                    registro.info(f'Efectos visuales: el temblor sigue {n_golpes} golpes de sonido', 'efectos')
+            except Exception:
+                pass
             ok, mensaje = efectos_visuales.aplicar(plan, al_estado=lambda t: self.msg_queue.put(('status', str(t))), offset_frames=self._offset_frames())
             if not ok:
                 registro.aviso(f'Efectos visuales: {mensaje}', 'efectos')
@@ -11959,25 +12178,51 @@ class SubtitleApp(QWidget):
                 pass
             self._efectos_plan = None
             cortes_fx = self._buscar_cortes_en_paralelo(media_path)           # v5.4.6: la página «Efectos» (si está activa) busca los cortes mientras se transcribe
+            try:                                                              # v5.4.8: y deja listas las secuencias de los iconos (no hay que esperarlas al colocar)
+                import efectos_visuales as _fx
+                _fx.precalentar_secuencias(media_path)
+            except Exception:
+                pass
             transcribe_share = 0.7 if translate else 1.0
             def on_model_loaded():
                 self.msg_queue.put(('phase_determinate', None))
                 self.msg_queue.put(('status', tr('Transcribiendo el audio...')))
             def on_transcribe_progress(frac):
+                self._punto_control_go()
                 self.msg_queue.put(('progress', frac * transcribe_share))
             if reusar:
                 words = [dict(w) for w in reusar[0]]
                 self._registrar_sfx_manuales(words)
             else:
-                words = st.transcribe(str(media_path), source_lang, MODEL_SIZE, progress_callback=on_transcribe_progress, model_loaded_callback=on_model_loaded, status_callback=lambda t: self.msg_queue.put(('status', t)))
+                # v5.4.8: la misma voz (mismo video, idioma, motor y modelo) no se transcribe dos veces
+                words = None
+                try:
+                    import cache_voz
+                    words = cache_voz.leer(media_path, source_lang, MODEL_SIZE)
+                except Exception:
+                    words = None
+                if words:
+                    registro.info(f'Voz: transcripción reutilizada ({len(words)} palabras)', 'voz')
+                    self.msg_queue.put(('status', tr('Este video ya estaba transcrito: uso esa transcripción.')))
+                    self.msg_queue.put(('progress', transcribe_share))
+                else:
+                    words = st.transcribe(str(media_path), source_lang, MODEL_SIZE, progress_callback=on_transcribe_progress, model_loaded_callback=on_model_loaded, status_callback=lambda t: self.msg_queue.put(('status', t)))
+                    try:
+                        import cache_voz
+                        cache_voz.guardar(media_path, source_lang, MODEL_SIZE, words)
+                    except Exception:
+                        pass
+            self._punto_control_go()
             if not words:
                 raise SystemExit(self._sin_palabras_mensaje())
             self._abortar_si_fallo_el_timeline()          # un video soltado sin su timeline en Resolve: no se sigue (ni se gastan los minutos de la IA)
+            words = self._recortar_pausas(words, media_path)         # v5.4.8: «Quitar pausas» (si el usuario lo pidió): los tiempos de las palabras pasan a ser los del video recortado
             base_lang = source_lang
             if source_lang == 'auto':
                 # con «auto» el idioma es el que se OYÓ (antes se daba por español y la corrección del texto «arreglaba» el inglés con palabras en español)
                 base_lang = st.idioma_detectado(words) or 'es'
                 registro.info(f'Idioma detectado: {base_lang}', 'voz')
+                self.msg_queue.put(('idioma', base_lang))
             manifest = {'project': project_name, 'tracks': []}
             if modo == 'destacados':
                 import dynamic_subtitles as dyn
@@ -12155,6 +12400,7 @@ class SubtitleApp(QWidget):
             archivos_seguros.escribir_json(manifest_path, manifest, indent=2)
             sidecar_lua.escribir_sidecar(manifest_path, manifest)
             langs = ', '.join((t['language'].upper() for t in manifest['tracks']))
+            self._punto_control_go()
             self._planificar_efectos(media_path, words, cortes_fx)
             ev_tl = getattr(self, '_go_tl_listo', None)
             if ev_tl is not None and not ev_tl.is_set():
@@ -12245,6 +12491,10 @@ class SubtitleApp(QWidget):
                         pass
                     if un_clic:
                         self.go_panel.linea.configure(text=str(payload))
+                elif kind == 'idioma':
+                    self._idioma_detectado_go = payload
+                    if un_clic:
+                        self._pintar_opciones_go()
                 elif kind == 'gen_fase':
                     self._gen_fase(payload)
                 elif kind == 'phase_indeterminate':
@@ -12327,6 +12577,15 @@ class SubtitleApp(QWidget):
                         self._go_vista_previa(n_cues, langs, folder)
                     else:
                         self._al_terminar_generacion(n_cues, langs, folder)
+                elif kind == 'error' and un_clic and getattr(self, '_cancelar_go', False):
+                    self._gen_fin(False)
+                    self._parar_reloj()
+                    self.progress.stop()
+                    self.progress.configure(mode='determinate')
+                    self.progress.set(0)
+                    self.porcentaje_lbl.configure(text='')
+                    self.status_var.set(tr('GO cancelado.'))
+                    self._go_cancelado()
                 elif kind == 'error':
                     self._gen_fin(False)
                     self._fin_tarea(False, str(payload).strip().splitlines()[0][:160] if str(payload).strip() else '')

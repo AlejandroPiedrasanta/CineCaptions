@@ -1,23 +1,23 @@
 {
     "estable":  {
-                    "version":  "5.4.4",
-                    "notas":  "• Proyecto más simple: el slider ahora muestra solo tus packs (se quitaron las tarjetas «Mis plantillas del Media Pool» y «Diseño automático») y desaparece el botón «Vista real · Resolve»: las vistas reales se piden solas cuando Resolve está abierto.\r\n• «Crea tu estilo» mucho más fácil: una sola galería con todos los estilos (sin filtros, sin botones por tarjeta, sin «Abrir en Resolve» ni «!»). Tocas hasta 3, le pones nombre y pulsas «Crear mi pack».",
+                    "version":  "5.4.7",
+                    "notas":  "• Nueva página «Efectos» (viene activada): intro con sonido —sube el riser y, cuando llega al final, el destello cubre la imagen; puedes cambiar o silenciar el sonido—, transiciones que esconden cada corte entre tomas e iconos flotantes animados con desenfoque. Se colocan solos al hacer GO, junto a los captions, la música y los emojis, en pistas propias «FX» de Resolve Studio (tu video y tus captions no se tocan).\r\n• Iconos flotantes a tu gusto: apágalos o deja solo los packs que quieras y, al hacer clic en un pack, escribe en qué palabras sale. También pueden salir en las frases importantes (un número, un aviso, una pregunta, el gancho).\r\n• Chip «Visuales» en Inicio para activar o desactivar todos los efectos de un clic.\r\n• Los estilos de fábrica pasan a llamarse «Shine Kinetic» y «Shine Referencia»: vienen con el programa y no se pueden quitar. El slider de Proyecto reproduce un video real con los captions de cada uno, tal como quedan en la línea de tiempo.\r\n• «Crea tu estilo» más fácil: cada ejemplo se ve sobre una foto de muestra con su animación completa (entrada, texto y salida) y se ordena con los botones «Texto alto», «Texto medio» y «Texto bajo». En Proyecto se quitó «Mostrar los packs quitados».",
                     "fecha":  "2026-10-08",
                     "archivos":  {
                                      "windows":  {
-                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.4/Instalar_CineCaptions_5.4.4.exe",
-                                                     "sha256":  "4b0adc0df46a8c8a4e70f081236ce84611b797ab4f4ce6dbcdeff37c3374d0c2",
-                                                     "tam":  203456187
+                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.7/Instalar_CineCaptions_5.4.7.exe",
+                                                     "sha256":  "a3c3392316b0e92c8e12c1faf998d1440b39c5cf5c0228d1ffa017bc51f0515a",
+                                                     "tam":  227112724
                                                  },
                                      "mac_arm64":  {
-                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.4/CineCaptions_Mac_AppleSilicon_5.4.4.dmg",
-                                                       "sha256":  "1d98bcb373baab67d087c6449b8484fa81d45fe2c7047af136e68ab257ee8a54",
-                                                       "tam":  172415315
+                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.7/CineCaptions_Mac_AppleSilicon_5.4.7.dmg",
+                                                       "sha256":  "cedb0f66a5b11126b524d2c4f7ef1cad481d8692bf3ab4330bc35e43ce133f24",
+                                                       "tam":  196377314
                                                    },
                                      "mac_x86_64":  {
-                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.4/CineCaptions_Mac_Intel_5.4.4.dmg",
-                                                        "sha256":  "1878a034181589de86a64578eede5cb43b899cb46726690feac5f4a6d559000f",
-                                                        "tam":  189179728
+                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.7/CineCaptions_Mac_Intel_5.4.7.dmg",
+                                                        "sha256":  "1f9ab02073c9a86bc9343cecf4ea4fa5c66ab84a66dba8069f7794a74a4e4c79",
+                                                        "tam":  212258079
                                                     }
                                  }
                 }

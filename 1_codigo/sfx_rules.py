@@ -273,11 +273,70 @@ def sonido_de_regla(id_):
     """La ruta del sonido concreto que el usuario eligió para una regla, o None (= cualquiera de su categoría)."""
     ruta = (cargar_avanzado()['reglas'].get(id_) or {}).get('sonido')
     return str(ruta) if ruta and Path(str(ruta)).is_file() else None
+# v5.4.8 (S1): normalizar el volumen de los sonidos. Cada sonido se mide una vez (RMS con puerta: solo cuentan los tramos que suenan, no el silencio de la cola) y se sube o baja
+# hasta el nivel objetivo; el pico nunca pasa de -1 dBFS. Así un whoosh de una carpeta y un hit de otra suenan igual de fuerte, y el volumen que el usuario fija por sonido o
+# el general se suma encima de esa base uniforme. Se apaga con la preferencia sfx_normalizar (SFX Lab / Sonido).
+OBJETIVO_DB_DEFECTO = -20.0
+ARCHIVO_NIVELES = CARPETA_USUARIO / 'sfx_niveles.json'
+def normalizar_activo():
+    try:
+        import ajustes_ui
+        return ajustes_ui.leer_prefs().get('sfx_normalizar', True) is not False
+    except Exception:
+        return True
+def objetivo_db():
+    try:
+        import ajustes_ui
+        return float(ajustes_ui.leer_prefs().get('sfx_objetivo_db', OBJETIVO_DB_DEFECTO))
+    except Exception:
+        return OBJETIVO_DB_DEFECTO
+def nivel_de_audio(audio, sr):
+    """(rms_db con puerta, pico_db) de un sonido (array mono o estéreo float). Ventanas de 50 ms: solo cuentan las que están a menos de 30 dB de la más fuerte (y por encima de -70 dBFS)."""
+    import numpy as np
+    a = np.asarray(audio, dtype='float32')
+    if a.ndim > 1:
+        a = a.mean(axis=1)
+    if not len(a):
+        return -120.0, -120.0
+    pico = float(np.max(np.abs(a)))
+    n = max(1, int(sr * 0.05))
+    k = len(a) // n
+    if k < 1:
+        rms = float(np.sqrt(np.mean(a ** 2)))
+        return 20 * np.log10(max(rms, 1e-9)), 20 * np.log10(max(pico, 1e-9))
+    potencia = (a[:k * n].reshape(k, n) ** 2).mean(axis=1)
+    db = 10 * np.log10(np.maximum(potencia, 1e-12))
+    sirve = db >= max(float(db.max()) - 30.0, -70.0)
+    rms_db = float(10 * np.log10(max(float(potencia[sirve].mean()), 1e-12)))
+    return rms_db, float(20 * np.log10(max(pico, 1e-9)))
+def ganancia_de_normalizado_db(ruta):
+    """Los dB que hay que sumarle a ese sonido para llegar al objetivo (0.0 si está apagado, si no se puede medir o si ya está en el nivel). Se mide una vez y se recuerda."""
+    if not normalizar_activo():
+        return 0.0
+    try:
+        origen = Path(str(ruta))
+        clave = _clave_ruta(origen)
+        sello = origen.stat().st_mtime_ns
+        datos = _leer_dic(ARCHIVO_NIVELES)
+        g = datos.get(clave)
+        if not (isinstance(g, list) and len(g) == 3 and g[0] == sello):
+            import sfx_audio
+            audio, sr = sfx_audio.cargar(origen)
+            rms_db, pico_db = nivel_de_audio(audio, sr)
+            g = [sello, round(rms_db, 2), round(pico_db, 2)]
+            datos[clave] = g
+            _escribir_dic(ARCHIVO_NIVELES, datos)
+        ganancia = max(-12.0, min(9.0, objetivo_db() - float(g[1])))
+        ganancia = min(ganancia, -1.0 - float(g[2]))               # el pico nunca pasa de -1 dBFS
+        return 0.0 if abs(ganancia) < 0.3 else float(ganancia)
+    except Exception:
+        return 0.0
 def con_volumen(ruta, db_extra=0.0, tope_s=None):
     """La ruta del sonido con su volumen guardado (y el general, en dB) y su recorte ya aplicados. Si no hay nada que cambiar sale
     la misma ruta; si no, un WAV en ~/DaVinciSubtitles/sfx_volumen (se rehace solo si cambia). Es lo que viaja a la línea de
     tiempo: Resolve no deja cambiar el volumen de un clip por script, así que el volumen y el recorte quedan dentro del archivo."""
-    factor = volumen_de(ruta) * (10 ** (float(db_extra or 0.0) / 20.0))
+    g_norm = ganancia_de_normalizado_db(ruta)
+    factor = volumen_de(ruta) * (10 ** ((float(db_extra or 0.0) + g_norm) / 20.0))
     recorte = recorte_de(ruta)
     if abs(factor - 1.0) < 0.005 and not recorte and not tope_s:
         return ruta

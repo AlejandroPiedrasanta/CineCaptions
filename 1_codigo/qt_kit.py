@@ -337,7 +337,7 @@ def congelar_gc():
         pass
 
 
-def correr_en_hilo(contexto, trabajo, al_terminar):
+def correr_en_hilo(contexto, trabajo, al_terminar, baja=False):
     """Corre trabajo() en un hilo y llama al_terminar(resultado, error) en el
     hilo de la interfaz — si 'contexto' (la ventana que lo pidio) sigue viva.
     La red de las licencias o un render de Resolve no congelan la ventana."""
@@ -355,6 +355,13 @@ def correr_en_hilo(contexto, trabajo, al_terminar):
                 return
             al_terminar(caja.get('r'), caja.get('e'))
         ejecutar_en_ui(fin)
+    if baja:                                  # v5.4.8: trabajo de fondo: cola_trabajos (máx. 2 a la vez, cede ante GO)
+        try:
+            import cola_trabajos
+            cola_trabajos.lanzar_bajo(correr, 'correr_en_hilo')
+            return
+        except Exception:
+            pass
     threading.Thread(target=correr, daemon=True).start()
 
 

@@ -26,7 +26,7 @@ import threading
 import time
 from pathlib import Path
 
-REVISION = 'r3'                    # súbela si cambia la animación de los iconos: se rehacen las secuencias en caché
+REVISION = 'r5'                    # súbela si cambia la animación de los iconos o de los efectos extra: se rehacen las secuencias en caché
 FPS_FX = 30
 DUR_ICONOS_S = 3.0
 
@@ -34,7 +34,13 @@ DUR_ICONOS_S = 3.0
 INTROS = (('fuga_de_luz', 'Fuga de luz', 'Un destello de luz con colores que se apaga en el primer segundo.'),
           ('destello', 'Destello', 'Un fogonazo blanco corto y limpio.'))
 TRANSICIONES = (('fuga_de_luz', 'Fuga de luz', 'Una fuga de luz que tapa el corte y se apaga.'),
-                ('destello', 'Destello', 'Un fogonazo blanco que esconde el salto entre tomas.'))
+                ('destello', 'Destello', 'Un fogonazo blanco que esconde el salto entre tomas.'),
+                ('zoom_blur', 'Zoom desenfocado', 'El cuadro se lanza hacia ti con un desenfoque radial justo en el corte.'),
+                ('whip', 'Barrido rápido', 'El cuadro sale volando hacia un lado con desenfoque y el siguiente entra por el otro (whip pan).'),
+                ('glitch', 'Glitch RGB', 'Los colores se separan y el cuadro vibra un instante en el corte.'))
+TRANSICIONES_V1 = ('zoom_blur', 'whip', 'glitch')      # estas MUEVEN el propio video: van en una composición de Fusion sobre el clip de V1 (fusion_v1.py), no en un clip encima
+NIVELES = ('suave', 'normal', 'fuerte')
+INTENSIDADES = (('suave', 'Suave'), ('normal', 'Normal'), ('fuerte', 'Fuerte'))
 PACKS_ICONOS = (('pack1', 'Destellos', 'Estrellas verdes brillantes: ideas, novedades y cosas buenas.'),
                 ('pack2', 'Alertas', 'Señales de aviso amarillas: errores, ojo y cuidado.'),
                 ('pack3', 'Prohibido', 'Botones rojos con X y cinta de precaución: lo que NO hay que hacer.'),
@@ -46,7 +52,17 @@ CANTIDAD_ICONOS = {'pocos': (18.0, 3), 'normal': (11.0, 6), 'muchos': (7.0, 12)}
 # v5.4.7: los efectos vienen ACTIVADOS (el usuario los apaga en la página Efectos o con el chip «Visuales» de Inicio)
 OPCIONES_POR_DEFECTO = {'fx_intro': 'fuga_de_luz', 'fx_intro_sonido': 'riser_1', 'fx_cortes': 'fuga_de_luz', 'fx_cortes_cuanto': 'pocos',
                         'fx_iconos_activo': True, 'fx_iconos': ['pack1', 'pack2', 'pack3', 'pack4'], 'fx_iconos_cuanto': 'normal',
-                        'fx_iconos_palabras': {}, 'fx_iconos_extra': True}
+                        'fx_iconos_palabras': {}, 'fx_iconos_extra': True,
+                        # v5.4.8: movimiento sobre el video (Fusion) e intensidad global; los nuevos vienen apagados (el usuario los enciende en la página Efectos)
+                        'fx_zoom': 'no', 'fx_temblor': 'no', 'fx_fondo': True, 'fx_intensidad': 'normal',
+                        # efectos extra (efectos_extra.py): todo apagado hasta que el usuario lo encienda
+                        'fx_numeros': False, 'fx_pegatinas': False, 'fx_pegatinas_palabras': {}, 'fx_enfasis': 'no', 'fx_enfasis_altura': 'centro',
+                        'fx_overlay': '', 'fx_overlay_fuerza': 0.45, 'fx_propios': [], 'fx_outro': '', 'fx_outro_texto': '', 'fx_outro_logo': '', 'fx_outro_sonido': True,
+                        'fx_evitar': True,
+                        # quitar pausas (pausas.py) y el zoom alterno en cada corte seco
+                        'fx_pausas': 'no', 'fx_zoom_saltos': 'no',
+                        # B-roll de bancos de stock (broll.py): necesita la clave de API gratuita de Pexels
+                        'fx_broll': False, 'fx_broll_cuanto': 'normal', 'pexels_key': ''}
 SONIDO_INTRO_S = 3.0                          # como mucho, los últimos 3 s del sonido con contenido (el Riser 1 tiene ~1,75 s audibles)
 SONIDO_INTRO_DB = -3.0
 
@@ -97,6 +113,10 @@ def opciones_guardadas():
         op['fx_iconos'] = []
     if not isinstance(op.get('fx_iconos_palabras'), dict):
         op['fx_iconos_palabras'] = {}
+    if not isinstance(op.get('fx_pegatinas_palabras'), dict):
+        op['fx_pegatinas_palabras'] = {}
+    if not isinstance(op.get('fx_propios'), list):
+        op['fx_propios'] = []
     return op
 
 
@@ -240,20 +260,69 @@ def _componer_frame(base_w, base_h, W, H, sprites, t, dur, variante):
     return lienzo
 
 
-def secuencia_iconos(pack, ancho, alto, variante=0, al_estado=None):
-    """La secuencia de PNG con transparencia (DUR_ICONOS_S a FPS_FX) de un pack de iconos a la resolución ancho×alto. Devuelve {'patron', 'n', 'dur'} o None."""
-    from PIL import Image
+_LOCK_SECUENCIAS = threading.Lock()
+
+
+def _secuencia_lista(carpeta, n):
+    return carpeta.is_dir() and all((carpeta / f'f_{k:04d}.png').is_file() for k in range(1, n + 1))
+
+
+def _bbox_sprite(s, base_w, base_h, variante):
+    """El rectángulo (fracciones del cuadro) que ocupa un icono del pack, con lo que se pega a sus bordes. None si cruza todo el cuadro (una cinta de lado a lado)."""
+    borde = s.get('borde') or []
+    if ('izq' in borde and 'der' in borde) or ('arriba' in borde and 'abajo' in borde):
+        return None
+    wf, hf = float(s.get('ancho', 0)) / base_w, float(s.get('alto', 0)) / base_h
+    cx, cy = float(s['cx']), float(s['cy'])
+    if 'izq' in borde:
+        cx = wf / 2.0
+    if 'der' in borde:
+        cx = 1.0 - wf / 2.0
+    if 'arriba' in borde:
+        cy = hf / 2.0
+    if 'abajo' in borde:
+        cy = 1.0 - hf / 2.0
+    if variante % 2 == 1:
+        cx = 1.0 - cx
+    return (cx - wf / 2.0, cy - hf / 2.0, cx + wf / 2.0, cy + hf / 2.0)
+
+
+def _choca(s, base_w, base_h, evitar, variante):
+    caja = _bbox_sprite(s, base_w, base_h, variante)
+    if caja is None or not evitar:
+        return False
+    return any(not (caja[2] < z[0] or caja[0] > z[2] or caja[3] < z[1] or caja[1] > z[3]) for z in evitar)
+
+
+def secuencia_iconos(pack, ancho, alto, variante=0, al_estado=None, evitar=None):
+    """La secuencia de PNG con transparencia (DUR_ICONOS_S a FPS_FX) de un pack de iconos a la resolución ancho×alto. Los iconos que caerían sobre `evitar` (zonas de los captions
+    y de la cara, fracciones x0, y0, x1, y1) se dejan fuera. Devuelve {'patron', 'n', 'dur'} o None."""
     n = int(round(DUR_ICONOS_S * FPS_FX))
-    carpeta = CACHE / f'iconos_{pack}_{ancho}x{alto}_v{variante % 2}_{FPS_FX}_{REVISION}'
+    evitar = [tuple(float(v) for v in z) for z in (evitar or [])]
+    marca = ('_e' + hashlib.md5(json.dumps(evitar).encode()).hexdigest()[:6]) if evitar else ''
+    carpeta = CACHE / f'iconos_{pack}_{ancho}x{alto}_v{variante % 2}_{FPS_FX}{marca}_{REVISION}'
     patron = carpeta / 'f_%04d.png'
-    if carpeta.is_dir() and all((carpeta / f'f_{k:04d}.png').is_file() for k in range(1, n + 1)):
+    if _secuencia_lista(carpeta, n):
         return {'patron': str(patron), 'n': n, 'dur': DUR_ICONOS_S}
+    with _LOCK_SECUENCIAS:                    # v5.4.8: una a la vez (el pre-render de fondo y aplicar() no se pisan); quien llega segundo la encuentra hecha
+        if _secuencia_lista(carpeta, n):
+            return {'patron': str(patron), 'n': n, 'dur': DUR_ICONOS_S}
+        return _generar_secuencia(pack, ancho, alto, variante, al_estado, carpeta, patron, n, evitar)
+
+
+def _generar_secuencia(pack, ancho, alto, variante, al_estado, carpeta, patron, n, evitar=None):
+    from PIL import Image
     try:
         (base_w, base_h), sprites = _sprites(pack)
     except Exception:
         return None
     k = min(ancho, alto) / float(min(base_w, base_h))
     trabajo = []
+    if evitar:
+        libres = [s for s in sprites if not _choca(s, base_w, base_h, evitar, variante)]
+        if not libres:
+            return None                                    # todos los iconos de este pack taparían los captions o la cara: ese pack no sale
+        sprites = libres
     for i, s in enumerate(sprites):
         copia = dict(s)
         im = s['img']
@@ -283,6 +352,56 @@ def secuencia_iconos(pack, ancho, alto, variante=0, al_estado=None):
     tmp.rename(carpeta)
     limpiar_cache()
     return {'patron': str(patron), 'n': n, 'dur': DUR_ICONOS_S}
+
+
+def resolucion_de_timeline(video):
+    """(ancho, alto) del timeline que GO arma para ese video: 1080×1920 vertical, 1920×1080 horizontal y 1080×1080 cuadrado."""
+    try:
+        import av
+        with av.open(str(video)) as c:
+            s = c.streams.video[0]
+            w, h = int(s.codec_context.width), int(s.codec_context.height)
+        rot = 0
+        try:
+            rot = abs(int(float(s.metadata.get('rotate', 0)))) % 360
+        except Exception:
+            rot = 0
+        if rot in (90, 270):
+            w, h = h, w
+        if h > w * 1.2:
+            return 1080, 1920
+        if w > h * 1.2:
+            return 1920, 1080
+        return 1080, 1080
+    except Exception:
+        return 1080, 1920
+
+
+def precalentar_secuencias(video, opciones=None):
+    """v5.4.8: en un hilo (mientras GO transcribe) deja hechas las secuencias de los packs de iconos activos a la resolución que tendrá el timeline: cuando GO coloca los
+    efectos ya están en caché y no hay que esperar ~5 s por pack. Devuelve el hilo (o None si no hay nada que hacer)."""
+    op = dict(opciones_guardadas())
+    op.update(opciones or {})
+    packs = [p for p in (op.get('fx_iconos') or []) if p in {x[0] for x in PACKS_ICONOS}]
+    if not (activado() and op.get('fx_iconos_activo', True) and packs):
+        return None
+
+    def trabajo():
+        try:
+            ancho, alto = resolucion_de_timeline(video)
+            try:
+                import efectos_extra
+                evitar = efectos_extra.zonas_a_evitar(video, ancho, alto, op)
+            except Exception:
+                evitar = []
+            for variante in (0, 1):
+                for pack in packs:
+                    secuencia_iconos(pack, ancho, alto, variante, evitar=evitar)
+        except Exception:
+            pass
+    h = threading.Thread(target=trabajo, daemon=True, name='fx-prerender')
+    h.start()
+    return h
 
 
 def limpiar_cache(maximo_mb=700):
@@ -659,7 +778,62 @@ def _pack_de_frase(frase, packs, op, usados):
 
 
 # ----------------------------------------------------------------------------------------------------------------------- el plan
-def planificar(video, palabras, duracion=None, opciones=None, al_estado=None, cortes=None):
+DESPLAZA = {'suave': -1, 'normal': 0, 'fuerte': 1}
+_GOLPES_RE = re.compile(r'hit|slam|impact|boom|punch|bass|thud|golpe|impacto', re.I)
+
+
+def desplazar(escala, valor, delta):
+    """El valor de `escala` (una tupla ordenada) movido `delta` puestos (sin salirse)."""
+    if valor not in escala:
+        return valor
+    return escala[max(0, min(len(escala) - 1, escala.index(valor) + delta))]
+
+
+def nivel_de(valor, delta=0):
+    """'suave' | 'normal' | 'fuerte' (movido por la intensidad global) o None si está en «no»."""
+    if valor not in NIVELES:
+        return None
+    return desplazar(NIVELES, valor, delta)
+
+
+def golpes_de_bloques(bloques, separacion=0.9, tope=40):
+    """Los instantes (s) de los golpes de sonido (hit, slam, impact, bass…) que ya tienen los bloques: ahí tiembla el cuadro. [] si el sonido no tiene golpes."""
+    ts = []
+    for b in bloques or []:
+        eventos = b.get('sfx_eventos') or []
+        if eventos:
+            for ev in eventos:
+                if _GOLPES_RE.search(str(ev.get('sfx') or '') + ' ' + str(ev.get('sfx_nombre') or '')):
+                    ts.append(float(ev.get('t') or 0.0))
+        elif b.get('sfx') and _GOLPES_RE.search(str(b.get('sfx')) + ' ' + str(b.get('sfx_nombre') or '')):
+            ts.append(float(b.get('start') or 0.0))
+    salida = []
+    for t in sorted(ts):
+        if not salida or t - salida[-1] >= separacion:
+            salida.append(round(t, 3))
+    return salida[:tope]
+
+
+def completar_golpes(plan, bloques):
+    """Con los bloques ya hechos: el temblor sigue los golpes de sonido reales (si los hay). Devuelve cuántos."""
+    try:
+        ts = golpes_de_bloques(bloques)
+        if not ts:
+            return 0
+        for e in (plan or {}).get('eventos') or []:
+            if e.get('tipo') == 'v1' and e.get('temblor'):
+                e['golpes'] = ts
+                return len(ts)
+    except Exception:
+        pass
+    return 0
+
+
+def broll_clave(op):
+    return str((op or {}).get('pexels_key') or '').strip()
+
+
+def planificar(video, palabras, duracion=None, opciones=None, al_estado=None, cortes=None, saltos=None):
     """Qué efecto va dónde. `palabras`: [{'word','start','end'}]. Devuelve {'eventos': [{'tipo','ini','asset'…}], 'duracion', 'resumen'}."""
     op = dict(opciones_guardadas())
     op.update(opciones or {})
@@ -685,17 +859,39 @@ def planificar(video, palabras, duracion=None, opciones=None, al_estado=None, co
     if op.get('fx_intro'):
         eventos.append({'tipo': 'intro', 'ini': intro_ini, 'asset': op['fx_intro']})
         resumen.append('intro')
+    delta = DESPLAZA.get(op.get('fx_intensidad', 'normal'), 0)               # la intensidad global (suave / normal / fuerte) mueve cuánto y cómo de fuerte
+    v1 = {'tipo': 'v1', 'ini': 0.0, 'zoom': nivel_de(op.get('fx_zoom'), delta), 'temblor': nivel_de(op.get('fx_temblor'), delta), 'transicion': None, 'cortes': [], 'golpes': [],
+          'fondo': bool(op.get('fx_fondo', True)), 'asset': 'movimiento', 'saltos': [], 'zoom_saltos': None}
+    if saltos and op.get('fx_zoom_saltos') in NIVELES:
+        v1['saltos'] = [round(float(t), 3) for t in saltos]
+        v1['zoom_saltos'] = nivel_de(op['fx_zoom_saltos'], delta)
+        resumen.append('zoom alterno en %d cortes' % len(saltos))
+    cortes_sel = []
     if op.get('fx_cortes') and video:
         if al_estado:
             al_estado('Buscando los cortes entre tomas…')
         todos = cortes if cortes is not None else detectar_cortes(video)
-        elegidos = elegir_cortes(todos, duracion or 0.0, op.get('fx_cortes_cuanto', 'pocos'))
-        for t in elegidos:
-            eventos.append({'tipo': 'corte', 'ini': float(t), 'asset': op['fx_cortes']})
+        elegidos = elegir_cortes(todos, duracion or 0.0, desplazar(('pocos', 'normal', 'todos'), op.get('fx_cortes_cuanto', 'pocos'), delta))
+        cortes_sel = [float(t) for t in elegidos]
+        if op['fx_cortes'] in TRANSICIONES_V1:
+            v1['transicion'] = op['fx_cortes']
+            v1['cortes'] = [float(t) for t in elegidos]
+        else:
+            for t in elegidos:
+                eventos.append({'tipo': 'corte', 'ini': float(t), 'asset': op['fx_cortes']})
         resumen.append(f'{len(elegidos)} de {len(todos)} cortes')
+    if v1['temblor'] and palabras:
+        # sin golpes de sonido (se completan después con los del SFX), el temblor cae en el arranque de las frases clave
+        v1['golpes'] = [round(float(f['ini']), 3) for f in elegir_frases(palabras, duracion or 0.0, 'normal')][:20]
+    if v1['zoom']:
+        resumen.append('zoom lento ' + v1['zoom'])
+    if v1['temblor']:
+        resumen.append('temblor ' + v1['temblor'])
+    if v1['zoom'] or v1['temblor'] or v1['transicion'] or v1['fondo'] or v1['zoom_saltos']:
+        eventos.append(v1)
     packs = [p for p in (op.get('fx_iconos') or []) if p in {x[0] for x in PACKS_ICONOS}]
     if op.get('fx_iconos_activo', True) and packs and palabras:
-        sep, tope = CANTIDAD_ICONOS.get(op.get('fx_iconos_cuanto', 'normal'), CANTIDAD_ICONOS['normal'])
+        sep, tope = CANTIDAD_ICONOS.get(desplazar(('pocos', 'normal', 'muchos'), op.get('fx_iconos_cuanto', 'normal'), delta), CANTIDAD_ICONOS['normal'])
         cuantas = max(1, min(tope, int(round((duracion or 0.0) / sep)) if duracion else tope))
         margen_ini, margen_fin = 1.0, 3.2
         dentro = lambda t: margen_ini <= t <= max(margen_ini, (duracion or t) - margen_fin)
@@ -719,9 +915,32 @@ def planificar(video, palabras, duracion=None, opciones=None, al_estado=None, co
         for k, c in enumerate(total):
             eventos.append({'tipo': 'icono', 'ini': round(c['ini'], 3), 'asset': c['pack'], 'variante': k % 2, 'frase': c.get('texto', ''), 'por': 'frase' if c.get('frase') else 'palabra'})
         resumen.append(f'{len(total)} iconos ({len(elegidas)} por palabra)')
+    zonas = []
+    try:                                              # los efectos extra (números, pegatinas, énfasis, overlays, propios, cierre) y las zonas que no deben tapar
+        import efectos_extra
+        ancho_z, alto_z = resolucion_de_timeline(video) if video else (1080, 1920)
+        zonas = efectos_extra.zonas_a_evitar(video, ancho_z, alto_z, op)
+        extra, res_extra = efectos_extra.planificar_extra(video, palabras, duracion, op, delta, cortes_sel, intro_ini)
+        eventos.extend(extra)
+        resumen.extend(res_extra)
+        if op.get('fx_broll') and broll_clave(op) and palabras and video:
+            import broll
+            if al_estado:
+                al_estado('Buscando tomas de apoyo (B-roll)…')
+            momentos = broll.elegir_momentos(palabras, duracion, None, desplazar(('pocos', 'normal', 'muchos'), op.get('fx_broll_cuanto', 'normal'), delta))
+            formato_b = 'h' if ancho_z > alto_z * 1.2 else ('v' if alto_z > ancho_z * 1.2 else 'c')
+            eb = broll.preparar(momentos, formato_b, broll_clave(op), al_estado)
+            eventos.extend(eb)
+            resumen.append(f'{len(eb)} tomas de apoyo (B-roll)')
+    except Exception:
+        try:
+            import registro
+            registro.excepcion(origen='efectos extra (plan)')
+        except Exception:
+            pass
     # los de un mismo tipo no se pisan en su pista
     eventos.sort(key=lambda e: (e['tipo'], e['ini']))
-    return {'eventos': eventos, 'duracion': duracion, 'resumen': ', '.join(resumen)}
+    return {'eventos': eventos, 'duracion': duracion, 'resumen': ', '.join(resumen), 'zonas': [list(z) for z in zonas]}
 
 
 # ----------------------------------------------------------------------------------------------------------------------- Resolve
@@ -737,6 +956,58 @@ result = res
 """
 
 
+_INFO_V1 = r"""
+tl = project.GetCurrentTimeline()
+res = []
+for it in (tl.GetItemListInTrack('video', 1) or []):
+    try:
+        mpi = it.GetMediaPoolItem()
+    except Exception:
+        mpi = None
+    if mpi is None:
+        continue
+    try:
+        r = mpi.GetClipProperty('Resolution') or ''
+    except Exception:
+        r = ''
+    res.append({'inicio': int(it.GetStart()), 'dur': int(it.GetDuration()), 'res': str(r), 'nombre': str(it.GetName())})
+result = res
+"""
+
+
+TIPOS_EXTRA = ('numero', 'pegatina', 'enfasis', 'overlay', 'propio', 'outro', 'broll')
+
+
+def comps_de_v1(evento_v1, info, fps, offset_frames, video=None):
+    """Una composición de Fusion por cada clip de V1 (los tiempos del plan, en segundos, pasan a fotogramas DE ESE CLIP). Devuelve [{'inicio', 'ruta'|None}]:
+    ruta None = ese clip no lleva movimiento (se le quita el de antes si lo tenía)."""
+    import fusion_v1
+    salida = []
+    base = int(info['inicio']) + int(offset_frames or 0)
+    clips = (info.get('v1') or [])
+    CACHE.mkdir(parents=True, exist_ok=True)
+    ancho, alto = int(info['ancho']), int(info['alto'])
+    for k, it in enumerate(clips):
+        ini, dur = int(it['inicio']), int(it['dur'])
+        local = lambda t: int(round(float(t) * fps)) + base - ini
+        dentro = lambda f: 0 <= f < dur
+        golpes = [f for f in (local(t) for t in (evento_v1 or {}).get('golpes') or []) if dentro(f)] if (evento_v1 or {}).get('temblor') else []
+        cortes = [f for f in (local(t) for t in (evento_v1 or {}).get('cortes') or []) if dentro(f)] if (evento_v1 or {}).get('transicion') else []
+        saltos = [f for f in (local(t) for t in (evento_v1 or {}).get('saltos') or []) if dentro(f)] if (evento_v1 or {}).get('zoom_saltos') else []
+        fondo = None
+        try:
+            cw, ch = (int(x) for x in str(it.get('res') or '').lower().replace(' ', '').split('x')[:2])
+        except Exception:
+            cw = ch = 0
+        if (evento_v1 or {}).get('fondo') and cw > 0 and ch > 0 and abs(cw / ch - ancho / alto) > 0.04:
+            fondo = {'lienzo': (ancho, alto), 'clip': (cw, ch), 'desenfoque': 40}
+        ruta = CACHE / f'v1_{k}.comp'
+        hecho = bool(evento_v1) and fusion_v1.escribir_comp(ruta, dur, fps, zoom=evento_v1.get('zoom'), golpes=golpes, nivel_temblor=evento_v1.get('temblor') or 'normal',
+                                                           cortes=cortes, transicion=evento_v1.get('transicion'), fondo=fondo, saltos=saltos, zoom_saltos=evento_v1.get('zoom_saltos'))
+        salida.append({'inicio': ini, 'ruta': str(ruta) if hecho else None})
+    return salida
+
+
 def aplicar(plan, al_estado=None, offset_frames=0):
     """Coloca el plan en el timeline ACTUAL de Resolve. Devuelve (ok, mensaje)."""
     import resolve_mcp
@@ -747,9 +1018,21 @@ def aplicar(plan, al_estado=None, offset_frames=0):
     ancho, alto, fps = int(info['ancho']), int(info['alto']), float(info['fps'])
     formato = 'h' if ancho > alto * 1.2 else 'v'
     listos = []
+    evento_v1 = next((e for e in eventos if e.get('tipo') == 'v1'), None)
+    evitar = [tuple(z) for z in ((plan or {}).get('zonas') or [])]
+    v1_comps = []
+    try:                                              # el movimiento sobre V1 (Fusion): siempre se calcula, también «nada», para quitar el de una vez anterior
+        ok_v, items, _e = resolve_mcp.script(_INFO_V1, timeout=40)
+        if ok_v and isinstance(items, list):
+            info['v1'] = items
+            v1_comps = comps_de_v1(evento_v1, info, fps, offset_frames, plan.get('video') if isinstance(plan, dict) else None)
+    except Exception:
+        v1_comps = []
     for e in eventos:
         e = dict(e)
-        if e['tipo'] == 'sonido':
+        if e['tipo'] == 'v1':
+            continue
+        if e['tipo'] in ('sonido', 'musica'):
             if not e.get('archivo') or not Path(e['archivo']).is_file():
                 continue
             e['modo'] = 'audio'
@@ -759,16 +1042,24 @@ def aplicar(plan, al_estado=None, offset_frames=0):
                 continue
             e['archivo'] = str(ruta)
             e['modo'] = 'screen'
+        elif e['tipo'] in TIPOS_EXTRA:
+            if al_estado:
+                al_estado(f"Preparando «{e['tipo']}»…")
+            import efectos_extra
+            e = efectos_extra.preparar(e, ancho, alto, evitar)
+            if e is None:
+                continue
         else:
             if al_estado:
                 al_estado(f"Preparando los iconos «{e['asset']}»…")
-            sec = secuencia_iconos(e['asset'], ancho, alto, e.get('variante', 0))
+            sec = secuencia_iconos(e['asset'], ancho, alto, e.get('variante', 0), evitar=evitar)
             if sec is None:
                 continue
             e['secuencia'] = sec
             e['modo'] = 'normal'
         listos.append(e)
-    datos = {'eventos': listos, 'fps': fps, 'inicio': info['inicio'], 'offset_frames': int(offset_frames or 0)}
+    datos = {'eventos': listos, 'fps': fps, 'inicio': info['inicio'], 'offset_frames': int(offset_frames or 0), 'v1': v1_comps, 'solo_audio': bool((plan or {}).get('solo_audio')),
+             'movimiento': ({k: evento_v1.get(k) for k in ('zoom', 'temblor', 'transicion', 'cortes', 'golpes', 'fondo', 'saltos', 'zoom_saltos')} if evento_v1 else None)}
     PLAN_JSON.parent.mkdir(parents=True, exist_ok=True)
     try:
         import archivos_seguros

@@ -81,3 +81,12 @@ Recorrido visual (recorrido_ui.py): 14 pasos con foco animado (el hueco sigue a 
 - `plantillas.pack_incorporado()/packs_incorporados()` están memoizados; `fuentes_sistema` cachea en `~/DaVinciSubtitles/cache_fuentes.json`.
 - Estilo «guion»: la palabra grande tiene que CABER en su estilo SIN zoom (`guion_planificador._cabe`): si el texto es más ancho que el comp de Resolve se recorta ANTES de ampliarlo. Las palabras grandes van en pistas INFERIORES: «Luxe Shine» es de cristal y refracta lo que tiene debajo.
 - Banco de pruebas: sus datos se llaman `datos_<x>.<idioma>.guion.json` porque el render borra todo lo que empiece por su propio nombre. Resolve sale limpio con `limpiar_banco`.
+
+## rendimiento-base — Caché de voz, GPU (CUDA), descargas, cola de fondo y Resolve colgado
+
+**Qué (v5.4.8):** (1) `cache_voz.py`: la transcripción de un video ya hecha (huella = tamaño + fecha + 2 MB del inicio y del final + idioma + motor + modelo) se reutiliza: GO, «Generar» y los reintentos no la repiten (90 días / 200 MB). (2) `cuda_libs.py`: registra las DLL de CUDA del motor Qwen (`torch\lib`) para que Whisper use la tarjeta NVIDIA (antes caía a CPU: 6,7 s vs 17,5 s); `tipo_de_calculo()` elige float16 (≥ 6 GB) / int8_float16 (3-6 GB) / CPU; Ajustes › General › «Reparar GPU» las baja de PyPI (≈ 1,3 GB) si faltan; `salud.py` tiene la fila «GPU para la voz». (3) `descargas.py`: descargas con Range + reintentos (2/4/8/16 s) + SHA-256 (las usa `motor_voz._bajar`). (4) `cola_trabajos.py`: lo de fondo (máx. 2 a la vez) cede ante GO (`lanzar_bajo`, `registrar_alta`); `qt_kit.correr_en_hilo(..., baja=True)`. (5) `mantenimiento.py`: topes por caché (efectos, emojis, vistas, voz) a los 45 s de abrir + «Espacio de las cachés / Limpiar ahora» en Ajustes. (6) `resolve_bridge.resolve_colgado()` (IsHungAppWindow + vigía de 3 s): con Resolve colgado no se llama a fusionscript y `resolve_mcp.script()` avisa al instante; reintentos con espera creciente (10→20→40→60 s) y reciclaje del cliente tras 2 «no contestó». (7) `fuentes_sistema.indice_listo()`: la interfaz no espera al índice de fuentes.
+
+**Medido:** NVDEC/D3D11 es MÁS LENTO que el decodificador por software con 4 hilos (4K: 98 vs 79 fps; 720p: 350 vs 200): se queda en software.
+
+**Probar:** `cuda_libs.diagnostico()`; `cache_voz.CARPETA`; la reanudación de `descargas` se probó con un servidor local con Range que corta la conexión a mitad (reanuda, descarta un hash malo y reconoce lo ya completo).
+

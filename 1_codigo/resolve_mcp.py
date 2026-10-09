@@ -184,7 +184,12 @@ def _version_app():
         return '5'
 
 
-_ESTADO = {'cliente': None, 'ultimo_fallo': 0.0, 'cache': None, 'cache_t': 0.0, 'motivo': ''}
+_ESTADO = {'cliente': None, 'ultimo_fallo': 0.0, 'cache': None, 'cache_t': 0.0, 'motivo': '', 'fallos_arranque': 0, 'sin_contestar': 0}
+
+
+def espera_tras_fallo():
+    """v5.4.8: cuánto esperar antes de volver a intentar arrancar ResolveMCP: 10 s, 20, 40 y como mucho 60 (antes siempre 10: con Resolve cerrado se reintentaba sin parar)."""
+    return min(60.0, REINTENTO_TRAS_FALLO_S * (2 ** min(_ESTADO.get('fallos_arranque', 0), 3)))
 _LOCK = threading.Lock()
 _TRABAJO = threading.Lock()
 
@@ -196,7 +201,7 @@ def cliente(arrancar=True):
         if c is not None and c.vivo():
             return c
         _ESTADO['cliente'] = None
-        if not arrancar or time.time() - _ESTADO['ultimo_fallo'] < REINTENTO_TRAS_FALLO_S:
+        if not arrancar or time.time() - _ESTADO['ultimo_fallo'] < espera_tras_fallo():
             return None
         if os.environ.get('CINECAPTIONS_SIN_MCP'):
             # pruebas automaticas: nunca tocar el Resolve real del equipo
@@ -206,6 +211,7 @@ def cliente(arrancar=True):
         if exe is None:
             _ESTADO['motivo'] = 'ResolveMCP no está instalado (hace falta DaVinci Resolve 21.1 o más nuevo)'
             _ESTADO['ultimo_fallo'] = time.time()
+            _ESTADO['fallos_arranque'] += 1
             return None
         try:
             c = _Cliente(exe)
@@ -213,6 +219,7 @@ def cliente(arrancar=True):
         except Exception as e:
             _ESTADO['motivo'] = f'ResolveMCP no arrancó: {e}'
             _ESTADO['ultimo_fallo'] = time.time()
+            _ESTADO['fallos_arranque'] += 1
             try:
                 c.cerrar()
             except Exception:
@@ -220,6 +227,7 @@ def cliente(arrancar=True):
             return None
         _ESTADO['cliente'] = c
         _ESTADO['motivo'] = ''
+        _ESTADO['fallos_arranque'] = 0
         return c
 
 
@@ -231,8 +239,17 @@ def cerrar():
         c.cerrar()
 
 
+MENSAJE_COLGADO = 'Resolve no responde (su ventana está colgada). Ciérralo desde el Administrador de tareas y ábrelo de nuevo.'
+
+
 def script(codigo, timeout=20):
     """Ejecuta Python DENTRO de Resolve. Devuelve (ok, result, error)."""
+    try:                                         # v5.4.8: Resolve abierto pero «No responde» desde hace rato: se avisa al instante en vez de esperar 25-75 s a un MCP mudo
+        import resolve_bridge
+        if resolve_bridge.resolve_colgado(25.0):
+            return False, None, MENSAJE_COLGADO
+    except Exception:
+        pass
     c = cliente()
     if c is None:
         return False, None, _ESTADO['motivo'] or 'sin conexión MCP'
@@ -241,7 +258,9 @@ def script(codigo, timeout=20):
                           timeout=timeout + 15)
     except Exception as e:
         _anotar_fallo(f'{type(e).__name__}: {e}', codigo)
+        _tras_fallo(e)
         return False, None, str(e)
+    _ESTADO['sin_contestar'] = 0
     if 'error' in r:
         _anotar_fallo(str(r['error']), codigo)
         return False, None, str(r['error'])
@@ -252,6 +271,33 @@ def script(codigo, timeout=20):
 
 
 _ULTIMO_FALLO = {}
+
+
+def _tras_fallo(e):
+    """v5.4.8: recuperarse solo cuando Resolve se reinicia. Si ResolveMCP no contesta dos veces seguidas y Resolve NO está colgado (un Resolve colgado no se arregla
+    reiniciando nuestro lado), se cierra el cliente: la próxima llamada arranca uno nuevo y se engancha a la instancia de Resolve de ahora. Si el cliente se cerró solo,
+    cliente() ya lo detecta (vivo())."""
+    try:
+        if isinstance(e, TimeoutError):
+            _ESTADO['sin_contestar'] = _ESTADO.get('sin_contestar', 0) + 1
+            if _ESTADO['sin_contestar'] >= 2:
+                try:
+                    import resolve_bridge
+                    colgado = resolve_bridge.resolve_colgado(10.0)
+                except Exception:
+                    colgado = False
+                if not colgado:
+                    _ESTADO['sin_contestar'] = 0
+                    try:
+                        import registro
+                        registro.aviso('ResolveMCP no contestó dos veces seguidas: lo reinicio por si Resolve se reinició.', 'Resolve')
+                    except Exception:
+                        pass
+                    cerrar()
+        elif isinstance(e, ConnectionError):
+            cerrar()
+    except Exception:
+        pass
 
 
 def _anotar_fallo(mensaje, codigo=''):
@@ -680,6 +726,7 @@ _CREAR_TIMELINE = r'''
 RUTA = %(ruta)r
 BASE = %(nombre)r
 ANCHO, ALTO, FPS = %(ancho)r, %(alto)r, %(fps)r
+PISTA_BROLL = %(pista_broll)r
 res = {'proyecto': project.GetName(), 'previo': (project.GetCurrentTimeline().GetName() if project.GetCurrentTimeline() else None)}
 mp = project.GetMediaPool()
 raiz = mp.GetRootFolder()
@@ -759,6 +806,15 @@ if clip:
         res['fps'] = float(tl.GetSetting('timelineFrameRate') or 0)
         res['inicio'] = tl.GetStartFrame()
         res['fin'] = tl.GetEndFrame()
+        if PISTA_BROLL:
+            # v5.4.8: una pista de video vacía y BLOQUEADA justo encima de V1: los captions (que saltan las pistas bloqueadas) se ponen más arriba y el B-roll queda DEBAJO de ellos
+            try:
+                if tl.AddTrack('video'):
+                    n = int(tl.GetTrackCount('video'))
+                    tl.SetTrackName('video', n, 'FX-BROLL')
+                    res['pista_broll'] = bool(tl.SetTrackLock('video', n, True))
+            except Exception as e:
+                res['pista_broll_error'] = repr(e)
 result = res
 '''
 
@@ -920,11 +976,11 @@ def medir_medio(ruta):
     return info
 
 
-def crear_timeline_con_video(ruta, nombre=None, ancho=1080, alto=1920, fps=30.0):
+def crear_timeline_con_video(ruta, nombre=None, ancho=1080, alto=1920, fps=30.0, pista_broll=False):
     """Importa `ruta` al Media Pool y arma con él un timeline nuevo (el actual al terminar). Devuelve el informe de Resolve
     ({'timeline', 'ancho', 'alto', 'fps', 'inicio', 'fin', 'anadido', ...}) o {'error': texto}."""
     nombre = nombre or ('CineCaptions · ' + Path(str(ruta)).stem)
-    codigo = _CREAR_TIMELINE % {'ruta': str(ruta), 'nombre': str(nombre)[:60], 'ancho': int(ancho), 'alto': int(alto), 'fps': '%g' % float(fps)}      # «30», «29.97»: Resolve no acepta «30.0»
+    codigo = _CREAR_TIMELINE % {'ruta': str(ruta), 'nombre': str(nombre)[:60], 'ancho': int(ancho), 'alto': int(alto), 'fps': '%g' % float(fps), 'pista_broll': bool(pista_broll)}      # «30», «29.97»: Resolve no acepta «30.0»
     ok, r, err = script(codigo, timeout=60)
     _refrescar_estado()
     if not ok or not isinstance(r, dict):

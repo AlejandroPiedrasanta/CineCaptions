@@ -199,11 +199,15 @@ def indexar(carpetas):
         indice.setdefault(fam, {}).setdefault(est, ruta)
         legibles.setdefault(fam, familia)
 
+    leidos_ahora = 0
     with _LOCK:
         _cargar_disco()
         for carpeta in carpetas:
             for ruta, st in _archivos_de_fuente(carpeta):
                 caras = _caras_con_cache(ruta, st)
+                leidos_ahora += 1
+                if leidos_ahora % 120 == 0:
+                    _guardar_disco()                 # v5.4.8: el progreso del primer índice se conserva aunque se cierre el programa
                 if caras:
                     archivos += 1
                 for fam16, est17, fam1, est2, completo in caras:
@@ -224,8 +228,31 @@ def invalidar_cache():
     """Para cuando se acaba de instalar una fuente y hay que verla ya."""
     with _LOCK:
         _CACHES.clear()
+_ESTADO_INDICE = {'listo': threading.Event(), 'precalentando': False}
+
+
+def indice_listo():
+    """v5.4.8: True si el índice de fuentes ya está armado (o si nadie lo está armando en segundo plano: entonces se arma al pedirlo, como siempre). La interfaz lo usa para
+    NO esperar al primer índice (en un equipo nuevo son ~1000 archivos): enseña «Comprobando tipografías…» y se refresca sola con `al_estar_listo`."""
+    return _ESTADO_INDICE['listo'].is_set() or not _ESTADO_INDICE['precalentando']
+
+
+def al_estar_listo(funcion, espera_max_s=180):
+    """Llama a `funcion()` (en un hilo) cuando el índice termine (o tras `espera_max_s`)."""
+    def esperar():
+        _ESTADO_INDICE['listo'].wait(espera_max_s)
+        try:
+            funcion()
+        except Exception:
+            pass
+    threading.Thread(target=esperar, name='fuentes-al-estar-listo', daemon=True).start()
+
+
 def precalentar():
     """Arma los indices en un hilo (al abrir el programa), para que ningun clic pague la lectura de las fuentes."""
+    _ESTADO_INDICE['precalentando'] = True
+    _ESTADO_INDICE['listo'].clear()
+
     def trabajo():
         try:
             _indice(incluidas=False)
@@ -233,6 +260,8 @@ def precalentar():
             _indice()
         except Exception:
             pass
+        finally:
+            _ESTADO_INDICE['listo'].set()
     threading.Thread(target=trabajo, name='fuentes-precalentar', daemon=True).start()
 def _buscar(indice, familia, estilo, exacto=False):
     estilos = indice.get(normalizar(familia))

@@ -12,6 +12,36 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-08 19:42  ·  v5.4.8  ·  (automático)
+    nuevos (24):
+      + 1_codigo/avisos_sistema.py
+      + 1_codigo/bpm.py
+      + 1_codigo/broll.py
+      + 1_codigo/cache_voz.py
+      + 1_codigo/cola_trabajos.py
+      + 1_codigo/cuda_libs.py
+      + 1_codigo/descargas.py
+      + 1_codigo/efectos_extra.py
+      + 1_codigo/efectos_extra_ui.py
+      + 1_codigo/fusion_v1.py
+      + 1_codigo/mantenimiento.py
+      + 1_codigo/musica_go.py
+      … y 12 más
+    modificados (40):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/ducking.py
+      ~ 1_codigo/efectos_pagina.py
+      ~ 1_codigo/efectos_visuales.py
+      ~ 1_codigo/emojis_sfx.py
+      ~ 1_codigo/fuentes_sistema.py
+      ~ 1_codigo/hacer_previas_efectos.py
+      ~ 1_codigo/motor_voz.py
+      ~ 1_codigo/probar_efectos.py
+      ~ 1_codigo/probar_go.py
+      ~ 1_codigo/qt_kit.py
+      … y 28 más
+
 2026-10-08 16:31  ·  v5.4.7  ·  (automático)
     modificados (15):
       ~ 1_codigo/version.py

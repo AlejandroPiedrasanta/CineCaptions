@@ -9,7 +9,7 @@ porque así queda también dentro del .exe.
 
 QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
 ------------------------------------------------------------------------------
-    efectos\   (47 archivos)
+    efectos\   (53 archivos)
     emojis\   (544 archivos)  — emojis Fluent 3D de Microsoft (MIT) en PNG + LICENCIAS.txt
     fondos_estilos\   (11 archivos)
         fondo_01.jpg

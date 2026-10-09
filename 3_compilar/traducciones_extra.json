@@ -4002,5 +4002,1167 @@
   "fr": "Audio",
   "de": "Audio",
   "it": "Audio"
+ },
+ "Comprobando la GPU…": {
+  "en": "Checking the GPU…",
+  "pt": "Verificando a GPU…",
+  "fr": "Vérification du GPU…",
+  "de": "GPU wird geprüft…",
+  "it": "Controllo della GPU…"
+ },
+ "Reparar GPU": {
+  "en": "Repair GPU",
+  "pt": "Reparar GPU",
+  "fr": "Réparer le GPU",
+  "de": "GPU reparieren",
+  "it": "Ripara la GPU"
+ },
+ "GPU para la voz": {
+  "en": "GPU for the voice",
+  "pt": "GPU para a voz",
+  "fr": "GPU pour la voix",
+  "de": "GPU für die Stimme",
+  "it": "GPU per la voce"
+ },
+ "Whisper usa tu tarjeta NVIDIA si encuentra las librerías de CUDA; si faltan, la voz se transcribe en la CPU (mucho más lenta). «Reparar GPU» usa las que ya trae el motor Qwen o descarga las oficiales de NVIDIA (≈1,3 GB).": {
+  "en": "Whisper uses your NVIDIA card if it finds the CUDA libraries; if they are missing, the voice is transcribed on the CPU (much slower). “Repair GPU” uses the ones the Qwen engine already includes or downloads NVIDIA's official ones (≈1.3 GB).",
+  "pt": "O Whisper usa sua placa NVIDIA se encontrar as bibliotecas do CUDA; se faltarem, a voz é transcrita na CPU (muito mais lenta). «Reparar GPU» usa as que o motor Qwen já traz ou baixa as oficiais da NVIDIA (≈1,3 GB).",
+  "fr": "Whisper utilise ta carte NVIDIA s'il trouve les bibliothèques CUDA ; sinon, la voix est transcrite sur le CPU (beaucoup plus lent). « Réparer le GPU » utilise celles que le moteur Qwen contient déjà ou télécharge les officielles de NVIDIA (≈1,3 Go).",
+  "de": "Whisper nutzt deine NVIDIA-Karte, wenn es die CUDA-Bibliotheken findet; fehlen sie, wird die Stimme auf der CPU transkribiert (viel langsamer). „GPU reparieren“ nutzt die, die die Qwen-Engine schon mitbringt, oder lädt die offiziellen von NVIDIA herunter (≈1,3 GB).",
+  "it": "Whisper usa la tua scheda NVIDIA se trova le librerie CUDA; se mancano, la voce viene trascritta sulla CPU (molto più lenta). «Ripara la GPU» usa quelle che il motore Qwen include già o scarica quelle ufficiali di NVIDIA (≈1,3 GB)."
+ },
+ "Calculando…": {
+  "en": "Calculating…",
+  "pt": "Calculando…",
+  "fr": "Calcul…",
+  "de": "Wird berechnet…",
+  "it": "Calcolo…"
+ },
+ "Limpiar ahora": {
+  "en": "Clean now",
+  "pt": "Limpar agora",
+  "fr": "Nettoyer maintenant",
+  "de": "Jetzt aufräumen",
+  "it": "Pulisci ora"
+ },
+ "Espacio de las cachés": {
+  "en": "Cache space",
+  "pt": "Espaço dos caches",
+  "fr": "Espace des caches",
+  "de": "Cache-Speicher",
+  "it": "Spazio delle cache"
+ },
+ "Efectos animados, emojis, vistas de los packs y transcripciones se guardan para no rehacerlos. Cada una tiene un tope y se borra sola lo menos usado; «Limpiar ahora» aplica los topes ya. Todo se vuelve a crear cuando hace falta.": {
+  "en": "Animated effects, emojis, pack previews and transcriptions are saved so they are not redone. Each one has a limit and the least used is deleted automatically; “Clean now” applies the limits right away. Everything is created again when needed.",
+  "pt": "Efeitos animados, emojis, prévias dos packs e transcrições são guardados para não refazê-los. Cada um tem um limite e o menos usado é apagado sozinho; «Limpar agora» aplica os limites já. Tudo é criado de novo quando necessário.",
+  "fr": "Les effets animés, les emojis, les aperçus des packs et les transcriptions sont conservés pour ne pas les refaire. Chacun a une limite et le moins utilisé est supprimé tout seul ; « Nettoyer maintenant » applique les limites tout de suite. Tout est recréé en cas de besoin.",
+  "de": "Animierte Effekte, Emojis, Pack-Vorschauen und Transkriptionen werden gespeichert, damit sie nicht neu erstellt werden müssen. Jeder hat ein Limit und das am wenigsten Genutzte wird automatisch gelöscht; „Jetzt aufräumen“ wendet die Limits sofort an. Alles wird bei Bedarf neu erstellt.",
+  "it": "Effetti animati, emoji, anteprime dei pack e trascrizioni vengono salvati per non rifarli. Ognuno ha un limite e il meno usato viene eliminato da solo; «Pulisci ora» applica subito i limiti. Tutto viene ricreato quando serve."
+ },
+ "No encuentro las librerías de CUDA en el equipo. ¿Descargo las oficiales de NVIDIA (cuBLAS y cuDNN, ≈1,3 GB desde PyPI)? Se puede reanudar si se corta.": {
+  "en": "I can't find the CUDA libraries on this computer. Should I download NVIDIA's official ones (cuBLAS and cuDNN, ≈1.3 GB from PyPI)? It can resume if interrupted.",
+  "pt": "Não encontro as bibliotecas do CUDA neste computador. Baixo as oficiais da NVIDIA (cuBLAS e cuDNN, ≈1,3 GB do PyPI)? Pode ser retomado se for interrompido.",
+  "fr": "Je ne trouve pas les bibliothèques CUDA sur cet ordinateur. Je télécharge les officielles de NVIDIA (cuBLAS et cuDNN, ≈1,3 Go depuis PyPI) ? Reprise possible en cas d'interruption.",
+  "de": "Ich finde die CUDA-Bibliotheken auf diesem Computer nicht. Soll ich die offiziellen von NVIDIA herunterladen (cuBLAS und cuDNN, ≈1,3 GB von PyPI)? Bei Unterbrechung kann fortgesetzt werden.",
+  "it": "Non trovo le librerie CUDA su questo computer. Scarico quelle ufficiali di NVIDIA (cuBLAS e cuDNN, ≈1,3 GB da PyPI)? Si può riprendere se si interrompe."
+ },
+ "{t} MB en total · ": {
+  "en": "{t} MB in total · ",
+  "pt": "{t} MB no total · ",
+  "fr": "{t} Mo au total · ",
+  "de": "{t} MB insgesamt · ",
+  "it": "{t} MB in totale · "
+ },
+ "Liberados {mb} MB.": {
+  "en": "{mb} MB freed.",
+  "pt": "{mb} MB liberados.",
+  "fr": "{mb} Mo libérés.",
+  "de": "{mb} MB freigegeben.",
+  "it": "{mb} MB liberati."
+ },
+ "No pude comprobar la GPU.": {
+  "en": "I couldn't check the GPU.",
+  "pt": "Não consegui verificar a GPU.",
+  "fr": "Je n'ai pas pu vérifier le GPU.",
+  "de": "Ich konnte die GPU nicht prüfen.",
+  "it": "Non sono riuscito a controllare la GPU."
+ },
+ "No se pudo reparar: {e}": {
+  "en": "Could not repair: {e}",
+  "pt": "Não foi possível reparar: {e}",
+  "fr": "Réparation impossible : {e}",
+  "de": "Reparatur nicht möglich: {e}",
+  "it": "Impossibile riparare: {e}"
+ },
+ "Comprobando tipografías…": {
+  "en": "Checking fonts…",
+  "pt": "Verificando fontes…",
+  "fr": "Vérification des polices…",
+  "de": "Schriften werden geprüft…",
+  "it": "Controllo dei font…"
+ },
+ "Este video ya estaba transcrito: uso esa transcripción.": {
+  "en": "This video was already transcribed: I'm using that transcription.",
+  "pt": "Este vídeo já estava transcrito: uso essa transcrição.",
+  "fr": "Cette vidéo était déjà transcrite : j'utilise cette transcription.",
+  "de": "Dieses Video war schon transkribiert: Ich nutze diese Transkription.",
+  "it": "Questo video era già trascritto: uso quella trascrizione."
+ },
+ "La GPU falló; sigo con la CPU (más lento). Se arregla en Ajustes › General › Reparar GPU.": {
+  "en": "The GPU failed; I'm continuing on the CPU (slower). You can fix it in Settings › General › Repair GPU.",
+  "pt": "A GPU falhou; continuo na CPU (mais lento). Dá para arrumar em Ajustes › Geral › Reparar GPU.",
+  "fr": "Le GPU a échoué ; je continue sur le CPU (plus lent). Tu peux le réparer dans Réglages › Général › Réparer le GPU.",
+  "de": "Die GPU ist ausgefallen; ich mache auf der CPU weiter (langsamer). Du kannst das unter Einstellungen › Allgemein › GPU reparieren beheben.",
+  "it": "La GPU ha fallito; continuo sulla CPU (più lento). Puoi risolverlo in Impostazioni › Generale › Ripara la GPU."
+ },
+ "El idioma que se habla en el video. En «Automático» GO lo detecta al transcribir y aquí te dice cuál oyó; si se equivocó, elige el correcto y pulsa GO otra vez.": {
+  "en": "The language spoken in the video. With “Automatic” GO detects it while transcribing and tells you here which one it heard; if it got it wrong, pick the right one and press GO again.",
+  "pt": "O idioma falado no vídeo. Em «Automático» o GO o detecta ao transcrever e aqui diz qual ouviu; se errou, escolha o correto e aperte GO de novo.",
+  "fr": "La langue parlée dans la vidéo. En « Automatique », GO la détecte à la transcription et t'indique ici laquelle il a entendue ; s'il s'est trompé, choisis la bonne et appuie à nouveau sur GO.",
+  "de": "Die im Video gesprochene Sprache. Bei „Automatisch“ erkennt GO sie beim Transkribieren und zeigt dir hier, welche es gehört hat; lag es falsch, wähle die richtige und drücke erneut auf GO.",
+  "it": "La lingua parlata nel video. Con «Automatico» GO la rileva durante la trascrizione e qui ti dice quale ha sentito; se ha sbagliato, scegli quella giusta e premi di nuovo GO."
+ },
+ "Idioma: {i} (detectado)": {
+  "en": "Language: {i} (detected)",
+  "pt": "Idioma: {i} (detectado)",
+  "fr": "Langue : {i} (détectée)",
+  "de": "Sprache: {i} (erkannt)",
+  "it": "Lingua: {i} (rilevata)"
+ },
+ "Idioma: automático": {
+  "en": "Language: automatic",
+  "pt": "Idioma: automático",
+  "fr": "Langue : automatique",
+  "de": "Sprache: automatisch",
+  "it": "Lingua: automatica"
+ },
+ "Idioma: {i}. Pulsa GO para repetir «{n}» con ese idioma.": {
+  "en": "Language: {i}. Press GO to redo “{n}” with that language.",
+  "pt": "Idioma: {i}. Aperte GO para repetir «{n}» com esse idioma.",
+  "fr": "Langue : {i}. Appuie sur GO pour refaire « {n} » avec cette langue.",
+  "de": "Sprache: {i}. Drücke GO, um „{n}“ mit dieser Sprache zu wiederholen.",
+  "it": "Lingua: {i}. Premi GO per rifare «{n}» con quella lingua."
+ },
+ "Ya está en tu timeline · idioma oído: {i}. Si no era ese, cámbialo arriba y pulsa GO.": {
+  "en": "It's in your timeline · language heard: {i}. If that wasn't it, change it above and press GO.",
+  "pt": "Já está na sua timeline · idioma ouvido: {i}. Se não era esse, mude acima e aperte GO.",
+  "fr": "C'est dans ta timeline · langue entendue : {i}. Si ce n'était pas celle-là, change-la au-dessus et appuie sur GO.",
+  "de": "Es ist in deiner Timeline · erkannte Sprache: {i}. Falls das nicht stimmt, ändere sie oben und drücke GO.",
+  "it": "È nella tua timeline · lingua sentita: {i}. Se non era quella, cambiala sopra e premi GO."
+ },
+ "GO en pausa: pulsa «Reanudar» para seguir.": {
+  "en": "GO is paused: press “Resume” to continue.",
+  "pt": "GO em pausa: aperte «Retomar» para continuar.",
+  "fr": "GO est en pause : appuie sur « Reprendre » pour continuer.",
+  "de": "GO ist pausiert: Drücke „Fortsetzen“, um weiterzumachen.",
+  "it": "GO è in pausa: premi «Riprendi» per continuare."
+ },
+ "Sigo con GO…": {
+  "en": "Continuing with GO…",
+  "pt": "Continuo com o GO…",
+  "fr": "Je reprends GO…",
+  "de": "Ich mache mit GO weiter…",
+  "it": "Riprendo GO…"
+ },
+ "Cancelar GO": {
+  "en": "Cancel GO",
+  "pt": "Cancelar o GO",
+  "fr": "Annuler GO",
+  "de": "GO abbrechen",
+  "it": "Annulla GO"
+ },
+ "¿Cancelo GO? Lo ya hecho se conserva (la voz transcrita no se repite) y puedes reanudarlo.": {
+  "en": "Cancel GO? What's already done is kept (the transcribed voice isn't repeated) and you can resume it.",
+  "pt": "Cancelo o GO? O que já foi feito é mantido (a voz transcrita não se repete) e você pode retomá-lo.",
+  "fr": "Annuler GO ? Ce qui est déjà fait est conservé (la voix transcrite n'est pas refaite) et tu peux le reprendre.",
+  "de": "GO abbrechen? Was schon erledigt ist, bleibt erhalten (die transkribierte Stimme wird nicht wiederholt) und du kannst es fortsetzen.",
+  "it": "Annullo GO? Ciò che è già fatto viene conservato (la voce trascritta non si ripete) e puoi riprenderlo."
+ },
+ "Cancelando…": {
+  "en": "Cancelling…",
+  "pt": "Cancelando…",
+  "fr": "Annulation…",
+  "de": "Wird abgebrochen…",
+  "it": "Annullamento…"
+ },
+ "GO cancelado.": {
+  "en": "GO cancelled.",
+  "pt": "GO cancelado.",
+  "fr": "GO annulé.",
+  "de": "GO abgebrochen.",
+  "it": "GO annullato."
+ },
+ "GO cancelado": {
+  "en": "GO cancelled",
+  "pt": "GO cancelado",
+  "fr": "GO annulé",
+  "de": "GO abgebrochen",
+  "it": "GO annullato"
+ },
+ "Lo ya hecho se conserva: al reanudar, la voz no se transcribe otra vez.": {
+  "en": "What's done is kept: when you resume, the voice isn't transcribed again.",
+  "pt": "O que já foi feito é mantido: ao retomar, a voz não é transcrita de novo.",
+  "fr": "Ce qui est fait est conservé : en reprenant, la voix n'est pas retranscrite.",
+  "de": "Was erledigt ist, bleibt erhalten: Beim Fortsetzen wird die Stimme nicht erneut transkribiert.",
+  "it": "Ciò che è fatto viene conservato: riprendendo, la voce non viene trascritta di nuovo."
+ },
+ "Quedó a medias el GO de «{n}»: pulsa GO para reanudarlo.": {
+  "en": "The GO for “{n}” was left half-done: press GO to resume it.",
+  "pt": "O GO de «{n}» ficou pela metade: aperte GO para retomá-lo.",
+  "fr": "Le GO de « {n} » est resté à moitié fait : appuie sur GO pour le reprendre.",
+  "de": "Das GO für „{n}“ blieb halb fertig: Drücke GO, um es fortzusetzen.",
+  "it": "Il GO di «{n}» è rimasto a metà: premi GO per riprenderlo."
+ },
+ "Abre CineCaptions para ver qué pasó.": {
+  "en": "Open CineCaptions to see what happened.",
+  "pt": "Abra o CineCaptions para ver o que aconteceu.",
+  "fr": "Ouvre CineCaptions pour voir ce qui s'est passé.",
+  "de": "Öffne CineCaptions, um zu sehen, was passiert ist.",
+  "it": "Apri CineCaptions per vedere cosa è successo."
+ },
+ "GO terminó": {
+  "en": "GO finished",
+  "pt": "O GO terminou",
+  "fr": "GO est terminé",
+  "de": "GO ist fertig",
+  "it": "GO ha finito"
+ },
+ "Tus subtítulos ya están en el timeline de Resolve.": {
+  "en": "Your subtitles are now in the Resolve timeline.",
+  "pt": "Suas legendas já estão na timeline do Resolve.",
+  "fr": "Tes sous-titres sont maintenant dans la timeline de Resolve.",
+  "de": "Deine Untertitel sind jetzt in der Resolve-Timeline.",
+  "it": "I tuoi sottotitoli sono ora nella timeline di Resolve."
+ },
+ "Avisarme al terminar": {
+  "en": "Notify me when done",
+  "pt": "Avisar-me ao terminar",
+  "fr": "Me prévenir à la fin",
+  "de": "Bei Fertigstellung benachrichtigen",
+  "it": "Avvisami al termine"
+ },
+ "Cuando GO termina y CineCaptions no está al frente (estás en Resolve u otro programa), sale un aviso del sistema.": {
+  "en": "When GO finishes and CineCaptions isn't in front (you're in Resolve or another program), a system notification appears.",
+  "pt": "Quando o GO termina e o CineCaptions não está na frente (você está no Resolve ou em outro programa), aparece um aviso do sistema.",
+  "fr": "Quand GO se termine et que CineCaptions n'est pas au premier plan (tu es dans Resolve ou un autre programme), une notification du système s'affiche.",
+  "de": "Wenn GO fertig ist und CineCaptions nicht im Vordergrund ist (du bist in Resolve oder einem anderen Programm), erscheint eine Systembenachrichtigung.",
+  "it": "Quando GO termina e CineCaptions non è in primo piano (sei in Resolve o in un altro programma), appare una notifica di sistema."
+ },
+ "Pausar": {
+  "en": "Pause",
+  "pt": "Pausar",
+  "fr": "Pause",
+  "de": "Pausieren",
+  "it": "Pausa"
+ },
+ "Reanudar": {
+  "en": "Resume",
+  "pt": "Retomar",
+  "fr": "Reprendre",
+  "de": "Fortsetzen",
+  "it": "Riprendi"
+ },
+ "En pausa": {
+  "en": "Paused",
+  "pt": "Em pausa",
+  "fr": "En pause",
+  "de": "Pausiert",
+  "it": "In pausa"
+ },
+ "Intro con destello y sonido": {
+  "en": "Flash intro with sound",
+  "pt": "Intro com brilho e som",
+  "fr": "Intro avec éclat et son",
+  "de": "Intro mit Lichtblitz und Ton",
+  "it": "Intro con lampo e suono"
+ },
+ "Transición en cada corte": {
+  "en": "Transition on every cut",
+  "pt": "Transição em cada corte",
+  "fr": "Transition à chaque coupe",
+  "de": "Übergang bei jedem Schnitt",
+  "it": "Transizione a ogni taglio"
+ },
+ "Iconos flotantes en las palabras que tú eliges": {
+  "en": "Floating icons on the words you choose",
+  "pt": "Ícones flutuantes nas palavras que você escolhe",
+  "fr": "Icônes flottantes sur les mots que tu choisis",
+  "de": "Schwebende Icons bei den Wörtern deiner Wahl",
+  "it": "Icone fluttuanti sulle parole che scegli"
+ },
+ "Estilos Shine con vista en movimiento": {
+  "en": "Shine styles with a moving preview",
+  "pt": "Estilos Shine com prévia em movimento",
+  "fr": "Styles Shine avec aperçu animé",
+  "de": "Shine-Stile mit bewegter Vorschau",
+  "it": "Stili Shine con anteprima in movimento"
+ },
+ "Quitando las pausas…": {
+  "en": "Removing the pauses…",
+  "pt": "Removendo as pausas…",
+  "fr": "Suppression des pauses…",
+  "de": "Pausen werden entfernt…",
+  "it": "Rimozione delle pause…"
+ },
+ "Palabras de las pegatinas": {
+  "en": "Sticker words",
+  "pt": "Palavras dos adesivos",
+  "fr": "Mots des autocollants",
+  "de": "Wörter der Sticker",
+  "it": "Parole degli sticker"
+ },
+ "{n} palabras tuyas": {
+  "en": "{n} words of yours",
+  "pt": "{n} palavras suas",
+  "fr": "{n} mots à toi",
+  "de": "{n} eigene Wörter",
+  "it": "{n} parole tue"
+ },
+ "1 palabra tuya": {
+  "en": "1 word of yours",
+  "pt": "1 palavra sua",
+  "fr": "1 mot à toi",
+  "de": "1 eigenes Wort",
+  "it": "1 parola tua"
+ },
+ "Cuándo sale": {
+  "en": "When it appears",
+  "pt": "Quando aparece",
+  "fr": "Quand il apparaît",
+  "de": "Wann es erscheint",
+  "it": "Quando appare"
+ },
+ "Mezcla": {
+  "en": "Blend",
+  "pt": "Mistura",
+  "fr": "Fusion",
+  "de": "Mischung",
+  "it": "Fusione"
+ },
+ "Fuerza": {
+  "en": "Strength",
+  "pt": "Força",
+  "fr": "Intensité",
+  "de": "Stärke",
+  "it": "Intensità"
+ },
+ "En qué palabras (separadas por comas)": {
+  "en": "On which words (separated by commas)",
+  "pt": "Em quais palavras (separadas por vírgulas)",
+  "fr": "Sur quels mots (séparés par des virgules)",
+  "de": "Bei welchen Wörtern (durch Kommas getrennt)",
+  "it": "Su quali parole (separate da virgole)"
+ },
+ "Números, pegatinas y énfasis": {
+  "en": "Numbers, stickers and emphasis",
+  "pt": "Números, adesivos e ênfase",
+  "fr": "Chiffres, autocollants et emphase",
+  "de": "Zahlen, Sticker und Hervorhebung",
+  "it": "Numeri, sticker ed enfasi"
+ },
+ "Pequeños detalles que salen solos en el momento justo. Los iconos, números y pegatinas esquivan la franja de los captions y la cara de quien habla.": {
+  "en": "Small details that appear on their own at the right moment. Icons, numbers and stickers avoid the captions strip and the speaker's face.",
+  "pt": "Pequenos detalhes que aparecem sozinhos no momento certo. Os ícones, números e adesivos evitam a faixa das legendas e o rosto de quem fala.",
+  "fr": "De petits détails qui apparaissent tout seuls au bon moment. Les icônes, chiffres et autocollants évitent la bande des sous-titres et le visage de la personne qui parle.",
+  "de": "Kleine Details, die von selbst im richtigen Moment erscheinen. Icons, Zahlen und Sticker meiden den Untertitelstreifen und das Gesicht der sprechenden Person.",
+  "it": "Piccoli dettagli che compaiono da soli al momento giusto. Icone, numeri e sticker evitano la fascia dei sottotitoli e il volto di chi parla."
+ },
+ "Énfasis dibujado a mano": {
+  "en": "Hand-drawn emphasis",
+  "pt": "Ênfase desenhada à mão",
+  "fr": "Emphase dessinée à la main",
+  "de": "Handgezeichnete Hervorhebung",
+  "it": "Enfasi disegnata a mano"
+ },
+ "Altura del énfasis": {
+  "en": "Emphasis height",
+  "pt": "Altura da ênfase",
+  "fr": "Hauteur de l'emphase",
+  "de": "Höhe der Hervorhebung",
+  "it": "Altezza dell'enfasi"
+ },
+ "Ambiente": {
+  "en": "Ambience",
+  "pt": "Ambiente",
+  "fr": "Ambiance",
+  "de": "Atmosphäre",
+  "it": "Atmosfera"
+ },
+ "Un efecto suave en bucle sobre todo el video, mezclado en «Screen» para que solo sume luz.": {
+  "en": "A soft looping effect over the whole video, blended in “Screen” so it only adds light.",
+  "pt": "Um efeito suave em loop sobre todo o vídeo, misturado em «Screen» para só somar luz.",
+  "fr": "Un effet doux en boucle sur toute la vidéo, mélangé en « Screen » pour n'ajouter que de la lumière.",
+  "de": "Ein sanfter Effekt in Schleife über dem ganzen Video, im Modus „Screen“ gemischt, damit er nur Licht hinzufügt.",
+  "it": "Un effetto morbido in loop su tutto il video, miscelato in «Screen» così aggiunge solo luce."
+ },
+ "Cierre del video": {
+  "en": "Video ending",
+  "pt": "Encerramento do vídeo",
+  "fr": "Fin de la vidéo",
+  "de": "Videoabschluss",
+  "it": "Chiusura del video"
+ },
+ "Los últimos segundos con una invitación a seguirte: un botón animado, tu logo o una pantalla final, con su sonido.": {
+  "en": "The last seconds with an invitation to follow you: an animated button, your logo or an end screen, with its sound.",
+  "pt": "Os últimos segundos com um convite para te seguir: um botão animado, seu logo ou uma tela final, com o seu som.",
+  "fr": "Les dernières secondes avec une invitation à te suivre : un bouton animé, ton logo ou un écran de fin, avec son son.",
+  "de": "Die letzten Sekunden mit einer Einladung, dir zu folgen: ein animierter Button, dein Logo oder ein Endbildschirm, mit Ton.",
+  "it": "Gli ultimi secondi con un invito a seguirti: un pulsante animato, il tuo logo o una schermata finale, con il suo suono."
+ },
+ "Cierre": {
+  "en": "Ending",
+  "pt": "Encerramento",
+  "fr": "Fin",
+  "de": "Abschluss",
+  "it": "Chiusura"
+ },
+ "Mis efectos": {
+  "en": "My effects",
+  "pt": "Meus efeitos",
+  "fr": "Mes effets",
+  "de": "Meine Effekte",
+  "it": "I miei effetti"
+ },
+ "Pon tus propios efectos: fuegos, destellos, marcos, animaciones… en la intro, en los cortes, en todo el video o en las palabras que elijas.": {
+  "en": "Use your own effects: fire, flashes, frames, animations… on the intro, on the cuts, over the whole video or on the words you choose.",
+  "pt": "Use seus próprios efeitos: fogo, brilhos, molduras, animações… na intro, nos cortes, em todo o vídeo ou nas palavras que escolher.",
+  "fr": "Mets tes propres effets : feu, éclats, cadres, animations… sur l'intro, sur les coupes, sur toute la vidéo ou sur les mots de ton choix.",
+  "de": "Nutze deine eigenen Effekte: Feuer, Blitze, Rahmen, Animationen … im Intro, bei den Schnitten, im ganzen Video oder bei Wörtern deiner Wahl.",
+  "it": "Usa i tuoi effetti: fuoco, lampi, cornici, animazioni… nell'intro, sui tagli, su tutto il video o sulle parole che scegli."
+ },
+ "Una línea por palabra: «dinero = bolsa de dinero». Vale pegar el emoji o escribir su nombre en español o inglés («casa = house»). Ya vienen puestas palabras como dinero, casa, fuego o idea; aquí añades las tuyas o cambias una (una línea «dinero =» sin nada la quita).": {
+  "en": "One line per word: “money = money bag”. You can paste the emoji or type its name in Spanish or English (“house = casa”). Words like money, house, fire or idea come preset; here you add yours or change one (a line “money =” with nothing after it removes it).",
+  "pt": "Uma linha por palavra: «dinheiro = saco de dinheiro». Vale colar o emoji ou escrever o nome em espanhol ou inglês («casa = house»). Palavras como dinheiro, casa, fogo ou ideia já vêm prontas; aqui você adiciona as suas ou muda uma (uma linha «dinheiro =» sem nada a remove).",
+  "fr": "Une ligne par mot : « argent = sac d'argent ». Tu peux coller l'emoji ou écrire son nom en espagnol ou en anglais (« maison = house »). Des mots comme argent, maison, feu ou idée sont déjà prévus ; ici tu ajoutes les tiens ou tu en changes un (une ligne « argent = » sans rien la supprime).",
+  "de": "Eine Zeile pro Wort: „Geld = Geldsack“. Du kannst das Emoji einfügen oder seinen Namen auf Spanisch oder Englisch schreiben („Haus = house“). Wörter wie Geld, Haus, Feuer oder Idee sind schon voreingestellt; hier fügst du eigene hinzu oder änderst eines (eine Zeile „Geld =“ ohne Inhalt entfernt es).",
+  "it": "Una riga per parola: «soldi = sacco di soldi». Puoi incollare l'emoji o scrivere il suo nome in spagnolo o inglese («casa = house»). Parole come soldi, casa, fuoco o idea sono già impostate; qui aggiungi le tue o ne cambi una (una riga «soldi =» senza altro la rimuove)."
+ },
+ "no entiendo: {l}": {
+  "en": "I don't understand: {l}",
+  "pt": "não entendo: {l}",
+  "fr": "je ne comprends pas : {l}",
+  "de": "ich verstehe nicht: {l}",
+  "it": "non capisco: {l}"
+ },
+ "Nuevo efecto propio": {
+  "en": "New own effect",
+  "pt": "Novo efeito próprio",
+  "fr": "Nouvel effet personnel",
+  "de": "Neuer eigener Effekt",
+  "it": "Nuovo effetto personale"
+ },
+ "Mi efecto": {
+  "en": "My effect",
+  "pt": "Meu efeito",
+  "fr": "Mon effet",
+  "de": "Mein Effekt",
+  "it": "Il mio effetto"
+ },
+ "Un video o animación tuyo (MOV o MP4, PNG, GIF, WebP animado o APNG) para ponerlo encima del video. Los efectos sobre fondo negro (fuegos, polvo, destellos) van en «Screen»; los que traen transparencia (PNG, GIF, WebP, MOV con alfa), en «Normal».": {
+  "en": "A video or animation of yours (MOV or MP4, PNG, GIF, animated WebP or APNG) to put over the video. Effects on a black background (fire, dust, flashes) go in “Screen”; those with transparency (PNG, GIF, WebP, MOV with alpha) go in “Normal”.",
+  "pt": "Um vídeo ou animação seu (MOV ou MP4, PNG, GIF, WebP animado ou APNG) para colocar sobre o vídeo. Os efeitos sobre fundo preto (fogo, poeira, brilhos) vão em «Screen»; os com transparência (PNG, GIF, WebP, MOV com alfa), em «Normal».",
+  "fr": "Une vidéo ou animation à toi (MOV ou MP4, PNG, GIF, WebP animé ou APNG) à placer sur la vidéo. Les effets sur fond noir (feu, poussière, éclats) vont en « Screen » ; ceux avec transparence (PNG, GIF, WebP, MOV avec alpha), en « Normal ».",
+  "de": "Ein eigenes Video oder eine Animation (MOV oder MP4, PNG, GIF, animiertes WebP oder APNG), die über das Video gelegt wird. Effekte auf schwarzem Hintergrund (Feuer, Staub, Blitze) kommen in „Screen“; solche mit Transparenz (PNG, GIF, WebP, MOV mit Alpha) in „Normal“.",
+  "it": "Un video o animazione tua (MOV o MP4, PNG, GIF, WebP animato o APNG) da mettere sopra il video. Gli effetti su sfondo nero (fuoco, polvere, lampi) vanno in «Screen»; quelli con trasparenza (PNG, GIF, WebP, MOV con alfa), in «Normal»."
+ },
+ "Ningún archivo": {
+  "en": "No file",
+  "pt": "Nenhum arquivo",
+  "fr": "Aucun fichier",
+  "de": "Keine Datei",
+  "it": "Nessun file"
+ },
+ "Elegir archivo…": {
+  "en": "Choose file…",
+  "pt": "Escolher arquivo…",
+  "fr": "Choisir un fichier…",
+  "de": "Datei wählen…",
+  "it": "Scegli file…"
+ },
+ "Nombre": {
+  "en": "Name",
+  "pt": "Nome",
+  "fr": "Nom",
+  "de": "Name",
+  "it": "Nome"
+ },
+ "Números 1, 2, 3… cuando enumeras («primero», «paso 2»…)": {
+  "en": "Numbers 1, 2, 3… when you list things (“first”, “step 2”…)",
+  "pt": "Números 1, 2, 3… quando você enumera («primeiro», «passo 2»…)",
+  "fr": "Chiffres 1, 2, 3… quand tu énumères (« premier », « étape 2 »…)",
+  "de": "Zahlen 1, 2, 3 … wenn du aufzählst („erstens“, „Schritt 2“ …)",
+  "it": "Numeri 1, 2, 3… quando elenchi («primo», «passo 2»…)"
+ },
+ "Pegatinas en palabras clave (dinero → bolsa de dinero)": {
+  "en": "Stickers on key words (money → money bag)",
+  "pt": "Adesivos em palavras-chave (dinheiro → saco de dinheiro)",
+  "fr": "Autocollants sur les mots clés (argent → sac d'argent)",
+  "de": "Sticker bei Schlüsselwörtern (Geld → Geldsack)",
+  "it": "Sticker sulle parole chiave (soldi → sacco di soldi)"
+ },
+ "Palabras…": {
+  "en": "Words…",
+  "pt": "Palavras…",
+  "fr": "Mots…",
+  "de": "Wörter…",
+  "it": "Parole…"
+ },
+ "No tapar los captions ni la cara": {
+  "en": "Don't cover the captions or the face",
+  "pt": "Não cobrir as legendas nem o rosto",
+  "fr": "Ne pas cacher les sous-titres ni le visage",
+  "de": "Untertitel und Gesicht nicht verdecken",
+  "it": "Non coprire i sottotitoli né il volto"
+ },
+ "Texto": {
+  "en": "Text",
+  "pt": "Texto",
+  "fr": "Texte",
+  "de": "Text",
+  "it": "Testo"
+ },
+ "SÍGUEME PARA MÁS": {
+  "en": "FOLLOW ME FOR MORE",
+  "pt": "ME SIGA PARA MAIS",
+  "fr": "SUIS-MOI POUR PLUS",
+  "de": "FOLGE MIR FÜR MEHR",
+  "it": "SEGUIMI PER ALTRO"
+ },
+ "Sin logo": {
+  "en": "No logo",
+  "pt": "Sem logo",
+  "fr": "Sans logo",
+  "de": "Kein Logo",
+  "it": "Nessun logo"
+ },
+ "Elegir logo…": {
+  "en": "Choose logo…",
+  "pt": "Escolher logo…",
+  "fr": "Choisir un logo…",
+  "de": "Logo wählen…",
+  "it": "Scegli logo…"
+ },
+ "Sonido en el cierre": {
+  "en": "Sound on the ending",
+  "pt": "Som no encerramento",
+  "fr": "Son à la fin",
+  "de": "Ton am Ende",
+  "it": "Suono nella chiusura"
+ },
+ "Añadir efecto…": {
+  "en": "Add effect…",
+  "pt": "Adicionar efeito…",
+  "fr": "Ajouter un effet…",
+  "de": "Effekt hinzufügen…",
+  "it": "Aggiungi effetto…"
+ },
+ "Fuerte": {
+  "en": "Strong",
+  "pt": "Forte",
+  "fr": "Fort",
+  "de": "Stark",
+  "it": "Forte"
+ },
+ "Elige tu efecto": {
+  "en": "Choose your effect",
+  "pt": "Escolha seu efeito",
+  "fr": "Choisis ton effet",
+  "de": "Wähle deinen Effekt",
+  "it": "Scegli il tuo effetto"
+ },
+ "Elige primero el archivo del efecto.": {
+  "en": "Choose the effect file first.",
+  "pt": "Escolha primeiro o arquivo do efeito.",
+  "fr": "Choisis d'abord le fichier de l'effet.",
+  "de": "Wähle zuerst die Effektdatei.",
+  "it": "Scegli prima il file dell'effetto."
+ },
+ "Escribe al menos una palabra, o elige otro momento.": {
+  "en": "Write at least one word, or pick another moment.",
+  "pt": "Escreva pelo menos uma palavra, ou escolha outro momento.",
+  "fr": "Écris au moins un mot, ou choisis un autre moment.",
+  "de": "Schreibe mindestens ein Wort oder wähle einen anderen Zeitpunkt.",
+  "it": "Scrivi almeno una parola, oppure scegli un altro momento."
+ },
+ "Subrayado": {
+  "en": "Underline",
+  "pt": "Sublinhado",
+  "fr": "Soulignement",
+  "de": "Unterstreichung",
+  "it": "Sottolineato"
+ },
+ "Círculo": {
+  "en": "Circle",
+  "pt": "Círculo",
+  "fr": "Cercle",
+  "de": "Kreis",
+  "it": "Cerchio"
+ },
+ "Elige tu logo": {
+  "en": "Choose your logo",
+  "pt": "Escolha seu logo",
+  "fr": "Choisis ton logo",
+  "de": "Wähle dein Logo",
+  "it": "Scegli il tuo logo"
+ },
+ "Todavía no has añadido ninguno.": {
+  "en": "You haven't added any yet.",
+  "pt": "Você ainda não adicionou nenhum.",
+  "fr": "Tu n'en as encore ajouté aucun.",
+  "de": "Du hast noch keinen hinzugefügt.",
+  "it": "Non ne hai ancora aggiunto nessuno."
+ },
+ "Efectos": {
+  "en": "Effects",
+  "pt": "Efeitos",
+  "fr": "Effets",
+  "de": "Effekte",
+  "it": "Effetti"
+ },
+ "Imagen": {
+  "en": "Image",
+  "pt": "Imagem",
+  "fr": "Image",
+  "de": "Bild",
+  "it": "Immagine"
+ },
+ "Vista previa de 3 segundos": {
+  "en": "3-second preview",
+  "pt": "Prévia de 3 segundos",
+  "fr": "Aperçu de 3 secondes",
+  "de": "3-Sekunden-Vorschau",
+  "it": "Anteprima di 3 secondi"
+ },
+ "Preparando la vista previa…": {
+  "en": "Preparing the preview…",
+  "pt": "Preparando a prévia…",
+  "fr": "Préparation de l'aperçu…",
+  "de": "Vorschau wird vorbereitet…",
+  "it": "Preparazione dell'anteprima…"
+ },
+ "Cuánto se nota todo a la vez: cuántos cortes e iconos, y la fuerza del zoom y del temblor.": {
+  "en": "How noticeable everything is at once: how many cuts and icons, and the strength of the zoom and shake.",
+  "pt": "O quanto tudo se nota ao mesmo tempo: quantos cortes e ícones, e a força do zoom e do tremor.",
+  "fr": "À quel point tout se remarque à la fois : combien de coupes et d'icônes, et la force du zoom et des secousses.",
+  "de": "Wie stark alles zusammen auffällt: wie viele Schnitte und Icons und die Stärke von Zoom und Wackeln.",
+  "it": "Quanto si nota tutto insieme: quanti tagli e icone, e la forza dello zoom e del tremolio."
+ },
+ "Movimiento del video": {
+  "en": "Video movement",
+  "pt": "Movimento do vídeo",
+  "fr": "Mouvement de la vidéo",
+  "de": "Videobewegung",
+  "it": "Movimento del video"
+ },
+ "Se aplica al propio video con una composición de Fusion: tu corrección de color sigue valiendo y no se duplica nada. Zoom lento todo el rato, temblor en los golpes de sonido y, si el video no llena el cuadro, un fondo desenfocado.": {
+  "en": "It is applied to the video itself with a Fusion composition: your color grade still counts and nothing is duplicated. Slow zoom all the time, shake on the sound hits and, if the video doesn't fill the frame, a blurred background.",
+  "pt": "É aplicado ao próprio vídeo com uma composição do Fusion: sua correção de cor continua valendo e nada é duplicado. Zoom lento o tempo todo, tremor nos golpes de som e, se o vídeo não preencher o quadro, um fundo desfocado.",
+  "fr": "Appliqué à la vidéo elle-même avec une composition Fusion : ton étalonnage compte toujours et rien n'est dupliqué. Zoom lent en continu, secousses sur les impacts sonores et, si la vidéo ne remplit pas le cadre, un arrière-plan flou.",
+  "de": "Wird mit einer Fusion-Komposition direkt auf das Video angewendet: Deine Farbkorrektur gilt weiter und nichts wird dupliziert. Langsamer Zoom die ganze Zeit, Wackeln bei den Sound-Schlägen und, wenn das Video das Bild nicht füllt, ein unscharfer Hintergrund.",
+  "it": "Si applica al video stesso con una composizione Fusion: la tua correzione colore continua a valere e nulla viene duplicato. Zoom lento sempre, tremolio sui colpi sonori e, se il video non riempie il quadro, uno sfondo sfocato."
+ },
+ "Ritmo: quitar pausas": {
+  "en": "Pace: remove pauses",
+  "pt": "Ritmo: remover pausas",
+  "fr": "Rythme : supprimer les pauses",
+  "de": "Tempo: Pausen entfernen",
+  "it": "Ritmo: rimuovi le pause"
+ },
+ "GO corta los silencios del video en Resolve (los tramos con voz quedan pegados) ANTES de poner los captions, que ya salen con los tiempos nuevos. Solo en el video que sueltas en Inicio: nunca toca un timeline tuyo.": {
+  "en": "GO cuts the silences of the video in Resolve (the parts with voice are joined together) BEFORE placing the captions, which then come out with the new timings. Only on the video you drop in Home: it never touches a timeline of yours.",
+  "pt": "O GO corta os silêncios do vídeo no Resolve (os trechos com voz ficam colados) ANTES de colocar as legendas, que já saem com os novos tempos. Só no vídeo que você solta no Início: nunca toca numa timeline sua.",
+  "fr": "GO coupe les silences de la vidéo dans Resolve (les passages avec voix sont collés) AVANT de placer les sous-titres, qui sortent alors avec les nouveaux temps. Seulement sur la vidéo que tu déposes dans Accueil : il ne touche jamais une timeline à toi.",
+  "de": "GO schneidet die Stille des Videos in Resolve heraus (die Teile mit Stimme werden zusammengefügt), BEVOR die Untertitel gesetzt werden, die dann mit den neuen Zeiten entstehen. Nur beim Video, das du auf Start ablegst: Es fasst nie eine eigene Timeline an.",
+  "it": "GO taglia i silenzi del video in Resolve (i tratti con voce vengono uniti) PRIMA di mettere i sottotitoli, che escono già con i nuovi tempi. Solo sul video che trascini in Home: non tocca mai una timeline tua."
+ },
+ "Más efectos": {
+  "en": "More effects",
+  "pt": "Mais efeitos",
+  "fr": "Plus d'effets",
+  "de": "Mehr Effekte",
+  "it": "Più effetti"
+ },
+ "Menos efectos": {
+  "en": "Fewer effects",
+  "pt": "Menos efeitos",
+  "fr": "Moins d'effets",
+  "de": "Weniger Effekte",
+  "it": "Meno effetti"
+ },
+ "Pocas pausas": {
+  "en": "Few pauses",
+  "pt": "Poucas pausas",
+  "fr": "Peu de pauses",
+  "de": "Wenige Pausen",
+  "it": "Poche pause"
+ },
+ "Todas": {
+  "en": "All",
+  "pt": "Todas",
+  "fr": "Toutes",
+  "de": "Alle",
+  "it": "Tutte"
+ },
+ "El zoom, el temblor y las transiciones que mueven el video se ven aquí de forma aproximada; en Resolve salen con la calidad completa.": {
+  "en": "The zoom, shake and transitions that move the video look approximate here; in Resolve they come out at full quality.",
+  "pt": "O zoom, o tremor e as transições que movem o vídeo se veem aqui de forma aproximada; no Resolve saem com qualidade total.",
+  "fr": "Le zoom, les secousses et les transitions qui bougent la vidéo sont approximatifs ici ; dans Resolve ils sortent en pleine qualité.",
+  "de": "Zoom, Wackeln und die Übergänge, die das Video bewegen, sind hier nur angenähert zu sehen; in Resolve kommen sie in voller Qualität.",
+  "it": "Lo zoom, il tremolio e le transizioni che muovono il video qui si vedono in modo approssimato; in Resolve escono a piena qualità."
+ },
+ "Intensidad": {
+  "en": "Intensity",
+  "pt": "Intensidade",
+  "fr": "Intensité",
+  "de": "Intensität",
+  "it": "Intensità"
+ },
+ "Vista previa de 3 s": {
+  "en": "3 s preview",
+  "pt": "Prévia de 3 s",
+  "fr": "Aperçu de 3 s",
+  "de": "3-s-Vorschau",
+  "it": "Anteprima di 3 s"
+ },
+ "Zoom lento": {
+  "en": "Slow zoom",
+  "pt": "Zoom lento",
+  "fr": "Zoom lent",
+  "de": "Langsamer Zoom",
+  "it": "Zoom lento"
+ },
+ "Temblor en los golpes": {
+  "en": "Shake on the hits",
+  "pt": "Tremor nos golpes",
+  "fr": "Secousses sur les impacts",
+  "de": "Wackeln bei den Schlägen",
+  "it": "Tremolio sui colpi"
+ },
+ "Fondo desenfocado si el video no llena el cuadro": {
+  "en": "Blurred background if the video doesn't fill the frame",
+  "pt": "Fundo desfocado se o vídeo não preencher o quadro",
+  "fr": "Arrière-plan flou si la vidéo ne remplit pas le cadre",
+  "de": "Unscharfer Hintergrund, wenn das Video das Bild nicht füllt",
+  "it": "Sfondo sfocato se il video non riempie il quadro"
+ },
+ "Quitar pausas": {
+  "en": "Remove pauses",
+  "pt": "Remover pausas",
+  "fr": "Supprimer les pauses",
+  "de": "Pausen entfernen",
+  "it": "Rimuovi le pause"
+ },
+ "Zoom alterno en cada corte": {
+  "en": "Alternating zoom on every cut",
+  "pt": "Zoom alternado em cada corte",
+  "fr": "Zoom alterné à chaque coupe",
+  "de": "Abwechselnder Zoom bei jedem Schnitt",
+  "it": "Zoom alternato a ogni taglio"
+ },
+ "No pude preparar la vista previa.": {
+  "en": "I couldn't prepare the preview.",
+  "pt": "Não consegui preparar a prévia.",
+  "fr": "Je n'ai pas pu préparer l'aperçu.",
+  "de": "Ich konnte die Vorschau nicht vorbereiten.",
+  "it": "Non sono riuscito a preparare l'anteprima."
+ },
+ "Zoom desenfocado": {
+  "en": "Zoom blur",
+  "pt": "Zoom desfocado",
+  "fr": "Zoom flou",
+  "de": "Zoom-Unschärfe",
+  "it": "Zoom sfocato"
+ },
+ "El cuadro se lanza hacia ti con un desenfoque radial justo en el corte.": {
+  "en": "The frame rushes toward you with a radial blur right on the cut.",
+  "pt": "O quadro se lança em direção a você com um desfoque radial bem no corte.",
+  "fr": "Le cadre se rue vers toi avec un flou radial juste sur la coupe.",
+  "de": "Das Bild rast mit einer radialen Unschärfe genau am Schnitt auf dich zu.",
+  "it": "Il quadro si lancia verso di te con una sfocatura radiale proprio sul taglio."
+ },
+ "Barrido rápido": {
+  "en": "Whip pan",
+  "pt": "Giro rápido",
+  "fr": "Panoramique rapide",
+  "de": "Schneller Schwenk",
+  "it": "Panoramica veloce"
+ },
+ "El cuadro sale volando hacia un lado con desenfoque y el siguiente entra por el otro (whip pan).": {
+  "en": "The frame flies off to one side with blur and the next one comes in from the other (whip pan).",
+  "pt": "O quadro sai voando para um lado com desfoque e o seguinte entra pelo outro (whip pan).",
+  "fr": "Le cadre part sur le côté avec du flou et le suivant entre par l'autre (whip pan).",
+  "de": "Das Bild fliegt unscharf zur Seite weg und das nächste kommt von der anderen (Whip Pan).",
+  "it": "Il quadro vola via di lato con sfocatura e il successivo entra dall'altro (whip pan)."
+ },
+ "Glitch RGB": {
+  "en": "RGB glitch",
+  "pt": "Glitch RGB",
+  "fr": "Glitch RVB",
+  "de": "RGB-Glitch",
+  "it": "Glitch RGB"
+ },
+ "Los colores se separan y el cuadro vibra un instante en el corte.": {
+  "en": "The colors split and the frame vibrates for a moment on the cut.",
+  "pt": "As cores se separam e o quadro vibra por um instante no corte.",
+  "fr": "Les couleurs se séparent et le cadre vibre un instant sur la coupe.",
+  "de": "Die Farben trennen sich und das Bild vibriert einen Augenblick am Schnitt.",
+  "it": "I colori si separano e il quadro vibra per un istante sul taglio."
+ },
+ "Polvo": {
+  "en": "Dust",
+  "pt": "Poeira",
+  "fr": "Poussière",
+  "de": "Staub",
+  "it": "Polvere"
+ },
+ "Grano de película": {
+  "en": "Film grain",
+  "pt": "Grão de filme",
+  "fr": "Grain de pellicule",
+  "de": "Filmkorn",
+  "it": "Grana della pellicola"
+ },
+ "Luz suave": {
+  "en": "Soft light",
+  "pt": "Luz suave",
+  "fr": "Lumière douce",
+  "de": "Sanftes Licht",
+  "it": "Luce morbida"
+ },
+ "Partículas de polvo que flotan y brillan un poco, todo el video.": {
+  "en": "Dust particles that float and glow a little, all video long.",
+  "pt": "Partículas de poeira que flutuam e brilham um pouco, o vídeo todo.",
+  "fr": "Des particules de poussière qui flottent et brillent un peu, pendant toute la vidéo.",
+  "de": "Staubpartikel, die schweben und leicht glänzen, das ganze Video über.",
+  "it": "Particelle di polvere che fluttuano e brillano un po', per tutto il video."
+ },
+ "Un grano fino de cine encima de toda la imagen.": {
+  "en": "A fine cinema grain over the whole image.",
+  "pt": "Um grão fino de cinema sobre toda a imagem.",
+  "fr": "Un grain fin de cinéma sur toute l'image.",
+  "de": "Ein feines Kinokorn über dem ganzen Bild.",
+  "it": "Una grana fine da cinema su tutta l'immagine."
+ },
+ "Un resplandor cálido que se mueve despacio.": {
+  "en": "A warm glow that moves slowly.",
+  "pt": "Um brilho quente que se move devagar.",
+  "fr": "Une lueur chaude qui se déplace lentement.",
+  "de": "Ein warmes Leuchten, das sich langsam bewegt.",
+  "it": "Un bagliore caldo che si muove lentamente."
+ },
+ "Sígueme": {
+  "en": "Follow me",
+  "pt": "Me siga",
+  "fr": "Suis-moi",
+  "de": "Folge mir",
+  "it": "Seguimi"
+ },
+ "Tu logo": {
+  "en": "Your logo",
+  "pt": "Seu logo",
+  "fr": "Ton logo",
+  "de": "Dein Logo",
+  "it": "Il tuo logo"
+ },
+ "Pantalla final": {
+  "en": "End screen",
+  "pt": "Tela final",
+  "fr": "Écran de fin",
+  "de": "Endbildschirm",
+  "it": "Schermata finale"
+ },
+ "Un botón animado «Sígueme para más» en los últimos segundos.": {
+  "en": "An animated “Follow me for more” button in the last seconds.",
+  "pt": "Um botão animado «Me siga para mais» nos últimos segundos.",
+  "fr": "Un bouton animé « Suis-moi pour plus » dans les dernières secondes.",
+  "de": "Ein animierter Button „Folge mir für mehr“ in den letzten Sekunden.",
+  "it": "Un pulsante animato «Seguimi per altro» negli ultimi secondi."
+ },
+ "Tu logo que entra con un destello al final.": {
+  "en": "Your logo that comes in with a flash at the end.",
+  "pt": "Seu logo que entra com um brilho no final.",
+  "fr": "Ton logo qui entre avec un éclat à la fin.",
+  "de": "Dein Logo, das am Ende mit einem Lichtblitz erscheint.",
+  "it": "Il tuo logo che entra con un lampo alla fine."
+ },
+ "El video se oscurece y sale tu logo con la invitación a seguirte.": {
+  "en": "The video darkens and your logo appears with the invitation to follow you.",
+  "pt": "O vídeo escurece e aparece seu logo com o convite para te seguir.",
+  "fr": "La vidéo s'assombrit et ton logo apparaît avec l'invitation à te suivre.",
+  "de": "Das Video wird dunkel und dein Logo erscheint mit der Einladung, dir zu folgen.",
+  "it": "Il video si oscura e compare il tuo logo con l'invito a seguirti."
+ },
+ "Cortes": {
+  "en": "Cuts",
+  "pt": "Cortes",
+  "fr": "Coupes",
+  "de": "Schnitte",
+  "it": "Tagli"
+ },
+ "Todo el video": {
+  "en": "Whole video",
+  "pt": "Vídeo inteiro",
+  "fr": "Toute la vidéo",
+  "de": "Ganzes Video",
+  "it": "Tutto il video"
+ },
+ "Arriba": {
+  "en": "Top",
+  "pt": "Em cima",
+  "fr": "Haut",
+  "de": "Oben",
+  "it": "In alto"
+ },
+ "Centro": {
+  "en": "Center",
+  "pt": "Centro",
+  "fr": "Centre",
+  "de": "Mitte",
+  "it": "Centro"
+ },
+ "Abajo": {
+  "en": "Bottom",
+  "pt": "Embaixo",
+  "fr": "Bas",
+  "de": "Unten",
+  "it": "In basso"
+ },
+ "Suave": {
+  "en": "Soft",
+  "pt": "Suave",
+  "fr": "Doux",
+  "de": "Sanft",
+  "it": "Morbido"
+ },
+ "Normal": {
+  "en": "Normal",
+  "pt": "Normal",
+  "fr": "Normal",
+  "de": "Normal",
+  "it": "Normale"
+ },
+ "No": {
+  "en": "No",
+  "pt": "Não",
+  "fr": "Non",
+  "de": "Nein",
+  "it": "No"
+ },
+ "B-roll de stock": {
+  "en": "Stock B-roll",
+  "pt": "B-roll de banco de imagens",
+  "fr": "B-roll de stock",
+  "de": "Stock-B-Roll",
+  "it": "B-roll di stock"
+ },
+ "Tomas de apoyo gratuitas de Pexels cuando dices cosas concretas (casa, playa, coche…). Hace falta tu clave de API gratuita (se saca en pexels.com/api). Se colocan DEBAJO de los captions y el audio original sigue sonando.": {
+  "en": "Free supporting shots from Pexels when you say concrete things (house, beach, car…). You need your free API key (get it at pexels.com/api). They go UNDER the captions and the original audio keeps playing.",
+  "pt": "Tomadas de apoio gratuitas do Pexels quando você diz coisas concretas (casa, praia, carro…). Precisa da sua chave de API gratuita (obtida em pexels.com/api). Ficam EMBAIXO das legendas e o áudio original continua tocando.",
+  "fr": "Des plans d'appui gratuits de Pexels quand tu dis des choses concrètes (maison, plage, voiture…). Il te faut ta clé d'API gratuite (à obtenir sur pexels.com/api). Ils se placent SOUS les sous-titres et l'audio d'origine continue.",
+  "de": "Kostenlose Ergänzungsaufnahmen von Pexels, wenn du etwas Konkretes sagst (Haus, Strand, Auto …). Du brauchst deinen kostenlosen API-Schlüssel (auf pexels.com/api). Sie liegen UNTER den Untertiteln und der Originalton läuft weiter.",
+  "it": "Riprese di supporto gratuite di Pexels quando dici cose concrete (casa, spiaggia, auto…). Ti serve la tua chiave API gratuita (si ottiene su pexels.com/api). Vanno SOTTO i sottotitoli e l'audio originale continua."
+ },
+ "Cuántas tomas": {
+  "en": "How many shots",
+  "pt": "Quantas tomadas",
+  "fr": "Combien de plans",
+  "de": "Wie viele Aufnahmen",
+  "it": "Quante riprese"
+ },
+ "B-roll en las palabras concretas": {
+  "en": "B-roll on concrete words",
+  "pt": "B-roll nas palavras concretas",
+  "fr": "B-roll sur les mots concrets",
+  "de": "B-Roll bei konkreten Wörtern",
+  "it": "B-roll sulle parole concrete"
+ },
+ "Clave de Pexels": {
+  "en": "Pexels key",
+  "pt": "Chave do Pexels",
+  "fr": "Clé Pexels",
+  "de": "Pexels-Schlüssel",
+  "it": "Chiave Pexels"
+ },
+ "Pega aquí tu clave": {
+  "en": "Paste your key here",
+  "pt": "Cole aqui sua chave",
+  "fr": "Colle ta clé ici",
+  "de": "Füge hier deinen Schlüssel ein",
+  "it": "Incolla qui la tua chiave"
+ },
+ "Pocas": {
+  "en": "Few",
+  "pt": "Poucas",
+  "fr": "Peu",
+  "de": "Wenige",
+  "it": "Poche"
+ },
+ "Muchas": {
+  "en": "Many",
+  "pt": "Muitas",
+  "fr": "Beaucoup",
+  "de": "Viele",
+  "it": "Molte"
+ },
+ "Buscando tomas de apoyo (B-roll)…": {
+  "en": "Looking for supporting shots (B-roll)…",
+  "pt": "Buscando tomadas de apoio (B-roll)…",
+  "fr": "Recherche de plans d'appui (B-roll)…",
+  "de": "Suche nach Ergänzungsaufnahmen (B-Roll) …",
+  "it": "Ricerca di riprese di supporto (B-roll)…"
+ },
+ "Efectos con movimiento en la página «Efectos»: zoom lento, temblor con los golpes de sonido, transiciones nuevas en los cortes (zoom desenfocado, barrido y glitch RGB) y fondo desenfocado cuando el video no llena el cuadro. Se aplican con Fusion al propio video, así que tu corrección de color sigue valiendo. Hay una intensidad general y una vista previa de 3 segundos.": {
+  "en": "Motion effects on the “Effects” page: slow zoom, shake on the sound hits, new transitions on the cuts (zoom blur, whip pan and RGB glitch) and a blurred background when the video doesn't fill the frame. They are applied to the video itself with Fusion, so your color grade still counts. There is an overall intensity and a 3-second preview.",
+  "pt": "Efeitos de movimento na página «Efeitos»: zoom lento, tremor nos golpes de som, novas transições nos cortes (zoom desfocado, giro rápido e glitch RGB) e fundo desfocado quando o vídeo não preenche o quadro. São aplicados ao próprio vídeo com o Fusion, então sua correção de cor continua valendo. Há uma intensidade geral e uma prévia de 3 segundos.",
+  "fr": "Effets de mouvement dans la page « Effets » : zoom lent, secousses sur les impacts sonores, nouvelles transitions sur les coupes (zoom flou, panoramique rapide et glitch RVB) et arrière-plan flou quand la vidéo ne remplit pas le cadre. Ils sont appliqués à la vidéo elle-même avec Fusion : ton étalonnage compte toujours. Il y a une intensité générale et un aperçu de 3 secondes.",
+  "de": "Bewegungseffekte auf der Seite „Effekte“: langsamer Zoom, Wackeln bei den Sound-Schlägen, neue Übergänge an den Schnitten (Zoom-Unschärfe, schneller Schwenk und RGB-Glitch) und ein unscharfer Hintergrund, wenn das Video das Bild nicht füllt. Sie werden mit Fusion direkt auf das Video angewendet, deine Farbkorrektur gilt also weiter. Es gibt eine Gesamtintensität und eine 3-Sekunden-Vorschau.",
+  "it": "Effetti di movimento nella pagina «Effetti»: zoom lento, tremolio sui colpi sonori, nuove transizioni sui tagli (zoom sfocato, panoramica veloce e glitch RGB) e sfondo sfocato quando il video non riempie il quadro. Si applicano al video stesso con Fusion, quindi la tua correzione colore continua a valere. C'è un'intensità generale e un'anteprima di 3 secondi."
+ },
+ "«Más efectos» (plegado en la página Efectos): números 1, 2, 3 cuando enumeras, pegatinas en palabras clave, subrayado o círculo dibujado a mano, polvo, grano o luz suave, tus propios efectos (MOV, MP4, PNG, GIF o WebP) y un cierre con tu logo y su sonido. Esquivan los captions y la cara.": {
+  "en": "“More effects” (collapsed on the Effects page): numbers 1, 2, 3 when you list things, stickers on key words, hand-drawn underline or circle, dust, grain or soft light, your own effects (MOV, MP4, PNG, GIF or WebP) and an ending with your logo and its sound. They avoid the captions and the face.",
+  "pt": "«Mais efeitos» (recolhido na página Efeitos): números 1, 2, 3 quando você enumera, adesivos em palavras-chave, sublinhado ou círculo desenhado à mão, poeira, grão ou luz suave, seus próprios efeitos (MOV, MP4, PNG, GIF ou WebP) e um encerramento com seu logo e seu som. Evitam as legendas e o rosto.",
+  "fr": "« Plus d'effets » (replié dans la page Effets) : chiffres 1, 2, 3 quand tu énumères, autocollants sur les mots clés, soulignement ou cercle dessiné à la main, poussière, grain ou lumière douce, tes propres effets (MOV, MP4, PNG, GIF ou WebP) et une fin avec ton logo et son son. Ils évitent les sous-titres et le visage.",
+  "de": "„Mehr Effekte“ (eingeklappt auf der Seite Effekte): Zahlen 1, 2, 3, wenn du aufzählst, Sticker bei Schlüsselwörtern, handgezeichnete Unterstreichung oder Kreis, Staub, Korn oder sanftes Licht, deine eigenen Effekte (MOV, MP4, PNG, GIF oder WebP) und ein Abschluss mit deinem Logo und seinem Ton. Sie meiden die Untertitel und das Gesicht.",
+  "it": "«Più effetti» (richiuso nella pagina Effetti): numeri 1, 2, 3 quando elenchi, sticker sulle parole chiave, sottolineatura o cerchio disegnato a mano, polvere, grana o luce morbida, i tuoi effetti (MOV, MP4, PNG, GIF o WebP) e una chiusura con il tuo logo e il suo suono. Evitano i sottotitoli e il volto."
+ },
+ "Quitar pausas: GO recorta los silencios del video que sueltas en Inicio antes de poner los captions (que ya salen con los tiempos nuevos) y puede alternar un zoom en cada corte.": {
+  "en": "Remove pauses: GO cuts the silences from the video you drop in Home before placing the captions (which then come out with the new timings) and can alternate a zoom on every cut.",
+  "pt": "Remover pausas: o GO corta os silêncios do vídeo que você solta no Início antes de colocar as legendas (que já saem com os novos tempos) e pode alternar um zoom em cada corte.",
+  "fr": "Supprimer les pauses : GO coupe les silences de la vidéo que tu déposes dans Accueil avant de placer les sous-titres (qui sortent alors avec les nouveaux temps) et peut alterner un zoom à chaque coupe.",
+  "de": "Pausen entfernen: GO schneidet die Stille aus dem Video, das du auf Start ablegst, bevor die Untertitel gesetzt werden (die dann mit den neuen Zeiten entstehen), und kann bei jedem Schnitt einen Zoom abwechseln.",
+  "it": "Rimuovi le pause: GO taglia i silenzi del video che trascini in Home prima di mettere i sottotitoli (che escono già con i nuovi tempi) e può alternare uno zoom a ogni taglio."
+ },
+ "Sonido extra: un sonido en cada transición, riser y golpe antes de la palabra clave del gancho, música de fondo que baja sola cuando hablas (con detección de BPM para alinear su pulso), volumen de los sonidos igualado y sonido de los emojis según la frase.": {
+  "en": "Extra sound: a sound on every transition, a riser and hit before the hook's key word, background music that lowers itself when you speak (with BPM detection to align its beat), evened-out sound volumes and emoji sounds that follow the sentence.",
+  "pt": "Som extra: um som em cada transição, riser e golpe antes da palavra-chave do gancho, música de fundo que baixa sozinha quando você fala (com detecção de BPM para alinhar o seu pulso), volume dos sons igualado e sons dos emojis conforme a frase.",
+  "fr": "Son en plus : un son à chaque transition, un riser et un impact avant le mot clé de l'accroche, une musique de fond qui baisse toute seule quand tu parles (avec détection du BPM pour aligner son pulse), un volume des sons uniformisé et des sons d'emojis selon la phrase.",
+  "de": "Zusatzton: ein Sound bei jedem Übergang, Riser und Schlag vor dem Schlüsselwort des Einstiegs, Hintergrundmusik, die von selbst leiser wird, wenn du sprichst (mit BPM-Erkennung, um ihren Puls abzustimmen), angeglichene Lautstärke der Sounds und Emoji-Sounds passend zum Satz.",
+  "it": "Suono extra: un suono a ogni transizione, riser e colpo prima della parola chiave dell'attacco, musica di sottofondo che si abbassa da sola quando parli (con rilevamento dei BPM per allineare il suo battito), volume dei suoni uniformato e suoni delle emoji secondo la frase."
+ },
+ "B-roll opcional: tomas de apoyo gratuitas de Pexels en las palabras concretas (casa, playa, coche…), debajo de los captions. Necesita tu clave de API gratuita.": {
+  "en": "Optional B-roll: free supporting shots from Pexels on concrete words (house, beach, car…), under the captions. It needs your free API key.",
+  "pt": "B-roll opcional: tomadas de apoio gratuitas do Pexels nas palavras concretas (casa, praia, carro…), embaixo das legendas. Precisa da sua chave de API gratuita.",
+  "fr": "B-roll optionnel : des plans d'appui gratuits de Pexels sur les mots concrets (maison, plage, voiture…), sous les sous-titres. Il faut ta clé d'API gratuite.",
+  "de": "Optionales B-Roll: kostenlose Ergänzungsaufnahmen von Pexels bei konkreten Wörtern (Haus, Strand, Auto …), unter den Untertiteln. Du brauchst deinen kostenlosen API-Schlüssel.",
+  "it": "B-roll opzionale: riprese di supporto gratuite di Pexels sulle parole concrete (casa, spiaggia, auto…), sotto i sottotitoli. Serve la tua chiave API gratuita."
+ },
+ "GO se puede pausar, cancelar y reanudar; si el programa se cierra a mitad, te ofrece seguir donde se quedó. Dice el idioma que oyó y te deja corregirlo, y te avisa con una notificación del sistema al terminar. El cuadro de Novedades ahora enseña clips en movimiento.": {
+  "en": "GO can be paused, cancelled and resumed; if the program closes halfway it offers to continue where it left off. It tells you the language it heard and lets you correct it, and it notifies you with a system notification when done. The News dialog now shows moving clips.",
+  "pt": "O GO pode ser pausado, cancelado e retomado; se o programa fechar no meio, oferece continuar de onde parou. Diz o idioma que ouviu e deixa você corrigi-lo, e avisa com uma notificação do sistema ao terminar. O quadro de Novidades agora mostra clipes em movimento.",
+  "fr": "GO peut être mis en pause, annulé et repris ; si le programme se ferme en cours de route, il te propose de continuer là où il s'était arrêté. Il t'indique la langue qu'il a entendue et te laisse la corriger, et te prévient par une notification du système à la fin. La fenêtre des Nouveautés montre maintenant des clips animés.",
+  "de": "GO lässt sich pausieren, abbrechen und fortsetzen; wenn das Programm mittendrin schließt, bietet es an, dort weiterzumachen. Es sagt dir, welche Sprache es gehört hat, und lässt dich sie korrigieren, und benachrichtigt dich am Ende mit einer Systembenachrichtigung. Das Neuigkeiten-Fenster zeigt jetzt bewegte Clips.",
+  "it": "GO si può mettere in pausa, annullare e riprendere; se il programma si chiude a metà, ti propone di continuare da dove si era fermato. Ti dice la lingua che ha sentito e te la lascia correggere, e ti avvisa con una notifica di sistema al termine. La finestra delle Novità ora mostra clip in movimento."
+ },
+ "Más rápido y robusto: reutiliza la transcripción de un video ya hecho, usa tu tarjeta gráfica para la voz (se repara desde Ajustes), avisa si Resolve se quedó colgado y las descargas se reanudan si se cortan.": {
+  "en": "Faster and more robust: it reuses the transcription of a video already done, uses your graphics card for the voice (repaired from Settings), warns if Resolve is frozen and downloads resume if interrupted.",
+  "pt": "Mais rápido e robusto: reutiliza a transcrição de um vídeo já feito, usa sua placa de vídeo para a voz (reparada em Ajustes), avisa se o Resolve travou e os downloads são retomados se interrompidos.",
+  "fr": "Plus rapide et plus robuste : il réutilise la transcription d'une vidéo déjà faite, utilise ta carte graphique pour la voix (réparable dans Réglages), prévient si Resolve est bloqué et les téléchargements reprennent s'ils sont interrompus.",
+  "de": "Schneller und robuster: Es nutzt die Transkription eines bereits fertigen Videos wieder, verwendet deine Grafikkarte für die Stimme (in den Einstellungen reparierbar), warnt, wenn Resolve hängt, und Downloads werden nach einer Unterbrechung fortgesetzt.",
+  "it": "Più veloce e robusto: riutilizza la trascrizione di un video già fatto, usa la tua scheda grafica per la voce (riparabile da Impostazioni), avvisa se Resolve è bloccato e i download riprendono se interrotti."
+ },
+ "Glitch RGB en los cortes": {
+  "en": "RGB glitch on the cuts",
+  "pt": "Glitch RGB nos cortes",
+  "fr": "Glitch RVB sur les coupes",
+  "de": "RGB-Glitch an den Schnitten",
+  "it": "Glitch RGB sui tagli"
+ },
+ "Sonido extra": {
+  "en": "Extra sound",
+  "pt": "Som extra",
+  "fr": "Son en plus",
+  "de": "Zusatzton",
+  "it": "Suono extra"
+ },
+ "Sonidos que acompañan a los efectos y una música de fondo que baja sola cuando hablas (con un hueco de silencio antes del golpe de la palabra clave).": {
+  "en": "Sounds that go with the effects and a background music that lowers itself when you speak (with a gap of silence before the hit on the key word).",
+  "pt": "Sons que acompanham os efeitos e uma música de fundo que baixa sozinha quando você fala (com uma pausa de silêncio antes do golpe da palavra-chave).",
+  "fr": "Des sons qui accompagnent les effets et une musique de fond qui baisse toute seule quand tu parles (avec un trou de silence avant l'impact du mot clé).",
+  "de": "Sounds, die die Effekte begleiten, und eine Hintergrundmusik, die von selbst leiser wird, wenn du sprichst (mit einer Stille-Lücke vor dem Schlag auf dem Schlüsselwort).",
+  "it": "Suoni che accompagnano gli effetti e una musica di sottofondo che si abbassa da sola quando parli (con un vuoto di silenzio prima del colpo sulla parola chiave)."
+ },
+ "Un sonido en cada corte con transición": {
+  "en": "A sound on every cut with a transition",
+  "pt": "Um som em cada corte com transição",
+  "fr": "Un son à chaque coupe avec transition",
+  "de": "Ein Sound bei jedem Schnitt mit Übergang",
+  "it": "Un suono a ogni taglio con transizione"
+ },
+ "Riser y golpe antes de la palabra clave del gancho": {
+  "en": "Riser and hit before the hook's key word",
+  "pt": "Riser e golpe antes da palavra-chave do gancho",
+  "fr": "Riser et impact avant le mot clé de l'accroche",
+  "de": "Riser und Schlag vor dem Schlüsselwort des Einstiegs",
+  "it": "Riser e colpo prima della parola chiave dell'attacco"
+ },
+ "Igualar el volumen de todos los sonidos": {
+  "en": "Even out the volume of all sounds",
+  "pt": "Igualar o volume de todos os sons",
+  "fr": "Uniformiser le volume de tous les sons",
+  "de": "Lautstärke aller Sounds angleichen",
+  "it": "Uniforma il volume di tutti i suoni"
+ },
+ "Sonido de los emojis según la frase (positiva o negativa)": {
+  "en": "Emoji sounds that follow the sentence (positive or negative)",
+  "pt": "Som dos emojis conforme a frase (positiva ou negativa)",
+  "fr": "Son des emojis selon la phrase (positive ou négative)",
+  "de": "Emoji-Sounds passend zum Satz (positiv oder negativ)",
+  "it": "Suono delle emoji secondo la frase (positiva o negativa)"
+ },
+ "Música de fondo automática": {
+  "en": "Automatic background music",
+  "pt": "Música de fundo automática",
+  "fr": "Musique de fond automatique",
+  "de": "Automatische Hintergrundmusik",
+  "it": "Musica di sottofondo automatica"
+ },
+ "Ninguna música elegida": {
+  "en": "No music chosen",
+  "pt": "Nenhuma música escolhida",
+  "fr": "Aucune musique choisie",
+  "de": "Keine Musik gewählt",
+  "it": "Nessuna musica scelta"
+ },
+ "Elegir música…": {
+  "en": "Choose music…",
+  "pt": "Escolher música…",
+  "fr": "Choisir une musique…",
+  "de": "Musik wählen…",
+  "it": "Scegli musica…"
+ },
+ "Elegir carpeta…": {
+  "en": "Choose folder…",
+  "pt": "Escolher pasta…",
+  "fr": "Choisir un dossier…",
+  "de": "Ordner wählen…",
+  "it": "Scegli cartella…"
+ },
+ "Volumen de la música": {
+  "en": "Music volume",
+  "pt": "Volume da música",
+  "fr": "Volume de la musique",
+  "de": "Musiklautstärke",
+  "it": "Volume della musica"
+ },
+ "Alinear el pulso de la música con el golpe y los efectos": {
+  "en": "Align the music's beat with the hit and the effects",
+  "pt": "Alinhar o pulso da música com o golpe e os efeitos",
+  "fr": "Aligner le pulse de la musique avec l'impact et les effets",
+  "de": "Den Puls der Musik mit Schlag und Effekten abstimmen",
+  "it": "Allinea il battito della musica con il colpo e gli effetti"
+ },
+ "Elige la música de fondo": {
+  "en": "Choose the background music",
+  "pt": "Escolha a música de fundo",
+  "fr": "Choisis la musique de fond",
+  "de": "Wähle die Hintergrundmusik",
+  "it": "Scegli la musica di sottofondo"
+ },
+ "Elige una carpeta con músicas": {
+  "en": "Choose a folder with music",
+  "pt": "Escolha uma pasta com músicas",
+  "fr": "Choisis un dossier de musiques",
+  "de": "Wähle einen Ordner mit Musik",
+  "it": "Scegli una cartella con musiche"
  }
 }

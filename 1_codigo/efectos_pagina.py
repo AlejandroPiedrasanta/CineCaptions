@@ -213,6 +213,78 @@ class DialogoPalabras(Dialogo):
         self.cerrar()
 
 
+# ====================================================================================== vista previa de 3 s
+class DialogoVistaPrevia(Dialogo):
+    """Los efectos que están encendidos, sobre fotos de muestra, en un bucle de 3 s (vista_previa_fx.py). Se prepara en un hilo y se mueve solo mientras la ventana está abierta."""
+    def __init__(self, padre):
+        super().__init__(padre, tr('Vista previa de 3 segundos'), 440, 800, redimensionable=False)
+        capa = QVBoxLayout(self)
+        capa.setContentsMargins(20, 18, 20, 16)
+        capa.setSpacing(10)
+        capa.addWidget(Etiqueta(tr('Vista previa de 3 segundos'), 18, peso='extra', color='#FFFFFF'))
+        self._lienzo = _Lienzo()
+        capa.addWidget(self._lienzo, 0, Qt.AlignmentFlag.AlignHCenter)
+        self._nota = Etiqueta(tr('Preparando la vista previa…'), 12, color=TEXT_MUTED, envolver=True)
+        capa.addWidget(self._nota)
+        capa.addStretch(1)
+        fila, cf = caja_h(espacio=10)
+        cf.addStretch(1)
+        cf.addWidget(Boton(tr('Cerrar'), self.cerrar, alto=36, ancho=120, tam=13))
+        capa.addWidget(fila)
+        self._reprod = None
+        self._reloj = QTimer(self)
+        self._reloj.timeout.connect(self._lienzo.update)
+        ui.correr_en_hilo(self, self._preparar, self._listo)
+
+    @staticmethod
+    def _preparar():
+        import vista_previa_fx
+        return vista_previa_fx.renderizar()
+
+    def _listo(self, ruta, error):
+        if error is not None or not ruta:
+            self._nota.configure(text=tr('No pude preparar la vista previa.'))
+            return
+        import vistas_slider
+        self._reprod = vistas_slider.Reproductor(ruta)
+        self._lienzo.reprod = self._reprod
+        self._reprod.arrancar()
+        self._reloj.start(33)
+        self._nota.configure(text=tr('El zoom, el temblor y las transiciones que mueven el video se ven aquí de forma aproximada; en Resolve salen con la calidad completa.'))
+
+    def cerrar(self):
+        if self._reprod is not None:
+            self._reprod.parar()
+        self._reloj.stop()
+        super().cerrar()
+
+    def closeEvent(self, e):
+        if self._reprod is not None:
+            self._reprod.parar()
+        self._reloj.stop()
+        super().closeEvent(e)
+
+
+class _Lienzo(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.reprod = None
+        self.setFixedSize(360, 640)
+
+    def paintEvent(self, _e):
+        p = QPainter(self)
+        p.setRenderHint(QPainter.RenderHint.SmoothPixmapTransform)
+        rect = QRectF(0, 0, 360, 640)
+        camino = QPainterPath()
+        camino.addRoundedRect(rect, 14, 14)
+        p.setClipPath(camino)
+        p.fillRect(rect, QColor('#0B1424'))
+        img = self.reprod.imagen() if self.reprod is not None else None
+        if img is not None:
+            p.drawImage(rect, img)
+        p.end()
+
+
 # ====================================================================================== la página
 class PaginaEfectos(QWidget):
     TIC_MS = 40
@@ -236,6 +308,14 @@ class PaginaEfectos(QWidget):
         general.capa.addWidget(fila)
         general.capa.addWidget(Etiqueta(tr('Acompañan a los captions, la música y los emojis: se colocan solos en pistas propias «FX» (tu video y tus captions no se tocan). También se enciende con el chip «Visuales» de Inicio.'),
                                         13, color=TEXT_MUTED, envolver=True))
+        fila_i, ci = caja_h(espacio=10)
+        ci.addWidget(Etiqueta(tr('Intensidad'), 13, color=TEXT_MUTED))
+        self._v_intens = StringVar(self._texto_cuanto(op.get('fx_intensidad'), (('suave', tr('Suave')), ('normal', tr('Normal')), ('fuerte', tr('Fuerte')))))
+        ci.addWidget(Segmentado([tr('Suave'), tr('Normal'), tr('Fuerte')], self._v_intens, self._cambio_intensidad, alto=32, tam=13))
+        ci_txt = Etiqueta(tr('Cuánto se nota todo a la vez: cuántos cortes e iconos, y la fuerza del zoom y del temblor.'), 12, color=TEXT_MUTED, envolver=True)
+        ci.addWidget(ci_txt, 1)
+        ci.addWidget(Boton(tr('Vista previa de 3 s'), self._abrir_vista_previa, alto=34, tam=12))
+        general.capa.addWidget(fila_i)
         capa.addWidget(general)
         # ---- intro (y su sonido)
         self._intro = op.get('fx_intro') or ''
@@ -281,6 +361,42 @@ class PaginaEfectos(QWidget):
         t2.capa.addWidget(fila2)
         capa.addWidget(t2)
         self._pintar_unico(self._c_cortes, self._cortes)
+        # ---- movimiento del video (Fusion)
+        t4 = self._tarjeta(tr('Movimiento del video'), tr('Se aplica al propio video con una composición de Fusion: tu corrección de color sigue valiendo y no se duplica nada. Zoom lento todo el rato, temblor en los golpes de sonido y, si el video no llena el cuadro, un fondo desenfocado.'))
+        niveles = (('no', tr('No')), ('suave', tr('Suave')), ('normal', tr('Normal')), ('fuerte', tr('Fuerte')))
+        etiquetas = [t for _k, t in niveles]
+        filaz, cz = caja_h(espacio=10)
+        cz.addWidget(Etiqueta(tr('Zoom lento'), 13, color=TEXT_MUTED))
+        self._v_zoom = StringVar(self._texto_cuanto(op.get('fx_zoom'), niveles))
+        cz.addWidget(Segmentado(etiquetas, self._v_zoom, self._cambio_movimiento, alto=32, tam=13))
+        cz.addStretch(1)
+        t4.capa.addWidget(filaz)
+        filat, ct = caja_h(espacio=10)
+        ct.addWidget(Etiqueta(tr('Temblor en los golpes'), 13, color=TEXT_MUTED))
+        self._v_temblor = StringVar(self._texto_cuanto(op.get('fx_temblor'), niveles))
+        ct.addWidget(Segmentado(etiquetas, self._v_temblor, self._cambio_movimiento, alto=32, tam=13))
+        ct.addStretch(1)
+        t4.capa.addWidget(filat)
+        self._var_fondo = ui.BooleanVar(bool(op.get('fx_fondo', True)))
+        t4.capa.addWidget(Interruptor(tr('Fondo desenfocado si el video no llena el cuadro'), self._var_fondo, self._cambio_fondo, tam=14, color='#FFFFFF'))
+        capa.addWidget(t4)
+        # ---- ritmo: quitar pausas (jump cuts) y zoom alterno
+        t5 = self._tarjeta(tr('Ritmo: quitar pausas'), tr('GO corta los silencios del video en Resolve (los tramos con voz quedan pegados) ANTES de poner los captions, que ya salen con los tiempos nuevos. Solo en el video que sueltas en Inicio: nunca toca un timeline tuyo.'))
+        _niv = (('no', tr('No')), ('suave', tr('Pocas pausas')), ('normal', tr('Normal')), ('fuerte', tr('Todas')))
+        filap, cp = caja_h(espacio=10)
+        cp.addWidget(Etiqueta(tr('Quitar pausas'), 13, color=TEXT_MUTED))
+        self._v_pausas = StringVar(self._texto_cuanto(op.get('fx_pausas'), _niv))
+        cp.addWidget(Segmentado([t for _k, t in _niv], self._v_pausas, self._cambio_ritmo, alto=32, tam=13))
+        cp.addStretch(1)
+        t5.capa.addWidget(filap)
+        _niv2 = (('no', tr('No')), ('suave', tr('Suave')), ('normal', tr('Normal')), ('fuerte', tr('Fuerte')))
+        filas, cs = caja_h(espacio=10)
+        cs.addWidget(Etiqueta(tr('Zoom alterno en cada corte'), 13, color=TEXT_MUTED))
+        self._v_saltos = StringVar(self._texto_cuanto(op.get('fx_zoom_saltos'), _niv2))
+        cs.addWidget(Segmentado([t for _k, t in _niv2], self._v_saltos, self._cambio_ritmo, alto=32, tam=13))
+        cs.addStretch(1)
+        t5.capa.addWidget(filas)
+        capa.addWidget(t5)
         # ---- iconos
         self._iconos = set(op.get('fx_iconos') or [])
         t3 = self._tarjeta(tr('Iconos flotantes'), tr('Salen iconos animados cuando se dice una palabra que tú eliges (haz clic en un pack para escribirlas) y, si quieres, también en las frases importantes: un número, un aviso, una pregunta o el gancho.'))
@@ -309,6 +425,13 @@ class PaginaEfectos(QWidget):
         for ident, c in self._c_iconos.items():
             c.poner_seleccionada(ident in self._iconos)
         self._aplicar_iconos_on()
+        # ---- más efectos (plegados tras un botón: números, pegatinas, énfasis, ambiente, cierre y mis efectos)
+        from efectos_extra_ui import SeccionExtras
+        self._mas = SeccionExtras()
+        self._mas.setVisible(False)
+        self._b_mas = Boton(tr('Más efectos'), self._alternar_mas, alto=42, tam=14)
+        capa.addWidget(self._b_mas)
+        capa.addWidget(self._mas)
         capa.addStretch(1)
         self._reloj = QTimer(self)
         self._reloj.timeout.connect(self._tic)
@@ -370,6 +493,32 @@ class PaginaEfectos(QWidget):
             self._cortes = ident
             _guardar({'fx_cortes': ident})
             self._pintar_unico(self._c_cortes, ident)
+
+    def _abrir_vista_previa(self):
+        if self._dialogo is not None and ui.vivo(self._dialogo):
+            self._dialogo.close()
+        self._dialogo = DialogoVistaPrevia(self.window())
+        self._dialogo.show()
+
+    def _alternar_mas(self):
+        self._mas.setVisible(not self._mas.isVisible())
+        self._b_mas.setText(tr('Menos efectos') if self._mas.isVisible() else tr('Más efectos'))
+
+    def _cambio_intensidad(self, _v=None):
+        clave = {tr('Suave'): 'suave', tr('Normal'): 'normal', tr('Fuerte'): 'fuerte'}.get(self._v_intens.get(), 'normal')
+        _guardar({'fx_intensidad': clave})
+
+    def _cambio_movimiento(self, _v=None):
+        mapa = {tr('No'): 'no', tr('Suave'): 'suave', tr('Normal'): 'normal', tr('Fuerte'): 'fuerte'}
+        _guardar({'fx_zoom': mapa.get(self._v_zoom.get(), 'no'), 'fx_temblor': mapa.get(self._v_temblor.get(), 'no')})
+
+    def _cambio_ritmo(self, _v=None):
+        p = {tr('No'): 'no', tr('Pocas pausas'): 'suave', tr('Normal'): 'normal', tr('Todas'): 'fuerte'}
+        s = {tr('No'): 'no', tr('Suave'): 'suave', tr('Normal'): 'normal', tr('Fuerte'): 'fuerte'}
+        _guardar({'fx_pausas': p.get(self._v_pausas.get(), 'no'), 'fx_zoom_saltos': s.get(self._v_saltos.get(), 'no')})
+
+    def _cambio_fondo(self):
+        _guardar({'fx_fondo': bool(self._var_fondo.get())})
 
     def _cambio_cortes(self, _v=None):
         clave = {tr('Pocos'): 'pocos', tr('Normales'): 'normal', tr('Todos'): 'todos'}.get(self._v_cortes.get(), 'pocos')

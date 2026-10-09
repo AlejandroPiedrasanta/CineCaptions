@@ -16,18 +16,31 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         Ajustes: panel rápido y ventana completa (General, Interfaz, Atajos, Acerca de, Ayuda) + notas de la versión.
     archivos_seguros.py
         escritura atómica de JSON/texto (preferencias, marcas, proyectos): un corte o dos hilos ya no dejan archivos a medias.
+    avisos_sistema.py
     banco_pruebas.py
         banco de pruebas: timeline temporal con fondo liso + audio, render en Resolve y comparación cuadro a cuadro con un video de referencia.
+    bpm.py
+        detección de BPM y de los golpes de pulso de una música (v5.4.8), solo con numpy.
     brillo_ui.py
         barridos de luz y ondas al pulsar para todos los botones.
+    broll.py
+        B-roll de bancos de stock (Pexels) en las palabras que nombran cosas concretas (v5.4.8).
+    cache_voz.py
+        caché de transcripciones: el mismo video con el mismo motor e idioma no se vuelve a transcribir.
     CineCaptions (script principal).py
         el programa: ventana principal (Inicio/GO, Proyecto, Editor, SFX Lab), editor de palabras, licencia, generar y colocar en Resolve, main().
+    cola_trabajos.py
+        cola de trabajos de FONDO: máximo 2 a la vez y se apartan mientras GO trabaja.
     composicion.py
         Composición de los bloques dinámicos: layouts (alineación de contexto/complemento) y desplazamientos.
     copias.py
         copias de seguridad de ~/DaVinciSubtitles (crear y restaurar un .zip).
     crea_estilo_ui.py
         «Crea tu estilo»: la galería de 48 ejemplos (con su vista real de Resolve) para armar un pack en un clic y el popup que explica la estructura de nombres.
+    cuda_libs.py
+        las librerías CUDA que necesita Whisper en la GPU: detectarlas, registrarlas y repararlas.
+    descargas.py
+        descargas grandes que se reanudan y se verifican (SHA-256).
     ducking.py
         baja la música sola mientras hay voz (ducking), calculado desde las palabras de la transcripción.
     dynamic_subtitles.py
@@ -36,6 +49,10 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         «Editar en Resolve»: abre un pack de «Pack de estilos» como timeline para modificarlo y exportarlo de nuevo.
     editor_ui.py
         piezas del editor Creativo: barra de herramientas, tarjeta del párrafo, palabras por línea, play y el panel de avance de Asistencia/Generar.
+    efectos_extra.py
+        más efectos para la página «Efectos» (v5.4.8): números 1-2-3, pegatinas, subrayados, overlays continuos, efectos propios y cierre (outro).
+    efectos_extra_ui.py
+        la sección «Más efectos» de la página Efectos: números, pegatinas, énfasis, ambiente, mis efectos y el cierre (outro).
     efectos_pagina.py
         la página «Efectos»: elegir la intro (con su sonido), las transiciones de los cortes y los iconos flotantes (y en qué palabras salen).
     efectos_ui.py
@@ -68,6 +85,7 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         el carrusel horizontal de «Pack de estilos»: tarjetas verticales sobre fotos de video con los captions de Resolve encima.
     fuentes_sistema.py
         encuentra en el disco el archivo .ttf/.otf de una familia y estilo.
+    fusion_v1.py
     guion_captions.py
         estilo «guion»: la frase se arma palabra a palabra (cada palabra, su pista, su estilo, su sitio y su momento).
     guion_editor.py
@@ -104,6 +122,8 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         vista aproximada (Pillow) de un bloque del estilo «Kinetic»: la pila ya armada, dibujada sin pasar por Resolve.
     licencia.py
         la licencia (Lemon Squeezy / Gumroad): activar, verificar, desactivar, estado firmado, 7 días sin internet.
+    mantenimiento.py
+        límite y limpieza automática de las cachés del programa (secuencias, vistas, voz, emojis…).
     mapa_codigo.py
         consulta el código y la documentación POR TEMA sin leer archivos enteros (mapa, símbolo, módulo, cambios); lo usan el MCP y la línea de comandos.
     mcp_cinecaptions.py
@@ -114,18 +134,25 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         Motion Graphics de la interfaz: entrada de tarjetas con marcas, título cinético, traza de luz, formas ambiente y HUD de Inicio.
     motor_voz.py
         motor de voz e IA Qwen3 en su propio Python 3.12: instalar, detectar y transcribir.
+    musica_go.py
+        música de fondo automática para GO (v5.4.8): elige, alinea al pulso, nivela y baja sola cuando se habla.
+    novedades_visuales.py
     orbe_mecanica.py
         el botón GO como un astrolabio mecánico: anillo de runas, engranaje de bronce, filigrana y gema de esmeralda.
     ortografia.py
         revisión ortográfica del editor (marca y propone, nunca corrige solo).
     packs_drt.py
         lee los packs .drt/.drb SIN abrir Resolve (sets, formatos, tipografías).
+    pausas.py
+        «Quitar pausas» (jump cuts en los silencios) para GO (v5.4.8).
     plantillas.py
         packs de estilos: leer, guardar, elegir y preparar el pack que se aplica.
     preparar_efectos.py
         herramienta de desarrollo: convierte las imágenes de iconos sobre fondo blanco en SPRITES con transparencia (uno por icono).
     probar_efectos.py
         prueba de punta a punta de la página «Efectos»: suelta un video en la app sin pantalla (GO real con los efectos visuales ENCENDIDOS), Resolve renderiza y se saca una hoja de cuadros.
+    probar_fusion_v1.py
+        prueba en Resolve del movimiento sobre el video (fusion_v1.py): zoom lento, temblor, transiciones y fondo desenfocado.
     probar_go.py
         pulsa GO de la app SIN pantalla sobre un archivo y un pack, y deja los bloques en el timeline actual de Resolve (el banco zz_BANCO).
     probar_kinetic.py
@@ -150,6 +177,8 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         Regulador del ritmo de las animaciones: si la interfaz va justa (GO usando CPU/GPU, equipo modesto) baja los fotogramas del fondo y de la esfera para que los clics respondan; los sube al aliviarse.
     salud.py
         chequeo de librerías al arrancar (versiones fijadas, motor de IA, MCP).
+    sentimiento.py
+        si una frase suena positiva o negativa (listas de palabras, sin modelos), para el sonido de los emojis (v5.4.8).
     sfx_audio.py
         audio del SFX Lab: cargar, cambiar tono y velocidad, reproducir.
     sfx_editor.py
@@ -160,6 +189,8 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         la pantalla SFX Lab (biblioteca, pad XY, marcadores por color, reemplazar).
     sidecar_lua.py
         escribe <archivo>.lua junto a cada .json (canal de lectura para Resolve Free 21.1).
+    sonidos_extra.py
+        los sonidos extra de GO (v5.4.8): música de fondo, sonidos de transición en los cortes, riser + golpe + silencio en el gancho.
     subtitle_transcriber.py
         transcripción con Whisper, traducción con Argos y escritura de .srt / manifiestos.
     sugerencias_ia.py
@@ -180,6 +211,8 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         la versión del programa (APP_VERSION) y el autor, en un solo sitio.
     vigilancia.py
         guardián de tareas largas (GO, Generar): detecta atascos, destraba motores, chequeos periódicos y arranque atascado.
+    vista_previa_fx.py
+        la vista previa de 3 segundos de la página «Efectos» (v5.4.8): TODO lo que está encendido, sobre fotos de muestra, sin abrir Resolve.
     vistas_guia.py
         las vistas REALES (renderizadas por Resolve) de los ejemplos de «Crea tu estilo»: se piden, se reducen y se guardan en caché.
     vistas_reales.py

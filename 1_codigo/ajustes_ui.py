@@ -484,6 +484,15 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.4.8', [
+        'Efectos con movimiento en la página «Efectos»: zoom lento, temblor con los golpes de sonido, transiciones nuevas en los cortes (zoom desenfocado, barrido y glitch RGB) y fondo desenfocado cuando el video no llena el cuadro. Se aplican con Fusion al propio video, así que tu corrección de color sigue valiendo. Hay una intensidad general y una vista previa de 3 segundos.',
+        '«Más efectos» (plegado en la página Efectos): números 1, 2, 3 cuando enumeras, pegatinas en palabras clave, subrayado o círculo dibujado a mano, polvo, grano o luz suave, tus propios efectos (MOV, MP4, PNG, GIF o WebP) y un cierre con tu logo y su sonido. Esquivan los captions y la cara.',
+        'Quitar pausas: GO recorta los silencios del video que sueltas en Inicio antes de poner los captions (que ya salen con los tiempos nuevos) y puede alternar un zoom en cada corte.',
+        'Sonido extra: un sonido en cada transición, riser y golpe antes de la palabra clave del gancho, música de fondo que baja sola cuando hablas (con detección de BPM para alinear su pulso), volumen de los sonidos igualado y sonido de los emojis según la frase.',
+        'B-roll opcional: tomas de apoyo gratuitas de Pexels en las palabras concretas (casa, playa, coche…), debajo de los captions. Necesita tu clave de API gratuita.',
+        'GO se puede pausar, cancelar y reanudar; si el programa se cierra a mitad, te ofrece seguir donde se quedó. Dice el idioma que oyó y te deja corregirlo, y te avisa con una notificación del sistema al terminar. El cuadro de Novedades ahora enseña clips en movimiento.',
+        'Más rápido y robusto: reutiliza la transcripción de un video ya hecho, usa tu tarjeta gráfica para la voz (se repara desde Ajustes), avisa si Resolve se quedó colgado y las descargas se reanudan si se cortan.',
+    ]),
     ('5.4.7', [
         'Nueva página «Efectos» (viene activada): intro con sonido —sube el riser y, cuando llega al final, el destello cubre la imagen; puedes cambiar o silenciar el sonido—, transiciones que esconden cada corte entre tomas e iconos flotantes animados con desenfoque. Se colocan solos al hacer GO, junto a los captions, la música y los emojis, en pistas propias «FX» de Resolve Studio (tu video y tus captions no se tocan).',
         'Iconos flotantes a tu gusto: apágalos o deja solo los packs que quieras y, al hacer clic en un pack, escribe en qué palabras sale. También pueden salir en las frases importantes (un número, un aviso, una pregunta, el gancho).',
@@ -799,6 +808,13 @@ class DialogoNotasVersion(ui.Dialogo):
         v = QVBoxLayout(cont)
         v.setContentsMargins(0, 4, 8, 4)
         v.setSpacing(12)
+        try:                                                  # v5.4.8: lo nuevo se VE: clips cortos en bucle de las versiones que se muestran
+            import novedades_visuales
+            tira = novedades_visuales.tira(novedades_visuales.clips_de([s[0] for s in secciones if s[0]]))
+            if tira is not None:
+                v.addWidget(tira)
+        except Exception:
+            pass
         for version, lineas in secciones:
             caja = QFrame()
             caja.setObjectName('notaVersion')
@@ -1619,6 +1635,7 @@ class VentanaAjustes(_Panel):
                               canal_beta=False,
                               actualizaciones_auto=prefs.get('actualizaciones_auto', True) is not False,
                               ventana_encima=bool(prefs.get('ventana_encima')),
+                              avisos_sistema=prefs.get('avisos_sistema', True) is not False,
                               go_estilo=str(prefs.get('go_estilo') or 'astrolabio'))
         self._inicial = dict(self._borrador)
         self._idioma_inicial = self._idioma_actual()
@@ -1708,6 +1725,27 @@ class VentanaAjustes(_Panel):
                            'Para los demás idiomas, o si no está instalado, se usa Whisper large-v3-turbo.'),
                         caja_motor, 340)
         self._pintar_motor()
+        # GPU para la voz (v5.4.8)
+        caja_gpu, cg = caja_v(espacio=10)
+        self.gpu_estado = TextoAjustable(tr('Comprobando la GPU…'), 13, ancho=340)
+        cg.addWidget(self.gpu_estado)
+        self.gpu_btn = Boton(tr('Reparar GPU'), self._reparar_gpu, tipo='neutro', alto=42, tam=14)
+        self.gpu_btn.hide()
+        cg.addWidget(self.gpu_btn)
+        f_gpu = _Fila(tr('GPU para la voz'),
+                      tr('Whisper usa tu tarjeta NVIDIA si encuentra las librerías de CUDA; si faltan, la voz se transcribe en la CPU (mucho más lenta). «Reparar GPU» usa las que ya trae el motor Qwen o descarga las oficiales de NVIDIA (≈1,3 GB).'),
+                      caja_gpu, 340)
+        self._pintar_gpu()
+        # espacio de las cachés (v5.4.8)
+        caja_cache, cch = caja_v(espacio=10)
+        self.cache_texto = TextoAjustable(tr('Calculando…'), 13, ancho=340)
+        cch.addWidget(self.cache_texto)
+        self.cache_btn = Boton(tr('Limpiar ahora'), self._limpiar_caches, tipo='neutro', alto=42, tam=14)
+        cch.addWidget(self.cache_btn)
+        f_cache = _Fila(tr('Espacio de las cachés'),
+                        tr('Efectos animados, emojis, vistas de los packs y transcripciones se guardan para no rehacerlos. Cada una tiene un tope y se borra sola lo menos usado; «Limpiar ahora» aplica los topes ya. Todo se vuelve a crear cuando hace falta.'),
+                        caja_cache, 340)
+        self._pintar_cache()
         # conexion con Resolve
         caja_con, cc = caja_v(espacio=10)
         fila_con, cfc = caja_h(espacio=10)
@@ -1732,6 +1770,10 @@ class VentanaAjustes(_Panel):
         f_encima = _Fila(tr('Mantener CineCaptions encima'),
                          tr('La ventana queda por delante de Resolve (también con el alfiler del menú lateral).'),
                          Interruptor('', var=encima_var, comando=lambda: self._cambio('ventana_encima', bool(encima_var.get()))))
+        avisos_var = BooleanVar(self._borrador['avisos_sistema'])
+        f_avisos = _Fila(tr('Avisarme al terminar'),
+                         tr('Cuando GO termina y CineCaptions no está al frente (estás en Resolve u otro programa), sale un aviso del sistema.'),
+                         Interruptor('', var=avisos_var, comando=lambda: self._cambio('avisos_sistema', bool(avisos_var.get()))))
         # copias
         caja_cop, cco = caja_v(espacio=10)
         self.copias_texto = Etiqueta('', 13, color=ui.TEXT_MUTED)
@@ -1746,7 +1788,7 @@ class VentanaAjustes(_Panel):
                          'packs de estilos, en Documentos > CineCaptions > Copias de seguridad.'), caja_cop, 340,
                       ultima=True)
         self._pintar_copias()
-        capa.addWidget(_grupo(f_motor, f_con, f_encima, f_cop))
+        capa.addWidget(_grupo(f_motor, f_gpu, f_cache, f_con, f_encima, f_avisos, f_cop))
 
     def _pintar_motor(self):
         import motor_voz
@@ -1761,6 +1803,100 @@ class VentanaAjustes(_Panel):
         else:
             self.motor_estado.configure(text=tr('No instalado (descarga de 4 a 15 GB): mientras tanto se usa Whisper.'),
                                         text_color=ui.AMBAR)
+
+    def _pintar_cache(self):
+        def trabajo():
+            import mantenimiento
+            return mantenimiento.resumen()
+
+        def fin(r, error):
+            if not ui.vivo(self.cache_texto) or error is not None or not r:
+                return
+            filas, total = r
+            mayores = sorted(filas, key=lambda f: -f[1])[:3]
+            self.cache_texto.configure(text=tr('{t} MB en total · ', t=f'{total:,.0f}'.replace(',', '.')) + ' · '.join(f'{n}: {mb:,.0f} MB'.replace(',', '.') for n, mb, _t in mayores if mb >= 1),
+                                       text_color=ui.TEXT_MUTED)
+        correr_en_hilo(self.app, trabajo, fin)
+
+    def _limpiar_caches(self):
+        self.cache_btn.setEnabled(False)
+
+        def trabajo():
+            import mantenimiento
+            return mantenimiento.limpiar_todo()
+
+        def fin(r, error):
+            if not ui.vivo(self.cache_btn):
+                return
+            self.cache_btn.setEnabled(True)
+            if error is None and r:
+                self.cache_texto.configure(text=tr('Liberados {mb} MB.', mb=f'{r[0]:,.0f}'.replace(',', '.')), text_color=ui.VERDE)
+                ui.despues(2500, self._pintar_cache, self)
+        correr_en_hilo(self.app, trabajo, fin)
+
+    def _pintar_gpu(self):
+        def trabajo():
+            import cuda_libs
+            return cuda_libs.diagnostico()
+
+        def fin(d, error):
+            if not ui.vivo(self.gpu_estado):
+                return
+            if error is not None or not d:
+                self.gpu_estado.configure(text=tr('No pude comprobar la GPU.'), text_color=ui.AMBAR)
+                return
+            import cuda_libs
+            texto = cuda_libs.texto_diagnostico(d)
+            if d['estado'] == 'ok':
+                self.gpu_estado.configure(text=texto, text_color=ui.VERDE)
+                self.gpu_btn.hide()
+            elif d['estado'] == 'faltan':
+                self.gpu_estado.configure(text=texto, text_color=ui.AMBAR)
+                self.gpu_btn.show()
+            else:
+                self.gpu_estado.configure(text=texto, text_color=ui.TEXT_MUTED)
+                self.gpu_btn.hide()
+        correr_en_hilo(self.app, trabajo, fin)
+
+    def _reparar_gpu(self):
+        import cuda_libs
+        self.gpu_btn.setEnabled(False)
+
+        def progreso(texto):
+            ejecutar_en_ui(lambda: self.gpu_estado.configure(text=str(texto), text_color=ui.ACCENT_CLARO) if ui.vivo(self.gpu_estado) else None)
+
+        def trabajo():
+            ok, msg = cuda_libs.reparar(aviso=progreso, permitir_descarga=False)
+            return ok, msg, False
+
+        def fin(r, error):
+            if not ui.vivo(self.gpu_btn):
+                return
+            self.gpu_btn.setEnabled(True)
+            if error is None and r and r[0]:
+                self._pintar_gpu()
+                return
+            # sin copia local: se ofrece la descarga oficial (≈1 GB)
+            if not messagebox.askyesno(tr('Reparar GPU'), tr('No encuentro las librerías de CUDA en el equipo. ¿Descargo las oficiales de NVIDIA (cuBLAS y cuDNN, ≈1,3 GB desde PyPI)? Se puede reanudar si se corta.'), parent=self.app):
+                self._pintar_gpu()
+                return
+            self.gpu_btn.setEnabled(False)
+
+            def trabajo2():
+                return cuda_libs.reparar(aviso=progreso, permitir_descarga=True)
+
+            def fin2(r2, e2):
+                if not ui.vivo(self.gpu_btn):
+                    return
+                self.gpu_btn.setEnabled(True)
+                if e2 is not None:
+                    self.gpu_estado.configure(text=tr('No se pudo reparar: {e}', e=str(e2)[:160]), text_color=ui.ROJO)
+                else:
+                    self.gpu_estado.configure(text=str(r2[1])[:200], text_color=ui.VERDE if r2[0] else ui.AMBAR)
+                    if r2[0]:
+                        self.gpu_btn.hide()
+            correr_en_hilo(self.app, trabajo2, fin2)
+        correr_en_hilo(self.app, trabajo, fin)
 
     def _instalar_motor(self):
         if not messagebox.askyesno(tr('Motor de voz Qwen3-ASR'),
@@ -2165,7 +2301,7 @@ class VentanaAjustes(_Panel):
         b = self._borrador
         guardar_prefs({'tema': b['tema'], 'acento': b['acento'], 'acento_personal': b['acento_personal'],
                        'tamano_interfaz': b['tamano'], 'lateral_inicio': b['lateral'], 'motor_voz': b['motor_voz'],
-                       'canal_beta': False, 'actualizaciones_auto': b.get('actualizaciones_auto', True), 'ventana_encima': b['ventana_encima'], 'go_estilo': b['go_estilo']})
+                       'canal_beta': False, 'actualizaciones_auto': b.get('actualizaciones_auto', True), 'ventana_encima': b['ventana_encima'], 'avisos_sistema': b['avisos_sistema'], 'go_estilo': b['go_estilo']})
         reiniciar = any(b.get(k) != self._inicial.get(k) for k in ('tema', 'acento', 'acento_personal', 'tamano'))
         if b.get('idioma_ui') != self._inicial.get('idioma_ui'):
             try:

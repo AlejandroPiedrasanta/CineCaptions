@@ -66,6 +66,34 @@ def hacer_corte(ident, salida):
     _poster(mp4, salida / f'corte_{ident}.jpg', 0.6)
 
 
+def _fotograma(k):
+    from PIL import Image
+    f = Image.open(_foto(k)).convert('RGB')
+    esc = max(ANCHO / f.width, ALTO / f.height)
+    f = f.resize((int(f.width * esc + 1), int(f.height * esc + 1)), Image.Resampling.LANCZOS)
+    return f.crop(((f.width - ANCHO) // 2, (f.height - ALTO) // 2, (f.width - ANCHO) // 2 + ANCHO, (f.height - ALTO) // 2 + ALTO))
+
+
+from vista_previa_fx import efecto_v1 as _efecto_v1                         # la misma aproximación en numpy que usa la vista previa de 3 s
+
+
+def hacer_corte_v1(ident, salida):
+    """Transición que mueve el video (zoom desenfocado, barrido, glitch): dos fotos con el corte a mitad y el efecto aplicado alrededor del corte."""
+    import numpy as np
+    A, B = np.asarray(_fotograma(1)), np.asarray(_fotograma(2))
+    fps, total, corte, medio = 30, 69, 24, 5
+    mp4 = salida / f'corte_{ident}.mp4'
+    proc = subprocess.Popen([_ffmpeg(), '-hide_banner', '-loglevel', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{ANCHO}x{ALTO}', '-r', str(fps), '-i', '-', '-an',
+                             '-c:v', 'libx264', '-preset', 'slow', '-crf', '24', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', str(mp4)], stdin=subprocess.PIPE)
+    for f in range(total):
+        base = A if f < corte else B
+        u = max(0.0, 1.0 - abs(f - corte) / medio)
+        proc.stdin.write(np.ascontiguousarray(_efecto_v1(ident, base, u, f < corte) if u > 0 else base).tobytes())
+    proc.stdin.close()
+    proc.wait()
+    _poster(mp4, salida / f'corte_{ident}.jpg', corte / fps)
+
+
 def hacer_iconos(pack, salida, k):
     from PIL import Image
     import numpy as np
@@ -93,7 +121,7 @@ if __name__ == '__main__':
     for ident, _n, _d in F.INTROS:
         hacer_intro(ident, salida)
     for ident, _n, _d in F.TRANSICIONES:
-        hacer_corte(ident, salida)
+        (hacer_corte_v1 if ident in F.TRANSICIONES_V1 else hacer_corte)(ident, salida)
     for k, (pack, _n, _d) in enumerate(F.PACKS_ICONOS):
         hacer_iconos(pack, salida, k)
     print('previas listas en', salida, [p.name for p in sorted(salida.iterdir())])

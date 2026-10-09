@@ -625,6 +625,13 @@ def transcribir(media_path, codigo_idioma, progress_callback=None, model_loaded_
 # instalar (paso del instalador y Ajustes > General)
 # ---------------------------------------------------------------------------
 def _bajar(url, destino, progreso=None):
+    """v5.4.8: descarga reanudable con reintentos (descargas.py); si el módulo no está, la de siempre."""
+    try:
+        import descargas
+        descargas.descargar(url, destino, progreso=progreso)
+        return
+    except ImportError:
+        pass
     try:
         import certifi
         import ssl

@@ -60,6 +60,45 @@ def curva_de_ganancia(intervalos, duracion, db_baja=DB_BAJA, adelanto=ADELANTO_S
     return curva
 
 
+def curva_fina(palabras, duracion, hoyos=None, db_base=-10.0):
+    """v5.4.8 (S1/S2): un ducking más fino que el de siempre. La música baja MÁS cuanto más rápido se habla (-8 dB con una frase suelta, hasta -14 dB con 3+ palabras por segundo),
+    una palabra suelta casi no la toca, sube deprisa en las pausas largas (> 1,2 s) y despacio en las cortas, y en los `hoyos` [(t0, t1)] —el «silencio» antes del golpe de una frase
+    clave— cae casi a cero. Devuelve la ganancia (1.0 = sin tocar) cada 1/PASO s."""
+    n = int(np.ceil(max(0.0, duracion) * PASO)) + 2
+    objetivo = np.ones(n, dtype=np.float64)
+    suelta = np.full(n, RELAJACION_S)                 # constante de relajación en cada instante (la mira el filtro cuando la ganancia sube)
+    ivs = intervalos_de_voz(palabras, union=0.45)
+    toks = sorted(float(p.get('start') or 0.0) for p in palabras if str(p.get('word', p.get('texto', ''))).strip())
+    for k, (a, b) in enumerate(ivs):
+        dur = max(0.2, b - a)
+        n_pal = sum(1 for t in toks if a - 1e-6 <= t <= b + 1e-6)
+        ritmo = n_pal / dur
+        if dur < 0.8 and n_pal <= 2:
+            prof = db_base + 5.0
+        else:
+            prof = db_base - 4.0 * min(1.0, max(0.0, (ritmo - 1.5) / 2.0)) + 2.0
+        i = max(0, int((a - ADELANTO_S) * PASO))
+        j = min(n, int(np.ceil(b * PASO)) + 1)
+        if j > i:
+            objetivo[i:j] = np.minimum(objetivo[i:j], 10 ** (prof / 20.0))
+        pausa = (ivs[k + 1][0] - b) if k + 1 < len(ivs) else 9.0
+        if j < n:
+            suelta[j:min(n, j + int(PASO * 1.0))] = 0.30 if pausa > 1.2 else 0.75
+    for t0, t1 in hoyos or []:
+        i, j = max(0, int(float(t0) * PASO)), min(n, int(np.ceil(float(t1) * PASO)) + 1)
+        if j > i:
+            objetivo[i:j] = 10 ** (-40.0 / 20.0)
+    ga = 1.0 - np.exp(-1.0 / (PASO * 0.06))
+    curva = np.empty(n, dtype=np.float64)
+    actual = 1.0
+    for k in range(n):
+        t = objetivo[k]
+        gr = 1.0 - np.exp(-1.0 / (PASO * max(0.05, suelta[k])))
+        actual += (t - actual) * (ga if t < actual else gr)
+        curva[k] = actual
+    return curva
+
+
 def _cargar_estereo(ruta):
     """(audio float32 [n, 2], tasa) de cualquier archivo que PyAV o wave sepan abrir."""
     try:

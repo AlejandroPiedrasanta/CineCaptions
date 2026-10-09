@@ -35,6 +35,11 @@ def register_cuda_dlls():
     from pathlib import Path
     if sys.platform != 'win32':
         return
+    try:                                   # v5.4.8: cuBLAS/cuDNN del motor Qwen (torch\lib), de los paquetes nvidia o de la carpeta propia (Reparar GPU)
+        import cuda_libs
+        cuda_libs.registrar()
+    except Exception:
+        pass
     else:
         if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
             try:
@@ -57,15 +62,28 @@ def register_cuda_dlls():
 # v5.3 (bug de siempre): si CUDA falla en la primera transcripcion (faltan las DLL de cuBLAS...) se cae a CPU, pero un segundo
 # intento con CUDA en el MISMO proceso se CUELGA para siempre dentro de ctranslate2. Se recuerda el fallo y no se vuelve a intentar.
 _CUDA_FALLO = {'v': False}
+def _tipo_cuda():
+    """El compute_type de Whisper en la GPU según su memoria (float16 con ≥ 6 GB, int8_float16 con 3-6 GB): la mitad de VRAM y casi la misma precisión."""
+    try:
+        import cuda_libs
+        return cuda_libs.tipo_de_calculo() or 'float16'
+    except Exception:
+        return 'float16'
 def _hay_cuda_usable():
     """True si ctranslate2 ve al menos una GPU CUDA.\n\n    Se PREGUNTA en vez de probar. Antes se cargaba el modelo en CUDA \"a ver\n    si suena\", y en una maquina sin GPU eso costaba una carga entera del\n    modelo para nada antes de caer a CPU.\n\n    Que devuelva >0 NO garantiza que la inferencia vaya a funcionar: puede\n    haber GPU y driver pero faltar las DLL de CUDA 12 (es el caso que\n    reventaba). Por eso el reintento en CPU de transcribe() sigue siendo\n    necesario; esto solo evita el intento inutil.\n    """
     if _CUDA_FALLO['v']:
         return False
     try:
         import ctranslate2
-        return ctranslate2.get_cuda_device_count() > 0
+        if ctranslate2.get_cuda_device_count() <= 0:
+            return False
     except Exception:
         return False
+    try:                                   # v5.4.8: con menos de 3 GB de VRAM el modelo no cabe: directo a la CPU (sin cargarlo para nada)
+        import cuda_libs
+        return cuda_libs.tipo_de_calculo() is not None
+    except Exception:
+        return True
 def _es_error_de_memoria(exc) -> bool:
     """True si la excepcion huele a \'me quede sin RAM\'.\n\n    v1.0.65 (caso real del usuario: generar con Resolve + Chrome abiertos):\n    el fallo de memoria de ctranslate2/MKL llega como **RuntimeError**\n    (\"mkl_malloc: failed to allocate memory\"), no como MemoryError, asi\n    que el tipo solo no alcanza — se mira tambien el texto. Los\n    marcadores cubren MKL, el allocator de C++ y los mensajes tipicos\n    de CUDA/SO.\n    """
     if isinstance(exc, MemoryError):
@@ -195,7 +213,7 @@ def precargar_whisper(model_size):
         try:
             register_cuda_dlls()
             if _hay_cuda_usable():
-                _modelo_whisper(model_size, 'cuda', 'float16')
+                _modelo_whisper(model_size, 'cuda', _tipo_cuda())
         except Exception:
             pass
     _threading.Thread(target=trabajo, daemon=True, name='whisper-precarga').start()
@@ -343,14 +361,14 @@ def transcribe(media_path: str, source_lang: str, model_size: str, progress_call
 
     if _hay_cuda_usable():
         try:
-            return _transcribir_con('cuda', 'float16')
+            return _transcribir_con('cuda', _tipo_cuda())
         except Exception as e:
             _CUDA_FALLO['v'] = True
             liberar_whisper()
             print(f'CUDA falló durante la transcripción ({e}). Repito en CPU...')
             _al_registro('aviso', f'La GPU (CUDA) falló en la transcripción: {str(e)[:200]}. Cambio automáticamente a la CPU (más lenta).', 'voz')
             if status_callback:
-                status_callback(tr('La GPU falló; sigo con la CPU (más lento)…'))
+                status_callback(tr('La GPU falló; sigo con la CPU (más lento). Se arregla en Ajustes › General › Reparar GPU.'))
             if progress_callback:
                 progress_callback(0.0)
 

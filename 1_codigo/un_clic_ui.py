@@ -705,6 +705,23 @@ class SalidaGo(QWidget):
         self.setFixedHeight(max(0, int(46 * float(v))))
 
 
+_PERFIL = {'v': None}
+
+
+def perfil_del_equipo():
+    """v5.4.8: «motor de voz + dónde corre» (p. ej. 'whisper-gpu', 'qwen3-cpu'): los pasos tardan MUY distinto en cada perfil (la voz en GPU es ~3× más rápida), así que el
+    ritmo aprendido se guarda por perfil y un cambio de motor o de GPU no desajusta el tiempo que sale bajo el porcentaje. Se calcula una vez por sesión."""
+    if _PERFIL['v'] is None:
+        try:
+            import ajustes_ui
+            import cuda_libs
+            motor = str(ajustes_ui.leer_prefs().get('motor_voz') or 'qwen3')
+            _PERFIL['v'] = f"{motor}-{'gpu' if cuda_libs.diagnostico()['estado'] == 'ok' else 'cpu'}"
+        except Exception:
+            _PERFIL['v'] = 'general'
+    return _PERFIL['v']
+
+
 class EstimadorGo:
     """Cuánto falta en GO. Cada paso tiene una duración esperada (base + lo que cuesta por minuto de video, escalada por lo que tardó en las últimas veces en
     ESTE equipo: se aprende y se guarda en las preferencias, «go_ritmo»). Con eso el porcentaje avanza con el reloj dentro de cada paso (no se queda quieto
@@ -717,9 +734,12 @@ class EstimadorGo:
         import time as _t
         self._time = _t
         self.factor = {k: 1.0 for k in self.ORDEN}
+        self.efectos = False
+        self.perfil = perfil_del_equipo()
         try:
             import ajustes_ui
-            guardado = ajustes_ui.leer_prefs().get('go_ritmo') or {}
+            prefs = ajustes_ui.leer_prefs()
+            guardado = (prefs.get('go_ritmo_perfiles') or {}).get(self.perfil) or prefs.get('go_ritmo') or {}
             for k in self.ORDEN:
                 v = float(guardado.get(k, 1.0))
                 if 0.2 <= v <= 6.0:
@@ -747,8 +767,13 @@ class EstimadorGo:
         except (TypeError, ValueError):
             pass
 
+    def poner_efectos(self, activos):
+        """Con los efectos visuales encendidos, colocar en Resolve cuesta más (secuencias, intro, transiciones, iconos)."""
+        self.efectos = bool(activos)
+
     def _base(self, k):
-        return self.BASE[k] + self.POR_MIN[k] * self.minutos
+        extra = (10.0 + 1.5 * self.minutos) if (k == 'resolve' and self.efectos) else 0.0
+        return self.BASE[k] + self.POR_MIN[k] * self.minutos + extra
 
     def esperado(self, k):
         if k in self.saltados:
@@ -836,7 +861,9 @@ class EstimadorGo:
                 razon = real / max(1.0, self._base(k))
                 nuevo[k] = round(max(0.2, min(6.0, 0.6 * self.factor[k] + 0.4 * razon)), 3)
             import ajustes_ui
-            ajustes_ui.guardar_prefs({'go_ritmo': nuevo})
+            perfiles = dict(ajustes_ui.leer_prefs().get('go_ritmo_perfiles') or {})
+            perfiles[self.perfil] = nuevo
+            ajustes_ui.guardar_prefs({'go_ritmo': nuevo, 'go_ritmo_perfiles': perfiles})
             self.factor = nuevo
         except Exception:
             pass
@@ -886,6 +913,9 @@ class PanelGo(QWidget):
         c.addSpacing(8)
         self.al_ver_resolve = None              # las pone la app: «Ver en Resolve» y «Editar palabras»
         self.al_editar = None
+        self.al_pausar = None                   # v5.4.8: «Pausar» y «Cancelar» mientras GO trabaja (los pone la app)
+        self.al_cancelar = None
+        self._b_pausa = None
         self._inicio_t = 0.0
         self._ficha = 0                         # para cancelar los temporizadores del final si empieza otro GO
         self._texto_reposo = ''
@@ -990,12 +1020,53 @@ class PanelGo(QWidget):
         self.opciones.hide()
         self.linea.poner_color('#D3E0F5')           # se lee aunque la esfera brille detrás
         self.pasos.entrar()
+        botones = []
+        if self.al_pausar:
+            botones.append((tr('Pausar'), self.al_pausar, 'neutro'))
+        if self.al_cancelar:
+            botones.append((tr('Cancelar'), self.al_cancelar, 'fantasma'))
+        self.salida.configurar(botones)
+        self._b_pausa = self.salida.capa.itemAt(0).widget() if (botones and self.al_pausar) else None
+        if botones:
+            self.salida.mostrar()
+            self._reserva_final = 52
         self._poner_reserva(len(self.PASOS) * self.ALTO_ETIQUETAS + 14)
         if self.escena is not None:
             self.escena.empezar()
         self._relayout()
 
+    def poner_pausa(self, en_pausa):
+        """«Pausar» ↔ «Reanudar» (y el título lo dice)."""
+        if self._b_pausa is not None and ui.vivo(self._b_pausa):
+            self._b_pausa.setText(tr('Reanudar') if en_pausa else tr('Pausar'))
+        if self.boton.estado == 'trabajando':
+            self.titulo.configure(text=tr('En pausa') if en_pausa else tr('Trabajando…'))
+
+    def cancelado(self, texto):
+        """El usuario canceló GO: sin alarma (no es un error), con «Reanudar»: lo ya hecho (la voz, en la caché) se conserva."""
+        import time as _t
+        self._reloj_eta.stop()
+        self._ficha += 1
+        self._t_fin = _t.time()
+        self.paso_fallido = None
+        if self.escena is not None:
+            self.escena.reposo()
+        self.boton.poner_estado('listo')
+        self.titulo.configure(text=tr('GO cancelado'))
+        self.linea.poner_color(ui.TEXT_MUTED)
+        self.linea.configure(text=texto)
+        self.opciones.show()
+        self.resumen.hide()
+        self.salida.configurar([(tr('Reanudar'), self._pulsado, 'primario')])
+        self.salida.mostrar()
+        self._reserva_final = 52
+        self._relayout()
+
     def paso(self, clave, estado='activo', detalle=None):
+        if clave == 'resolve' and estado == 'activo' and self._reserva_final:   # colocando en Resolve ya no se puede parar: fuera «Pausar / Cancelar»
+            self.salida.ocultar()
+            self._reserva_final = 0
+            self._relayout()
         self.pasos.marcar(clave, estado, detalle)
         self.estimador.paso(clave, estado)
         if self.escena is not None:

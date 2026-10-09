@@ -294,8 +294,14 @@ def restablecer_todos():
     ajustes_ui.guardar_prefs({PREF_SONIDOS: {}})
 
 
-def sonido_de(eid, propios=None, grupo=None):
-    """(ruta, origen) del sonido de UN emoji. origen: 'tuyo' (lo eligió el usuario), 'silencio' (lo apagó) o 'original' (el de su familia)."""
+FAMILIAS_GENERICAS = {'pop_a', 'pop_b', 'pop_c', 'pop_d', 'ding', 'tick', 'swish'}      # las que no dicen nada del emoji: aquí el contexto decide
+FAMILIA_POSITIVA, FAMILIA_NEGATIVA = 'acierto', 'error'
+
+
+def sonido_de(eid, propios=None, grupo=None, contexto=0):
+    """(ruta, origen) del sonido de UN emoji. origen: 'tuyo' (lo eligió el usuario), 'silencio' (lo apagó) o 'original' (el de su familia).
+    v5.4.8: `contexto` > 0 (la frase suena positiva) o < 0 (negativa): un emoji con sonido GENÉRICO (un pop, un tick…) suena «acierto» o «error» según la frase;
+    los que tienen sonido propio (fuego, dinero, risa…) no cambian y lo que eligió el usuario manda siempre."""
     elegido = (asignados() if propios is None else propios).get(str(eid))
     if elegido == '':
         return None, 'silencio'
@@ -304,7 +310,21 @@ def sonido_de(eid, propios=None, grupo=None):
         ruta = p if (p.is_absolute() and p.is_file()) else ruta_de(elegido)       # un archivo suyo o el nombre de una familia
         if ruta is not None:
             return ruta, 'tuyo'
-    return ruta_de(familia_de(eid, grupo)), 'original'
+    fam = familia_de(eid, grupo)
+    if contexto and fam in FAMILIAS_GENERICAS:
+        alterna = ruta_de(FAMILIA_POSITIVA if contexto > 0 else FAMILIA_NEGATIVA)
+        if alterna is not None:
+            return alterna, 'original'
+    return ruta_de(fam), 'original'
+
+
+def contexto_activo():
+    """Interruptor «Sonido según el contexto»: por defecto encendido."""
+    try:
+        datos = json.loads((sfx_rules.CARPETA_USUARIO / 'preferencias.json').read_text(encoding='utf-8'))
+        return datos.get('sfx_emoji_contexto', True) is not False
+    except Exception:
+        return True
 
 
 def activo():
@@ -341,8 +361,16 @@ def agregar_eventos(bloques, pista_sfx=None):
     n = 0
     ultimo_t = None
     propios = asignados()
+    con_contexto = contexto_activo()
     for b in sorted((x for x in bloques if x.get('emoji')), key=lambda x: float(x.get('start') or 0)):
-        ruta = sonido_de(b['emoji'], propios)[0]            # el que eligió el usuario para ese emoji o el de su familia (None = silencio)
+        ctx = 0
+        if con_contexto:
+            try:
+                import sentimiento
+                ctx = sentimiento.valencia(sfx_rules._texto_del_bloque(b))
+            except Exception:
+                ctx = 0
+        ruta = sonido_de(b['emoji'], propios, contexto=ctx)[0]            # el que eligió el usuario para ese emoji o el de su familia (None = silencio)
         if ruta is None:
             continue
         t = _inicio_de_linea(b)

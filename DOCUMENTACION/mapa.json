@@ -1541,6 +1541,271 @@
     "_buscar_cortes_en_paralelo"
    ],
    "resumen": "efectos_visuales.py (núcleo) + efectos_pagina.py (página) + 2_recursos/efectos (sprites, clips, previas, colocar_efectos.py que corre DENTRO de Resolve); chip «Visuales» de Inicio"
+  },
+  {
+   "id": "go-control",
+   "grupo": "go",
+   "tema": "GO: pausar, cancelar, reanudar, idioma oído, aviso del sistema y novedades con imagen",
+   "claves": [
+    "go",
+    "pausar",
+    "cancelar",
+    "reanudar",
+    "interrumpido",
+    "idioma",
+    "detectado",
+    "aviso",
+    "notificacion",
+    "novedades",
+    "clips"
+   ],
+   "archivos": [
+    "un_clic_ui.py",
+    "avisos_sistema.py",
+    "novedades_visuales.py",
+    "ajustes_ui.py"
+   ],
+   "simbolos": [
+    "_go_pausar",
+    "_go_cancelar",
+    "_punto_control_go",
+    "_go_cancelado",
+    "_ofrecer_reanudar_go",
+    "_marcar_go_en_curso",
+    "_texto_chip_idioma",
+    "_cambiar_idioma_go",
+    "poner_pausa",
+    "cancelado",
+    "avisar",
+    "clips_de",
+    "ClipNovedad",
+    "perfil_del_equipo"
+   ],
+   "resumen": "Pausar/Cancelar (puntos de control en el hilo), go_en_curso.json (reanudar tras un cierre), chip Idioma, avisos_sistema.avisar, novedades_visuales (clips en bucle)"
+  },
+  {
+   "id": "rendimiento-base",
+   "grupo": "ui",
+   "tema": "Rendimiento y robustez: caché de voz, GPU (CUDA), descargas, cola de fondo, Resolve colgado",
+   "claves": [
+    "rendimiento",
+    "cache",
+    "voz",
+    "gpu",
+    "cuda",
+    "descargas",
+    "cola",
+    "colgado",
+    "mantenimiento",
+    "fuentes"
+   ],
+   "archivos": [
+    "cache_voz.py",
+    "cuda_libs.py",
+    "descargas.py",
+    "mantenimiento.py",
+    "cola_trabajos.py",
+    "resolve_bridge.py",
+    "resolve_mcp.py"
+   ],
+   "simbolos": [
+    "leer",
+    "guardar",
+    "tipo_de_calculo",
+    "diagnostico",
+    "reparar",
+    "bajar",
+    "lanzar_bajo",
+    "registrar_alta",
+    "resolve_colgado",
+    "espera_tras_fallo",
+    "indice_listo"
+   ],
+   "resumen": "cache_voz (no se transcribe dos veces), cuda_libs (Whisper en GPU), descargas (reanudables + SHA-256), cola_trabajos (lo de fondo cede ante GO), resolve_colgado"
+  },
+  {
+   "id": "efectos-movimiento",
+   "grupo": "efectos",
+   "tema": "Movimiento sobre el video con Fusion (zoom lento, temblor, zoom-blur/whip/glitch, fondo desenfocado, zoom alterno)",
+   "claves": [
+    "fusion",
+    "movimiento",
+    "zoom",
+    "temblor",
+    "shake",
+    "glitch",
+    "whip",
+    "zoom_blur",
+    "fondo",
+    "desenfocado",
+    "comp",
+    "saltos"
+   ],
+   "archivos": [
+    "fusion_v1.py",
+    "efectos_visuales.py",
+    "2_recursos/efectos/colocar_efectos.py",
+    "probar_fusion_v1.py"
+   ],
+   "simbolos": [
+    "texto_comp",
+    "escribir_comp",
+    "comps_de_v1",
+    "golpes_de_bloques",
+    "completar_golpes",
+    "_poner_movimiento",
+    "nivel_de",
+    "desplazar"
+   ],
+   "resumen": "fusion_v1.texto_comp arma una comp .comp (expresiones Lua en fotogramas) que Resolve importa en el clip de V1: antes del color, sin duplicar el video"
+  },
+  {
+   "id": "efectos-extra",
+   "grupo": "efectos",
+   "tema": "Más efectos: números, pegatinas, énfasis, ambiente, mis efectos, cierre, zonas protegidas y vista previa de 3 s",
+   "claves": [
+    "numeros",
+    "pegatinas",
+    "enfasis",
+    "subrayado",
+    "circulo",
+    "overlay",
+    "ambiente",
+    "propios",
+    "outro",
+    "cierre",
+    "vista previa",
+    "zonas",
+    "cara",
+    "webp",
+    "gif"
+   ],
+   "archivos": [
+    "efectos_extra.py",
+    "efectos_extra_ui.py",
+    "vista_previa_fx.py",
+    "efectos_pagina.py",
+    "efectos_visuales.py",
+    "2_recursos/efectos/colocar_efectos.py"
+   ],
+   "simbolos": [
+    "planificar_extra",
+    "preparar",
+    "detectar_numeros",
+    "secuencia_numero",
+    "secuencia_pegatina",
+    "secuencia_enfasis",
+    "clip_overlay",
+    "preparar_propio",
+    "secuencia_outro",
+    "zonas_a_evitar",
+    "detectar_cara",
+    "renderizar",
+    "SeccionExtras",
+    "DialogoPropio",
+    "DialogoPegatinas"
+   ],
+   "resumen": "efectos_extra genera clips (Pillow + PyAV) en pistas FX; efectos_extra_ui = sección plegada «Más efectos»; vista_previa_fx = mp4 de 3 s con todo lo encendido"
+  },
+  {
+   "id": "quitar-pausas",
+   "grupo": "efectos",
+   "tema": "Quitar pausas (jump cuts en los silencios) y zoom alterno en cada corte seco",
+   "claves": [
+    "pausas",
+    "silencios",
+    "jump",
+    "cuts",
+    "recortar",
+    "saltos",
+    "ritmo"
+   ],
+   "archivos": [
+    "pausas.py",
+    "CineCaptions (script principal).py",
+    "fusion_v1.py"
+   ],
+   "simbolos": [
+    "calcular",
+    "mapear",
+    "remapear_palabras",
+    "remapear_cortes",
+    "recortar_en_resolve",
+    "_recortar_pausas"
+   ],
+   "resumen": "pausas.calcular da los tramos que se quedan; recortar_en_resolve rehace V1/A1 del timeline de GO; las palabras pasan a los tiempos nuevos antes de los captions"
+  },
+  {
+   "id": "broll",
+   "grupo": "efectos",
+   "tema": "B-roll de bancos de stock (Pexels) en palabras concretas, debajo de los captions",
+   "claves": [
+    "broll",
+    "pexels",
+    "stock",
+    "tomas",
+    "apoyo",
+    "api"
+   ],
+   "archivos": [
+    "broll.py",
+    "efectos_visuales.py",
+    "resolve_mcp.py",
+    "2_recursos/efectos/colocar_efectos.py"
+   ],
+   "simbolos": [
+    "elegir_momentos",
+    "buscar",
+    "preparar",
+    "crear_timeline_con_video"
+   ],
+   "resumen": "broll.preparar busca y descarga con la clave del usuario; la pista FX-BROLL se reserva (vacía y bloqueada) al armar el timeline para quedar debajo de los captions"
+  },
+  {
+   "id": "sonido-extra",
+   "grupo": "sonido",
+   "tema": "Sonido extra: música de fondo con ducking fino y BPM, sonidos de corte y de gancho, normalización, emojis por contexto",
+   "claves": [
+    "musica",
+    "fondo",
+    "ducking",
+    "bpm",
+    "pulso",
+    "riser",
+    "gancho",
+    "golpe",
+    "normalizar",
+    "lufs",
+    "emoji",
+    "contexto",
+    "sentimiento"
+   ],
+   "archivos": [
+    "musica_go.py",
+    "sonidos_extra.py",
+    "bpm.py",
+    "ducking.py",
+    "sentimiento.py",
+    "sfx_rules.py",
+    "emojis_sfx.py",
+    "efectos_extra_ui.py"
+   ],
+   "simbolos": [
+    "preparar",
+    "elegir",
+    "planificar",
+    "detectar",
+    "desplazamiento_para",
+    "acercar_al_pulso",
+    "curva_fina",
+    "valencia",
+    "ganancia_de_normalizado_db",
+    "nivel_de_audio",
+    "palabra_del_gancho",
+    "sonidos_del_gancho",
+    "sonidos_de_cortes"
+   ],
+   "resumen": "musica_go hornea la música (bucle, nivel, ducking fino, hueco antes del golpe) alineada al pulso; sonidos_extra planifica los sonidos de corte y de gancho"
   }
  ]
 }

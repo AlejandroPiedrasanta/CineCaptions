@@ -13,6 +13,7 @@ nunca avanza y GO se queda esperando. No toca las preferencias del usuario: el p
 """
 import faulthandler
 import importlib.util
+import json
 import os
 import sys
 import time
@@ -43,7 +44,8 @@ def main():
         ajustes_ui.leer_prefs = lambda: {**real(), 'plantilla': pack, 'go_pack': pack}        # (el chip «Estilo» del usuario, 'go_pack', mandaría sobre 'plantilla')
     if os.environ.get('CINECAPTIONS_FX'):                                                  # prueba de los efectos visuales (página Efectos): se enciende solo en memoria
         _leer_antes = ajustes_ui.leer_prefs
-        ajustes_ui.leer_prefs = lambda: {**_leer_antes(), 'go_efectos_visuales': True}
+        _extra = json.loads(os.environ.get('CINECAPTIONS_FX_OPC') or '{}')                  # p. ej. {"fx_zoom": "normal", "fx_cortes": "glitch"}: opciones sueltas solo en memoria
+        ajustes_ui.leer_prefs = lambda: {**_leer_antes(), 'go_efectos_visuales': True, **_extra}
     ajustes_ui.guardar_prefs = lambda *a, **k: None                                       # NUNCA escribe las preferencias del usuario
     import qt_kit
     dialogos = []

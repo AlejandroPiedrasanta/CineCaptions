@@ -57,6 +57,13 @@ def main(media, pack='Referencia', timeout=900):
             return
         render = b.renderizar('efectos_prueba', tope_s=timeout)
         print('render:', render, flush=True)
+        try:
+            import av as _av
+            _c = _av.open(render)
+            print('duración del render: %.2f s' % (float(_c.duration) / 1e6), flush=True)
+            _c.close()
+        except Exception:
+            pass
         ok_a, audio, _e = resolve_mcp.script(AUDIO_CODIGO, timeout=30)
         print('pistas de audio:', audio, flush=True)
         import subprocess as _sp, re as _re
@@ -68,14 +75,25 @@ def main(media, pack='Referencia', timeout=900):
             print(f'volumen {ss}-{ss + t}s · fuente {_vol(media, ss, t)} dB · render {_vol(render, ss, t)} dB', flush=True)
         plan = json.loads((Path.home() / 'DaVinciSubtitles' / 'efectos_plan.json').read_text(encoding='utf-8'))
         instantes = []
+        vistos = {}
         for e in plan['eventos']:
+            vistos[e['tipo']] = vistos.get(e['tipo'], 0) + 1
+            if vistos[e['tipo']] > 3:                                  # unos pocos de cada tipo (un overlay continuo tiene decenas)
+                continue
             if e['tipo'] == 'intro':
                 instantes += [0.1, 0.3]
             elif e['tipo'] == 'corte':
                 instantes += [e['ini'] - 0.2, e['ini'], e['ini'] + 0.2]
             else:
                 instantes += [e['ini'] + 0.35, e['ini'] + 1.6]
-        hoja = b.hoja(render, instantes[:24], Path.home() / 'DaVinciSubtitles' / 'banco' / 'hoja_efectos.png', columnas=6, recorte=(0.0, 1.0))
+        mov = plan.get('movimiento') or {}
+        for t in (mov.get('golpes') or [])[:3]:
+            instantes += [t - 0.1, t + 0.04, t + 0.15]
+        for t in (mov.get('cortes') or [])[:3]:
+            instantes += [t - 0.1, t, t + 0.1]
+        for t in (mov.get('saltos') or [])[:4]:
+            instantes += [t - 0.1, t + 0.1]
+        hoja = b.hoja(render, instantes[:36], Path.home() / 'DaVinciSubtitles' / 'banco' / 'hoja_efectos.png', columnas=6, recorte=(0.0, 1.0))
         print('hoja:', hoja, flush=True)
     finally:
         ok, limpieza, err = resolve_mcp.script(m._LIMPIAR_ARRASTRE % {'stem': stem, 'previo_p': previo.get('proyecto'), 'previo_tl': previo.get('timeline'),
