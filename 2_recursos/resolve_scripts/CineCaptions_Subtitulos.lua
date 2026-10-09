@@ -42,7 +42,7 @@ function frames_de_audio(item, fps)
     return 0
 end
 
-local VERSION = "5.4.13 (subtitulos)"
+local VERSION = "5.4.14 (subtitulos)"
 
 -- La ENTREGA del Puente (v1.0.43): el resolve validado llega como
 -- argumento del chunk, porque las globales del Puente NO cruzan el
@@ -359,6 +359,41 @@ local function guardar_resultado(ok, mensaje)
                      table.concat(_salida, "\n"))
     escribir_archivo(carpeta .. sep .. "ultimo_resultado.json",
                      json_resultado(ok, mensaje))
+end
+
+-- v5.5 — lo ultimo que hace el script: deja Resolve como el usuario lo quiere VER (gemelo de vista_final de CineCaptions.py). El manifiesto trae
+-- "vista" = {pagina, preset, al_inicio}: la pagina (Edit), su disposicion de pantalla guardada (resolve:LoadLayoutPreset: vertical y vista expandida, la que el
+-- usuario guardo una vez) y el cabezal al principio del timeline (la app pulsa luego «reproducir»). Nunca falla: cada cosa que no se puede deja una linea clara.
+local function vista_final(timeline, manifest, solo_pagina)
+    local v = type(manifest) == "table" and manifest.vista or nil
+    if type(v) ~= "table" then return end
+    if v.pagina then
+        local ok = pcall(function() resolve:OpenPage(tostring(v.pagina)) end)
+        if not ok then print("  Aviso: no pude abrir la pagina «" .. tostring(v.pagina) .. "» de Resolve.") end
+    end
+    if solo_pagina then return end
+    local preset = tostring(v.preset or "")
+    if preset ~= "" then
+        local ok, msg = pcall(function()
+            local lista = resolve:GetLayoutPresetList() or {}
+            local esta = false
+            for _, nombre in pairs(lista) do if nombre == preset then esta = true end end
+            if esta then
+                if resolve:LoadLayoutPreset(preset) then
+                    print("  Vista de Resolve: aplique tu disposicion «" .. preset .. "».")
+                else
+                    print("  Aviso: Resolve no aplico la disposicion «" .. preset .. "».")
+                end
+            else
+                print("  Aviso: no tienes guardada la disposicion de pantalla «" .. preset .. "» (Area de trabajo > Presets de diseno > Guardar como nuevo, o el boton «Guardar la vista actual de Resolve» de CineCaptions).")
+            end
+        end)
+        if not ok then print("  Aviso: no pude aplicar la disposicion de pantalla (" .. tostring(msg) .. ").") end
+    end
+    if v.al_inicio ~= false then
+        local ok = pcall(function() timeline:SetCurrentTimecode(timeline:GetStartTimecode()) end)
+        if not ok then print("  Aviso: no pude llevar el cabezal al inicio del timeline.") end
+    end
 end
 
 -- Lo ultimo del registro, recortado, para el reporte que viaja por el
@@ -7290,17 +7325,22 @@ local function main()
         resumen = resumen .. string.format(" y %d efectos", total_efectos)
     end
     resumen = resumen .. "  ·  v" .. (VERSION:match("^[%d%.]+") or VERSION)
-    return resumen
+    -- v5.5: la disposicion de pantalla y el cabezal al inicio (gemelo de vista_final de CineCaptions.py)
+    vista_final(timeline, manifest, (total_lineas or 0) == 0)
+    return resumen, total_lineas
 end
 
 -- En caso de exito, 'err' trae lo que devolvio main(): el resumen con los
 -- numeros reales. La app lo muestra en vez de dar por hecho lo que paso.
-local ok, err = pcall(main)
+local ok, err, lineas_colocadas = pcall(main)
 if not ok then
     print("[Subtitulos] termino con error: " .. tostring(err))
     -- fail() ya dejo su motivo; esto cubre los errores inesperados. Escribir
     -- dos veces no molesta: gana el ultimo, que es igual de valido.
     guardar_resultado(false, tostring(err))
+elseif (lineas_colocadas or 0) <= 0 then
+    -- v5.5: «Listo» con CERO lineas era mentirle al usuario (la app decia ¡Listo! y en Resolve no aparecia nada): se guarda como FALLO y la app lo cuenta asi
+    guardar_resultado(false, "No se coloco ninguna linea (mira el registro de la corrida: el motivo esta unas lineas mas arriba)  ·  v" .. (VERSION:match("^[%d%.]+") or VERSION))
 else
     guardar_resultado(true, type(err) == "string" and err or "")
 end

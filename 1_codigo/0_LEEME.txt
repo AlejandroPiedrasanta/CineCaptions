@@ -31,6 +31,8 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         el programa: ventana principal (Inicio/GO, Proyecto, Editor, SFX Lab), editor de palabras, licencia, generar y colocar en Resolve, main().
     cola_trabajos.py
         cola de trabajos de FONDO: máximo 2 a la vez y se apartan mientras GO trabaja.
+    colocacion.py
+        qué edición de Resolve hay (Free / Studio), si lo colocado en el timeline es REAL, por qué falló en lenguaje claro, cómo repararlo solo y cómo dejar la vista.
     composicion.py
         Composición de los bloques dinámicos: layouts (alineación de contexto/complemento) y desplazamientos.
     copias.py

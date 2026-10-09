@@ -1187,13 +1187,15 @@ class PanelGo(QWidget):
         """Pasado un rato del final: el orbe vuelve solo al reposo (la palomita se desvanece mientras reaparece la gema)."""
         if ficha != self._ficha or not ui.vivo(self) or self.boton.estado != 'hecho':
             return
-        self.reposo(self._texto_reposo or tr('Pulsa GO para otro.'), forzar=True)
+        self.reposo(self._texto_reposo or tr('Pulsa GO para otro.'), forzar=True, tono=getattr(self, '_tono_reposo', None))
 
-    def reposo(self, texto, listo=True, forzar=False):
+    def reposo(self, texto, listo=True, forzar=False, tono=None):
+        """tono: None (gris), 'ok' (verde), 'aviso' (ámbar) o 'error' (rojo): el color de la línea (v5.5: dice qué Resolve hay y si puede trabajar)."""
         if self.boton.estado in ('trabajando',):
             return
         self._reloj_eta.stop()
         self._texto_reposo = texto
+        self._tono_reposo = tono
         import time as _t
         # el refresco periódico de la app no debe borrar el final (contadores, botones) nada más aparecer
         if not forzar and self.boton.estado in ('hecho', 'error') and _t.time() - getattr(self, '_t_fin', 0.0) < (14.0 if self.boton.estado == 'hecho' else 45.0):
@@ -1205,7 +1207,7 @@ class PanelGo(QWidget):
         if self.escena is not None:
             self.escena.reposo()
         self.boton.poner_estado('listo' if listo else 'apagado')
-        self.linea.poner_color(ui.TEXT_MUTED)
+        self.linea.poner_color({'ok': ui.VERDE, 'aviso': ui.AMBAR, 'error': ui.ROJO}.get(tono, ui.TEXT_MUTED))
         self.titulo.configure(text=tr('Un clic y listo'))
         self.linea.configure(text=texto)
         self.opciones.show()

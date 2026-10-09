@@ -46,7 +46,7 @@ TEMPLATE_CLIP_NAME = "Subtitle Template"
 # coincide con la del programa (ver version.py). Se estampa en
 # ultimo_resultado.json: hasta la v1.0.28 este archivo no tenia version
 # ninguna y no habia forma de saber que build habia colocado los subtitulos.
-VERSION = "5.4.13 (subtitulos)"
+VERSION = "5.4.14 (subtitulos)"
 
 # Donde se escribe el resultado para que la app lo lea. Hasta la v1.0.26 este
 # script no escribia nada aca -a diferencia del de Importar Estilos, que si
@@ -390,6 +390,41 @@ def guardar_resultado(ok, mensaje):
         }, ensure_ascii=False), encoding="utf-8")
     except OSError as exc:
         print(f"  Aviso: no pude guardar el resultado para la app ({exc}).")
+
+
+def vista_final(timeline, manifest, solo_pagina=False):
+    """v5.5 — lo último que hace el script cuando termina: deja Resolve como el usuario lo quiere VER. El manifiesto trae «vista» = {'pagina': 'edit', 'preset': 'CineCaptions
+    vertical', 'al_inicio': True}: la página (Edit), su disposición de pantalla guardada (resolve.LoadLayoutPreset: vertical y vista expandida, la que el usuario guardó una vez) y el
+    cabezal al principio del timeline (la app pulsa luego «reproducir»). Nunca falla; cada cosa que no se puede se anota con una línea clara. Gemelo de vista_final del .lua."""
+    v = (manifest or {}).get("vista") if isinstance(manifest, dict) else None
+    if not isinstance(v, dict):
+        return
+    try:
+        if v.get("pagina"):
+            resolve.OpenPage(str(v["pagina"]))
+    except Exception as exc:
+        print(f"  Aviso: no pude abrir la página «{v.get('pagina')}» de Resolve ({type(exc).__name__}).")
+    if solo_pagina:
+        return
+    preset = str(v.get("preset") or "").strip()
+    if preset:
+        try:
+            lista = resolve.GetLayoutPresetList() or []
+            if preset in lista:
+                if resolve.LoadLayoutPreset(preset):
+                    print(f"  Vista de Resolve: apliqué tu disposición «{preset}».")
+                else:
+                    print(f"  Aviso: Resolve no aplicó la disposición «{preset}».")
+            else:
+                print(f"  Aviso: no tienes guardada la disposición de pantalla «{preset}» (Área de trabajo > Presets de diseño > Guardar como nuevo, "
+                      "o el botón «Guardar la vista actual de Resolve» de CineCaptions).")
+        except Exception as exc:
+            print(f"  Aviso: no pude aplicar la disposición de pantalla ({type(exc).__name__}: {exc}).")
+    if v.get("al_inicio", True):
+        try:
+            timeline.SetCurrentTimecode(timeline.GetStartTimecode())
+        except Exception as exc:
+            print(f"  Aviso: no pude llevar el cabezal al inicio del timeline ({type(exc).__name__}).")
 
 
 def a_fotogramas(segundos, fps):
@@ -3507,6 +3542,7 @@ def _adelanto_de(track_info):
 # tempranos); esta señal dice si ALGO llego al timeline, para que el
 # epilogo no diga "Listo" con cero lineas.
 _ALGO_COLOCADO = [False]
+_TOTAL = [0]          # v5.5: cuántas líneas / palabras / clips se colocaron en total (lo que el resultado le dice a la app: «Listo» sólo si > 0)
 
 
 def place_guion_track(timeline, media_pool, track_info, base_template,
@@ -3707,6 +3743,7 @@ def place_guion_track(timeline, media_pool, track_info, base_template,
         print(f"  Aviso: {sin_pista} palabra(s) no se colocaron (sin pista o sin clip para ese rol).")
     if colocados:
         _ALGO_COLOCADO[0] = True
+        _TOTAL[0] += colocados
 
 
 def preparar_pack_kinetic(media_pool, nombre_pack, formato, ruta_drb, clip_prueba=None):
@@ -3946,6 +3983,7 @@ def place_kinetic_track(timeline, media_pool, track_info, base_template,
         print(f"  Aviso: {sin_pista} elemento(s) no se colocaron (sin pista).")
     if colocados:
         _ALGO_COLOCADO[0] = True
+        _TOTAL[0] += colocados
 
 
 def place_dynamic_track(timeline, media_pool, track_info, base_template,
@@ -5017,6 +5055,7 @@ def place_dynamic_track(timeline, media_pool, track_info, base_template,
 
     if colocados:
         _ALGO_COLOCADO[0] = True
+        _TOTAL[0] += colocados
     print(f"  Colocadas {colocados} líneas en las pistas "
           f"{lang.upper()}-CTX / -MAIN / -CMP.")
     print("  Las líneas van apareciendo una tras otra, siguiendo el audio.")
@@ -6021,6 +6060,7 @@ def place_destacados_track(timeline, media_pool, track_info, base_template,
 
     if colocados:
         _ALGO_COLOCADO[0] = True
+        _TOTAL[0] += colocados
     print(f"  Colocados {colocados} clips en modo destacados ({look}).")
     if con_fundido:
         print(f"  Fundido de salida en {con_fundido} de {con_hold}.")
@@ -6985,6 +7025,7 @@ def main():
 
         if placed:
             _ALGO_COLOCADO[0] = True
+            _TOTAL[0] += placed
         print(f"  Colocados {placed}/{len(cues)} bloques en la pista '{lang.upper()}'.")
         informe_transformaciones()
         if bajados:
@@ -7006,15 +7047,15 @@ def main():
         # ultimo_resultado.*, y la app le enseñaba al usuario el FALLO de
         # dias atras como si fuera el de hoy (paso en el Mac del cliente
         # con uno del 25/08 leido el 31/08). El gemelo Lua siempre lo hizo.
-        guardar_resultado(True, "Los subtítulos quedaron colocados · v"
-                          + VERSION)
+        vista_final(timeline, manifest)          # antes de guardar: sus líneas (y avisos) tienen que quedar en ultimo_resultado.txt
+        guardar_resultado(True, f"{_TOTAL[0]} líneas colocadas · v" + VERSION)
     else:
         # Decir "Listo" con cero lineas era mentirle al registro.
         print("\nNO se colocó ninguna línea. El motivo está unas líneas más "
-              "arriba; el arreglo más común es el paso que pide el aviso "
-              "(arrastrar los clips del pack al Media Pool UNA vez).")
+              "arriba (las que empiezan por «Aviso»).")
+        vista_final(timeline, manifest, solo_pagina=True)
         guardar_resultado(False, "No se colocó ninguna línea (mira el "
-                          "registro: el paso pendiente está ahí) · v"
+                          "registro: el motivo está en los avisos) · v"
                           + VERSION)
 
 

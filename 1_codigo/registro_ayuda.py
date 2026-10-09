@@ -18,6 +18,9 @@ Ayuda = namedtuple('Ayuda', 'titulo que pasos impacto tecnica')
 
 # (patrón sobre «origen | mensaje | detalle», título, qué pasó, pasos, impacto)
 _REGLAS = [
+    # v5.5: «el script de Resolve corrió pero NO colocó nada» (colocacion.CAUSAS): GO deja la marca [causa:clave] en el detalle del error
+    (r'\[causa:' + clave + r'\]', titulo, que, pasos, 'bloquea') for _p, clave, titulo, que, pasos, _r in __import__('colocacion').CAUSAS
+] + [
     (r'InvalidDataError|Invalid data found|moov atom not found|no es un (video|audio|archivo)|Error opening input',
      'El archivo no se puede leer como video o audio',
      'El archivo está dañado, incompleto (una descarga cortada) o no es de verdad un video/audio aunque se llame así.',

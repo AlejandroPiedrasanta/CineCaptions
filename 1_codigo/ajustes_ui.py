@@ -484,6 +484,12 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.4.14', [
+        'GO ya no dice «¡Listo!» si en Resolve no apareció nada: cuenta las líneas que Resolve colocó de verdad. Si no colocó ninguna, intenta repararlo solo (abrir el timeline, volver a Edit) y lo reintenta una vez; si sigue igual, te dice la causa en palabras claras y qué probar, y el Registro lo explica igual.',
+        'Inicio dice qué DaVinci Resolve detectó (Studio o Free) y por dónde se conecta, o si está cerrado / falta lanzar el Puente, antes de seguir con el proceso.',
+        'Al terminar GO, Resolve queda en la página Edit con tu disposición de pantalla guardada (Ajustes > «Guardar la vista actual de Resolve»: ponla vertical y expandida una vez), el cabezal al inicio y reproduce el timeline desde el principio. Todo se puede apagar en Ajustes.',
+        'Un video soltado arma siempre un timeline vertical (1080×1920), sea cual sea su orientación; se apaga en Ajustes con «Abrir siempre en vertical».',
+    ]),
     ('5.4.13', [
         'Sonido por palabra: ahora alterna tres sonidos (TAP_POP, typewriter e Iphone Taping) y eliges en qué palabras suena: en cada una, solo en la principal (con un sonido propio por efecto: cristal, selección, arrastre, héroe) o en ninguna. Cada sonido empieza un poco antes de su pico para que el golpe caiga justo cuando entra la palabra.',
         'Intro: el «Viral Hooks Riser» (sus últimos 2 s, hasta su pico) con el destello de luz y un golpe de zoom justo en ese pico (página Efectos). Las transiciones «destello» suenan como el obturador de una cámara (Shuter 11 y 13).',
@@ -1791,6 +1797,24 @@ class VentanaAjustes(_Panel):
         f_avisos = _Fila(tr('Avisarme al terminar'),
                          tr('Cuando GO termina y CineCaptions no está al frente (estás en Resolve u otro programa), sale un aviso del sistema.'),
                          Interruptor('', var=avisos_var, comando=lambda: self._cambio('avisos_sistema', bool(avisos_var.get()))))
+        # v5.5: lo que pasa en Resolve cuando GO termina
+        repro_var = BooleanVar(leer_prefs().get('go_reproducir', True) is not False)
+        f_repro = _Fila(tr('Reproducir al terminar'),
+                        tr('Cuando GO termina, Resolve se pone al frente y reproduce el timeline desde el principio para que veas el resultado.'),
+                        Interruptor('', var=repro_var, comando=lambda: guardar_prefs({'go_reproducir': bool(repro_var.get())})))
+        vert_var = BooleanVar(leer_prefs().get('go_vertical', True) is not False)
+        f_vert = _Fila(tr('Abrir siempre en vertical'),
+                       tr('Cada proyecto y timeline que CineCaptions arma para un video queda en vertical (1080×1920), sea cómo sea el video. Apágalo para que respete su orientación.'),
+                       Interruptor('', var=vert_var, comando=lambda: guardar_prefs({'go_vertical': bool(vert_var.get())})))
+        vista_var = BooleanVar(leer_prefs().get('go_vista_resolve', True) is not False)
+        caja_vista, cvi = caja_v(espacio=8)
+        cvi.addWidget(Interruptor('', var=vista_var, comando=lambda: guardar_prefs({'go_vista_resolve': bool(vista_var.get())})), 0, Qt.AlignmentFlag.AlignRight)
+        self.vista_texto = Etiqueta('', 12, color=ui.TEXT_MUTED, envolver=True)
+        cvi.addWidget(self.vista_texto)
+        cvi.addWidget(Boton(tr('Guardar la vista actual de Resolve'), self._guardar_vista_resolve, tipo='neutro', alto=42, tam=14))
+        f_vista = _Fila(tr('Vista de Resolve al terminar'),
+                        tr('Deja Resolve en la página Edit con TU disposición de pantalla (vertical y con la vista expandida). Ponla como la quieres en Resolve y pulsa «Guardar la vista actual»: '
+                           'desde entonces GO la aplica cada vez que termina.'), caja_vista, 340)
         # copias
         caja_cop, cco = caja_v(espacio=10)
         self.copias_texto = Etiqueta('', 13, color=ui.TEXT_MUTED)
@@ -1805,7 +1829,7 @@ class VentanaAjustes(_Panel):
                          'packs de estilos, en Documentos > CineCaptions > Copias de seguridad.'), caja_cop, 340,
                       ultima=True)
         self._pintar_copias()
-        capa.addWidget(_grupo(f_motor, f_gpu, f_cache, f_con, f_encima, f_avisos, f_cop))
+        capa.addWidget(_grupo(f_motor, f_gpu, f_cache, f_con, f_encima, f_avisos, f_repro, f_vert, f_vista, f_cop))
 
     def _pintar_motor(self):
         import motor_voz
@@ -1941,6 +1965,22 @@ class VentanaAjustes(_Panel):
                 except Exception:
                     pass
         correr_en_hilo(self.app, lambda: motor_voz.instalar(progreso=progreso), fin)
+
+    def _guardar_vista_resolve(self):
+        """Guarda la disposición de pantalla actual de Resolve como la de CineCaptions (en un hilo: habla con Resolve)."""
+        self.vista_texto.configure(text=tr('Guardando…'))
+
+        def trabajo():
+            import colocacion
+            return colocacion.guardar_vista_actual()
+
+        def fin(r, error):
+            if not ui.vivo(self.vista_texto):
+                return
+            ok, texto = r if r else (False, str(error))
+            self.vista_texto.poner_color(ui.VERDE if ok else ui.AMBAR)
+            self.vista_texto.configure(text=texto)
+        correr_en_hilo(self.app, trabajo, fin)
 
     def _comprobar_conexion(self):
         self.con_punto.poner(ui.TEXT_MUTED)

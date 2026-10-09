@@ -1,23 +1,23 @@
 {
     "estable":  {
-                    "version":  "5.4.8",
-                    "notas":  "• Efectos con movimiento en la página «Efectos»: zoom lento, temblor con los golpes de sonido, transiciones nuevas en los cortes (zoom desenfocado, barrido y glitch RGB) y fondo desenfocado cuando el video no llena el cuadro. Se aplican con Fusion al propio video, así que tu corrección de color sigue valiendo. Hay una intensidad general y una vista previa de 3 segundos.\r\n• «Más efectos» (plegado en la página Efectos): números 1, 2, 3 cuando enumeras, pegatinas en palabras clave, subrayado o círculo dibujado a mano, polvo, grano o luz suave, tus propios efectos (MOV, MP4, PNG, GIF o WebP) y un cierre con tu logo y su sonido. Esquivan los captions y la cara.\r\n• Quitar pausas: GO recorta los silencios del video que sueltas en Inicio antes de poner los captions (que ya salen con los tiempos nuevos) y puede alternar un zoom en cada corte.\r\n• Sonido extra: un sonido en cada transición, riser y golpe antes de la palabra clave del gancho, música de fondo que baja sola cuando hablas (con detección de BPM para alinear su pulso), volumen de los sonidos igualado y sonido de los emojis según la frase.\r\n• B-roll opcional: tomas de apoyo gratuitas de Pexels en las palabras concretas (casa, playa, coche…), debajo de los captions. Necesita tu clave de API gratuita.\r\n• GO se puede pausar, cancelar y reanudar; si el programa se cierra a mitad, te ofrece seguir donde se quedó. Dice el idioma que oyó y te deja corregirlo, y te avisa con una notificación del sistema al terminar. El cuadro de Novedades ahora enseña clips en movimiento.\r\n• Más rápido y robusto: reutiliza la transcripción de un video ya hecho, usa tu tarjeta gráfica para la voz (se repara desde Ajustes), avisa si Resolve se quedó colgado y las descargas se reanudan si se cortan.",
-                    "fecha":  "2026-10-08",
+                    "version":  "5.4.13",
+                    "notas":  "• Sonido por palabra: ahora alterna tres sonidos (TAP_POP, typewriter e Iphone Taping) y eliges en qué palabras suena: en cada una, solo en la principal (con un sonido propio por efecto: cristal, selección, arrastre, héroe) o en ninguna. Cada sonido empieza un poco antes de su pico para que el golpe caiga justo cuando entra la palabra.\r\n• Intro: el «Viral Hooks Riser» (sus últimos 2 s, hasta su pico) con el destello de luz y un golpe de zoom justo en ese pico (página Efectos). Las transiciones «destello» suenan como el obturador de una cámara (Shuter 11 y 13).\r\n• Al elegir VIRAL, Kinetic o Referencia, el sonido y la página Efectos quedan ya configurados como recomendación para ese estilo (lo cambias después donde quieras).\r\n• Referencia: el barrido de luz recorre ahora toda la palabra (antes se quedaba a medias) y hay variantes «Screen» y «Sólido» con colores distintos. VIRAL: cada efecto sale en 4 colores (Shatter: azul cielo, rosa, lima y oro; Select: caja roja, azul, verde y naranja; Drag: blanco, amarillo, cian y rosa).\r\n• Emojis: elige el estilo en el selector (Animado, 3D de Microsoft Fluent, Google o Sistema); los 3D y los de Google se bajan al usarlos y se pueden bajar todos de una vez. El sonido del emoji sustituye al toque de su palabra para que no suenen dos a la vez.",
+                    "fecha":  "2026-10-09",
                     "archivos":  {
                                      "windows":  {
-                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.8/Instalar_CineCaptions_5.4.8.exe",
-                                                     "sha256":  "ba4c6daf176bc78dc90dfb404f19529aac12997028894318d11de71598755949",
-                                                     "tam":  227566083
+                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.13/Instalar_CineCaptions_5.4.13.exe",
+                                                     "sha256":  "883b5ad0d0bc086209142bdb5a7809dbdf41a7df8c6b568d485d1b33e1ef4217",
+                                                     "tam":  228856488
                                                  },
                                      "mac_arm64":  {
-                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.8/CineCaptions_Mac_AppleSilicon_5.4.8.dmg",
-                                                       "sha256":  "6a77a1b2de714fd50034559a72260a30668ea866408e8a553dfade0059a58656",
-                                                       "tam":  196532249
+                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.13/CineCaptions_Mac_AppleSilicon_5.4.13.dmg",
+                                                       "sha256":  "8706ebb4aeb5dddd5aa7851e00f5897c2967529bab8537a2ea21a84b5c410d6b",
+                                                       "tam":  197586213
                                                    },
                                      "mac_x86_64":  {
-                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.8/CineCaptions_Mac_Intel_5.4.8.dmg",
-                                                        "sha256":  "e2fd14b9f2b913fe22ac6c270098e7a69decce123178123fb2f698e1013bd549",
-                                                        "tam":  213291874
+                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.13/CineCaptions_Mac_Intel_5.4.13.dmg",
+                                                        "sha256":  "849967926c15d30cbc40f6c5eb4923a42806767e04bcedde1e523b0b180393ad",
+                                                        "tam":  214256756
                                                     }
                                  }
                 }

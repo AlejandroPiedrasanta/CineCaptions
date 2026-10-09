@@ -7035,17 +7035,43 @@ class SubtitleApp(QWidget):
         mcp = (getattr(self, '_estado_sistema', {}) or {}).get('mcp') or {}
         ruta = self.video_var.get().strip().strip('"') if hasattr(self, 'video_var') else ''
         archivo = getattr(self, '_go_archivo', None)
-        if archivo and Path(archivo).exists():
-            panel.reposo(tr('Listo con «{n}» (suelta otro vídeo para cambiarlo)', n=Path(archivo).name))
+        # v5.5: la línea dice QUÉ Resolve hay (Studio o Free) y por dónde se le habla; en ámbar/rojo cuando GO no podría colocar nada
+        try:
+            import colocacion
+            det = colocacion.detectar_resolve(getattr(self, '_estado_sistema', None))
+        except Exception:
+            det = {'texto': '', 'tono': None, 'edicion': None}
+        ed = det.get('edicion')
+        tono = det.get('tono') if (getattr(self, '_estado_sistema', None) and det.get('texto')) else None
+        try:
+            from PySide6.QtGui import QFontMetricsF
+            _fm = QFontMetricsF(panel.linea.font())
+        except Exception:
+            _fm = None
+
+        def _ajusta(base, *extras):
+            """La línea de Inicio mide 640 px y corta con «…»: lo importante (la edición de Resolve) va siempre; lo demás solo si cabe."""
+            texto = base
+            for e in extras:
+                if not e:
+                    continue
+                if _fm is not None and _fm.horizontalAdvance(texto + ' · ' + e) > 610:
+                    break
+                texto += ' · ' + e
+            return texto
+        archivo_ok = archivo and Path(archivo).exists()
+        ruta_ok = bool(ruta) and Path(ruta).exists()
+        if (archivo_ok or ruta_ok) and det.get('texto') and getattr(self, '_estado_sistema', None):
+            nombre_v = Path(archivo if archivo_ok else ruta).name
+            panel.reposo(_ajusta(det['texto'], tr('«{n}»', n=nombre_v), tr('suelta otro vídeo para cambiarlo')), tono=tono)
+        elif archivo_ok or ruta_ok:
+            panel.reposo(tr('Listo con «{n}» (suelta otro vídeo para cambiarlo)', n=Path(archivo if archivo_ok else ruta).name))
         elif mcp.get('conectado') and mcp.get('timeline'):
-            detalle = tr('Resolve conectado · timeline «{t}»', t=mcp['timeline'])
-            if mcp.get('ancho'):
-                detalle += f" · {mcp['ancho']}×{mcp['alto']}"
-            panel.reposo(detalle + tr(' · o suelta un video aquí'))
+            panel.reposo(_ajusta(det['texto'], tr('timeline «{t}»', t=mcp['timeline']), f"{mcp['ancho']}×{mcp['alto']}" if mcp.get('ancho') else '', tr('suelta un video aquí')), tono=tono)
         elif (getattr(self, '_estado_sistema', {}) or {}).get('modo') in ('studio', 'puente'):
-            panel.reposo(tr('Resolve conectado: pulsa GO con tu timeline abierto, o suelta un video aquí'))
-        elif ruta and Path(ruta).exists():
-            panel.reposo(tr('Listo con «{n}» (suelta otro vídeo para cambiarlo)', n=Path(ruta).name))
+            panel.reposo(_ajusta(det['texto'], tr('pulsa GO con tu timeline abierto')), tono=tono)
+        elif det.get('texto') and getattr(self, '_estado_sistema', None):
+            panel.reposo(det['texto'], listo=True, tono=tono)
         else:
             panel.reposo(tr('Suelta un video aquí y le pongo los captions · o abre DaVinci Resolve con tu timeline'), listo=True)
     # -- v5.2: las opciones rapidas de GO (sin pasar por otras pestañas) -------------
@@ -7649,6 +7675,7 @@ class SubtitleApp(QWidget):
         self._ultimos_bloques = None
         self.go_panel.empezar()
         self.go_panel.paso('timeline')
+        self._go_decir_edicion()
         self._precargar_motores()          # v5.3: la voz y la IA de texto se cargan y se calientan mientras Resolve da el audio
         archivo = getattr(self, '_go_archivo', None)
         if archivo:
@@ -7719,6 +7746,19 @@ class SubtitleApp(QWidget):
             else:
                 self._go_fallo('timeline', (tr('Resolve no entregó el audio del timeline (código {c}).', c=str(err).strip()) if str(err or '').strip().isdigit() else err) or tr('Abre DaVinci Resolve con tu timeline, o suelta un vídeo en la ventana, y pulsa GO otra vez.'))
         _correr_en_hilo(self, trabajo, fin)
+    def _go_decir_edicion(self):
+        """v5.5: al empezar GO la línea dice con qué Resolve va a trabajar (Studio o Free) y por qué camino; el Registro lo anota. Después sigue el proceso."""
+        try:
+            import colocacion
+            det = colocacion.detectar_resolve(getattr(self, '_estado_sistema', None))
+            self._go_resolve = det
+            if det.get('texto'):
+                self.go_panel.linea.configure(text=det['texto'])
+                registro.info(det['texto'], 'GO · Resolve')
+            if det.get('camino') == 'sin_puente' and not det.get('listo'):
+                registro.aviso(tr('Resolve Free necesita el Puente para colocar los subtítulos'), 'GO · Resolve', detalle=det.get('ayuda') or '')
+        except Exception:
+            self._go_resolve = None
     def _sin_palabras_mensaje(self):
         """Por qué no hay palabras. Caso típico: el archivo del video ya no está donde estaba (lo moviste o le cambiaste el nombre): Resolve lo marca
         «Archivo no encontrado», su audio sale en silencio y no es que el video no tenga voz."""
@@ -8047,13 +8087,13 @@ class SubtitleApp(QWidget):
                 self._go_fin(False, tr('Generado. Falta un clic en Resolve: Scripts > Utility > CineCaptions_Subtitulos.'))
         except Exception:
             pass
-    def _go_fin(self, ok, texto=''):
+    def _go_fin(self, ok, texto='', detalle=''):
         if not getattr(self, '_go_corriendo', False):
             return
         if ok:
             registro.ok(texto or tr('GO terminó: ya está en tu timeline.'), 'GO')
         else:
-            registro.error(texto or tr('GO no pudo colocar los subtítulos.'), 'GO · resolve')
+            registro.error(texto or tr('GO no pudo colocar los subtítulos.'), 'GO · resolve', detalle=detalle)
         self._fin_tarea(ok, '' if ok else str(texto or '')[:160])
         if not ok:
             self.go_panel.paso_fallido = 'resolve'
@@ -8447,6 +8487,11 @@ class SubtitleApp(QWidget):
             d['modo'] = resolve_bridge.modo_actual(pasivo=True)
         except Exception:
             d['modo'] = None
+        try:
+            import colocacion
+            d['proceso'] = colocacion.resolve_en_proceso()          # v5.5: ¿Resolve está abierto?, para decir «cerrado» en vez de «falta el Puente»
+        except Exception:
+            d['proceso'] = None
         try:
             import motor_voz
             d['motor'] = motor_voz.info_instalado()
@@ -10806,14 +10851,59 @@ class SubtitleApp(QWidget):
                 composicion.retirar_orden()
             except Exception:
                 pass
+            # v5.5: «Listo» ya no se da por el simple hecho de que el script de Resolve terminara: se mira cuántas líneas colocó de verdad (colocacion.veredicto),
+            # si no colocó nada se repara lo reparable y se reintenta UNA vez, y la vista final (página Edit, disposición de pantalla, cabezal al inicio) viaja en el manifiesto
+            try:
+                import colocacion
+            except Exception:
+                colocacion = None
+            det = getattr(self, '_go_resolve', None) or {}
+            inicio_total = empezo
+            if colocacion:
+                colocacion.vista_en_manifiesto(st.SHARED_FOLDER / 'subtitles_manifest.json')
             ok, err = resolve_bridge.ejecutar('subtitulos')
+            veredicto, reparado = None, []
+            if colocacion and ok:
+                try:
+                    veredicto = colocacion.veredicto(ok, err, empezo, n_cues)
+                    if not veredicto['ok']:
+                        reparado = colocacion.reparar(veredicto, al_estado=lambda t: self.msg_queue.put(('status', t)))
+                        if reparado:
+                            self.msg_queue.put(('status', tr('Vuelvo a colocar los subtítulos en Resolve…')))
+                            empezo = time.time()
+                            try:
+                                resolve_bridge.limpiar_resultado_viejo()
+                                composicion.retirar_orden()
+                            except Exception:
+                                pass
+                            ok, err = resolve_bridge.ejecutar('subtitulos')
+                            veredicto = colocacion.veredicto(ok, err, empezo, n_cues) if ok else None
+                except Exception:
+                    registro.excepcion(origen='colocar · veredicto')
+            if veredicto is not None:
+                try:
+                    colocacion.registrar(veredicto, det.get('edicion'), det.get('camino'), time.time() - inicio_total, reparado)
+                except Exception:
+                    pass
+                if not veredicto['ok']:
+                    ok = False                         # el script corrió pero NO colocó nada: ya no se dice «Listo»
+                    err = colocacion.frase_de_fallo(veredicto)
             nota_fx = self._colocar_efectos() if ok else ''
-            if not ok:
+            if not ok and veredicto is None:
                 try:
                     if resolve_bridge.modo_actual() == 'manual':
                         self._vigilar_clic_manual(empezo, n_cues, langs)
                 except Exception:
                     pass
+            if ok and colocacion and getattr(self, '_go_corriendo', False):
+                try:
+                    import ajustes_ui
+                    if ajustes_ui.leer_prefs().get('go_reproducir', True) is not False:
+                        self.msg_queue.put(('status', tr('Reproduciendo el timeline desde el principio…')))
+                        rep_ok, rep_txt = colocacion.reproducir_desde_inicio()
+                        (registro.info if rep_ok else registro.aviso)(rep_txt, 'GO · reproducir')
+                except Exception:
+                    registro.excepcion(origen='GO · reproducir')
             extra = ''
             version_ajena = None
             try:
@@ -10842,7 +10932,7 @@ class SubtitleApp(QWidget):
                 pass
             if nota_fx:
                 extra = (extra + ' · ' if extra else ' (') + nota_fx + ('' if extra else ')')
-            self.msg_queue.put(('colocado_en_resolve', (ok, err, extra, n_cues, langs)))
+            self.msg_queue.put(('colocado_en_resolve', (ok, err, extra, n_cues, langs, veredicto)))
         threading.Thread(target=worker, daemon=True).start()
         return True
     def _avisar_correr_a_mano(self, titulo, cabecera):
@@ -12670,22 +12760,39 @@ class SubtitleApp(QWidget):
                         self._aviso_version_dado = True
                         messagebox.showwarning(tr('Hay otra versión instalada'), tr('Tu Resolve ejecutó los scripts de la versión {payload}, pero este programa es la {APP_VERSION}.\n\nEso pasa cuando queda otra copia del programa instalada: al abrirla, reinstala SUS scripts en el menú de Resolve y pisa los nuevos.\n\nCómo arreglarlo:\n1. Cierra Resolve.\n2. Desinstala la copia vieja del programa (Panel de control > Aplicaciones), o al menos no vuelvas a abrirla.\n3. Abre este programa otra vez: reinstalará sus scripts.\n4. Abre Resolve y vuelve a lanzar el Puente.', payload=payload, APP_VERSION=APP_VERSION), parent=self)
                 elif kind == 'colocado_en_resolve':
-                    ok, err, extra, n_cues, langs = payload
+                    ok, err, extra, n_cues, langs, *_resto = payload
+                    veredicto = _resto[0] if _resto else None
+                    nada_colocado = bool(veredicto) and not veredicto.get('ok')          # v5.5: el script corrió pero no colocó nada (antes salía «Listo»)
+                    detalle_fallo = ''
+                    if nada_colocado:
+                        try:
+                            import colocacion
+                            detalle_fallo = colocacion.detalle_de_fallo(veredicto)
+                        except Exception:
+                            detalle_fallo = ''
                     era_go = getattr(self, '_go_corriendo', False)
                     if not era_go:
                         self._fin_tarea(bool(ok), '' if ok else str(err).strip().splitlines()[0][:160] if str(err).strip() else '')
                     if not ok and not era_go:          # (GO ya lo anota en _go_fin)
-                        registro.error(str(err).strip().splitlines()[0][:200] if str(err).strip() else 'No se pudo colocar en Resolve', 'colocar en Resolve', detalle=str(err))
+                        registro.error(str(err).strip().splitlines()[0][:200] if str(err).strip() else 'No se pudo colocar en Resolve', 'colocar en Resolve', detalle=detalle_fallo or str(err))
                     self._gen_fin(ok, tr('{n} bloques colocados en tu timeline', n=n_cues) if ok else '')
                     if era_go:
                         # v5.2: GO ya enseña el resultado en su pantalla (sin el aviso encima)
-                        self._go_fin(ok, tr('{n} bloques en tu timeline. Pulsa GO para otro vídeo.', n=n_cues) if ok else str(err).splitlines()[0][:160])
+                        self._go_fin(ok, tr('{n} bloques en tu timeline. Pulsa GO para otro vídeo.', n=n_cues) if ok else str(err).splitlines()[0][:400], detalle=detalle_fallo)
                     if ok:
                         self._registrar_colocacion_composicion()
                         import ui_toast
                         self.status_var.set(tr('✓ Listo: {n_cues} bloques colocados en Resolve.', n_cues=n_cues))
                         if not era_go:
                             ui_toast.mostrar(self, tr('Se generaron {n_cues} bloques ({langs}){extra} y ya quedaron puestos en tu timeline. Revisa Resolve.', n_cues=n_cues, langs=langs, extra=extra), duracion_ms=4500)
+                    elif nada_colocado:
+                        self.status_var.set(tr('No se colocó nada en Resolve: {c}', c=str(err).splitlines()[0][:160]))
+                        if not era_go:
+                            try:
+                                import colocacion
+                                messagebox.showwarning(tr('No se colocó nada en Resolve'), colocacion.texto_para_usuario(veredicto), parent=self)
+                            except Exception:
+                                pass
                     else:
                         self.status_var.set(tr('Listo: {n_cues} bloques ({langs}). Falta correrlo en Resolve.', n_cues=n_cues, langs=langs))
                         messagebox.showinfo(tr('Subtítulos listos'), tr('Se generaron {n_cues} bloques ({langs}).\n\n{err}', n_cues=n_cues, langs=langs, err=err), parent=self)

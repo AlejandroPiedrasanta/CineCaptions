@@ -12,6 +12,36 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-09 15:46  ·  v5.4.14  ·  (automático)
+    modificados (16):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_InsertarSFX.lua
+      … y 4 más
+
+2026-10-09 15:44  ·  v5.4.13  ·  cambio explicado
+    GO dice la verdad: Inicio muestra si Resolve es Studio o Free; «¡Listo!» solo si el script colocó líneas (py+lua cuentan y guardan ok=False con 0); causas en claro en el Registro (colocacion.CAUSAS + registro_ayuda); reparación y 1 reintento; vista final de Resolve (página Edit, disposición guardada, cabezal al inicio) y reproducir desde el inicio (Inicio+Espacio con foco verificado); timeline siempre vertical (go_vertical). Probado en Resolve Studio (Python) y vista_final Lua con mocks; Free real sin probar.
+    nuevos (1):
+      + 1_codigo/colocacion.py
+    modificados (8):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/proyecto_pruebas.py
+      ~ 1_codigo/registro_ayuda.py
+      ~ 1_codigo/resolve_mcp.py
+      ~ 1_codigo/un_clic_ui.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_Subtitulos.lua
+
 2026-10-09 11:00  ·  v5.4.13  ·  (automático)
     nuevos (14):
       + 1_codigo/emojis_sets.py

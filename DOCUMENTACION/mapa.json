@@ -1715,6 +1715,56 @@
    "resumen": "Pausar/Cancelar (puntos de control en el hilo), go_en_curso.json (reanudar tras un cierre), chip Idioma, avisos_sistema.avisar, novedades_visuales (clips en bucle)"
   },
   {
+   "id": "go-colocacion-real",
+   "grupo": "go",
+   "tema": "GO dice la verdad: edición de Resolve (Studio/Free) en Inicio, «Listo» solo si se colocó algo, causas en claro, auto-reparación, vista final y reproducir",
+   "claves": [
+    "free",
+    "studio",
+    "edicion",
+    "listo",
+    "colocado",
+    "cero",
+    "lineas",
+    "causa",
+    "registro",
+    "reparar",
+    "vertical",
+    "vista",
+    "expandida",
+    "layout",
+    "preset",
+    "reproducir",
+    "play",
+    "espacio",
+    "puente"
+   ],
+   "archivos": [
+    "colocacion.py",
+    "un_clic_ui.py",
+    "registro_ayuda.py",
+    "resolve_scripts/CineCaptions.py",
+    "resolve_scripts/CineCaptions_Subtitulos.lua",
+    "ajustes_ui.py",
+    "resolve_mcp.py"
+   ],
+   "simbolos": [
+    "detectar_resolve",
+    "veredicto",
+    "reparar",
+    "registrar",
+    "vista_en_manifiesto",
+    "reproducir_desde_inicio",
+    "guardar_vista_actual",
+    "resolve_en_proceso",
+    "_go_decir_edicion",
+    "_pintar_go_reposo",
+    "vista_final",
+    "_colocar_en_resolve",
+    "medir_medio"
+   ]
+  },
+  {
    "id": "rendimiento-base",
    "grupo": "ui",
    "tema": "Rendimiento y robustez: caché de voz, GPU (CUDA), descargas, cola de fondo, Resolve colgado",

@@ -58,6 +58,8 @@ def entrar():
     if r.get('previo') and r['previo'] != TEMP:
         ESTADO.parent.mkdir(parents=True, exist_ok=True)
         ESTADO.write_text(json.dumps(r), encoding='utf-8')
+    if r.get('actual') != TEMP:                  # v5.5: CreateProject puede fallar (Resolve recién abierto, diálogo...): seguir probando aquí sería hacerlo en el proyecto REAL del usuario
+        raise RuntimeError(f"No pude abrir el proyecto temporal «{TEMP}» (sigue abierto «{r.get('actual')}»): no pruebo nada.")
     return r
 
 
