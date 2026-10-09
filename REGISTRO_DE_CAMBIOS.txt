@@ -12,6 +12,22 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-09 17:52  ·  v5.4.16  ·  (automático)
+    modificados (25):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/colocacion.py
+      ~ 1_codigo/guion_captions.py
+      ~ 1_codigo/instalador_scripts.py
+      ~ 1_codigo/kinetic_captions.py
+      ~ 1_codigo/registro_ayuda.py
+      ~ 1_codigo/resolve_bridge.py
+      ~ 1_codigo/sfx_studio.py
+      ~ 1_codigo/subtitle_transcriber.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      … y 13 más
+
 2026-10-09 16:31  ·  v5.4.15  ·  (automático)
     nuevos (2):
       + 2_recursos/vistas_slider/VIRAL.jpg

@@ -1353,6 +1353,41 @@
    "resumen": "En Mac está en Contents/Applications/ResolveMCP; si falta, GO cae al Puente. Studio: External scripting = Local"
   },
   {
+   "id": "free-sin-io",
+   "grupo": "resolve",
+   "tema": "Resolve Free 21.1: scripts sin io, sidecars .lua, Puente por señales y cómo probarlo en un Free real",
+   "claves": [
+    "free",
+    "sin io",
+    "sidecar",
+    "puente",
+    "senales",
+    "archivo_existe",
+    "dato_existe",
+    "menu",
+    "secuencias de comandos",
+    "foco",
+    "reproducir"
+   ],
+   "archivos": [
+    "resolve_scripts/CineCaptions_Subtitulos.lua",
+    "resolve_scripts/CineCaptions_Puente.lua",
+    "sidecar_lua.py",
+    "kinetic_captions.py",
+    "guion_captions.py",
+    "colocacion.py"
+   ],
+   "simbolos": [
+    "escribir_sidecar",
+    "archivo_existe",
+    "dato_existe",
+    "vista_en_manifiesto",
+    "_al_frente",
+    "reproducir_desde_inicio",
+    "escribir"
+   ]
+  },
+  {
    "id": "kinetic-planificador",
    "grupo": "kinetic",
    "tema": "Estilo «Kinetic»: planificador y geometría",
