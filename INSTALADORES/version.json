@@ -1,23 +1,23 @@
 {
     "estable":  {
-                    "version":  "5.4.25",
-                    "notas":  "• Si pulsas GO otra vez sobre el mismo video (para probar otro tema), la IA de texto ya no vuelve a correr: reutiliza su resultado y esa parte pasa de hasta 2 minutos a un instante.\r\n• Un emoji que la IA ponía en una palabra sin peso ya no salta a una palabra de la frase anterior: se queda en su propia frase.\r\n• Al abrir Resolve en Mac sin proyecto, CineCaptions intenta crear un proyecto vacío para arrancar el Puente y, al terminar GO, deja activada «Expandir vista» (sin probar en un Mac real).",
+                    "version":  "5.4.26",
+                    "notas":  "• Página Efectos: se quitó el interruptor general «Efectos visuales al hacer GO». Todos los efectos vienen ACTIVADOS (zoom, temblor, números, pegatinas, énfasis, ambiente, iconos…) y cada sección se apaga con su propia tarjeta «Sin …». Los que estaban apagados en tu instalación se encienden una sola vez; quitar pausas y el B-roll (necesita tu clave de Pexels) siguen apagados. El chip «Visuales» de Inicio sigue apagándolos todos.",
                     "fecha":  "2026-10-10",
                     "archivos":  {
                                      "windows":  {
-                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.25/Instalar_CineCaptions_5.4.25.exe",
-                                                     "sha256":  "1a9d34086e8723a3ee1deba5451e29130497d75f1bf4d1c3dc950527895d9d63",
-                                                     "tam":  234884890
+                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.26/Instalar_CineCaptions_5.4.26.exe",
+                                                     "sha256":  "b3f4428fbb3611e0306b59fcfa075104f30a51e39a9b8ecbf7a2411fbf96fe81",
+                                                     "tam":  234884552
                                                  },
                                      "mac_arm64":  {
-                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.25/CineCaptions_Mac_AppleSilicon_5.4.25.dmg",
-                                                       "sha256":  "a95ccb6255855afcdc65b12279063596d962570adce175aa72b5ffab49301131",
-                                                       "tam":  203838385
+                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.26/CineCaptions_Mac_AppleSilicon_5.4.26.dmg",
+                                                       "sha256":  "8d57fdb7fcdb82a205660da2ec894264e9d5d8dd268017d5aeb5c4b2b24e82e5",
+                                                       "tam":  203680704
                                                    },
                                      "mac_x86_64":  {
-                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.25/CineCaptions_Mac_Intel_5.4.25.dmg",
-                                                        "sha256":  "e1aa3e9ed1cd2609befe43cb3882dd28efb3f26183e98379e2029226b7672791",
-                                                        "tam":  220140459
+                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.26/CineCaptions_Mac_Intel_5.4.26.dmg",
+                                                        "sha256":  "299a0b83ce031e6ca64d16c782cee004ad6c38721a170a47bc0edc038790accb",
+                                                        "tam":  220567601
                                                     }
                                  }
                 }
