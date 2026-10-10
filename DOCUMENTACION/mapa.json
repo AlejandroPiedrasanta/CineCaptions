@@ -1691,6 +1691,7 @@
     "2_recursos/efectos/colocar_efectos.py",
     "preparar_efectos.py",
     "hacer_previas_efectos.py",
+    "hacer_previas_nuevas.py",
     "probar_efectos.py"
    ],
    "simbolos": [

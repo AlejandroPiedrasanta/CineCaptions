@@ -12,6 +12,36 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-09 22:55  ·  v5.4.20  ·  (automático)
+    nuevos (75):
+      + 1_codigo/hacer_previas_nuevas.py
+      + 2_recursos/efectos/previas/alturaenfasis_abajo.jpg
+      + 2_recursos/efectos/previas/alturaenfasis_abajo.mp4
+      + 2_recursos/efectos/previas/alturaenfasis_arriba.jpg
+      + 2_recursos/efectos/previas/alturaenfasis_arriba.mp4
+      + 2_recursos/efectos/previas/alturaenfasis_centro.jpg
+      + 2_recursos/efectos/previas/alturaenfasis_centro.mp4
+      + 2_recursos/efectos/previas/ambiente_grano.jpg
+      + 2_recursos/efectos/previas/ambiente_grano.mp4
+      + 2_recursos/efectos/previas/ambiente_luz.jpg
+      + 2_recursos/efectos/previas/ambiente_luz.mp4
+      + 2_recursos/efectos/previas/ambiente_polvo.jpg
+      … y 63 más
+    modificados (23):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/efectos_extra_ui.py
+      ~ 1_codigo/efectos_pagina.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      … y 11 más
+
 2026-10-09 22:08  ·  v5.4.19  ·  (automático)
     modificados (21):
       ~ 1_codigo/CineCaptions (script principal).py

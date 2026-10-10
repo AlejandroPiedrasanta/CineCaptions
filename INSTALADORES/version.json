@@ -1,23 +1,23 @@
 {
     "estable":  {
-                    "version":  "5.4.18",
-                    "notas":  "• Resolve Free: al abrirse con la app ya no aparece el falso aviso «Falla al iniciar: MCP de DaVinci Resolve» (el MCP es solo de Studio; Free trabaja por el Puente).\r\n• Si tras actualizar el programa quedaba corriendo en Resolve un Puente de la versión anterior, CineCaptions lo releva solo (antes decía «Acción desconocida»).\r\n• Al lanzar el Puente en una ventana de Resolve recién abierta, CineCaptions comprueba el foco antes de cada letra y se detiene si se va: ya no puede escribir en otra aplicación. En Mac, si Resolve está cerrado, también lo abre solo.",
+                    "version":  "5.4.19",
+                    "notas":  "• Los estilos ahora se llaman «Tema 1» (antes Shine Kinetic), «Tema 2» (antes Shine Referencia) y «Tema 3» (antes VIRAL). Son los únicos que hay en el slider de Proyecto y en el chip «Estilo» de Inicio, vienen con el programa y no se pueden quitar.",
                     "fecha":  "2026-10-09",
                     "archivos":  {
                                      "windows":  {
-                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.18/Instalar_CineCaptions_5.4.18.exe",
-                                                     "sha256":  "8dbbe10f9ebff3edbb29a540b03f60348474ccd7f92afbf045c5bf4bc3d5ae86",
-                                                     "tam":  230438974
+                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.19/Instalar_CineCaptions_5.4.19.exe",
+                                                     "sha256":  "29ab40de9a51a048150c3d6a502bd9688316672ab906a7602176e51e174b89cc",
+                                                     "tam":  230439697
                                                  },
                                      "mac_arm64":  {
-                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.18/CineCaptions_Mac_AppleSilicon_5.4.18.dmg",
-                                                       "sha256":  "0adac6fb6f6446afa76274a080ca1a92f2f53239ebafa0ca8d74f0f34cbeb5e1",
-                                                       "tam":  199629379
+                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.19/CineCaptions_Mac_AppleSilicon_5.4.19.dmg",
+                                                       "sha256":  "ff95605ab698b69513b6c88ae0d08811e2f852344ec45832c87334bbdd3b2cb7",
+                                                       "tam":  199625974
                                                    },
                                      "mac_x86_64":  {
-                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.18/CineCaptions_Mac_Intel_5.4.18.dmg",
-                                                        "sha256":  "521ff847eed17961b38467b2baaa321a459fb31e35eb5c1b6c841ea859a59654",
-                                                        "tam":  215412748
+                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.19/CineCaptions_Mac_Intel_5.4.19.dmg",
+                                                        "sha256":  "e62e1beaeeac2e4f7fc687359d5a974920bec693daeae66d695952bfcaefaec4",
+                                                        "tam":  215279500
                                                     }
                                  }
                 }
