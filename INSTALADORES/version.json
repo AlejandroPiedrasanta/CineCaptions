@@ -1,23 +1,23 @@
 {
     "estable":  {
-                    "version":  "5.4.26",
-                    "notas":  "• Página Efectos: se quitó el interruptor general «Efectos visuales al hacer GO». Todos los efectos vienen ACTIVADOS (zoom, temblor, números, pegatinas, énfasis, ambiente, iconos…) y cada sección se apaga con su propia tarjeta «Sin …». Los que estaban apagados en tu instalación se encienden una sola vez; quitar pausas y el B-roll (necesita tu clave de Pexels) siguen apagados. El chip «Visuales» de Inicio sigue apagándolos todos.",
+                    "version":  "5.4.27",
+                    "notas":  "• Página Efectos: se quitaron «Temblor en los golpes», «Números, pegatinas y énfasis», «Ambiente», «B-roll de stock» y «Mis efectos» (y esos efectos quedan apagados). Los iconos flotantes vienen apagados por defecto.\r\n• Actualizar ya no falla con «algún archivo está en uso» si CineCaptions abrió Resolve: Resolve se lanzaba con la carpeta del programa como carpeta actual y no dejaba reemplazarla.\r\n• Registro y errores más claros: cada error del Registro (y de errores.log) lleva debajo qué significa y qué hacer, con avisos nuevos para Resolve Free sin proyecto, foco de Resolve, permiso de Accesibilidad (Mac), IA lenta y GO atascado; el mismo fallo ya no sale repetido por varios sitios, y cada GO empieza con una línea de contexto (video, tema, Resolve Free/Studio, efectos).",
                     "fecha":  "2026-10-10",
                     "archivos":  {
                                      "windows":  {
-                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.26/Instalar_CineCaptions_5.4.26.exe",
-                                                     "sha256":  "b3f4428fbb3611e0306b59fcfa075104f30a51e39a9b8ecbf7a2411fbf96fe81",
-                                                     "tam":  234884552
+                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.27/Instalar_CineCaptions_5.4.27.exe",
+                                                     "sha256":  "28c97d26e896deae9ba55e79dd0dfe140eb1590588d828c5dbf193d32f6b24c3",
+                                                     "tam":  234886282
                                                  },
                                      "mac_arm64":  {
-                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.26/CineCaptions_Mac_AppleSilicon_5.4.26.dmg",
-                                                       "sha256":  "8d57fdb7fcdb82a205660da2ec894264e9d5d8dd268017d5aeb5c4b2b24e82e5",
-                                                       "tam":  203680704
+                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.27/CineCaptions_Mac_AppleSilicon_5.4.27.dmg",
+                                                       "sha256":  "f9bb22164ac95f21189125cb9f2e2f2dfa6c9945687227d2f503791b706666d6",
+                                                       "tam":  203842296
                                                    },
                                      "mac_x86_64":  {
-                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.26/CineCaptions_Mac_Intel_5.4.26.dmg",
-                                                        "sha256":  "299a0b83ce031e6ca64d16c782cee004ad6c38721a170a47bc0edc038790accb",
-                                                        "tam":  220567601
+                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.27/CineCaptions_Mac_Intel_5.4.27.dmg",
+                                                        "sha256":  "a933b88d1b018cc773573e55ebdd695452fe91820a0bc3c75679c8e9782f3a39",
+                                                        "tam":  220535697
                                                     }
                                  }
                 }
