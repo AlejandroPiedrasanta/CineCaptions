@@ -12,6 +12,26 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-09 20:32  ·  v5.4.17  ·  (automático)
+    nuevos (3):
+      + 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      + 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      + 2_recursos/resolve_scripts/CineCaptions_Pausas.lua
+    modificados (21):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/colocacion.py
+      ~ 1_codigo/efectos_visuales.py
+      ~ 1_codigo/pausas.py
+      ~ 1_codigo/resolve_bridge.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      … y 9 más
+
 2026-10-09 17:52  ·  v5.4.16  ·  (automático)
     modificados (25):
       ~ 1_codigo/CineCaptions (script principal).py

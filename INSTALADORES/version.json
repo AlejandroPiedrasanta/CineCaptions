@@ -1,23 +1,23 @@
 {
     "estable":  {
-                    "version":  "5.4.14",
-                    "notas":  "• GO ya no dice «¡Listo!» si en Resolve no apareció nada: cuenta las líneas que Resolve colocó de verdad. Si no colocó ninguna, intenta repararlo solo (abrir el timeline, volver a Edit) y lo reintenta una vez; si sigue igual, te dice la causa en palabras claras y qué probar, y el Registro lo explica igual.\r\n• Inicio dice qué DaVinci Resolve detectó (Studio o Free) y por dónde se conecta, o si está cerrado / falta lanzar el Puente, antes de seguir con el proceso.\r\n• Al terminar GO, Resolve queda en la página Edit con tu disposición de pantalla guardada (Ajustes \u003e «Guardar la vista actual de Resolve»: ponla vertical y expandida una vez), el cabezal al inicio y reproduce el timeline desde el principio. Todo se puede apagar en Ajustes.\r\n• Un video soltado arma siempre un timeline vertical (1080×1920), sea cual sea su orientación; se apaga en Ajustes con «Abrir siempre en vertical».",
+                    "version":  "5.4.16",
+                    "notas":  "• DaVinci Resolve gratuito (Free): ahora los cinco estilos (VIRAL, Kinetic, Referencia, Base y Viral inferior) colocan sus subtítulos, emojis y sonidos por el Puente. Antes no colocaban nada porque Resolve Free 21.1 no deja a los scripts leer archivos. Los efectos visuales (intro, zoom y transiciones) siguen necesitando Studio y en Free se omiten con un aviso claro.\r\n• Al terminar, Resolve se pone al frente (aunque estuviera detrás de otra ventana) y reproduce el timeline desde el principio.\r\n• Los mensajes ya dicen la ruta real del menú de Resolve: Área de trabajo \u003e Scripts («Secuencias de comandos» si tu Resolve está en español) \u003e CineCaptions_Puente.\r\n• La tarjeta de VIRAL en «Pack de estilos» ahora reproduce un video real, con todos sus captions (la pila de texto, los tres efectos, los emojis y la intro), en vez de una imagen fija.",
                     "fecha":  "2026-10-09",
                     "archivos":  {
                                      "windows":  {
-                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.14/Instalar_CineCaptions_5.4.14.exe",
-                                                     "sha256":  "bb59348441abb9e4a56be542b496939880458aa5c52047aea2227fdfa5c6fb1f",
-                                                     "tam":  228882674
+                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.16/Instalar_CineCaptions_5.4.16.exe",
+                                                     "sha256":  "4e7ea6352ef3e48a8f840d0ef33e0d3249e5a07bac16a27850a69c94f9fc735d",
+                                                     "tam":  230400657
                                                  },
                                      "mac_arm64":  {
-                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.14/CineCaptions_Mac_AppleSilicon_5.4.14.dmg",
-                                                       "sha256":  "c4b91355456bbb842f1947da0a2cf0953349ee7e6bdbeb86ac19d18651292b68",
-                                                       "tam":  197587650
+                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.16/CineCaptions_Mac_AppleSilicon_5.4.16.dmg",
+                                                       "sha256":  "66f79cd5b705e2fc487b97ea3b8882ceb04b943ec7ee67c6a3c16e157187ddfe",
+                                                       "tam":  199681342
                                                    },
                                      "mac_x86_64":  {
-                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.14/CineCaptions_Mac_Intel_5.4.14.dmg",
-                                                        "sha256":  "6c47edfc2a20559420a2bdb1e7cbc9bb182379ac9f8200cd21ffa0f55d98544c",
-                                                        "tam":  214318687
+                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.16/CineCaptions_Mac_Intel_5.4.16.dmg",
+                                                        "sha256":  "7ad6766dcd72c98c73236c0cb1c1e3365551647409de06468d63a0ac4c11ce5f",
+                                                        "tam":  215278971
                                                     }
                                  }
                 }
