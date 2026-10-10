@@ -1,5 +1,293 @@
 REGISTRO DE CAMBIOS ARCHIVADO · 2026-10 (la entrada más nueva arriba)
 
+2026-10-08 10:54  ·  v5.4.1  ·  (automático)
+    modificados (16):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_InsertarSFX.lua
+      … y 4 más
+
+2026-10-08 10:52  ·  v5.4.0  ·  (automático)
+    modificados (22):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/estilos_inicio.py
+      ~ 1_codigo/ia_texto.py
+      ~ 1_codigo/kinetic_captions.py
+      ~ 1_codigo/kinetic_planificador.py
+      ~ 1_codigo/mcp_cinecaptions.py
+      ~ 1_codigo/orbe_mecanica.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/probar_go.py
+      ~ 1_codigo/registro_ayuda.py
+      ~ 1_codigo/resolve_mcp.py
+      … y 10 más
+
+2026-10-08 09:22  ·  v5.4.0  ·  (automático)
+    modificados (3):
+      ~ 1_codigo/mcp_cinecaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_Subtitulos.lua
+
+2026-10-08 08:50  ·  v5.4.0  ·  (automático)
+    modificados (12):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/estilos_slider.py
+      ~ 1_codigo/qt_kit.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 3_compilar/traducciones_extra.json
+
+2026-10-08 08:07  ·  v5.4.0  ·  (automático)
+    nuevos (19):
+      + 1_codigo/hacer_vista_kinetic.py
+      + 1_codigo/kinetic_captions.py
+      + 1_codigo/kinetic_planificador.py
+      + 1_codigo/kinetic_vista.py
+      + 1_codigo/probar_kinetic.py
+      + 1_codigo/tts_prueba.ps1
+      + 2_recursos/generador_packs/kinetic_comps.py
+      + 2_recursos/generador_packs/kinetic_elementos.py
+      + 2_recursos/generador_packs/kinetic_pack.py
+      + 2_recursos/generador_packs/leer_comp.py
+      + 2_recursos/generador_packs/pack_kinetic.py
+      + 2_recursos/plantillas_incluidas/Kinetic/Kinetic vertical.drb
+      … y 7 más
+    modificados (27):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/banco_pruebas.py
+      ~ 1_codigo/guion_editor.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/version.py
+      ~ 1_codigo/vistas_reales.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      … y 15 más
+
+2026-10-07 21:37  ·  v5.3.9  ·  (automático)
+    modificados (15):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_InsertarSFX.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Puente.lua
+      … y 3 más
+
+2026-10-07 21:37  ·  v5.3.8  ·  cambio explicado
+    5.3.9: arreglo del fallo al actualizar desde el programa (el instalador heredaba la carpeta de trabajo = carpeta de instalacion y Windows no dejaba renombrarla): SetCurrentDirectory en el instalador, reintentos en CopiarPrograma, cwd en actualizaciones.instalar
+    modificados (1):
+      ~ 1_codigo/ajustes_ui.py
+
+2026-10-07 21:27  ·  v5.3.8  ·  (automático)
+    modificados (17):
+      ~ 1_codigo/actualizaciones.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_InsertarSFX.lua
+      … y 5 más
+
+2026-10-07 21:01  ·  v5.3.7  ·  (automático)
+    modificados (15):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_InsertarSFX.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Puente.lua
+      … y 3 más
+
+2026-10-07 20:58  ·  v5.3.6  ·  cambio explicado
+    5.3.7: pantalla Proyecto con slider de estilos verticales (estilos_slider.py, fondos_estilos/), quitada la tarjeta de tipografias, Crea tu estilo bajo el slider; retirados el interruptor de versiones beta y el recorrido guiado
+    modificados (3):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/actualizaciones.py
+      ~ 1_codigo/ajustes_ui.py
+
+2026-10-07 20:41  ·  v5.3.6  ·  (automático)
+    nuevos (12):
+      + 1_codigo/estilos_slider.py
+      + 2_recursos/fondos_estilos/fondo_01.jpg
+      + 2_recursos/fondos_estilos/fondo_02.jpg
+      + 2_recursos/fondos_estilos/fondo_03.jpg
+      + 2_recursos/fondos_estilos/fondo_04.jpg
+      + 2_recursos/fondos_estilos/fondo_05.jpg
+      + 2_recursos/fondos_estilos/fondo_06.jpg
+      + 2_recursos/fondos_estilos/fondo_07.jpg
+      + 2_recursos/fondos_estilos/fondo_08.jpg
+      + 2_recursos/fondos_estilos/fondo_09.jpg
+      + 2_recursos/fondos_estilos/fondo_10.jpg
+      + 2_recursos/fondos_estilos/fondo_11.jpg
+    modificados (26):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/actualizaciones.py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/qt_kit.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      … y 14 más
+
+2026-10-07 19:34  ·  v5.3.5  ·  cambio explicado
+    encabezado de actualizaciones.py corregido
+    modificados (1):
+      ~ 3_compilar/encabezados.py
+
+2026-10-07 19:31  ·  v5.3.5  ·  (automático)
+    modificados (16):
+      ~ 1_codigo/actualizaciones.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_InsertarSFX.lua
+      … y 4 más
+
+2026-10-07 19:31  ·  v5.3.4  ·  cambio explicado
+    5.3.5: actualizaciones automáticas (actualizaciones.py + chip Nueva versión + Publicar_Version.ps1), logo Cinema Productions en Inicio, instalador y Acerca de
+    nuevos (1):
+      + 2_recursos/logo_cinema_productions.png
+    modificados (13):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/actualizaciones.py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/isla_ui.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 3_compilar/Construir_Instalador.ps1
+      ~ 3_compilar/Instalador.cs
+      ~ 3_compilar/cinecaptions.spec
+      … y 1 más
+
+2026-10-07 18:29  ·  v5.3.4  ·  (automático)
+    modificados (15):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_InsertarSFX.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Puente.lua
+      … y 3 más
+
+2026-10-07 18:29  ·  v5.3.3  ·  cambio explicado
+    Mac: ResolveMCP se buscaba en una ruta que no existe (Contents/MacOS|Libraries); la real es Contents/Applications/ResolveMCP (lo dice el paquete oficial DaVinciResolve.mcpb), asi que en Mac GO caia al Puente de Resolve Free y decia que perdio la conexion aunque hubiera Studio. Ahora la encuentra (y RESOLVE_MCP_PATH manda), el entorno de ResolveMCP no hereda DYLD_/LD_ del programa empaquetado y, si Studio tiene el scripting externo apagado, el aviso lo dice con los pasos exactos
+    modificados (10):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/registro_ayuda.py
+      ~ 1_codigo/resolve_bridge.py
+      ~ 1_codigo/resolve_mcp.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 3_compilar/traducciones_extra.json
+
+2026-10-07 18:08  ·  v5.3.3  ·  (automático)
+    modificados (15):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_InsertarSFX.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Puente.lua
+      … y 3 más
+
+2026-10-07 18:08  ·  v5.3.2  ·  cambio explicado
+    Creativo detecta automaticamente el audio o la linea de tiempo de Proyecto: muestra el audio traido/elegido, abre el editor solo si ya tiene palabras, ofrece Transcribir y retocar si falta, y avisa de la linea de tiempo abierta en Resolve (se mantiene al dia sola); textos traducidos a en/pt/fr/de/it
+    modificados (9):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/mcp_cinecaptions.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 3_compilar/traducciones_extra.json
+
+2026-10-07 17:13  ·  v5.3.2  ·  (automático)
+    modificados (2):
+      ~ 1_codigo/mapa_codigo.py
+      ~ 3_compilar/documentar.py
+
+2026-10-07 17:12  ·  v5.3.2  ·  cambio explicado
+    Documentacion por temas para gastar pocos tokens: DOCUMENTACION/RESUMEN.md (una pagina), mapa.json + temas/<grupo>.md (todo CLAUDE.md y LOGICA_INTERNA repartido por tema sin perder texto), CLAUDE.md de 22 KB a 6 KB con el mapa generado, 1_codigo/mapa_codigo.py y 5 herramientas nuevas del MCP (mapa, simbolo, modulo, cambios, resumen); LEEME.txt sin las secciones automaticas 13-14 (312 KB a ~30 KB) y REGISTRO_DE_CAMBIOS.txt con rotacion mensual a DOCUMENTACION/historial
+    nuevos (1):
+      + 1_codigo/mapa_codigo.py
+    modificados (4):
+      ~ 1_codigo/mcp_cinecaptions.py
+      ~ 3_compilar/documentar.py
+      ~ 3_compilar/encabezados.py
+      ~ 3_compilar/sincronizar_version.py
+
+
+(Lo anterior está archivado por mes en DOCUMENTACION/historial/REGISTRO_<aaaa-mm>.txt)
 2026-10-07 16:59  ·  v5.3.2  ·  cambio explicado
     Orden del proyecto: INSTALADORES\Windows y INSTALADORES\Mac (un .exe / .dmg por sistema, con la version en el nombre), DOCUMENTACION\ (LOGICA_INTERNA, auditorias, contexto) y raiz limpia; Actualizar_Windows/Actualizar_Mac y el flujo de GitHub Actions escriben ahi; limpiados los __pycache__
     modificados (3):

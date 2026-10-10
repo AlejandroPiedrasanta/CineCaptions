@@ -1,23 +1,23 @@
 {
     "estable":  {
-                    "version":  "5.4.19",
-                    "notas":  "• Los estilos ahora se llaman «Tema 1» (antes Shine Kinetic), «Tema 2» (antes Shine Referencia) y «Tema 3» (antes VIRAL). Son los únicos que hay en el slider de Proyecto y en el chip «Estilo» de Inicio, vienen con el programa y no se pueden quitar.",
-                    "fecha":  "2026-10-09",
+                    "version":  "5.4.24",
+                    "notas":  "• Soltar un video con Resolve Free cerrado ya funciona de punta a punta: la app abre Resolve y, si se queda en el «Organizador de proyectos», crea sola un proyecto vacío para arrancar el Puente (después se borra al crear «CineCaptions» con tu video). Antes esperaba 4 minutos y fallaba con «abre Resolve con un proyecto».\r\n• Si sueltas el video en los primeros segundos tras abrir CineCaptions, ya no cae en «Falta un clic en Resolve»: se sabe que es Resolve Free sin esperar al estado del sistema.\r\n• Al terminar GO, Resolve queda con «Expandir vista» activada (el visor a toda la altura, la vista vertical) y el timeline se reproduce desde el inicio, sin guardar ninguna disposición (Windows).",
+                    "fecha":  "2026-10-10",
                     "archivos":  {
                                      "windows":  {
-                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.19/Instalar_CineCaptions_5.4.19.exe",
-                                                     "sha256":  "29ab40de9a51a048150c3d6a502bd9688316672ab906a7602176e51e174b89cc",
-                                                     "tam":  230439697
+                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.24/Instalar_CineCaptions_5.4.24.exe",
+                                                     "sha256":  "aa7bf7bb5730b3f47ace560e47ff9e8d7711c9f7dc21e2956ce56c53b2e7a781",
+                                                     "tam":  234882740
                                                  },
                                      "mac_arm64":  {
-                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.19/CineCaptions_Mac_AppleSilicon_5.4.19.dmg",
-                                                       "sha256":  "ff95605ab698b69513b6c88ae0d08811e2f852344ec45832c87334bbdd3b2cb7",
-                                                       "tam":  199625974
+                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.24/CineCaptions_Mac_AppleSilicon_5.4.24.dmg",
+                                                       "sha256":  "fd060f9c357520554e0f0a93f015c450942055e07d332fd2d095029f04a9ddd5",
+                                                       "tam":  203848128
                                                    },
                                      "mac_x86_64":  {
-                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.19/CineCaptions_Mac_Intel_5.4.19.dmg",
-                                                        "sha256":  "e62e1beaeeac2e4f7fc687359d5a974920bec693daeae66d695952bfcaefaec4",
-                                                        "tam":  215279500
+                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.24/CineCaptions_Mac_Intel_5.4.24.dmg",
+                                                        "sha256":  "19a44eb4cdf88892e71f65b0dd873e714a71ba1730d44a6def9a4ac6338accf7",
+                                                        "tam":  220529461
                                                     }
                                  }
                 }
