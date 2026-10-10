@@ -1,23 +1,23 @@
 {
     "estable":  {
-                    "version":  "5.4.16",
-                    "notas":  "• DaVinci Resolve gratuito (Free): ahora los cinco estilos (VIRAL, Kinetic, Referencia, Base y Viral inferior) colocan sus subtítulos, emojis y sonidos por el Puente. Antes no colocaban nada porque Resolve Free 21.1 no deja a los scripts leer archivos. Los efectos visuales (intro, zoom y transiciones) siguen necesitando Studio y en Free se omiten con un aviso claro.\r\n• Al terminar, Resolve se pone al frente (aunque estuviera detrás de otra ventana) y reproduce el timeline desde el principio.\r\n• Los mensajes ya dicen la ruta real del menú de Resolve: Área de trabajo \u003e Scripts («Secuencias de comandos» si tu Resolve está en español) \u003e CineCaptions_Puente.\r\n• La tarjeta de VIRAL en «Pack de estilos» ahora reproduce un video real, con todos sus captions (la pila de texto, los tres efectos, los emojis y la intro), en vez de una imagen fija.",
+                    "version":  "5.4.17",
+                    "notas":  "• DaVinci Resolve gratuito (Free) ya funciona igual que Studio: al soltar un video, CineCaptions crea el proyecto y el timeline con tu video, coloca los subtítulos, emojis y sonidos, aplica los efectos visuales (intro, zoom, transiciones) y quita las pausas, todo por el Puente.\r\n• Si Resolve Free está abierto, CineCaptions lanza el Puente solo (ya no hay que ir al menú Área de trabajo \u003e Scripts). Si está cerrado, lo abre; abre o crea un proyecto en Resolve (la pantalla de proyectos no vale) para que siga.\r\n• Los mensajes de Inicio y del Registro dicen con claridad qué falló y qué probar; GO sigue sin decir «¡Listo!» si Resolve no colocó nada.",
                     "fecha":  "2026-10-09",
                     "archivos":  {
                                      "windows":  {
-                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.16/Instalar_CineCaptions_5.4.16.exe",
-                                                     "sha256":  "4e7ea6352ef3e48a8f840d0ef33e0d3249e5a07bac16a27850a69c94f9fc735d",
-                                                     "tam":  230400657
+                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.17/Instalar_CineCaptions_5.4.17.exe",
+                                                     "sha256":  "c66b6c1487ca99c9f13291a0ea76b802b67dada3fb024bdd902f014730cf76e5",
+                                                     "tam":  230434486
                                                  },
                                      "mac_arm64":  {
-                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.16/CineCaptions_Mac_AppleSilicon_5.4.16.dmg",
-                                                       "sha256":  "66f79cd5b705e2fc487b97ea3b8882ceb04b943ec7ee67c6a3c16e157187ddfe",
-                                                       "tam":  199681342
+                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.17/CineCaptions_Mac_AppleSilicon_5.4.17.dmg",
+                                                       "sha256":  "921b09d9ad14d449657f07eaecab9f194a358cca201916eae0b1f056ae94f402",
+                                                       "tam":  199636656
                                                    },
                                      "mac_x86_64":  {
-                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.16/CineCaptions_Mac_Intel_5.4.16.dmg",
-                                                        "sha256":  "7ad6766dcd72c98c73236c0cb1c1e3365551647409de06468d63a0ac4c11ce5f",
-                                                        "tam":  215278971
+                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.17/CineCaptions_Mac_Intel_5.4.17.dmg",
+                                                        "sha256":  "7336d5e3c07cc5f57e5f80257068020c4ef09fe995fdb5506dbfde42c7a1b868",
+                                                        "tam":  215595112
                                                     }
                                  }
                 }
