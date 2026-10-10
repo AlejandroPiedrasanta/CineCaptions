@@ -12,6 +12,90 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-10 16:44  ·  v5.4.32  ·  (automático)
+    nuevos (18):
+      + 2_recursos/guia_estilo/mezcla/t1_amarillo.mp4
+      + 2_recursos/guia_estilo/mezcla/t1_blanco-cian.mp4
+      + 2_recursos/guia_estilo/mezcla/t1_blanco-rojo.mp4
+      + 2_recursos/guia_estilo/mezcla/t1_lima.mp4
+      + 2_recursos/guia_estilo/mezcla/t1_magenta.mp4
+      + 2_recursos/guia_estilo/mezcla/t1_serif.mp4
+      + 2_recursos/guia_estilo/mezcla/t2_1.mp4
+      + 2_recursos/guia_estilo/mezcla/t2_2.mp4
+      + 2_recursos/guia_estilo/mezcla/t2_3.mp4
+      + 2_recursos/guia_estilo/mezcla/t2_4.mp4
+      + 2_recursos/guia_estilo/mezcla/t2_5.mp4
+      + 2_recursos/guia_estilo/mezcla/t2_6.mp4
+      … y 6 más
+    modificados (22):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/crea_estilo_ui.py
+      ~ 1_codigo/hacer_vistas_mezcla.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      … y 10 más
+
+2026-10-10 16:14  ·  v5.4.31  ·  (automático)
+    nuevos (1):
+      + 1_codigo/hacer_vistas_mezcla.py
+    modificados (22):
+      ~ 1_codigo/crea_estilo_ui.py
+      ~ 1_codigo/mezcla_planificador.py
+      ~ 1_codigo/mezcla_vista.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      … y 10 más
+
+2026-10-10 15:49  ·  v5.4.30  ·  (automático)
+    nuevos (3):
+      + 1_codigo/mezcla_planificador.py
+      + 1_codigo/mezcla_vista.py
+      + 1_codigo/probar_mezcla_app.py
+    modificados (24):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/crea_estilo_ui.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/probar_go.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      … y 12 más
+
+2026-10-10 14:54  ·  v5.4.29  ·  (automático)
+    modificados (26):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/probar_estilos_app.py
+      ~ 1_codigo/probar_viral_app.py
+      ~ 1_codigo/recomendaciones.py
+      ~ 1_codigo/sfx_rules.py
+      ~ 1_codigo/sfx_studio.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      … y 14 más
+
 2026-10-10 14:02  ·  v5.4.28  ·  (automático)
     modificados (21):
       ~ 1_codigo/actualizaciones.py

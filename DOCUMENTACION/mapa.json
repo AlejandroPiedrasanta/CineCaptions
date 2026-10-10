@@ -655,6 +655,47 @@
    "resumen": "ejemplos_estilo, crea_estilo_ui, vistas_guia; guia_estilo/construir_guia.py"
   },
   {
+   "id": "mezcla-temas",
+   "grupo": "estilos",
+   "tema": "«Crea tu estilo» mezclando los 3 temas (looks por frases)",
+   "claves": [
+    "mezcla",
+    "mezclar",
+    "looks",
+    "temas",
+    "crea",
+    "estilo",
+    "tramos",
+    "biblioteca",
+    "kinetic",
+    "viral",
+    "referencia"
+   ],
+   "archivos": [
+    "mezcla_planificador.py",
+    "mezcla_vista.py",
+    "crea_estilo_ui.py",
+    "probar_mezcla_app.py",
+    "resolve_scripts/CineCaptions_Subtitulos.lua",
+    "resolve_scripts/CineCaptions.py"
+   ],
+   "simbolos": [
+    "catalogo",
+    "planificar",
+    "crear_pack",
+    "tramos",
+    "vista",
+    "poster",
+    "_TarjetaLook",
+    "_generar_con_mezcla",
+    "_pack_mezcla",
+    "_poner_pistas_motor",
+    "MEZCLA_ACUM",
+    "_MEZCLA_ACUM"
+   ],
+   "resumen": "mezcla_planificador (catalogo/planificar/crear_pack), mezcla_vista (vista/poster), _generar_con_mezcla, manifest.mezcla en los scripts de Resolve"
+  },
+  {
    "id": "editar-quitar-pack",
    "grupo": "estilos",
    "tema": "Botones ✎ editar en Resolve y 🗑 quitar pack",
