@@ -12,6 +12,56 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-10 10:04  ·  v5.4.24  ·  (automático)
+    modificados (24):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/colocacion.py
+      ~ 1_codigo/resolve_bridge.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      … y 12 más
+
+2026-10-10 09:32  ·  v5.4.23  ·  (automático)
+    modificados (1):
+      ~ 3_compilar/Construir_Instalador.ps1
+
+2026-10-10 09:27  ·  v5.4.23  ·  (automático)
+    nuevos (207):
+      + 1_codigo/.cf/icono.ico
+      + 1_codigo/desktop.ini
+      + 2_recursos/.cf/icono.ico
+      + 2_recursos/desktop.ini
+      + 2_recursos/efectos/.cf/icono.ico
+      + 2_recursos/efectos/corte/.cf/icono.ico
+      + 2_recursos/efectos/corte/desktop.ini
+      + 2_recursos/efectos/desktop.ini
+      + 2_recursos/efectos/iconos/.cf/icono.ico
+      + 2_recursos/efectos/iconos/desktop.ini
+      + 2_recursos/efectos/iconos/pack1/.cf/icono.ico
+      + 2_recursos/efectos/iconos/pack1/desktop.ini
+      … y 195 más
+    modificados (26):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/colocacion.py
+      ~ 1_codigo/efectos_extra_ui.py
+      ~ 1_codigo/efectos_pagina.py
+      ~ 1_codigo/efectos_visuales.py
+      ~ 1_codigo/recomendaciones.py
+      ~ 1_codigo/resolve_bridge.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      … y 14 más
+
 2026-10-09 23:22  ·  v5.4.22  ·  (automático)
     modificados (24):
       ~ 1_codigo/CineCaptions (script principal).py
