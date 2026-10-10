@@ -1,23 +1,23 @@
 {
     "estable":  {
-                    "version":  "5.4.24",
-                    "notas":  "• Soltar un video con Resolve Free cerrado ya funciona de punta a punta: la app abre Resolve y, si se queda en el «Organizador de proyectos», crea sola un proyecto vacío para arrancar el Puente (después se borra al crear «CineCaptions» con tu video). Antes esperaba 4 minutos y fallaba con «abre Resolve con un proyecto».\r\n• Si sueltas el video en los primeros segundos tras abrir CineCaptions, ya no cae en «Falta un clic en Resolve»: se sabe que es Resolve Free sin esperar al estado del sistema.\r\n• Al terminar GO, Resolve queda con «Expandir vista» activada (el visor a toda la altura, la vista vertical) y el timeline se reproduce desde el inicio, sin guardar ninguna disposición (Windows).",
+                    "version":  "5.4.25",
+                    "notas":  "• Si pulsas GO otra vez sobre el mismo video (para probar otro tema), la IA de texto ya no vuelve a correr: reutiliza su resultado y esa parte pasa de hasta 2 minutos a un instante.\r\n• Un emoji que la IA ponía en una palabra sin peso ya no salta a una palabra de la frase anterior: se queda en su propia frase.\r\n• Al abrir Resolve en Mac sin proyecto, CineCaptions intenta crear un proyecto vacío para arrancar el Puente y, al terminar GO, deja activada «Expandir vista» (sin probar en un Mac real).",
                     "fecha":  "2026-10-10",
                     "archivos":  {
                                      "windows":  {
-                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.24/Instalar_CineCaptions_5.4.24.exe",
-                                                     "sha256":  "aa7bf7bb5730b3f47ace560e47ff9e8d7711c9f7dc21e2956ce56c53b2e7a781",
-                                                     "tam":  234882740
+                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.25/Instalar_CineCaptions_5.4.25.exe",
+                                                     "sha256":  "1a9d34086e8723a3ee1deba5451e29130497d75f1bf4d1c3dc950527895d9d63",
+                                                     "tam":  234884890
                                                  },
                                      "mac_arm64":  {
-                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.24/CineCaptions_Mac_AppleSilicon_5.4.24.dmg",
-                                                       "sha256":  "fd060f9c357520554e0f0a93f015c450942055e07d332fd2d095029f04a9ddd5",
-                                                       "tam":  203848128
+                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.25/CineCaptions_Mac_AppleSilicon_5.4.25.dmg",
+                                                       "sha256":  "a95ccb6255855afcdc65b12279063596d962570adce175aa72b5ffab49301131",
+                                                       "tam":  203838385
                                                    },
                                      "mac_x86_64":  {
-                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.24/CineCaptions_Mac_Intel_5.4.24.dmg",
-                                                        "sha256":  "19a44eb4cdf88892e71f65b0dd873e714a71ba1730d44a6def9a4ac6338accf7",
-                                                        "tam":  220529461
+                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.25/CineCaptions_Mac_Intel_5.4.25.dmg",
+                                                        "sha256":  "e1aa3e9ed1cd2609befe43cb3882dd28efb3f26183e98379e2029226b7672791",
+                                                        "tam":  220140459
                                                     }
                                  }
                 }
