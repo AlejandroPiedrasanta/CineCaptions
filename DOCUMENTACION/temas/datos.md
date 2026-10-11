@@ -19,3 +19,7 @@
 Se conserva al actualizar; al desinstalar el usuario elige.
 - `~/DaVinciSubtitles/`: `preferencias.json` (ajustes), `licencia/`, `<video>.marcas.json`, `<video>.<idioma>.dynamic.json|.guion.json|.srt` (+ `.lua`), `subtitles_manifest.json` (la última orden de colocar), `proyectos/`, `plantillas/` y `plantillas_cache/` (packs del usuario y vistas reales), `emojis*/`, `jobs/` (cola del Puente), `sfx_rules.json`, `cinecaptions.log` y `errores.log`, `reporte_soporte.txt`, `instalador/` (logs de instalación), `banco/` (pruebas).
 - `%LOCALAPPDATA%\Programs\CineCaptions\` el programa instalado · `%LOCALAPPDATA%\CineCaptions\motor_qwen\` el motor de voz e IA · `~/.cache/huggingface/` modelos · `Documentos\CineCaptions\Copias de seguridad\` (`copias.py`) · `~/.cinecaptions.lock` (instancia única).
+
+## proyectos-usuario — Registro de proyectos (vídeos) trabajados
+
+`proyectos.py`: lista de vídeos trabajados (recientes, abrir, borrar). Su estado se guarda con `archivos_seguros`.

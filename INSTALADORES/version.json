@@ -1,23 +1,23 @@
 {
     "estable":  {
-                    "version":  "5.4.42",
-                    "notas":  "• GO revisa Resolve ANTES de empezar (colgado, sin ventana o con el Puente que late pero no contesta) y lo arregla al momento en vez de fallar minutos después; la revisión tarda cerca de 1 segundo.\r\n• El Puente ahora se arranca pulsando CineCaptions_Puente en el menú de scripts de Resolve (sin foco ni teclado, en cualquier idioma); la consola F6 queda solo de respaldo.",
+                    "version":  "5.4.43",
+                    "notas":  "• El menú de scripts de Resolve ya no sale con todo duplicado: las copias viejas de la marca anterior (RCS_Puente, RCS_Subtitulos…) se retiran solas (con copia de respaldo) y quedan solo los CineCaptions_… ; en Resolve Free y en Studio.",
                     "fecha":  "2026-10-11",
                     "archivos":  {
                                      "windows":  {
-                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.42/Instalar_CineCaptions_5.4.42.exe",
-                                                     "sha256":  "59427c18250039f60e4cd97b6270bc697d993d05df52d54eedc64ed614f8c8ee",
-                                                     "tam":  236294591
+                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.43/Instalar_CineCaptions_5.4.43.exe",
+                                                     "sha256":  "ee475be632c01384f07272ebddefebc804179bbe03d34b2ab2fbd623eec5a440",
+                                                     "tam":  236294967
                                                  },
                                      "mac_arm64":  {
-                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.42/CineCaptions_Mac_AppleSilicon_5.4.42.dmg",
-                                                       "sha256":  "b29177d15ee7215eb492db271733e7d3892a2041894891437924085608103de0",
-                                                       "tam":  205907974
+                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.43/CineCaptions_Mac_AppleSilicon_5.4.43.dmg",
+                                                       "sha256":  "f97ab825565ddc7c64ac599cc2491284edcda646e31fbf43136cc4a2f45ac017",
+                                                       "tam":  205915252
                                                    },
                                      "mac_x86_64":  {
-                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.42/CineCaptions_Mac_Intel_5.4.42.dmg",
-                                                        "sha256":  "c2e83c16f8fb57436f88310332403e1f6276026e1898c267c327762c71ee3752",
-                                                        "tam":  221732925
+                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.43/CineCaptions_Mac_Intel_5.4.43.dmg",
+                                                        "sha256":  "11b7b591c34b99299b8fa38f0c84cbb0daab40084cabdec9e259c9538cea04cb",
+                                                        "tam":  221732754
                                                     }
                                  }
                 }

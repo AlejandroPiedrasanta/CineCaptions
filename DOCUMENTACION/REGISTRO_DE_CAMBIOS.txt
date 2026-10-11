@@ -12,6 +12,36 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-11 17:45  ·  v5.4.44  ·  (automático)
+    nuevos (15):
+      + 1_codigo/compat_av.py
+      + 1_codigo/herramientas_dev/probar_ciclos_go.py
+      + 1_codigo/herramientas_dev/probar_cuelgue_resolve.py
+      + 1_codigo/herramientas_dev/probar_emojis_temas.py
+      + 1_codigo/herramientas_dev/probar_previo_resolve.py
+      + 1_codigo/herramientas_dev/probar_ventanas_humo.py
+      + 3_compilar/partido_listo/CineCaptions (script principal).py
+      + 3_compilar/partido_listo/aplicar.ps1
+      + 3_compilar/partido_listo/editor_palabras.py
+      + 3_compilar/partido_listo/partir_principal.py.txt
+      + 3_compilar/partido_listo/selector_emojis.py
+      + 3_compilar/partido_listo/ui_comun.py
+      … y 3 más
+    modificados (26):
+      ~ 1_codigo/mapa_codigo.py
+      ~ 1_codigo/motor_voz.py
+      ~ 1_codigo/salud.py
+      ~ 1_codigo/subtitle_transcriber.py
+      ~ 1_codigo/tareas_instalador.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      … y 14 más
+
 2026-10-11 15:52  ·  v5.4.43  ·  (automático)
     modificados (19):
       ~ 1_codigo/version.py

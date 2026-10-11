@@ -225,7 +225,8 @@
       ],
       "archivos": [
         "3_compilar/Instalador.cs",
-        "4_diseno/banner/crear_banner.py"
+        "4_diseno/banner/crear_banner.py",
+        "tareas_instalador.py"
       ],
       "simbolos": [],
       "resumen": "3_compilar/Instalador.cs (Banner, ListaPasos, ListaRutas)"
@@ -424,10 +425,35 @@
       "archivos": [
         "subtitle_transcriber.py",
         "motor_voz.py",
-        "ia_texto.py"
+        "ia_texto.py",
+        "motor_qwen.py",
+        "motor_texto.py"
       ],
       "simbolos": [],
       "resumen": "subtitle_transcriber, motor_voz, ia_texto"
+    },
+    {
+      "id": "texto-ayudas",
+      "grupo": "voz-ia",
+      "tema": "Ortografía, sugerencias de palabra principal, chequeo de salud, medir texto",
+      "claves": [
+        "ortografia",
+        "sugerencias",
+        "principal",
+        "salud",
+        "chequeo",
+        "medir",
+        "texto",
+        "pintado"
+      ],
+      "archivos": [
+        "ortografia.py",
+        "sugerencias_ia.py",
+        "salud.py",
+        "medir_texto.py"
+      ],
+      "simbolos": [],
+      "resumen": "ortografia (marca, no corrige), sugerencias_ia (palabra principal sin IA), salud (librerías al arrancar), medir_texto (ancho de palabra)"
     },
     {
       "id": "licencia",
@@ -773,7 +799,9 @@
       "archivos": [
         "2_recursos/generador_packs/luxe_macro.py",
         "construir_pack.py",
-        "plantillas.py"
+        "plantillas.py",
+        "luxe_shine_base.lua",
+        "luxe_slide_base.lua"
       ],
       "simbolos": [
         "comp_luxe",
@@ -1275,6 +1303,37 @@
       "resumen": "QT_QPA_PLATFORM=offscreen + licencia.vigente parcheada; los arneses escriben las prefs REALES: parchear guardar_prefs"
     },
     {
+      "id": "herramientas-dev",
+      "grupo": "pruebas",
+      "tema": "Arneses de prueba con Resolve real (cuelgue, previo, ciclos, emojis) y de estilos",
+      "claves": [
+        "arnes",
+        "cuelgue",
+        "suspender",
+        "ciclos",
+        "emojis",
+        "probar",
+        "herramientas",
+        "dev",
+        "variantes",
+        "estilos",
+        "recortar",
+        "bucle"
+      ],
+      "archivos": [
+        "herramientas_dev/probar_cuelgue_resolve.py",
+        "herramientas_dev/probar_previo_resolve.py",
+        "herramientas_dev/probar_ciclos_go.py",
+        "herramientas_dev/probar_emojis_temas.py",
+        "probar_go_variantes.py",
+        "probar_estilos_app.py",
+        "proyecto_pruebas.py",
+        "recortar_bucle_vistas.py"
+      ],
+      "simbolos": [],
+      "resumen": "1_codigo/herramientas_dev/ (fuera de la huella del instalador) + probar_go_variantes/probar_estilos_app/proyecto_pruebas/recortar_bucle_vistas"
+    },
+    {
       "id": "mac-actualizar",
       "grupo": "compilar",
       "tema": "Mantener el instalador de Mac al día",
@@ -1313,6 +1372,39 @@
       ],
       "simbolos": [],
       "resumen": "RESUMEN.md (1 página) + mapa.json/temas/*.md (por tema) + MCP mapa/simbolo/modulo/cambios; LEEME.txt y REGISTRO son archivo, no se leen enteros"
+    },
+    {
+      "id": "acoplamientos",
+      "grupo": "general",
+      "tema": "Si cambias X, cambia también Y (acoplamientos)",
+      "claves": [
+        "acoplamientos",
+        "cambiar",
+        "tocar",
+        "gemelos",
+        "gemelo",
+        "version",
+        "revision_bin",
+        "checklist",
+        "tambien",
+        "sincronizar",
+        "huella"
+      ],
+      "archivos": [
+        "version.py",
+        "plantillas.py",
+        "ajustes_ui.py",
+        "CineCaptions_Subtitulos.lua",
+        "CineCaptions.py",
+        "instalador_scripts.py",
+        "documentar.py"
+      ],
+      "simbolos": [
+        "REVISION_BIN",
+        "NOTAS_VERSION",
+        "NOMBRES_VIEJOS"
+      ],
+      "resumen": "tabla «cambias esto → cambia también esto»: scripts gemelos, versión, REVISION_BIN, Puente, orden de colocación, huella del instalador, mapa"
     },
     {
       "id": "fuente-unica",
@@ -1372,6 +1464,23 @@
       ],
       "simbolos": [],
       "resumen": "~/DaVinciSubtitles (prefs, marcas, manifiestos, logs), %LOCALAPPDATA%/CineCaptions/motor_qwen, ~/.cache/huggingface, copias en Documentos"
+    },
+    {
+      "id": "proyectos-usuario",
+      "grupo": "datos",
+      "tema": "Registro de proyectos (vídeos) trabajados",
+      "claves": [
+        "proyectos",
+        "recientes",
+        "abrir",
+        "borrar",
+        "historial"
+      ],
+      "archivos": [
+        "proyectos.py"
+      ],
+      "simbolos": [],
+      "resumen": "proyectos.py: recientes, abrir, borrar (estado con archivos_seguros)"
     },
     {
       "id": "creativo-detecta-audio",
@@ -1465,7 +1574,8 @@
         "_al_frente",
         "reproducir_desde_inicio",
         "escribir"
-      ]
+      ],
+      "resumen": "Resolve Free no tiene io: sidecars .lua escritos por la app, Puente por señales (heartbeat) y cómo probarlo en un Free real"
     },
     {
       "id": "kinetic-planificador",
@@ -1878,7 +1988,8 @@
         "vista_final",
         "_colocar_en_resolve",
         "medir_medio"
-      ]
+      ],
+      "resumen": "GO dice la verdad: «Listo» solo si se colocó algo, causas en claro (colocacion.CAUSAS), reparar+reintento, vista final y reproducir"
     },
     {
       "id": "rendimiento-base",
@@ -1919,6 +2030,32 @@
         "indice_listo"
       ],
       "resumen": "cache_voz (no se transcribe dos veces), cuda_libs (Whisper en GPU), descargas (reanudables + SHA-256), cola_trabajos (lo de fondo cede ante GO), resolve_colgado"
+    },
+    {
+      "id": "ui-menores",
+      "grupo": "ui",
+      "tema": "Brillo de botones, ventana Registro, avisos, idiomas",
+      "claves": [
+        "brillo",
+        "botones",
+        "registro",
+        "toast",
+        "avisos",
+        "idioma",
+        "traduccion",
+        "argos",
+        "i18n",
+        "tr"
+      ],
+      "archivos": [
+        "brillo_ui.py",
+        "registro_ui.py",
+        "ui_toast.py",
+        "i18n.py",
+        "ensure_lang_pack.py"
+      ],
+      "simbolos": [],
+      "resumen": "brillo_ui (ondas al pulsar), registro_ui (ventana Registro), ui_toast (sin uso visible desde 5.4.22), i18n.tr + locales, ensure_lang_pack"
     },
     {
       "id": "efectos-movimiento",
@@ -2241,6 +2378,41 @@
       "resumen": "pref emoji_estilo; fluent_mapa.json (1 354 de 1 390 con 3D); sets en ~/DaVinciSubtitles/emojis_sets"
     },
     {
+      "id": "emojis-posicion-free",
+      "grupo": "sonido",
+      "tema": "Emojis en Resolve Free: posición (Pan/Tilt de un PNG Fit), animación y orden de colocación",
+      "claves": [
+        "emoji",
+        "emojis",
+        "pan",
+        "tilt",
+        "posicion",
+        "arriba",
+        "abajo",
+        "animacion",
+        "free",
+        "fit",
+        "orden",
+        "sonidos",
+        "crash"
+      ],
+      "archivos": [
+        "CineCaptions_Subtitulos.lua",
+        "CineCaptions.py",
+        "emojis.py",
+        "plantillas.py"
+      ],
+      "simbolos": [
+        "colocar_emojis",
+        "animar_emoji",
+        "comps_animacion",
+        "EMOJI_ARRIBA",
+        "bloque_imagen",
+        "place_guion"
+      ],
+      "resumen": "Pan ×ancho/min, Tilt ×alto/min en PNG Fit; comps de animación precalculadas por la app (Free sin io); emojis ANTES que sonidos; Tema 4 emoji arriba"
+    },
+    {
       "id": "resolve-colgado",
       "grupo": "resolve",
       "tema": "Resolve colgado: causa, detección, reinicio automático y reproducir al final",
@@ -2281,6 +2453,47 @@
         "_reporte_del_puente"
       ],
       "resumen": "resolve_bridge, colocacion, ArmarVideo.lua, Vista.lua"
+    },
+    {
+      "id": "scripts-resolve-inventario",
+      "grupo": "resolve",
+      "tema": "Inventario de los scripts de Resolve (Free .lua · Studio .py)",
+      "claves": [
+        "scripts",
+        "lua",
+        "puente",
+        "armarvideo",
+        "detectarvideo",
+        "efectos",
+        "pausas",
+        "sfx",
+        "marcadores",
+        "vista",
+        "inventario",
+        "gemelos"
+      ],
+      "archivos": [
+        "CineCaptions_Puente.lua",
+        "CineCaptions_ArmarVideo.lua",
+        "CineCaptions_DetectarVideo.lua",
+        "CineCaptions_Efectos.lua",
+        "CineCaptions_ImportarEstilos.lua",
+        "CineCaptions_InsertarSFX.lua",
+        "CineCaptions_Pausas.lua",
+        "CineCaptions_SfxMarcadores.lua",
+        "CineCaptions_SfxReemplazar.lua",
+        "CineCaptions_Vista.lua",
+        "CineCaptions_Exportar_PackDRB.lua",
+        "CineCaptions_Prueba_MediaPool.lua",
+        "CineCaptions - Detectar Video.py",
+        "CineCaptions - Importar Estilos.py",
+        "CineCaptions - Insertar SFX.py",
+        "CineCaptions - Puente.py",
+        "CineCaptions - SFX Marcadores.py",
+        "CineCaptions - SFX Reemplazar.py"
+      ],
+      "simbolos": [],
+      "resumen": "qué hace cada script de 2_recursos/resolve_scripts y quién es el gemelo en Studio"
     }
   ]
 }

@@ -11,3 +11,8 @@
 - **Colgado:** el servidor de voz/IA que pasa 300 s / 240 s sin ninguna línea se mata y se pasa al respaldo; el vigía de `vigilancia.py` también los cierra (`motor_voz.abortar`, `ia_texto.abortar`). Todo queda en el Registro (`errores.log`).
 - **Preferencia** `motor_voz` = `qwen3` (por defecto) o `whisper` (Ajustes > General). Modelos descargados en `~/.cache/huggingface/hub` (Whisper turbo, Qwen3-ASR, ForcedAligner, Qwen3-4B/1.7B).
 - Los tiempos por palabra de Qwen3 salen de su alineador (idiomas alineables: zh en yue fr de it ja ko pt ru es); fuera de esa lista se usa Whisper.
+
+## texto-ayudas — Ortografía, sugerencias, salud, medir texto
+
+- `ortografia.py`: revisión del editor (marca y propone, nunca corrige solo). `sugerencias_ia.py`: palabra PRINCIPAL de cada bloque con el motor clásico (sin IA instalada).
+- `salud.py`: chequeo de librerías al arrancar (versiones fijadas, motor de IA, MCP). `medir_texto.py`: cuánto ocupa cada palabra en pantalla (look «pintado»).

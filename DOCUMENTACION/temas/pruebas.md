@@ -13,3 +13,12 @@ Python con dependencias: `6_compilacion/venv314/Scripts/python.exe`. Con `QT_QPA
 - **GO sin Resolve:** `resolve_mcp.ruta_exe = lambda: None` (con solo `CINECAPTIONS_SIN_MCP` GO se detiene tras transcribir por `_abortar_si_fallo_el_timeline`) y anular `ui.error_con_acciones` (el diálogo modal bloquea el hilo UI). `w.show()` es obligatorio (la animación final de GO dispara la colocación).
 - Este venv no trae las DLL de CUDA para Whisper: cae a CPU.
 - Para fuentes reales NO `offscreen`: ventana en x=-5000 (`test_paridad.py`/`test_creativo.py` necesitan `qt_kit.crear_app()`).
+
+## herramientas-dev — Arneses de prueba con Resolve real y de estilos
+
+Viven en `1_codigo/herramientas_dev/` (FUERA de la huella del instalador y del .exe) y calculan sus rutas desde `__file__`. Todos usan el Resolve real del usuario: pedir permiso antes si lo está usando (ver memoria `resolve-uso-paralelo-no-go-real`).
+- `probar_cuelgue_resolve.py <video> <pack> <armar|colocar|efectos>`: suspende Resolve (NtSuspendProcess) en mitad de un GO real (armar / captions / efectos) y comprueba que el programa lo nota, lo cierra a la fuerza, lo reabre y termina.
+- `probar_previo_resolve.py <video> <pack>`: Resolve suspendido ANTES de pulsar GO → `colocacion.preparar_resolve_para_go` lo reinicia.
+- `probar_ciclos_go.py <video> <pack> <K>`: K GO seguidos (cuelgues intermitentes y tiempos). `probar_emojis_temas.py <video> <vertical:1|0> <pack>…`: GO solo con emojis + render + hoja de fotogramas (posición/animación).
+- En `1_codigo/`: `probar_go_variantes.py` (GO sin pantalla con sonidos/emojis/efectos a mano), `probar_estilos_app.py` (3 estilos sin Resolve), `proyecto_pruebas.py` (proyecto temporal vacío de Resolve), `recortar_bucle_vistas.py` (clips de «Crea tu estilo» en bucle).
+- Los arneses escriben las prefs REALES del usuario: parchear `ajustes_ui.guardar_prefs`. Para escribir parches con comillas usa la herramienta Write (los heredocs de bash se rompen).
