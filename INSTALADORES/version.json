@@ -1,23 +1,23 @@
 {
     "estable":  {
-                    "version":  "5.4.32",
-                    "notas":  "• Proyecto · «Crea tu estilo»: los estilos de los Temas 1, 2 y 3 ahora se ven con un VIDEO de 6 s renderizado por Resolve (entrada, texto y salida reales, sobre una foto), no con una imagen aproximada. Así Amro Highlight, Fire, Strike y Underline se ven como quedan de verdad, y también los efectos shatter, select y drag.",
-                    "fecha":  "2026-10-10",
+                    "version":  "5.4.35",
+                    "notas":  "• Arreglo: con el Tema 4 (y con Referencia) al activar a la vez los sonidos por palabra y los emojis, Resolve se cerraba al colocar los captions y salía «El puente no respondió en 90 segundos». Ahora los emojis se colocan antes que los sonidos y el GO termina bien.",
+                    "fecha":  "2026-10-11",
                     "archivos":  {
                                      "windows":  {
-                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.32/Instalar_CineCaptions_5.4.32.exe",
-                                                     "sha256":  "52c942f34454d486a77568c516e522125279322c95b792497ce7ac6d81b4d32f",
-                                                     "tam":  235161205
+                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.35/Instalar_CineCaptions_5.4.35.exe",
+                                                     "sha256":  "f57d795e53eebfaa0179bbcd4a8723ee9df64e6816ae8ac9d2c60b5ebc9d36e1",
+                                                     "tam":  235294334
                                                  },
                                      "mac_arm64":  {
-                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.32/CineCaptions_Mac_AppleSilicon_5.4.32.dmg",
-                                                       "sha256":  "f293b6cb9b3cec1cc03cbfbaf88198e3e5ec46c515a109d16ae4267d60c3b523",
-                                                       "tam":  204403608
+                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.35/CineCaptions_Mac_AppleSilicon_5.4.35.dmg",
+                                                       "sha256":  "06b69c86891c66db4f4dcd3f50e23c5e97d1e742623602e06053a28506ac7cb5",
+                                                       "tam":  204943033
                                                    },
                                      "mac_x86_64":  {
-                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.32/CineCaptions_Mac_Intel_5.4.32.dmg",
-                                                        "sha256":  "a36a44410e8ac2f09767c775b066f16c4a128ba23b32e3da30002da0856e5638",
-                                                        "tam":  220799491
+                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.35/CineCaptions_Mac_Intel_5.4.35.dmg",
+                                                        "sha256":  "1dbf0448297c28d8ab4a6d7e33b2c63f8c617ccfb5eded076a915e10fb65ad05",
+                                                        "tam":  220714292
                                                     }
                                  }
                 }
