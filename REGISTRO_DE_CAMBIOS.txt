@@ -12,6 +12,37 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-11 14:49  ·  v5.4.41  ·  (automático)
+    modificados (19):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
+      … y 7 más
+
+2026-10-11 14:41  ·  v5.4.40  ·  cambio explicado
+    5.4.41: Resolve cerrado por dentro con el proceso vivo y sin ventana (estado_resolve caido tras 20 s sin ventana, abrir_resolve_windows lo cierra), cerrojo en lanzar_puente_windows (letras revueltas en la consola), descargas de actualizacion con cerrojo; sin compilar
+    modificados (4):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/colocacion.py
+      ~ 1_codigo/resolve_bridge.py
+
+2026-10-11 14:10  ·  v5.4.40  ·  cambio explicado
+    Actualizar: descargas concurrentes escribian en el mismo .parte (WinError 32 / huella SHA-256 no coincide al 1.er intento); actualizaciones.descargar con lock, .parte propio por intento y 1 reintento; ventana sin doble descarga (5.4.41 sin compilar)
+    modificados (3):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/actualizaciones.py
+      ~ 1_codigo/ajustes_ui.py
+
 2026-10-11 13:32  ·  v5.4.40  ·  (automático)
     modificados (19):
       ~ 1_codigo/version.py

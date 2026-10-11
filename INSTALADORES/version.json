@@ -1,23 +1,23 @@
 {
     "estable":  {
-                    "version":  "5.4.35",
-                    "notas":  "• Arreglo: con el Tema 4 (y con Referencia) al activar a la vez los sonidos por palabra y los emojis, Resolve se cerraba al colocar los captions y salía «El puente no respondió en 90 segundos». Ahora los emojis se colocan antes que los sonidos y el GO termina bien.",
+                    "version":  "5.4.40",
+                    "notas":  "• Resolve Free ya no se cuelga al armar el proyecto de un video: se encontró la causa (se le cambiaban los ajustes al timeline recién creado antes de que Resolve terminara su copia de respaldo; el 2.º GO seguido se colgaba 5 de 7 veces) y se corrigió.\r\n• Si Resolve se cuelga o se cierra solo a mitad de GO, CineCaptions lo nota en cerca de 1 minuto, lo cierra, lo vuelve a abrir y repite el proceso solo (antes esperaba 4 minutos y fallaba).\r\n• Al terminar, Resolve queda en la vista expandida y vertical y reproduce el timeline desde el principio (las teclas Inicio y Espacio no llegaban: ahora usa el menú Reproducir).\r\n• Arreglo: tras varios GO seguidos con Resolve abierto, GO decía que el Puente era de una versión anterior y se detenía.\r\n• GO más rápido: el plan de efectos se prepara mientras la IA corrige el texto y el motor de voz se carga nada más abrir el programa (con la GPU holgada).",
                     "fecha":  "2026-10-11",
                     "archivos":  {
                                      "windows":  {
-                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.35/Instalar_CineCaptions_5.4.35.exe",
-                                                     "sha256":  "f57d795e53eebfaa0179bbcd4a8723ee9df64e6816ae8ac9d2c60b5ebc9d36e1",
-                                                     "tam":  235294334
+                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.40/Instalar_CineCaptions_5.4.40.exe",
+                                                     "sha256":  "1705b721eb0dde3c3810305012dcfba26fd86cdeaa0e32fa1dfb2938027624e3",
+                                                     "tam":  236285238
                                                  },
                                      "mac_arm64":  {
-                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.35/CineCaptions_Mac_AppleSilicon_5.4.35.dmg",
-                                                       "sha256":  "06b69c86891c66db4f4dcd3f50e23c5e97d1e742623602e06053a28506ac7cb5",
-                                                       "tam":  204943033
+                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.40/CineCaptions_Mac_AppleSilicon_5.4.40.dmg",
+                                                       "sha256":  "4820a099a625b8d4242e4f60c4a1d040e3293f61a1dc39401a8d2392450c81c8",
+                                                       "tam":  205835290
                                                    },
                                      "mac_x86_64":  {
-                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.35/CineCaptions_Mac_Intel_5.4.35.dmg",
-                                                        "sha256":  "1dbf0448297c28d8ab4a6d7e33b2c63f8c617ccfb5eded076a915e10fb65ad05",
-                                                        "tam":  220714292
+                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.40/CineCaptions_Mac_Intel_5.4.40.dmg",
+                                                        "sha256":  "cf1323c7cb2e3cf2fc67ed587908dba9cf9f7911a7b72995bd6ef3d4d13d585a",
+                                                        "tam":  221730403
                                                     }
                                  }
                 }
