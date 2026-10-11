@@ -1,23 +1,23 @@
 {
     "estable":  {
-                    "version":  "5.4.28",
-                    "notas":  "• El panel «Acerca de CineCaptions» (Ajustes) ya no se aprieta cuando la ventana es baja o la escala de Windows es alta: antes las notas pisaban el enlace «Leer notas de la versión» y los enlaces de la licencia salían cortados; ahora el panel se desplaza.\r\n• Si «Buscar actualizaciones» falla, ahora dice el motivo (sin internet, servidor lento, error del servidor, conexión segura) en vez de un mensaje genérico, lo reintenta una vez y deja el detalle técnico en el Registro.",
+                    "version":  "5.4.32",
+                    "notas":  "• Proyecto · «Crea tu estilo»: los estilos de los Temas 1, 2 y 3 ahora se ven con un VIDEO de 6 s renderizado por Resolve (entrada, texto y salida reales, sobre una foto), no con una imagen aproximada. Así Amro Highlight, Fire, Strike y Underline se ven como quedan de verdad, y también los efectos shatter, select y drag.",
                     "fecha":  "2026-10-10",
                     "archivos":  {
                                      "windows":  {
-                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.28/Instalar_CineCaptions_5.4.28.exe",
-                                                     "sha256":  "6eb03f055018bd210b37277a0dbaa77e7b23293f4e8e297cb6b71224ce12cabd",
-                                                     "tam":  234887248
+                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.32/Instalar_CineCaptions_5.4.32.exe",
+                                                     "sha256":  "52c942f34454d486a77568c516e522125279322c95b792497ce7ac6d81b4d32f",
+                                                     "tam":  235161205
                                                  },
                                      "mac_arm64":  {
-                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.28/CineCaptions_Mac_AppleSilicon_5.4.28.dmg",
-                                                       "sha256":  "7f94edae5d2a506e4137a3e469baa50a25a86f2cf318ede153c13263205d85ce",
-                                                       "tam":  203844428
+                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.32/CineCaptions_Mac_AppleSilicon_5.4.32.dmg",
+                                                       "sha256":  "f293b6cb9b3cec1cc03cbfbaf88198e3e5ec46c515a109d16ae4267d60c3b523",
+                                                       "tam":  204403608
                                                    },
                                      "mac_x86_64":  {
-                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.28/CineCaptions_Mac_Intel_5.4.28.dmg",
-                                                        "sha256":  "f062b58057ae021ef38ba81e02ebb2720977a1555c8572affacb46988240925e",
-                                                        "tam":  220532742
+                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.32/CineCaptions_Mac_Intel_5.4.32.dmg",
+                                                        "sha256":  "a36a44410e8ac2f09767c775b066f16c4a128ba23b32e3da30002da0856e5638",
+                                                        "tam":  220799491
                                                     }
                                  }
                 }

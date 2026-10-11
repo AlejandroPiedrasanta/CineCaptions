@@ -696,6 +696,45 @@
    "resumen": "mezcla_planificador (catalogo/planificar/crear_pack), mezcla_vista (vista/poster), _generar_con_mezcla, manifest.mezcla en los scripts de Resolve"
   },
   {
+   "id": "tema4",
+   "grupo": "estilos",
+   "tema": "Tema 4 («Captions limpios»: recuadro, tres tamaños, palabras una a una)",
+   "claves": [
+    "tema",
+    "4",
+    "tema4",
+    "limpio",
+    "recuadro",
+    "inter",
+    "brillo",
+    "glow",
+    "referencia",
+    "TEMA",
+    "palabras"
+   ],
+   "archivos": [
+    "tema4_planificador.py",
+    "tema4_vista.py",
+    "probar_tema4.py",
+    "2_recursos/generador_packs/pack_tema4.py",
+    "2_recursos/generador_packs/luxe_macro.py",
+    "hacer_vistas_mezcla.py"
+   ],
+   "simbolos": [
+    "planificar",
+    "cues_de",
+    "_componer",
+    "_disponer",
+    "_bloques",
+    "dibujar",
+    "construir",
+    "comp_luxe",
+    "resolve_colgado",
+    "_renderizar"
+   ],
+   "resumen": "tema4_planificador (bloques, tamaños, recuadro) + pack_tema4 (Inter Bold, brillo) + probar_tema4 (render por tramos en Resolve Free)"
+  },
+  {
    "id": "editar-quitar-pack",
    "grupo": "estilos",
    "tema": "Botones ✎ editar en Resolve y 🗑 quitar pack",
