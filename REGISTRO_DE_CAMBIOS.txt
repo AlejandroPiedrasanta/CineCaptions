@@ -12,6 +12,28 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-11 15:52  ·  v5.4.43  ·  (automático)
+    modificados (19):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
+      … y 7 más
+
+2026-10-11 15:48  ·  v5.4.42  ·  cambio explicado
+    5.4.43: retirar_scripts_viejos (RCS_* de la marca anterior duplicaban el menu de scripts de Resolve; respaldo en respaldo_scripts_viejos); Free y Studio; sin compilar
+    modificados (2):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/instalador_scripts.py
+
 2026-10-11 15:22  ·  v5.4.42  ·  (automático)
     modificados (19):
       ~ 1_codigo/version.py
