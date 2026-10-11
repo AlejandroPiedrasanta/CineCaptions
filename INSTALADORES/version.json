@@ -1,23 +1,23 @@
 {
     "estable":  {
-                    "version":  "5.4.40",
-                    "notas":  "• Resolve Free ya no se cuelga al armar el proyecto de un video: se encontró la causa (se le cambiaban los ajustes al timeline recién creado antes de que Resolve terminara su copia de respaldo; el 2.º GO seguido se colgaba 5 de 7 veces) y se corrigió.\r\n• Si Resolve se cuelga o se cierra solo a mitad de GO, CineCaptions lo nota en cerca de 1 minuto, lo cierra, lo vuelve a abrir y repite el proceso solo (antes esperaba 4 minutos y fallaba).\r\n• Al terminar, Resolve queda en la vista expandida y vertical y reproduce el timeline desde el principio (las teclas Inicio y Espacio no llegaban: ahora usa el menú Reproducir).\r\n• Arreglo: tras varios GO seguidos con Resolve abierto, GO decía que el Puente era de una versión anterior y se detenía.\r\n• GO más rápido: el plan de efectos se prepara mientras la IA corrige el texto y el motor de voz se carga nada más abrir el programa (con la GPU holgada).",
+                    "version":  "5.4.41",
+                    "notas":  "• Arreglo: si Resolve se cerraba por dentro y su proceso quedaba vivo sin ventana (9 GB, sin responder), GO esperaba minutos y fallaba con «el Puente dejó de responder». Ahora lo detecta, cierra ese Resolve fantasma, lo vuelve a abrir y repite el proceso.\r\n• Arreglo: al reabrir Resolve, dos tareas escribían a la vez en su consola y mezclaban las letras del comando que arranca el Puente («no pude lanzar el Puente»). Ahora escribe una sola.\r\n• Arreglo: al actualizar CineCaptions a veces salía «la huella (SHA-256) del archivo descargado NO coincide» o «archivo en uso» y había que repetir (dos descargas a la vez escribían en el mismo archivo). Ahora solo hay una descarga a la vez y, si la huella no cuadra por la red, se repite sola una vez.",
                     "fecha":  "2026-10-11",
                     "archivos":  {
                                      "windows":  {
-                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.40/Instalar_CineCaptions_5.4.40.exe",
-                                                     "sha256":  "1705b721eb0dde3c3810305012dcfba26fd86cdeaa0e32fa1dfb2938027624e3",
-                                                     "tam":  236285238
+                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.41/Instalar_CineCaptions_5.4.41.exe",
+                                                     "sha256":  "805e62f35485fe9128bdfb2325f9e04879e67181038f1f1d8d7b61e6e23e06c9",
+                                                     "tam":  236289760
                                                  },
                                      "mac_arm64":  {
-                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.40/CineCaptions_Mac_AppleSilicon_5.4.40.dmg",
-                                                       "sha256":  "4820a099a625b8d4242e4f60c4a1d040e3293f61a1dc39401a8d2392450c81c8",
-                                                       "tam":  205835290
+                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.41/CineCaptions_Mac_AppleSilicon_5.4.41.dmg",
+                                                       "sha256":  "3df7ef3863f7d7ad58f5899fe35c8572e570c35ece96ba8f87b33ed126fcda6d",
+                                                       "tam":  205895162
                                                    },
                                      "mac_x86_64":  {
-                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.40/CineCaptions_Mac_Intel_5.4.40.dmg",
-                                                        "sha256":  "cf1323c7cb2e3cf2fc67ed587908dba9cf9f7911a7b72995bd6ef3d4d13d585a",
-                                                        "tam":  221730403
+                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.41/CineCaptions_Mac_Intel_5.4.41.dmg",
+                                                        "sha256":  "27c40d3973d205825e00d846f1c74c5a54a9cc1f2848872c12a4fd463f2bc9dc",
+                                                        "tam":  221736127
                                                     }
                                  }
                 }
