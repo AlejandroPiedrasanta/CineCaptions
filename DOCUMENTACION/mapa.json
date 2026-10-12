@@ -2568,7 +2568,11 @@
         "2_recursos/edicion_pro/colocar_pro.py",
         "resolve_scripts/CineCaptions_EdicionPro.lua",
         "2_recursos/edicion_pro/ograf/lib/motor.js",
-        "herramientas_dev/probar_edicion_pro.py"
+        "herramientas_dev/probar_edicion_pro.py",
+        "herramientas_dev/resortes_motion.py",
+        "2_recursos/edicion_pro/ograf/orbita/pieza.js",
+        "2_recursos/edicion_pro/ograf/icono3d/pieza.js",
+        "edicion_pro_sonido.py"
       ],
       "simbolos": [
         "planificar",
@@ -2591,7 +2595,22 @@
         "_subir_captions",
         "_broll_de",
         "_rastreo_completo",
-        "_deshacer_subidas"
+        "_deshacer_subidas",
+        "_a_timeline",
+        "_punch_ins",
+        "_copiar_transformacion",
+        "_fin_detras",
+        "_planificar_efectos",
+        "_caras",
+        "_fuera_de_la_cara",
+        "_captions_sin_cara",
+        "_emojis_sin_cara",
+        "_iconos3d_captions",
+        "_apagar_emojis",
+        "_gris",
+        "iconos3d",
+        "disenar",
+        "analizar"
       ],
       "resumen": "GO + interruptor go_edicion_pro: plan por estilo de video con semilla propia, .ograf importados (nada de InsertFusionTitle), Magic Mask con puntos generados y rastreo en la página Fusion (pistas de encima apagadas, nunca StopTracking), ProRes con IA local en Free"
     }

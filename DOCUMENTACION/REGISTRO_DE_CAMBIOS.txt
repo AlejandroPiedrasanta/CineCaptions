@@ -12,6 +12,39 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-12 10:20  ·  v5.4.50  ·  cambio explicado
+    5.4.50 Edición PRO: Efectos visuales apagados con la PRO; sin repetir lo que dicen los captions; nada tapa la cara (captions, emojis, gráficos); órbita de iconos 3D (3dicons CC0) como gancho con Magic Mask; iconos 3D flotando junto a los captions en vez del emoji; escenas con fondo sustituido; resortes de Motion; Magic Mask v2 'Better' + Corregir contorno; diseño de sonido por familias (whoosh/textura/riser+hit) según la guía UE; modo error en gris; sin visor REC; arreglos: rastreo comprobado, recortes alineados (ajustado/punch-in), imágenes OGraf esperadas antes de capturar.
+
+2026-10-12 10:18  ·  v5.4.50  ·  (automático)
+    nuevos (26):
+      + 1_codigo/edicion_pro_sonido.py
+      + 1_codigo/herramientas_dev/generar_resortes.js
+      + 1_codigo/herramientas_dev/resortes_motion.py
+      + 2_recursos/edicion_pro/ograf/icono3d/pieza.js
+      + 2_recursos/edicion_pro/ograf/lib/iconos3d/LICENCIA.txt
+      + 2_recursos/edicion_pro/ograf/lib/iconos3d/bell-dynamic-color.png
+      + 2_recursos/edicion_pro/ograf/lib/iconos3d/bell-dynamic-premium.png
+      + 2_recursos/edicion_pro/ograf/lib/iconos3d/calendar-dynamic-color.png
+      + 2_recursos/edicion_pro/ograf/lib/iconos3d/calendar-dynamic-premium.png
+      + 2_recursos/edicion_pro/ograf/lib/iconos3d/camera-dynamic-premium.png
+      + 2_recursos/edicion_pro/ograf/lib/iconos3d/crown-dynamic-color.png
+      + 2_recursos/edicion_pro/ograf/lib/iconos3d/explorer-front-color.png
+      … y 14 más
+    modificados (41):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_ograf.py
+      ~ 1_codigo/edicion_pro_planificador.py
+      ~ 1_codigo/herramientas_dev/probar_edicion_pro.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/edicion_pro/colocar_pro.py
+      ~ 2_recursos/edicion_pro/ograf/cifra/pieza.js
+      ~ 2_recursos/edicion_pro/ograf/cta/pieza.js
+      ~ 2_recursos/edicion_pro/ograf/etiqueta/pieza.js
+      ~ 2_recursos/edicion_pro/ograf/fondo/pieza.js
+      … y 29 más
+
 2026-10-12 02:44  ·  v5.4.49  ·  cambio explicado
     5.4.49 Edición PRO: captions de los Temas 1-4 DETRÁS de la persona (pila subida con Tilt hasta la coronilla, persona con Magic Mask en PRO-ENCIMA, la de más arriba; cuánto tapa según el tamaño real de la cabeza y la línea de abajo; marcadores Sand para re-aplicar sin apilar), escenas de motion graphics (fondo + cifra/lista/icono), B-roll de stock en PRO-BROLL con la clave de Pexels. Arreglo crítico: un Magic Mask sin rastrear sale opaco y tapaba los captions; ahora cada MagicMask tiene nombre propio, reintento y comprobación por composición exportada.
 
