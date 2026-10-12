@@ -1,5 +1,298 @@
 REGISTRO DE CAMBIOS ARCHIVADO · 2026-10 (la entrada más nueva arriba)
 
+2026-10-10 09:27  ·  v5.4.23  ·  (automático)
+    nuevos (207):
+      + 1_codigo/.cf/icono.ico
+      + 1_codigo/desktop.ini
+      + 2_recursos/.cf/icono.ico
+      + 2_recursos/desktop.ini
+      + 2_recursos/efectos/.cf/icono.ico
+      + 2_recursos/efectos/corte/.cf/icono.ico
+      + 2_recursos/efectos/corte/desktop.ini
+      + 2_recursos/efectos/desktop.ini
+      + 2_recursos/efectos/iconos/.cf/icono.ico
+      + 2_recursos/efectos/iconos/desktop.ini
+      + 2_recursos/efectos/iconos/pack1/.cf/icono.ico
+      + 2_recursos/efectos/iconos/pack1/desktop.ini
+      … y 195 más
+    modificados (26):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/colocacion.py
+      ~ 1_codigo/efectos_extra_ui.py
+      ~ 1_codigo/efectos_pagina.py
+      ~ 1_codigo/efectos_visuales.py
+      ~ 1_codigo/recomendaciones.py
+      ~ 1_codigo/resolve_bridge.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      … y 14 más
+
+2026-10-09 23:22  ·  v5.4.22  ·  (automático)
+    modificados (24):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/estilos_slider.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/qt_kit.py
+      ~ 1_codigo/ui_toast.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      … y 12 más
+
+2026-10-09 23:11  ·  v5.4.21  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/qt_kit.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      … y 8 más
+
+2026-10-09 22:55  ·  v5.4.20  ·  (automático)
+    nuevos (75):
+      + 1_codigo/hacer_previas_nuevas.py
+      + 2_recursos/efectos/previas/alturaenfasis_abajo.jpg
+      + 2_recursos/efectos/previas/alturaenfasis_abajo.mp4
+      + 2_recursos/efectos/previas/alturaenfasis_arriba.jpg
+      + 2_recursos/efectos/previas/alturaenfasis_arriba.mp4
+      + 2_recursos/efectos/previas/alturaenfasis_centro.jpg
+      + 2_recursos/efectos/previas/alturaenfasis_centro.mp4
+      + 2_recursos/efectos/previas/ambiente_grano.jpg
+      + 2_recursos/efectos/previas/ambiente_grano.mp4
+      + 2_recursos/efectos/previas/ambiente_luz.jpg
+      + 2_recursos/efectos/previas/ambiente_luz.mp4
+      + 2_recursos/efectos/previas/ambiente_polvo.jpg
+      … y 63 más
+    modificados (23):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/efectos_extra_ui.py
+      ~ 1_codigo/efectos_pagina.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      … y 11 más
+
+2026-10-09 22:08  ·  v5.4.19  ·  (automático)
+    modificados (21):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      … y 9 más
+
+2026-10-09 21:36  ·  v5.4.18  ·  (automático)
+    modificados (23):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/colocacion.py
+      ~ 1_codigo/resolve_bridge.py
+      ~ 1_codigo/salud.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      … y 11 más
+
+2026-10-09 20:32  ·  v5.4.17  ·  (automático)
+    nuevos (3):
+      + 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      + 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      + 2_recursos/resolve_scripts/CineCaptions_Pausas.lua
+    modificados (21):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/colocacion.py
+      ~ 1_codigo/efectos_visuales.py
+      ~ 1_codigo/pausas.py
+      ~ 1_codigo/resolve_bridge.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      … y 9 más
+
+2026-10-09 17:52  ·  v5.4.16  ·  (automático)
+    modificados (25):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/colocacion.py
+      ~ 1_codigo/guion_captions.py
+      ~ 1_codigo/instalador_scripts.py
+      ~ 1_codigo/kinetic_captions.py
+      ~ 1_codigo/registro_ayuda.py
+      ~ 1_codigo/resolve_bridge.py
+      ~ 1_codigo/sfx_studio.py
+      ~ 1_codigo/subtitle_transcriber.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      … y 13 más
+
+2026-10-09 16:31  ·  v5.4.15  ·  (automático)
+    nuevos (2):
+      + 2_recursos/vistas_slider/VIRAL.jpg
+      + 2_recursos/vistas_slider/VIRAL.mp4
+    modificados (16):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_InsertarSFX.lua
+      … y 4 más
+
+2026-10-09 15:46  ·  v5.4.14  ·  (automático)
+    modificados (16):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_InsertarSFX.lua
+      … y 4 más
+
+2026-10-09 15:44  ·  v5.4.13  ·  cambio explicado
+    GO dice la verdad: Inicio muestra si Resolve es Studio o Free; «¡Listo!» solo si el script colocó líneas (py+lua cuentan y guardan ok=False con 0); causas en claro en el Registro (colocacion.CAUSAS + registro_ayuda); reparación y 1 reintento; vista final de Resolve (página Edit, disposición guardada, cabezal al inicio) y reproducir desde el inicio (Inicio+Espacio con foco verificado); timeline siempre vertical (go_vertical). Probado en Resolve Studio (Python) y vista_final Lua con mocks; Free real sin probar.
+    nuevos (1):
+      + 1_codigo/colocacion.py
+    modificados (8):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/proyecto_pruebas.py
+      ~ 1_codigo/registro_ayuda.py
+      ~ 1_codigo/resolve_mcp.py
+      ~ 1_codigo/un_clic_ui.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_Subtitulos.lua
+
+2026-10-09 11:00  ·  v5.4.13  ·  (automático)
+    nuevos (14):
+      + 1_codigo/emojis_sets.py
+      + 1_codigo/medir_barrido.py
+      + 1_codigo/probar_barrido.py
+      + 1_codigo/probar_estilos_app.py
+      + 1_codigo/proyecto_pruebas.py
+      + 1_codigo/recomendaciones.py
+      + 2_recursos/efectos/sonidos/viral_hooks_riser.mp3
+      + 2_recursos/emojis/construir_mapa_fluent.py
+      + 2_recursos/emojis/fluent_mapa.json
+      + 2_recursos/generador_sfx_estilo/preparar_sonidos.py
+      + 2_recursos/sfx_library/Modo simple/Iphone Taping.wav
+      + 2_recursos/sfx_library/Riser/Viral Hooks Riser.mp3
+      … y 2 más
+    modificados (40):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/efectos_pagina.py
+      ~ 1_codigo/efectos_visuales.py
+      ~ 1_codigo/emojis.py
+      ~ 1_codigo/emojis_sfx.py
+      ~ 1_codigo/fusion_v1.py
+      ~ 1_codigo/guion_captions.py
+      ~ 1_codigo/guion_planificador.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/probar_viral.py
+      ~ 1_codigo/sfx_rules.py
+      … y 28 más
+
+2026-10-08 23:09  ·  v5.4.12  ·  (automático)
+    modificados (15):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_InsertarSFX.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Puente.lua
+      … y 3 más
+
+2026-10-08 23:08  ·  v5.4.11  ·  cambio explicado
+    Instalar 5.4.11 fallaba con «No puedo reemplazar la versión instalada… Acceso denegado a …\Programs\CineCaptions»: Resolve (abierto con el proyecto del GO) tenía ABIERTO _internal\efectos\intro\fuga_de_luz_v.mp4, porque efectos_visuales._clip le daba la ruta del programa. Ahora _clip entrega una copia en ~/DaVinciSubtitles/efectos_clips (no en la caché, que el mantenimiento vacía) y el instalador ya no choca con Resolve. Se desbloqueó a mano: se guardó y cerró el proyecto de prueba «CineCaptions 2» en Resolve. Falta compilar (5.4.12).
+    modificados (1):
+      ~ 1_codigo/efectos_visuales.py
+
+2026-10-08 23:04  ·  v5.4.11  ·  (automático)
+    modificados (15):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_InsertarSFX.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Puente.lua
+      … y 3 más
+
+2026-10-08 23:03  ·  v5.4.10  ·  cambio explicado
+    VIRAL · Shatter rehecho a partir de ESTILO VIRAL (1).mp4 y del comentario del usuario («es como un vidrio quebrado… tiene que romperse en varios fragmentos»; azul cielo; barrido de luz): árbol de cortes de 9 fragmentos con bordes inclinados (semiplanos de RectangleMask), recortados antes de moverse, con giro y tono distinto, y barrido de luz (Merge Atop). Planificador: select → shatter → drag en rotación y MINIMO más bajo, porque con habla rápida siempre caía en shatter y el usuario solo veía ese efecto. Select y Drag: brillo blanco suave y contorno/sombra oscuros (se perdían sobre fondos claros; el elemento de sombra necesita ElementShape=0 explícito o sale como rectángulo). Vista de la tarjeta regenerada. Sin compilar todavía.
+    modificados (11):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/viral_captions.py
+      ~ 1_codigo/viral_planificador.py
+      ~ 2_recursos/generador_packs/viral_elementos.py
+      ~ 2_recursos/plantillas_incluidas/VIRAL/VIRAL horizontal.drb
+      ~ 2_recursos/plantillas_incluidas/VIRAL/VIRAL vertical.drb
+      ~ 2_recursos/plantillas_incluidas/VIRAL/vista/indice.json
+      ~ 2_recursos/plantillas_incluidas/VIRAL/vista/vir_01.jpg
+      ~ 2_recursos/plantillas_incluidas/VIRAL/vista/vir_02.jpg
+      ~ 2_recursos/plantillas_incluidas/VIRAL/vista/vir_03.jpg
+      ~ 2_recursos/plantillas_incluidas/VIRAL/vista/vir_04.jpg
+
+
+(Lo anterior está archivado por mes en DOCUMENTACION/historial/REGISTRO_<aaaa-mm>.txt)
 2026-10-08 22:41  ·  v5.4.10  ·  (automático)
     modificados (15):
       ~ 1_codigo/version.py

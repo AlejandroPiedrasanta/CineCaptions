@@ -2013,7 +2013,9 @@
       ],
       "archivos": [
         "render_sin_resolve.py",
-        "un_clic_ui.py"
+        "un_clic_ui.py",
+        "instalador_scripts.py",
+        "ajustes_ui.py"
       ],
       "simbolos": [
         "renderizar",
@@ -2021,6 +2023,8 @@
         "componer",
         "encaje",
         "mezclar_audio",
+        "_motivo_mp4",
+        "resolve_ejecutable",
         "_resolve_no_instalado",
         "_textos_pasos_go",
         "_go_grabar_video",
