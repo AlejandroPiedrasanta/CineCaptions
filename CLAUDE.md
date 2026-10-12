@@ -1,6 +1,6 @@
 # CineCaptions — leer SOLO esto; lo demás se consulta por demanda
 
-App PySide6 (v5.4.48) que subtitula vídeos con IA local y coloca los subtítulos en DaVinci Resolve. Carpetas: `1_codigo` programa · `2_recursos` · `3_compilar` · `4_diseno` · `5_licencias` (otro producto) · `6_compilacion` (temporal, no tocar) · `7_mac` · `INSTALADORES/{Windows,Mac}` · `DOCUMENTACION`.
+App PySide6 (v5.4.49) que subtitula vídeos con IA local y coloca los subtítulos en DaVinci Resolve. Carpetas: `1_codigo` programa · `2_recursos` · `3_compilar` · `4_diseno` · `5_licencias` (otro producto) · `6_compilacion` (temporal, no tocar) · `7_mac` · `INSTALADORES/{Windows,Mac}` · `DOCUMENTACION`.
 
 ## Consultar SIN leer archivos (en este orden; ahorra tokens)
 1. **MCP `cinecaptions`**: `mapa("palabras")` → temas con archivos y símbolos · `mapa(id="…")` → detalle del tema · `simbolo("nombre")` → solo esa función/clase/método · `modulo("archivo")` → qué es · `cambios(n)` · `resumen()`.
@@ -29,7 +29,7 @@ App PySide6 (v5.4.48) que subtitula vídeos con IA local y coloca los subtítulo
 - **vigilancia** (Vigilancia, logs y respaldo de modelos): `vigilancia` [vigilancia]
 - **datos** (Datos del usuario, licencia y ajustes): `licencia` [licencia] · `archivos-seguros` [archivos_seguros] · `carpetas-del-usuario` [archivos_seguros] · `proyectos-usuario` [proyectos]
 - **pruebas** (Pruebas y MCP del programa): `banco-mcp` [banco_pruebas] · `pruebas-sin-pantalla` [probar_go] · `herramientas-dev` [herramientas_dev/probar_cuelgue_resolve]
-- **efectos** (Efectos visuales (intro, transiciones en los cortes, iconos flotantes)): `efectos-visuales` [efectos_visuales] · `efectos-movimiento` [fusion_v1] · `efectos-extra` [efectos_extra] · `quitar-pausas` [pausas] · `broll` [broll]
+- **efectos** (Efectos visuales (intro, transiciones en los cortes, iconos flotantes)): `efectos-visuales` [efectos_visuales] · `efectos-movimiento` [fusion_v1] · `efectos-extra` [efectos_extra] · `quitar-pausas` [pausas] · `broll` [broll] · `edicion-pro` [edicion_pro]
 <!-- MAPA:FIN -->
 
 ## Reglas que no se rompen (detalle: `mapa(id="reglas-rendimiento")`)

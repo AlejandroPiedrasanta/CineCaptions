@@ -12,6 +12,39 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-12 02:44  ·  v5.4.49  ·  cambio explicado
+    5.4.49 Edición PRO: captions de los Temas 1-4 DETRÁS de la persona (pila subida con Tilt hasta la coronilla, persona con Magic Mask en PRO-ENCIMA, la de más arriba; cuánto tapa según el tamaño real de la cabeza y la línea de abajo; marcadores Sand para re-aplicar sin apilar), escenas de motion graphics (fondo + cifra/lista/icono), B-roll de stock en PRO-BROLL con la clave de Pexels. Arreglo crítico: un Magic Mask sin rastrear sale opaco y tapaba los captions; ahora cada MagicMask tiene nombre propio, reintento y comprobación por composición exportada.
+
+2026-10-12 02:41  ·  v5.4.49  ·  (automático)
+    nuevos (28):
+      + 1_codigo/edicion_pro.py
+      + 1_codigo/edicion_pro_ograf.py
+      + 1_codigo/edicion_pro_persona.py
+      + 1_codigo/edicion_pro_planificador.py
+      + 1_codigo/herramientas_dev/probar_edicion_pro.py
+      + 2_recursos/edicion_pro/colocar_pro.py
+      + 2_recursos/edicion_pro/modelos/LICENCIA.txt
+      + 2_recursos/edicion_pro/modelos/modnet.onnx
+      + 2_recursos/edicion_pro/ograf/cifra/pieza.js
+      + 2_recursos/edicion_pro/ograf/cta/pieza.js
+      + 2_recursos/edicion_pro/ograf/etiqueta/pieza.js
+      + 2_recursos/edicion_pro/ograf/fondo/pieza.js
+      … y 16 más
+    modificados (29):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/resolve_bridge.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      … y 17 más
+
 2026-10-11 19:41  ·  v5.4.48  ·  (automático)
     modificados (19):
       ~ 1_codigo/version.py

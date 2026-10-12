@@ -2535,6 +2535,65 @@
       ],
       "simbolos": [],
       "resumen": "qué hace cada script de 2_recursos/resolve_scripts y quién es el gemelo en Studio"
+    },
+    {
+      "id": "edicion-pro",
+      "grupo": "efectos",
+      "tema": "Edición PRO: motion graphics OGraf en la línea de tiempo, persona delante con Magic Mask, estilos por tipo de video (bodas, XV, restaurantes, inmobiliaria, detrás de cámara)",
+      "claves": [
+        "pro",
+        "edicion pro",
+        "ograf",
+        "magic mask",
+        "motion",
+        "graficos",
+        "titular",
+        "boda",
+        "xv",
+        "restaurante",
+        "inmobiliaria",
+        "bts",
+        "modnet",
+        "persona",
+        "captions detras",
+        "broll",
+        "escena",
+        "viral"
+      ],
+      "archivos": [
+        "edicion_pro.py",
+        "edicion_pro_planificador.py",
+        "edicion_pro_persona.py",
+        "edicion_pro_ograf.py",
+        "2_recursos/edicion_pro/colocar_pro.py",
+        "resolve_scripts/CineCaptions_EdicionPro.lua",
+        "2_recursos/edicion_pro/ograf/lib/motor.js",
+        "herramientas_dev/probar_edicion_pro.py"
+      ],
+      "simbolos": [
+        "planificar",
+        "aplicar",
+        "detectar_genero",
+        "direccion",
+        "personas",
+        "puntos_fusion",
+        "recorte_prores",
+        "construir",
+        "js_empaquetado",
+        "instalar_plantillas",
+        "_planificar_pro",
+        "_colocar_pro",
+        "_menu_pro_go",
+        "_boton_pro",
+        "_captions_detras",
+        "_bloques_captions",
+        "_encima",
+        "_subir_captions",
+        "_broll_de",
+        "_rastreo_completo",
+        "_deshacer_subidas"
+      ],
+      "resumen": "GO + interruptor go_edicion_pro: plan por estilo de video con semilla propia, .ograf importados (nada de InsertFusionTitle), Magic Mask con puntos generados y rastreo en la página Fusion (pistas de encima apagadas, nunca StopTracking), ProRes con IA local en Free"
     }
   ]
 }

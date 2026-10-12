@@ -1,23 +1,23 @@
 {
     "estable":  {
-                    "version":  "5.4.47",
-                    "notas":  "• CineCaptions ya funciona SIN DaVinci Resolve: si no lo tienes instalado, suelta un video y pulsa GO; te devuelve una copia MP4 con los subtítulos de Tema 4 grabados (con sus sonidos y emojis), junto a tu video.",
+                    "version":  "5.4.48",
+                    "notas":  "• Nuevo en Ajustes \u003e General: «Video MP4 en lugar de Resolve». Actívalo y GO te devuelve una copia MP4 de tu video con los subtítulos grabados aunque tengas Resolve instalado (para exportar rápido).\r\n• Arreglo: en un equipo donde se había desinstalado DaVinci Resolve, CineCaptions creía que seguía instalado y GO no entregaba el video. Ahora mira el programa en sí.",
                     "fecha":  "2026-10-11",
                     "archivos":  {
                                      "windows":  {
-                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.47/Instalar_CineCaptions_5.4.47.exe",
-                                                     "sha256":  "695e6d82777fda44eabd1e02524095e6ac08ea0d47d434fcfa16da74f611ee9b",
-                                                     "tam":  237675586
+                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.48/Instalar_CineCaptions_5.4.48.exe",
+                                                     "sha256":  "740482b0d8456c1d95723ca8b575d5c31b6fa7c172101c3480885f8cfc6d8b8d",
+                                                     "tam":  237678643
                                                  },
                                      "mac_arm64":  {
-                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.47/CineCaptions_Mac_AppleSilicon_5.4.47.dmg",
-                                                       "sha256":  "0ab9dfc579c8f942f12c8a290347e1a5cd3574565d0a05d2dbb5a9d7b295f9a5",
-                                                       "tam":  205288839
+                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.48/CineCaptions_Mac_AppleSilicon_5.4.48.dmg",
+                                                       "sha256":  "bb33ffb9eddb3b3ed0173bf1076c378d01fe2269945201e1099459633b5e6e1a",
+                                                       "tam":  205288972
                                                    },
                                      "mac_x86_64":  {
-                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.47/CineCaptions_Mac_Intel_5.4.47.dmg",
-                                                        "sha256":  "682817eba3e21fda0e34327c796ebba5b573ee6456ba1f2a6c653608dd9478c7",
-                                                        "tam":  222099157
+                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.48/CineCaptions_Mac_Intel_5.4.48.dmg",
+                                                        "sha256":  "28c260d217a709833e7ea2bf538603cf4e4fe59b748442bc8ac1207c5e227d3e",
+                                                        "tam":  222063244
                                                     }
                                  }
                 }
