@@ -1,23 +1,23 @@
 {
     "estable":  {
-                    "version":  "5.4.43",
-                    "notas":  "• El menú de scripts de Resolve ya no sale con todo duplicado: las copias viejas de la marca anterior (RCS_Puente, RCS_Subtitulos…) se retiran solas (con copia de respaldo) y quedan solo los CineCaptions_… ; en Resolve Free y en Studio.",
+                    "version":  "5.4.46",
+                    "notas":  "• Arreglo: con DaVinci Resolve Free la ventana se quedaba congelada unos 4 segundos al abrir CineCaptions y en cada GO. Ya no: la conexión con Resolve se comprueba aparte, sin frenar la ventana.\r\n• El audio que Resolve prepara para transcribir ya no se guarda en Descargas («CineCaptions Audio»): va a una carpeta interna del programa, fuera de la vista. La carpeta vieja se vacía y se quita sola.\r\n• Arreglo: los avisos de Resolve Free ya no salen con letras rotas («tama??o»): las tildes y la ñ llegan bien.\r\n• Arreglo: al actualizar CineCaptions, la ventana ya no se congela unos segundos al abrir el instalador.\r\n• Librerías al día: Qt 6.12, PyAV 19, ONNX Runtime 1.31 y Hugging Face Hub 2.2.",
                     "fecha":  "2026-10-11",
                     "archivos":  {
                                      "windows":  {
-                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.43/Instalar_CineCaptions_5.4.43.exe",
-                                                     "sha256":  "ee475be632c01384f07272ebddefebc804179bbe03d34b2ab2fbd623eec5a440",
-                                                     "tam":  236294967
+                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.46/Instalar_CineCaptions_5.4.46.exe",
+                                                     "sha256":  "91892e5455cc6c73c6ce6535bb087d40a23a9f30df814d9277a3f9dcdeccdc90",
+                                                     "tam":  237651083
                                                  },
                                      "mac_arm64":  {
-                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.43/CineCaptions_Mac_AppleSilicon_5.4.43.dmg",
-                                                       "sha256":  "f97ab825565ddc7c64ac599cc2491284edcda646e31fbf43136cc4a2f45ac017",
-                                                       "tam":  205915252
+                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.46/CineCaptions_Mac_AppleSilicon_5.4.46.dmg",
+                                                       "sha256":  "bbc834e67422356b5289e23c75c752b8e131773e7ca6d6cbe253c603f7853b3a",
+                                                       "tam":  205286533
                                                    },
                                      "mac_x86_64":  {
-                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.43/CineCaptions_Mac_Intel_5.4.43.dmg",
-                                                        "sha256":  "11b7b591c34b99299b8fa38f0c84cbb0daab40084cabdec9e259c9538cea04cb",
-                                                        "tam":  221732754
+                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.46/CineCaptions_Mac_Intel_5.4.46.dmg",
+                                                        "sha256":  "873dd80eab892c9d9a12709102ca910e52676f12af30c6d1e3330b8843c174f6",
+                                                        "tam":  222082035
                                                     }
                                  }
                 }

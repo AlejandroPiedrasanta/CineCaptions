@@ -1993,6 +1993,42 @@
       "resumen": "GO dice la verdad: «Listo» solo si se colocó algo, causas en claro (colocacion.CAUSAS), reparar+reintento, vista final y reproducir"
     },
     {
+      "id": "go-sin-resolve",
+      "grupo": "go",
+      "tema": "GO sin DaVinci Resolve: el video con los subtítulos de Tema 4 grabados (MP4), con sus sonidos y emojis",
+      "claves": [
+        "sin",
+        "resolve",
+        "instalado",
+        "render",
+        "renderizar",
+        "mp4",
+        "grabar",
+        "quemar",
+        "exportar",
+        "video",
+        "tema4",
+        "horizontal",
+        "standalone"
+      ],
+      "archivos": [
+        "render_sin_resolve.py",
+        "un_clic_ui.py"
+      ],
+      "simbolos": [
+        "renderizar",
+        "preparar",
+        "componer",
+        "encaje",
+        "mezclar_audio",
+        "_resolve_no_instalado",
+        "_textos_pasos_go",
+        "_go_grabar_video",
+        "renombrar_paso"
+      ],
+      "resumen": "Sin Resolve en el equipo, GO graba Tema 4 (Pillow + PyAV/libx264) en «<video> (CineCaptions).mp4» junto al original"
+    },
+    {
       "id": "rendimiento-base",
       "grupo": "ui",
       "tema": "Rendimiento y robustez: caché de voz, GPU (CUDA), descargas, cola de fondo, Resolve colgado",

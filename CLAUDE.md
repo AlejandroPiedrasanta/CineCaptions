@@ -1,6 +1,6 @@
 # CineCaptions — leer SOLO esto; lo demás se consulta por demanda
 
-App PySide6 (v5.4.46) que subtitula vídeos con IA local y coloca los subtítulos en DaVinci Resolve. Carpetas: `1_codigo` programa · `2_recursos` · `3_compilar` · `4_diseno` · `5_licencias` (otro producto) · `6_compilacion` (temporal, no tocar) · `7_mac` · `INSTALADORES/{Windows,Mac}` · `DOCUMENTACION`.
+App PySide6 (v5.4.47) que subtitula vídeos con IA local y coloca los subtítulos en DaVinci Resolve. Carpetas: `1_codigo` programa · `2_recursos` · `3_compilar` · `4_diseno` · `5_licencias` (otro producto) · `6_compilacion` (temporal, no tocar) · `7_mac` · `INSTALADORES/{Windows,Mac}` · `DOCUMENTACION`.
 
 ## Consultar SIN leer archivos (en este orden; ahorra tokens)
 1. **MCP `cinecaptions`**: `mapa("palabras")` → temas con archivos y símbolos · `mapa(id="…")` → detalle del tema · `simbolo("nombre")` → solo esa función/clase/método · `modulo("archivo")` → qué es · `cambios(n)` · `resumen()`.
@@ -15,7 +15,7 @@ App PySide6 (v5.4.46) que subtitula vídeos con IA local y coloca los subtítulo
 <!-- MAPA:INICIO (lo escribe 1_codigo/mapa_codigo.py generar; no lo edites a mano) -->
 - **general** (Visión general del programa): `documentacion` [mapa_codigo] · `acoplamientos` [version]
 - **ui** (Interfaz Qt: ventana, diseño, rendimiento, ajustes): `ventana-paginas` [ir_a] · `fondo-animado` [efectos_ui] · `liquid-glass` [qt_kit] · `ritmo-fps` [ritmo_ui] · `qt-kit` [qt_kit] · `ajustes-tema` [ajustes_ui] · `isla-nav` [isla_ui] · `aurora` [qt_kit] · `recorrido` [recorrido_ui] · `reglas-rendimiento` [qt_kit] · `rendimiento-base` [cache_voz] · `ui-menores` [brillo_ui]
-- **go** (GO e Inicio (botón, escena, arrastrar un video)): `go-inicio` [un_clic_ui] · `estilos-inicio` [estilos_inicio] · `orbe-go` [orbe_mecanica] · `arrastrar-video` [resolve_mcp] · `fuente-unica` [principal] · `go-progreso` [un_clic_ui] · `go-control` [un_clic_ui] · `go-colocacion-real` [colocacion]
+- **go** (GO e Inicio (botón, escena, arrastrar un video)): `go-inicio` [un_clic_ui] · `estilos-inicio` [estilos_inicio] · `orbe-go` [orbe_mecanica] · `arrastrar-video` [resolve_mcp] · `fuente-unica` [principal] · `go-progreso` [un_clic_ui] · `go-control` [un_clic_ui] · `go-colocacion-real` [colocacion] · `go-sin-resolve` [render_sin_resolve]
 - **creativo** (Editor Creativo (palabras, Asistencia, Generar)): `editor-palabras` [WordTagWindow] · `creativo-ui` [editor_ui] · `creativo-detecta-audio` [_estado_creativo]
 - **estilos** (Estilos y packs (.drb/.drt, Luxe, Crea tu estilo)): `pantalla-estilos` [PlantillasWindow] · `estilos-slider` [1_codigo/estilos_slider] · `packs-drt` [plantillas] · `fuentes` [fuentes_sistema] · `generador-packs` [generar_comps] · `crea-tu-estilo` [ejemplos_estilo] · `mezcla-temas` [mezcla_planificador] · `tema4` [tema4_planificador] · `editar-quitar-pack` [edicion_pack] · `luxe-packs` [2_recursos/generador_packs/luxe_macro]
 - **bloques** (Bloques de subtítulos (cerebro, estilo por bloque, pausas)): `bloques` [dynamic_subtitles] · `anim-cortos` [dynamic_subtitles] · `estilo-bloque` [estilos_bloque] · `colgantes` [dynamic_subtitles]

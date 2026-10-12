@@ -12,6 +12,38 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-11 19:05  ·  v5.4.47  ·  (automático)
+    modificados (19):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
+      … y 7 más
+
+2026-10-11 19:03  ·  v5.4.46  ·  cambio explicado
+    v5.4.47: GO sin DaVinci Resolve (pedido: hacer que funcione sin Resolve; el usuario eligio el MP4 con subtitulos). Sin Resolve instalado, GO planifica Tema 4 y render_sin_resolve.py dibuja las mismas posiciones/tamanos/tiempos con Pillow (fundido de ~3 fotogramas y halo blanco medidos en TEMA 4.mp4), mezcla los sonidos y los emojis y codifica H.264 con PyAV; el MP4 queda junto al video. Los demas temas y los efectos visuales siguen siendo solo de Resolve.
+    nuevos (2):
+      + 1_codigo/herramientas_dev/probar_go_sin_resolve.py
+      + 1_codigo/render_sin_resolve.py
+    modificados (9):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/un_clic_ui.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 3_compilar/partido_listo/CineCaptions (script principal).py
+
 2026-10-11 18:23  ·  v5.4.46  ·  (automático)
     modificados (19):
       ~ 1_codigo/version.py
