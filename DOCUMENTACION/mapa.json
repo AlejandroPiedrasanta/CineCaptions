@@ -427,7 +427,8 @@
         "motor_voz.py",
         "ia_texto.py",
         "motor_qwen.py",
-        "motor_texto.py"
+        "motor_texto.py",
+        "compat_av.py"
       ],
       "simbolos": [],
       "resumen": "subtitle_transcriber, motor_voz, ia_texto"

@@ -12,6 +12,39 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-11 18:23  ·  v5.4.46  ·  (automático)
+    modificados (19):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
+      … y 7 más
+
+2026-10-11 18:23  ·  v5.4.45  ·  cambio explicado
+    v5.4.46: auditoria de fallas con el registro real del usuario. (1) Congelaciones de 4 s al arrancar y en cada GO con Resolve Free: dvr.scriptapp tarda 4,1 s sin soltar el GIL; ahora se sondea en otro proceso (--tarea sonda_resolve), medido 4,11 s -> 0,01 s. (2) Carrera de ctypes: _Proc distinto fijado en el windll compartido. (3) Lanzar el instalador de la actualizacion fuera del hilo de la interfaz. (4) Texto no ASCII de los .lua por modo senales llegaba con ?: json_escapar con \uXXXX en los 11 scripts (probado en LuaJIT). (5) Audio de Detectar video fuera de Descargas, en la carpeta interna; la vieja se limpia. (6) Fila muerta de idioma en Ajustes > General. Librerias: Qt 6.12, PyAV 19 (compat_av), onnxruntime 1.31, huggingface_hub 2.2.
+    modificados (20):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/resolve_bridge.py
+      ~ 1_codigo/tareas_instalador.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
 2026-10-11 17:54  ·  v5.4.45  ·  (automático)
     modificados (20):
       ~ 1_codigo/CineCaptions (script principal).py

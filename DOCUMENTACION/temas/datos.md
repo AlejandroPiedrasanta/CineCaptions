@@ -18,7 +18,7 @@
 
 Se conserva al actualizar; al desinstalar el usuario elige.
 - `~/DaVinciSubtitles/`: `preferencias.json` (ajustes), `licencia/`, `<video>.marcas.json`, `<video>.<idioma>.dynamic.json|.guion.json|.srt` (+ `.lua`), `subtitles_manifest.json` (la última orden de colocar), `proyectos/`, `plantillas/` y `plantillas_cache/` (packs del usuario y vistas reales), `emojis*/`, `jobs/` (cola del Puente), `sfx_rules.json`, `cinecaptions.log` y `errores.log`, `reporte_soporte.txt`, `instalador/` (logs de instalación), `banco/` (pruebas).
-- `%LOCALAPPDATA%\Programs\CineCaptions\` el programa instalado · `%LOCALAPPDATA%\CineCaptions\motor_qwen\` el motor de voz e IA · `~/.cache/huggingface/` modelos · `Documentos\CineCaptions\Copias de seguridad\` (`copias.py`) · `~/.cinecaptions.lock` (instancia única).
+- `%LOCALAPPDATA%\Programs\CineCaptions\` el programa instalado · `%LOCALAPPDATA%\CineCaptions\motor_qwen\` el motor de voz e IA · `%LOCALAPPDATA%\CineCaptions\audio\` (Mac: `~/Library/Application Support/CineCaptions/audio/`) los audios que renderiza «Detectar video» (v5.4.45; antes `Descargas\CineCaptions Audio`, a la vista: `_podar_renders_viejos` vacía y quita esa carpeta vieja; los desinstaladores borran la nueva) · `~/.cache/huggingface/` modelos · `Documentos\CineCaptions\Copias de seguridad\` (`copias.py`) · `~/.cinecaptions.lock` (instancia única).
 
 ## proyectos-usuario — Registro de proyectos (vídeos) trabajados
 
