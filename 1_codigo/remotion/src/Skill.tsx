@@ -8,7 +8,7 @@
 //              tarjeta, una cifra en serif o una foto del propio video; el texto lo ponen los captions (tinta oscura)
 import { AbsoluteFill, Img, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
 import { FAMILIA, clamp, rgb, useFuentes } from './comun';
-import { App, Avatares, Barra, Calendario, Cifra, Comparacion, Estado, Ficha, Grafica, Lista, Muestra, Objeto, Ojo, Pieza, Precio, Pregunta, Reloj, TEMA_CLARO, TEMA_OSCURO, TemaCtx, sombra } from './Objetos';
+import { App, Avatares, Barra, Calendario, Cifra, Comparacion, Estado, Ficha, Grafica, Lista, Muestra, Objeto, Ojo, Pieza, Precio, Pregunta, Reloj, TEMA_CLARO, TEMA_MELOCOTON, TEMA_OSCURO, TemaCtx, sombra } from './Objetos';
 
 const PAPEL = '#F2F1EC';
 const TINTA = '#1D1D21';
@@ -116,7 +116,7 @@ export const DeslizadorT5: React.FC<DeslizadorProps> = ({ izq = 'Principiante', 
 // 'fila' (muestras en fila; 4 → 2×2) o 'fichas' (alrededor de la frase, que va al centro). Entrada: corte seco con un zoom que se asienta
 // (1,06 → 1, desenfoque → nítido); durante la escena la «cámara» se acerca un poco; al salir los objetos se dispersan y el papel sube.
 export type EscenaProps = { variante?: 'texto' | 'icono' | 'cifra' | 'tarjeta' | 'objetos'; mitad?: 'completa' | 'arriba' | 'encima'; icono?: string; cifra?: string; etiqueta?: string;
-                            imagen?: string; acento?: string; objetos?: Objeto[]; disposicion?: 'objeto' | 'fila' | 'fichas'; fondo?: 'papel' | 'cristal'; y?: number };
+                            imagen?: string; acento?: string; objetos?: Objeto[]; disposicion?: 'objeto' | 'fila' | 'fichas'; fondo?: 'papel' | 'cristal' | 'melocoton'; y?: number };
 const ESCALA_OBJ: Record<string, number> = { ficha: 1.35, avatares: 1.3, estado: 1.45, reloj: 1.25, barra: 1.12, precio: 1.15, muestra: 1.1, grafica: 1.1, app: 1.05,
                                               lista: 1.35, comparacion: 1.35, pregunta: 1.3, icono3d: 1.1 };
 const HUECOS_FICHAS: [number, number][] = [[-0.24, -0.2], [0.26, -0.15], [0.3, 0.14], [-0.3, 0.13], [0.12, 0.25], [-0.14, 0.27], [0.02, -0.3], [-0.33, -0.3]];
@@ -127,6 +127,7 @@ export const EscenaT5: React.FC<EscenaProps> = ({ variante = 'texto', mitad = 'c
   const U = Math.min(width, height) / 1080;
   const { t, fin, e, s } = useVida(0.3, 0.3);
   const arriba = mitad === 'arriba', encima = mitad === 'encima', cristal = fondo === 'cristal' || encima;
+  const melocoton = fondo === 'melocoton' && !encima && !arriba;     // Tema 6: melocotón cálido, cartas blancas, entra y sale con un destello blanco
   const alto = arriba ? height * 0.5 : height;
   const paso = 54 * U;
   const salida = clamp((t - (fin - 0.3)) / 0.3);
@@ -195,6 +196,24 @@ export const EscenaT5: React.FC<EscenaProps> = ({ variante = 'texto', mitad = 'c
     );
   }
   const [ar, ag, ab] = rgb(acento);
+  if (melocoton) {
+    // el destello: los primeros 0,22 s el video (debajo) se quema a blanco; luego el melocotón, con el blanco que se va; al salir, otra vez blanco
+    const pre = 0.22;
+    const quema = clamp(t / pre), aparece = clamp((t - pre) / 0.05), blanco = t < pre ? 0.95 * quema * quema : 0.95 * (1 - easeOut((t - pre) / 0.4));
+    const sale = clamp((t - (fin - 0.25)) / 0.25);
+    return (
+      <AbsoluteFill>
+        <AbsoluteFill style={{ opacity: aparece * (1 - sale), fontSynthesis: 'none' }}>
+          <AbsoluteFill style={{ background: 'linear-gradient(165deg, #FCE2D2 0%, #FFF4EE 46%, #FDE6D8 100%)' }} />
+          <AbsoluteFill style={{ background: `radial-gradient(ellipse 70% 45% at ${(30 + 8 * Math.sin(t * 0.5)).toFixed(2)}% 22%, rgba(255,255,255,.75), rgba(255,255,255,0) 70%)` }} />
+          <div style={{ position: 'absolute', inset: 0, transform: `scale(${(1 + 0.025 * clamp(t / Math.max(1, fin))).toFixed(4)})` }}>
+            <TemaCtx.Provider value={TEMA_MELOCOTON}>{contenido}</TemaCtx.Provider>
+          </div>
+        </AbsoluteFill>
+        <AbsoluteFill style={{ background: '#FFFBF7', opacity: Math.max(blanco, 0.85 * Math.sin(sale * Math.PI)) }} />
+      </AbsoluteFill>
+    );
+  }
   if (encima) {                                                    // sobre el propio video: oscurecido detrás (la skill), los objetos en cristal oscuro
     const vis = e * (1 - s);
     return (

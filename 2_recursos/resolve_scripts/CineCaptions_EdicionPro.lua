@@ -10,7 +10,7 @@ Reglas (las mismas que la gemela): nunca toca V1/A1 ni las pistas de los caption
 los clips de una misma pista nunca se pisan; los archivos se importan una sola vez al bin «RCS · Edición PRO».
 ]]
 
-local VERSION = "5.4.51 (edicion pro)"
+local VERSION = "5.4.52 (edicion pro)"
 
 -- La ENTREGA del Puente: ver CineCaptions_InsertarSFX.lua.
 local ENTREGA_PUENTE = ({...})[1]
@@ -330,7 +330,9 @@ end
 -- captions. Nunca toca V1/A1 ni las pistas de los captions. Nada de InsertFusionTitleIntoTimeline: solo ImportMedia + AppendToTimeline.
 -- El plan lo deja la app en ~/DaVinciSubtitles/edicion_pro_plan.json (y su sidecar .lua, que es lo que lee Free 21.1: sin io).
 -- ---------------------------------------------------------------------
-local ORDEN = { "PRO-BROLL", "PRO-GRIS", "PRO-FONDO", "PRO-VELO", "PRO-DETRAS", "PRO-PERSONA", "PRO-DELANTE", "PRO-SUBS" }
+local ORDEN = { "PRO-BROLL", "PRO-ZOOM", "PRO-GRIS", "PRO-FONDO", "PRO-VELO", "PRO-DETRAS", "PRO-PERSONA", "PRO-DELANTE", "PRO-SUBS" }
+local NOMBRE_FOCO = "PRO · fondo en blanco y negro"
+local NOMBRE_ZOOM = "CineCaptions PRO · zoom"
 local CAPA = { fondo = "PRO-FONDO", velo = "PRO-VELO", detras = "PRO-DETRAS", delante = "PRO-DELANTE", iconos = "PRO-ICONOS", subs = "PRO-SUBS" }
 local PISTA_ENCIMA = "PRO-ENCIMA"
 local PISTA_ICONOS = "PRO-ICONOS"        -- los iconos 3D junto a los captions: encima de ellos (y debajo de PRO-ENCIMA)
@@ -841,7 +843,9 @@ local function poner_dividida(tl, mp, tramos, base, pista)
 end
 
 -- «Modo error»: el plano en gris un momento. Una copia del clip de V1 de ese tramo, encima, sin saturacion (SetCDL), misma transformacion.
-local function poner_gris(tl, mp, tramos, base, pista)
+-- Tema 5 («foco»): lo mismo, algo mas oscuro (luz), con la persona A COLOR encima; si la persona no queda, revisar_persona lo quita.
+local function poner_gris(tl, mp, tramos, base, pista, nombre, luz)
+    nombre, luz = nombre or "PRO · gris", luz or "1.0"
     local puestos = 0
     for _, g in ipairs(tramos or {}) do
         local f0, f1 = base + math.floor(tonumber(g[1]) or 0), base + math.floor(tonumber(g[2]) or 0)
@@ -856,9 +860,11 @@ local function poner_gris(tl, mp, tramos, base, pista)
             local it = append(mp, { mediaPoolItem = v1:GetMediaPoolItem(), startFrame = src0, endFrame = src0 + (f1 - f0) - 1, recordFrame = f0, trackIndex = pista, mediaType = 1 })
             if it ~= nil then
                 copiar_transformacion(v1, it)
-                local ok, r = pcall(function() return it:SetCDL({ NodeIndex = "1", Slope = "1.0 1.0 1.0", Offset = "0.0 0.0 0.0", Power = "1.0 1.0 1.0", Saturation = "0.0" }) end)
+                local ok, r = pcall(function() return it:SetCDL({ NodeIndex = "1", Slope = luz .. " " .. luz .. " " .. luz, Offset = "0.0 0.0 0.0", Power = "1.0 1.0 1.0", Saturation = "0.0" }) end)
                 if ok and r then
-                    pcall(function() it:SetName("PRO · gris") end)
+                    pcall(function() it:SetName(nombre) end)
+                    pcall(function() it:SetClipColor("Chocolate") end)
+                    pcall(function() it:SetColorOutputCache(true) end)
                     puestos = puestos + 1
                 else
                     pcall(function() tl:DeleteClips({ it }, false) end)
@@ -867,6 +873,149 @@ local function poner_gris(tl, mp, tramos, base, pista)
         end
     end
     return puestos
+end
+
+-- Sin la persona recortada en [f0, f1): las claves del Tema 5 que iban DETRAS pasan delante (la limpia, sin la sombra de la persona) y la
+-- orbita se quita (pasaria por la cara).
+local function detras_delante(tl, mp, caja, idx, f0, f1)
+    local i_det, i_del = idx["PRO-DETRAS"], idx["PRO-DELANTE"]
+    local movidos = 0
+    if i_det and i_del then
+        local ocupado = {}
+        for _, x in ipairs(lista_api(tl:GetItemListInTrack("video", i_del))) do ocupado[#ocupado + 1] = { x:GetStart(), x:GetEnd() } end
+        for _, it in ipairs(lista_api(tl:GetItemListInTrack("video", i_det))) do
+            local s, e = it:GetStart(), it:GetEnd()
+            local nombre = tostring(it:GetName() or "")
+            if s < f1 and f0 < e and nombre:sub(1, #"PRO · Caption") == "PRO · Caption" then
+                local mpi = it:GetMediaPoolItem()
+                pcall(function()
+                    local ruta = tostring(mpi:GetClipProperty("File Path") or "")
+                    local limpia = ruta:gsub("_sombra%.mov$", ".mov")
+                    if limpia ~= ruta and archivo_existe(limpia) then mpi = importar(mp, caja, limpia) or mpi end
+                end)
+                local libre = true
+                for _, o in ipairs(ocupado) do if s < o[2] and o[1] < e then libre = false end end
+                if mpi ~= nil and libre then
+                    local r = append(mp, { mediaPoolItem = mpi, trackIndex = i_del, recordFrame = s, mediaType = 1 })
+                    if r ~= nil then pcall(function() r:SetName("PRO · Caption (delante: sin la persona)") end) end
+                end
+                pcall(function() tl:DeleteClips({ it }, false) end)
+                movidos = movidos + 1
+            end
+        end
+    end
+    for _, n in ipairs({ "PRO-DETRAS", "PRO-DELANTE" }) do
+        if idx[n] then
+            for _, it in ipairs(lista_api(tl:GetItemListInTrack("video", idx[n]))) do
+                if tostring(it:GetName() or ""):sub(1, #"PRO · Órbita") == "PRO · Órbita" and it:GetStart() < f1 and f0 < it:GetEnd() then
+                    pcall(function() tl:DeleteClips({ it }, false) end)
+                end
+            end
+        end
+    end
+    return movidos
+end
+
+-- Lo que NECESITA a la persona encima (la clave detras, la orbita, el fondo gris del foco) y se quedo sin ella: se arregla.
+local function revisar_persona(tl, mp, caja, idx)
+    local hay = {}
+    if idx["PRO-PERSONA"] then
+        for _, x in ipairs(lista_api(tl:GetItemListInTrack("video", idx["PRO-PERSONA"]))) do hay[#hay + 1] = { x:GetStart(), x:GetEnd() } end
+    end
+    local function cubierto(s, e)
+        for _, h in ipairs(hay) do if h[1] <= s + 2 and e - 2 <= h[2] then return true end end
+        return false
+    end
+    local tramos, arreglos = {}, 0
+    if idx["PRO-DETRAS"] then
+        for _, it in ipairs(lista_api(tl:GetItemListInTrack("video", idx["PRO-DETRAS"]))) do
+            local n = tostring(it:GetName() or "")
+            if (n:sub(1, #"PRO · Caption") == "PRO · Caption" or n:sub(1, #"PRO · Órbita") == "PRO · Órbita") and not cubierto(it:GetStart(), it:GetEnd()) then
+                tramos[#tramos + 1] = { it:GetStart(), it:GetEnd() }
+            end
+        end
+    end
+    for _, t in ipairs(tramos) do
+        detras_delante(tl, mp, caja, idx, t[1], t[2])
+        arreglos = arreglos + 1
+    end
+    if idx["PRO-GRIS"] then
+        for _, it in ipairs(lista_api(tl:GetItemListInTrack("video", idx["PRO-GRIS"]))) do
+            if tostring(it:GetName() or "") == NOMBRE_FOCO and not cubierto(it:GetStart(), it:GetEnd()) then
+                pcall(function() tl:DeleteClips({ it }, false) end)
+                arreglos = arreglos + 1
+            end
+        end
+    end
+    return arreglos
+end
+
+-- La media transicion con zoom (Fusion): MediaIn -> Transform con desenfoque de movimiento -> MediaOut, n fotogramas. Hacia el corte acerca
+-- cada vez mas rapido; tras el corte llega acercado y vuelve frenando.
+local function comp_zoom(ruta, n, sale)
+    n = math.max(2, math.floor(n))
+    local claves
+    if sale then
+        claves = string.format("[0] = { 1.28, RH = { %.3f, 1.12 } }, [%d] = { 1.0, LH = { %.3f, 1.0 } }", n * 0.25, n - 1, (n - 1) * 0.55)
+    else
+        claves = string.format("[0] = { 1.0, RH = { %.3f, 1.0 } }, [%d] = { 1.28, LH = { %.3f, 1.12 } }", n * 0.45, n - 1, (n - 1) * 0.75)
+    end
+    local texto = "Composition {\n\tCurrentTime = 0,\n\tTools = ordered() {\n" ..
+        "\t\tMediaIn1 = MediaIn { ViewInfo = OperatorInfo { Pos = { 0, 50 } }, },\n" ..
+        "\t\tCCZoom = Transform {\n\t\t\tInputs = {\n" ..
+        "\t\t\t\tSize = Input { SourceOp = \"CCZoomSize\", Source = \"Value\", },\n" ..
+        "\t\t\t\tMotionBlur = Input { Value = 1, },\n\t\t\t\tQuality = Input { Value = 9, },\n\t\t\t\tShutterAngle = Input { Value = 300, },\n" ..
+        "\t\t\t\tInput = Input { SourceOp = \"MediaIn1\", Source = \"Output\", },\n\t\t\t},\n" ..
+        "\t\t\tViewInfo = OperatorInfo { Pos = { 110, 50 } },\n\t\t},\n" ..
+        "\t\tCCZoomSize = BezierSpline {\n\t\t\tSplineColor = { Red = 225, Green = 0, Blue = 225 },\n\t\t\tNameSet = true,\n" ..
+        "\t\t\tKeyFrames = { " .. claves .. " }\n\t\t},\n" ..
+        "\t\tMediaOut1 = MediaOut {\n\t\t\tInputs = {\n\t\t\t\tIndex = Input { Value = \"0\", },\n" ..
+        "\t\t\t\tInput = Input { SourceOp = \"CCZoom\", Source = \"Output\", },\n\t\t\t},\n" ..
+        "\t\t\tViewInfo = OperatorInfo { Pos = { 220, 50 } },\n\t\t},\n\t},\n}\n"
+    escribir_archivo(ruta, texto)
+    return ruta
+end
+
+-- Tema 5: la transicion con zoom en cada corte {fotograma, n antes, n despues}: dos copias de V1 en PRO-ZOOM con su media transicion.
+local function poner_zoom(tl, mp, cortes, base, pista)
+    local puestas = 0
+    local carpeta, sep = carpeta_compartida()
+    for _, c in ipairs(cortes or {}) do
+        local f = base + math.floor(tonumber(c[1]) or 0)
+        local antes, despues = math.floor(tonumber(c[2]) or 5), math.floor(tonumber(c[3]) or 6)
+        for _, tramo in ipairs({ { f - antes, f, false }, { f, f + despues, true } }) do
+            local f0, f1, sale = tramo[1], tramo[2], tramo[3]
+            local v1 = clip_v1(tl, f0, f1)
+            local fx = false
+            if v1 ~= nil then
+                local ok, nombres = pcall(function() return v1:GetFusionCompNameList() end)
+                for _, n in ipairs((ok and type(nombres) == "table") and nombres or {}) do if n == "CineCaptions FX" then fx = true end end
+            end
+            if v1 ~= nil and not fx and pista then
+                local src0 = math.floor(tonumber(v1:GetLeftOffset()) or 0) + (f0 - v1:GetStart())
+                local it = append(mp, { mediaPoolItem = v1:GetMediaPoolItem(), startFrame = src0, endFrame = src0 + (f1 - f0) - 1, recordFrame = f0, trackIndex = pista, mediaType = 1 })
+                if it ~= nil then
+                    copiar_transformacion(v1, it)
+                    pcall(function() for _, n in ipairs(lista_api(it:GetFusionCompNameList())) do it:DeleteFusionCompByName(n) end end)
+                    local comp = comp_zoom(carpeta .. sep .. string.format("ccpro_zoom_%d_%d.comp", f0, sale and 1 or 0), f1 - f0, sale)
+                    local ok, r = pcall(function() return it:ImportFusionComp(comp) end)
+                    if ok and r then
+                        pcall(function()
+                            local nombres = lista_api(it:GetFusionCompNameList())
+                            if #nombres > 0 then it:RenameFusionCompByName(nombres[#nombres], NOMBRE_ZOOM); it:LoadFusionCompByName(NOMBRE_ZOOM) end
+                        end)
+                        pcall(function() it:SetName("PRO · transición con zoom") end)
+                        pcall(function() it:SetClipColor("Purple") end)
+                        pcall(function() it:SetFusionOutputCache("enabled") end)
+                        puestas = puestas + 1
+                    else
+                        pcall(function() tl:DeleteClips({ it }, false) end)
+                    end
+                end
+            end
+        end
+    end
+    return puestas
 end
 
 local function main()
@@ -892,6 +1041,12 @@ local function main()
     local tl = project:GetCurrentTimeline()
     if tl == nil then fail("No hay un timeline activo en Resolve.") end
     local mp = project:GetMediaPool()
+    -- la caché de render en «none» no guarda nada: se pasa a «user» (solo los clips marcados de la Edición PRO, en segundo plano)
+    pcall(function()
+        if string.lower(tostring(project:GetSetting("perfRenderCacheMode") or "")) == "none" and project:SetSetting("perfRenderCacheMode", "user") then
+            print("Cache de render: «user» (la Edicion PRO se pre-renderiza en segundo plano).")
+        end
+    end)
     local fps = tonumber(datos.fps) or tonumber(tl:GetSetting("timelineFrameRate")) or 30
     local base = math.floor(tonumber(datos.inicio) or tonumber(tl:GetStartFrame()) or 0)
     local caja = caja_pro(mp)
@@ -936,10 +1091,14 @@ local function main()
     -- 2) el B-roll de stock, debajo de todo
     puestos.broll = poner_broll(tl, mp, caja, (type(datos.broll) == "table") and datos.broll or {}, base, idx["PRO-BROLL"], fps)
     puestos.gris = poner_gris(tl, mp, (type(datos.gris) == "table") and datos.gris or {}, base, idx["PRO-GRIS"])
+    local focos = poner_gris(tl, mp, (type(datos.gris_foco) == "table") and datos.gris_foco or {}, base, idx["PRO-GRIS"], NOMBRE_FOCO, "0.8")
     local divididas = poner_dividida(tl, mp, (type(datos.dividida) == "table") and datos.dividida or {}, base, idx["PRO-GRIS"])
     if divididas > 0 then print(string.format("Tema 5: %d tramos en pantalla dividida.", divididas)) end
-    -- 3) la persona recortada con IA local (ProRes 4444 con alfa recto); antes, los punch-ins de V1 (el recorte copia su zoom)
+    -- 3) la persona recortada con IA local (ProRes 4444 con alfa recto); antes, los punch-ins de V1 (el recorte copia su zoom) y las
+    --    transiciones con zoom (copias de V1 con su zoom)
     puestos.punch = punch_ins(tl, (type(datos.punch) == "table") and datos.punch or {})
+    local zooms = poner_zoom(tl, mp, (type(datos.zoom) == "table") and datos.zoom or {}, base, idx["PRO-ZOOM"])
+    if zooms > 0 then print(string.format("Tema 5: %d medias transiciones con zoom.", zooms)) end
     local personas = (type(datos.persona) == "table") and datos.persona or {}
     for _, p in ipairs(personas) do
         local f0, f1 = base + math.floor(tonumber(p.ini) or 0), base + math.floor(tonumber(p.fin) or 0)
@@ -953,6 +1112,10 @@ local function main()
                 puestos.persona = puestos.persona + 1
             end
         end
+    end
+    local arreglos = revisar_persona(tl, mp, caja, idx)       -- lo que necesitaba a la persona encima y se quedo sin ella
+    if focos > 0 or arreglos > 0 then
+        print(string.format("Tema 5: %d tramos con el fondo en blanco y negro; %d piezas sin la persona encima, arregladas.", focos, arreglos))
     end
     -- 4) los captions DETRAS de la persona (la persona en la pista de mas arriba)
     deshacer_subidas(tl)                       -- re-aplicar no apila: primero, todo a su sitio
@@ -1006,7 +1169,8 @@ local function main()
                     if item ~= nil then
                         fin = ini + frames
                         puestos.sonido = puestos.sonido + 1
-                        pcall(function() item:SetProperty("Volume", tonumber(ev.db) or -9) end)
+                        local db = tonumber(ev.db) or 0          -- v5.4.52: el volumen ya va dentro del archivo (0 dB); un plan viejo: AudioVolume
+                        if math.abs(db) > 0.05 then pcall(function() if not item:SetProperty("AudioVolume", db) then item:SetProperty("Volume", db) end end) end
                     end
                 end
             end

@@ -34,13 +34,15 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
             mete en el motor OGraf de la Edición PRO las curvas de resorte de Motion (motion.dev).
         vista_tema5.py
             el Tema 5 SIN Resolve, para revisarlo y para la tarjeta del slider (2_recursos/vistas_slider/Tema5.mp4
-    remotion\   (14523 archivos)
+    remotion\   (14969 archivos)
     actualizaciones.py
         actualizaciones automáticas: lee un version.json publicado, descarga el instalador, comprueba su huella SHA-256 y lo lanza.
     ajustes_ui.py
         Ajustes: panel rápido y ventana completa (General, Interfaz, Atajos, Acerca de, Ayuda) + notas de la versión.
     archivos_seguros.py
         escritura atómica de JSON/texto (preferencias, marcas, proyectos): un corte o dos hilos ya no dejan archivos a medias.
+    audio_compatible.py
+        v5.4.52 (auditoría de los renders: el video quedaba MUDO): los videos bajados de Pinterest / Instagram / TikTok
     avisos_sistema.py
     banco_pruebas.py
         banco de pruebas: timeline temporal con fondo liso + audio, render en Resolve y comparación cuadro a cuadro con un video de referencia.
@@ -97,8 +99,12 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         los ACOMPAÑANTES del Tema 5: una animación pequeña justo DEBAJO del caption que ilustra lo que se dice
     edicion_pro_tema5_escenas.py
         el «director de escenas» del Tema 5: entiende de qué se habla y lo ILUSTRA en el momento exacto en que se
+    edicion_pro_tema5_mm.py
+        las mejoras de motion graphics y Magic Mask del Tema 5 (pedido del usuario, v5.4.52). Decide CUÁNDO va cada
     edicion_pro_tema5_video.py
         el Tema 5 MIRA el video antes de editarlo (ffmpeg, vía PyAV): dónde corta cada toma, lo claro u oscuro que
+    edicion_pro_tema6.py
+        Tema 6 («Editorial», v5.4.52): el motor del Tema 5 (edicion_pro_tema5.planificar con estilo='editorial') con el
     edicion_pro_temas.py
         el «pase ligero» de los Temas 1–4 (pedido del usuario, v5.4.51): sus captions (los Text+ de su pack, que se
     editor_ui.py

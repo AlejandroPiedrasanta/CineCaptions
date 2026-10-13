@@ -7247,6 +7247,7 @@ class SubtitleApp(QWidget):
                         else tr('{n} · títulos de gancho', n=plantillas.nombre_visible(p.nombre)) if getattr(p, 'kinetic', False)
                         else tr('{n} · captions limpios', n=plantillas.nombre_visible(p.nombre)) if p.nombre == 'Tema4'
                         else tr('{n} · edición total', n=plantillas.nombre_visible(p.nombre)) if p.nombre == 'Tema5'
+                        else tr('{n} · editorial', n=plantillas.nombre_visible(p.nombre)) if p.nombre == 'Tema6'
                         else tr('{n} · captions palabra a palabra', n=plantillas.nombre_visible(p.nombre)))
             menu.agregar(marca + etiqueta + extra, lambda n=p.nombre: self._poner_go_pack(n))
         if not plantillas.SOLO_TEMAS:
@@ -8071,7 +8072,8 @@ class SubtitleApp(QWidget):
                 con_broll = bool(_fx.activado() and _fx.opciones_guardadas().get('fx_broll') and _fx.broll_clave(_fx.opciones_guardadas()))
             except Exception:
                 con_broll = False
-            r = resolve_mcp.crear_timeline_con_video(archivo, ancho=medio['tl_ancho'], alto=medio['tl_alto'], fps=medio['tl_fps'], pista_broll=con_broll)
+            r = resolve_mcp.crear_timeline_con_video(self._go_video_para_resolve(archivo, al_estado), ancho=medio['tl_ancho'], alto=medio['tl_alto'],
+                                                     fps=medio['tl_fps'], pista_broll=con_broll)
             if r.get('error'):
                 self._go_tl_error = r['error']
                 registro.aviso(tr('Resolve no armó el timeline con tu video ({m}): GO se detiene (no se toca ningún otro timeline).', m=r['error']),
@@ -8094,6 +8096,19 @@ class SubtitleApp(QWidget):
             ev = getattr(self, '_go_tl_listo', None)
             if ev is not None:
                 ev.set()
+    def _go_video_para_resolve(self, archivo, al_estado=None):
+        """v5.4.52: el video que se lleva a Resolve. Si su audio es HE-AAC (videos bajados de Pinterest / Instagram / TikTok), Resolve lo renderiza MUDO:
+        se usa una copia con la misma imagen y el audio en AAC-LC (audio_compatible). Si no hace falta o falla, el original."""
+        try:
+            import audio_compatible
+            ruta = audio_compatible.para_resolve(archivo, al_estado=(lambda t: al_estado(tr(t))) if al_estado else None)
+            if Path(ruta) != Path(str(archivo)):
+                registro.info(tr('El audio de tu video (HE-AAC) Resolve lo renderiza mudo: llevé a Resolve una copia con el mismo video y el audio en AAC ({r}).',
+                                 r=ruta), 'GO · timeline del video')
+            return ruta
+        except Exception:
+            registro.excepcion(origen='GO · audio compatible')
+            return str(archivo)
     def _go_timeline_del_video_libre(self, archivo, medio):
         """Hilo de GO con un video soltado en DaVinci Resolve FREE (sin MCP): le pide al Puente que cree el proyecto «CineCaptions» y arme el timeline con ese video
         (CineCaptions_ArmarVideo.lua, la gemela de lo que en Studio hace el MCP). Si algo falla, GO se detiene (`_abortar_si_fallo_el_timeline`)."""
@@ -8118,7 +8133,7 @@ class SubtitleApp(QWidget):
                 con_broll = bool(_fx.activado() and _fx.opciones_guardadas().get('fx_broll') and _fx.broll_clave(_fx.opciones_guardadas()))
             except Exception:
                 con_broll = False
-            orden = {'ruta': str(archivo), 'ancho': int(medio['tl_ancho']), 'alto': int(medio['tl_alto']), 'fps': float(medio['tl_fps']), 'pista_broll': bool(con_broll),
+            orden = {'ruta': self._go_video_para_resolve(archivo, al_estado), 'ancho': int(medio['tl_ancho']), 'alto': int(medio['tl_alto']), 'fps': float(medio['tl_fps']), 'pista_broll': bool(con_broll),
                      'proyecto': self._go_proyecto(), 'nombre': ('CineCaptions · ' + Path(str(archivo)).stem)[:60]}
             import colocacion
             if getattr(colocacion, 'PROYECTO_INICIAL', None):                # el proyecto vacío que la app creó para pasar el Organizador de proyectos: ArmarVideo lo borra
@@ -11331,6 +11346,8 @@ class SubtitleApp(QWidget):
             plan = edicion_pro.planificar(str(media_path), words, duracion, cortes=cortes, idioma=idioma or 'es',
                                           al_estado=lambda t: self.msg_queue.put(('status', tr(t))))
             plan['tema5'] = tema5
+            if tema5 and (getattr(self, 'plantilla_sel', '') or '') == 'Tema6':
+                plan['estilo_t5'] = 'editorial'        # Tema 6: el mismo motor, con el estilo editorial (serif fina, melocotón, visor, búsqueda…)
             if plan.get('piezas') or tema5:
                 self._pro_plan = plan
             registro.info('Edición PRO: ' + plan.get('resumen', '') + (' · Tema 5 (captions propios)' if tema5 else ''), 'edición pro')

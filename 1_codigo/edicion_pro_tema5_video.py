@@ -26,7 +26,14 @@ def analizar(video, fps_analisis=4.0, lado=96):
             s = c.streams.video[0]
             s.thread_type = 'AUTO'
             paso, siguiente = 1.0 / fps_analisis, 0.0
-            for fr in c.decode(s):
+
+            def cuadros():                                               # un paquete dañado no tumba el análisis (se salta)
+                for pk in c.demux(s):
+                    try:
+                        yield from pk.decode()
+                    except av.error.InvalidDataError:
+                        continue
+            for fr in cuadros():
                 t = float(fr.time or 0.0)
                 if t + 1e-6 < siguiente:
                     continue

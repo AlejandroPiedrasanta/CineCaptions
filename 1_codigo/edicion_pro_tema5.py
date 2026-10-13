@@ -62,7 +62,7 @@ HASTA = {'to', 'a', 'hasta', 'al', 'para', 'ao', 'pro'}
 
 
 def activo(nombre_pack) -> bool:
-    return str(nombre_pack or '') == PACK
+    return str(nombre_pack or '') in (PACK, 'Tema6')                  # el Tema 6 («Editorial») usa este motor con su estilo (edicion_pro_tema6)
 
 
 def _plegar(t):
@@ -200,20 +200,40 @@ def _marcar_claves(ps):
     return sel
 
 
-def planificar(plan, vertical=True, densidad='media', video='', det_de=None, foto_de=None, ia=True, idioma='es', estado=None):
+def planificar(plan, vertical=True, densidad='media', video='', det_de=None, foto_de=None, ia=True, idioma='es', estado=None,
+               recorte_de=None, cara_de=None, usuario='', estilo='skill'):
     """Todas las piezas del Tema 5 (captions, elementos en pantalla, escenas) y las ventanas de pantalla dividida [{'ini', 'fin', 'bajar'}]
     (bajar: fracción del alto que baja la persona). `det_de(t)` → la detección de personas en ese segundo (fracciones del timeline) o None;
-    `foto_de(t)` → ese fotograma como 'data:image/jpeg;base64,…' (para la tarjeta) o None."""
+    `foto_de(t)` → ese fotograma como 'data:image/jpeg;base64,…' (para la tarjeta) o None; `recorte_de(t)` / `cara_de(t)` → las imágenes del
+    sticker y de la pantalla final (edicion_pro_tema5_mm) o None. `estilo`: 'skill' (Tema 5) o 'editorial' (Tema 6, edicion_pro_tema6)."""
     bl = bloques()
     if not bl:
         return [], []
+    editorial = estilo == 'editorial'
+    import edicion_pro_tema6 as T6
     acento = acento_de_video(video) if video else ACENTOS['azul']
     velo = claro(video) if video else False
     import edicion_pro_tema5_video as VI                              # el video, mirado con ffmpeg: tomas, luz, tono, movimiento → el estilo
     analisis = VI.analizar(video) if video else {}
-    est = VI.estilo(analisis, video)
+    est = T6.estilo_video() if editorial else VI.estilo(analisis, video)
+    plan['_cortes_video'] = list(analisis.get('cortes') or [])           # los cortes del propio video: ahí va la transición con zoom
     for b in bl:
         _marcar_claves(b['palabras'])
+    temas = T6.temas_del_video(bl, frozenset(DEBILES)) if editorial else set()   # el tema del video: las claves de verdad que se repiten
+    for b in bl:
+        if editorial and not any(w.get('clave') for w in b['palabras']):     # Tema 6: cada bloque con su línea grande (como la referencia)
+            ps = b['palabras']
+            if len(ps) <= 2 and sum(len(w['texto']) for w in ps) <= 16:
+                for w in ps:
+                    w['clave'] = True
+            else:
+                k = next((i for i in range(len(ps) - 1, -1, -1) if len(_plegar(ps[i]['texto'])) >= 4 and _plegar(ps[i]['texto']) not in CONECTORAS
+                          and _plegar(ps[i]['texto']) not in DEBILES), None)
+                if k is not None:
+                    ps[k]['clave'] = True
+                    if (k > 0 and _plegar(ps[k - 1]['texto']) not in CONECTORAS and _plegar(ps[k - 1]['texto']) not in DEBILES
+                            and len(ps[k - 1]['texto']) + len(ps[k]['texto']) <= 17):
+                        ps[k - 1]['clave'] = True
     todas = [(b['ini'] + w['t'], _plegar(w['texto']), w['texto'], n, j) for n, b in enumerate(bl) for j, w in enumerate(b['palabras'])]
     dur = max(b['fin'] for b in bl)
     ocupado = [(float(m.get('ini', 0)) - 0.3, float(m.get('ini', 0)) + float(m.get('dur', 0)) + 0.3) for m in plan.get('broll') or []]
@@ -226,7 +246,7 @@ def planificar(plan, vertical=True, densidad='media', video='', det_de=None, fot
 
     def elemento(comp, a, b, valores, motivo):
         a, b = max(0.0, a), min(dur + 0.4, b)
-        if b - a < 1.0 or not libre(a, b, [(e['ini'], e['fin']) for e in elementos]):
+        if editorial or b - a < 1.0 or not libre(a, b, [(e['ini'], e['fin']) for e in elementos]):   # (el Tema 6 no lleva pasos ni deslizador)
             return
         elementos.append({'pieza': 'skill', 'remotion': comp, 'capa': 'delante', 'ini': round(a, 3), 'fin': round(b, 3), 'motivo': motivo,
                           'valores': dict(valores, y=Y_ELEMENTO, acento=acento)})
@@ -269,6 +289,47 @@ def planificar(plan, vertical=True, densidad='media', video='', det_de=None, fot
                 rango_t = t
                 break
     piezas += elementos
+    import edicion_pro_tema5_escenas as DIR
+    propuestas = []
+    if ia:                                                               # la IA local (Qwen3) lee las frases y propone qué ilustrar en CUALQUIER tema
+        try:
+            import ia_texto
+            propuestas = ia_texto.escenas([' '.join(w['texto'] for w in b['palabras']) for b in bl], idioma, estado)
+            ia_texto.liberar()                                           # la GPU, entera para el Magic Mask y Resolve
+        except Exception:
+            propuestas = []
+    de_ia = DIR.desde_ia(bl, propuestas, dur)                           # validadas contra lo que se dice
+
+    # --- 1b) las mejoras de v5.4.52 (edicion_pro_tema5_mm): la pantalla final, el sticker del gancho, las tarjetas encima de la cabeza (mapa,
+    #         gráfica, tachado, lista), la órbita alrededor de la cabeza y el foco en blanco y negro. Antes que las escenas: lo suyo lo dice ESA frase.
+    extra = []
+    try:
+        import edicion_pro_tema5_mm as MM
+        try:
+            import edicion_pro_ograf as OG3
+            disp3d = frozenset(OG3.iconos3d())
+        except Exception:
+            disp3d = frozenset()
+        extra = MM.momentos(bl, dur, idioma, acento, libre=lambda a, b: libre(a, b, [(e['ini'], e['fin']) for e in elementos]), det_de=det_de,
+                            recorte_de=recorte_de, cara_de=cara_de, densidad=densidad, usuario=usuario, iconos_3d=disp3d,
+                            listas=[e for e in de_ia if (e['objetos'] or [{}])[0].get('tipo') == 'lista'])
+    except Exception:
+        extra = []
+    if editorial:                                                        # Tema 6: el visor, la barra de búsqueda, el perfil, el equipo
+        for x in extra:
+            if x.get('pieza') == 'tarjeta':
+                x['valores']['aspecto'] = 'blanco'
+        try:
+            import edicion_pro as EP
+
+            def caras_de(t):
+                return EP._caras(det_de(t)) if det_de else []
+            extra += T6.elementos(bl, dur, idioma, libre=lambda a, b: libre(a, b, [(e['ini'], e['fin']) for e in elementos + extra]), det_de=det_de,
+                                  cara_de=cara_de, usuario=usuario, debiles=frozenset(DEBILES), caras_de=caras_de)
+        except Exception:
+            pass
+    ocupado += [(p['ini'] - 0.3, p['fin'] + 0.3) for p in extra]
+    piezas += extra
 
     # --- 2) escenas de papel: el director (edicion_pro_tema5_escenas) ilustra lo que se dice; si no hay nada que ilustrar, icono 3D del concepto,
     #        la frase en tinta a pantalla completa o una foto de otro momento. Los cortes de escena caen en los cortes de frase (de bloque).
@@ -278,19 +339,10 @@ def planificar(plan, vertical=True, densidad='media', video='', det_de=None, fot
         disp = OG.iconos3d()
     except Exception:
         PL, disp = None, set()
-    import edicion_pro_tema5_escenas as DIR
     cada = CADA.get(densidad or 'media', 6.5)
     ocupado_elem = [(e['ini'], e['fin']) for e in elementos]
     candidatas, usados = [], set()                                       # (prioridad, a, z, valores, motivo)
-    propuestas = []
-    if ia:                                                               # la IA local (Qwen3) lee las frases y propone qué ilustrar en CUALQUIER tema
-        try:
-            import ia_texto
-            propuestas = ia_texto.escenas([' '.join(w['texto'] for w in b['palabras']) for b in bl], idioma, estado)
-            ia_texto.liberar()                                           # la GPU, entera para el Magic Mask y Resolve
-        except Exception:
-            propuestas = []
-    for e in DIR.escenas(bl, dur) + DIR.desde_ia(bl, propuestas, dur):
+    for e in DIR.escenas(bl, dur) + de_ia:
         if e['ini'] >= 1.8:
             candidatas.append((e['prioridad'], e['ini'], e['fin'], {'variante': 'objetos', 'mitad': e['mitad'], 'disposicion': e['disposicion'],
                                                                      'objetos': e['objetos'], '_ancla': e['ini'] + min(o['t'] for o in e['objetos'])}, e['motivo']))
@@ -405,6 +457,10 @@ def planificar(plan, vertical=True, densidad='media', video='', det_de=None, fot
         a, z = b['ini'], b['fin']
         esc = next((e for e in escenas if e['ini'] < z - 0.25 and a + 0.25 < e['fin']), None)
         enc = any(e['ini'] < z and a < e['fin'] for e in elementos)
+        pant = next((p for p in extra if p.get('pantalla') and p['ini'] < z - 0.25 and a + 0.25 < p['fin']), None)   # sticker / pantalla final
+        enc = enc or pant is not None or any(p['ini'] < z and a < p['fin'] for p in extra)   # con una mejora encima, la clave no va detrás
+        if pant is not None:
+            esc = None
         if esc is not None and esc['valores']['mitad'] == 'encima':
             esc, enc = None, True                                        # los objetos flotan sobre el video: caption normal, sin clave detrás
         ps = b['palabras']
@@ -417,12 +473,23 @@ def planificar(plan, vertical=True, densidad='media', video='', det_de=None, fot
                 and (nb == 0 or a - ultimo_detras >= CADA_DETRAS) and z - a >= 0.9):
             ultimo_detras = a
             piezas.append({'pieza': 'subtitulo', 'remotion': 'Subtitulo', 'capa': 'detras', 'persona': True, 'ajustar': True, 'ini': a, 'fin': z,
-                           'motivo': 'caption Tema 5 (clave detrás)', 'valores': {'palabras': ps, 'modo': 'detras', 'y': 30.0, 'acento': acento}})
+                           'motivo': 'caption Tema 5 (clave detrás)',
+                           'valores': dict({'palabras': ps, 'modo': 'detras', 'y': 30.0, 'acento': acento},
+                                           **({'estilo': 'editorial', 'acento': T6.LIMA} if editorial else {}))})
             ps = [dict(w, clave=False) for w in ps if not w.get('clave')]
             if not ps:
                 continue
         valores = {'palabras': ps, 'modo': 'normal', 'tinta': 'clara', 'y': Y_NORMAL[bool(vertical)], 'escala': 1.0, 'acento': acento, 'velo': velo}
+        if editorial:
+            valores.update(estilo='editorial', y=T6.Y_NORMAL[bool(vertical)], acento=T6.color_clave(ps, temas, frozenset(ENFASIS)))
         ajustar = True
+        if pant is not None:                                             # sobre el sticker o la pantalla final: arriba, claro, sin velo
+            ajustar = False
+            valores.update(velo=False, tinta='clara', y=Y_PAPEL, escala=1.1)
+        if esc is not None and editorial and esc['valores'].get('variante') != 'texto':
+            ajustar = False                                              # Tema 6: sobre la escena melocotón, la frase pequeña y en tinta, abajo
+            valores.update(velo=False, tinta='oscura', y=T6.Y_ESCENA, escala=0.95)
+            esc = None
         if esc is not None:
             ajustar = False
             cristal = esc['valores'].get('fondo') == 'cristal'
@@ -443,7 +510,7 @@ def planificar(plan, vertical=True, densidad='media', video='', det_de=None, fot
         tapado = [(e['ini'] - 0.2, e['fin'] + 0.2) for e in escenas + elementos]
         tapado += [(p['ini'] - 0.1, p['fin'] + 0.1) for p in piezas if p.get('capa') == 'detras']
         tapado += list(ocupado)
-        aspecto = 'blanco' if (analisis.get('oscuro') and int(hashlib.sha1(str(video).encode('utf-8')).hexdigest()[:2], 16) % 2) else 'cristal'
+        aspecto = 'blanco' if editorial or (analisis.get('oscuro') and int(hashlib.sha1(str(video).encode('utf-8')).hexdigest()[:2], 16) % 2) else 'cristal'
         piezas += AC.acompanantes(bl, idioma, tapado, acento, aspecto, dur, frozenset(DEBILES))
     except Exception:
         pass
@@ -491,6 +558,20 @@ def coordinar(piezas):
             c['quitar'] = True
         else:
             c['valores']['y'] = round(y, 1)
+    for t in [p for p in piezas if p.get('pieza') == 'tarjeta' and not p.get('quitar')]:   # la tarjeta (encima de la cabeza) no pisa su caption
+        v = t['valores']
+        h = float(t.get('alto') or 0.2) * 100.0 * float(v.get('escala', 1.0))
+        for c in piezas:
+            if c.get('pieza') == 'subtitulo' and c['capa'] == 'subs' and c['ini'] < t['fin'] and t['ini'] < c['fin']:
+                yc, medio = float(c['valores'].get('y', Y_NORMAL[True])), 6.5 * float(c['valores'].get('escala', 1.0))
+                y = float(v.get('y', 17.0))
+                if y + h / 2 > yc - medio - 1.0 and y - h / 2 < yc + medio + 1.0:
+                    nuevo = yc + medio + 2.0 + h / 2
+                    if nuevo + h / 2 <= 95.0:
+                        v['y'] = round(nuevo, 1)                       # no cabía encima de la cabeza: debajo de los captions
+                    else:
+                        t['quitar'] = True
+                    break
     for e in [p for p in piezas if p.get('pieza') == 'skill' and p['capa'] == 'delante']:
         for c in piezas:
             if c.get('pieza') == 'subtitulo' and c['capa'] == 'subs' and c['ini'] < e['fin'] and e['ini'] < c['fin']:

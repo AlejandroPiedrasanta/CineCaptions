@@ -9,10 +9,12 @@ Lo lanza edicion_pro.aplicar() (resolve_mcp.ejecutar_py) y lee ~/DaVinciSubtitle
      'encima': [{'ini', 'fin', 'modo', 'comp'|'archivo', 'ref', 'velo': .ograf, 'cues': [{'ini', 'fin', 'subir': píxeles hacia arriba, 'caras'}]}],
      'mover': [{'ini', 'fin', 'subir', 'caras': [[x0, y0, x1, y1] fracciones]}]   (los demás bloques: ninguno tapa una cara; sus emojis tampoco),
      'sonidos': [{'ini': fotograma, 'archivo': .wav, 'dur': segundos}], 'punch': [[inicio absoluto del clip de V1, zoom]], 'cache': True,
-     'captions_propios': True (Tema 5: los captions son animaciones Remotion en PRO-SUBS; los Text+ de respaldo que puso GO se apagan)}
+     'captions_propios': True (Tema 5: los captions son animaciones Remotion en PRO-SUBS; los Text+ de respaldo que puso GO se apagan),
+     'gris_foco': [[ini, fin]] (Tema 5: el fondo en blanco y negro bajo la persona a color), 'zoom': [[corte, n antes, n después]] (Tema 5:
+     la transición con zoom de Fusion en los cortes)}
 
 Pistas (de abajo arriba, justo encima de V1 / FX-BROLL y DEBAJO de los captions, que siguen mandando):
-PRO-BROLL · PRO-FONDO · PRO-VELO · PRO-DETRAS · PRO-PERSONA · PRO-DELANTE; el audio en «PRO-SONIDO». Cada corrida vacía y rellena sus pistas
+PRO-BROLL · PRO-ZOOM · PRO-GRIS · PRO-FONDO · PRO-VELO · PRO-DETRAS · PRO-PERSONA · PRO-DELANTE · PRO-SUBS; el audio en «PRO-SONIDO». Cada corrida vacía y rellena sus pistas
 (re-aplicar no apila). Y ENCIMA de los captions, «PRO-ENCIMA»: la persona recortada solo en los tramos en que los captions van DETRÁS de ella;
 en esos tramos la pila de los captions sube (Tilt) hasta la coronilla. Si el recorte no sale (rastreo incompleto), ese tramo se deshace entero.
 
@@ -29,7 +31,7 @@ import tempfile
 import time
 
 RUTA_JSON = os.path.join(os.path.expanduser('~'), 'DaVinciSubtitles', 'edicion_pro_plan.json')
-ORDEN = ['PRO-BROLL', 'PRO-GRIS', 'PRO-FONDO', 'PRO-VELO', 'PRO-DETRAS', 'PRO-PERSONA', 'PRO-DELANTE', 'PRO-SUBS']
+ORDEN = ['PRO-BROLL', 'PRO-ZOOM', 'PRO-GRIS', 'PRO-FONDO', 'PRO-VELO', 'PRO-DETRAS', 'PRO-PERSONA', 'PRO-DELANTE', 'PRO-SUBS']
 CAPA = {'fondo': 'PRO-FONDO', 'velo': 'PRO-VELO', 'detras': 'PRO-DETRAS', 'delante': 'PRO-DELANTE', 'iconos': 'PRO-ICONOS', 'subs': 'PRO-SUBS'}
 PISTA_ENCIMA = 'PRO-ENCIMA'
 PISTA_ICONOS = 'PRO-ICONOS'              # los iconos 3D junto a los captions: encima de ellos (y debajo de PRO-ENCIMA)
@@ -41,6 +43,8 @@ PISTA_SONIDO = 'PRO-SONIDO'              # (versiones anteriores: todo en una pi
 PISTAS_AUDIO = ['PRO-WHOOSH', 'PRO-TEXTURA', 'PRO-RISER', 'PRO-HIT']   # una familia de sonido por pista (guía de sonido)
 BIN = 'RCS · Edición PRO'
 NOMBRE_COMP = 'CineCaptions PRO · persona'
+NOMBRE_ZOOM = 'CineCaptions PRO · zoom'
+NOMBRE_FOCO = 'PRO · fondo en blanco y negro'
 RASTREO_MAX_S = 150
 
 
@@ -152,6 +156,25 @@ def _tc(tl, f):
 def _cache(item):
     try:
         item.SetFusionOutputCache('enabled')                               # «Render Cache Fusion Output»: Resolve lo pre-renderiza en segundo plano
+    except Exception:
+        pass
+
+
+def _cache_color(item):
+    try:
+        item.SetColorOutputCache(True)                                     # «Render Cache Color Output» (las copias en gris del foco / modo error)
+    except Exception:
+        pass
+
+
+def _modo_cache():
+    """v5.4.52 (pedido del usuario: «la línea de tiempo no debe tener lags»): con la caché de render en «none» Resolve no guarda NADA aunque los
+    clips lo pidan. Si está en «none» se pasa a «user»: solo se cachean los clips marcados (los de la Edición PRO: la Magic Mask, los gráficos,
+    las transiciones), en segundo plano, y la reproducción va fluida. Si el usuario eligió «smart» o «user», se respeta."""
+    try:
+        if str(project.GetSetting('perfRenderCacheMode') or '').lower() == 'none':
+            if project.SetSetting('perfRenderCacheMode', 'user'):
+                print('Caché de render: «user» (la Edición PRO se pre-renderiza en segundo plano).')
     except Exception:
         pass
 
@@ -622,6 +645,13 @@ def _detras_delante(tl, idx, f0, f1):
         if not (s < f1 and f0 < e) or not str(it.GetName() or '').startswith('PRO · Caption'):
             continue
         mpi = it.GetMediaPoolItem()
+        try:                                                           # la clave llevaba la sombra de la persona: sin persona, la limpia
+            ruta = str(mpi.GetClipProperty('File Path') or '') if mpi is not None else ''
+            if ruta.endswith('_sombra.mov') and os.path.exists(ruta[:-len('_sombra.mov')] + '.mov'):
+                mp0 = project.GetMediaPool()
+                mpi = _importar(mp0, _caja(mp0), ruta[:-len('_sombra.mov')] + '.mov') or mpi
+        except Exception:
+            pass
         if mpi is not None and not any(s < b and a < e for a, b in ocupado):
             r = project.GetMediaPool().AppendToTimeline([{'mediaPoolItem': mpi, 'trackIndex': i_del, 'recordFrame': s, 'mediaType': 1}]) or []
             if r:
@@ -633,7 +663,123 @@ def _detras_delante(tl, idx, f0, f1):
         movidos += 1
     if movidos:
         print('  rastreo incompleto en %d-%d: %d caption(s) «detrás» pasan delante' % (f0, f1, movidos))
+    quitadas = 0                                                       # la órbita sin la persona encima pasaría por la cara: fuera (las dos mitades)
+    for n in ('PRO-DETRAS', 'PRO-DELANTE'):
+        i = idx.get(n)
+        for it in list(tl.GetItemListInTrack('video', i) or []) if i else []:
+            if str(it.GetName() or '').startswith('PRO · Órbita') and int(it.GetStart()) < f1 and f0 < int(it.GetEnd()):
+                tl.DeleteClips([it], False)
+                quitadas += 1
+    if quitadas:
+        print('  sin la persona recortada en %d-%d: la órbita no va' % (f0, f1))
     return movidos
+
+
+def _revisar_persona(tl, idx):
+    """Tras poner a la persona: lo que la NECESITA encima (la clave detrás, la órbita, el fondo gris del foco) y se quedó sin ella (el recorte
+    no se pudo poner o no rastreó) se arregla: la clave pasa delante, la órbita y el gris del foco se quitan."""
+    ip, ig = idx.get('PRO-PERSONA'), idx.get('PRO-GRIS')
+    hay = [(int(x.GetStart()), int(x.GetEnd())) for x in (tl.GetItemListInTrack('video', ip) or [])] if ip else []
+
+    def cubierto(s, e):
+        return any(a <= s + 2 and e - 2 <= b for a, b in hay)
+    arreglos, tramos = 0, []
+    for it in list(tl.GetItemListInTrack('video', idx.get('PRO-DETRAS')) or []) if idx.get('PRO-DETRAS') else []:
+        nombre = str(it.GetName() or '')
+        s, e = int(it.GetStart()), int(it.GetEnd())
+        if (nombre.startswith('PRO · Caption') or nombre.startswith('PRO · Órbita')) and not cubierto(s, e):
+            tramos.append((s, e))
+    for s, e in tramos:
+        arreglos += 1
+        _detras_delante(tl, idx, s, e)
+    for it in list(tl.GetItemListInTrack('video', ig) or []) if ig else []:
+        if str(it.GetName() or '') == NOMBRE_FOCO and not cubierto(int(it.GetStart()), int(it.GetEnd())):
+            tl.DeleteClips([it], False)
+            arreglos += 1
+    return arreglos
+
+
+def _comp_zoom(ruta, n, sale):
+    """La media transición con zoom (Fusion): MediaIn → Transform con desenfoque de movimiento → MediaOut, `n` fotogramas. Hacia el corte
+    (sale=False) acerca cada vez más rápido; tras el corte (sale=True) llega acercado y vuelve a su sitio frenando. El desenfoque lo da el
+    propio movimiento (MotionBlur del Transform)."""
+    n = max(2, int(n))
+    if sale:
+        claves = '[0] = { 1.28, RH = { %.3f, 1.12 } }, [%d] = { 1.0, LH = { %.3f, 1.0 } }' % (n * 0.25, n - 1, (n - 1) * 0.55)
+    else:
+        claves = '[0] = { 1.0, RH = { %.3f, 1.0 } }, [%d] = { 1.28, LH = { %.3f, 1.12 } }' % (n * 0.45, n - 1, (n - 1) * 0.75)
+    texto = '''Composition {
+	CurrentTime = 0,
+	Tools = ordered() {
+		MediaIn1 = MediaIn { ViewInfo = OperatorInfo { Pos = { 0, 50 } }, },
+		CCZoom = Transform {
+			Inputs = {
+				Size = Input { SourceOp = "CCZoomSize", Source = "Value", },
+				MotionBlur = Input { Value = 1, },
+				Quality = Input { Value = 9, },
+				ShutterAngle = Input { Value = 300, },
+				Input = Input { SourceOp = "MediaIn1", Source = "Output", },
+			},
+			ViewInfo = OperatorInfo { Pos = { 110, 50 } },
+		},
+		CCZoomSize = BezierSpline {
+			SplineColor = { Red = 225, Green = 0, Blue = 225 },
+			NameSet = true,
+			KeyFrames = { %s }
+		},
+		MediaOut1 = MediaOut {
+			Inputs = {
+				Index = Input { Value = "0", },
+				Input = Input { SourceOp = "CCZoom", Source = "Output", },
+			},
+			ViewInfo = OperatorInfo { Pos = { 220, 50 } },
+		},
+	},
+}
+''' % claves
+    with open(ruta, 'w', encoding='utf-8') as f:
+        f.write(texto)
+    return ruta
+
+
+def _zoom(tl, mp, cortes, base, pista):
+    """Tema 5: la transición con zoom en cada corte [fotograma, n antes, n después]: dos copias de V1 (lo de antes del corte y lo de después) en
+    PRO-ZOOM, cada una con su media transición de Fusion y la transformación de V1. Nunca sobre un clip con el movimiento de Efectos."""
+    puestas = 0
+    for c in cortes or []:
+        f, antes, despues = base + int(c[0]), int(c[1]), int(c[2])
+        for f0, f1, sale in ((f - antes, f, False), (f, f + despues, True)):
+            v1 = _clip_v1(tl, f0, f1)
+            if v1 is None or 'CineCaptions FX' in (v1.GetFusionCompNameList() or []):
+                continue
+            src0 = int(v1.GetLeftOffset()) + (f0 - v1.GetStart())
+            r = mp.AppendToTimeline([{'mediaPoolItem': v1.GetMediaPoolItem(), 'startFrame': src0, 'endFrame': src0 + (f1 - f0) - 1,
+                                      'recordFrame': f0, 'trackIndex': pista, 'mediaType': 1}]) or []
+            if not r:
+                continue
+            it = r[0]
+            _copiar_transformacion(v1, it)
+            for nombre in list(it.GetFusionCompNameList() or []):
+                try:
+                    it.DeleteFusionCompByName(nombre)
+                except Exception:
+                    pass
+            comp = _comp_zoom(os.path.join(tempfile.gettempdir(), 'ccpro_zoom_%d_%d.comp' % (f0, int(sale))), f1 - f0, sale)
+            if not it.ImportFusionComp(comp):
+                tl.DeleteClips([it], False)
+                continue
+            try:
+                nombres = it.GetFusionCompNameList() or []
+                if nombres:
+                    it.RenameFusionCompByName(nombres[-1], NOMBRE_ZOOM)
+                    it.LoadFusionCompByName(NOMBRE_ZOOM)
+                it.SetName('PRO · transición con zoom')
+                it.SetClipColor('Purple')
+            except Exception:
+                pass
+            _cache(it)
+            puestas += 1
+    return puestas
 
 
 def _dividida(tl, mp, tramos, base, pista):
@@ -662,9 +808,10 @@ def _dividida(tl, mp, tramos, base, pista):
     return puestas
 
 
-def _gris(tl, mp, tramos, base, pista):
+def _gris(tl, mp, tramos, base, pista, nombre='PRO · gris', luz='1.0'):
     """«Modo error»: el plano en gris un momento (cuando dice algo malo o se equivoca). Una copia del clip de V1 de ese tramo, encima, sin
-    saturación (SetCDL) y con la misma transformación. No va sobre un clip con el movimiento de Efectos."""
+    saturación (SetCDL) y con la misma transformación. No va sobre un clip con el movimiento de Efectos. Tema 5 («foco»): lo mismo, algo más
+    oscuro (`luz`), con la persona A COLOR encima (PRO-PERSONA); si la persona no queda, `_revisar_persona` lo quita."""
     puestos = 0
     for g in tramos or []:
         f0, f1 = base + int(g[0]), base + int(g[1])
@@ -679,9 +826,10 @@ def _gris(tl, mp, tramos, base, pista):
         it = r[0]
         _copiar_transformacion(v1, it)
         try:
-            ok = it.SetCDL({'NodeIndex': '1', 'Slope': '1.0 1.0 1.0', 'Offset': '0.0 0.0 0.0', 'Power': '1.0 1.0 1.0', 'Saturation': '0.0'})
-            it.SetName('PRO · gris')
+            ok = it.SetCDL({'NodeIndex': '1', 'Slope': '%s %s %s' % (luz, luz, luz), 'Offset': '0.0 0.0 0.0', 'Power': '1.0 1.0 1.0', 'Saturation': '0.0'})
+            it.SetName(nombre)
             it.SetClipColor('Chocolate')
+            _cache_color(it)
         except Exception:
             ok = False
         if not ok:
@@ -728,10 +876,12 @@ def _sonidos(tl, mp, caja, eventos, base):
             if r:
                 fin = ini + frames
                 puestos += 1
-                try:
-                    r[0].SetProperty('Volume', float(ev.get('db', -9.0)))  # Resolve 21.1: propiedades de audio del clip
-                except Exception:
-                    pass
+                db = float(ev.get('db', 0.0))                       # v5.4.52: el volumen ya va DENTRO del archivo (edicion_pro._con_ganancia): 0 dB
+                if abs(db) > 0.05:                                  # (un plan viejo con nivel de clip: 'AudioVolume' en Resolve 21)
+                    try:
+                        r[0].SetProperty('AudioVolume', db) or r[0].SetProperty('Volume', db)
+                    except Exception:
+                        pass
     return puestos
 
 
@@ -747,6 +897,8 @@ def main():
     v1_antes = len(tl.GetItemListInTrack('video', 1) or [])
     decir = lambda t: print(t)
     resolve.OpenPage('edit')
+    if datos.get('cache', True):
+        _modo_cache()
     idx = _pistas(tl)
     idx[PISTA_ICONOS] = _pista_iconos(tl, any(g.get('capa') == 'iconos' for g in datos.get('graficos') or []))
     puestos = {'fondo': 0, 'velo': 0, 'detras': 0, 'delante': 0, 'persona': 0, 'iconos': 0, 'subs': 0}
@@ -789,11 +941,16 @@ def main():
     # 2) el B-roll de stock, debajo de todo; y el «modo error» en gris
     tomas = _broll(tl, mp, caja, datos.get('broll') or [], base, idx['PRO-BROLL'])
     grises = _gris(tl, mp, datos.get('gris') or [], base, idx['PRO-GRIS'])
+    focos = _gris(tl, mp, datos.get('gris_foco') or [], base, idx['PRO-GRIS'], NOMBRE_FOCO, '0.8')
     divididas = _dividida(tl, mp, datos.get('dividida') or [], base, idx['PRO-GRIS'])
     if divididas:
         print('Tema 5: %d tramos en pantalla dividida.' % divididas)
-    # 3) la persona (el mismo clip de V1 recortado), encima de lo que va DETRÁS; antes, los punch-ins de V1 (el recorte copia su zoom)
+    # 3) la persona (el mismo clip de V1 recortado), encima de lo que va DETRÁS; antes, los punch-ins de V1 (el recorte copia su zoom) y las
+    #    transiciones con zoom (copias de V1 con su zoom)
     punch = _punch_ins(tl, datos.get('punch') or [])
+    zooms = _zoom(tl, mp, datos.get('zoom') or [], base, idx['PRO-ZOOM'])
+    if zooms:
+        print('Tema 5: %d medias transiciones con zoom.' % zooms)
     magic = []
     for p in sorted(datos.get('persona') or [], key=lambda p: int(p['ini'])):
         f0, f1 = base + int(p['ini']), base + int(p['fin'])
@@ -823,6 +980,9 @@ def main():
             puestos['persona'] -= 1
             _detras_delante(tl, idx, f0, f1)
     rastreados = sum(oks)
+    arreglos = _revisar_persona(tl, idx)                                   # lo que necesitaba a la persona encima y se quedó sin ella
+    if focos or arreglos:
+        print('Tema 5: %d tramos con el fondo en blanco y negro; %d piezas sin la persona encima, arregladas.' % (focos, arreglos))
     # 4) los captions DETRÁS de la persona (la persona en la pista de más arriba)
     _deshacer_subidas(tl)                                                  # re-aplicar no apila: primero, todo a su sitio
     detras, movidos = _encima(tl, mp, caja, datos.get('encima') or [], base, decir, datos.get('cache', True))

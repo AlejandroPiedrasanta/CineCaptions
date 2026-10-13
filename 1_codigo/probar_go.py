@@ -96,8 +96,10 @@ def main():
         gp = w.go_panel
         print('PANEL titulo=%r · linea=%r · aviso_inicio=%r · estado=%s · paso_fallido=%r · eta=%r' % (getattr(gp.titulo, '_texto', ''), getattr(gp.linea, 'text', lambda: '')(), getattr(w.aviso_inicio, 'text', lambda: '')(), gp.boton.estado, gp.paso_fallido, gp.boton._eta_texto()), flush=True)
         import registro
-        for e in [e for e in registro.registro().lista() if e.nivel == 'error'][-3:]:
-            print('REGISTRO error · %s · %s' % (e.origen, str(e.mensaje)[:200]), flush=True)
+        for e in [e for e in registro.registro().lista() if e.nivel in ('error', 'aviso', 'advertencia', 'warning')][-5:]:
+            print('REGISTRO %s · %s · %s' % (e.nivel, e.origen, str(e.mensaje)[:200]), flush=True)
+            if getattr(e, 'detalle', ''):
+                print('REGISTRO detalle · %s' % str(e.detalle).replace('\n', ' | ')[-400:], flush=True)
     except Exception as exc:
         print('(no pude leer el panel)', exc, flush=True)
     faulthandler.cancel_dump_traceback_later()

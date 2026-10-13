@@ -22,6 +22,8 @@ for (const [o, d] of [['Inter_18pt-Regular.ttf', 'inter-400.ttf'], ['Inter_18pt-
 cpSync(path.join(PRO, 'mapa'), path.join(PUBLICO, 'mapa'), { recursive: true });
 cpSync(path.join(PRO, 'ograf', 'lib', 'iconos3d'), path.join(PUBLICO, 'iconos3d'), { recursive: true });
 cpSync(path.join(RAIZ, '2_recursos', 'emojis', 'png'), path.join(PUBLICO, 'stickers'), { recursive: true, filter: f => !f.endsWith('desktop.ini') });
+// v5.4.52: emojis ANIMADOS (Noto Emoji Animation de Google, Lottie, CC BY 4.0): los usa Emoji.tsx (si no hay, el PNG de stickers/)
+cpSync(path.join(PRO, 'lottie'), path.join(PUBLICO, 'lottie'), { recursive: true });
 if (existsSync(SALIDA)) rmSync(SALIDA, { recursive: true, force: true });
 const t0 = Date.now();
 const serve = await bundle({ entryPoint: path.join(AQUI, 'src', 'index.ts'), publicDir: PUBLICO, outDir: SALIDA, enableCaching: false,

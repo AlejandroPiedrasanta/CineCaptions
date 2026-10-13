@@ -23,6 +23,8 @@ REDES = {'sigueme': 'seguir', 'siguenos': 'seguir', 'seguirme': 'seguir', 'follo
          'comentario': 'comentar', 'comments': 'comment', 'comentarios.': 'comentar', 'comentarios?': 'comentar'}
 KICKER_LUGAR = {'es': 'Estamos en', 'en': 'We are in', 'pt': 'Estamos em'}
 ESTAMOS = {'estamos', 'estoy', 'aqui', 'here', 'in', 'en', 'desde', 'from', 'em', 'estou', 'somos'}
+NEGACION = {'no', 'not', 'nunca', 'never', 'sin', 'without', 'ni', 'nor', 'jamas', 'nao', 'nem', 'dont', 'doesnt', 'didnt', 'isnt', 'arent', 'wasnt',
+            'cant', 'wont', 'tampoco', 'nada', 'nadie', 'ningun', 'ninguna'}
 
 
 def plegar(t):
@@ -229,6 +231,8 @@ def acompanantes(bloques, idioma='es', ocupado=(), acento='#4C7DFF', aspecto='cr
                 t, p, x = ps[k]
                 if len(p) < 4 or p in DIR.CONECTORAS or p in debiles:
                     continue
+                if any(q in NEGACION for _t, q, _x in ps[max(0, k - 2):k]):
+                    continue                                             # «no estoy FELIZ»: la carita feliz diría lo contrario
                 eid, png = _sticker(x, lang, usados)
                 if eid:
                     usados.add(eid)

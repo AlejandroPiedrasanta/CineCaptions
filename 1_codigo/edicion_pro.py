@@ -322,7 +322,7 @@ def _ajustar_posiciones(pieza, det, vertical):
     if pieza['capa'] == 'detras':
         v['y'] = round(min(48.0, max(15.0, arriba + 2.5)), 1)          # el centro del titular un poco por debajo de la coronilla: la cabeza tapa su parte de abajo
         return
-    alto = ALTO_PIEZA.get(pieza['pieza'])
+    alto = pieza.get('alto') or ALTO_PIEZA.get(pieza['pieza'])         # (las tarjetas del Tema 5 traen su alto: depende de lo que enseñan)
     if pieza.get('remotion') and not alto:                            # plantillas Remotion: su alto está en el catálogo
         import edicion_pro_catalogo as PC
         alto = PC.ALTO.get(pieza['remotion'])
@@ -622,6 +622,15 @@ def aplicar(plan, al_estado=None, offset_frames=0, info=None):
     t5 = bool(plan.get('tema5'))                     # Tema 5: la edición completa con el sistema de la skill (edicion_pro_tema5); los Text+ de GO, de respaldo
     ligero = bool(plan.get('ligero'))                # Temas 1–4 sin la PRO: solo legibilidad, acompañantes, color y la regla de la cara (edicion_pro_temas)
     divididas = []
+    # punch-in de 1,08 en V1 alterno cuando hay saltos (pausas quitadas): lo coloca colocar_pro y las cuentas de posición ya lo tienen en cuenta
+    # (antes de planificar el Tema 5: el sticker congelado y la pantalla final copian el encuadre de su clip)
+    punch = []
+    v1 = sorted(info.get('v1') or [], key=lambda c: c['ini'])
+    if len(v1) >= 2 and not any(c.get('fx') for c in v1) and not ligero:
+        for n, c in enumerate(v1):
+            if n % 2 == 1 and abs(float(c.get('zx') or 1.0) - 1.0) < 1e-3 and abs(float(c.get('zy') or 1.0) - 1.0) < 1e-3:
+                c['zx'] = c['zy'] = PUNCH_IN
+                punch.append([int(c['ini']), PUNCH_IN])
     if t5:
         import edicion_pro_persona as PE5
         import edicion_pro_tema5 as T5
@@ -636,9 +645,32 @@ def aplicar(plan, al_estado=None, offset_frames=0, info=None):
         def foto5(t):
             ruta, t_src, _clip = _fuente_de(info, video, t)
             return T5.foto(ruta, t_src)
+
+        def recorte5(t):                             # el sticker del gancho: la persona recortada con la IA local y el fondo, como en el timeline
+            ruta, t_src, clip = _fuente_de(info, video, t)
+            try:
+                import edicion_pro_tema5_mm as MM5
+                rgb = PE5.fotograma(ruta, t_src) if PE5.disponible() else None
+                return MM5.imagenes_sticker(rgb, PE5.mate(rgb), clip, W, H) if rgb is not None else None
+            except Exception:
+                return None
+
+        def cara5(t):                                # la pantalla final: la cara en el círculo y el fondo
+            ruta, t_src, clip = _fuente_de(info, video, t)
+            try:
+                import edicion_pro_tema5_mm as MM5
+                rgb = PE5.fotograma(ruta, t_src) if PE5.disponible() else None
+                det = PE5.personas(ruta, t_src) if rgb is not None else None
+                return MM5.imagenes_final(rgb, det, clip, W, H) if det and det.get('personas') else None
+            except Exception:
+                return None
+        if plan.get('estilo_t5') == 'editorial':      # Tema 6: el mapa oscuro a pantalla completa no es de su estilo (va la tarjeta blanca del mapa)
+            plan['piezas'] = [p for p in plan['piezas'] if p.get('pieza') not in T5.PIEZAS_QUE_QUEDAN]
         quedan = [p for p in plan['piezas'] if p.get('pieza') in T5.PIEZAS_QUE_QUEDAN]      # órbita, plantillas, escenas OGraf…: no son de este sistema
         nuevas, divididas = T5.planificar(plan, vertical, op.get('pro_densidad') or 'media', video, det_de=det5, foto_de=foto5,
-                                          ia=op.get('pro_ia_local', True) is not False, idioma=plan.get('idioma') or 'es', estado=decir)
+                                          ia=op.get('pro_ia_local', True) is not False, idioma=plan.get('idioma') or 'es', estado=decir,
+                                          recorte_de=recorte5, cara_de=cara5, usuario=str(op.get('pro_usuario') or ''),
+                                          estilo=plan.get('estilo_t5') or 'skill')
         plan['piezas'] = quedan + nuevas
     clave = hashlib.sha1(f'{video}|{W}x{H}@{fps}'.encode('utf-8')).hexdigest()[:10]
     carpeta = OG.ruta_larga(CARPETA / clave)
@@ -647,14 +679,6 @@ def aplicar(plan, al_estado=None, offset_frames=0, info=None):
     hay_ia = PE.disponible()
     graficos, persona = [], []
     ventanas, forzadas = {}, set()                 # forzadas: escenas «fondo sustituido» sin sitio encima de la cabeza → pantalla completa
-    # punch-in de 1,08 en V1 alterno cuando hay saltos (pausas quitadas): lo coloca colocar_pro y las cuentas de posición ya lo tienen en cuenta
-    punch = []
-    v1 = sorted(info.get('v1') or [], key=lambda c: c['ini'])
-    if len(v1) >= 2 and not any(c.get('fx') for c in v1) and not ligero:
-        for n, c in enumerate(v1):
-            if n % 2 == 1 and abs(float(c.get('zx') or 1.0) - 1.0) < 1e-3 and abs(float(c.get('zy') or 1.0) - 1.0) < 1e-3:
-                c['zx'] = c['zy'] = PUNCH_IN
-                punch.append([int(c['ini']), PUNCH_IN])
     decir('Edición PRO: buscando a las personas del video…')
     for p in plan['piezas']:
         det, clip = None, None
@@ -667,6 +691,8 @@ def aplicar(plan, al_estado=None, offset_frames=0, info=None):
                 det = None
         if p.get('ajustar'):
             _ajustar_posiciones(p, _a_timeline(det, clip, W, H), vertical)
+            if p['pieza'] == 'orbita' and p.get('remotion') and det:     # los iconos de Remotion son algo más grandes: un poco más abajo del mentón
+                p['valores']['ry'] = round(float(p['valores'].get('ry', 5.0)) + 1.3, 2)
             if p['pieza'] == 'subtitulo' and p.pop('quitar', False):  # sin sitio libre de caras: abajo y más pequeño (un caption no se quita)
                 p['valores'].update(y=84.0 if vertical else 86.0, escala=0.8)
             if t5:
@@ -811,6 +837,8 @@ def aplicar(plan, al_estado=None, offset_frames=0, info=None):
                 import edicion_pro_tema5 as T5
                 p['valores'] = dict(p['_valores0'], modo='normal', y=T5.Y_NORMAL[vertical])
                 p['capa'], p['persona'] = 'subs', False
+            if p['pieza'] in ('orbita', 'foco') and t5 and (p['ini'], p['fin']) in sin_persona:
+                p['quitar'] = True                                    # sin la persona recortada: ni órbita (taparía la cara) ni foco (todo gris)
             if p.get('remotion') and not p.get('quitar'):
                 props = dict(p['valores'], _ancho=W, _alto=H, _fps=fps, _dur=round(max(0.6, p['fin'] - p['ini']), 3))
                 sal = RM.salida_para(p['remotion'], props, carpeta)
@@ -819,16 +847,41 @@ def aplicar(plan, al_estado=None, offset_frames=0, info=None):
         rm_hechos = RM.renderizar(trab, decir) if trab else {}
     except Exception:
         rm_hechos = {}
+
+    def con_sombra(p, sal):
+        """Tema 5: la clave DETRÁS de la persona con la sombra de la persona encima de las letras (la silueta del fotograma del medio)."""
+        destino = Path(str(sal)).with_name(Path(str(sal)).stem + '_sombra.mov')
+        if destino.exists():
+            return destino
+        try:
+            import edicion_pro_tema5_mm as MM5
+            ruta, t_src, clip = _fuente_de(info, video, (p['ini'] + p['fin']) / 2.0)
+            rgb = PE.fotograma(ruta, t_src)
+            if rgb is None:
+                return None
+            fx, fy = MM5.mapeo(clip, W, H)
+            return destino if MM5.sombra_en_clip(sal, destino, MM5.silueta(PE.mate(rgb), fx, fy, W, H)) else None
+        except Exception:
+            return None
+    gris_foco = []
     for p in plan['piezas']:
         capa = p['capa']
         if p.get('quitar'):
             continue                                                  # no había sitio sin tapar la cara
+        if p['pieza'] == 'foco':                                      # Tema 5: el fondo en blanco y negro (colocar_pro) bajo la persona a color
+            gris_foco.append([int(round(p['ini'] * fps)), int(round(p['fin'] * fps))])
+            continue
         if p.get('remotion'):
             sal = rm_salida.get(id(p))
             if sal is not None and rm_hechos.get(str(sal)):
+                if t5 and hay_ia and p['pieza'] == 'subtitulo' and p['capa'] == 'detras':
+                    decir('Edición PRO: la sombra de la persona sobre la palabra de detrás…')
+                    sal = con_sombra(p, sal) or sal
                 graficos.append({'capa': p['capa'], 'ini': int(round(p['ini'] * fps)), 'archivo': str(OG.ruta_larga(sal)), 'alfa': True,
                                  'nombre': 'PRO · ' + ({'Ubicacion': 'Mapa + bandera', 'Subtitulo': 'Caption', 'PasosT5': 'Pasos', 'DeslizadorT5': 'Deslizador',
-                                                         'EscenaT5': 'Escena', 'AcompananteT5': 'Acompañante', 'VeloCaptionT': 'Velo de legibilidad'}.get(p['remotion'])
+                                                         'EscenaT5': 'Escena', 'AcompananteT5': 'Acompañante', 'VeloCaptionT': 'Velo de legibilidad',
+                                                         'TarjetaT5': 'Tarjeta', 'OrbitaT5': 'Órbita', 'StickerT5': 'Sticker',
+                                                         'FinalT5': 'Pantalla final', 'EditorialT6': 'Editorial'}.get(p['remotion'])
                                                         or p.get('plantilla') or p['remotion'])})
             continue
         if (p['ini'], p['fin']) in sin_persona:
@@ -843,6 +896,26 @@ def aplicar(plan, al_estado=None, offset_frames=0, info=None):
         dur = max(0.4, p['fin'] - p['ini'])
         ruta = OG.construir(p['pieza'], p['valores'], dur, carpeta, fps=fps, ancho=W, alto=H)
         graficos.append({'capa': capa, 'ini': int(round(p['ini'] * fps)), 'archivo': str(ruta), 'nombre': f"PRO · {OG.ESQUEMAS[p['pieza']]['nombre']}"})
+    # Tema 5: la transición con zoom en los cortes (los de V1 —pausas quitadas— o, con un solo clip, los del propio video), lejos de lo demás
+    zoom, plan['_zoom'] = [], []
+    if t5:
+        try:
+            import edicion_pro_tema5_mm as MM5
+            cortes = [(int(c['ini']) - info['base']) / fps for c in v1[1:]]
+            if len(v1) == 1:
+                c = v1[0]
+                desde = (int(c['ini']) - info['base']) / fps - int(c.get('izq') or 0) / float(c.get('fps') or fps)
+                cortes += [desde + float(x) for x in plan.get('_cortes_video') or []]
+            elif not v1:
+                cortes += [float(x) for x in plan.get('_cortes_video') or []]
+            puestas = [p for p in plan['piezas'] if not p.get('quitar')]
+            ocup = [(p['ini'], p['fin']) for p in puestas if p.get('capa') in ('fondo', 'detras', 'velo') or p.get('pantalla') or p.get('persona')]
+            ocup += [(d['ini'], d['fin']) for d in divididas] + [(t['_s'], t['_s'] + t['dur']) for t in tomas]
+            for t in MM5.transiciones(cortes, ocup, max([p['fin'] for p in puestas] or [0.0])):
+                zoom.append([int(round(t * fps)), 5, 6])
+                plan['_zoom'].append(t)
+        except Exception:
+            zoom = []
     rng = random.Random(PL.semilla_de(video, [], int(op.get('pro_variacion') or 0)))
     sonidos = []
     if op.get('pro_sonidos', True):                                   # diseño de sonido profesional (edicion_pro_sonido): whooshes, texturas, risers + hits
@@ -850,7 +923,11 @@ def aplicar(plan, al_estado=None, offset_frames=0, info=None):
         voz_db = PS.nivel_voz(video)                                  # los efectos, siempre bajo la voz de ESTE video
         for e in PS.disenar(plan, fps, rng, choques=[] if t5 else [(f - info['base']) / fps for f in info.get('sfx') or []],
                             cortes=[(int(f) - info['base']) / fps for f, _z in punch], voz_db=voz_db):
-            e['archivo'] = str(OG.ruta_larga(_copia_de_usuario(e['archivo'])))     # nunca de la carpeta del programa: Resolve la retendría
+            try:                                                      # el volumen, DENTRO del archivo (Resolve 21 ignora el de clip por script)
+                e['archivo'] = str(OG.ruta_larga(_con_ganancia(e['archivo'], e.get('db', 0.0))))
+                e['db'] = 0.0
+            except Exception:
+                e['archivo'] = str(OG.ruta_larga(_copia_de_usuario(e['archivo'])))     # nunca de la carpeta del programa: Resolve la retendría
             sonidos.append(e)
     subs = [p for p in plan['piezas'] if p['pieza'] == 'subtitulo']
     subs_ok = sum(1 for p in subs if rm_hechos.get(str(rm_salida.get(id(p)))))
@@ -860,7 +937,7 @@ def aplicar(plan, al_estado=None, offset_frames=0, info=None):
                           if any(p.get('remotion') == 'EscenaT5' and abs(p['ini'] - d['ini']) < 1e-3 and rm_hechos.get(str(rm_salida.get(id(p))))
                                  for p in plan['piezas'])],
              'broll': [{k: v for k, v in t.items() if k != '_s'} for t in tomas], 'encima': encima, 'mover': mover, 'punch': punch,
-             'sin_emoji': sin_emoji, 'gris': gris,
+             'sin_emoji': sin_emoji, 'gris': gris, 'gris_foco': gris_foco, 'zoom': zoom,
              'resumen': plan.get('resumen', '')}
     try:
         import archivos_seguros
@@ -873,7 +950,7 @@ def aplicar(plan, al_estado=None, offset_frames=0, info=None):
     except Exception:
         pass
     instalar_plantillas_una_vez()
-    limpiar_cache()
+    limpiar_cache(conservar=carpeta)
     decir('Edición PRO: colocando la edición en Resolve' + (' (Magic Mask)…' if (persona or encima) and usar_magic else '…'))
     if info.get('via') == 'mcp':
         import resolve_mcp
@@ -888,6 +965,40 @@ def aplicar(plan, al_estado=None, offset_frames=0, info=None):
 
 
 SONIDOS_USUARIO = Path.home() / 'DaVinciSubtitles' / 'edicion_pro_sonidos'      # (no es la caché: los proyectos de Resolve siguen apuntando a ellos)
+
+
+def _con_ganancia(ruta, db):
+    """v5.4.52 (auditoría del render: los efectos sonaban hasta 8 dB POR ENCIMA de la voz): Resolve 21 no aplica el volumen de un clip de audio
+    puesto por script (SetProperty('Volume') no existe; es 'AudioVolume' y tampoco lo respeta siempre), así que todos quedaban a 0 dB. Como los
+    efectos de GO (sfx_rules.con_volumen), el volumen va DENTRO del archivo: una copia en la carpeta del usuario (nunca la del programa) con la
+    ganancia ya aplicada, en estéreo. Se rehace si cambia el original."""
+    import av
+    import numpy as np
+    origen = Path(str(ruta))
+    db = round(float(db or 0.0), 1)
+    destino = SONIDOS_USUARIO / f'{origen.stem}_v{int(round(db * 10)):+d}.wav'
+    if destino.is_file() and destino.stat().st_mtime >= origen.stat().st_mtime:
+        return destino
+    SONIDOS_USUARIO.mkdir(parents=True, exist_ok=True)
+    with av.open(str(origen)) as c:
+        st = c.streams.audio[0]
+        sr = int(st.rate or 48000)
+        rs = av.AudioResampler(format='fltp', layout='stereo', rate=sr)
+        partes = [g.to_ndarray() for fr in c.decode(st) for g in rs.resample(fr)]
+        partes += [g.to_ndarray() for g in rs.resample(None)]
+    x = np.clip(np.concatenate(partes, axis=1) * (10 ** (db / 20.0)), -1.0, 1.0)
+    tmp = destino.with_name(destino.stem + '.tmp.wav')
+    with av.open(str(tmp), 'w', format='wav') as o:
+        s = o.add_stream('pcm_s16le', rate=sr)
+        s.layout = 'stereo'
+        fr = av.AudioFrame.from_ndarray((x.T.reshape(1, -1) * 32767.0).astype(np.int16), format='s16', layout='stereo')
+        fr.sample_rate = sr
+        for pk in s.encode(fr):
+            o.mux(pk)
+        for pk in s.encode():
+            o.mux(pk)
+    tmp.replace(destino)
+    return destino
 
 
 def _copia_de_usuario(ruta):
@@ -931,10 +1042,14 @@ def carpeta_recursos() -> Path:
         return Path(__file__).resolve().parent.parent / '2_recursos' / 'edicion_pro'
 
 
-def limpiar_cache(maximo_mb=1500):
-    """Borra lo más viejo de ~/DaVinciSubtitles/edicion_pro si pasa de `maximo_mb` (los .ograf y los recortes se rehacen solos)."""
+def limpiar_cache(maximo_mb=1500, conservar=None):
+    """Borra lo más viejo de ~/DaVinciSubtitles/edicion_pro si pasa de `maximo_mb` (los .ograf y los recortes se rehacen solos). NUNCA la carpeta
+    `conservar` (la del video que se acaba de editar): v5.4.52, con muchas pasadas del mismo video esa carpeta sola pasaba del tope y se borraban
+    los clips recién hechos (Resolve «no colocó ningún gráfico»)."""
     try:
-        cajas = sorted((d for d in CARPETA.iterdir() if d.is_dir() and d.name not in ('modelos', 'pruebas')), key=lambda d: d.stat().st_mtime)
+        guardar = Path(str(conservar)).resolve() if conservar else None
+        cajas = sorted((d for d in CARPETA.iterdir() if d.is_dir() and d.name not in ('modelos', 'pruebas')
+                        and (guardar is None or d.resolve() != guardar)), key=lambda d: d.stat().st_mtime)
         total = sum(f.stat().st_size for d in cajas for f in d.rglob('*') if f.is_file())
         while cajas and total > maximo_mb * 1e6:
             d = cajas.pop(0)

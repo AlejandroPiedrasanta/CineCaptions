@@ -44,6 +44,11 @@ RECOMENDACIONES = {
         'sonido': {'donde': 'ninguna'},
         'prefs': {'sfx_emojis': False, 'sfx_curva_energia': False},
     },
+    'Tema6': {
+        'resumen': 'sin toques por palabra: el diseño de sonido es de la Edición PRO (destello y whoosh suave en cada escena, clics en lo que aparece)',
+        'sonido': {'donde': 'ninguna'},
+        'prefs': {'sfx_emojis': False, 'sfx_curva_energia': False},
+    },
     'Referencia': {
         'resumen': 'un toque por palabra (como escribir) · riser con destello y zoom suave en la intro · fuga de luz en las transiciones',
         'sonido': {'donde': 'todas'},

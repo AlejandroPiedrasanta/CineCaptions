@@ -22,18 +22,19 @@ from pathlib import Path
 
 PISTAS = {'whoosh': 'PRO-WHOOSH', 'textura': 'PRO-TEXTURA', 'riser': 'PRO-RISER', 'hit': 'PRO-HIT'}
 NIVEL = {'whoosh': -12.0, 'whoosh_grande': -10.0, 'textura': -7.0, 'riser': -5.0, 'hit': -8.0, 'corte': -10.0}
-CARPETAS = {
+CARPETAS = {                        # (v5.4.52: + «Interfaz (CC0)», los packs de Kenney: más variaciones, menos repetición)
     'whoosh': ['Whoosh'],
-    'pop': ['Esenciales:pop', 'Modo simple:pop', 'Click'],
-    'click': ['Click', 'Esenciales:click'],
-    'ui': ['futurista', 'Esenciales:ui'],
+    'pop': ['Esenciales:pop', 'Modo simple:pop', 'Click', 'Interfaz (CC0):pop_'],
+    'click': ['Click', 'Esenciales:click', 'Interfaz (CC0):click_'],
+    'ui': ['futurista', 'Esenciales:ui', 'Interfaz (CC0):ui_'],
     'corte': ['Shutter', 'Esenciales:camera'],
-    'error': ['Power Down'],
+    'error': ['Power Down', 'Interfaz (CC0):error_'],
     'riser': ['Riser'],
     'hit': ['Bass Hit', 'Hit', 'Slams'],
 }
 CHOQUE_S = 0.12                     # una textura menor no suena a menos de esto de un sonido de los captions
 _CACHE = {}
+_USADOS = set()                     # lo que ya sonó en ESTE video: se prefiere lo que no (que no se repita), si queda
 
 
 def _biblioteca() -> Path:
@@ -97,9 +98,12 @@ def _elegir(clave, rng, largo=None, ancla='pico', hasta=None):
     fs = [f for f in _archivos(clave) if hasta is None or analizar(f)[ancla] <= hasta]
     if not fs:
         return None, None
+    nuevos = [f for f in fs if str(f) not in _USADOS]
+    fs = nuevos or fs
     if largo:
         fs = sorted(fs, key=lambda f: abs(analizar(f)['pico'] - largo))[:2]
     f = rng.choice(fs)
+    _USADOS.add(str(f))
     return f, analizar(f)
 
 
@@ -151,6 +155,7 @@ def disenar(plan, fps, rng, choques=(), cortes=(), voz_db=None):
     transiciones grandes y un clic de cámara en los cortes con punch-in. Con `voz_db` cada efecto queda bajo la voz (_nivel). El Tema 5 es más
     sobrio: separaciones mínimas, como mucho 2 risers, y la escena que sale no suena si entra otra al momento. Devuelve los eventos para colocar_pro."""
     t5 = bool(plan.get('tema5'))
+    _USADOS.clear()
     ev = []                                                          # (tipo, t, nivel, largo deseado, ancla, qué)
 
     def mov(t, grande=False, largo=0.7, que=''):
@@ -208,6 +213,42 @@ def disenar(plan, fps, rng, choques=(), cortes=(), voz_db=None):
                 if not otra:                                             # escena tras escena: solo suena la que entra
                     mov(b - 0.2, largo=0.4, que='sale la escena')
                 transiciones.append((a, 'video → escena'))
+            continue
+        if pz == 'tarjeta':                                           # Tema 5 (v5.4.52): la tarjeta encima de la cabeza
+            v = p.get('valores') or {}
+            tp = v.get('tipo')
+            mov(a + 0.08, largo=0.4, que=f'entra la tarjeta ({tp})')
+            if tp == 'mapa':
+                tex('pop', a + 1.2, 'cae el pin')
+            elif tp == 'grafica':
+                tex('ui', a + 0.45, 'crecen las barras')
+            elif tp == 'tachado':
+                tex('error', a + float(v.get('t_tachar') or 0.6) + 0.1, 'se tacha la frase')
+            elif tp == 'lista':
+                for x in (v.get('tiempos') or [])[:4]:
+                    tex('click', a + float(x) + 0.22, 'se marca una cosa de la lista')
+            continue
+        if pz == 'sticker':
+            tex('corte', a + 0.03, 'la imagen se congela (sticker)', NIVEL['corte'])
+            continue
+        if pz == 'editorial':                                        # Tema 6: el visor, la barra de búsqueda, el perfil
+            v = p.get('valores') or {}
+            tp = v.get('tipo')
+            if tp == 'visor':
+                tex('corte', a + 0.3, 'el visor enfoca la cara', NIVEL['corte'])
+            elif tp == 'buscar':
+                tex('ui', a + 0.3, 'aparece la barra de búsqueda')
+                tex('click', a + 0.35 + 0.075 * len(str(v.get('texto') or '')) + 0.35, 'se pulsa enviar')
+            else:
+                mov(a + 0.08, largo=0.35, que=f'entra {tp}')
+                tex('ui', a + 0.4, f'cuenta {tp}')
+            continue
+        if pz == 'final':
+            mov(a + 0.05, grande=True, largo=0.6, que='entra la pantalla final')
+            tex('click', a + min(1.25, max(0.8, (b - a) - 1.1)), 'se pulsa el botón de seguir')
+            continue
+        if pz == 'foco':
+            tex('hit', a + 0.02, 'el fondo se apaga (foco)')
             continue
         if pz == 'fondo':
             mov(a + 0.22, grande=bool(p.get('pantalla')), largo=0.6, que='entra la escena')
@@ -268,7 +309,12 @@ def disenar(plan, fps, rng, choques=(), cortes=(), voz_db=None):
     for m in plan.get('_broll_puesto') or []:
         tex('corte', float(m['ini']), 'entra el B-roll', NIVEL['corte'])
         transiciones.append((float(m['ini']), 'video → B-roll'))
+    zooms = [float(x) for x in plan.get('_zoom') or []]
+    for t in zooms:
+        mov(t, largo=0.3, que='transición con zoom')
     for t in cortes or []:
+        if any(abs(float(t) - z) < 0.3 for z in zooms):
+            continue                                                 # ese corte ya suena con el whoosh de su transición
         tex('corte', float(t), 'corte con punch-in', NIVEL['corte'])
     # al menos dos risers si hay transiciones; el primero, a ~5 s del gancho
     transiciones.sort()

@@ -8,8 +8,10 @@ import { Grafica, Interruptor, Notificacion, Pasos, Tarjeta } from './Saas';
 import { Subtitulo } from './Subtitulo';
 import { DeslizadorT5, EscenaT5, PasosT5 } from './Skill';
 import { AcompananteT5, VeloCaptionT } from './Acompanantes';
+import { FinalT5, OrbitaT5, StickerT5, TarjetaT5 } from './Efectos5';
+import { EditorialT6 } from './Editorial6';
 
-const PLANTILLAS: Record<string, React.FC<any>> = { PasosT5, DeslizadorT5, EscenaT5, AcompananteT5, VeloCaptionT, Titulo, Saludo, Capitulos, Fecha, Pareja, Pastilla, Encuesta, Comentario, Sesion, Ninas, Notificacion, Tarjeta, Grafica, Pasos, Interruptor };
+const PLANTILLAS: Record<string, React.FC<any>> = { PasosT5, DeslizadorT5, EscenaT5, AcompananteT5, VeloCaptionT, TarjetaT5, OrbitaT5, StickerT5, FinalT5, EditorialT6, Titulo, Saludo, Capitulos, Fecha, Pareja, Pastilla, Encuesta, Comentario, Sesion, Ninas, Notificacion, Tarjeta, Grafica, Pasos, Interruptor };
 
 type Meta = { _ancho?: number; _alto?: number; _fps?: number; _dur?: number };
 const medida = ({ props }: { props: Record<string, unknown> & Meta }) => {

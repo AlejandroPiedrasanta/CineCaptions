@@ -11,7 +11,7 @@ type Pais = { es: string; en: string; pt: string; centro: [number, number]; caja
 type Mapa = { ancho: number; alto: number; paises: Record<string, Pais> };
 
 let mapa: Promise<Mapa> | null = null;
-const useMapa = () => {
+export const useMapa = () => {
   const [m, setM] = useState<Mapa | null>(null);
   const [h] = useState(() => delayRender('mapa'));
   useEffect(() => {
@@ -21,7 +21,7 @@ const useMapa = () => {
   return m;
 };
 
-const Bandera: React.FC<{ iso: string; ancho: number; t: number }> = ({ iso, ancho, t }) => {
+export const Bandera: React.FC<{ iso: string; ancho: number; t: number }> = ({ iso, ancho, t }) => {
   const alto = ancho * 0.75, n = 22, w = ancho / n;
   return (
     <div style={{ position: 'relative', width: ancho, height: alto * 1.12 }}>

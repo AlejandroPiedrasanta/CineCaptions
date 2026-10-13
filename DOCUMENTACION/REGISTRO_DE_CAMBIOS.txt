@@ -12,6 +12,57 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-13 10:05  ·  v5.4.52  ·  (automático)
+    nuevos (3):
+      + 1_codigo/audio_compatible.py
+      + 2_recursos/vistas_slider/Tema6.jpg
+      + 2_recursos/vistas_slider/Tema6.mp4
+    modificados (22):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/colocacion.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_tema5_acomp.py
+      ~ 1_codigo/efectos_visuales.py
+      ~ 1_codigo/probar_go.py
+      ~ 1_codigo/remotion/render.mjs
+      ~ 1_codigo/sonidos_extra.py
+      ~ 2_recursos/edicion_pro/colocar_pro.py
+      ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/debug.log
+      ~ 2_recursos/edicion_pro/remotion/runtime/render.mjs
+      … y 10 más
+
+2026-10-13 01:51  ·  v5.4.52  ·  cambio explicado
+    v5.4.52 (pedidos del usuario): Tema 6 «Editorial» con el estilo de su video de referencia (captions serif fina + clave en lima, escenas melocotón, visor, búsqueda, perfil, equipo); Tema 5 con foco en blanco y negro, órbita detrás/delante, sticker del gancho, sombra sobre la clave, tarjetas encima de la cabeza (mapa, gráfica, tachado, lista), pantalla final y transiciones con zoom; emojis animados Noto (Lottie, CC BY 4.0); 136 sonidos CC0 de Kenney sin repetir dentro del video; bordes de recorte refinados; caché de render en «user» para que la línea de tiempo vaya fluida.
+    nuevos (811):
+      + 1_codigo/edicion_pro_tema5_mm.py
+      + 1_codigo/edicion_pro_tema6.py
+      + 1_codigo/remotion/node_modules/@remotion/lottie/LICENSE.md
+      + 1_codigo/remotion/node_modules/@remotion/lottie/README.md
+      + 1_codigo/remotion/node_modules/@remotion/lottie/dist/cjs/Lottie.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/lottie/dist/cjs/Lottie.js
+      + 1_codigo/remotion/node_modules/@remotion/lottie/dist/cjs/get-lottie-metadata.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/lottie/dist/cjs/get-lottie-metadata.js
+      + 1_codigo/remotion/node_modules/@remotion/lottie/dist/cjs/index.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/lottie/dist/cjs/index.js
+      + 1_codigo/remotion/node_modules/@remotion/lottie/dist/cjs/types.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/lottie/dist/cjs/types.js
+      … y 799 más
+    modificados (50):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_persona.py
+      ~ 1_codigo/edicion_pro_sonido.py
+      ~ 1_codigo/edicion_pro_tema5.py
+      ~ 1_codigo/edicion_pro_tema5_video.py
+      ~ 1_codigo/guion_planificador.py
+      ~ 1_codigo/herramientas_dev/vista_tema5.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/recomendaciones.py
+      ~ 1_codigo/remotion/empaquetar.mjs
+      … y 38 más
+
 2026-10-12 20:49  ·  v5.4.51  ·  (automático)
     nuevos (1):
       + 1_codigo/edicion_pro_temas.py

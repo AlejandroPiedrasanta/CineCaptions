@@ -10,6 +10,7 @@
 // Entra desde abajo con resorte suave y desenfoque, vive un poco (flota) y se va hacia abajo. Nunca dice algo que no se dijo.
 import { AbsoluteFill, Img, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
 import { FAMILIA, clamp, rgb, useFuentes } from './comun';
+import { EmojiAnimado } from './Emoji';
 
 const easeOut = (q: number) => 1 - Math.pow(1 - clamp(q), 3);
 const resorte = (q: number) => { const x = clamp(q); return 1 - Math.exp(-6 * x) * Math.cos(9 * x); };   // asienta con un pequeño rebote
@@ -79,8 +80,8 @@ export const AcompananteT5: React.FC<AcompananteProps> = ({ tipo = 'sticker', te
     const giro = Math.sin((t - 0.25) * 11) * 18 * clamp((t - 0.2) / 0.3) * (1 - clamp((t - 1.6) / 0.4));
     cuerpo = (
       <div style={carta}>
-        <Img src={staticFile(`stickers/${sticker || 'rcs_emoji_waving_hand.png'}`)} style={{ width: 78 * U, height: 78 * U, transform: `rotate(${giro.toFixed(1)}deg) scale(${(0.5 + 0.5 * pop(0.1)).toFixed(3)})`,
-                                                                                       transformOrigin: '70% 85%', filter: `drop-shadow(0 ${6 * U}px ${8 * U}px rgba(0,0,0,.3))` }} />
+        <EmojiAnimado id={sticker || 'waving_hand'} lado={78 * U} style={{ transform: `rotate(${(giro * 0.4).toFixed(1)}deg) scale(${(0.5 + 0.5 * pop(0.1)).toFixed(3)})`,
+                                                                      transformOrigin: '70% 85%', filter: `drop-shadow(0 ${6 * U}px ${8 * U}px rgba(0,0,0,.3))` }} />
         {textos(kicker, texto, 44)}
         {[0, 1, 2].map(i => {
           const q = clamp((t - 0.45 - i * 0.12) / 0.6);
@@ -92,8 +93,8 @@ export const AcompananteT5: React.FC<AcompananteProps> = ({ tipo = 'sticker', te
   } else if (tipo === 'sticker') {
     cuerpo = (
       <div style={carta}>
-        <Img src={staticFile(`stickers/${sticker}`)} style={{ width: 80 * U, height: 80 * U, transform: `translateY(${(Math.sin(t * 3) * 3 * U).toFixed(1)}px) rotate(${(Math.sin(t * 2.2) * 6).toFixed(1)}deg) scale(${(0.4 + 0.6 * pop(0.08)).toFixed(3)})`,
-                                                             filter: `drop-shadow(0 ${6 * U}px ${8 * U}px rgba(0,0,0,.3))` }} />
+        <EmojiAnimado id={sticker} lado={80 * U} style={{ transform: `translateY(${(Math.sin(t * 3) * 3 * U).toFixed(1)}px) scale(${(0.4 + 0.6 * pop(0.08)).toFixed(3)})`,
+                                                         filter: `drop-shadow(0 ${6 * U}px ${8 * U}px rgba(0,0,0,.3))` }} />
         {textos(kicker, texto, 40)}
       </div>
     );

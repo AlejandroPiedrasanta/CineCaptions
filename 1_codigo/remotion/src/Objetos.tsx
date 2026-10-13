@@ -16,10 +16,13 @@ const easeInOut = (q: number) => { const x = clamp(q); return x < 0.5 ? 4 * x * 
 export type Objeto = { tipo: string; t: number; [k: string]: any };
 
 /** El aspecto de los objetos: claro (papel, la referencia) u oscuro (cristal oscuro con brillo, el tablero de inspiración / encima del video). */
-export type TemaObj = { oscuro: boolean; carta: string; tinta: string; gris: string; suave: string; linea: string; borde: string };
+export type TemaObj = { oscuro: boolean; carta: string; tinta: string; gris: string; suave: string; linea: string; borde: string; letra?: string };
 export const TEMA_CLARO: TemaObj = { oscuro: false, carta: '#FFFFFF', tinta: TINTA, gris: GRIS, suave: '#EEF0F4', linea: '#E4E6EC', borde: 'transparent' };
 export const TEMA_OSCURO: TemaObj = { oscuro: true, carta: 'linear-gradient(180deg, rgba(40,44,60,.94), rgba(20,22,32,.94))', tinta: '#F4F5F9', gris: '#9AA1B4',
                                       suave: 'rgba(255,255,255,.08)', linea: 'rgba(255,255,255,.14)', borde: 'rgba(255,255,255,.12)' };
+/** Tema 6 («Editorial»): fondo melocotón, cartas blancas con un borde cálido y la serif alta y fina (Instrument Serif), sin negritas. */
+export const TEMA_MELOCOTON: TemaObj = { oscuro: false, carta: '#FFFFFF', tinta: '#2E2622', gris: '#9A8A80', suave: '#FBEDE5', linea: '#F1DFD4',
+                                         borde: 'rgba(214,170,140,.38)', letra: FAMILIA.serif };
 export const TemaCtx = createContext<TemaObj>(TEMA_CLARO);
 export const useTema = () => useContext(TemaCtx);
 
@@ -58,8 +61,8 @@ export const Muestra: React.FC<{ o: Objeto; U: number }> = ({ o, U }) => {
       <div style={{ width: lado, height: lado, borderRadius: 40 * U, background: `linear-gradient(160deg, rgba(255,255,255,.16), rgba(255,255,255,0) 45%), ${o.color}`,
                     boxShadow: sombra(U) + (claro ? `, inset 0 0 0 ${1.5 * U}px rgba(0,0,0,.06)` : '') }} />
       <div style={{ textAlign: 'center', lineHeight: 1.25 }}>
-        <div style={{ fontFamily: FAMILIA.inter, fontWeight: 700, fontSize: 17 * U, letterSpacing: '0.09em', color: T.tinta }}>{o.etiqueta}</div>
-        <div style={{ fontFamily: FAMILIA.inter, fontWeight: 500, fontSize: 15 * U, letterSpacing: '0.06em', color: T.gris }}>{o.hex}</div>
+        <div style={{ fontFamily: (T.letra || FAMILIA.inter), fontWeight: 700, fontSize: 17 * U, letterSpacing: '0.09em', color: T.tinta }}>{o.etiqueta}</div>
+        <div style={{ fontFamily: (T.letra || FAMILIA.inter), fontWeight: 500, fontSize: 15 * U, letterSpacing: '0.06em', color: T.gris }}>{o.hex}</div>
       </div>
     </div>
   );
@@ -72,7 +75,7 @@ export const Ficha: React.FC<{ o: Objeto; U: number }> = ({ o, U }) => {
   <div style={{ padding: `${18 * U}px ${30 * U}px`, borderRadius: 16 * U, background: T.carta, border: `${1.2 * U}px solid ${T.borde}`, boxShadow: sombra(U, 0.7), whiteSpace: 'nowrap', display: 'flex',
                 alignItems: 'center', gap: 12 * U }}>
     {!o.serif && <div style={{ width: 14 * U, height: 14 * U, borderRadius: 7 * U, background: o.color }} />}
-    <span style={{ fontFamily: o.serif ? FAMILIA.serif : FAMILIA.inter, fontWeight: o.serif ? 400 : 700, fontSize: (o.serif ? 34 : 30) * U,
+    <span style={{ fontFamily: o.serif ? FAMILIA.serif : (T.letra || FAMILIA.inter), fontWeight: o.serif ? 400 : 700, fontSize: (o.serif ? 34 : 30) * U,
                    letterSpacing: o.serif ? '0.06em' : '-0.01em', color: o.serif ? (T.oscuro ? T.tinta : (o.color || TINTA)) : T.tinta }}>{o.texto}</span>
   </div>
   );
@@ -113,7 +116,7 @@ export const App: React.FC<{ o: Objeto; U: number; acento: string }> = ({ o, U, 
       </div>
       {o.insignia && ins > 0 && (
         <div style={{ position: 'absolute', right: -lado * 0.18 + (1 - k) * lado * 0.5, top: -lado * 0.16 + (1 - k) * lado * 0.5, padding: `${8 * U}px ${18 * U}px`,
-                      borderRadius: 30 * U, background: `rgb(${r},${g},${b})`, color: '#fff', fontFamily: FAMILIA.inter, fontWeight: 700, fontSize: 24 * U,
+                      borderRadius: 30 * U, background: `rgb(${r},${g},${b})`, color: '#fff', fontFamily: (T.letra || FAMILIA.inter), fontWeight: 700, fontSize: 24 * U,
                       opacity: ins, transform: `scale(${(0.7 + 0.3 * ins).toFixed(3)})`, boxShadow: `0 ${8 * U}px ${18 * U}px rgba(${r},${g},${b},.35)` }}>{o.insignia}</div>
       )}
       {o.insignia && Array.from({ length: 12 }, (_, i) => {                      // motas que se escapan al encoger
@@ -154,14 +157,14 @@ export const Ojo: React.FC<{ o: Objeto; U: number; acento: string }> = ({ o, U, 
       </div>
       <div style={{ position: 'absolute', left: -d * 0.42, top: -d * 0.02, width: d * 0.62, padding: 14 * U, borderRadius: 16 * U, background: T.carta, border: `${1.2 * U}px solid ${T.borde}`, boxShadow: sombra(U, 0.7),
                     opacity: c1, transform: `translateY(${((1 - c1) * 20 * U).toFixed(1)}px) scale(${(0.9 + 0.1 * c1).toFixed(3)})` }}>
-        <div style={{ fontFamily: FAMILIA.inter, fontWeight: 700, fontSize: 11 * U, letterSpacing: '0.1em', color: T.gris, marginBottom: 8 * U }}>TIMELINE</div>
+        <div style={{ fontFamily: (T.letra || FAMILIA.inter), fontWeight: 700, fontSize: 11 * U, letterSpacing: '0.1em', color: T.gris, marginBottom: 8 * U }}>TIMELINE</div>
         {[0.8, 0.55, 0.7].map((w, i) => (
           <div key={i} style={{ height: 9 * U, width: `${w * 100}%`, marginLeft: `${i * 8}%`, borderRadius: 5 * U, marginBottom: 6 * U, background: i === 1 ? acento : T.linea }} />
         ))}
       </div>
       <div style={{ position: 'absolute', right: -d * 0.36, bottom: d * 0.04, width: d * 0.62, padding: 14 * U, borderRadius: 16 * U, background: T.carta, border: `${1.2 * U}px solid ${T.borde}`, boxShadow: sombra(U, 0.7),
                     opacity: c2, transform: `translateY(${((1 - c2) * 20 * U).toFixed(1)}px) scale(${(0.9 + 0.1 * c2).toFixed(3)})` }}>
-        <div style={{ fontFamily: FAMILIA.inter, fontWeight: 700, fontSize: 11 * U, letterSpacing: '0.1em', color: T.gris, marginBottom: 8 * U }}>SOUND FX</div>
+        <div style={{ fontFamily: (T.letra || FAMILIA.inter), fontWeight: 700, fontSize: 11 * U, letterSpacing: '0.1em', color: T.gris, marginBottom: 8 * U }}>SOUND FX</div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 3 * U, height: 44 * U }}>
           {Array.from({ length: 26 }, (_, i) => (
             <div key={i} style={{ width: 4 * U, borderRadius: 2 * U, background: acento, height: (8 + 34 * Math.abs(Math.sin(i * 1.7 + dt * 6))) * U * (0.4 + 0.6 * Math.abs(Math.sin(i * 0.5))) }} />
@@ -182,7 +185,7 @@ export const Barra: React.FC<{ o: Objeto; U: number; acento: string }> = ({ o, U
   const [r, g, b] = rgb(acento);
   return (
     <div style={{ width: w, padding: `${22 * U}px ${26 * U}px ${26 * U}px`, borderRadius: 30 * U, background: T.carta, border: `${1.2 * U}px solid ${T.borde}`, boxShadow: sombra(U) }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: FAMILIA.inter, fontWeight: 700, fontSize: 14 * U, letterSpacing: '0.1em', color: T.gris, marginBottom: 16 * U }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: (T.letra || FAMILIA.inter), fontWeight: 700, fontSize: 14 * U, letterSpacing: '0.1em', color: T.gris, marginBottom: 16 * U }}>
         <span>{o.etiqueta || 'EFFECT USAGE'}</span><span style={{ color: acento }}>{Math.max(1, Math.round(pos))} / {n}</span>
       </div>
       <div style={{ display: 'flex', gap }}>
@@ -233,9 +236,9 @@ export const Precio: React.FC<{ o: Objeto; U: number; acento: string }> = ({ o, 
   const w = 640 * U;
   return (
     <div style={{ width: w, padding: 34 * U, borderRadius: 32 * U, background: T.carta, border: `${1.2 * U}px solid ${T.borde}`, boxShadow: sombra(U) }}>
-      <div style={{ fontFamily: FAMILIA.inter, fontWeight: 700, fontSize: 14 * U, letterSpacing: '0.12em', color: T.gris }}>TOTAL</div>
+      <div style={{ fontFamily: (T.letra || FAMILIA.inter), fontWeight: 700, fontSize: 14 * U, letterSpacing: '0.12em', color: T.gris }}>TOTAL</div>
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 16 * U }}>
-        <div style={{ fontFamily: FAMILIA.inter, fontWeight: 700, fontSize: 92 * U, letterSpacing: '-0.03em', color: T.tinta }}>
+        <div style={{ fontFamily: (T.letra || FAMILIA.inter), fontWeight: 700, fontSize: 92 * U, letterSpacing: '-0.03em', color: T.tinta }}>
           {o.signo || '$'}{o.valor ? contar(o.valor, q) : ''}
         </div>
 
@@ -253,11 +256,11 @@ export const Grafica: React.FC<{ o: Objeto; U: number; acento: string }> = ({ o,
   return (
     <div style={{ width: w, padding: 32 * U, borderRadius: 32 * U, background: T.carta, border: `${1.2 * U}px solid ${T.borde}`, boxShadow: sombra(U), position: 'relative' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-        <div style={{ fontFamily: FAMILIA.inter, fontWeight: 700, fontSize: 14 * U, letterSpacing: '0.12em', color: T.gris }}>GROWTH</div>
+        <div style={{ fontFamily: (T.letra || FAMILIA.inter), fontWeight: 700, fontSize: 14 * U, letterSpacing: '0.12em', color: T.gris }}>GROWTH</div>
         {o.valor && <div style={{ fontFamily: FAMILIA.display, fontStyle: 'italic', fontSize: 76 * U, color: acento, opacity: clamp((dt - 0.9) / 0.4) }}>+{contar(o.valor, easeOut((dt - 0.9) / 0.8))}{o.signo}</div>}
       </div>
       <div style={{ marginTop: 14 * U }}><Linea w={w - 64 * U} h={230 * U} p={p} acento={acento} U={U} /></div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 10 * U, fontFamily: FAMILIA.inter, fontWeight: 500, fontSize: 14 * U, color: T.gris }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 10 * U, fontFamily: (T.letra || FAMILIA.inter), fontWeight: 500, fontSize: 14 * U, color: T.gris }}>
         {['Q1', 'Q2', 'Q3', 'Q4'].map(x => <span key={x}>{x}</span>)}
       </div>
     </div>
@@ -277,8 +280,8 @@ export const Reloj: React.FC<{ o: Objeto; U: number; acento: string }> = ({ o, U
         <circle cx={d / 2} cy={d / 2} r={rr - 14 * U} fill="none" stroke={acento} strokeWidth={sw} strokeLinecap="round" strokeDasharray={largo} strokeDashoffset={largo * (1 - 0.82 * p)} />
       </svg>
       <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ fontFamily: FAMILIA.inter, fontWeight: 700, fontSize: 104 * U, letterSpacing: '-0.04em', color: T.tinta, lineHeight: 1 }}>{contar(o.valor, easeOut((dt - 0.05) / 1.0))}</div>
-        <div style={{ fontFamily: FAMILIA.inter, fontWeight: 700, fontSize: 20 * U, letterSpacing: '0.14em', color: T.gris, marginTop: 6 * U }}>{String(o.unidad || '').toUpperCase()}</div>
+        <div style={{ fontFamily: (T.letra || FAMILIA.inter), fontWeight: 700, fontSize: 104 * U, letterSpacing: '-0.04em', color: T.tinta, lineHeight: 1 }}>{contar(o.valor, easeOut((dt - 0.05) / 1.0))}</div>
+        <div style={{ fontFamily: (T.letra || FAMILIA.inter), fontWeight: 700, fontSize: 20 * U, letterSpacing: '0.14em', color: T.gris, marginTop: 6 * U }}>{String(o.unidad || '').toUpperCase()}</div>
       </div>
     </div>
   );
@@ -304,10 +307,10 @@ export const Avatares: React.FC<{ o: Objeto; U: number; acento: string }> = ({ o
           );
         })}
         <div style={{ width: d, height: d, marginLeft: -d * 0.28, borderRadius: '50%', border: `${6 * U}px solid ${T.oscuro ? '#1B1E29' : '#fff'}`, background: acento, color: '#fff', boxShadow: sombra(U, 0.6),
-                      display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: FAMILIA.inter, fontWeight: 700, fontSize: 32 * U,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: (T.letra || FAMILIA.inter), fontWeight: 700, fontSize: 32 * U,
                       opacity: easeOut((dt - 0.45) / 0.35) }}>{o.valor ? '+' + contar(String(o.valor), easeOut((dt - 0.45) / 1.0)) : '+'}</div>
       </div>
-      {o.etiqueta && <div style={{ fontFamily: FAMILIA.inter, fontWeight: 600, fontSize: 26 * U, color: T.tinta, opacity: easeOut((dt - 0.3) / 0.4) }}>{o.etiqueta}</div>}
+      {o.etiqueta && <div style={{ fontFamily: (T.letra || FAMILIA.inter), fontWeight: 600, fontSize: 26 * U, color: T.tinta, opacity: easeOut((dt - 0.3) / 0.4) }}>{o.etiqueta}</div>}
     </div>
   );
 };
@@ -323,12 +326,12 @@ export const Calendario: React.FC<{ o: Objeto; U: number; acento: string }> = ({
   return (
     <div style={{ padding: 30 * U, borderRadius: 32 * U, background: T.carta, border: `${1.2 * U}px solid ${T.borde}`, boxShadow: sombra(U) }}>
       <div style={{ display: 'grid', gridTemplateColumns: `repeat(7, ${c}px)`, gap: 8 * U }}>
-        {dias.map(x => <div key={x} style={{ textAlign: 'center', fontFamily: FAMILIA.inter, fontWeight: 700, fontSize: 15 * U, color: T.gris, letterSpacing: '0.08em' }}>{x}</div>)}
+        {dias.map(x => <div key={x} style={{ textAlign: 'center', fontFamily: (T.letra || FAMILIA.inter), fontWeight: 700, fontSize: 15 * U, color: T.gris, letterSpacing: '0.08em' }}>{x}</div>)}
         {Array.from({ length: 35 }, (_, i) => {
           const n = i - 1, sel = Math.floor(i / 7) === 2 && i % 7 === col;
           const e = easeOut((dt - 0.015 * i) / 0.25);
           return (
-            <div key={i} style={{ height: c, borderRadius: 14 * U, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: FAMILIA.inter, fontWeight: 600,
+            <div key={i} style={{ height: c, borderRadius: 14 * U, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: (T.letra || FAMILIA.inter), fontWeight: 600,
                                   fontSize: 22 * U, opacity: n < 1 || n > 30 ? 0 : e, background: sel ? `color-mix(in srgb, ${acento} ${Math.round(mark * 100)}%, #F4F5F8)` : T.suave,
                                   color: sel && mark > 0.5 ? '#fff' : T.tinta, transform: sel ? `scale(${(1 + 0.12 * Math.sin(clamp((dt - 0.6) / 0.5) * Math.PI)).toFixed(3)})` : undefined }}>
               {n >= 1 && n <= 30 ? n : ''}
@@ -354,7 +357,7 @@ export const Estado: React.FC<{ o: Objeto; U: number }> = ({ o, U }) => {
             : <path d="M13 13 L37 37 M37 13 L13 37" fill="none" stroke={color} strokeWidth={6} strokeLinecap="round" strokeDasharray={70} strokeDashoffset={70 * (1 - trazo)} />}
         </svg>
       </div>
-      <div style={{ fontFamily: FAMILIA.inter, fontWeight: 700, fontSize: 34 * U, letterSpacing: '0.02em', color: T.tinta }}>{o.etiqueta}</div>
+      <div style={{ fontFamily: (T.letra || FAMILIA.inter), fontWeight: 700, fontSize: 34 * U, letterSpacing: '0.02em', color: T.tinta }}>{o.etiqueta}</div>
     </div>
   );
 };
@@ -365,7 +368,7 @@ export const Cifra: React.FC<{ o: Objeto; U: number; acento: string }> = ({ o, U
   return (
   <div style={{ textAlign: 'center' }}>
     <div style={{ fontFamily: FAMILIA.display, fontStyle: 'italic', fontSize: 250 * U, lineHeight: 1, color: acento, letterSpacing: '-0.02em' }}>{o.valor}</div>
-    {o.etiqueta && <div style={{ fontFamily: FAMILIA.inter, fontWeight: 500, fontSize: 40 * U, color: T.tinta, marginTop: 8 * U }}>{o.etiqueta}</div>}
+    {o.etiqueta && <div style={{ fontFamily: (T.letra || FAMILIA.inter), fontWeight: 500, fontSize: 40 * U, color: T.tinta, marginTop: 8 * U }}>{o.etiqueta}</div>}
   </div>
   );
 };
@@ -386,7 +389,7 @@ export const Lista: React.FC<{ o: Objeto; U: number; acento: string }> = ({ o, U
             <div style={{ width: 40 * U, height: 40 * U, borderRadius: 12 * U, background: c > 0.5 ? acento : T.suave, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <svg width={22 * U} height={22 * U} viewBox="0 0 24 24"><path d="M5 12.5 L10 17 L19 7" fill="none" stroke="#fff" strokeWidth={3.2} strokeLinecap="round" strokeLinejoin="round" strokeDasharray={24} strokeDashoffset={24 * (1 - c)} /></svg>
             </div>
-            <div style={{ fontFamily: FAMILIA.inter, fontWeight: 600, fontSize: 34 * U, color: T.tinta }}>{x}</div>
+            <div style={{ fontFamily: (T.letra || FAMILIA.inter), fontWeight: 600, fontSize: 34 * U, color: T.tinta }}>{x}</div>
           </div>
         );
       })}
@@ -403,15 +406,15 @@ export const Comparacion: React.FC<{ o: Objeto; U: number; acento: string }> = (
   const tarjeta = (texto: string, e: number, bueno: boolean) => (
     <div style={{ width: 300 * U, padding: `${30 * U}px ${20 * U}px`, borderRadius: 28 * U, background: bueno ? acento : T.carta, boxShadow: sombra(U),
                   opacity: 0.2 + 0.8 * e, transform: `translateY(${((1 - e) * 24 * U).toFixed(1)}px) scale(${(0.92 + 0.08 * e).toFixed(3)})`, textAlign: 'center' }}>
-      <div style={{ fontFamily: FAMILIA.inter, fontWeight: 700, fontSize: 13 * U, letterSpacing: '0.14em', color: bueno ? 'rgba(255,255,255,.75)' : GRIS, marginBottom: 10 * U }}>{bueno ? 'B' : 'A'}</div>
-      <div style={{ fontFamily: bueno ? FAMILIA.display : FAMILIA.inter, fontStyle: bueno ? 'italic' : 'normal', fontWeight: bueno ? 400 : 700, fontSize: (bueno ? 50 : 38) * U,
+      <div style={{ fontFamily: (T.letra || FAMILIA.inter), fontWeight: 700, fontSize: 13 * U, letterSpacing: '0.14em', color: bueno ? 'rgba(255,255,255,.75)' : GRIS, marginBottom: 10 * U }}>{bueno ? 'B' : 'A'}</div>
+      <div style={{ fontFamily: bueno ? FAMILIA.display : (T.letra || FAMILIA.inter), fontStyle: bueno ? 'italic' : 'normal', fontWeight: bueno ? 400 : 700, fontSize: (bueno ? 50 : 38) * U,
                     color: bueno ? '#fff' : T.tinta, lineHeight: 1.05 }}>{texto}</div>
     </div>
   );
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 22 * U }}>
       {tarjeta(o.a, ea, false)}
-      <div style={{ fontFamily: FAMILIA.inter, fontWeight: 700, fontSize: 30 * U, color: T.gris, opacity: eb }}>→</div>
+      <div style={{ fontFamily: (T.letra || FAMILIA.inter), fontWeight: 700, fontSize: 30 * U, color: T.gris, opacity: eb }}>→</div>
       {tarjeta(o.b, eb, true)}
     </div>
   );
@@ -425,14 +428,14 @@ export const Pregunta: React.FC<{ o: Objeto; U: number; acento: string }> = ({ o
   const pct = [62, 38, 21];
   return (
     <div style={{ width: 660 * U, padding: 30 * U, borderRadius: 30 * U, background: T.carta, border: `${1.2 * U}px solid ${T.borde}`, boxShadow: sombra(U) }}>
-      <div style={{ fontFamily: FAMILIA.inter, fontWeight: 700, fontSize: 34 * U, color: T.tinta, marginBottom: 20 * U }}>{o.pregunta}</div>
+      <div style={{ fontFamily: (T.letra || FAMILIA.inter), fontWeight: 700, fontSize: 34 * U, color: T.tinta, marginBottom: 20 * U }}>{o.pregunta}</div>
       {ops.map((x, i) => {
         const p = easeOut((dt - 0.5 - i * 0.15) / 0.9) * pct[i % 3];
         return (
           <div key={i} style={{ position: 'relative', height: 70 * U, borderRadius: 18 * U, background: T.suave, marginBottom: 12 * U, overflow: 'hidden' }}>
             <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: `${p}%`, background: i === 0 ? acento : T.linea, opacity: i === 0 ? 0.9 : 1 }} />
             <div style={{ position: 'absolute', inset: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: `0 ${22 * U}px`,
-                          fontFamily: FAMILIA.inter, fontWeight: 600, fontSize: 28 * U, color: i === 0 && p > 30 ? '#fff' : T.tinta }}>
+                          fontFamily: (T.letra || FAMILIA.inter), fontWeight: 600, fontSize: 28 * U, color: i === 0 && p > 30 ? '#fff' : T.tinta }}>
               <span>{x}</span><span>{Math.round(p)}%</span>
             </div>
           </div>
