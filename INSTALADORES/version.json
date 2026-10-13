@@ -1,24 +1,14 @@
 {
     "estable":  {
-                    "version":  "5.4.48",
-                    "notas":  "• Nuevo en Ajustes \u003e General: «Video MP4 en lugar de Resolve». Actívalo y GO te devuelve una copia MP4 de tu video con los subtítulos grabados aunque tengas Resolve instalado (para exportar rápido).\r\n• Arreglo: en un equipo donde se había desinstalado DaVinci Resolve, CineCaptions creía que seguía instalado y GO no entregaba el video. Ahora mira el programa en sí.",
-                    "fecha":  "2026-10-11",
+                    "version":  "5.4.52",
+                    "notas":  "• Nuevo: Tema 6 «Editorial», con el estilo de los reels editoriales: captions en serif fina con la frase clave grande en lima o blanco, escenas melocotón con tarjetas blancas que entran con un destello, el visor de la cámara sobre tu cara, la barra de búsqueda con la palabra que hay que comentar, tu perfil con los seguidores que cuentan y la píldora del equipo.\r\n• Tema 5: el fondo en blanco y negro con tu persona a color cuando dices algo fuerte, un icono que gira alrededor de tu cabeza (por detrás y por delante), el sticker congelado en el gancho, la sombra de tu persona sobre la palabra de detrás, tarjetas encima de la cabeza (mapa del país, gráfica del % que dices, la frase tachada, la lista que se marca), la pantalla final cuando pides que te sigan y transiciones con zoom en los cortes.\r\n• Emojis animados (Noto de Google) en los acompañantes y en la órbita, 136 sonidos nuevos para que no se repitan, el borde de la persona recortada más suave y la caché de render activada para que la línea de tiempo vaya fluida.\r\n• Los videos bajados de Instagram, Pinterest o TikTok ya no salen mudos al renderizar (su audio HE-AAC se pasa solo a AAC), los efectos de sonido de la intro quedan bajo tu voz y se quitó un aviso falso de emojis sin posición.",
+                    "fecha":  "2026-10-13",
                     "archivos":  {
                                      "windows":  {
-                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.48/Instalar_CineCaptions_5.4.48.exe",
-                                                     "sha256":  "740482b0d8456c1d95723ca8b575d5c31b6fa7c172101c3480885f8cfc6d8b8d",
-                                                     "tam":  237678643
-                                                 },
-                                     "mac_arm64":  {
-                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.48/CineCaptions_Mac_AppleSilicon_5.4.48.dmg",
-                                                       "sha256":  "bb33ffb9eddb3b3ed0173bf1076c378d01fe2269945201e1099459633b5e6e1a",
-                                                       "tam":  205288972
-                                                   },
-                                     "mac_x86_64":  {
-                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.48/CineCaptions_Mac_Intel_5.4.48.dmg",
-                                                        "sha256":  "28c260d217a709833e7ea2bf538603cf4e4fe59b748442bc8ac1207c5e227d3e",
-                                                        "tam":  222063244
-                                                    }
+                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.52/Instalar_CineCaptions_5.4.52.exe",
+                                                     "sha256":  "6a631f7a00fd7322102de871e5a64294cfc30e3209078520fe9ae36de14b43ea",
+                                                     "tam":  469303205
+                                                 }
                                  }
                 }
 }
