@@ -12,6 +12,11 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-13 11:14  ·  v5.4.52  ·  (automático)
+    modificados (2):
+      ~ 1_codigo/edicion_pro_tema5.py
+      ~ 1_codigo/edicion_pro_temas.py
+
 2026-10-13 11:04  ·  v5.4.52  ·  (automático)
     modificados (8):
       ~ 1_codigo/CineCaptions (script principal).py
