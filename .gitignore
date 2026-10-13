@@ -9,3 +9,7 @@ __pycache__/
 5_licencias/
 .mcp.json
 .claude/
+1_codigo/remotion/node_modules/
+1_codigo/remotion/out/
+1_codigo/remotion/public/
+2_recursos/edicion_pro/remotion/runtime/

@@ -484,6 +484,12 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.4.51', [
+        'Temas 1–4 se ven mejor sin tocar su diseño: un velo suave detrás del texto en videos claros, la palabra destacada en el color que va con tu video, las animaciones pequeñas bajo el caption y nunca encima de una cara (aunque no uses la Edición PRO).',
+        'Tema 5: además de las escenas, una animación pequeña bajo el caption que acompaña lo que dices (país con su bandera, «¡Hola amigos!», seguir o comentar, cifras, y el emoji 3D del tema: boda, fiesta, café…). La IA local dirige las escenas en cualquier tema, el video se analiza para variar el estilo, y los efectos de sonido de todos los temas quedan siempre por debajo de la voz.',
+        'Nuevo: Tema 5 «Edición total», con el sistema de los reels virales del curso «Edit VIRAL Reels with AI»: captions en sans pequeña con la frase clave en serif cursiva del color que va con tu video, el indicador de pasos cuando dices «tres errores… número uno», el deslizador «de principiante a profesional», escenas de papel con cifras e iconos, pantalla dividida con la persona abajo y la clave detrás de la persona de vez en cuando. Todo coherente, sin emojis ni brillos.',
+        'Animaciones con Remotion dentro del programa: mapa con bandera cuando nombras un país y 100 plantillas para bodas, XV años, eventos y sesiones de fotos («¡Hola amigos!», «Casa de la novia», «Save the date», «Comenta BODA»…) que salen solas cuando las dices.',
+    ]),
     ('5.4.50', [
         'Edición PRO más pro: el gancho del principio con iconos 3D que giran alrededor de la cabeza (Magic Mask), iconos 3D flotando junto a los captions en vez del emoji plano, escenas con la persona delante de un fondo animado e infografías que entran con resortes. Y nada tapa nunca la cara: ni captions, ni emojis, ni gráficos.',
         'Con la Edición PRO activa se apagan los Efectos visuales (la PRO hace la intro, el gancho, los punch-ins en los saltos y los motion graphics), ya no repite lo que dicen los captions, los sonidos suenan justo cuando entra cada gráfico y, cuando se dice algo malo, el plano se pone en gris.',

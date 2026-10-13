@@ -12,6 +12,123 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-12 20:49  ·  v5.4.51  ·  (automático)
+    nuevos (1):
+      + 1_codigo/edicion_pro_temas.py
+    modificados (15):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/probar_go.py
+      ~ 1_codigo/remotion/src/Acompanantes.tsx
+      ~ 1_codigo/remotion/src/Root.tsx
+      ~ 2_recursos/edicion_pro/colocar_pro.py
+      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      … y 3 más
+
+2026-10-12 20:34  ·  v5.4.51  ·  (automático)
+    nuevos (3):
+      + 1_codigo/edicion_pro_tema5_acomp.py
+      + 1_codigo/edicion_pro_tema5_video.py
+      + 1_codigo/remotion/src/Acompanantes.tsx
+    modificados (26):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_sonido.py
+      ~ 1_codigo/edicion_pro_tema5.py
+      ~ 1_codigo/edicion_pro_tema5_escenas.py
+      ~ 1_codigo/herramientas_dev/vista_tema5.py
+      ~ 1_codigo/ia_texto.py
+      ~ 1_codigo/probar_go.py
+      ~ 1_codigo/recomendaciones.py
+      ~ 1_codigo/remotion/src/Objetos.tsx
+      ~ 1_codigo/remotion/src/Root.tsx
+      … y 14 más
+
+2026-10-12 16:43  ·  v5.4.51  ·  (automático)
+    modificados (1):
+      ~ 1_codigo/edicion_pro_tema5.py
+
+2026-10-12 16:34  ·  v5.4.51  ·  (automático)
+    nuevos (2):
+      + 1_codigo/edicion_pro_tema5_escenas.py
+      + 1_codigo/remotion/src/Objetos.tsx
+    modificados (9):
+      ~ 1_codigo/edicion_pro_sonido.py
+      ~ 1_codigo/edicion_pro_tema5.py
+      ~ 1_codigo/remotion/src/Skill.tsx
+      ~ 1_codigo/remotion/src/Subtitulo.tsx
+      ~ 2_recursos/edicion_pro/colocar_pro.py
+      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js
+      ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/debug.log
+      ~ 2_recursos/vistas_slider/Tema5.jpg
+      ~ 2_recursos/vistas_slider/Tema5.mp4
+
+2026-10-12 15:55  ·  v5.4.51  ·  (automático)
+    nuevos (9):
+      + 1_codigo/remotion/public/fuentes/dmserif-i.ttf
+      + 1_codigo/remotion/public/fuentes/inter-400.ttf
+      + 1_codigo/remotion/public/fuentes/inter-500.ttf
+      + 1_codigo/remotion/public/fuentes/inter-700.ttf
+      + 1_codigo/remotion/src/Skill.tsx
+      + 2_recursos/edicion_pro/remotion/bundle/public/fuentes/dmserif-i.ttf
+      + 2_recursos/edicion_pro/remotion/bundle/public/fuentes/inter-400.ttf
+      + 2_recursos/edicion_pro/remotion/bundle/public/fuentes/inter-500.ttf
+      + 2_recursos/edicion_pro/remotion/bundle/public/fuentes/inter-700.ttf
+    modificados (23):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_sonido.py
+      ~ 1_codigo/edicion_pro_tema5.py
+      ~ 1_codigo/herramientas_dev/vista_tema5.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/remotion/empaquetar.mjs
+      ~ 1_codigo/remotion/src/Root.tsx
+      ~ 1_codigo/remotion/src/Subtitulo.tsx
+      ~ 1_codigo/remotion/src/comun.tsx
+      ~ 2_recursos/edicion_pro/colocar_pro.py
+      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js
+      … y 11 más
+
+2026-10-12 15:04  ·  v5.4.51  ·  (automático)
+    modificados (1):
+      ~ 1_codigo/ajustes_ui.py
+
+2026-10-12 15:01  ·  v5.4.51  ·  (automático)
+    nuevos (16722):
+      + 1_codigo/edicion_pro_catalogo.py
+      + 1_codigo/edicion_pro_remotion.py
+      + 1_codigo/edicion_pro_tema5.py
+      + 1_codigo/herramientas_dev/galeria_remotion.py
+      + 1_codigo/herramientas_dev/vista_tema5.py
+      + 1_codigo/remotion/empaquetar.mjs
+      + 1_codigo/remotion/galeria.mjs
+      + 1_codigo/remotion/node_modules/.bin/acorn
+      + 1_codigo/remotion/node_modules/.bin/acorn.cmd
+      + 1_codigo/remotion/node_modules/.bin/acorn.ps1
+      + 1_codigo/remotion/node_modules/.bin/baseline-browser-mapping
+      + 1_codigo/remotion/node_modules/.bin/baseline-browser-mapping.cmd
+      … y 16710 más
+    modificados (37):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_planificador.py
+      ~ 1_codigo/edicion_pro_sonido.py
+      ~ 1_codigo/guion_planificador.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/recomendaciones.py
+      ~ 1_codigo/tareas_instalador.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/edicion_pro/colocar_pro.py
+      ~ 2_recursos/locales/de.json
+      … y 25 más
+
 2026-10-12 10:20  ·  v5.4.50  ·  cambio explicado
     5.4.50 Edición PRO: Efectos visuales apagados con la PRO; sin repetir lo que dicen los captions; nada tapa la cara (captions, emojis, gráficos); órbita de iconos 3D (3dicons CC0) como gancho con Magic Mask; iconos 3D flotando junto a los captions en vez del emoji; escenas con fondo sustituido; resortes de Motion; Magic Mask v2 'Better' + Corregir contorno; diseño de sonido por familias (whoosh/textura/riser+hit) según la guía UE; modo error en gris; sin visor REC; arreglos: rastreo comprobado, recortes alineados (ajustado/punch-in), imágenes OGraf esperadas antes de capturar.
 

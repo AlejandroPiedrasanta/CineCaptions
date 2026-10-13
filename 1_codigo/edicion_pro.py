@@ -27,6 +27,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import shutil
 import random
 from pathlib import Path
 
@@ -113,6 +114,7 @@ def planificar(video, palabras, duracion=None, cortes=None, idioma='es', opcione
                          cortes=cortes, vertical=bool(h and w and h > w), pesos=pesos, semilla=int(op.get('pro_variacion') or 0), video=Path(str(video)).name)
     plan['video'] = str(video)
     plan['opciones'] = op
+    plan['idioma'] = idioma
     plan['ia_local'] = bool(pesos)
     plan['broll'] = _broll_de(palabras, duracion or dur, idioma, op, plan)
     if plan['broll']:
@@ -321,6 +323,9 @@ def _ajustar_posiciones(pieza, det, vertical):
         v['y'] = round(min(48.0, max(15.0, arriba + 2.5)), 1)          # el centro del titular un poco por debajo de la coronilla: la cabeza tapa su parte de abajo
         return
     alto = ALTO_PIEZA.get(pieza['pieza'])
+    if pieza.get('remotion') and not alto:                            # plantillas Remotion: su alto está en el catálogo
+        import edicion_pro_catalogo as PC
+        alto = PC.ALTO.get(pieza['remotion'])
     if not alto or pieza.get('pantalla'):
         return
     if not vertical:                                                  # horizontal: al lado contrario de la persona
@@ -600,7 +605,7 @@ def _caras_redondas(caras):
 def aplicar(plan, al_estado=None, offset_frames=0, info=None):
     """Pone la Edición PRO en el timeline actual. Devuelve (ok, mensaje)."""
     decir = al_estado or (lambda t: None)
-    if not plan or not plan.get('piezas'):
+    if not plan or not (plan.get('piezas') or plan.get('tema5') or plan.get('ligero')):
         return True, ''
     info = info or _info_timeline()
     if not info:
@@ -614,6 +619,27 @@ def aplicar(plan, al_estado=None, offset_frames=0, info=None):
     usar_magic = studio and modo_mascara in ('auto', 'magic')
     usar_ia = modo_mascara in ('auto', 'ia') or (modo_mascara == 'magic' and not studio)
     video = plan.get('video') or ''
+    t5 = bool(plan.get('tema5'))                     # Tema 5: la edición completa con el sistema de la skill (edicion_pro_tema5); los Text+ de GO, de respaldo
+    ligero = bool(plan.get('ligero'))                # Temas 1–4 sin la PRO: solo legibilidad, acompañantes, color y la regla de la cara (edicion_pro_temas)
+    divididas = []
+    if t5:
+        import edicion_pro_persona as PE5
+        import edicion_pro_tema5 as T5
+
+        def det5(t):
+            ruta, t_src, clip = _fuente_de(info, video, t)
+            try:
+                return _a_timeline(PE5.personas(ruta, t_src), clip, W, H) if PE5.disponible() else None
+            except Exception:
+                return None
+
+        def foto5(t):
+            ruta, t_src, _clip = _fuente_de(info, video, t)
+            return T5.foto(ruta, t_src)
+        quedan = [p for p in plan['piezas'] if p.get('pieza') in T5.PIEZAS_QUE_QUEDAN]      # órbita, plantillas, escenas OGraf…: no son de este sistema
+        nuevas, divididas = T5.planificar(plan, vertical, op.get('pro_densidad') or 'media', video, det_de=det5, foto_de=foto5,
+                                          ia=op.get('pro_ia_local', True) is not False, idioma=plan.get('idioma') or 'es', estado=decir)
+        plan['piezas'] = quedan + nuevas
     clave = hashlib.sha1(f'{video}|{W}x{H}@{fps}'.encode('utf-8')).hexdigest()[:10]
     carpeta = OG.ruta_larga(CARPETA / clave)
     carpeta.mkdir(parents=True, exist_ok=True)
@@ -624,7 +650,7 @@ def aplicar(plan, al_estado=None, offset_frames=0, info=None):
     # punch-in de 1,08 en V1 alterno cuando hay saltos (pausas quitadas): lo coloca colocar_pro y las cuentas de posición ya lo tienen en cuenta
     punch = []
     v1 = sorted(info.get('v1') or [], key=lambda c: c['ini'])
-    if len(v1) >= 2 and not any(c.get('fx') for c in v1):
+    if len(v1) >= 2 and not any(c.get('fx') for c in v1) and not ligero:
         for n, c in enumerate(v1):
             if n % 2 == 1 and abs(float(c.get('zx') or 1.0) - 1.0) < 1e-3 and abs(float(c.get('zy') or 1.0) - 1.0) < 1e-3:
                 c['zx'] = c['zy'] = PUNCH_IN
@@ -641,12 +667,18 @@ def aplicar(plan, al_estado=None, offset_frames=0, info=None):
                 det = None
         if p.get('ajustar'):
             _ajustar_posiciones(p, _a_timeline(det, clip, W, H), vertical)
+            if p['pieza'] == 'subtitulo' and p.pop('quitar', False):  # sin sitio libre de caras: abajo y más pequeño (un caption no se quita)
+                p['valores'].update(y=84.0 if vertical else 86.0, escala=0.8)
+            if t5:
+                T5.subir_detras(p)
         if p.get('persona') and p['capa'] in ('detras', 'velo'):
             k = (p['ini'], p['fin'])
             if k not in ventanas:
                 ventanas[k] = det
             if p.get('forzar_pantalla'):
                 forzadas.add(k)
+    if t5:
+        T5.coordinar(plan['piezas'])                 # el indicador de pasos / el deslizador, debajo de los captions ya colocados
     # la persona de cada ventana (si no hay nadie, el titular queda delante y sin velo)
     sin_persona = set(forzadas)
     for (a, b), det in ventanas.items():
@@ -691,7 +723,7 @@ def aplicar(plan, al_estado=None, offset_frames=0, info=None):
     plan['_broll_puesto'] = [{'ini': t['_s']} for t in tomas]
     # captions DETRÁS de la persona (lo que hace que valga la pena el Magic Mask)
     encima, tramos = [], []
-    if hay_ia and modo_mascara != 'no':
+    if hay_ia and modo_mascara != 'no' and not t5 and not ligero:
         ocupado = [(p['ini'] - 0.1, p['fin'] + 0.1) for p in plan['piezas'] if p['pieza'] != 'marco']
         ocupado += [(t['_s'] - 0.1, t['_s'] + t['dur'] + 0.1) for t in tomas]
         ocupado += [((a - info['base']) / fps, (b - info['base']) / fps) for a, b in info.get('ocupado') or []]
@@ -730,7 +762,7 @@ def aplicar(plan, al_estado=None, offset_frames=0, info=None):
             encima.append(e)
     # el resto de los bloques de captions: ninguno tapa una cara (y colocar_pro aparta sus emojis)
     mover = []
-    if hay_ia:
+    if hay_ia and not t5:
         try:
             pantallas = [(p['ini'] - 0.1, p['fin'] + 0.1) for p in plan['piezas'] if p.get('pantalla') and (p['ini'], p['fin']) not in ventanas]
             pantallas += [(t['_s'] - 0.1, t['_s'] + t['dur'] + 0.1) for t in tomas]
@@ -750,7 +782,7 @@ def aplicar(plan, al_estado=None, offset_frames=0, info=None):
         caras_de = {round(c['ini'], 2): c.get('caras') or [] for t in tramos for c in t['cues']}
         caras_de.update({round(c['ini'], 2): c['caras'] for c in sin_cara})
         ocupado3d = [(p['ini'] - 0.1, p['fin'] + 0.1) for p in plan['piezas'] if p.get('pantalla')] + [(t['_s'], t['_s'] + t['dur']) for t in tomas]
-        iconos3d = _iconos3d_captions(info, ocupado3d, subidas, caras_de, W, H, op.get('pro_densidad') or 'media')
+        iconos3d = [] if (t5 or ligero) else _iconos3d_captions(info, ocupado3d, subidas, caras_de, W, H, op.get('pro_densidad') or 'media')
     except Exception:
         iconos3d = []
     acento = (plan.get('direccion') or {}).get('acento') or '#ffb020'
@@ -759,12 +791,46 @@ def aplicar(plan, al_estado=None, offset_frames=0, info=None):
         graficos.append({'capa': 'iconos', 'ini': int(round(c['ini'] * fps)), 'archivo': str(ruta), 'nombre': 'PRO · Icono 3D'})
         sin_emoji.append([int(round(c['ini'] * fps)) - 2, int(round(c['fin'] * fps))])
     plan['_iconos3d'] = iconos3d
+    color_claves = None
+    if ligero:                                       # Temas 1–4: el velo de legibilidad y los acompañantes, YA con la regla de la cara aplicada (mover)
+        try:
+            import edicion_pro_temas as TM
+            plan['piezas'] = list(plan.get('piezas') or []) + TM.piezas(info, video, plan.get('idioma') or 'es', W, H, fps, mover, plan)
+            color_claves = TM.color_claves(info, video, fps)
+        except Exception:
+            pass
     gris = [[int(round(a * fps)), int(round(b * fps))] for a, b in plan.get('gris') or []]
     decir('Edición PRO: preparando los gráficos animados…')
+    # las animaciones de Remotion (mapa + bandera…): todas en una tanda, con un solo navegador; sin Remotion, esas escenas no van
+    rm_salida, rm_hechos = {}, {}
+    try:
+        import edicion_pro_remotion as RM
+        trab = []
+        for p in plan['piezas']:
+            if p['pieza'] == 'subtitulo' and p['capa'] == 'detras' and (p['ini'], p['fin']) in sin_persona:
+                import edicion_pro_tema5 as T5
+                p['valores'] = dict(p['_valores0'], modo='normal', y=T5.Y_NORMAL[vertical])
+                p['capa'], p['persona'] = 'subs', False
+            if p.get('remotion') and not p.get('quitar'):
+                props = dict(p['valores'], _ancho=W, _alto=H, _fps=fps, _dur=round(max(0.6, p['fin'] - p['ini']), 3))
+                sal = RM.salida_para(p['remotion'], props, carpeta)
+                rm_salida[id(p)] = sal
+                trab.append({'id': p['remotion'], 'props': props, 'salida': sal})
+        rm_hechos = RM.renderizar(trab, decir) if trab else {}
+    except Exception:
+        rm_hechos = {}
     for p in plan['piezas']:
         capa = p['capa']
         if p.get('quitar'):
             continue                                                  # no había sitio sin tapar la cara
+        if p.get('remotion'):
+            sal = rm_salida.get(id(p))
+            if sal is not None and rm_hechos.get(str(sal)):
+                graficos.append({'capa': p['capa'], 'ini': int(round(p['ini'] * fps)), 'archivo': str(OG.ruta_larga(sal)), 'alfa': True,
+                                 'nombre': 'PRO · ' + ({'Ubicacion': 'Mapa + bandera', 'Subtitulo': 'Caption', 'PasosT5': 'Pasos', 'DeslizadorT5': 'Deslizador',
+                                                         'EscenaT5': 'Escena', 'AcompananteT5': 'Acompañante', 'VeloCaptionT': 'Velo de legibilidad'}.get(p['remotion'])
+                                                        or p.get('plantilla') or p['remotion'])})
+            continue
         if (p['ini'], p['fin']) in sin_persona:
             if p['pieza'] == 'orbita':
                 continue                                              # sin nadie a quien rodear, no hay órbita
@@ -781,11 +847,18 @@ def aplicar(plan, al_estado=None, offset_frames=0, info=None):
     sonidos = []
     if op.get('pro_sonidos', True):                                   # diseño de sonido profesional (edicion_pro_sonido): whooshes, texturas, risers + hits
         import edicion_pro_sonido as PS
-        for e in PS.disenar(plan, fps, rng, choques=[(f - info['base']) / fps for f in info.get('sfx') or []],
-                            cortes=[(int(f) - info['base']) / fps for f, _z in punch]):
-            e['archivo'] = str(OG.ruta_larga(e['archivo']))
+        voz_db = PS.nivel_voz(video)                                  # los efectos, siempre bajo la voz de ESTE video
+        for e in PS.disenar(plan, fps, rng, choques=[] if t5 else [(f - info['base']) / fps for f in info.get('sfx') or []],
+                            cortes=[(int(f) - info['base']) / fps for f, _z in punch], voz_db=voz_db):
+            e['archivo'] = str(OG.ruta_larga(_copia_de_usuario(e['archivo'])))     # nunca de la carpeta del programa: Resolve la retendría
             sonidos.append(e)
+    subs = [p for p in plan['piezas'] if p['pieza'] == 'subtitulo']
+    subs_ok = sum(1 for p in subs if rm_hechos.get(str(rm_salida.get(id(p)))))
     datos = {'fps': fps, 'inicio': info['base'], 'graficos': graficos, 'persona': persona, 'sonidos': sonidos, 'cache': True,
+             'captions_propios': bool(t5 and subs and subs_ok >= 0.9 * len(subs)), 'color_claves': color_claves,
+             'dividida': [[int(round(d['ini'] * fps)), int(round(d['fin'] * fps)), round(d['bajar'] * H, 1)] for d in divididas
+                          if any(p.get('remotion') == 'EscenaT5' and abs(p['ini'] - d['ini']) < 1e-3 and rm_hechos.get(str(rm_salida.get(id(p))))
+                                 for p in plan['piezas'])],
              'broll': [{k: v for k, v in t.items() if k != '_s'} for t in tomas], 'encima': encima, 'mover': mover, 'punch': punch,
              'sin_emoji': sin_emoji, 'gris': gris,
              'resumen': plan.get('resumen', '')}
@@ -812,6 +885,29 @@ def aplicar(plan, al_estado=None, offset_frames=0, info=None):
             return False, 'La Edición PRO en Resolve Free necesita el Puente de CineCaptions abierto en Resolve.'
         ok, mensaje = resolve_bridge.ejecutar('edicion_pro', timeout=600)
     return ok, mensaje or plan.get('resumen', '')
+
+
+SONIDOS_USUARIO = Path.home() / 'DaVinciSubtitles' / 'edicion_pro_sonidos'      # (no es la caché: los proyectos de Resolve siguen apuntando a ellos)
+
+
+def _copia_de_usuario(ruta):
+    """Resolve vigila la carpeta de cada medio que importa y no deja reemplazarla mientras está abierto: si un sonido saliera de la carpeta del
+    programa, el instalador fallaría («Acceso denegado a …/Programs/CineCaptions», v5.4.51). Se le da una COPIA en la carpeta del usuario
+    (como efectos_visuales._copia_de_usuario); se rehace si falta o cambió de tamaño."""
+    r = Path(str(ruta))
+    try:
+        from sfx_rules import base_recursos
+        Path(r).resolve().relative_to(Path(base_recursos()).resolve())
+    except Exception:
+        return r                                                       # ya es del usuario (o no se sabe): tal cual
+    try:
+        destino = SONIDOS_USUARIO / r.parent.name / r.name
+        if not destino.is_file() or destino.stat().st_size != r.stat().st_size:
+            destino.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(r, destino)
+        return destino
+    except Exception:
+        return r
 
 
 def instalar_plantillas_una_vez():

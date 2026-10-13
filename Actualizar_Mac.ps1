@@ -49,7 +49,8 @@ if (-not $SoloDescargar) {
         git -C $espejo config user.email "$idUsuario+$login@users.noreply.github.com"      # el correo real no sale en el historial publico
     }
     foreach ($d in '1_codigo', '2_recursos', '3_compilar', '7_mac', '.github') {
-        robocopy (Join-Path $raiz $d) (Join-Path $espejo $d) /MIR /XD __pycache__ /XF *.pyc *.exe *.dmg *.pkg /NFL /NDL /NJH /NJS /NP | Out-Null
+        # (sin el runtime de Remotion de Windows ni las dependencias de desarrollo: la Mac arma los suyos con preparar_remotion.py)
+        robocopy (Join-Path $raiz $d) (Join-Path $espejo $d) /MIR /XD __pycache__ node_modules (Join-Path $raiz '2_recursos\edicion_pro\remotion\runtime') (Join-Path $raiz '1_codigo\remotion\out') (Join-Path $raiz '1_codigo\remotion\public') /XF *.pyc *.exe *.dmg *.pkg /NFL /NDL /NJH /NJS /NP | Out-Null
         if ($LASTEXITCODE -ge 8) { throw "robocopy fallo copiando $d ($LASTEXITCODE)" }
     }
     $global:LASTEXITCODE = 0

@@ -7246,6 +7246,7 @@ class SubtitleApp(QWidget):
             etiqueta = (tr('{n} · subtítulos virales', n=plantillas.nombre_visible(p.nombre)) if getattr(p, 'viral', False)
                         else tr('{n} · títulos de gancho', n=plantillas.nombre_visible(p.nombre)) if getattr(p, 'kinetic', False)
                         else tr('{n} · captions limpios', n=plantillas.nombre_visible(p.nombre)) if p.nombre == 'Tema4'
+                        else tr('{n} · edición total', n=plantillas.nombre_visible(p.nombre)) if p.nombre == 'Tema5'
                         else tr('{n} · captions palabra a palabra', n=plantillas.nombre_visible(p.nombre)))
             menu.agregar(marca + etiqueta + extra, lambda n=p.nombre: self._poner_go_pack(n))
         if not plantillas.SOLO_TEMAS:
@@ -11214,12 +11215,14 @@ class SubtitleApp(QWidget):
     def _planificar_efectos(self, media_path, words, cortes_fx, avisar=True):
         """El plan de efectos de ESTE video (nunca rompe GO: si algo falla, se sigue sin efectos). Con avisar=False (en segundo plano, mientras la IA corrige el texto) no toca la línea de estado."""
         self._efectos_plan = None
+        if self._es_tema5():
+            return                                     # v5.4.51: el Tema 5 hace TODA la edición (también el sonido): Efectos no pone nada
         try:
             import efectos_visuales
             import edicion_pro
             # v5.4.49: con la Edición PRO activa, los efectos VISUALES se apagan: la PRO hace la intro, el gancho, los punch-ins y los motion graphics
             # (y el zoom de Efectos sobre V1 desalinearía el recorte de la persona). El audio extra (música, riser del gancho) sigue.
-            visuales = efectos_visuales.activado() and not edicion_pro.activado()
+            visuales = efectos_visuales.activado() and not edicion_pro.activado() and not self._es_tema5()
             if visuales:
                 if avisar:
                     self.msg_queue.put(('status', tr('Preparando los efectos visuales…')))
@@ -11297,7 +11300,20 @@ class SubtitleApp(QWidget):
         self._pro_plan = None
         try:
             import edicion_pro
-            if not edicion_pro.activado() or not words:
+            tema5 = self._es_tema5()                   # el Tema 5 es la Edición PRO completa (captions incluidos): va aunque el interruptor esté apagado
+            if not words:
+                return
+            if not (edicion_pro.activado() or tema5):
+                # v5.4.51: los Temas 1–4 sin la PRO llevan un pase LIGERO (edicion_pro_temas): velo de legibilidad en videos claros, acompañantes
+                # bajo el caption, la palabra destacada en el color del video y la regla de la cara. Se apaga con la preferencia 'temas_mejoras'.
+                try:
+                    import ajustes_ui
+                    if ajustes_ui.leer_prefs().get('temas_mejoras', True) is False:
+                        return
+                except Exception:
+                    pass
+                self._pro_plan = {'ligero': True, 'video': str(media_path), 'piezas': [], 'idioma': idioma or 'es',
+                                  'opciones': edicion_pro.opciones_guardadas()}
                 return
             self.msg_queue.put(('status', tr('Edición PRO: pensando la edición de este video…')))
             cortes = None
@@ -11314,16 +11330,25 @@ class SubtitleApp(QWidget):
                 duracion = recorte['duracion_nueva']
             plan = edicion_pro.planificar(str(media_path), words, duracion, cortes=cortes, idioma=idioma or 'es',
                                           al_estado=lambda t: self.msg_queue.put(('status', tr(t))))
-            if plan.get('piezas'):
+            plan['tema5'] = tema5
+            if plan.get('piezas') or tema5:
                 self._pro_plan = plan
-            registro.info('Edición PRO: ' + plan.get('resumen', ''), 'edición pro')
+            registro.info('Edición PRO: ' + plan.get('resumen', '') + (' · Tema 5 (captions propios)' if tema5 else ''), 'edición pro')
         except Exception:
             registro.excepcion(origen='edición PRO (plan)')
+
+    def _es_tema5(self):
+        """¿Este GO / Generar usa el Tema 5? (la edición completa a criterio del programa, con sus propios captions animados)."""
+        try:
+            import edicion_pro_tema5
+            return edicion_pro_tema5.activo(getattr(self, 'plantilla_sel', '') or '')
+        except Exception:
+            return False
 
     def _colocar_pro(self):
         """Pone la Edición PRO en el timeline de Resolve (tras los captions y los efectos). Devuelve un texto corto para el estado, o ''."""
         plan = getattr(self, '_pro_plan', None)
-        if not plan or not plan.get('piezas'):
+        if not plan or not (plan.get('piezas') or plan.get('tema5') or plan.get('ligero')):
             return ''
         try:                                   # el plan es de un video: si ahora hay otro cargado (regenerar), no se aplica el de antes
             actual = self.video_var.get().strip().strip('"')
@@ -11339,7 +11364,7 @@ class SubtitleApp(QWidget):
                 registro.aviso(f'Edición PRO: {mensaje}', 'edición pro')
                 return tr('La Edición PRO no se pudo colocar: {m}', m=str(mensaje)[:120])
             registro.info(f'Edición PRO colocada: {mensaje}', 'edición pro')
-            return tr('con Edición PRO')
+            return tr('con mejoras del tema') if plan.get('ligero') else tr('con Edición PRO')
         except Exception:
             registro.excepcion(origen='edición PRO (colocar)')
             return ''
@@ -12644,6 +12669,10 @@ class SubtitleApp(QWidget):
             import sfx_rules
         except Exception:
             return {}
+        try:                                           # v5.4.51: los efectos, siempre BAJO la voz de este video (no abruman)
+            sfx_rules.fijar_voz(self.video_var.get().strip().strip('"'))
+        except Exception:
+            pass
         try:
             config = sfx_rules.cargar_reglas()
             elegida = getattr(self, '_sfx_categoria_elegida', None)

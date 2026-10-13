@@ -100,6 +100,13 @@ if ($subir) {
     Write-Host "    (version $version subida a mano; ultima compilada: $($estado.version))"
 }
 
+# 2b) Remotion (animaciones de la Edicion PRO): bundle + runtime (node, renderizador, chrome sin ventana) dentro de 2_recursos
+if (Test-Path $vpy) {
+    Paso 'Remotion: animaciones de la Edicion PRO'
+    & $vpy (Join-Path $raiz '3_compilar\preparar_remotion.py')
+    if ($LASTEXITCODE -ne 0) { throw 'No pude preparar Remotion (ver arriba)' }
+}
+
 # 3) compilar
 Paso "Compilando CineCaptions $version"
 $argumentos = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', (Join-Path $raiz '3_compilar\Construir_Instalador.ps1'))

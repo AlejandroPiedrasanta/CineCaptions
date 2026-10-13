@@ -8,7 +8,8 @@ Lo lanza edicion_pro.aplicar() (resolve_mcp.ejecutar_py) y lee ~/DaVinciSubtitle
      'broll': [{'ini', 'dur': segundos, 'archivo': .mp4, 'palabra'}],
      'encima': [{'ini', 'fin', 'modo', 'comp'|'archivo', 'ref', 'velo': .ograf, 'cues': [{'ini', 'fin', 'subir': píxeles hacia arriba, 'caras'}]}],
      'mover': [{'ini', 'fin', 'subir', 'caras': [[x0, y0, x1, y1] fracciones]}]   (los demás bloques: ninguno tapa una cara; sus emojis tampoco),
-     'sonidos': [{'ini': fotograma, 'archivo': .wav, 'dur': segundos}], 'punch': [[inicio absoluto del clip de V1, zoom]], 'cache': True}
+     'sonidos': [{'ini': fotograma, 'archivo': .wav, 'dur': segundos}], 'punch': [[inicio absoluto del clip de V1, zoom]], 'cache': True,
+     'captions_propios': True (Tema 5: los captions son animaciones Remotion en PRO-SUBS; los Text+ de respaldo que puso GO se apagan)}
 
 Pistas (de abajo arriba, justo encima de V1 / FX-BROLL y DEBAJO de los captions, que siguen mandando):
 PRO-BROLL · PRO-FONDO · PRO-VELO · PRO-DETRAS · PRO-PERSONA · PRO-DELANTE; el audio en «PRO-SONIDO». Cada corrida vacía y rellena sus pistas
@@ -28,8 +29,8 @@ import tempfile
 import time
 
 RUTA_JSON = os.path.join(os.path.expanduser('~'), 'DaVinciSubtitles', 'edicion_pro_plan.json')
-ORDEN = ['PRO-BROLL', 'PRO-GRIS', 'PRO-FONDO', 'PRO-VELO', 'PRO-DETRAS', 'PRO-PERSONA', 'PRO-DELANTE']
-CAPA = {'fondo': 'PRO-FONDO', 'velo': 'PRO-VELO', 'detras': 'PRO-DETRAS', 'delante': 'PRO-DELANTE', 'iconos': 'PRO-ICONOS'}
+ORDEN = ['PRO-BROLL', 'PRO-GRIS', 'PRO-FONDO', 'PRO-VELO', 'PRO-DETRAS', 'PRO-PERSONA', 'PRO-DELANTE', 'PRO-SUBS']
+CAPA = {'fondo': 'PRO-FONDO', 'velo': 'PRO-VELO', 'detras': 'PRO-DETRAS', 'delante': 'PRO-DELANTE', 'iconos': 'PRO-ICONOS', 'subs': 'PRO-SUBS'}
 PISTA_ENCIMA = 'PRO-ENCIMA'
 PISTA_ICONOS = 'PRO-ICONOS'              # los iconos 3D junto a los captions: encima de ellos (y debajo de PRO-ENCIMA)
 MARCA_EMOJI = 'ccpro-emoji-off'          # el emoji del tema que se apagó porque en ese bloque va un icono 3D
@@ -556,6 +557,111 @@ def _apagar_emojis(tl, ventanas, base):
     return apagados
 
 
+def _color_claves(tl, cc):
+    """Temas 1–4 (pase ligero): la palabra DESTACADA de los captions «guion» en el color de acento del video. Solo los Text+ que entran en el
+    momento de una palabra principal (cc['momentos'], fotogramas absolutos, ±3), relleno 1 (Red1/Green1/Blue1); el resto del diseño, intacto."""
+    if not cc or not cc.get('momentos'):
+        return 0
+    r, g, b = (float(x) for x in cc['rgb'])
+    momentos = sorted(int(m) for m in cc['momentos'])
+    hechos = 0
+    for i in _pistas_captions(tl):
+        if 'EMOJI' in str(tl.GetTrackName('video', i) or '').upper():
+            continue
+        for it in tl.GetItemListInTrack('video', i) or []:
+            s = int(it.GetStart())
+            if not any(abs(s - m) <= 3 for m in momentos):
+                continue
+            try:
+                comp = it.GetFusionCompByIndex(1)
+                herramientas = list((comp.GetToolList(False, 'TextPlus') or {}).values()) if comp else []
+                for h in herramientas:
+                    h.SetInput('Red1', r)
+                    h.SetInput('Green1', g)
+                    h.SetInput('Blue1', b)
+                hechos += 1 if herramientas else 0
+            except Exception:
+                pass
+    return hechos
+
+
+def _apagar_captions(tl):
+    """Tema 5: los captions de verdad son las animaciones de PRO-SUBS; los Text+ (y emojis) que GO dejó de respaldo se apagan (siguen ahí, para
+    encenderlos a mano si se prefieren), y también SUS sonidos (pistas de audio «SFX…»: un toque por palabra y el de cada emoji, que ya no se ven).
+    Un GO nuevo los vuelve a poner."""
+    apagados = 0
+    for i in _pistas_captions(tl):
+        for it in tl.GetItemListInTrack('video', i) or []:
+            try:
+                if it.GetClipEnabled() and it.SetClipEnabled(False):
+                    apagados += 1
+            except Exception:
+                pass
+    for i in range(1, int(tl.GetTrackCount('audio') or 0) + 1):
+        if not str(tl.GetTrackName('audio', i) or '').upper().startswith('SFX'):
+            continue
+        for it in tl.GetItemListInTrack('audio', i) or []:
+            try:
+                if it.GetClipEnabled() and it.SetClipEnabled(False):
+                    apagados += 1
+            except Exception:
+                pass
+    return apagados
+
+
+def _detras_delante(tl, idx, f0, f1):
+    """El rastreo del Magic Mask falló en [f0, f1): los captions del Tema 5 que iban DETRÁS de la persona pasan a la pista de delante (si nadie la
+    ocupa ahí): sin la persona encima, una palabra enorme a la altura de la cabeza se quedaría tapando la cara."""
+    i_det, i_del = idx.get('PRO-DETRAS'), idx.get('PRO-DELANTE')
+    if not i_det or not i_del:
+        return 0
+    ocupado = [(int(x.GetStart()), int(x.GetEnd())) for x in tl.GetItemListInTrack('video', i_del) or []]
+    movidos = 0
+    for it in list(tl.GetItemListInTrack('video', i_det) or []):
+        s, e = int(it.GetStart()), int(it.GetEnd())
+        if not (s < f1 and f0 < e) or not str(it.GetName() or '').startswith('PRO · Caption'):
+            continue
+        mpi = it.GetMediaPoolItem()
+        if mpi is not None and not any(s < b and a < e for a, b in ocupado):
+            r = project.GetMediaPool().AppendToTimeline([{'mediaPoolItem': mpi, 'trackIndex': i_del, 'recordFrame': s, 'mediaType': 1}]) or []
+            if r:
+                try:
+                    r[0].SetName('PRO · Caption (delante: el rastreo falló)')
+                except Exception:
+                    pass
+        tl.DeleteClips([it], False)
+        movidos += 1
+    if movidos:
+        print('  rastreo incompleto en %d-%d: %d caption(s) «detrás» pasan delante' % (f0, f1, movidos))
+    return movidos
+
+
+def _dividida(tl, mp, tramos, base, pista):
+    """Tema 5, pantalla dividida: una copia del clip de V1 de ese tramo, encima de él y BAJADA (Tilt) para que la persona quede en la mitad de
+    abajo; la mitad de arriba la tapa la escena de papel (PRO-FONDO, encima). [[f0, f1, píxeles que baja]]."""
+    puestas = 0
+    for g in tramos or []:
+        f0, f1 = base + int(g[0]), base + int(g[1])
+        v1 = _clip_v1(tl, f0, f1)
+        if v1 is None or 'CineCaptions FX' in (v1.GetFusionCompNameList() or []):
+            continue
+        src0 = int(v1.GetLeftOffset()) + (f0 - v1.GetStart())
+        r = mp.AppendToTimeline([{'mediaPoolItem': v1.GetMediaPoolItem(), 'startFrame': src0, 'endFrame': src0 + (f1 - f0) - 1,
+                                  'recordFrame': f0, 'trackIndex': pista, 'mediaType': 1}]) or []
+        if not r:
+            continue
+        it = r[0]
+        _copiar_transformacion(v1, it)
+        try:
+            it.SetProperty('Tilt', float(it.GetProperty('Tilt') or 0.0) - float(g[2]))
+            it.SetName('PRO · pantalla dividida')
+            it.SetClipColor('Navy')
+        except Exception:
+            pass
+        puestas += 1
+    return puestas
+
+
 def _gris(tl, mp, tramos, base, pista):
     """«Modo error»: el plano en gris un momento (cuando dice algo malo o se equivoca). Una copia del clip de V1 de ese tramo, encima, sin
     saturación (SetCDL) y con la misma transformación. No va sobre un clip con el movimiento de Efectos."""
@@ -643,7 +749,7 @@ def main():
     resolve.OpenPage('edit')
     idx = _pistas(tl)
     idx[PISTA_ICONOS] = _pista_iconos(tl, any(g.get('capa') == 'iconos' for g in datos.get('graficos') or []))
-    puestos = {'fondo': 0, 'velo': 0, 'detras': 0, 'delante': 0, 'persona': 0, 'iconos': 0}
+    puestos = {'fondo': 0, 'velo': 0, 'detras': 0, 'delante': 0, 'persona': 0, 'iconos': 0, 'subs': 0}
     sin_poner = 0
     fin_pista = {n: -1 for n in ORDEN + [PISTA_ICONOS]}
     # 1) los gráficos OGraf
@@ -661,7 +767,14 @@ def main():
         if ini < fin_pista[pista]:
             sin_poner += 1
             continue
-        r = mp.AppendToTimeline([{'mediaPoolItem': clip, 'trackIndex': idx[pista], 'recordFrame': ini}]) or []
+        if g.get('alfa'):                                                  # animación de Remotion: ProRes 4444 con alfa recto, solo video
+            try:
+                clip.SetClipProperty('Alpha mode', 'Straight')
+            except Exception:
+                pass
+            r = mp.AppendToTimeline([{'mediaPoolItem': clip, 'trackIndex': idx[pista], 'recordFrame': ini, 'mediaType': 1}]) or []
+        else:
+            r = mp.AppendToTimeline([{'mediaPoolItem': clip, 'trackIndex': idx[pista], 'recordFrame': ini}]) or []
         if not r:
             sin_poner += 1
             continue
@@ -676,6 +789,9 @@ def main():
     # 2) el B-roll de stock, debajo de todo; y el «modo error» en gris
     tomas = _broll(tl, mp, caja, datos.get('broll') or [], base, idx['PRO-BROLL'])
     grises = _gris(tl, mp, datos.get('gris') or [], base, idx['PRO-GRIS'])
+    divididas = _dividida(tl, mp, datos.get('dividida') or [], base, idx['PRO-GRIS'])
+    if divididas:
+        print('Tema 5: %d tramos en pantalla dividida.' % divididas)
     # 3) la persona (el mismo clip de V1 recortado), encima de lo que va DETRÁS; antes, los punch-ins de V1 (el recorte copia su zoom)
     punch = _punch_ins(tl, datos.get('punch') or [])
     magic = []
@@ -702,8 +818,10 @@ def main():
     oks = _rastrear(tl, magic, idx['PRO-PERSONA'], decir) if magic else []
     for (it, _ref, _h), ok in zip(magic, oks):
         if not ok:                                                         # sin recortar taparía el titular: fuera (el titular queda delante)
+            f0, f1 = int(it.GetStart()), int(it.GetEnd())
             tl.DeleteClips([it], False)
             puestos['persona'] -= 1
+            _detras_delante(tl, idx, f0, f1)
     rastreados = sum(oks)
     # 4) los captions DETRÁS de la persona (la persona en la pista de más arriba)
     _deshacer_subidas(tl)                                                  # re-aplicar no apila: primero, todo a su sitio
@@ -712,6 +830,10 @@ def main():
     movidos += _subir_captions(tl, datos.get('mover') or [], base)
     emojis = _emojis_sin_cara(tl, [c for e in datos.get('encima') or [] for c in e.get('cues') or []] + list(datos.get('mover') or []), base)
     cambiados = _apagar_emojis(tl, datos.get('sin_emoji') or [], base) if puestos.get('iconos') else 0
+    respaldo = _apagar_captions(tl) if datos.get('captions_propios') and puestos.get('subs') else 0
+    coloreados = _color_claves(tl, datos.get('color_claves'))
+    if coloreados:
+        print('Temas 1–4: %d palabras destacadas en el color del video.' % coloreados)
     # 5) los sonidos de los gráficos
     sonidos = _sonidos(tl, mp, caja, datos.get('sonidos') or [], base)
     _quitar_vacias(tl)
@@ -719,7 +841,9 @@ def main():
         tl.SetCurrentTimecode(_tc(tl, tl.GetStartFrame()))
     except Exception:
         pass
-    total = puestos['fondo'] + puestos['velo'] + puestos['detras'] + puestos['delante'] + puestos['iconos']
+    total = puestos['fondo'] + puestos['velo'] + puestos['detras'] + puestos['delante'] + puestos['iconos'] + puestos['subs']
+    if puestos['subs']:
+        print('Tema 5: %d captions animados (%d Text+ de respaldo apagados).' % (puestos['subs'], respaldo))
     print('Edición PRO: %d gráficos (%d detrás, %d delante, %d escenas, %d velos), %d recortes de persona%s, captions detrás de la persona en %d tramos '
           '(%d clips movidos, %d emojis apartados de la cara), %d iconos 3D (%d emojis cambiados), %d tramos en gris, %d tomas de B-roll, '
           '%d punch-ins, %d sonidos%s.' % (

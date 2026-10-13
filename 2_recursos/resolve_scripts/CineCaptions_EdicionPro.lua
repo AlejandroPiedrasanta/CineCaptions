@@ -10,7 +10,7 @@ Reglas (las mismas que la gemela): nunca toca V1/A1 ni las pistas de los caption
 los clips de una misma pista nunca se pisan; los archivos se importan una sola vez al bin «RCS · Edición PRO».
 ]]
 
-local VERSION = "5.4.50 (edicion pro)"
+local VERSION = "5.4.51 (edicion pro)"
 
 -- La ENTREGA del Puente: ver CineCaptions_InsertarSFX.lua.
 local ENTREGA_PUENTE = ({...})[1]
@@ -330,8 +330,8 @@ end
 -- captions. Nunca toca V1/A1 ni las pistas de los captions. Nada de InsertFusionTitleIntoTimeline: solo ImportMedia + AppendToTimeline.
 -- El plan lo deja la app en ~/DaVinciSubtitles/edicion_pro_plan.json (y su sidecar .lua, que es lo que lee Free 21.1: sin io).
 -- ---------------------------------------------------------------------
-local ORDEN = { "PRO-BROLL", "PRO-GRIS", "PRO-FONDO", "PRO-VELO", "PRO-DETRAS", "PRO-PERSONA", "PRO-DELANTE" }
-local CAPA = { fondo = "PRO-FONDO", velo = "PRO-VELO", detras = "PRO-DETRAS", delante = "PRO-DELANTE", iconos = "PRO-ICONOS" }
+local ORDEN = { "PRO-BROLL", "PRO-GRIS", "PRO-FONDO", "PRO-VELO", "PRO-DETRAS", "PRO-PERSONA", "PRO-DELANTE", "PRO-SUBS" }
+local CAPA = { fondo = "PRO-FONDO", velo = "PRO-VELO", detras = "PRO-DETRAS", delante = "PRO-DELANTE", iconos = "PRO-ICONOS", subs = "PRO-SUBS" }
 local PISTA_ENCIMA = "PRO-ENCIMA"
 local PISTA_ICONOS = "PRO-ICONOS"        -- los iconos 3D junto a los captions: encima de ellos (y debajo de PRO-ENCIMA)
 local MARCA_EMOJI = "ccpro-emoji-off"    -- el emoji del tema que se apago porque en ese bloque va un icono 3D
@@ -761,6 +761,85 @@ local function apagar_emojis(tl, ventanas, base)
     return apagados
 end
 
+-- Temas 1-4 (pase ligero): la palabra DESTACADA de los captions «guion» en el color del video (solo el relleno 1 de los Text+ que entran en el
+-- momento de una palabra principal, +-3 fotogramas).
+local function color_claves(tl, cc)
+    if type(cc) ~= "table" or type(cc.momentos) ~= "table" or type(cc.rgb) ~= "table" then return 0 end
+    local r, g, b = tonumber(cc.rgb[1]) or 1, tonumber(cc.rgb[2]) or 1, tonumber(cc.rgb[3]) or 1
+    local hechos = 0
+    for _, i in ipairs(pistas_captions(tl)) do
+        if not nombre_pista(tl, "video", i):upper():find("EMOJI", 1, true) then
+            for _, it in ipairs(lista_api(tl:GetItemListInTrack("video", i))) do
+                local s0 = it:GetStart()
+                local cerca = false
+                for _, m in ipairs(cc.momentos) do
+                    if math.abs(s0 - (tonumber(m) or -1e9)) <= 3 then cerca = true; break end
+                end
+                if cerca then
+                    local ok = pcall(function()
+                        local comp = it:GetFusionCompByIndex(1)
+                        local hs = comp and comp:GetToolList(false, "TextPlus") or {}
+                        local n = 0
+                        for _, h in pairs(hs) do
+                            h:SetInput("Red1", r); h:SetInput("Green1", g); h:SetInput("Blue1", b)
+                            n = n + 1
+                        end
+                        if n > 0 then hechos = hechos + 1 end
+                    end)
+                end
+            end
+        end
+    end
+    return hechos
+end
+
+-- Tema 5: los captions de verdad son las animaciones de PRO-SUBS; los Text+ (y emojis) que GO dejo de respaldo se apagan.
+local function apagar_captions(tl)
+    local apagados = 0
+    for _, i in ipairs(pistas_captions(tl)) do
+        for _, it in ipairs(lista_api(tl:GetItemListInTrack("video", i))) do
+            local ok, r = pcall(function() return it:GetClipEnabled() and it:SetClipEnabled(false) end)
+            if ok and r then apagados = apagados + 1 end
+        end
+    end
+    -- y sus sonidos (pistas de audio «SFX…»: un toque por palabra y el de cada emoji, que ya no se ven)
+    for i = 1, math.floor(tonumber(tl:GetTrackCount("audio")) or 0) do
+        if nombre_pista(tl, "audio", i):upper():sub(1, 3) == "SFX" then
+            for _, it in ipairs(lista_api(tl:GetItemListInTrack("audio", i))) do
+                local ok, r = pcall(function() return it:GetClipEnabled() and it:SetClipEnabled(false) end)
+                if ok and r then apagados = apagados + 1 end
+            end
+        end
+    end
+    return apagados
+end
+
+-- Tema 5, pantalla dividida: una copia del clip de V1 del tramo, encima y BAJADA (Tilt): la persona en la mitad de abajo; arriba, la escena de papel.
+local function poner_dividida(tl, mp, tramos, base, pista)
+    local puestas = 0
+    for _, g in ipairs(tramos or {}) do
+        local f0, f1 = base + math.floor(tonumber(g[1]) or 0), base + math.floor(tonumber(g[2]) or 0)
+        local v1 = clip_v1(tl, f0, f1)
+        local fx = false
+        if v1 ~= nil then
+            local ok, nombres = pcall(function() return v1:GetFusionCompNameList() end)
+            for _, n in ipairs((ok and type(nombres) == "table") and nombres or {}) do if n == "CineCaptions FX" then fx = true end end
+        end
+        if v1 ~= nil and not fx and pista then
+            local src0 = math.floor(tonumber(v1:GetLeftOffset()) or 0) + (f0 - v1:GetStart())
+            local it = append(mp, { mediaPoolItem = v1:GetMediaPoolItem(), startFrame = src0, endFrame = src0 + (f1 - f0) - 1, recordFrame = f0, trackIndex = pista, mediaType = 1 })
+            if it ~= nil then
+                copiar_transformacion(v1, it)
+                pcall(function() it:SetProperty("Tilt", (tonumber(it:GetProperty("Tilt")) or 0) - (tonumber(g[3]) or 0)) end)
+                pcall(function() it:SetName("PRO · pantalla dividida") end)
+                pcall(function() it:SetClipColor("Navy") end)
+                puestas = puestas + 1
+            end
+        end
+    end
+    return puestas
+end
+
 -- «Modo error»: el plano en gris un momento. Una copia del clip de V1 de ese tramo, encima, sin saturacion (SetCDL), misma transformacion.
 local function poner_gris(tl, mp, tramos, base, pista)
     local puestos = 0
@@ -824,7 +903,7 @@ local function main()
     local fin_pista = { [PISTA_ICONOS] = -1 }
     for _, n in ipairs(ORDEN) do fin_pista[n] = -1 end
     local puestos = { fondo = 0, velo = 0, detras = 0, delante = 0, iconos = 0, persona = 0, sonido = 0, broll = 0, encima = 0, movidos = 0, punch = 0,
-                      emojis = 0, cambiados = 0, gris = 0 }
+                      emojis = 0, cambiados = 0, gris = 0, subs = 0, respaldo = 0 }
     local sin_poner = 0
     -- 1) los graficos OGraf
     local graficos = (type(datos.graficos) == "table") and datos.graficos or {}
@@ -836,14 +915,20 @@ local function main()
         if clip == nil or idx[nombre] == nil or ini < fin_pista[nombre] then
             sin_poner = sin_poner + 1
         else
-            local item = append(mp, { mediaPoolItem = clip, trackIndex = idx[nombre], recordFrame = ini })
+            local item
+            if g.alfa then                         -- animacion de Remotion: ProRes 4444 con alfa recto, solo video
+                pcall(function() clip:SetClipProperty("Alpha mode", "Straight") end)
+                item = append(mp, { mediaPoolItem = clip, trackIndex = idx[nombre], recordFrame = ini, mediaType = 1 })
+            else
+                item = append(mp, { mediaPoolItem = clip, trackIndex = idx[nombre], recordFrame = ini })
+            end
             if item == nil then
                 sin_poner = sin_poner + 1
             else
                 fin_pista[nombre] = item:GetEnd()
                 pcall(function() item:SetName(tostring(g.nombre or "PRO")) end)
                 pcall(function() item:SetFusionOutputCache("enabled") end)
-                local c = (g.capa == "velo" or g.capa == "detras" or g.capa == "fondo" or g.capa == "iconos") and g.capa or "delante"
+                local c = (g.capa == "velo" or g.capa == "detras" or g.capa == "fondo" or g.capa == "iconos" or g.capa == "subs") and g.capa or "delante"
                 puestos[c] = puestos[c] + 1
             end
         end
@@ -851,6 +936,8 @@ local function main()
     -- 2) el B-roll de stock, debajo de todo
     puestos.broll = poner_broll(tl, mp, caja, (type(datos.broll) == "table") and datos.broll or {}, base, idx["PRO-BROLL"], fps)
     puestos.gris = poner_gris(tl, mp, (type(datos.gris) == "table") and datos.gris or {}, base, idx["PRO-GRIS"])
+    local divididas = poner_dividida(tl, mp, (type(datos.dividida) == "table") and datos.dividida or {}, base, idx["PRO-GRIS"])
+    if divididas > 0 then print(string.format("Tema 5: %d tramos en pantalla dividida.", divididas)) end
     -- 3) la persona recortada con IA local (ProRes 4444 con alfa recto); antes, los punch-ins de V1 (el recorte copia su zoom)
     puestos.punch = punch_ins(tl, (type(datos.punch) == "table") and datos.punch or {})
     local personas = (type(datos.persona) == "table") and datos.persona or {}
@@ -879,6 +966,9 @@ local function main()
     for _, c in ipairs(mover) do todos[#todos + 1] = c end
     puestos.emojis = emojis_sin_cara(tl, todos, base)
     if puestos.iconos > 0 then puestos.cambiados = apagar_emojis(tl, (type(datos.sin_emoji) == "table") and datos.sin_emoji or {}, base) end
+    if datos.captions_propios and puestos.subs > 0 then puestos.respaldo = apagar_captions(tl) end
+    local coloreados = color_claves(tl, datos.color_claves)
+    if coloreados > 0 then print(string.format("Temas 1-4: %d palabras destacadas en el color del video.", coloreados)) end
     -- 5) el diseno de sonido: cada familia en su pista (PRO-WHOOSH, PRO-TEXTURA, PRO-RISER, PRO-HIT), clips enteros con su nivel
     local sonidos = (type(datos.sonidos) == "table") and datos.sonidos or {}
     local por_pista = {}
@@ -923,7 +1013,8 @@ local function main()
         end
     end
     quitar_vacias(tl)
-    local total = puestos.fondo + puestos.velo + puestos.detras + puestos.delante + puestos.iconos
+    local total = puestos.fondo + puestos.velo + puestos.detras + puestos.delante + puestos.iconos + puestos.subs
+    if puestos.subs > 0 then print(string.format("Tema 5: %d captions animados (%d Text+ de respaldo apagados).", puestos.subs, puestos.respaldo)) end
     RESUMEN = string.format("Edicion PRO: %d graficos (%d detras, %d delante, %d escenas, %d velos), %d recortes de persona, captions detras de la persona en %d tramos (%d clips movidos, %d emojis apartados de la cara), %d iconos 3D (%d emojis cambiados), %d tramos en gris, %d tomas de B-roll, %d punch-ins, %d sonidos%s.",
         total, puestos.detras, puestos.delante, puestos.fondo, puestos.velo, puestos.persona, puestos.encima, puestos.movidos, puestos.emojis, puestos.iconos,
         puestos.cambiados, puestos.gris, puestos.broll, puestos.punch, puestos.sonido,
