@@ -1,14 +1,24 @@
 {
     "estable":  {
-                    "version":  "5.4.52",
-                    "notas":  "• Nuevo: Tema 6 «Editorial», con el estilo de los reels editoriales: captions en serif fina con la frase clave grande en lima o blanco, escenas melocotón con tarjetas blancas que entran con un destello, el visor de la cámara sobre tu cara, la barra de búsqueda con la palabra que hay que comentar, tu perfil con los seguidores que cuentan y la píldora del equipo.\r\n• Tema 5: el fondo en blanco y negro con tu persona a color cuando dices algo fuerte, un icono que gira alrededor de tu cabeza (por detrás y por delante), el sticker congelado en el gancho, la sombra de tu persona sobre la palabra de detrás, tarjetas encima de la cabeza (mapa del país, gráfica del % que dices, la frase tachada, la lista que se marca), la pantalla final cuando pides que te sigan y transiciones con zoom en los cortes.\r\n• Emojis animados (Noto de Google) en los acompañantes y en la órbita, 136 sonidos nuevos para que no se repitan, el borde de la persona recortada más suave y la caché de render activada para que la línea de tiempo vaya fluida.\r\n• Los videos bajados de Instagram, Pinterest o TikTok ya no salen mudos al renderizar (su audio HE-AAC se pasa solo a AAC), los efectos de sonido de la intro quedan bajo tu voz y se quitó un aviso falso de emojis sin posición.",
+                    "version":  "5.5.0",
+                    "notas":  "• Nuevo: Tema 6 «Editorial», con el estilo de los reels editoriales: captions en serif fina con la frase clave grande en lima o blanco, escenas melocotón con tarjetas blancas que entran con un destello, el visor de la cámara sobre tu cara, la barra de búsqueda con la palabra que hay que comentar, tu perfil con los seguidores que cuentan y la píldora del equipo.\r\n• Tema 5: el fondo en blanco y negro con tu persona a color cuando dices algo fuerte, un icono que gira alrededor de tu cabeza (por detrás y por delante), el sticker congelado en el gancho, la sombra de tu persona sobre la palabra de detrás, tarjetas encima de la cabeza (mapa del país, gráfica del % que dices, la frase tachada, la lista que se marca), la pantalla final cuando pides que te sigan y transiciones con zoom en los cortes.\r\n• Emojis animados (Noto de Google) en los acompañantes y en la órbita, 136 sonidos nuevos para que no se repitan, el borde de la persona recortada más suave y la caché de render activada para que la línea de tiempo vaya fluida.\r\n• Los videos bajados de Instagram, Pinterest o TikTok ya no salen mudos al renderizar (su audio HE-AAC se pasa solo a AAC), los efectos de sonido de la intro quedan bajo tu voz, se quitó un aviso falso de emojis sin posición y, si Resolve se queda colgado al empezar GO, se cierra y se reabre solo.",
                     "fecha":  "2026-10-13",
                     "archivos":  {
                                      "windows":  {
-                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.4.52/Instalar_CineCaptions_5.4.52.exe",
-                                                     "sha256":  "6a631f7a00fd7322102de871e5a64294cfc30e3209078520fe9ae36de14b43ea",
-                                                     "tam":  469303205
-                                                 }
+                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.0/Instalar_CineCaptions_5.5.0.exe",
+                                                     "sha256":  "1720bd64e7973fb238f2537388339826402933b322299593bd32692febf30152",
+                                                     "tam":  469305051
+                                                 },
+                                     "mac_arm64":  {
+                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.0/CineCaptions_Mac_AppleSilicon_5.5.0.dmg",
+                                                       "sha256":  "1fb35e0f1a739e5ab092b547d30f57a8e01996de8d1b08145e5b550a53d13511",
+                                                       "tam":  478665256
+                                                   },
+                                     "mac_x86_64":  {
+                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.0/CineCaptions_Mac_Intel_5.5.0.dmg",
+                                                        "sha256":  "deda1986bb4414590aef81a15569b1a4c6a52ae3c5c1d59bd9e2ace8fd95fffb",
+                                                        "tam":  423129040
+                                                    }
                                  }
                 }
 }
