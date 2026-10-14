@@ -105,8 +105,14 @@ if ((Sondear { gh release view $etiqueta --repo $Repo }) -eq 0) {
 
 Paso 'Comprobando lo publicado'
 $url = "https://github.com/$Repo/releases/latest/download/version.json"
-$publicado = Invoke-RestMethod -Uri $url -UseBasicParsing
-$v = $publicado.$Canal.version
+# la cache de GitHub tarda en enterarse de la version nueva: se reintenta hasta ~3 min antes de dar error (en 5.5.5 y 5.5.6 la 1.a mirada daba la anterior)
+$v = $null
+for ($i = 0; $i -lt 10; $i++) {
+    $publicado = Invoke-RestMethod -Uri "$url`?t=$([DateTimeOffset]::UtcNow.ToUnixTimeSeconds())" -UseBasicParsing -Headers @{ 'Cache-Control' = 'no-cache' }
+    $v = $publicado.$Canal.version
+    if ($v -eq $version) { break }
+    Start-Sleep -Seconds 20
+}
 Write-Host "    $url  ->  $Canal $v"
 if ($v -ne $version) { throw "El manifiesto publicado dice $v y se esperaba $version" }
 Write-Host ''

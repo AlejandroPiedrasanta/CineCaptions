@@ -182,3 +182,33 @@ Antes solo la intro, las transiciones y los packs de iconos enseñaban cómo que
 **Arreglo:** `edicion_pro.planificar` pasaba al planificador solo el NOMBRE del video: los colores del video (kit) y los fotogramas (polaroid, tablero, móvil) no llegaban en un GO real. Ahora va la ruta (la semilla sigue siendo por el nombre).
 
 **Free y Mac:** las fotos se pintan dentro de las escenas de Remotion (data URI): se colocan como cualquier gráfico de la PRO (capa 'fondo') en Studio (`colocar_pro`) y en Free (`CineCaptions_EdicionPro.lua`, mismas capas); en Mac no hay IA de texto (van las reglas) y la red usa certifi. Probado en Windows con la IA y renders; NO en Free ni en Mac reales.
+
+## motions-pro — Motions de la Edición PRO: carrusel con todos y «solo los que elija» (v5.5.7)
+
+**Qué:** arriba de la página Efectos, la tarjeta «Motions de la Edición PRO» (`motions_ui.SeccionMotions`): Automático (la IA elige entre los ~147) o
+«Solo los que elija» (la IA usa EXCLUSIVAMENTE los marcados), filtro por grupo (Kit, Escenas, Temas 5 y 6, Gráficos, Por frase), Todos / Ninguno y la
+cuenta. Tocar un motion en Automático pasa a «Solo los que elija» con ese. Con «Solo los que elija» y ninguno marcado, la IA elige entre todos
+(`motions_catalogo.modo`): nunca una PRO sin motions por descuido.
+
+**Carrusel:** `motions_ui.CarruselMotions` es UNA QWidget pintada (no 147 widgets): pinta solo las tarjetas visibles, carga cada miniatura al verse
+(`2_recursos/edicion_pro/previas_motions/<id con «:»→«_»>.jpg`, hechas con `herramientas_dev/hacer_previas_motions.py` a partir de las composiciones
+de Remotion vía `remotion/galeria.mjs`; los gráficos OGraf y los que necesitan foto se dibujan con el color y el glifo de su grupo), se desplaza con
+la rueda (en los extremos la rueda vuelve a mover la página), arrastrando o con las flechas, con un resorte del motor común (`qt_kit.motor_resortes`).
+Los clics seguidos se guardan juntos (400 ms) en `pro_motions_modo` / `pro_motions` (`edicion_pro.guardar_opciones`).
+
+**Respeto de la lista:** el menú de la IA y las reglas ya no proponen lo no permitido (`edicion_pro_kit7.menu_para_ia`/`planificar`,
+`edicion_pro_planificador._permitido`) y, de seguro, `motions_catalogo.filtrar` limpia el plan (y los fondos/velos que solo acompañaban a un quitado)
+en `edicion_pro.planificar` y en `aplicar`. Probado con una transcripción sintética: nada fuera de la lista en los 3 temas.
+
+**La página no estropea la PRO:** con la PRO activa los efectos VISUALES clásicos no se aplican (`_planificar_efectos`), así que se pliegan tras la
+tarjeta «Edición PRO activa…» (botón «Ver efectos clásicos»); «Ritmo: quitar pausas» sí vale y queda fuera (su «Zoom alterno» se esconde con la PRO).
+El reloj de las vistas previas (40 ms) solo corre con la página a la vista (`showEvent`/`hideEvent`); antes corría siempre.
+
+## nota — v5.5.7 · coherencia entre páginas (Inicio, Efectos, Sonido)
+
+`edicion_pro.en_juego()` = el interruptor de la PRO **o** el tema elegido es el 5 o el 6 (`TEMAS_PRO`: usan la PRO siempre). Lo miran la página
+Efectos (aviso y clásicos plegados; con Temas 5/6 tampoco «Sonido extra», solo «Quitar pausas» y los motions), el carrusel de motions y Sonido ›
+Edición PRO. «Sonido extra» (`SeccionExtras.tarjeta_sonido`) queda FUERA del bloque plegable: con la PRO sí se aplica. Con «Visuales: no» los clásicos
+también se pliegan con su aviso. Chips de Inicio: el del sonido por palabra se llamaba «Efectos» (se confundía con la página) → «Sonido»; «Edición PRO:
+la del tema» con Tema 5/6; «Visuales: los de la PRO» con la PRO. Sonido se repinta al volver a la página si cambiaron el chip, la PRO o el tema
+(`SfxStudio.refrescar_si_cambio`) y avisa «Sonido: no» en Inicio.

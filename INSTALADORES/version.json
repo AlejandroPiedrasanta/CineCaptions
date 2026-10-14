@@ -1,23 +1,23 @@
 {
     "estable":  {
-                    "version":  "5.5.5",
-                    "notas":  "• Resolve va fluido y ya no se cierra: las IA de CineCaptions dejan la tarjeta gráfica libre en cuanto terminan (antes ocupaban hasta 15 GB mientras Resolve reproducía) y los títulos, efectos y motions se pre-renderizan en segundo plano.\r\n• La IA de texto elige su tamaño según la memoria que de verdad queda libre: con Resolve abierto ya no se queda colgada 100 s y los motions vuelven a ser de la IA.\r\n• Todos los temas empiezan con el gancho: la primera frase va DETRÁS de ti (Magic Mask en Studio; en Free, el recorte de la IA local).\r\n• Temas 1 a 4: también con la Edición PRO, hasta 3 animaciones debajo de los captions. Tema 5: los iconos van justo debajo de su caption y se van con él.\r\n• Más fotos de internet con licencia: de los lugares que nombras y de muchos más temas (festival, concierto, torneo, beca, empresa, charlas…), repartidas por el video.\r\n• Tema 3: un solo juego de colores en todo el video, como la referencia.\r\n• Inicio: «Refrescar» en vez de «Ver el Registro» (deja Inicio limpio y sin procesos). Si Resolve se reabre sin timeline, GO abre tu último proyecto y sigue.\r\n• Arreglos: el aviso falso «Falla al iniciar: CTranslate2»; listas de «3 razones» que nadie dijo; cifras como «10 DE LA».",
-                    "fecha":  "2026-10-13",
+                    "version":  "5.5.6",
+                    "notas":  "• Ya no se usa PowerShell: lanzar el Puente en Resolve Free, pasar la pantalla de proyectos, expandir la vista y reproducir van por la Accesibilidad de Windows desde CineCaptions. Antivirus como Avast bloqueaban PowerShell y con eso GO no podía colocar nada.\r\n• Si Windows 11 («Control inteligente de aplicaciones») o un antivirus bloquea una librería, ya no sale el cuadro «Bad Image»: el Registro dice qué pasó y cómo arreglarlo.",
+                    "fecha":  "2026-10-14",
                     "archivos":  {
                                      "windows":  {
-                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.5/Instalar_CineCaptions_5.5.5.exe",
-                                                     "sha256":  "ba1abdc7192ec7b197d71f01d865d3ec23e21b8d131475a9fc6e54a996fac3cb",
-                                                     "tam":  564207724
+                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.6/Instalar_CineCaptions_5.5.6.exe",
+                                                     "sha256":  "ca0c8d607fb3b85196e752c602e3bc9f895d76626d3a4113e142fe7781e6e40f",
+                                                     "tam":  564876606
                                                  },
                                      "mac_arm64":  {
-                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.5/CineCaptions_Mac_AppleSilicon_5.5.5.dmg",
-                                                       "sha256":  "6cf038392650172a65018bb2288ccaa1fbf430b785829a46e5e63579a2602baf",
-                                                       "tam":  573039024
+                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.6/CineCaptions_Mac_AppleSilicon_5.5.6.dmg",
+                                                       "sha256":  "c7d74dc17a11c1cc02b98fa7e6cfd1d5337d278e76d208bedced1dc35ca7c3d6",
+                                                       "tam":  573407796
                                                    },
                                      "mac_x86_64":  {
-                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.5/CineCaptions_Mac_Intel_5.5.5.dmg",
-                                                        "sha256":  "e58404a582fc769fb12d9f35583588f7024e738d09d42eb8acea97eb14b5142e",
-                                                        "tam":  517456985
+                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.6/CineCaptions_Mac_Intel_5.5.6.dmg",
+                                                        "sha256":  "4c9ebb9f4454661e359cd1844ec74750a3184004e043a092b5889efec72186ba",
+                                                        "tam":  517492383
                                                     }
                                  }
                 }

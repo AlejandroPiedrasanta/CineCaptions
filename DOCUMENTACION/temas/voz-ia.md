@@ -21,3 +21,17 @@
 
 - `ortografia.py`: revisión del editor (marca y propone, nunca corrige solo). `sugerencias_ia.py`: palabra PRINCIPAL de cada bloque con el motor clásico (sin IA instalada).
 - `salud.py`: chequeo de librerías al arrancar (versiones fijadas, motor de IA, MCP). `medir_texto.py`: cuánto ocupa cada palabra en pantalla (look «pintado»).
+
+## ortografia-temas — Ortografía para los 6 temas: diccionario de lemas, GO y la PRO con el texto corregido (v5.5.7)
+
+**El fallo:** el diccionario de pyspellchecker 0.9.1 (es) trae casi solo LEMAS: no tiene «voy», «hay», «estoy», «tiene», «dijo», «quiero»,
+«hablando», los plurales ni los pronombres pegados («enseñarte»). La revisión de Creativo los subrayaba y la corrección automática los CAMBIABA
+(«hay» → «ahí», «Voy» → «Boy»). **Arreglo:** `ortografia_es.conocida` (formas irregulares comunes, conjugación regular y con cambio de raíz de los
+infinitivos del diccionario, futuro/condicional, plural/femenino/diminutivo/-mente, hasta dos pronombres pegados, tilde de más) filtra
+`ortografia.revisar`; `corregir_fonetico` exige frecuencia ≥ 8000, busca también por clave fonética (`_por_clave`: «aser» → «hacer») y aplica
+`ortografia_es.ERRATAS` (inequívocas: «kiero», «nesecito», «ubo», «esque», «osea», «despues»…).
+
+**GO:** `ia_texto.marcar_todo` añade la pasada de diccionario + fonética de Asistencia (antes, sin IA, GO no corregía nada). **La PRO** (Temas 5 y 6,
+titulares, rótulos, listas) recibía el texto CRUDO: ahora `_run_pipeline` guarda `texto_corregido(words, palabras_finales)` (las palabras con sus signos
+y el texto corregido por IA, diccionario o Creativo; casadas por posición o por tiempo) y `_planificar_pro` lo usa. Kinetic, Referencia, VIRAL y
+Tema 4 ya usaban `palabras_finales`.

@@ -12,6 +12,56 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-14 14:50  ·  v5.5.6  ·  cambio explicado
+    5.5.7: Free — GO con el video ya en el timeline o al cambiar de tema fallaba porque la reproducción del GO anterior paraba el Puente; ahora se detiene, se espera su latido, plan B relanzar, Puente «en pausa» no es «muerto», 3 reintentos, «conectando…» en vez de «cerrado». Efectos: carrusel con los 147 motions de la PRO (Automático / Solo los que elija, respetado en la IA, las reglas y el plan) y efectos clásicos plegados con la PRO (no se aplican con ella). Sonido: pestaña Edición PRO (encendido, volumen, familias). Ortografía: el diccionario es de solo lemas (marcaba «voy», «hay», «tiene»; cambiaba «hay»→«ahí»): ortografia_es + erratas + índice fonético; GO corrige sin IA; la PRO usa el texto corregido. Rendimiento: relojes de Efectos, escena GO e isla en pausa fuera de vista/minimizada.
+    nuevos (134):
+      + 1_codigo/herramientas_dev/hacer_previas_motions.py
+      + 1_codigo/motions_catalogo.py
+      + 1_codigo/motions_ui.py
+      + 1_codigo/ortografia_es.py
+      + 2_recursos/edicion_pro/previas_motions/acompanante.jpg
+      + 2_recursos/edicion_pro/previas_motions/escena_chat.jpg
+      + 2_recursos/edicion_pro/previas_motions/escena_collage.jpg
+      + 2_recursos/edicion_pro/previas_motions/escena_cuaderno.jpg
+      + 2_recursos/edicion_pro/previas_motions/escena_fecha.jpg
+      + 2_recursos/edicion_pro/previas_motions/escena_movil.jpg
+      + 2_recursos/edicion_pro/previas_motions/escena_pictograma.jpg
+      + 2_recursos/edicion_pro/previas_motions/escena_polaroid.jpg
+      … y 122 más
+    modificados (18):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/colocacion.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_kit7.py
+      ~ 1_codigo/edicion_pro_planificador.py
+      ~ 1_codigo/efectos_pagina.py
+      ~ 1_codigo/escena_go.py
+      ~ 1_codigo/ia_texto.py
+      ~ 1_codigo/isla_ui.py
+      ~ 1_codigo/ortografia.py
+      ~ 1_codigo/resolve_bridge.py
+      ~ 1_codigo/sfx_studio.py
+      … y 6 más
+
+2026-10-14 10:55  ·  v5.5.6  ·  cambio explicado
+    GO real del usuario (Studio) tras 5.5.6: la reproducción lanzada por menú bloquea los scripts de Resolve -> detener antes de GO y reconectar el MCP; un Studio que no contestaba pasaba por Free y se le lanzaba el Puente, que lo colgaba -> en Studio nunca el Puente y la edición sale del título de la ventana; estado 'cerrado' falso -> mira el proceso; vigilancia de conexión cada 15 s (MCP en Studio, Puente por menú en Free, Win y Mac); Magic Mask tumbó Resolve 2 veces -> persona por IA local por defecto; emojis curados y coherentes, sin emoji de GO donde la PRO enseña algo; Registro solo errores; aviso claro si Smart App Control bloquea al abrir; firma digital preparada en la compilación.
+    nuevos (1):
+      + 1_codigo/emojis_conceptos.py
+    modificados (18):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/colocacion.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/ia_texto.py
+      ~ 1_codigo/instalador_scripts.py
+      ~ 1_codigo/motor_voz.py
+      ~ 1_codigo/registro_ui.py
+      ~ 1_codigo/resolve_bridge.py
+      ~ 1_codigo/uia_resolve.py
+      ~ 2_recursos/edicion_pro/colocar_pro.py
+      ~ 2_recursos/locales/de.json
+      … y 6 más
+
 2026-10-14 09:09  ·  v5.5.6  ·  (automático)
     modificados (20):
       ~ 1_codigo/version.py
@@ -573,266 +623,6 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
       ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
       ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
       … y 7 más
-
-2026-10-11 19:03  ·  v5.4.46  ·  cambio explicado
-    v5.4.47: GO sin DaVinci Resolve (pedido: hacer que funcione sin Resolve; el usuario eligio el MP4 con subtitulos). Sin Resolve instalado, GO planifica Tema 4 y render_sin_resolve.py dibuja las mismas posiciones/tamanos/tiempos con Pillow (fundido de ~3 fotogramas y halo blanco medidos en TEMA 4.mp4), mezcla los sonidos y los emojis y codifica H.264 con PyAV; el MP4 queda junto al video. Los demas temas y los efectos visuales siguen siendo solo de Resolve.
-    nuevos (2):
-      + 1_codigo/herramientas_dev/probar_go_sin_resolve.py
-      + 1_codigo/render_sin_resolve.py
-    modificados (9):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/un_clic_ui.py
-      ~ 2_recursos/locales/de.json
-      ~ 2_recursos/locales/en.json
-      ~ 2_recursos/locales/fr.json
-      ~ 2_recursos/locales/it.json
-      ~ 2_recursos/locales/pt.json
-      ~ 3_compilar/partido_listo/CineCaptions (script principal).py
-
-2026-10-11 18:23  ·  v5.4.46  ·  (automático)
-    modificados (19):
-      ~ 1_codigo/version.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
-      ~ 2_recursos/resolve_scripts/CineCaptions.py
-      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
-      … y 7 más
-
-2026-10-11 18:23  ·  v5.4.45  ·  cambio explicado
-    v5.4.46: auditoria de fallas con el registro real del usuario. (1) Congelaciones de 4 s al arrancar y en cada GO con Resolve Free: dvr.scriptapp tarda 4,1 s sin soltar el GIL; ahora se sondea en otro proceso (--tarea sonda_resolve), medido 4,11 s -> 0,01 s. (2) Carrera de ctypes: _Proc distinto fijado en el windll compartido. (3) Lanzar el instalador de la actualizacion fuera del hilo de la interfaz. (4) Texto no ASCII de los .lua por modo senales llegaba con ?: json_escapar con \uXXXX en los 11 scripts (probado en LuaJIT). (5) Audio de Detectar video fuera de Descargas, en la carpeta interna; la vieja se limpia. (6) Fila muerta de idioma en Ajustes > General. Librerias: Qt 6.12, PyAV 19 (compat_av), onnxruntime 1.31, huggingface_hub 2.2.
-    modificados (20):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/resolve_bridge.py
-      ~ 1_codigo/tareas_instalador.py
-      ~ 2_recursos/locales/de.json
-      ~ 2_recursos/locales/en.json
-      ~ 2_recursos/locales/fr.json
-      ~ 2_recursos/locales/it.json
-      ~ 2_recursos/locales/pt.json
-      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
-      … y 8 más
-
-2026-10-11 17:54  ·  v5.4.45  ·  (automático)
-    modificados (20):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/version.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
-      ~ 2_recursos/resolve_scripts/CineCaptions.py
-      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
-      … y 8 más
-
-2026-10-11 17:45  ·  v5.4.44  ·  (automático)
-    nuevos (15):
-      + 1_codigo/compat_av.py
-      + 1_codigo/herramientas_dev/probar_ciclos_go.py
-      + 1_codigo/herramientas_dev/probar_cuelgue_resolve.py
-      + 1_codigo/herramientas_dev/probar_emojis_temas.py
-      + 1_codigo/herramientas_dev/probar_previo_resolve.py
-      + 1_codigo/herramientas_dev/probar_ventanas_humo.py
-      + 3_compilar/partido_listo/CineCaptions (script principal).py
-      + 3_compilar/partido_listo/aplicar.ps1
-      + 3_compilar/partido_listo/editor_palabras.py
-      + 3_compilar/partido_listo/partir_principal.py.txt
-      + 3_compilar/partido_listo/selector_emojis.py
-      + 3_compilar/partido_listo/ui_comun.py
-      … y 3 más
-    modificados (26):
-      ~ 1_codigo/mapa_codigo.py
-      ~ 1_codigo/motor_voz.py
-      ~ 1_codigo/salud.py
-      ~ 1_codigo/subtitle_transcriber.py
-      ~ 1_codigo/tareas_instalador.py
-      ~ 1_codigo/version.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
-      … y 14 más
-
-2026-10-11 15:52  ·  v5.4.43  ·  (automático)
-    modificados (19):
-      ~ 1_codigo/version.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
-      ~ 2_recursos/resolve_scripts/CineCaptions.py
-      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
-      … y 7 más
-
-2026-10-11 15:48  ·  v5.4.42  ·  cambio explicado
-    5.4.43: retirar_scripts_viejos (RCS_* de la marca anterior duplicaban el menu de scripts de Resolve; respaldo en respaldo_scripts_viejos); Free y Studio; sin compilar
-    modificados (2):
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/instalador_scripts.py
-
-2026-10-11 15:22  ·  v5.4.42  ·  (automático)
-    modificados (19):
-      ~ 1_codigo/version.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
-      ~ 2_recursos/resolve_scripts/CineCaptions.py
-      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
-      … y 7 más
-
-2026-10-11 15:22  ·  v5.4.41  ·  cambio explicado
-    5.4.42: revision previa de Resolve antes de cada GO (ping + estado inmediato), Puente por el menu de scripts de Resolve (UIA) con la consola F6 de respaldo; emojis verificados en Temas 2/3/4; sin compilar
-    modificados (5):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/colocacion.py
-      ~ 1_codigo/resolve_bridge.py
-      ~ 2_recursos/resolve_scripts/CineCaptions_Vista.lua
-
-2026-10-11 14:49  ·  v5.4.41  ·  (automático)
-    modificados (19):
-      ~ 1_codigo/version.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
-      ~ 2_recursos/resolve_scripts/CineCaptions.py
-      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
-      … y 7 más
-
-2026-10-11 14:41  ·  v5.4.40  ·  cambio explicado
-    5.4.41: Resolve cerrado por dentro con el proceso vivo y sin ventana (estado_resolve caido tras 20 s sin ventana, abrir_resolve_windows lo cierra), cerrojo en lanzar_puente_windows (letras revueltas en la consola), descargas de actualizacion con cerrojo; sin compilar
-    modificados (4):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/colocacion.py
-      ~ 1_codigo/resolve_bridge.py
-
-2026-10-11 14:10  ·  v5.4.40  ·  cambio explicado
-    Actualizar: descargas concurrentes escribian en el mismo .parte (WinError 32 / huella SHA-256 no coincide al 1.er intento); actualizaciones.descargar con lock, .parte propio por intento y 1 reintento; ventana sin doble descarga (5.4.41 sin compilar)
-    modificados (3):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/actualizaciones.py
-      ~ 1_codigo/ajustes_ui.py
-
-2026-10-11 13:32  ·  v5.4.40  ·  (automático)
-    modificados (19):
-      ~ 1_codigo/version.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
-      ~ 2_recursos/resolve_scripts/CineCaptions.py
-      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
-      … y 7 más
-
-2026-10-11 13:13  ·  v5.4.39  ·  cambio explicado
-    5.4.40: causa del cuelgue de Resolve Free (carrera copia de respaldo del timeline / SetSetting en ArmarVideo, pausas), deteccion (SendMessageTimeout) + reinicio automatico probado con cuelgue simulado en armar/captions/efectos, falso Puente viejo por log largo, reproducir por menu UIA + cabezal por API (las teclas no llegaban), plan de efectos en paralelo con la IA y precarga de voz al abrir
-    modificados (7):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/colocacion.py
-      ~ 1_codigo/hacer_vistas_mezcla.py
-      ~ 1_codigo/resolve_bridge.py
-      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_Vista.lua
-
-2026-10-11 11:46  ·  v5.4.39  ·  (automático)
-    modificados (19):
-      ~ 1_codigo/version.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
-      ~ 2_recursos/resolve_scripts/CineCaptions.py
-      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
-      … y 7 más
-
-2026-10-11 11:41  ·  v5.4.38  ·  cambio explicado
-    Tema4.mp4/.jpg del slider = render real de Resolve sobre PRUEBAS (1).mp4 (probar_tema4.py --video --slider, ahora tambien saca el poster); captions con huecos apretados como la referencia TEMA 4.mp4 (5.4.39 sin compilar)
-    nuevos (2):
-      + 2_recursos/vistas_slider/Tema4.jpg
-      + 2_recursos/vistas_slider/Tema4.mp4
-    modificados (2):
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/probar_tema4.py
-
-2026-10-11 11:30  ·  v5.4.38  ·  (automático)
-    modificados (19):
-      ~ 1_codigo/version.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
-      ~ 2_recursos/resolve_scripts/CineCaptions.py
-      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
-      … y 7 más
-
-2026-10-11 11:28  ·  v5.4.37  ·  cambio explicado
-    Crea tu estilo: clips de mezcla/ recortados sin tiempo muerto (recortar_bucle_vistas.py, originales 6 s -> ~4-5 s) y Reproductor(pausa_s=0) en bucle seguido; Tema 4 emoji arriba confirmado por el usuario; falta el video de muestra real Tema4.mp4 (Resolve se colgo en ArmarVideo, 5.4.38 sin compilar)
-    nuevos (1):
-      + 1_codigo/recortar_bucle_vistas.py
-    modificados (21):
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/crea_estilo_ui.py
-      ~ 1_codigo/vistas_slider.py
-      ~ 2_recursos/guia_estilo/mezcla/t1_amarillo.mp4
-      ~ 2_recursos/guia_estilo/mezcla/t1_blanco-cian.mp4
-      ~ 2_recursos/guia_estilo/mezcla/t1_blanco-rojo.mp4
-      ~ 2_recursos/guia_estilo/mezcla/t1_lima.mp4
-      ~ 2_recursos/guia_estilo/mezcla/t1_magenta.mp4
-      ~ 2_recursos/guia_estilo/mezcla/t1_serif.mp4
-      ~ 2_recursos/guia_estilo/mezcla/t2_1.mp4
-      ~ 2_recursos/guia_estilo/mezcla/t2_2.mp4
-      ~ 2_recursos/guia_estilo/mezcla/t2_3.mp4
-      … y 9 más
 
 
 (Lo anterior está archivado por mes en DOCUMENTACION/historial/REGISTRO_<aaaa-mm>.txt)

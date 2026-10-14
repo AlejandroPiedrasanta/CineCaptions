@@ -1,5 +1,5 @@
 ================================================================================
- CINECAPTIONS 5.5.6  ·  By Cinema Productions  —  LEEME
+ CINECAPTIONS 5.5.7  ·  By Cinema Productions  —  LEEME
  Subtítulos automáticos y virales para DaVinci Resolve
  Python 3.14.8 + PySide6 (Qt) · Windows 10/11 (también corre en macOS)
  Documentación al día el 2026-10-14 (la rehace 3_compilar\documentar.py)

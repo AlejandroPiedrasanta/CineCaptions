@@ -146,3 +146,33 @@ biblioteca, un archivo propio, «sin sonido» o volver al original. Se guarda en
 **Dónde:** `herramientas_dev/importar_sonidos.py` (`CATEGORIAS`: carpetas origen + patrón + cuántos + largo máximo; quita el silencio inicial para que el golpe caiga en la palabra, recorta con fundido, ≤3 s en WAV 16 bit y el resto en MP3 256k, no pisa lo que ya hay) → `DOCUMENTACION/sfx_origen.json` (de dónde salió cada audio). Categorías nuevas: Aplausos, Gritos y ovación, Pirotecnia, Dinero, Correcto, Error, Tiempo, Cámara, Latidos, Papel, Selección, Memes, Teclado y texto, Naturaleza, Ambientes, Fiesta, Cinemático, Transiciones, Idea, Explosiones, Pop, Intro y logos; ampliadas con prefijo «Pro »: Whoosh, Riser, Hit, Click, Glitch. `sfx_rules.REGLAS_PREDEFINIDAS` empieza por las `tema_*` (`texto_contiene` en español e inglés → Dinero, Tiempo, Aplausos, Correcto, Error, Cámara, Latidos, Idea, Explosiones, Fiesta, Pirotecnia): ENCENDIDAS y antes que las genéricas (lo concreto gana). Textos traducidos en `2_recursos/locales`.
 
 **Licencias:** parte viene de packs comerciales (Artlist, Film Score/Multiply, Netflix Sounds, Envato Check Marks); el autor decidió incluirlos y responde por sus licencias (2026-10-13). Quedaron fuera TOP (música por tonalidades, 27 GB) y CANCIONES.
+
+## emojis-coherentes — Cada emoji con SU palabra (v5.5.7)
+**Qué:** el usuario vio emojis que no casaban: 💰 en «la entrada es 100 % gratuita», 💼 en «historias», 💬 en «un torneo con premios», 💡 en «emprendimientos de comida».
+**Causas:**
+- `ia_texto.emojis_de_ia` MOVÍA el emoji de una palabra a la destacada más cercana de su frase (el 💼 de «empresa» acababa en «historias»).
+- Las claves CLDR del catálogo dan cosas raras: «festival» → pastel de luna, «comida» → taco, «haciendo» → cuernos con la mano.
+
+**Ahora:**
+- `emojis_conceptos.py` es un diccionario curado (es/en/pt, ~35 conceptos: gratis 🆓, premios/torneo 🏆, comida 🍽, festival 🎉, música/banda 🎵, empresa 💼, historias 📖, beca/maestría 🎓, fecha/sábado/octubre 🗓, guarda 🔖, envía 🔗, amigos 🫂…). Manda sobre la IA.
+- Un emoji de la IA solo se acepta si `coherente(palabra, id, sugeridos)` lo confirma. Solo se mueve a otra palabra si también va con ella.
+- Las palabras destacadas que el diccionario conoce reciben el suyo (como mucho uno cada ~6 palabras).
+- `emojis_sin_ia` usa el diccionario y el catálogo solo si su sugerencia es la palabra misma.
+- En el video de prueba: de 22 propuestos por la IA quedaron 12, todos con sentido.
+
+**Con la Edición PRO (Temas 1–4):** donde la PRO enseña algo (acompañante, órbita, cifra, escena, tarjeta…) el emoji de GO se apaga (`edicion_pro.aplicar` → `sin_emoji`). Antes solo pasaba junto a un icono 3D. Gemelos: `colocar_pro._apagar_emojis` y `CineCaptions_EdicionPro.lua` `apagar_emojis`.
+
+## sonido-pro — Sonido › Edición PRO: los sonidos de sus gráficos, con mando (v5.5.7)
+
+Tercera pestaña de «Reglas automáticas» (`sfx_studio._pintar_reglas_pro`; la página abre en ella si la PRO está activa): interruptor
+`pro_sonidos`, volumen `pro_sonidos_nivel` (suave −5 dB · normal · fuerte +3 dB, `edicion_pro.NIVEL_SONIDOS_DB`) y las tres familias
+`pro_sonidos_familias` = movimiento (whoosh) · apariciones (toques/pop) · riser + golpe, cada una con «Oír un ejemplo» (uno distinto por clic, de
+`edicion_pro_sonido._archivos`). `edicion_pro.aplicar` salta los sonidos de una familia apagada (`FAMILIA_DE_PISTA` por la pista PRO-*) y suma el
+nivel antes de hornear la ganancia en el archivo. Dice el tema actual y que los sonidos de «Simple» siguen con los captions (la PRO no los pisa).
+
+## nota — v5.5.7 · el emoji se separaba del caption al moverlo la regla de la cara
+
+`colocar_pro._subir_captions` (y `subir_captions` del .lua) movía TODOS los clips del bloque con el mismo Tilt; el Tilt de un PNG «Fit» (los
+emojis) solo se aplica ×min/alto (0,5625 en vertical), así que el emoji recorría ~56 %: con subidas de 500–760 px (medidas en un plan real)
+quedaba 250–330 px lejos del texto, o encima al bajar. Ahora en las pistas EMOJI el desplazamiento va ×alto/min, y `_emojis_sin_cara` lee y escribe
+la posición del emoji con ese mismo factor (Pan ×ancho/min, Tilt ×alto/min, como `colocar_emojis`).

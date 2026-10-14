@@ -3026,6 +3026,170 @@
         "_pixabay"
       ],
       "resumen": "fuentes_web.buscar_foto → FotoE / tablero; pref pro_internet; créditos en creditos_broll.txt"
+    },
+    {
+      "id": "emojis-coherentes",
+      "grupo": "sonido",
+      "tema": "Cada emoji con su palabra: diccionario curado y coherencia de los emojis de la IA",
+      "claves": [
+        "emoji",
+        "emojis",
+        "coherente",
+        "coherencia",
+        "diccionario",
+        "concepto",
+        "gratis",
+        "sin_emoji"
+      ],
+      "archivos": [
+        "emojis_conceptos.py",
+        "ia_texto.py"
+      ],
+      "simbolos": [
+        "concepto",
+        "coherente",
+        "emojis_de_ia",
+        "emojis_sin_ia"
+      ],
+      "resumen": "emojis_conceptos.concepto/coherente; ia_texto.emojis_de_ia ya no mueve emojis; sin_emoji con la PRO"
+    },
+    {
+      "id": "conexion-auto",
+      "grupo": "resolve",
+      "tema": "Conexión automática con Resolve, Studio sin Puente, reproducción que bloquea scripts y GO que se reconecta",
+      "claves": [
+        "conexion",
+        "conectar",
+        "puente",
+        "mcp",
+        "studio",
+        "free",
+        "cerrado",
+        "reproduccion",
+        "detener",
+        "reconectar",
+        "registro",
+        "firma",
+        "magic mask"
+      ],
+      "archivos": [
+        "resolve_bridge.py",
+        "colocacion.py",
+        "uia_resolve.py",
+        "instalador_scripts.py",
+        "registro_ui.py",
+        "3_compilar/Construir_Instalador.ps1"
+      ],
+      "simbolos": [
+        "asegurar_conexion",
+        "_reconectar_mcp",
+        "es_studio",
+        "detener_reproduccion",
+        "detener",
+        "edicion_de_resolve",
+        "_titulo_de_resolve",
+        "FirmarArchivos",
+        "relanzar_puente_tras_detener",
+        "_puente_en_pausa"
+      ],
+      "resumen": "cada 15 s asegurar_conexion; en Studio nunca el Puente; detener la reproducción antes de GO; persona por IA local"
+    },
+    {
+      "id": "motions-pro",
+      "grupo": "efectos",
+      "tema": "Motions de la Edición PRO: carrusel con todos, Automático o solo los elegidos",
+      "claves": [
+        "motions",
+        "motion",
+        "carrusel",
+        "slider",
+        "elegidos",
+        "permitidos",
+        "lista blanca",
+        "previas",
+        "miniaturas",
+        "efectos"
+      ],
+      "archivos": [
+        "motions_ui.py",
+        "motions_catalogo.py",
+        "efectos_pagina.py",
+        "herramientas_dev/hacer_previas_motions.py",
+        "edicion_pro.py",
+        "efectos_extra_ui.py",
+        "sfx_studio.py"
+      ],
+      "simbolos": [
+        "SeccionMotions",
+        "CarruselMotions",
+        "catalogo",
+        "permitido",
+        "filtrar",
+        "familias_permitidas",
+        "modo",
+        "_aplicar_pro",
+        "en_juego",
+        "TEMAS_PRO",
+        "refrescar_si_cambio"
+      ],
+      "resumen": "pro_motions_modo/pro_motions; filtro en la IA, las reglas y el plan; clásicos plegados con la PRO"
+    },
+    {
+      "id": "sonido-pro",
+      "grupo": "sonido",
+      "tema": "Sonido › Edición PRO: encendido, volumen y familias de sus sonidos",
+      "claves": [
+        "sonido",
+        "pro",
+        "whoosh",
+        "riser",
+        "golpe",
+        "apariciones",
+        "volumen",
+        "familias"
+      ],
+      "archivos": [
+        "sfx_studio.py",
+        "edicion_pro.py",
+        "edicion_pro_sonido.py"
+      ],
+      "simbolos": [
+        "_pintar_reglas_pro",
+        "_oir_ejemplo_pro",
+        "NIVEL_SONIDOS_DB",
+        "FAMILIA_DE_PISTA"
+      ],
+      "resumen": "pro_sonidos, pro_sonidos_nivel, pro_sonidos_familias; aplicado en edicion_pro.aplicar"
+    },
+    {
+      "id": "ortografia-temas",
+      "grupo": "voz-ia",
+      "tema": "Ortografía para los 6 temas: diccionario de lemas, GO y la PRO con el texto corregido",
+      "claves": [
+        "ortografia",
+        "faltas",
+        "corregir",
+        "diccionario",
+        "conjugacion",
+        "erratas",
+        "texto corregido",
+        "pro"
+      ],
+      "archivos": [
+        "ortografia.py",
+        "ortografia_es.py",
+        "ia_texto.py"
+      ],
+      "simbolos": [
+        "conocida",
+        "ERRATAS",
+        "corregir_fonetico",
+        "_por_clave",
+        "revisar",
+        "marcar_todo",
+        "texto_corregido"
+      ],
+      "resumen": "ortografia_es.conocida evita falsos positivos; GO corrige sin IA; la PRO usa texto_corregido"
     }
   ]
 }

@@ -13,3 +13,7 @@ __pycache__/
 1_codigo/remotion/out/
 1_codigo/remotion/public/
 2_recursos/edicion_pro/remotion/runtime/
+
+# v5.5.7: datos del certificado de firma (no van al repositorio)
+3_compilar/firma.json
+*.pfx

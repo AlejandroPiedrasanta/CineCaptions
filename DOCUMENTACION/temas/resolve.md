@@ -85,3 +85,33 @@ Free = `.lua` (los lanza el Puente por el menú «Área de trabajo > Secuencias 
 - `…_ImportarEstilos.lua` (+ .py): saca un pack de un timeline. `…_InsertarSFX.lua`, `…_SfxMarcadores.lua`, `…_SfxReemplazar.lua` (+ .py): sonidos en el cabezal / marcadores de color / reemplazo.
 - Solo desarrollo: `…_Exportar_PackDRB.lua` (exporta un pack como .drb) y `…_Prueba_MediaPool.lua`. `CineCaptions - Vista Real.py`: vistas reales de Studio.
 - Las copias con la marca anterior (`RCS_*`) las retira `instalador_scripts.retirar_scripts_viejos` (lista `NOMBRES_VIEJOS`).
+
+## conexion-auto — Resolve se conecta solo y el GO no se rinde (v5.5.7)
+**Lo que pasaba (GO real del usuario, Studio 21.1.1):**
+- La reproducción lanzada desde el menú al final de GO deja a Resolve **sin contestar a los scripts** mientras dura. El MCP daba «no contestó en 45 s» y el GO siguiente acababa en «Falta un clic».
+- `instalador_scripts.edicion_de_resolve` decía «free» cuando Resolve estaba abierto pero su API no contestaba, y con eso el GO **lanzaba el Puente en Studio**. El Puente es un script en bucle dentro de Resolve y mientras corre Resolve no contesta a NINGÚN otro script (medido: MCP mudo y ventana «No responde»).
+- La tarjeta de estado decía «cerrado» con Resolve abierto (solo miraba el MCP, no el proceso).
+
+**Arreglos:**
+- `colocacion.detener_reproduccion()` («Reproducir > Detener» por UI Automation, `uia_resolve.detener`) al empezar cada GO que habla con Resolve.
+- `resolve_bridge._reconectar_mcp()` (detener + arrancar ResolveMCP de nuevo + esperar 45 s) antes de caer a los caminos de Free, en `ejecutar` y en el GO desde el timeline.
+- `resolve_bridge.es_studio()`: en Studio NUNCA se lanza el Puente (`lanzar_puente_auto` lo impide).
+- `edicion_de_resolve` mira el título de la ventana («DaVinci Resolve Studio - …») y no rebaja a Free una edición guardada como Studio.
+- `detectar_resolve`: con el proceso vivo dice «abierto · conectando…», nunca «cerrado».
+- **Vigilancia de conexión:** `SubtitleApp._iniciar_vigilancia_conexion` llama cada 15 s, en un hilo, a `resolve_bridge.asegurar_conexion()`. En Studio usa el MCP. En Free, si no hay Puente, lo lanza por el MENÚ (Accesibilidad, sin teclas), una vez por sesión de Resolve y solo con un proyecto abierto; nunca abre Resolve ni crea proyectos. En Mac, `_menu_puente_mac`. Si algo cambió, repinta el estado.
+- **Edición PRO, persona:** «auto» = recorte con la IA local (clip ProRes con alfa) también en Studio. El rastreo del Magic Mask dentro de Resolve lo cerró dos veces colocando la PRO. Magic Mask solo si se elige en el menú. Medido: 3 s de video en 19 s.
+- **Registro:** solo errores (`registro_ui.DialogoRegistro._nivel = 'error'`, sin selector); la insignia cuenta solo errores.
+
+**Firma digital (preparada):**
+- `3_compilar/Construir_Instalador.ps1` → `FirmarArchivos`. Si existe `3_compilar/firma.json` (Trusted Signing o .pfx; fuera del repo por `.gitignore`), firma los .exe/.dll/.pyd sin firma (~140 de 214: av, av.libs, numpy, PIL, edicion_pro…) y el instalador base.
+- El .exe final lleva el paquete pegado al final: firmarlo exigiría que `Instalador.cs` encuentre el pie antes de la tabla de certificados. Pendiente cuando haya certificado.
+
+## nota — v5.5.7 · Free: GO con el video ya en el timeline / al cambiar de tema; Puente «en pausa»
+
+El GO anterior deja Resolve REPRODUCIENDO (menú Reproducir) y, mientras reproduce, Resolve Free no corre scripts: el Puente deja de latir y el GO
+siguiente creía que no había Puente («No pude lanzar el Puente… la pantalla de proyectos no vale»). Ahora: `colocacion.detener_reproduccion` (al
+empezar cada GO) espera hasta 10 s a que el Puente vuelva a latir; si aun así hay que lanzarlo y falla, `resolve_bridge.relanzar_puente_tras_detener`
+(plan B: detener SIEMPRE y relanzar) en los dos caminos de GO (`_go_timeline_del_video_libre` y el de timeline). `_puente_en_pausa()` da el Puente
+por vivo mientras dura la reproducción que lanzó CineCaptions (latía cuando empezó) → el estado no se pone en rojo ni la vigilancia lo relanza
+encima. La vigilancia de 15 s reintenta el Puente hasta 3 veces por sesión de Resolve, separadas ≥ 60 s (antes, una sola). Con Resolve abierto y sin
+conexión, las tarjetas dicen «Studio · conectando…» / «Free · conectando…» (decían «cerrado»).

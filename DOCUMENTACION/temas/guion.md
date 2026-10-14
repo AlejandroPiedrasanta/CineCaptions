@@ -37,3 +37,10 @@ v5.9 · Estilo «guion» (pack Referencia), planificador, banco de pruebas y MCP
 **Trampa del pack (arreglada):** los clones de combinación ≥ 10 salían corruptos en Resolve («sin Text+»): el FieldsBlob lleva el nombre con LARGOS protobuf y «contexto 10» mide 1 más que «contexto 3» (`construir_pack._blob_con_nombre` ahora corrige los tres largos). El script de Resolve sólo buscaba 10 sets (`MAX_SETS`/`MAX_VARIANTES` = 16 ahora; el .lua tenía `max_variantes = 3`). `REVISION_BIN['Referencia'] = 'Ref 2'`.
 
 **Probar (en Resolve, SIEMPRE en un proyecto temporal):** `1_codigo/probar_barrido.py [--estilos …] [--duraciones …]` (banco zz_BANCO + hoja de cuadros) y `1_codigo/medir_barrido.py <render.mov> …` (en qué fracción del ancho empieza y acaba la banda). Medido tras el arreglo: GO 0,7 s → 6-10 % a 90-92 %, REMARKABLE 1,1 s → 24 % a 76 % del cuadro (= todo el texto, que ocupa 20-80 %).
+
+## nota — v5.5.7 · líneas juntas y emoji arriba (pedido del usuario: «muy separados»)
+
+`guion_planificador.AFINADO`: `hueco` 0,03 → 0,004 y `alto_linea` 0,039 → 0,036 (las líneas quedan pegadas a la de abajo; antes ~58 px entre
+una y otra en vertical). Ya NO calca la separación de REFERENCIA.mp4 (≈0,08 entre centros): el usuario la quiere más junta. El emoji va ARRIBA
+(`plantillas.EMOJI_ARRIBA` incluye Referencia y VIRAL) y pegado a la caja de la pila: los planes de emoji de `place_guion(_track)` y de VIRAL llevan
+`junto` y `colocar_emojis` usa un margen de 0,012 del alto (0,02 en horizontal) en vez de `EMOJI_MARGEN` (0,065), en el .py y en el .lua.
