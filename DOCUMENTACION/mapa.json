@@ -2669,13 +2669,20 @@
         "cabezal",
         "paralelo",
         "puente",
-        "version"
+        "version",
+        "powershell",
+        "antivirus",
+        "avast",
+        "uia",
+        "smart app control",
+        "bad image"
       ],
       "archivos": [
         "resolve_bridge.py",
         "colocacion.py",
         "resolve_scripts/CineCaptions_ArmarVideo.lua",
-        "resolve_scripts/CineCaptions_Vista.lua"
+        "resolve_scripts/CineCaptions_Vista.lua",
+        "uia_resolve.py"
       ],
       "simbolos": [
         "estado_resolve",
@@ -2686,7 +2693,11 @@
         "reproducir_por_menu_windows",
         "cabezal_al_inicio_resolve",
         "_go_rearmar_en_resolve",
-        "_reporte_del_puente"
+        "_reporte_del_puente",
+        "organizador",
+        "lanzar_script",
+        "smart_app_control",
+        "_uia"
       ],
       "resumen": "resolve_bridge, colocacion, ArmarVideo.lua, Vista.lua"
     },

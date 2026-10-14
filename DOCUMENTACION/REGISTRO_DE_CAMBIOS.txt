@@ -12,6 +12,40 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-14 09:09  ·  v5.5.6  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-10-14 01:17  ·  v5.5.5  ·  cambio explicado
+    PC de un cliente con 5.5.5: Avast bloqueaba powershell.exe (IDP.HELU.PSE94) y con él el Puente de Free y el Organizador -> UI Automation nativa en Python (uia_resolve, comtypes), cero PowerShell; Smart App Control bloqueaba av/format.pyd (Bad Image 0xc0e90002) -> sin cuadro de Windows, detección y explicación en el Registro; «Falla al iniciar» ya no sale como «El programa arrancó · no afecta».
+    nuevos (1):
+      + 1_codigo/uia_resolve.py
+    modificados (12):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/colocacion.py
+      ~ 1_codigo/registro_ayuda.py
+      ~ 1_codigo/salud.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 3_compilar/cinecaptions.spec
+      ~ 3_compilar/requirements.txt
+
 2026-10-13 22:47  ·  v5.5.5  ·  (automático)
     modificados (20):
       ~ 1_codigo/version.py
