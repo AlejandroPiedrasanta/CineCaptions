@@ -1,6 +1,6 @@
 # CineCaptions — leer SOLO esto; lo demás se consulta por demanda
 
-App PySide6 (v5.5.0) que subtitula vídeos con IA local y coloca los subtítulos en DaVinci Resolve. Carpetas: `1_codigo` programa · `2_recursos` · `3_compilar` · `4_diseno` · `5_licencias` (otro producto) · `6_compilacion` (temporal, no tocar) · `7_mac` · `INSTALADORES/{Windows,Mac}` · `DOCUMENTACION`.
+App PySide6 (v5.5.5) que subtitula vídeos con IA local y coloca los subtítulos en DaVinci Resolve. Carpetas: `1_codigo` programa · `2_recursos` · `3_compilar` · `4_diseno` · `5_licencias` (otro producto) · `6_compilacion` (temporal, no tocar) · `7_mac` · `INSTALADORES/{Windows,Mac}` · `DOCUMENTACION`.
 
 ## Consultar SIN leer archivos (en este orden; ahorra tokens)
 1. **MCP `cinecaptions`**: `mapa("palabras")` → temas con archivos y símbolos · `mapa(id="…")` → detalle del tema · `simbolo("nombre")` → solo esa función/clase/método · `modulo("archivo")` → qué es · `cambios(n)` · `resumen()`.
@@ -19,7 +19,7 @@ App PySide6 (v5.5.0) que subtitula vídeos con IA local y coloca los subtítulos
 - **creativo** (Editor Creativo (palabras, Asistencia, Generar)): `editor-palabras` [WordTagWindow] · `creativo-ui` [editor_ui] · `creativo-detecta-audio` [_estado_creativo]
 - **estilos** (Estilos y packs (.drb/.drt, Luxe, Crea tu estilo)): `pantalla-estilos` [PlantillasWindow] · `estilos-slider` [1_codigo/estilos_slider] · `packs-drt` [plantillas] · `fuentes` [fuentes_sistema] · `generador-packs` [generar_comps] · `crea-tu-estilo` [ejemplos_estilo] · `mezcla-temas` [mezcla_planificador] · `tema4` [tema4_planificador] · `tema5` [edicion_pro_tema5] · `temas-ligero` [edicion_pro_temas] · `editar-quitar-pack` [edicion_pack] · `luxe-packs` [2_recursos/generador_packs/luxe_macro] · `tema6` [edicion_pro_tema6]
 - **bloques** (Bloques de subtítulos (cerebro, estilo por bloque, pausas)): `bloques` [dynamic_subtitles] · `anim-cortos` [dynamic_subtitles] · `estilo-bloque` [estilos_bloque] · `colgantes` [dynamic_subtitles]
-- **sonido** (Sonido y emojis (SFX Lab, reglas, emojis)): `sfx-lab` [sfx_studio] · `ducking-energia` [estilo_desde_imagen] · `sonido-palabra` [sfx_rules] · `sonido-emojis` [emojis_sfx] · `sonido-extra` [musica_go] · `sonido-estilo` [sfx_rules] · `emojis-estilos` [emojis_sets] · `emojis-posicion-free` [CineCaptions_Subtitulos.lua]
+- **sonido** (Sonido y emojis (SFX Lab, reglas, emojis)): `sfx-lab` [sfx_studio] · `ducking-energia` [estilo_desde_imagen] · `sonido-palabra` [sfx_rules] · `sonido-emojis` [emojis_sfx] · `sonido-extra` [musica_go] · `sonido-estilo` [sfx_rules] · `emojis-estilos` [emojis_sets] · `emojis-posicion-free` [CineCaptions_Subtitulos.lua] · `biblioteca-sonidos` [herramientas_dev/importar_sonidos]
 - **guion** (Estilo «guion» (pack Referencia, palabra a palabra)): `guion-planificador` [guion_planificador] · `creativo-guion` [guion_editor] · `estilo-oracion` [guion_planificador] · `barrido-referencia` [luxe_macro]
 - **kinetic** (Estilo «Kinetic» (títulos de gancho: héroe, cintas, anillos)): `kinetic-planificador` [kinetic_planificador] · `kinetic-pack` [2_recursos/generador_packs/pack_kinetic] · `kinetic-app-resolve` [hacer_vista_kinetic] · `kinetic-pruebas` [probar_kinetic]
 - **viral** (Estilo «VIRAL» (pila fina + negrita cursiva y los efectos shatter, select, drag)): `viral-planificador` [viral_planificador] · `viral-pack` [2_recursos/generador_packs/pack_viral] · `viral-app-resolve` [hacer_vista_viral] · `viral-pruebas` [probar_viral] · `viral-colores` [viral_captions]
@@ -29,7 +29,7 @@ App PySide6 (v5.5.0) que subtitula vídeos con IA local y coloca los subtítulos
 - **vigilancia** (Vigilancia, logs y respaldo de modelos): `vigilancia` [vigilancia]
 - **datos** (Datos del usuario, licencia y ajustes): `licencia` [licencia] · `archivos-seguros` [archivos_seguros] · `carpetas-del-usuario` [archivos_seguros] · `proyectos-usuario` [proyectos]
 - **pruebas** (Pruebas y MCP del programa): `banco-mcp` [banco_pruebas] · `pruebas-sin-pantalla` [probar_go] · `herramientas-dev` [herramientas_dev/probar_cuelgue_resolve]
-- **efectos** (Efectos visuales (intro, transiciones en los cortes, iconos flotantes)): `efectos-visuales` [efectos_visuales] · `efectos-movimiento` [fusion_v1] · `efectos-extra` [efectos_extra] · `quitar-pausas` [pausas] · `broll` [broll] · `edicion-pro` [edicion_pro]
+- **efectos** (Efectos visuales (intro, transiciones en los cortes, iconos flotantes)): `efectos-visuales` [efectos_visuales] · `efectos-movimiento` [fusion_v1] · `efectos-extra` [efectos_extra] · `quitar-pausas` [pausas] · `broll` [broll] · `edicion-pro` [edicion_pro] · `kit8` [remotion/src/Kit8.tsx] · `escenas-pantalla` [edicion_pro_escenas] · `internet-broll` [fuentes_web]
 <!-- MAPA:FIN -->
 
 ## Reglas que no se rompen (detalle: `mapa(id="reglas-rendimiento")`)

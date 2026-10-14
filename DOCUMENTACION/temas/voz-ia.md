@@ -8,6 +8,11 @@
 
 - **Orden de motores (voz):** Qwen3-ASR (solo Windows, GPU; modelo 1.7B, o 0.6B si hay poca VRAM) → misma pasada suelta con 0.6B → 0.6B en CPU → Whisper `large-v3-turbo` (CUDA si ve la GPU; si falla, CPU; si falta RAM, `small`/`base`). En Mac siempre Whisper en CPU. Dos fallos seguidos de Qwen3 = Whisper directo hasta reiniciar el programa (`motor_voz.motor_para`).
 - **IA de texto:** modelo 4B (≥9,5 GB de VRAM) o 1.7B; si falla, 1.7B; si vuelve a fallar, motor de reglas (`sugerencias_ia`); dos fallos seguidos desactivan la IA hasta reiniciar.
+- **La GPU se comparte con Resolve (v5.5.4).** Antes, `modo_gpu` y `modelo_texto` miraban la VRAM TOTAL. Con 16 GB eso daba «solapado»: la voz y la IA 4B cargadas a la vez mientras Resolve usaba 8–10 GB.
+  - Medido en un GO real: la IA tardaba más de 100 s y fallaba siempre (los motions de los Temas 1–4 iban solo con reglas), Resolve reproducía a tirones y en un GO se cerró colocando la Magic Mask.
+  - Ahora se decide con `motor_voz.vram_para_ia_gb()`: VRAM libre real (`nvidia-smi`, memorizada 5 s) + la que ya ocupan nuestros motores − 7 GB de reserva si Resolve aún no está abierto. Con eso, `modo_gpu` (solapado ≥ 16, residente ≥ 22) y `modelo_texto` (4B solo con ≥ 10,5 GB).
+  - Llaman a `nvidia-smi`/`tasklist`: nunca desde la interfaz (`_precargar_al_abrir` decide en su hilo).
+  - Las IA se sueltan (`edicion_pro.soltar_gpu`): al terminar `edicion_pro.planificar`, al empezar `aplicar` (el Tema 5 suelta la de texto él), antes de reproducir al final de GO y con «Refrescar» en Inicio.
 - **Colgado:** el servidor de voz/IA que pasa 300 s / 240 s sin ninguna línea se mata y se pasa al respaldo; el vigía de `vigilancia.py` también los cierra (`motor_voz.abortar`, `ia_texto.abortar`). Todo queda en el Registro (`errores.log`).
 - **Preferencia** `motor_voz` = `qwen3` (por defecto) o `whisper` (Ajustes > General). Modelos descargados en `~/.cache/huggingface/hub` (Whisper turbo, Qwen3-ASR, ForcedAligner, Qwen3-4B/1.7B).
 - Los tiempos por palabra de Qwen3 salen de su alineador (idiomas alineables: zh en yue fr de it ja ko pt ru es); fuera de esa lista se usa Whisper.

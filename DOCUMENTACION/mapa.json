@@ -2867,6 +2867,154 @@
       ],
       "resumen": "edicion_pro_tema5.planificar arma captions (Subtitulo), elementos (PasosT5/DeslizadorT5) y escenas (EscenaT5, dividida con V1 bajado en PRO-GRIS) con el sistema de skill videos/; GO deja Text+ de respaldo que colocar_pro apaga",
       "titulo": "Tema 6 · Editorial"
+    },
+    {
+      "id": "biblioteca-sonidos",
+      "grupo": "sonido",
+      "tema": "Biblioteca de sonidos ampliada (323 de la biblioteca del autor) y sonido por tema",
+      "claves": [
+        "sonidos",
+        "biblioteca",
+        "importar",
+        "aplausos",
+        "pirotecnia",
+        "dinero",
+        "tiempo",
+        "memes",
+        "tema",
+        "categorias",
+        "sfx_library"
+      ],
+      "archivos": [
+        "herramientas_dev/importar_sonidos.py",
+        "sfx_rules.py"
+      ],
+      "simbolos": [
+        "REGLAS_PREDEFINIDAS"
+      ],
+      "resumen": "importar_sonidos.py → 2_recursos/sfx_library + DOCUMENTACION/sfx_origen.json; reglas tema_* encendidas"
+    },
+    {
+      "id": "kit8",
+      "grupo": "efectos",
+      "tema": "Motions del Kit8: recorte de revista, texto seleccionado (iPhone), calendario y red de neón",
+      "claves": [
+        "kit8",
+        "recorte",
+        "revista",
+        "trama",
+        "halftone",
+        "sticker",
+        "seleccion",
+        "iphone",
+        "calendario",
+        "dias",
+        "red",
+        "neon",
+        "interruptor",
+        "motions"
+      ],
+      "archivos": [
+        "remotion/src/Kit8.tsx",
+        "edicion_pro_kit7.py",
+        "herramientas_dev/generar_recortes.py",
+        "remotion/empaquetar.mjs"
+      ],
+      "simbolos": [
+        "RecorteK",
+        "SeleccionK",
+        "CalendarioK",
+        "RedNeonK",
+        "_kit8",
+        "recortes_disponibles",
+        "RECORTES"
+      ],
+      "resumen": "Kit8.tsx + edicion_pro_kit7 (_kit8, MOTIONS); recortes de generar_recortes.py"
+    },
+    {
+      "id": "escenas-pantalla",
+      "grupo": "efectos",
+      "tema": "Escenas de motion graphics a pantalla completa (B-roll ilustrado: pictograma, tablero, polaroid, cuaderno, fecha, vidrio, chat, collage, móvil, tijeras)",
+      "claves": [
+        "escenas",
+        "pantalla",
+        "completa",
+        "broll",
+        "b-roll",
+        "pictograma",
+        "tablero",
+        "polaroid",
+        "cuaderno",
+        "fecha",
+        "vidrio",
+        "chat",
+        "collage",
+        "movil",
+        "tijeras",
+        "ilustrar"
+      ],
+      "archivos": [
+        "edicion_pro_escenas.py",
+        "remotion/src/Escenas9.tsx",
+        "edicion_pro_kit7.py",
+        "edicion_pro_planificador.py",
+        "edicion_pro_tema5.py",
+        "edicion_pro_sonido.py"
+      ],
+      "simbolos": [
+        "PictogramaE",
+        "TableroE",
+        "PolaroidE",
+        "CuadernoE",
+        "FechaE",
+        "VidrioE",
+        "ChatE",
+        "CollageE",
+        "MovilE",
+        "TijerasE",
+        "reglas",
+        "desde_ia_uno",
+        "completar",
+        "sonidos"
+      ],
+      "resumen": "edicion_pro_escenas + Escenas9.tsx; las elige la IA (menú del kit) o las reglas; Temas 1–6"
+    },
+    {
+      "id": "internet-broll",
+      "grupo": "efectos",
+      "tema": "Fotos de internet con licencia (Openverse, Commons, Pexels, Pixabay) para las escenas de la Edición PRO y enlaces de referencias",
+      "claves": [
+        "internet",
+        "fotos",
+        "licencia",
+        "openverse",
+        "commons",
+        "wikimedia",
+        "pexels",
+        "pixabay",
+        "referencias",
+        "google",
+        "pinterest",
+        "broll",
+        "creditos"
+      ],
+      "archivos": [
+        "fuentes_web.py",
+        "edicion_pro_escenas.py",
+        "broll.py",
+        "remotion/src/Escenas9.tsx",
+        "edicion_pro.py"
+      ],
+      "simbolos": [
+        "buscar_foto",
+        "candidatos",
+        "claves",
+        "fotos_de_internet",
+        "FotoE",
+        "_referencias",
+        "_pixabay"
+      ],
+      "resumen": "fuentes_web.buscar_foto → FotoE / tablero; pref pro_internet; créditos en creditos_broll.txt"
     }
   ]
 }
