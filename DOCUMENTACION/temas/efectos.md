@@ -212,3 +212,18 @@ Edición PRO. «Sonido extra» (`SeccionExtras.tarjeta_sonido`) queda FUERA del 
 también se pliegan con su aviso. Chips de Inicio: el del sonido por palabra se llamaba «Efectos» (se confundía con la página) → «Sonido»; «Edición PRO:
 la del tema» con Tema 5/6; «Visuales: los de la PRO» con la PRO. Sonido se repinta al volver a la página si cambiaron el chip, la PRO o el tema
 (`SfxStudio.refrescar_si_cambio`) y avisa «Sonido: no» en Inicio.
+
+## nota — v5.5.8 · Temas 5 y 6 con captions EDITABLES y Magic Mask en el gancho
+
+El usuario: «verifica que todos los captions en la línea de tiempo sean editables, que en el Inspector salga editar texto» (eligió «Editables
+siempre»). Antes los Temas 5/6 renderizaban sus captions con Remotion (PRO-SUBS, video: no editables; 45-49 animaciones y 6-9 min de GO) y apagaban
+los Text+ de GO. Ahora `pro_captions_editables` (por defecto True): `edicion_pro.aplicar` quita las piezas `subtitulo`/`velo_caption` de
+`T5.planificar`, deja los Text+ (packs Tema5/Tema6, Fusion) como captions de verdad y usa con ellos las mecánicas de los Temas 1–4 (`cap_t5` =
+el Tema 5/6 solo si se apaga: detrás de la persona, regla de la cara, abajo en las escenas, emoji apagado donde la PRO enseña algo). Sus gráficos
+(escenas de papel, órbita, pasos, final…) siguen igual. `pro_magic_gancho` (por defecto True): en Studio y con la máscara en «auto», el PRIMER
+tramo de captions detrás de la persona (el gancho, < 6 s) va con Magic Mask; el resto con la IA local (Magic Mask en todo el video llegó a cerrar
+Resolve).
+
+**Ejemplos del slider (vistas_slider):** hechos con GO + PRO REAL en Resolve Studio (`hacer_vista_slider.generar(..., conservar=True,
+verificar=…)`; `probar_go.py` acepta `CINECAPTIONS_PREFS` = preferencias solo en memoria). Opciones de los ejemplos: motions «píldora» (sin
+`escena:*` ni `t5:escena`), `pro_internet` False, `fx_broll` False. La verificación cuenta los clips de las pistas `XX-T/K` con StyledText.

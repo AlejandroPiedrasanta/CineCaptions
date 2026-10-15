@@ -115,3 +115,18 @@ empezar cada GO) espera hasta 10 s a que el Puente vuelva a latir; si aun así h
 por vivo mientras dura la reproducción que lanzó CineCaptions (latía cuando empezó) → el estado no se pone en rojo ni la vigilancia lo relanza
 encima. La vigilancia de 15 s reintenta el Puente hasta 3 veces por sesión de Resolve, separadas ≥ 60 s (antes, una sola). Con Resolve abierto y sin
 conexión, las tarjetas dicen «Studio · conectando…» / «Free · conectando…» (decían «cerrado»).
+
+## nota — v5.5.8 · Edición PRO: Resolve Studio se caía al importar (Temas 4–6)
+
+MEDIDO 2026-10-15 (Tema 6, 3 de 3 GO reales; traza de cada función de `colocar_pro.py` con `CINECAPTIONS_TRAZA_PRO`, volcado .dmp de
+Resolve 21.1.1): la caída llegaba a los 1-2 s de empezar a colocar la PRO, en el SEGUNDO `MediaPool.ImportMedia` (un .mov de Remotion válido),
+justo después de poner el primero en el timeline y cambiarle el «Alpha mode»: excepción C++ (0xE06D7363, lanzada desde msvcp140) en el hilo
+principal de Resolve. Los .mov estaban completos (ffprobe ok). Arreglo, en los dos gemelos: `_preimportar` (colocar_pro.py) /
+`PRE.importar_todo` (CineCaptions_EdicionPro.lua) importa TODO lo del plan (gráficos, personas, velos, B-roll, sonidos) en UNA llamada y ANTES
+de tocar el timeline, pone el alfa recto ahí (`_alfa_recto`: solo si no lo tenía) y espera 1 s; luego cada `_importar` ya lo encuentra en el
+Media Pool. Resultado: la PRO del Tema 6 colocada en 5 s, sin caída.
+
+Además `resolve_mcp.ejecutar_py` ya NO llama al MCP mientras corre el trabajo: cada llamada hace que Resolve guarde el proyecto y cambie de
+página (registro de Resolve), a la vez que el trabajo mueve clips. El trabajo (`_LANZAR`) escribe `%TEMP%/cinecaptions_trabajos/<job>.json`
+(resultado) y `<job>.json.vivo` (al empezar); la app mira ese archivo cada 0,5 s y que Resolve.exe siga vivo; da Resolve por colgado tras
+2 min «No responde» y sin escribir en su registro. Solo si el trabajo no pudo escribir el «vivo» se pregunta por el MCP como antes.

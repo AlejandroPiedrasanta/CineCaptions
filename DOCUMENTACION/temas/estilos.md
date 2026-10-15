@@ -137,3 +137,59 @@ con los clips ya nombrados (principal, arriba 2…) y su Tilt; y 🗑 (los packs
 **Cómo está hecho:** mismo motor que «guion» (un clip por palabra con x, y y zoom; `place_guion` sin cambios). `pack_tema4.py` arma el pack `plantillas_incluidas/Tema4/` (`pack.json` `"guion": "tema4"`, 1 variante «Blanco»): los tres roles son Inter 24pt Bold blanca con el MISMO «Size» base grande (0,14) para que el texto se rasterice grande y solo se REDUZCA con el zoom; `principal` = Luxe Shine (barrido corto), `arriba`/`abajo` = Luxe Slide; el halo de los macros (nodo `glow1`) se refuerza con `luxe_macro.comp_luxe(brillo=(26, 0,95))` (de fábrica 17,3 · 0,48). `guion_planificador.cues_de(pack='Tema4')` despacha a `tema4_planificador.cues_de`, que parte lo hablado en bloques por PESO (palabra normal 1, conectora 0,5, máx. 5,5 y 38 letras), elige la clave (la primera palabra con peso de cada oración, o la marca «Principal» de Creativo), prueba cada corte de línea y calcula tamaño y posición con la tipografía de verdad (Pillow); la palabra suelta final se lleva su determinante («…hasta | tu negocio»). Salida en el formato de `place_guion` (`rol` main/complement/context = clave/normal/conectora, `zoom`, `caja` para el emoji). `plantillas.FABRICA['Tema4'] = 'Tema 4'`, `REVISION_BIN['Tema4']` (subir al cambiar el pack), `recomendaciones.py` (como Referencia).
 
 **Prueba contra la referencia:** `python 1_codigo/probar_tema4.py <palabras.json> [--salida carpeta] [--tramo 8]` (palabras de la referencia: `~/DaVinciSubtitles/mcp/palabras_TEMA 4.json`, hechas con el MCP `transcribir`): video negro + GO sin pantalla + render por tramos en Resolve Free (acciones `render`, `render_estado`, `render_parar` de `CineCaptions_Vista.lua`) y los .mov salen en la carpeta; se comparan fotogramas con la referencia. `tema4_vista.dibujar` es la maqueta de Pillow (sin Resolve). **Trampa:** Resolve Free se queda «No responde» (5-8 GB) tras 3-4 proyectos y renders: `hacer_vistas_mezcla.resolve_colgado()` lo detecta y el GO se niega a lanzarse; hay que cerrar Resolve a mano. **Pendiente:** el video del slider (`vistas_slider/Tema4.mp4/.jpg`), el Tema 4 en «Crea tu estilo» y en la mezcla (dos pistas «guion» chocarían en los nombres `L-T<n>`: haría falta un sufijo propio), emojis y efectos probados con los videos de PARA PRUEBAS.
+
+## tema5 — Tema 5 «Edición total» (sistema de la skill «Edit VIRAL Reels with AI»)
+
+`edicion_pro_tema5.planificar` arma la edición entera con la Edición PRO (va siempre con este tema): pasos y deslizador sobre cristal oscuro,
+escenas de papel con cuadrícula (pantalla completa o dividida), órbita, tarjeta tachada, acompañantes, final y sonido (guía de sonido). Su
+diseño de captions es sans pequeña + frase clave serif cursiva (DM Serif Text) en el acento del video (`acento_de_video`), hecho en Remotion
+(`Subtitulo.tsx`, pista PRO-SUBS). v5.5.8: por defecto (`pro_captions_editables`) esos captions de Remotion NO se ponen: quedan los Text+ del
+pack «Tema5», editables en el Inspector. Las piezas de la PRO general que no son de este sistema se quitan (`PIEZAS_QUE_QUEDAN`). Vista de
+desarrollo: `herramientas_dev/vista_tema5.py`.
+
+**Text+ editables con el diseño de Remotion (v5.5.8):** `guion_planificador.cues_de` → `tema4_planificador` con `DISENOS['Tema5']`: los
+MISMOS bloques y tiempos que el Tema 4, pero `_planificar_skill` elige la frase clave como `Subtitulo.tsx` (`edicion_pro_tema5.marcar_claves`;
+con marcas de Creativo, las palabras «Principal») y `_disponer_skill` copia su maquetación: lo dicho en Inter 18pt Medium blanca (S = 3,5 %
+del lado corto ≈ 38 px), la clave en DM Serif Text Italic ×2,4 en su propia línea (o en la de 1-2 palabras cortas de delante), líneas de ≤ 34
+letras, hueco 0,27 em, todo centrado en `y` 56 % y reducido si la línea más ancha pasa del 86 % del ancho. Cada palabra se MIDE con su
+tipografía (`_ancho_em(texto, fuente, espaciado)`, `_metricas`: línea de base y centro del Text+ desde hhea —Inter da 0,364 = `CENTRO_CAP`—)
+y, a diferencia de Remotion (donde la serif y la sans «se tocan»), `_tinta` + `AIRE_SKILL` bajan la línea siguiente si un descendente de la
+clave la pisaría. Rol `main` = la clave, `complement` = lo demás; zoom = letra / (Size del rol × `K_PX` × `CALIBRADO[fuente]['em']`).
+`CALIBRADO` (MEDIDO en renders a 1080 de Resolve Studio 21.1, GO reales v5.5.8): Fusion escala cada tipografía por su alto de línea, em ≈ 1,30 /
+(asc + desc de hhea): Instrument Serif 1,0 (alto 114 px medido / 113 previsto; ancho de tinta 0,94–0,97 del avance; centros a ±4 px), DM Serif
+Text Italic 0,948 (alto 94 / 91; ancho 0,97–1,0), Inter 18pt Medium 1,074 (por el mismo modelo; cuadra con el 1,08 medido del Inter Bold del
+Tema 4). Con eso el `ancho` de las tres es 1,0 (el 1,08 de `AFINADO` es solo del Tema 4, con su espaciado 0,95). Para medir:
+palabras clave sueltas, por su color, en el render. El
+color: el pack trae una variante por acento (`pack_tema5.py`: 1 azul · 2 ámbar · 3 lima · 4 lila, = `ACENTOS`) y `_variante_acento` pone en
+el `estilo` de cada cue la del video (`acento_de_video`, en caché por ruta y fecha; el video llega por `guion_editor.planear(video=…)` desde
+`_generar_con_guion`; sin video —vista del editor—, azul). Los scripts de Resolve no cambian (Pan/Tilt/Zoom por palabra, variante por bloque).
+
+## tema6 — Tema 6 «Editorial»
+
+`edicion_pro_tema6`: el motor del Tema 5 con `estilo='editorial'` y el look del reel de referencia del usuario: serif alta y fina (Instrument
+Serif) con la frase clave en lima (`color_clave`) o blanco, escenas melocotón con cartas blancas y destello, y los elementos de Remotion
+«EditorialT6» (visor sobre la cara, barra de búsqueda que escribe la palabra a comentar, perfil con la cifra de seguidores, píldora del
+equipo). Sin pasos ni deslizador. Captions: igual que el Tema 5 (v5.5.8: Text+ editables del pack «Tema6» por defecto).
+
+**Text+ editables (v5.5.8):** `DISENOS['Tema6']` (estilo «editorial» de `Subtitulo.tsx`): todo en Instrument Serif Regular, lo dicho pequeño
+y blanco (S = 4,8 %), la clave ×2,3; cada bloque lleva su línea grande (`marcar_claves(…, editorial=True)`) y su color sale de
+`edicion_pro_tema6.color_clave` con `temas_del_video` (lima `#DDF25E` = variante 1, blanco = variante 2 del pack «Tema6»); centro en `y` 52 %.
+La tipografía: `2_recursos/fonts/InstrumentSerif-Regular.ttf` (OFL; convertida a TTF con fontTools desde el `serif-400.woff2` de Remotion, ver
+`fonts/LICENCIAS.txt`); el instalador la instala con las demás de los packs (`pack.fuentes()`).
+
+**Packs «Tema5»/«Tema6»:** `2_recursos/generador_packs/pack_tema5.py [Tema5|Tema6]` (armado de `pack_tema4.construir`, que ahora acepta
+`combos`/`guion`): principal = Luxe Shine con la clave (Size base 0,15 / 0,19), arriba/abajo = Luxe Slide con lo dicho (0,065 / 0,085), halo
+suave (10 · 0,30), entrada/salida 0,16/0,10 s. Tipografías, tamaños y espaciado salen de `tema4_planificador.DISENOS` (una sola fuente de
+verdad). `REVISION_BIN` 'T5 2' / 'T6 2'.
+
+## temas-ligero — Temas 1–4: pase ligero sin la Edición PRO
+
+`edicion_pro_temas.piezas` (v5.4.51): sin activar la PRO, los captions Text+ de los Temas 1–4 se ven mejor: velo oscuro suave detrás de cada
+pila en videos claros (`VELO_CAPTIONS`, apagado desde v5.4.52), acompañantes pequeños bajo el caption, la palabra destacada con el acento
+del video (`color_claves`, estilo «guion») y la regla de la cara (`edicion_pro._captions_sin_cara`). Lo coloca `colocar_pro.py` /
+`CineCaptions_EdicionPro.lua` con `ligero`.
+
+## nota — v5.5.8 · Tema 4 (y 5/6): hueco entre palabras
+
+`tema4_planificador.HUECO` 0,12 → 0,28 (× la letra normal de la línea) y `AFINADO['ancho']` 1,0 → 1,08 (cada palabra sale en Resolve un 5–13 % más ancha que lo que mide Pillow; medido en el render del Tema 5: «héroes» 142 px contra 129 calculados). MEDIDO en el render a 1080 de Resolve (Tema 6): 7 px de hueco con
+letra de 58 px; se leían pegadas («Numberone», «stopoversizing»).

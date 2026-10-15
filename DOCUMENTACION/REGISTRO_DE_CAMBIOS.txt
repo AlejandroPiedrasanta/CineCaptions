@@ -12,6 +12,97 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-15 15:52  ·  v5.5.8  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-10-15 15:52  ·  v5.5.7  ·  cambio explicado
+    5.5.8: GO sin Resolve (Video MP4) graba cualquiera de los 6 temas (render_temas.py dibuja Kinetic, VIRAL y los packs guion desde sus datos; antes solo Tema 4; encaje por bloque en horizontal). Temas 5/6: Text+ editables con su diseño (serif + color, packs T5 2/T6 2, Instrument Serif OFL). Menú del chip Estilo: solo Tema 1…6.
+    modificados (13):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/herramientas_dev/probar_go_sin_resolve.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/render_sin_resolve.py
+      ~ 1_codigo/render_temas.py
+      ~ 1_codigo/tema4_planificador.py
+      ~ 2_recursos/generador_packs/pack_tema4.py
+      ~ 2_recursos/generador_packs/pack_tema5.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      … y 1 más
+
+2026-10-15 15:46  ·  v5.5.7  ·  cambio explicado
+    Temas 5 y 6: los captions Text+ editables (por defecto desde 5.5.8) tenían el look del Tema 4. Ahora llevan el diseño de sus captions de Remotion: Tema 5 = lo dicho en Inter 18pt Medium blanca + frase clave en DM Serif Text Italic del acento del video (una variante del pack por color); Tema 6 = todo en Instrument Serif (nueva, OFL, convertida del woff2 de Remotion) con la clave en lima o blanco. tema4_planificador.DISENOS/_planificar_skill mide cada palabra con su tipografía; CALIBRADO medido en renders de Resolve Studio (Fusion escala por asc+desc). Packs con pack_tema5.py, REVISION_BIN T5 2 / T6 2. GO reales + PRO probados (39 y 37 captions editables). Ejemplos del slider rehechos. El menú de GO solo dice Tema 1…6.
+    nuevos (3):
+      + 1_codigo/render_temas.py
+      + 2_recursos/fonts/InstrumentSerif-Regular.ttf
+      + 2_recursos/generador_packs/pack_tema5.py
+    modificados (26):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro_tema5.py
+      ~ 1_codigo/guion_editor.py
+      ~ 1_codigo/guion_planificador.py
+      ~ 1_codigo/herramientas_dev/probar_go_sin_resolve.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/render_sin_resolve.py
+      ~ 1_codigo/tema4_planificador.py
+      ~ 2_recursos/fonts/LICENCIAS.txt
+      ~ 2_recursos/generador_packs/pack_tema4.py
+      ~ 2_recursos/locales/de.json
+      … y 14 más
+
+2026-10-15 14:46  ·  v5.5.7  ·  cambio explicado
+    5.5.8 (sin compilar): Temas 4-6 con la PRO tumbaban Resolve Studio (excepción C++ al 2.º ImportMedia tras poner el 1.er .mov y cambiar su alfa; volcado .dmp): _preimportar / PRE.importar_todo importan todo de una vez antes de tocar el timeline; ejecutar_py ya no sondea el MCP durante el trabajo (archivo de estado). Tema 4/5/6: palabras pegadas (medido en render: Resolve 5-13 % más ancho que Pillow) -> AFINADO ancho 1,08 y HUECO 0,28. Ejemplos del slider de los 6 temas rehechos con GO+PRO reales, captions editables verificados (Kinetic 34+adornos, T2 28, T3 33, T4 23, T5 42, T6 37) y sin el negro del final (hacer_vista_slider._fin_sin_negro).
+    modificados (32):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/colocacion.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/guion_planificador.py
+      ~ 1_codigo/hacer_vista_slider.py
+      ~ 1_codigo/probar_go.py
+      ~ 1_codigo/qt_kit.py
+      ~ 1_codigo/resolve_mcp.py
+      ~ 1_codigo/tema4_planificador.py
+      ~ 1_codigo/un_clic_ui.py
+      ~ 2_recursos/edicion_pro/colocar_pro.py
+      … y 20 más
+
+2026-10-14 15:28  ·  v5.5.7  ·  (automático)
+    modificados (1):
+      ~ 3_compilar/Instalador.cs
+
+2026-10-14 15:20  ·  v5.5.7  ·  (automático)
+    modificados (36):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/efectos_extra_ui.py
+      ~ 1_codigo/efectos_pagina.py
+      ~ 1_codigo/guion_planificador.py
+      ~ 1_codigo/motions_ui.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/registro_ui.py
+      ~ 1_codigo/sfx_studio.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/edicion_pro/colocar_pro.py
+      … y 24 más
+
 2026-10-14 14:50  ·  v5.5.6  ·  cambio explicado
     5.5.7: Free — GO con el video ya en el timeline o al cambiar de tema fallaba porque la reproducción del GO anterior paraba el Puente; ahora se detiene, se espera su latido, plan B relanzar, Puente «en pausa» no es «muerto», 3 reintentos, «conectando…» en vez de «cerrado». Efectos: carrusel con los 147 motions de la PRO (Automático / Solo los que elija, respetado en la IA, las reglas y el plan) y efectos clásicos plegados con la PRO (no se aplican con ella). Sonido: pestaña Edición PRO (encendido, volumen, familias). Ortografía: el diccionario es de solo lemas (marcaba «voy», «hay», «tiene»; cambiaba «hay»→«ahí»): ortografia_es + erratas + índice fonético; GO corrige sin IA; la PRO usa el texto corregido. Rendimiento: relojes de Efectos, escena GO e isla en pausa fuera de vista/minimizada.
     nuevos (134):

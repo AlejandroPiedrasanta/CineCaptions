@@ -44,3 +44,8 @@ v5.9 · Estilo «guion» (pack Referencia), planificador, banco de pruebas y MCP
 una y otra en vertical). Ya NO calca la separación de REFERENCIA.mp4 (≈0,08 entre centros): el usuario la quiere más junta. El emoji va ARRIBA
 (`plantillas.EMOJI_ARRIBA` incluye Referencia y VIRAL) y pegado a la caja de la pila: los planes de emoji de `place_guion(_track)` y de VIRAL llevan
 `junto` y `colocar_emojis` usa un margen de 0,012 del alto (0,02 en horizontal) en vez de `EMOJI_MARGEN` (0,065), en el .py y en el .lua.
+
+## nota — v5.5.8 · aire para las palabras grandes editoriales
+
+Con `hueco` 0,004 las palabras grandes en letra editorial / de pincel (estilos 2 y 5 y sus barridos 10, 12, 14, 16 = `ESTILOS_EDITORIAL`)
+pisaban la línea de al lado en el render real: llevan `AIRE_EDITORIAL` (0,012 del alto) arriba y abajo. El resto sigue pegado.

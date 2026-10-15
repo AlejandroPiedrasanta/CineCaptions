@@ -816,7 +816,10 @@
         "tomas",
         "transicion",
         "volumen",
-        "voz"
+        "voz",
+        "text+",
+        "editables",
+        "dm serif"
       ],
       "archivos": [
         "edicion_pro_tema5.py",
@@ -843,7 +846,9 @@
         "edicion_pro_tema5_mm.py",
         "remotion/src/Efectos5.tsx",
         "remotion/src/Emoji.tsx",
-        "edicion_pro_persona.py"
+        "edicion_pro_persona.py",
+        "tema4_planificador.py",
+        "2_recursos/generador_packs/pack_tema5.py"
       ],
       "simbolos": [
         "AcompananteT5",
@@ -916,7 +921,12 @@
         "subir_detras",
         "toma_en",
         "traduce",
-        "transiciones"
+        "transiciones",
+        "marcar_claves",
+        "DISENOS",
+        "_planificar_skill",
+        "_disponer_skill",
+        "_variante_acento"
       ],
       "resumen": "edicion_pro_tema5.planificar arma captions (Subtitulo), elementos (PasosT5/DeslizadorT5) y escenas (EscenaT5, dividida con V1 bajado en PRO-GRIS) con el sistema de skill videos/; GO deja Text+ de respaldo que colocar_pro apaga"
     },
@@ -2190,7 +2200,7 @@
     {
       "id": "go-sin-resolve",
       "grupo": "go",
-      "tema": "GO sin DaVinci Resolve: el video con los subtítulos de Tema 4 grabados (MP4), con sus sonidos y emojis",
+      "tema": "GO sin DaVinci Resolve: el video con los subtítulos del tema elegido grabados (MP4), con sus sonidos y emojis",
       "claves": [
         "sin",
         "resolve",
@@ -2204,10 +2214,18 @@
         "video",
         "tema4",
         "horizontal",
-        "standalone"
+        "standalone",
+        "todos los temas",
+        "kinetic",
+        "viral",
+        "referencia",
+        "tema5",
+        "tema6",
+        "dibujar"
       ],
       "archivos": [
         "render_sin_resolve.py",
+        "render_temas.py",
         "un_clic_ui.py",
         "instalador_scripts.py",
         "ajustes_ui.py"
@@ -2223,9 +2241,14 @@
         "_resolve_no_instalado",
         "_textos_pasos_go",
         "_go_grabar_video",
-        "renombrar_paso"
+        "renombrar_paso",
+        "capas_de_cue",
+        "texto",
+        "_elemento_guion",
+        "_elemento_kinetic",
+        "_elemento_viral"
       ],
-      "resumen": "Sin Resolve en el equipo, GO graba Tema 4 (Pillow + PyAV/libx264) en «<video> (CineCaptions).mp4» junto al original"
+      "resumen": "Sin Resolve en el equipo, GO graba el tema elegido (render_temas.py dibuja los 6) (Pillow + PyAV/libx264) en «<video> (CineCaptions).mp4» junto al original"
     },
     {
       "id": "rendimiento-base",
@@ -2857,7 +2880,10 @@
         "buscar",
         "perfil",
         "equipo",
-        "lima"
+        "lima",
+        "instrument serif",
+        "text+",
+        "editables"
       ],
       "archivos": [
         "edicion_pro_tema6.py",
@@ -2865,7 +2891,10 @@
         "remotion/src/Editorial6.tsx",
         "remotion/src/Subtitulo.tsx",
         "remotion/src/Skill.tsx",
-        "remotion/src/Objetos.tsx"
+        "remotion/src/Objetos.tsx",
+        "tema4_planificador.py",
+        "2_recursos/generador_packs/pack_tema5.py",
+        "2_recursos/fonts/InstrumentSerif-Regular.ttf"
       ],
       "simbolos": [
         "elementos",
@@ -2874,7 +2903,10 @@
         "estilo_video",
         "EditorialT6",
         "TEMA_MELOCOTON",
-        "estilo_t5"
+        "estilo_t5",
+        "_lineas_skill",
+        "_tinta",
+        "_metricas"
       ],
       "resumen": "edicion_pro_tema5.planificar arma captions (Subtitulo), elementos (PasosT5/DeslizadorT5) y escenas (EscenaT5, dividida con V1 bajado en PRO-GRIS) con el sistema de skill videos/; GO deja Text+ de respaldo que colocar_pro apaga",
       "titulo": "Tema 6 · Editorial"
