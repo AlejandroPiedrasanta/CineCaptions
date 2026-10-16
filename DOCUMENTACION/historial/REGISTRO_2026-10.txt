@@ -1,5 +1,286 @@
 REGISTRO DE CAMBIOS ARCHIVADO · 2026-10 (la entrada más nueva arriba)
 
+2026-10-13 10:05  ·  v5.4.52  ·  (automático)
+    nuevos (3):
+      + 1_codigo/audio_compatible.py
+      + 2_recursos/vistas_slider/Tema6.jpg
+      + 2_recursos/vistas_slider/Tema6.mp4
+    modificados (22):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/colocacion.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_tema5_acomp.py
+      ~ 1_codigo/efectos_visuales.py
+      ~ 1_codigo/probar_go.py
+      ~ 1_codigo/remotion/render.mjs
+      ~ 1_codigo/sonidos_extra.py
+      ~ 2_recursos/edicion_pro/colocar_pro.py
+      ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/debug.log
+      ~ 2_recursos/edicion_pro/remotion/runtime/render.mjs
+      … y 10 más
+
+2026-10-13 01:51  ·  v5.4.52  ·  cambio explicado
+    v5.4.52 (pedidos del usuario): Tema 6 «Editorial» con el estilo de su video de referencia (captions serif fina + clave en lima, escenas melocotón, visor, búsqueda, perfil, equipo); Tema 5 con foco en blanco y negro, órbita detrás/delante, sticker del gancho, sombra sobre la clave, tarjetas encima de la cabeza (mapa, gráfica, tachado, lista), pantalla final y transiciones con zoom; emojis animados Noto (Lottie, CC BY 4.0); 136 sonidos CC0 de Kenney sin repetir dentro del video; bordes de recorte refinados; caché de render en «user» para que la línea de tiempo vaya fluida.
+    nuevos (811):
+      + 1_codigo/edicion_pro_tema5_mm.py
+      + 1_codigo/edicion_pro_tema6.py
+      + 1_codigo/remotion/node_modules/@remotion/lottie/LICENSE.md
+      + 1_codigo/remotion/node_modules/@remotion/lottie/README.md
+      + 1_codigo/remotion/node_modules/@remotion/lottie/dist/cjs/Lottie.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/lottie/dist/cjs/Lottie.js
+      + 1_codigo/remotion/node_modules/@remotion/lottie/dist/cjs/get-lottie-metadata.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/lottie/dist/cjs/get-lottie-metadata.js
+      + 1_codigo/remotion/node_modules/@remotion/lottie/dist/cjs/index.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/lottie/dist/cjs/index.js
+      + 1_codigo/remotion/node_modules/@remotion/lottie/dist/cjs/types.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/lottie/dist/cjs/types.js
+      … y 799 más
+    modificados (50):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_persona.py
+      ~ 1_codigo/edicion_pro_sonido.py
+      ~ 1_codigo/edicion_pro_tema5.py
+      ~ 1_codigo/edicion_pro_tema5_video.py
+      ~ 1_codigo/guion_planificador.py
+      ~ 1_codigo/herramientas_dev/vista_tema5.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/recomendaciones.py
+      ~ 1_codigo/remotion/empaquetar.mjs
+      … y 38 más
+
+2026-10-12 20:49  ·  v5.4.51  ·  (automático)
+    nuevos (1):
+      + 1_codigo/edicion_pro_temas.py
+    modificados (15):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/probar_go.py
+      ~ 1_codigo/remotion/src/Acompanantes.tsx
+      ~ 1_codigo/remotion/src/Root.tsx
+      ~ 2_recursos/edicion_pro/colocar_pro.py
+      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      … y 3 más
+
+2026-10-12 20:34  ·  v5.4.51  ·  (automático)
+    nuevos (3):
+      + 1_codigo/edicion_pro_tema5_acomp.py
+      + 1_codigo/edicion_pro_tema5_video.py
+      + 1_codigo/remotion/src/Acompanantes.tsx
+    modificados (26):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_sonido.py
+      ~ 1_codigo/edicion_pro_tema5.py
+      ~ 1_codigo/edicion_pro_tema5_escenas.py
+      ~ 1_codigo/herramientas_dev/vista_tema5.py
+      ~ 1_codigo/ia_texto.py
+      ~ 1_codigo/probar_go.py
+      ~ 1_codigo/recomendaciones.py
+      ~ 1_codigo/remotion/src/Objetos.tsx
+      ~ 1_codigo/remotion/src/Root.tsx
+      … y 14 más
+
+2026-10-12 16:43  ·  v5.4.51  ·  (automático)
+    modificados (1):
+      ~ 1_codigo/edicion_pro_tema5.py
+
+2026-10-12 16:34  ·  v5.4.51  ·  (automático)
+    nuevos (2):
+      + 1_codigo/edicion_pro_tema5_escenas.py
+      + 1_codigo/remotion/src/Objetos.tsx
+    modificados (9):
+      ~ 1_codigo/edicion_pro_sonido.py
+      ~ 1_codigo/edicion_pro_tema5.py
+      ~ 1_codigo/remotion/src/Skill.tsx
+      ~ 1_codigo/remotion/src/Subtitulo.tsx
+      ~ 2_recursos/edicion_pro/colocar_pro.py
+      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js
+      ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/debug.log
+      ~ 2_recursos/vistas_slider/Tema5.jpg
+      ~ 2_recursos/vistas_slider/Tema5.mp4
+
+2026-10-12 15:55  ·  v5.4.51  ·  (automático)
+    nuevos (9):
+      + 1_codigo/remotion/public/fuentes/dmserif-i.ttf
+      + 1_codigo/remotion/public/fuentes/inter-400.ttf
+      + 1_codigo/remotion/public/fuentes/inter-500.ttf
+      + 1_codigo/remotion/public/fuentes/inter-700.ttf
+      + 1_codigo/remotion/src/Skill.tsx
+      + 2_recursos/edicion_pro/remotion/bundle/public/fuentes/dmserif-i.ttf
+      + 2_recursos/edicion_pro/remotion/bundle/public/fuentes/inter-400.ttf
+      + 2_recursos/edicion_pro/remotion/bundle/public/fuentes/inter-500.ttf
+      + 2_recursos/edicion_pro/remotion/bundle/public/fuentes/inter-700.ttf
+    modificados (23):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_sonido.py
+      ~ 1_codigo/edicion_pro_tema5.py
+      ~ 1_codigo/herramientas_dev/vista_tema5.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/remotion/empaquetar.mjs
+      ~ 1_codigo/remotion/src/Root.tsx
+      ~ 1_codigo/remotion/src/Subtitulo.tsx
+      ~ 1_codigo/remotion/src/comun.tsx
+      ~ 2_recursos/edicion_pro/colocar_pro.py
+      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js
+      … y 11 más
+
+2026-10-12 15:04  ·  v5.4.51  ·  (automático)
+    modificados (1):
+      ~ 1_codigo/ajustes_ui.py
+
+2026-10-12 15:01  ·  v5.4.51  ·  (automático)
+    nuevos (16722):
+      + 1_codigo/edicion_pro_catalogo.py
+      + 1_codigo/edicion_pro_remotion.py
+      + 1_codigo/edicion_pro_tema5.py
+      + 1_codigo/herramientas_dev/galeria_remotion.py
+      + 1_codigo/herramientas_dev/vista_tema5.py
+      + 1_codigo/remotion/empaquetar.mjs
+      + 1_codigo/remotion/galeria.mjs
+      + 1_codigo/remotion/node_modules/.bin/acorn
+      + 1_codigo/remotion/node_modules/.bin/acorn.cmd
+      + 1_codigo/remotion/node_modules/.bin/acorn.ps1
+      + 1_codigo/remotion/node_modules/.bin/baseline-browser-mapping
+      + 1_codigo/remotion/node_modules/.bin/baseline-browser-mapping.cmd
+      … y 16710 más
+    modificados (37):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_planificador.py
+      ~ 1_codigo/edicion_pro_sonido.py
+      ~ 1_codigo/guion_planificador.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/recomendaciones.py
+      ~ 1_codigo/tareas_instalador.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/edicion_pro/colocar_pro.py
+      ~ 2_recursos/locales/de.json
+      … y 25 más
+
+2026-10-12 10:20  ·  v5.4.50  ·  cambio explicado
+    5.4.50 Edición PRO: Efectos visuales apagados con la PRO; sin repetir lo que dicen los captions; nada tapa la cara (captions, emojis, gráficos); órbita de iconos 3D (3dicons CC0) como gancho con Magic Mask; iconos 3D flotando junto a los captions en vez del emoji; escenas con fondo sustituido; resortes de Motion; Magic Mask v2 'Better' + Corregir contorno; diseño de sonido por familias (whoosh/textura/riser+hit) según la guía UE; modo error en gris; sin visor REC; arreglos: rastreo comprobado, recortes alineados (ajustado/punch-in), imágenes OGraf esperadas antes de capturar.
+
+2026-10-12 10:18  ·  v5.4.50  ·  (automático)
+    nuevos (26):
+      + 1_codigo/edicion_pro_sonido.py
+      + 1_codigo/herramientas_dev/generar_resortes.js
+      + 1_codigo/herramientas_dev/resortes_motion.py
+      + 2_recursos/edicion_pro/ograf/icono3d/pieza.js
+      + 2_recursos/edicion_pro/ograf/lib/iconos3d/LICENCIA.txt
+      + 2_recursos/edicion_pro/ograf/lib/iconos3d/bell-dynamic-color.png
+      + 2_recursos/edicion_pro/ograf/lib/iconos3d/bell-dynamic-premium.png
+      + 2_recursos/edicion_pro/ograf/lib/iconos3d/calendar-dynamic-color.png
+      + 2_recursos/edicion_pro/ograf/lib/iconos3d/calendar-dynamic-premium.png
+      + 2_recursos/edicion_pro/ograf/lib/iconos3d/camera-dynamic-premium.png
+      + 2_recursos/edicion_pro/ograf/lib/iconos3d/crown-dynamic-color.png
+      + 2_recursos/edicion_pro/ograf/lib/iconos3d/explorer-front-color.png
+      … y 14 más
+    modificados (41):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_ograf.py
+      ~ 1_codigo/edicion_pro_planificador.py
+      ~ 1_codigo/herramientas_dev/probar_edicion_pro.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/edicion_pro/colocar_pro.py
+      ~ 2_recursos/edicion_pro/ograf/cifra/pieza.js
+      ~ 2_recursos/edicion_pro/ograf/cta/pieza.js
+      ~ 2_recursos/edicion_pro/ograf/etiqueta/pieza.js
+      ~ 2_recursos/edicion_pro/ograf/fondo/pieza.js
+      … y 29 más
+
+2026-10-12 02:44  ·  v5.4.49  ·  cambio explicado
+    5.4.49 Edición PRO: captions de los Temas 1-4 DETRÁS de la persona (pila subida con Tilt hasta la coronilla, persona con Magic Mask en PRO-ENCIMA, la de más arriba; cuánto tapa según el tamaño real de la cabeza y la línea de abajo; marcadores Sand para re-aplicar sin apilar), escenas de motion graphics (fondo + cifra/lista/icono), B-roll de stock en PRO-BROLL con la clave de Pexels. Arreglo crítico: un Magic Mask sin rastrear sale opaco y tapaba los captions; ahora cada MagicMask tiene nombre propio, reintento y comprobación por composición exportada.
+
+2026-10-12 02:41  ·  v5.4.49  ·  (automático)
+    nuevos (28):
+      + 1_codigo/edicion_pro.py
+      + 1_codigo/edicion_pro_ograf.py
+      + 1_codigo/edicion_pro_persona.py
+      + 1_codigo/edicion_pro_planificador.py
+      + 1_codigo/herramientas_dev/probar_edicion_pro.py
+      + 2_recursos/edicion_pro/colocar_pro.py
+      + 2_recursos/edicion_pro/modelos/LICENCIA.txt
+      + 2_recursos/edicion_pro/modelos/modnet.onnx
+      + 2_recursos/edicion_pro/ograf/cifra/pieza.js
+      + 2_recursos/edicion_pro/ograf/cta/pieza.js
+      + 2_recursos/edicion_pro/ograf/etiqueta/pieza.js
+      + 2_recursos/edicion_pro/ograf/fondo/pieza.js
+      … y 16 más
+    modificados (29):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/resolve_bridge.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      … y 17 más
+
+2026-10-11 19:41  ·  v5.4.48  ·  (automático)
+    modificados (19):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
+      … y 7 más
+
+2026-10-11 19:39  ·  v5.4.47  ·  cambio explicado
+    v5.4.48: GO sin Resolve tambien a peticion (Ajustes > General: Video MP4 en lugar de Resolve, pref go_salida_mp4) y la deteccion de 'sin Resolve' mira el ejecutable (instalador_scripts.resolve_ejecutable): resolve_esta_instalado cuenta la carpeta de ajustes de APPDATA, que queda al desinstalar, y un equipo sin Resolve parecia tenerlo. Inicio ya no muestra el rojo 'No encuentro DaVinci Resolve' cuando GO va a entregar el MP4.
+    modificados (9):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/herramientas_dev/probar_go_sin_resolve.py
+      ~ 1_codigo/instalador_scripts.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+
+2026-10-11 19:05  ·  v5.4.47  ·  (automático)
+    modificados (19):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
+      … y 7 más
+
+
+(Lo anterior está archivado por mes en DOCUMENTACION/historial/REGISTRO_<aaaa-mm>.txt)
 2026-10-11 19:03  ·  v5.4.46  ·  cambio explicado
     v5.4.47: GO sin DaVinci Resolve (pedido: hacer que funcione sin Resolve; el usuario eligio el MP4 con subtitulos). Sin Resolve instalado, GO planifica Tema 4 y render_sin_resolve.py dibuja las mismas posiciones/tamanos/tiempos con Pillow (fundido de ~3 fotogramas y halo blanco medidos en TEMA 4.mp4), mezcla los sonidos y los emojis y codifica H.264 con PyAV; el MP4 queda junto al video. Los demas temas y los efectos visuales siguen siendo solo de Resolve.
     nuevos (2):

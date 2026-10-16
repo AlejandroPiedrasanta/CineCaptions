@@ -227,3 +227,39 @@ Resolve).
 **Ejemplos del slider (vistas_slider):** hechos con GO + PRO REAL en Resolve Studio (`hacer_vista_slider.generar(..., conservar=True,
 verificar=…)`; `probar_go.py` acepta `CINECAPTIONS_PREFS` = preferencias solo en memoria). Opciones de los ejemplos: motions «píldora» (sin
 `escena:*` ni `t5:escena`), `pro_internet` False, `fx_broll` False. La verificación cuenta los clips de las pistas `XX-T/K` con StyledText.
+
+## motions-completo — «Motions completo»: un video de SOLO motions de todo el video, encima de todo (v5.5.8)
+
+**Qué:** el chip «Motions completo» de Inicio (al lado de «Edición PRO»; pref `pro_motions_completo`, apagado de fábrica). Después de TODA la Edición
+PRO, un último paso arma un video opaco del largo del video, hecho solo de motions del tema que se habla, y lo pone en la pista `PRO-MOTIONS`, la de
+más arriba (encima de captions y efectos), para que el usuario lo corte y deje ver el video de abajo donde quiera.
+
+**Cómo:** `motions_completo.planificar` reparte las frases en escenas contiguas de 2,2–5,5 s: objeto de datos si se dice una cifra/precio
+(`edicion_pro_tema5_escenas` + la IA), foto de internet del tema (1 de cada 3, `edicion_pro_escenas.foto_del_tema`, titular con `_titular`: la clave o
+la frase tal cual se dijo), icono 3D (`CONCEPTOS3D`) o tipografía; fondos alternados y la frase abajo. `crear` lo renderiza con Remotion
+(`remotion/src/MotionsCompleto.tsx`, `render.mjs` modo `opaco` = H.264 crf 16 sin audio, líneas `{"progreso"}`). Colocación: `colocar_pro._motions`
+(Studio) y `poner_motions` del gemelo `CineCaptions_EdicionPro.lua` (Free), SIEMPRE el último paso; la capa `motions` se salta en el paso 1. Sin
+Edición PRO marcada, GO hace un plan solo de motions. **Ojo:** es video: en el Inspector solo se editan transformación y recorte.
+
+## vigilante-pro — El vigilante de la Edición PRO: reglas + IA local + PyAV (v5.5.8)
+
+**Qué:** `vigilante_pro.py`, para que no lleguen gráficos rotos o incoherentes al timeline. `revisar_plan` (antes de renderizar): las cifras del
+gráfico tienen que haberse dicho, la moneda es la DICHA (`monedas.signo`), dos gráficos a la vez en la misma pista se mueven a `PRO-ICONOS` o se
+quitan. `revisar_ia`: la IA de texto (`ia_texto.revisar` → `motor_texto` modo `revisar`) marca los que no encajan con lo que se dice; se quita uno
+SOLO si la IA lo marca Y menos del 40 % de sus palabras se dijeron. `revisar_clips` (después de renderizar, PyAV): duración, que se pueda decodificar,
+alfa presente en los .mov y que un clip opaco no sea todo negro. Todo va al Registro; si la IA no está o tarda, siguen las reglas.
+
+## motions-editables — Gráficos de datos editables en el Inspector (OGraf «dato», v5.5.8)
+
+**Qué:** las tarjetas de precio / cifra / gráfica (TarjetaT5 y EscenaT5 de un solo objeto) ya no se renderizan con Remotion: `edicion_pro._motions_a_ograf`
+las convierte en la pieza OGraf `2_recursos/edicion_pro/ograf/dato/pieza.js` (tipo, valor, signo, etiqueta, tendencia, tema, acento, color de texto,
+fuente, tiempos, escala, x, y) y se retocan en el Inspector de Resolve 21 sin romper la animación. Esquema en `edicion_pro_ograf.ESQUEMAS['dato']`
+(`VERSION_PIEZAS` 1.2.0); cada pieza lleva PRIMERO la propiedad `cinecaptions` (el banner «✦ CINECAPTIONS ✦»). Los nombres de primer nivel de la
+pieza no pueden repetir los de `motor.js` (D_OSCURO, aRgb…). Ver una pieza sin Resolve: `herramientas_dev/vista_ograf.py`.
+
+## video-rotado-monedas — Videos de móvil girados y la moneda que se dice (v5.5.8)
+
+**Rotación:** PyAV no aplica la matriz de giro de los .mov/.mp4 de móvil; `rotacion_video.py` (`giro`, `derecho_nd`, `derecho_img`, `medidas`) la
+aplica en la foto de la tarjeta, el recorte de la persona, `edicion_pro.medir`, `resolve_mcp.medir_medio`, `efectos_visuales.resolucion_de_timeline`
+y la caja de la cara de `efectos_extra`. **Monedas:** `monedas.py` (naira→₦, euro→€, quetzal→Q, sol→S/, real→R$, yen/yuan→¥, rupia→₹…;
+`signo(palabras, escrito)`); la moneda pegada a la cifra gana a las unidades de tiempo («$1,200 este mes» no es un reloj).

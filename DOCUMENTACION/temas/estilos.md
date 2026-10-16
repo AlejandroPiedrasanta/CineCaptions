@@ -193,3 +193,12 @@ del video (`color_claves`, estilo «guion») y la regla de la cara (`edicion_pro
 
 `tema4_planificador.HUECO` 0,12 → 0,28 (× la letra normal de la línea) y `AFINADO['ancho']` 1,0 → 1,08 (cada palabra sale en Resolve un 5–13 % más ancha que lo que mide Pillow; medido en el render del Tema 5: «héroes» 142 px contra 129 calculados). MEDIDO en el render a 1080 de Resolve (Tema 6): 7 px de hueco con
 letra de 58 px; se leían pegadas («Numberone», «stopoversizing»).
+
+## banner-inspector — El banner de CineCaptions ARRIBA DE TODO en el Inspector (v5.5.8)
+
+**Qué:** cada caption de los packs lleva un LabelControl HTML «CINECAPTIONS · Personaliza aquí tu caption…» (`2_recursos/generador_packs/banner_inspector.py`).
+Va con `IC_ControlPage = -1`: ENCIMA de la fila de pestañas del Text+ (Texto, Distribución…), visible en todas; es la misma técnica que usa la
+cabecera del propio macro Luxe. En los macros (Luxe Shine/Slide) va en el Text+ de dentro y además se publica como el PRIMER InstanceInput del macro;
+en Kinetic/VIRAL va en el Text+ `Template`. `python banner_inspector.py <carpeta|.drb>` reescribe los blobs (mismo prefijo y longitudes) y es
+idempotente (pone al día el banner viejo); `construir_pack.blob_de_comp` lo aplica a los packs nuevos. Al cambiarlo, subir `plantillas.REVISION_BIN`.
+Los clips de video (motions de Remotion, efectos sobre V1, emojis) no pueden llevarlo: Resolve no enseña controles de Fusion para ellos.

@@ -112,3 +112,11 @@ El centro del Text+ = (x, y) del run con la línea de base (asc − desc)/2 em m
 ## nota — v5.4.23 · aplicar el tema, coherencia con Efectos y la vista final
 
 **Tema que no se aplicaba:** `formato_video='h'` (guardado por el chip «Formato») hacía que `_plantilla_un_clic` cambiara Tema 1/2 (solo verticales) por el diseño automático. Ahora `_formato_forzado()` devuelve siempre None (el chip se quitó) y la decisión de si un tema sirve usa `_formato_para_temas()` = vertical si `go_vertical` (por defecto sí). **Efectos coherentes:** `efectos_visuales.DESPLAZA` es 0 (la «Intensidad» global ya no cambia los niveles), «Más efectos» siempre visible, `SeccionExtras.refrescar()` + `PaginaEfectos.refrescar()` releen las prefs que cambia una recomendación, y `recomendaciones.RECOMENDACIONES` ya no toca `go_sfx`/`go_emojis`/`go_efectos_visuales`. **Vista final:** `vista_final` (py y lua) importa `2_recursos/resolve_layouts/<nombre>.preset` si existe y Resolve no la tiene (`colocacion.archivo_de_la_vista`, campo `vista.archivo` del manifiesto) y la aplica; en Free «Guardar la vista actual» va por el Puente (acción `vista`, `CineCaptions_Vista.lua`, Puente 1.0.39: guardar / cargar / borrar; `colocacion.vista_por_puente`). Pendiente: traer una disposición «CineCaptions vertical» ya hecha en `resolve_layouts/` (hay que sacarla de un Resolve con la vista expandida: `ExportLayoutPreset`).
+
+## nota — v5.5.8 · Inicio con el Orbe y el SplitText de React Bits
+
+`estilos_inicio.Orbe` (clave `orbe`, ahora el estilo de fábrica: `POR_DEFECTO` y el `go_estilo` de Ajustes) porta el shader del Orb de React Bits
+(@react-bits/Orb) a numpy a N×N (≈4 ms por cuadro): tres colores (#9C43FE, #4CC2E9, #101499), ruido senoidal, giro y ondulación al pasar el cursor,
+anillo de progreso al trabajar. `un_clic_ui.TituloGo` entra como el SplitText (@react-bits/SplitText): letra a letra, cada una sube y aparece
+(power3.out, 45 ms entre letras, 0,6 s cada una) al mostrarse Inicio y al cambiar el texto; la línea de luz se abre desde el centro. Se pinta con
+pixmaps por letra (nada de efectos Qt); con «Reducir animaciones» sale quieto.

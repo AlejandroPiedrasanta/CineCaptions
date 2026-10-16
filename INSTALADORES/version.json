@@ -1,23 +1,23 @@
 {
     "estable":  {
-                    "version":  "5.5.7",
-                    "notas":  "• Pulsar GO otra vez sobre el mismo timeline (el mismo tema u otro) ya funciona: la reproducción que deja GO bloqueaba a Resolve y el GO siguiente creía que estaba cerrado. Ahora se detiene antes y, si Resolve no contesta, se reconecta solo.\r\n• CineCaptions se conecta solo con Resolve al abrirse y cada pocos segundos (Studio por su conexión, Free lanzando el Puente desde el menú), en Windows y Mac. El estado ya no dice «cerrado» con Resolve abierto.\r\n• En Resolve Studio nunca se lanza el Puente (lo dejaba sin responder) y la Edición PRO recorta a la persona con la IA local también en Studio: la Magic Mask de Resolve llegó a cerrarlo. Studio y Free hacen lo mismo.\r\n• Emojis con sentido: cada emoji va con su palabra (🎓 beca, 🏆 premios, 🍽 comida, 🆓 gratis…). Y donde la Edición PRO enseña algo, el emoji del tema se apaga: una sola cosa a la vez junto al caption.\r\n• Registro: dos vistas, Errores e Información; los avisos ya no se enseñan.\r\n• Tema 2: las líneas de los captions van pegadas (sin hueco entre una y otra) y el emoji va arriba, junto a la pila (también en el Tema 3).\r\n• Cuando un caption se mueve para no tapar una cara, su emoji se mueve con él: antes se quedaba lejos o caía encima del texto.\r\n• Si Windows bloquea CineCaptions al abrirse (Control inteligente de aplicaciones), lo dice con los pasos para arreglarlo, sin texto técnico.\r\n• Resolve Free: GO con el video ya en el timeline, o al cambiar de tema, ya no falla. Si el Puente no responde porque Resolve sigue reproduciendo, CineCaptions para la reproducción y lo vuelve a lanzar solo.\r\n• Efectos: un carrusel con los 147 motions de la Edición PRO. En Automático la IA elige el adecuado; si marcas los tuyos, la IA usa SOLO esos. Con la PRO activa, los efectos clásicos (que no se aplican con ella) quedan plegados.\r\n• Sonido: nueva pestaña «Edición PRO» para encender, subir o bajar sus sonidos y elegir cuáles suenan (movimiento, apariciones, riser + golpe), con un ejemplo de cada uno.\r\n• Ortografía: el corrector ya no marca ni cambia palabras buenas («voy», «hay», «tiene»), corrige faltas típicas («aser», «kiero», «nesecito») también en GO sin IA, y los gráficos de la Edición PRO salen con el texto corregido.",
-                    "fecha":  "2026-10-14",
+                    "version":  "5.5.8",
+                    "notas":  "• Temas 4, 5 y 6 con la Edición PRO ya no cierran DaVinci Resolve: lo que la PRO va a poner se importa todo de una vez antes de tocar el timeline (Studio y Free).\r\n• Temas 5 y 6: los captions son textos de Fusion editables (Inspector › Texto) para corregir cualquier falta, con el diseño de cada tema: la frase clave en serif y en color; el gancho del principio va con Magic Mask en Studio.\r\n• Video MP4 sin Resolve (Ajustes › General): ahora graba cualquiera de los 6 temas, no solo el Tema 4.\r\n• Temas 4, 5 y 6: las palabras de los captions ya no salen pegadas ni encimadas.\r\n• Cancelar, grande y en rojo: para todo lo que estaba haciendo, cierra Resolve y sus procesos y vuelve a Inicio para empezar de cero.\r\n• Estilos: ejemplos nuevos de los 6 temas, hechos con GO y la Edición PRO reales en Resolve (motions que acompañan a los captions).\r\n• Inglés y los demás idiomas: la interfaz sale entera en el idioma elegido.",
+                    "fecha":  "2026-10-15",
                     "archivos":  {
                                      "windows":  {
-                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.7/Instalar_CineCaptions_5.5.7.exe",
-                                                     "sha256":  "dccc1f7fcbbcb4f1a3f0435187bc276333baa28699692253aadc6295d0fe0855",
-                                                     "tam":  565511914
+                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.8/Instalar_CineCaptions_5.5.8.exe",
+                                                     "sha256":  "b829e586a08d2df8882594b7ab20e2b5cddb2a1b4401018b05241522254cc305",
+                                                     "tam":  558005772
                                                  },
                                      "mac_arm64":  {
-                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.7/CineCaptions_Mac_AppleSilicon_5.5.7.dmg",
-                                                       "sha256":  "9fcfab8e2a694bd7c499102d55843d54cc2ee5de0149cdce1749912997984cdc",
-                                                       "tam":  574030999
+                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.8/CineCaptions_Mac_AppleSilicon_5.5.8.dmg",
+                                                       "sha256":  "b7b72e4607353d5b72a046d488d7380ad0c912e92142222ff2aa603d9f5009e7",
+                                                       "tam":  566637617
                                                    },
                                      "mac_x86_64":  {
-                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.7/CineCaptions_Mac_Intel_5.5.7.dmg",
-                                                        "sha256":  "7b00a402a645b6c9a40c487292d970653df296e5c6f7a5e9d8c614f9e979f5f5",
-                                                        "tam":  517855559
+                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.8/CineCaptions_Mac_Intel_5.5.8.dmg",
+                                                        "sha256":  "c740d93427672cad8fef210d61d138f0530ea5ff47be8b3f8d893368a276baba",
+                                                        "tam":  511122017
                                                     }
                                  }
                 }

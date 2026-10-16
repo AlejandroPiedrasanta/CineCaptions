@@ -26,7 +26,7 @@ if (-not $SoloDescargar) {
     git add -A 2>&1 | Out-Null
     git diff --cached --quiet
     if ($LASTEXITCODE -ne 0) {
-        git commit -q -m "$Mensaje`n`nCo-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>" 2>&1 | Out-Null
+        git commit -q -m "$Mensaje`n`nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>" 2>&1 | Out-Null
         git push -q 2>&1 | Out-Null
         if ($LASTEXITCODE -ne 0) { Write-Host '    (no pude subir al repositorio privado; no impide compilar Mac)' -ForegroundColor Yellow }
     } else { Write-Host '    (sin cambios nuevos)' }

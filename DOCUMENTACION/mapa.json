@@ -156,7 +156,9 @@
         "escena_go.py",
         "mograf_ui.py"
       ],
-      "simbolos": [],
+      "simbolos": [
+        "TituloGo"
+      ],
       "resumen": "un_clic_ui (panel/botón), escena_go (3D), mograf_ui (HUD)"
     },
     {
@@ -207,7 +209,8 @@
         "EscenaGo",
         "poner_estilo",
         "BotonGo",
-        "_poner_estilo"
+        "_poner_estilo",
+        "Orbe"
       ],
       "resumen": "estilos_inicio.ESTILOS; pref go_estilo; Ajustes > Interfaz"
     },
@@ -430,7 +433,9 @@
         "motor_texto.py",
         "compat_av.py"
       ],
-      "simbolos": [],
+      "simbolos": [
+        "completar_requisitos"
+      ],
       "resumen": "subtitle_transcriber, motor_voz, ia_texto"
     },
     {
@@ -3055,7 +3060,8 @@
         "fotos_de_internet",
         "FotoE",
         "_referencias",
-        "_pixabay"
+        "_pixabay",
+        "foto_del_tema"
       ],
       "resumen": "fuentes_web.buscar_foto → FotoE / tablero; pref pro_internet; créditos en creditos_broll.txt"
     },
@@ -3222,6 +3228,147 @@
         "texto_corregido"
       ],
       "resumen": "ortografia_es.conocida evita falsos positivos; GO corrige sin IA; la PRO usa texto_corregido"
+    },
+    {
+      "id": "motions-completo",
+      "grupo": "efectos",
+      "tema": "Motions completo: video de solo motions de todo el video, encima de todo",
+      "claves": [
+        "motions completo",
+        "solo motions",
+        "video completo",
+        "encima",
+        "pro-motions",
+        "cortar"
+      ],
+      "archivos": [
+        "motions_completo.py",
+        "remotion/src/MotionsCompleto.tsx",
+        "remotion/render.mjs"
+      ],
+      "simbolos": [
+        "planificar",
+        "crear",
+        "_titular",
+        "_renderizar",
+        "_motions",
+        "poner_motions",
+        "_go_motions_completo",
+        "_alternar_motions_completo_go"
+      ],
+      "resumen": "chip de Inicio pro_motions_completo; pista PRO-MOTIONS la de más arriba, último paso de la PRO"
+    },
+    {
+      "id": "vigilante-pro",
+      "grupo": "efectos",
+      "tema": "Vigilante de la Edición PRO (reglas, IA local, PyAV)",
+      "claves": [
+        "vigilante",
+        "coherencia",
+        "bugs",
+        "revisar",
+        "ia",
+        "ffmpeg",
+        "pyav",
+        "graficos rotos"
+      ],
+      "archivos": [
+        "vigilante_pro.py",
+        "ia_texto.py",
+        "2_recursos/motor_qwen/motor_texto.py"
+      ],
+      "simbolos": [
+        "revisar_plan",
+        "revisar_ia",
+        "revisar_clips",
+        "_clip_sano",
+        "revisar",
+        "revisar_graficos"
+      ],
+      "resumen": "antes de renderizar reglas + IA; después PyAV; todo al Registro"
+    },
+    {
+      "id": "motions-editables",
+      "grupo": "efectos",
+      "tema": "Gráficos de datos editables en el Inspector (OGraf dato)",
+      "claves": [
+        "inspector",
+        "editable",
+        "ograf",
+        "dato",
+        "precio",
+        "cifra",
+        "grafica",
+        "banner"
+      ],
+      "archivos": [
+        "edicion_pro_ograf.py",
+        "2_recursos/edicion_pro/ograf/dato/pieza.js",
+        "edicion_pro.py",
+        "herramientas_dev/vista_ograf.py"
+      ],
+      "simbolos": [
+        "_motions_a_ograf",
+        "DATOS_OGRAF",
+        "ESQUEMAS",
+        "manifiesto",
+        "VERSION_PIEZAS"
+      ],
+      "resumen": "TarjetaT5/EscenaT5 de un objeto → pieza OGraf dato; banner cinecaptions primero"
+    },
+    {
+      "id": "video-rotado-monedas",
+      "grupo": "efectos",
+      "tema": "Videos de móvil girados y la moneda que se dice",
+      "claves": [
+        "rotacion",
+        "girado",
+        "volteada",
+        "foto",
+        "moneda",
+        "naira",
+        "signo",
+        "divisa"
+      ],
+      "archivos": [
+        "rotacion_video.py",
+        "monedas.py",
+        "edicion_pro_tema5_escenas.py"
+      ],
+      "simbolos": [
+        "giro",
+        "cuartos",
+        "derecho_nd",
+        "derecho_img",
+        "medidas",
+        "signo",
+        "MONEDAS",
+        "moneda_pegada"
+      ],
+      "resumen": "PyAV ignora la matriz de giro: rotacion_video; monedas.signo con la moneda dicha"
+    },
+    {
+      "id": "banner-inspector",
+      "grupo": "estilos",
+      "tema": "Banner de CineCaptions arriba de todo en el Inspector",
+      "claves": [
+        "banner",
+        "inspector",
+        "cinecaptions",
+        "personalizar",
+        "label",
+        "arriba"
+      ],
+      "archivos": [
+        "2_recursos/generador_packs/banner_inspector.py",
+        "2_recursos/generador_packs/construir_pack.py"
+      ],
+      "simbolos": [
+        "con_banner",
+        "parchear_drb",
+        "LABEL"
+      ],
+      "resumen": "IC_ControlPage = -1 (encima de las pestañas); subir REVISION_BIN"
     }
   ]
 }
