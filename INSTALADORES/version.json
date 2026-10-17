@@ -1,23 +1,23 @@
 {
     "estable":  {
-                    "version":  "5.5.9",
-                    "notas":  "• Motions completo con el estilo de los mejores reels: ya no repite los captions; arriba, un titular que aparece palabra a palabra (la idea clave en cursiva azul, tachada, en gris o en píldora) y debajo una tarjeta que explica lo que se dice (grabar, horas, material, encontrar, cortar, versiones, ideas, fechas, lugares, entradas, música, premios, compartir…), con el cursor que hace clic y transiciones fluidas sobre un mismo fondo claro. Sin muñecos ni fotos de internet.\r\n• Proyecto: el slider de temas es más grande y cada tema enseña su ejemplo con o sin Edición PRO (la píldora «Con PRO / Solo captions» de la tarjeta), el botón de la Edición PRO va al lado de «Usar este tema», el nombre del tema entra letra a letra y elegir un tema tiene su animación (pulso, anillo y destellos). Las tarjetas ya no llevan la «V».\r\n• Motions completo ya no se repite: más tarjetas (lista, buscador, publicación, encuesta, carga, nota, antes/después, cuenta atrás, gráfica y el «golpe» con la palabra enorme), cada una con su color y su lado, con fotogramas de tu propio video dentro y con sonido sincronizado (whoosh al entrar, clics y pops).\r\n• Edición PRO más rápida: «Motions completo» y la descarga del B-roll se hacen a la vez que lo demás (antes iban al final, uno tras otro), «Motions completo» ya no espera a la IA de texto y su video se codifica más rápido.\r\n• Inicio va fluido: se quitó una pausa que congelaba las animaciones al abrir, y si el equipo no llega a 60 fps se queda en 30 parejos, sin tirones. Mientras GO anima o la IA trabaja, la interfaz sigue suave.\r\n• Inicio más limpio: sin el enlace «Detalles y estado del sistema».\r\n• DaVinci Resolve: cada caption lleva arriba de todo, en el Inspector, el banner con el logo de CineCaptions.\r\n• Motions editables en Resolve: Efectos › Títulos › CineCaptions trae 6 motions (titular, píldoras, tercio inferior, cifra que cuenta, lista y llamada) con su texto, colores, posición y tamaño en el Inspector; para cambiar uno, arrastra otro encima. También van en un .drfx para pasarlos a otro equipo.",
-                    "fecha":  "2026-10-16",
+                    "version":  "5.5.10",
+                    "notas":  "Barra de motions de la Edicion PRO en Proyecto con ejemplo real, Inicio sin congelarse, la ventana no se congela si Resolve se cuelga, paginas mas limpias y librerias al dia.",
+                    "fecha":  "2026-10-17",
                     "archivos":  {
                                      "windows":  {
-                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.9/Instalar_CineCaptions_5.5.9.exe",
-                                                     "sha256":  "e1ead075ad629e3564b6abc673a2ff79f79d9b56999ecf3550d98b487f912ef8",
-                                                     "tam":  577576981
+                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.10/Instalar_CineCaptions_5.5.10.exe",
+                                                     "sha256":  "c6e8c40346cc3677058d52b2b8136772439807915d2ff7efb7651660dea64c7c",
+                                                     "tam":  583065450
                                                  },
                                      "mac_arm64":  {
-                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.9/CineCaptions_Mac_AppleSilicon_5.5.9.dmg",
-                                                       "sha256":  "513b7e2cf7967d4b10b8fd98e7a84566352c56f4bd8aadf875569fbcdb64c42a",
-                                                       "tam":  585669714
+                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.10/CineCaptions_Mac_AppleSilicon_5.5.10.dmg",
+                                                       "sha256":  "e285d00b3839cc529c93ca3db1b269d0284b70528109ddf82771745e21e86a16",
+                                                       "tam":  590819434
                                                    },
                                      "mac_x86_64":  {
-                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.9/CineCaptions_Mac_Intel_5.5.9.dmg",
-                                                        "sha256":  "10cc5fd52197592cbf3a33cd5a02ce780841c07c72eec9275bd0ab85da723623",
-                                                        "tam":  529687961
+                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.10/CineCaptions_Mac_Intel_5.5.10.dmg",
+                                                        "sha256":  "80bde3cb6dc6fc9fd41e797bfb10232379d8f7bdbfa650c9e55afad54b3f5953",
+                                                        "tam":  535180688
                                                     }
                                  }
                 }
