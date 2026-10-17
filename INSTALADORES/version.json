@@ -1,23 +1,23 @@
 {
     "estable":  {
                     "version":  "5.5.8",
-                    "notas":  "• Temas 4, 5 y 6 con la Edición PRO ya no cierran DaVinci Resolve: lo que la PRO va a poner se importa todo de una vez antes de tocar el timeline (Studio y Free).\r\n• Temas 5 y 6: los captions son textos de Fusion editables (Inspector › Texto) para corregir cualquier falta, con el diseño de cada tema: la frase clave en serif y en color; el gancho del principio va con Magic Mask en Studio.\r\n• Video MP4 sin Resolve (Ajustes › General): ahora graba cualquiera de los 6 temas, no solo el Tema 4.\r\n• Temas 4, 5 y 6: las palabras de los captions ya no salen pegadas ni encimadas.\r\n• Cancelar, grande y en rojo: para todo lo que estaba haciendo, cierra Resolve y sus procesos y vuelve a Inicio para empezar de cero.\r\n• Estilos: ejemplos nuevos de los 6 temas, hechos con GO y la Edición PRO reales en Resolve (motions que acompañan a los captions).\r\n• Inglés y los demás idiomas: la interfaz sale entera en el idioma elegido.",
+                    "notas":  "• Temas 4, 5 y 6 con la Edición PRO ya no cierran DaVinci Resolve: lo que la PRO va a poner se importa todo de una vez antes de tocar el timeline (Studio y Free).\r\n• Temas 5 y 6: los captions son textos de Fusion editables (Inspector › Texto) para corregir cualquier falta, con el diseño de cada tema: la frase clave en serif y en color; el gancho del principio va con Magic Mask en Studio.\r\n• Video MP4 sin Resolve (Ajustes › General): ahora graba cualquiera de los 6 temas, no solo el Tema 4.\r\n• Temas 4, 5 y 6: las palabras de los captions ya no salen pegadas ni encimadas.\r\n• Cancelar, grande y en rojo: para todo lo que estaba haciendo, cierra Resolve y sus procesos y vuelve a Inicio para empezar de cero.\r\n• Estilos: ejemplos nuevos de los 6 temas, hechos con GO y la Edición PRO reales en Resolve (motions que acompañan a los captions).\r\n• Inglés y los demás idiomas: la interfaz sale entera en el idioma elegido.\r\n• Inicio nuevo: un orbe de luz que fluye y se enciende al trabajar, y el título entra letra a letra.\r\n• Motions completo (al lado de Edición PRO): al final crea un video de solo motions del tema, en la pista de más arriba, para que lo cortes donde quieras ver el video.\r\n• Inspector de Resolve: cada caption lleva arriba de todo el banner de CineCaptions, y los gráficos de precios, cifras y gráficas se editan ahí (texto, colores y posición) sin romper la animación.\r\n• Vigilante de la Edición PRO: la IA local y una revisión de cada clip quitan los gráficos que no encajan con lo que se dice o salen rotos.\r\n• Los motions usan fotos de internet del tema que se habla, ya no el mismo fotograma del video.\r\n• Videos grabados con el móvil: la foto ya no sale girada. Y la moneda es la que se dice (naira ₦, euro €, quetzal Q…).\r\n• Los captions que esquivan una cara se quedan todos a la misma altura en todo el video.",
                     "fecha":  "2026-10-15",
                     "archivos":  {
                                      "windows":  {
                                                      "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.8/Instalar_CineCaptions_5.5.8.exe",
-                                                     "sha256":  "b829e586a08d2df8882594b7ab20e2b5cddb2a1b4401018b05241522254cc305",
-                                                     "tam":  558005772
+                                                     "sha256":  "9bc7cdffba489213ea56fe6902c30fb30dc024ca6d18df0f35aa872ea983130d",
+                                                     "tam":  558647357
                                                  },
                                      "mac_arm64":  {
                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.8/CineCaptions_Mac_AppleSilicon_5.5.8.dmg",
-                                                       "sha256":  "b7b72e4607353d5b72a046d488d7380ad0c912e92142222ff2aa603d9f5009e7",
-                                                       "tam":  566637617
+                                                       "sha256":  "641e829d632c6f1cf843bc59df547ca84d56f0b2d935f4bf04fbf40f142b2a87",
+                                                       "tam":  566750846
                                                    },
                                      "mac_x86_64":  {
                                                         "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.8/CineCaptions_Mac_Intel_5.5.8.dmg",
-                                                        "sha256":  "c740d93427672cad8fef210d61d138f0530ea5ff47be8b3f8d893368a276baba",
-                                                        "tam":  511122017
+                                                        "sha256":  "939aba65666ff8240abcea8e7a6686cbf5e19140302e8281bf6aad37f1c579e5",
+                                                        "tam":  511174379
                                                     }
                                  }
                 }

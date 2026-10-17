@@ -12,6 +12,18 @@
 
 **Dónde:** `estilos_slider.py` · `CarruselPacks` (`poner_cartas`, `poner_elegida`, señales `elegida` / `centrada` / `anadir`), `Carta`, `HeroCrear`, `fotos`; `qt_kit.MarcoVista._pintar_contenido`. Añadir fotos = soltar `fondo_NN.jpg` 9:16 en la carpeta y reconstruir (las listan los `.spec` como carpeta `fondos_estilos`). Pruebas: arnés con `resolve_mcp.estado_cacheado = lambda: {}` (la pantalla renderiza vistas reales sola si Resolve está conectado) y QTest para clics/arrastre.
 
+**5.5.9 (el usuario: «más animaciones en Proyecto; quítale la V a los temas; cuando selecciono un tema, una mejor animación; dentro de cada tema
+una píldora para ver con o sin modo PRO (quizá solo quiere captions); renderiza todo con y sin PRO; el slider más grande; el botón de Edición PRO a
+la par de Usar tema»):** sin la «V» del formato (`_dibujar_textos`). **Píldora** «✦ Con PRO | Solo captions» abajo de la tarjeta del centro (encima del
+nombre; arriba va «En uso»), si la tarjeta trae los DOS ejemplos (`Carta.video_sin/poster_sin` ← `vistas_slider.ruta_video_captions` =
+`2_recursos/vistas_slider/<pack>_captions.mp4`): `CarruselPacks.modo_pro`, `poner_vista_pro(pro, animar)` (fundido de 0,35 s entre los dos videos),
+señal `vista_pro`; la de Proyecto empieza como la PRO y la sigue al pulsar el botón PRO. **Elegir** (`poner_elegida` con otro valor):
+`_dibujar_seleccion` = pulso, dos anillos verdes que se abren, brillo en diagonal y 12 destellos (0,95 s); «✓ En uso» salta con rebote. **Más
+vida:** la del centro se inclina hacia el ratón (`_tilt`, ±3–4°), motas de luz que suben (`_dibujar_motas`). **Más grande:** tope 1040 px de alto,
+`PASO` 0,94, vecinas al 88 %, controles 58 px, alto mínimo 540. En Proyecto (`PlantillasWindow`): el nombre es `un_clic_ui.TituloGo` (entra letra a
+letra; `setText`) y la Edición PRO va en la fila de «Usar este tema» (`_pintar_info`: `con_pro`). Ejemplos: `ejemplos_conysin.py` (scratchpad de esa
+sesión) = `hacer_vista_slider.generar` dos veces por tema (`CINECAPTIONS_PRO` 0/1, `CINECAPTIONS_PREFS`), mismas fuentes de 25 s que los de la 5.5.8.
+
 ## packs-drt — Packs .drt/.drb (Pack y lector)
 
 **Qué:** Packs .drt/.drb
@@ -194,11 +206,31 @@ del video (`color_claves`, estilo «guion») y la regla de la cara (`edicion_pro
 `tema4_planificador.HUECO` 0,12 → 0,28 (× la letra normal de la línea) y `AFINADO['ancho']` 1,0 → 1,08 (cada palabra sale en Resolve un 5–13 % más ancha que lo que mide Pillow; medido en el render del Tema 5: «héroes» 142 px contra 129 calculados). MEDIDO en el render a 1080 de Resolve (Tema 6): 7 px de hueco con
 letra de 58 px; se leían pegadas («Numberone», «stopoversizing»).
 
-## banner-inspector — El banner de CineCaptions ARRIBA DE TODO en el Inspector (v5.5.8)
+## banner-inspector — El banner de CineCaptions (con su LOGO) arriba de todo en el Inspector (v5.5.8, arreglado en 5.5.9)
 
-**Qué:** cada caption de los packs lleva un LabelControl HTML «CINECAPTIONS · Personaliza aquí tu caption…» (`2_recursos/generador_packs/banner_inspector.py`).
-Va con `IC_ControlPage = -1`: ENCIMA de la fila de pestañas del Text+ (Texto, Distribución…), visible en todas; es la misma técnica que usa la
-cabecera del propio macro Luxe. En los macros (Luxe Shine/Slide) va en el Text+ de dentro y además se publica como el PRIMER InstanceInput del macro;
-en Kinetic/VIRAL va en el Text+ `Template`. `python banner_inspector.py <carpeta|.drb>` reescribe los blobs (mismo prefijo y longitudes) y es
-idempotente (pone al día el banner viejo); `construir_pack.blob_de_comp` lo aplica a los packs nuevos. Al cambiarlo, subir `plantillas.REVISION_BIN`.
-Los clips de video (motions de Remotion, efectos sobre V1, emojis) no pueden llevarlo: Resolve no enseña controles de Fusion para ellos.
+**Probado en Resolve Studio 21.1.1** (proyecto de prueba, captura del Inspector): en una comp de caption de los packs el PRIMER tool es el Text+
+«Template» (el macro Luxe lee su texto con la expresión `Template.StyledText`) y el Inspector del Edit enseña ESE tool —sus pestañas Texto,
+Distribución…—, NO el macro: por eso el banner de la 5.5.8 (dentro del macro) no se veía. Ahora (`2_recursos/generador_packs/banner_inspector.py`):
+el Text+ «Template» (o el primer Text+ si no hay) lleva un LabelControl con el LOGO (`banner_png()`: icono + «CINECAPTIONS» + «By Cinema
+Productions», 600×150, paleta de 128 colores, ~5 KB, en base64 dentro del HTML como la cabecera del macro Luxe) y una línea de ayuda, con
+`IC_ControlPage = -1` = ENCIMA de la fila de pestañas; con macro, además un banner de solo texto dentro y publicado como su primer control.
+`python banner_inspector.py <carpeta|.drb>` lo pone o lo deja al día (idempotente; `_VIEJO` reconoce los anteriores). Al cambiarlo: subir
+`plantillas.REVISION_BIN` (5.5.9: Luxe 5, Ref 5, Kin 6, Vir 5, T4/T5/T6 5). Los 4 clips especiales de Referencia (primer tool TimeSpeed) lo
+llevan en su Text+. Los clips de video (Remotion, efectos sobre V1, emojis) no pueden llevarlo.
+
+## motions-resolve — Motions EDITABLES en Resolve: «CineCaptions Motions.drfx» (Efectos › Títulos › CineCaptions, v5.5.9)
+
+**Qué:** pedido del usuario: «no se crea .drfx para personalizar; los motions en el Inspector tienen que ser para editar y abajo poder colocar
+otro motion». `2_recursos/generador_packs/drfx_motions.py` escribe 6 títulos de Fusion (`MOTIONS`: CC Titular, CC Pildoras, CC Tercio inferior,
+CC Cifra —el número CUENTA hasta el valor—, CC Lista, CC Llamada —punto, línea que se dibuja y etiqueta—) en
+`2_recursos/motions_resolve/Edit/Titles/CineCaptions/*.setting` + miniaturas, y el zip `motions_resolve/CineCaptions Motions.drfx` (misma
+estructura que los .drfx de Resolve). Cada uno es un MacroOperator con el banner (logo, «Personaliza aquí tu motion…») en sus UserControls con
+`IC_ControlPage = -1` y sus textos, fuente, colores (un Background «Acento» sin conectar guarda el color; las piezas lo copian por expresión),
+posición y tamaño PUBLICADOS. La animación (entrada con rebote/deslizamiento, salida en los últimos 8 fotogramas) va por expresiones con `time`,
+`comp.RenderStart` y `comp.RenderEnd`: editar el texto o cambiar la duración del clip no la rompe. Ojo (medido en `generar_comps.palabra`): las
+expresiones de Fusion no admiten concatenar con «..»: el número de CC Cifra usa `('%s%d%s'):format(…)`.
+**Instalación:** `instalador_scripts.instalar_motions_en_resolve()` (la llama `instalar_scripts_en_resolve`, que corre al arrancar en Studio y
+Free y en el instalador) copia la carpeta a `Fusion/Templates/Edit/Titles/CineCaptions` del usuario (`carpetas_templates_resolve`: Win/Mac/Linux);
+Resolve la lee al abrirse. Para cambiar un motion por otro: arrastrar otro título de Efectos › Títulos › CineCaptions encima del clip.
+**Probado** en Resolve Studio 21.1.1 (proyecto «zz CineCaptions prueba banner»): los 6 se insertan, el Inspector enseña el banner y sus
+controles, y el render (cola de render, no capturas) los muestra animados.

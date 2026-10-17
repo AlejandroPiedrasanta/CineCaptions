@@ -98,21 +98,25 @@
       "grupo": "estilos",
       "tema": "Slider horizontal de «Pack de estilos» (tarjetas verticales sobre fotos)",
       "claves": [
-        "slider",
+        "animacion elegir",
+        "captions",
         "carrusel",
+        "coverflow",
+        "crea",
+        "fabrica",
+        "fondo",
+        "foto",
+        "hero",
+        "pildora pro",
+        "real",
+        "shine",
+        "slider",
+        "slider grande",
+        "solo captions",
         "tarjeta",
         "vertical",
-        "foto",
-        "fondo",
-        "coverflow",
-        "captions",
-        "vista",
-        "real",
-        "hero",
-        "crea",
         "video",
-        "shine",
-        "fabrica"
+        "vista"
       ],
       "archivos": [
         "1_codigo/estilos_slider.py",
@@ -134,7 +138,13 @@
         "Reproductor",
         "_gestionar_video",
         "nombre_visible",
-        "es_de_fabrica"
+        "es_de_fabrica",
+        "poner_vista_pro",
+        "_dibujar_pildora",
+        "_dibujar_seleccion",
+        "_dibujar_motas",
+        "ruta_video_captions",
+        "setText"
       ],
       "resumen": "estilos_slider.py (CarruselPacks, Carta, HeroCrear) + fondos_estilos/*.jpg; lo arma PlantillasWindow._recargar. v5.4.5: los packs de fábrica «Shine» reproducen un video real de Resolve (vistas_slider.py, 2_recursos/vistas_slider/, hacer_vista_slider.py) y no se pueden quitar"
     },
@@ -157,7 +167,9 @@
         "mograf_ui.py"
       ],
       "simbolos": [
-        "TituloGo"
+        "TituloGo",
+        "_politica",
+        "_precalentar_ondas_sfx"
       ],
       "resumen": "un_clic_ui (panel/botón), escena_go (3D), mograf_ui (HUD)"
     },
@@ -431,7 +443,8 @@
         "ia_texto.py",
         "motor_qwen.py",
         "motor_texto.py",
-        "compat_av.py"
+        "compat_av.py",
+        "audio_compatible.py"
       ],
       "simbolos": [
         "completar_requisitos"
@@ -832,7 +845,6 @@
         "edicion_pro.py",
         "2_recursos/edicion_pro/colocar_pro.py",
         "resolve_scripts/CineCaptions_EdicionPro.lua",
-        "2_recursos/plantillas_incluidas/Tema5",
         "herramientas_dev/vista_tema5.py",
         "guion_planificador.py",
         "plantillas.py",
@@ -857,15 +869,11 @@
       ],
       "simbolos": [
         "AcompananteT5",
-        "App",
-        "Avatares",
         "BAJO_LA_VOZ",
         "Barra",
         "CONCEPTOS_ACOMP",
         "Calendario",
-        "Comparacion",
         "DeslizadorT5",
-        "EmojiAnimado",
         "EscenaT5",
         "Estado",
         "Ficha",
@@ -873,19 +881,15 @@
         "Grafica",
         "Lista",
         "Muestra",
-        "Ojo",
         "OrbitaT5",
         "PasosT5",
         "Pieza",
         "Precio",
-        "Pregunta",
         "Reloj",
         "SISTEMA_ESCENAS",
         "StickerT5",
         "Subtitulo",
-        "TEMA_OSCURO",
         "TarjetaT5",
-        "TemaCtx",
         "_apagar_captions",
         "_copia_de_usuario",
         "_detras_delante",
@@ -2823,7 +2827,8 @@
         "remotion/galeria.mjs",
         "remotion/empaquetar.mjs",
         "3_compilar/preparar_remotion.py",
-        "herramientas_dev/galeria_remotion.py"
+        "herramientas_dev/galeria_remotion.py",
+        "rectificador.py"
       ],
       "simbolos": [
         "planificar",
@@ -2907,7 +2912,6 @@
         "temas_del_video",
         "estilo_video",
         "EditorialT6",
-        "TEMA_MELOCOTON",
         "estilo_t5",
         "_lineas_skill",
         "_tinta",
@@ -3155,7 +3159,8 @@
         "herramientas_dev/hacer_previas_motions.py",
         "edicion_pro.py",
         "efectos_extra_ui.py",
-        "sfx_studio.py"
+        "sfx_studio.py",
+        "catalogo_ia.py"
       ],
       "simbolos": [
         "SeccionMotions",
@@ -3232,31 +3237,82 @@
     {
       "id": "motions-completo",
       "grupo": "efectos",
-      "tema": "Motions completo: video de solo motions de todo el video, encima de todo",
+      "tema": "Motions completo: video de solo motions en el estilo reel (titular + tarjetas), encima de todo",
       "claves": [
-        "motions completo",
-        "solo motions",
-        "video completo",
+        "3:03",
+        "apple",
+        "aviso",
+        "contador",
+        "cortar",
+        "cursor",
         "encima",
+        "entrada",
+        "estilo reel",
+        "fecha",
+        "fotogramas",
+        "golpe",
+        "lugar",
+        "motions completo",
+        "orbita",
+        "paletas",
         "pro-motions",
-        "cortar"
+        "reel",
+        "repeticion",
+        "replica",
+        "ruta",
+        "sin captions",
+        "solo motions",
+        "sonido sincronizado",
+        "tarjetas",
+        "titular",
+        "titular tachado",
+        "variedad",
+        "versiones",
+        "video completo",
+        "widgets"
       ],
       "archivos": [
         "motions_completo.py",
         "remotion/src/MotionsCompleto.tsx",
+        "remotion/src/Reel.tsx",
+        "remotion/src/Widgets.tsx",
         "remotion/render.mjs"
       ],
       "simbolos": [
         "planificar",
         "crear",
-        "_titular",
+        "_partir",
+        "_segmentos",
+        "_reel",
+        "_tarjeta",
+        "_generales",
+        "_reel_ia",
+        "_evidencia",
+        "REEL",
+        "REEL_MENU",
+        "TEXTOS",
+        "_palabras_titular",
+        "_elegir",
+        "_widgets",
+        "_entidades",
+        "_comun",
+        "_icono_de",
+        "SUPLEMENTO",
         "_renderizar",
         "_motions",
         "poner_motions",
         "_go_motions_completo",
-        "_alternar_motions_completo_go"
+        "_alternar_motions_completo_go",
+        "opciones_proceso",
+        "_variar",
+        "_fotogramas",
+        "sonidos",
+        "_nombres",
+        "CON_FOTO",
+        "GENERALES",
+        "PALETAS"
       ],
-      "resumen": "chip de Inicio pro_motions_completo; pista PRO-MOTIONS la de más arriba, último paso de la PRO"
+      "resumen": "estilo reel (réplica 3:03–3:22): titular palabra a palabra + una tarjeta por tramo elegida por lo que se dice; sin muñecos ni fotos"
     },
     {
       "id": "vigilante-pro",
@@ -3364,11 +3420,70 @@
         "2_recursos/generador_packs/construir_pack.py"
       ],
       "simbolos": [
+        "LABEL",
+        "LABEL_TEXTO",
+        "banner_png",
         "con_banner",
-        "parchear_drb",
-        "LABEL"
+        "parchear_drb"
       ],
-      "resumen": "IC_ControlPage = -1 (encima de las pestañas); subir REVISION_BIN"
+      "resumen": "logo en el Text+ «Template» (el que enseña el Inspector) con IC_ControlPage = -1; subir REVISION_BIN"
+    },
+    {
+      "id": "motions-resolve",
+      "grupo": "estilos",
+      "tema": "Motions editables en Resolve (.drfx con banner y logo)",
+      "claves": [
+        "drfx",
+        "motions editables",
+        "inspector",
+        "titulos fusion",
+        "plantillas",
+        "templates",
+        "banner",
+        "logo"
+      ],
+      "archivos": [
+        "2_recursos/generador_packs/drfx_motions.py",
+        "instalador_scripts.py"
+      ],
+      "simbolos": [
+        "MOTIONS",
+        "construir",
+        "macro",
+        "Capas",
+        "instalar_motions_en_resolve",
+        "carpetas_templates_resolve"
+      ],
+      "resumen": "6 títulos de Fusion (CC …) con controles publicados y animación por expresiones; la app los instala en Templates"
+    },
+    {
+      "id": "personajes-3d",
+      "grupo": "efectos",
+      "tema": "Personajes 3D que explican los motions (morado y blanco)",
+      "claves": [
+        "personajes",
+        "muñecos",
+        "pictogramas 3d",
+        "maniqui",
+        "three",
+        "3d",
+        "morado",
+        "blanco",
+        "ayudar",
+        "explicar"
+      ],
+      "archivos": [
+        "remotion/src/Pictos3D.tsx",
+        "edicion_pro_escenas.py",
+        "remotion/empaquetar.mjs"
+      ],
+      "simbolos": [
+        "ACCION_3D",
+        "_ACCION_3D",
+        "desde_ia_uno",
+        "RETIRADAS"
+      ],
+      "resumen": "RETIRADO en 5.5.9 (sin muñecos): edicion_pro_escenas.RETIRADAS; Pictos3D.tsx queda para proyectos viejos"
     }
   ]
 }

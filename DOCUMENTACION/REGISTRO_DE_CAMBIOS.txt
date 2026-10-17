@@ -12,6 +12,170 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-16 23:01  ·  v5.5.9  ·  cambio explicado
+    Incoherencias: Motions completo no salia si la PRO no tenia graficos para ese video (el plan solo se guardaba con piezas); el rectificador quitaba sus sonidos (ahora llevan sinc). Probado con GO real en Studio (Tema 4 + PRO + Motions completo).
+    modificados (3):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/motions_completo.py
+      ~ 1_codigo/rectificador.py
+
+2026-10-16 22:54  ·  v5.5.9  ·  cambio explicado
+    Rendimiento PRO: Motions completo y el B-roll en hilos desde el principio (se recogen donde antes se hacian); Motions completo sin IA de texto dentro de la PRO (110 s de plan por propuestas que ya pesaban menos que las reglas y recargaba el modelo que la PRO suelta para Resolve); x264 veryfast en el render opaco (79->75 s). Incoherencias: la pildora del slider sigue a la PRO aunque se cambie en Inicio; GENERALES se usa.
+    modificados (13):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/estilos_slider.py
+      ~ 1_codigo/motions_completo.py
+      ~ 1_codigo/remotion/render.mjs
+      ~ 2_recursos/edicion_pro/remotion/runtime/render.mjs
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      … y 1 más
+
+2026-10-16 22:12  ·  v5.5.9  ·  cambio explicado
+    V1 vacío con Tema 1 + Edición PRO: no era la PRO. Justo después de un GO con efectos visuales, el primer AppendToTimeline([clip]) del proyecto siguiente mete SOLO el audio (medido en Studio 21.1.1, se reproduce también armando a mano). El ejemplo de Kinetic con PRO se hacía tras los ejemplos sin PRO. Arreglo: _CREAR_TIMELINE (resolve_mcp) y CineCaptions_ArmarVideo.lua piden la imagen aparte (mediaType 1) y la enlazan con su audio; si aun así falta, error y GO repara y repite. pausas (py y lua) igual por tramo. Ejemplo Kinetic.mp4 regenerado con el video.
+    nuevos (12):
+      + 2_recursos/vistas_slider/Kinetic_captions.jpg
+      + 2_recursos/vistas_slider/Kinetic_captions.mp4
+      + 2_recursos/vistas_slider/Referencia_captions.jpg
+      + 2_recursos/vistas_slider/Referencia_captions.mp4
+      + 2_recursos/vistas_slider/Tema4_captions.jpg
+      + 2_recursos/vistas_slider/Tema4_captions.mp4
+      + 2_recursos/vistas_slider/Tema5_captions.jpg
+      + 2_recursos/vistas_slider/Tema5_captions.mp4
+      + 2_recursos/vistas_slider/Tema6_captions.jpg
+      + 2_recursos/vistas_slider/Tema6_captions.mp4
+      + 2_recursos/vistas_slider/VIRAL_captions.jpg
+      + 2_recursos/vistas_slider/VIRAL_captions.mp4
+    modificados (32):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/estilos_slider.py
+      ~ 1_codigo/motions_completo.py
+      ~ 1_codigo/pausas.py
+      ~ 1_codigo/remotion/src/MotionsCompleto.tsx
+      ~ 1_codigo/remotion/src/Reel.tsx
+      ~ 1_codigo/resolve_mcp.py
+      ~ 1_codigo/un_clic_ui.py
+      ~ 1_codigo/vistas_slider.py
+      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js
+      … y 20 más
+
+2026-10-16 16:12  ·  v5.5.9  ·  cambio explicado
+    Motions completo: estilo reel replicado del minuto 3:03-3:22 (titular palabra a palabra + una tarjeta de interfaz por tramo con cursor y transiciones de velo); el director elige la tarjeta por lo que se dice (REEL + reglas de datos: fecha, lugar, entrada, musica, premio, compartir; aviso como general); la IA de 1,7B queda por debajo de las reglas porque se equivoca. Fuera fotos/videos de internet, kit neon, escenas y munecos (edicion_pro_escenas.RETIRADAS) porque el usuario no los quiere.
+    nuevos (1):
+      + 1_codigo/remotion/src/Reel.tsx
+    modificados (14):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro_escenas.py
+      ~ 1_codigo/motions_catalogo.py
+      ~ 1_codigo/motions_completo.py
+      ~ 1_codigo/remotion/src/MotionsCompleto.tsx
+      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js
+      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js.map
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      … y 2 más
+
+2026-10-16 15:29  ·  v5.5.9  ·  (automático)
+    nuevos (28):
+      + 1_codigo/remotion/src/Widgets.tsx
+      + 2_recursos/edicion_pro/remotion/bundle/129.bundle.js.map
+      + 2_recursos/edicion_pro/remotion/bundle/155.bundle.js.map
+      + 2_recursos/edicion_pro/remotion/bundle/161.bundle.js.map
+      + 2_recursos/edicion_pro/remotion/bundle/18.bundle.js.map
+      + 2_recursos/edicion_pro/remotion/bundle/208.bundle.js.map
+      + 2_recursos/edicion_pro/remotion/bundle/226.bundle.js.map
+      + 2_recursos/edicion_pro/remotion/bundle/25.bundle.js.map
+      + 2_recursos/edicion_pro/remotion/bundle/280.bundle.js.map
+      + 2_recursos/edicion_pro/remotion/bundle/304.bundle.js.map
+      + 2_recursos/edicion_pro/remotion/bundle/328.bundle.js.map
+      + 2_recursos/edicion_pro/remotion/bundle/402.bundle.js.map
+      … y 16 más
+    modificados (37):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/motions_completo.py
+      ~ 1_codigo/remotion/empaquetar.mjs
+      ~ 1_codigo/remotion/src/MotionsCompleto.tsx
+      ~ 2_recursos/edicion_pro/remotion/bundle/129.bundle.js
+      ~ 2_recursos/edicion_pro/remotion/bundle/155.bundle.js
+      ~ 2_recursos/edicion_pro/remotion/bundle/161.bundle.js
+      ~ 2_recursos/edicion_pro/remotion/bundle/18.bundle.js
+      ~ 2_recursos/edicion_pro/remotion/bundle/208.bundle.js
+      ~ 2_recursos/edicion_pro/remotion/bundle/226.bundle.js
+      ~ 2_recursos/edicion_pro/remotion/bundle/25.bundle.js
+      ~ 2_recursos/edicion_pro/remotion/bundle/280.bundle.js
+      … y 25 más
+
+2026-10-16 14:54  ·  v5.5.9  ·  (automático)
+    modificados (21):
+      ~ 1_codigo/instalador_scripts.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      … y 9 más
+
+2026-10-16 11:04  ·  v5.5.8  ·  cambio explicado
+    5.5.9: probado en Resolve Studio 21.1.1 que el Inspector de un caption de los packs enseña el Text+ «Template» (primer tool de la comp), no el macro Luxe: por eso el banner de la 5.5.8 no se veía. Ahora el banner lleva el LOGO de CineCaptions (PNG en base64) en ese Text+, encima de las pestañas (IC_ControlPage = -1); REVISION_BIN +1. Nuevo «CineCaptions Motions.drfx» (generador_packs/drfx_motions.py): 6 títulos de Fusion editables en el Inspector (texto, colores, posición, tamaño) con animación por expresiones relativas a la duración del clip; la app los instala en Fusion/Templates/Edit/Titles/CineCaptions (instalador_scripts.instalar_motions_en_resolve).
+    nuevos (1624):
+      + 1_codigo/remotion/node_modules/@babel/runtime/LICENSE
+      + 1_codigo/remotion/node_modules/@babel/runtime/README.md
+      + 1_codigo/remotion/node_modules/@babel/runtime/helpers/AwaitValue.js
+      + 1_codigo/remotion/node_modules/@babel/runtime/helpers/OverloadYield.js
+      + 1_codigo/remotion/node_modules/@babel/runtime/helpers/applyDecoratedDescriptor.js
+      + 1_codigo/remotion/node_modules/@babel/runtime/helpers/applyDecs.js
+      + 1_codigo/remotion/node_modules/@babel/runtime/helpers/applyDecs2203.js
+      + 1_codigo/remotion/node_modules/@babel/runtime/helpers/applyDecs2203R.js
+      + 1_codigo/remotion/node_modules/@babel/runtime/helpers/applyDecs2301.js
+      + 1_codigo/remotion/node_modules/@babel/runtime/helpers/applyDecs2305.js
+      + 1_codigo/remotion/node_modules/@babel/runtime/helpers/applyDecs2311.js
+      + 1_codigo/remotion/node_modules/@babel/runtime/helpers/arrayLikeToArray.js
+      … y 1612 más
+    modificados (41):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro_escenas.py
+      ~ 1_codigo/edicion_pro_kit7.py
+      ~ 1_codigo/edicion_pro_remotion.py
+      ~ 1_codigo/escena_go.py
+      ~ 1_codigo/ia_texto.py
+      ~ 1_codigo/instalador_scripts.py
+      ~ 1_codigo/motions_catalogo.py
+      ~ 1_codigo/motions_completo.py
+      ~ 1_codigo/motor_voz.py
+      ~ 1_codigo/plantillas.py
+      … y 29 más
+    quitados (67):
+      - 1_codigo/remotion/public/mapa/banderas/LICENSE-flag-icons.txt
+      - 1_codigo/remotion/public/mapa/banderas/ae.svg
+      - 1_codigo/remotion/public/mapa/banderas/ar.svg
+      - 1_codigo/remotion/public/mapa/banderas/at.svg
+      - 1_codigo/remotion/public/mapa/banderas/au.svg
+      - 1_codigo/remotion/public/mapa/banderas/be.svg
+      - 1_codigo/remotion/public/mapa/banderas/bo.svg
+      - 1_codigo/remotion/public/mapa/banderas/br.svg
+      - 1_codigo/remotion/public/mapa/banderas/bz.svg
+      - 1_codigo/remotion/public/mapa/banderas/ca.svg
+      - 1_codigo/remotion/public/mapa/banderas/ch.svg
+      - 1_codigo/remotion/public/mapa/banderas/cl.svg
+      … y 55 más
+
 2026-10-15 22:44  ·  v5.5.8  ·  (automático)
     modificados (12):
       ~ 1_codigo/edicion_pro_kit7.py

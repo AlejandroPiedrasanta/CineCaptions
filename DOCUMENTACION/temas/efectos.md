@@ -228,18 +228,70 @@ Resolve).
 verificar=…)`; `probar_go.py` acepta `CINECAPTIONS_PREFS` = preferencias solo en memoria). Opciones de los ejemplos: motions «píldora» (sin
 `escena:*` ni `t5:escena`), `pro_internet` False, `fx_broll` False. La verificación cuenta los clips de las pistas `XX-T/K` con StyledText.
 
-## motions-completo — «Motions completo»: un video de SOLO motions de todo el video, encima de todo (v5.5.8)
+## motions-completo — «Motions completo»: un video de SOLO motions de todo el video, encima de todo (v5.5.8, rehecho en 5.5.9)
 
-**Qué:** el chip «Motions completo» de Inicio (al lado de «Edición PRO»; pref `pro_motions_completo`, apagado de fábrica). Después de TODA la Edición
-PRO, un último paso arma un video opaco del largo del video, hecho solo de motions del tema que se habla, y lo pone en la pista `PRO-MOTIONS`, la de
-más arriba (encima de captions y efectos), para que el usuario lo corte y deje ver el video de abajo donde quiera.
+**Qué:** el chip «Motions completo» de Inicio (al lado de «Edición PRO»; pref `pro_motions_completo`). Después de TODA la Edición PRO, un último
+paso arma un video opaco del largo del video y lo pone en la pista `PRO-MOTIONS`, la de más arriba, para que el usuario lo corte y deje ver su
+video donde quiera. **Sin captions** (el usuario: «demasiados captions… me repites los captions arriba y abajo»): ni la frase abajo ni tipografía de
+la frase; cada tramo (1,5–4 s, contiguos, cortados donde acaba la idea) es una TARJETA del estilo reel que ilustra lo que se dice.
 
-**Cómo:** `motions_completo.planificar` reparte las frases en escenas contiguas de 2,2–5,5 s: objeto de datos si se dice una cifra/precio
-(`edicion_pro_tema5_escenas` + la IA), foto de internet del tema (1 de cada 3, `edicion_pro_escenas.foto_del_tema`, titular con `_titular`: la clave o
-la frase tal cual se dijo), icono 3D (`CONCEPTOS3D`) o tipografía; fondos alternados y la frase abajo. `crear` lo renderiza con Remotion
-(`remotion/src/MotionsCompleto.tsx`, `render.mjs` modo `opaco` = H.264 crf 16 sin audio, líneas `{"progreso"}`). Colocación: `colocar_pro._motions`
-(Studio) y `poner_motions` del gemelo `CineCaptions_EdicionPro.lua` (Free), SIEMPRE el último paso; la capa `motions` se salta en el paso 1. Sin
-Edición PRO marcada, GO hace un plan solo de motions. **Ojo:** es video: en el Inspector solo se editan transformación y recorte.
+**Estilo reel (5.5.9, el usuario: «agarra el minuto 3:03–3:22 con su audio y replícalo tal cual para todas mis animaciones; nada de muñecos ni
+imágenes de referencia: ese estilo»):** se replicó el reel del medio de «ChatGPT vs Claude Motion Graphics» fotograma a fotograma (comparado lado a
+lado a 10 fps; réplica con su audio en `~/DaVinciSubtitles/Replica_reel/` y en Resolve, proyecto «zz Replica reel 3m03»; el audio y el diseño
+original son de su autor: la réplica es de práctica, no para publicar). Lo aprendido, en `remotion/src/Reel.tsx`: `RTitular` (titular grande arriba,
+palabra a palabra con desenfoque; estilos `clave` cursiva serif azul, `tachado` rojo, `gris` apagado, `pildora` lavanda, `caja` recuadro de selección
+con tiradores, `azul`; `arriba` = píldora lavanda encima: «Zane 👋», «And when you say…»), `CursorR` (cursor morado en arco que hace clic y suelta una
+onda), `Estrella` (destellos dorados) y las tarjetas: `RecW` (grabar: visor azul REC) · `RelojW` (horas: reloj que corre con desenfoque) ·
+`ArchivosW` (material: fotos que salen de la carpeta) · `BuscarW` (encontrar: el clip elegido) · `CortarW` (cortar: línea de tiempo y tijeras) ·
+`LargoW` (largo/aburrido: reproductor gris) · `MovilW` (la gente lo entiende: móvil, reacciones, 96 %) · `ChatW` (lo que te dicen: el mensaje, la
+cita palabra a palabra) · `VersionesW` (A/B/C que se barajan) · `IdeasW` (la nube que suelta iconos y los contadores) y, para cualquier tema,
+`FechaW` · `LugarW` (mapa, ruta, alfiler) · `EntradaW` (boleto, GRATIS, sello) · `PersonasW` · `MusicaW` · `PremioW` · `CompartirW` · `AvisoW`
+(la general: una notificación con lo importante). Los textos fijos llegan por props, por idioma (`motions_completo.TEXTOS`, es/en/pt/fr/de/it).
+Tiempos pensados para tramos CORTOS (0,8–2 s): todo entra en el primer medio segundo.
+
+**Director (`motions_completo.planificar`):** `_partir` corta las frases donde hay un punto por dentro; `_segmentos` junta frases hasta que acaba la
+idea (punto ≥ 0,6 s, coma ≥ 0,7 s, a media frase hasta `MAX_S`). Por tramo: `_reel` (las palabras de `REEL` → `_tarjeta`, que saca de lo dicho los
+textos y los estilos del titular: lo que se corta va tachado, «aburrido» en gris, la respuesta en píldora, la última palabra en recuadro), los widgets
+claros (`_widgets`: contador, ruta, órbita, conectores, versiones), `_generales` (aviso, mensaje, clip elegido: siempre hay algo) y la IA local
+(`_reel_ia`: `ia_texto.motions(solo=['reel'], denso=True, extra=REEL_MENU)`, peso por DEBAJO de las reglas porque la de 1,7B se equivoca —propuso una
+fecha para «de I de la Unión Europea»— y `_evidencia` exige que el dato se diga en fechas, lugares y entradas). La idea que no cupo pasa al tramo
+siguiente si este no pide nada («¿otra versión?» → «claro que sí»: las A/B/C). `_elegir`: nunca la misma tarjeta seguida ni la misma idea, variedad.
+Un nombre al que se habla al empezar («Zane, …») va en la píldora de arriba con 👋; lo que alguien dice/pregunta va en `ChatW` (titular vacío, lo de
+antes del «dices» arriba). Fondo SIEMPRE claro (`tema: 'claro'`), acento azul. **Ya no** usa fotos/videos de internet, el kit neón, las escenas
+ni los muñecos (`edicion_pro_escenas.RETIRADAS`). Probado: la transcripción del reel da casi la misma secuencia que el original (REC → reloj →
+material → historia → cortar → móvil → mensaje → A/B/C → ideas) y un video de un festival en español sale con fecha, mapa, boleto, música, premio,
+personas y compartir.
+
+**Remotion (`remotion/src/MotionsCompleto.tsx`):** `tipo: 'reel'` + `reel` + `wp` (sus props) → `REEL[...]` a `cy` = 63 % del alto; el titular es
+`RTitular` en `TitularVida` (15 % del alto). Siguen las piezas de antes (`COMPS`, `PildorasMC`, `FotoMC`…) para proyectos viejos. Render:
+`render.mjs` modo `opaco` con prioridad baja (`edicion_pro_remotion.opciones_proceso`). Colocación: `colocar_pro._motions` / `poner_motions` (Lua),
+siempre el último paso. **Ojo:** es video: en el Inspector solo se editan transformación y recorte.
+
+**Transiciones (5.5.9, el usuario: «las transiciones están feas, nada fluido; aprende del video 3:03–3:22»):** el recorrido por paneles (zigzag, giro 3D, línea entre recuadros sobre negro) se QUITÓ: parecía un pase de diapositivas. Ahora, como los reels de referencia (estudiados a 10 fotogramas por segundo): `FondoTema` UNO para todo el video (lavanda claro tipo Apple u oscuro, con su trama de puntos y brillos suaves), `TitularVida` fijo arriba (las palabras viejas se difuminan, las nuevas entran cuando se dicen), y cada tramo en `Vida`: entra DESDE ABAJO con desenfoque de movimiento (proporcional a la velocidad del resorte), un poco girado y pequeño, se pasa y se asienta (resorte con rebote), flota mientras dura y sale bajo un VELO esmerilado (`SAL` 0,3 s solapados con la entrada del siguiente). Fotos, videos y piezas de pantalla completa van en `TarjetaMC` (tarjeta redondeada sobre el fondo, la pieza escalada a su ancho). **Ojo (render):** el bundle de Remotion lleva SIEMPRE sus mapas de fuente (`empaquetar.mjs`, devtool `source-map`, ~21 MB): sin ellos, desde que va Three.js, cualquier aviso de la página hacía que Remotion buscara `bundle/index.js.map` y TODOS los renders fallaban («ENOENT … index.js.map»); la autoprueba del .exe no lo detecta (solo mira que Remotion esté).
+
+**Widgets estilo Apple (5.5.9, referencias: los reels del minuto 3:04–3:22 de «ChatGPT vs Claude Motion Graphics», Tidio, «Smart Navigation», el panel de reservas):** `remotion/src/Widgets.tsx` — `Titular` (lo que se dice, 3–6 palabras, palabra a palabra cuando se dice, la clave en cursiva serif del acento con su subrayado), `OrbitaMC` (iconos en órbita alrededor de la idea), `RutaMC` (tarjeta con puntos de control y la ruta que se dibuja), `ConectoresMC` (entradas → tarjeta de interruptores que se encienden → resultado con ✓, con `Cursor` que hace clic), `ContadorMC` (anillo + número que sube) y `VersionesMC` (cartas A/B/C; el cursor elige una). El director (`motions_completo._widgets`) los propone por lo que se dice (cifras con unidad, pasos/destinos, opciones, 3+ cosas nombradas, conectar/integrar); `_palabras_titular` arma el titular de cada tramo con su puntuación y los estilos de la tarjeta.
+
+**Muñecos (5.5.9, «mejores bocetos de los muñecos, más visibles y bonitos»):** `Escenas9.Monigote` es un personaje ilustrado (piel, pelo y cara; camiseta del color de acento —si es casi blanco, azul—; pantalón, manos y zapatos) con contorno blanco de pegatina y sombra; mismas 9 poses. La variante neón ya no es una silueta roja difusa: el mismo muñeco con brillo.
+
+**Contra la repetición (5.5.9, el usuario: «repite mucho los motions completo… aplica todo»):** en un video de 21 tramos, 11 eran las mismas
+tres generales. Ahora: (1) más tarjetas en `Reel.tsx` — `ListaW` (✓ una a una), `BuscadorW` (se escribe y caen resultados), `PostW` (corazón y «me
+gusta»), `EncuestaW`, `CargaW`, `NotaW` (papel amarillo a mano), `AntesDespuesW` (el fotograma apagado/vivo con deslizador), `CuentaW`, `GraficaW` y
+`GolpeW` (solo la palabra clave enorme en cursiva con subrayado dorado: los momentos cortos o con «!»; pocos) — con sus palabras en `REEL` y su
+menú en `REEL_MENU`; `GENERALES` = aviso, mensaje, clip elegido, lista, nota, publicación (`_nombres` saca las cosas: nombres propios enteros,
+sin verbos ni repetidas; lista/nota no salen con menos de 3/2). (2) `_variar`: color por tarjeta (`PALETAS`, variables CSS `--cc-azul/--cc-lila/
+--cc-lilaf` que pone `MotionsCompleto` alrededor de la tarjeta; nunca el mismo color seguido ni el que tuvo esa tarjeta antes) y lado (la mitad
+entra desde abajo, la otra desde un lado: `Vida` con `lado`). (4) `_elegir`: TOPE por video (~12 % de los tramos, mín. 2), DESCANSO (−6 por
+cada vez en los 4 últimos), golpe ≤ 1 de cada 8 y a 6 tramos del anterior. (6) `_sigue`: si un tramo no pide nada y el anterior fue una tarjeta de
+verdad, ESA sigue (sin entrar otra vez) y la cámara se acerca (`empuje`): los titulares van aparte (`props.titulares`, `TitularMC`) para que
+cambie solo el titular. (8) `sonidos(mp4, fps, rng, voz_db)`: whoosh al entrar cada tarjeta y los clics/pops/pin/sello de lo que pasa dentro
+(`SFX`, biblioteca de `edicion_pro_sonido`), desde el `.json` que `crear` deja junto al mp4; `edicion_pro` los añade a `sonidos` (respeta
+Sonido › Edición PRO y su nivel). (9) `_fotogramas`: las tarjetas de `CON_FOTO` (móvil, clip, REC, reproductor, publicación, antes/después) llevan el
+FOTOGRAMA del video del usuario del momento en que se dice (PyAV + Pillow → data URI, ≤ 10). La (5) —que la IA elija sabiendo lo ya usado— no se
+hizo: la IA de 1,7B ya quedó por debajo de las reglas. Probado con el festival en español (21 tramos: ninguna tarjeta más de 2 veces, 3
+fotogramas, 49 sonidos) y con el reel (sale casi la secuencia del original y acaba en golpe «absolutely»).
+
+**Rendimiento (5.5.9, el usuario: «máximo rendimiento, más tareas en paralelo, más rapidez»):** `edicion_pro.aplicar` arranca en hilos, en cuanto hay carpeta, lo que no depende de nada de lo de abajo: `_motions_completo` (`MCO.crear`, su render de Remotion corre mientras se buscan y recortan las personas y se revisan los gráficos) y `_broll` (la descarga de stock); se recogen (`join`) donde antes se hacían. Dentro de la PRO «Motions completo» va SIN la IA de texto (`pro_motions_ia`, por defecto False): con ella el plan tardaba ~110 s y volvía a cargar el modelo que la PRO suelta para Resolve, para propuestas que ya pesaban menos que las reglas. `voz_db` se mide una vez. `render.mjs` (modo opaco): `x264Preset: 'veryfast'` (CRF 16 igual): 79 → 75 s y 36 → 31 MB en 62,8 s de video; más fotogramas a la vez no ayudan (12 hilos: 6 o 9, igual). Cancelar GO (`colocacion.parar_todo`) mata también ese node/Chrome de fondo.
+**Dos incoherencias arregladas (5.5.9, probado con GO real en Studio):** (1) con «Motions completo» encendido y un video en el que la PRO no pone gráficos («estilo bts: sin gráficos») no salía NADA: el script principal solo guardaba el plan (`_pro_plan`) y `_colocar_pro` solo seguía si había `piezas`; ahora también con `pro_motions_completo` (como ya hacía `aplicar`). (2) El rectificador quitaba casi todos los sonidos de «Motions completo» («no entra nada en pantalla a la vez»: no sabe lo que pasa DENTRO de su video); ahora llevan `sinc` y los deja (Tema 4, 25 s: PRO-WHOOSH 3 y PRO-TEXTURA 6, antes 1 y 2).
 
 ## vigilante-pro — El vigilante de la Edición PRO: reglas + IA local + PyAV (v5.5.8)
 
@@ -263,3 +315,24 @@ pieza no pueden repetir los de `motor.js` (D_OSCURO, aRgb…). Ver una pieza sin
 aplica en la foto de la tarjeta, el recorte de la persona, `edicion_pro.medir`, `resolve_mcp.medir_medio`, `efectos_visuales.resolucion_de_timeline`
 y la caja de la cara de `efectos_extra`. **Monedas:** `monedas.py` (naira→₦, euro→€, quetzal→Q, sol→S/, real→R$, yen/yuan→¥, rupia→₹…;
 `signo(palabras, escrito)`); la moneda pegada a la cifra gana a las unidades de tiempo («$1,200 este mes» no es un reloj).
+
+## personajes-3d — Personajes 3D que explican los motions (morado y blanco, v5.5.9)
+
+**RETIRADO (5.5.9, el usuario: «no quiero muñecos raros… ya no usas nada de muñecos»):** `edicion_pro_escenas.RETIRADAS` = pictograma y personajes: ni las reglas ni la IA los eligen y no salen en el catálogo de motions (`motions_catalogo._escenas`); `Pictos3D.tsx` sigue en el paquete para los proyectos viejos.
+
+**Qué:** pedido del usuario con su hoja de estilo («que este muñeco pueda explicar mis motions en cualquier video»): dos maniquíes 3D sin cara ni
+ropa — el MORADO (plástico brillante con barniz: la marca / la agencia que ayuda) y el BLANCO (mate: el cliente) — en `remotion/src/Pictos3D.tsx`
+(`Pictos3DE`, prop `accion`: ayudar · apreton · hombro · crecer · levantar · celebrar · explicar, y `texto`: la idea, 1–3 palabras dichas).
+
+**Cómo:** Three.js de verdad con `@remotion/three` (`ThreeCanvas`; render con `gl: 'angle'`, GPU). El cuerpo son segmentos entre articulaciones
+(`montar`: pelvis, tronco torneado con `LatheGeometry`, cabeza ovalada, brazos y piernas que se afinan) y brazos/piernas con **IK de dos huesos**
+(`ik`: las manos se agarran, los pies pisan; codos y rodillas con vector polo). Cada acción son claves de pose (`Clave`) con `suave` y `asienta`
+(llega, se pasa un poco y se asienta), adaptadas a la duración del tramo. Entorno `RoomEnvironment` para los reflejos, luz de contorno morada,
+suelo negro con niebla, halo morado bajo el morado, escalón con borde de luz (ayudar), gráfica de barras que sube (crecer), bloque de la marca
+(levantar), estelas de neón (`Estela`, tubo + halo aditivo). Sin dependencias de modelos: todo procedural y determinista.
+
+**Dónde sale:** es la escena `personajes` de `edicion_pro_escenas` (COMP → `Pictos3DE`, `ACCION_3D` = palabras → acción para las reglas,
+menú de la IA, `desde_ia_uno` valida la acción), así que la eligen la Edición PRO y «Motions completo» en cualquier video; en el carrusel de
+Efectos es «Personajes 3D que explican» (miniatura `previas_motions/escena_personajes.jpg`). **Ojo:** es lenta de renderizar (WebGL: ~15 s por
+segundo de escena en este PC); por eso va donde lo dicho encaja, no en cada tramo. Ver fotogramas sin Resolve: `galeria.mjs` con `Pictos3DE`;
+para ver un error de render con su línea, empaquetar con `CC_MAPAS=1 node empaquetar.mjs` (y volver a empaquetar sin mapas).
