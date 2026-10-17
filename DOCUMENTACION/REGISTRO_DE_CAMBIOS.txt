@@ -12,6 +12,15 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-17 09:08  ·  v5.5.10  ·  (automático)
+    modificados (6):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+
 2026-10-17 00:51  ·  v5.5.10  ·  cambio explicado
     Creativo: columna derecha solo con el movil grande y el play dentro; tamano y Generar junto a Mas herramientas. Arreglado: soltar un video en GO fallaba en 5.5.10 (fps llegaba como texto y se formateaba con %d en _CREAR_TIMELINE).
     modificados (3):
