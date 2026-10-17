@@ -2568,6 +2568,10 @@ class MarcoVista(QWidget):
         self._cuadro = None          # v5.5.10: el cuadro EXACTO del tema (vista_tema.py), ya con foto y captions: se ve tal cual en la pantalla
         self._progreso = None        # 0..1 mientras se reproduce (la barrita de abajo, como en un reel)
         self.al_cambiar_tamano = None
+        self._animador = None        # v5.5.10: {'cu': vista_tema.Cuadros, 'k': cue en bucle, 't': instante fijo} -> los captions ANIMADOS
+        self._t0_bucle = 0.0
+        self._reloj_anim = None
+        self._boton_sec = None
         self._pie = ''
         self._fondo = None
         self._t_anim = None          # v5.4: segundos desde que entro el bloque (None = quieto, como siempre)
@@ -2686,7 +2690,7 @@ class MarcoVista(QWidget):
     def geometria_movil(self):
         """(caja del móvil, su pantalla, radio de la pantalla): el móvil entero cabe en el widget, centrado."""
         _marco, info, _fondo = self._recursos_movil()
-        r = QRectF(self.rect()).adjusted(16, 8, -16, -22)               # (sitio para la sombra del móvil)
+        r = QRectF(self.rect()).adjusted(18, 8, -18, -46)               # (sitio para la sombra y el resplandor de abajo)
         asp = float(info.get('aspecto') or 0.5)
         h = r.height()
         w = h * asp
@@ -2716,6 +2720,78 @@ class MarcoVista(QWidget):
             x, y = self.width() - b.width() - 14, self.height() - b.height() - 14
         b.move(int(x), int(y))
         b.raise_()
+        s = self._boton_sec
+        if s is not None:                                               # el secundario (silenciar), a la derecha del play
+            s.move(int(x + b.width() + 10), int(y + (b.height() - s.height()) / 2))
+            s.raise_()
+
+    def poner_boton_secundario(self, boton):
+        """v5.5.10 (pedido: «al pasar el mouse por el play, que salga un icono de mutear sonido»): un botón pequeño junto al play que solo se ve
+        mientras el ratón está sobre el play o sobre él."""
+        self._boton_sec = boton
+        boton.setParent(self)
+        boton.hide()
+        for w in (getattr(self, '_boton_pantalla', None), boton):
+            if w is not None:
+                w.installEventFilter(self)
+        self._colocar_boton_pantalla()
+
+    def eventFilter(self, obj, ev):
+        s = self._boton_sec
+        if s is not None and obj in (s, getattr(self, '_boton_pantalla', None)):
+            if ev.type() == QEvent.Type.Enter:
+                s.show()
+                s.raise_()
+            elif ev.type() == QEvent.Type.Leave:
+                QTimer.singleShot(650, self._quizas_ocultar_secundario)
+        return super().eventFilter(obj, ev)
+
+    def _quizas_ocultar_secundario(self):
+        s, b = self._boton_sec, getattr(self, '_boton_pantalla', None)
+        if s is not None and vivo(s) and not s.underMouse() and not (b is not None and b.underMouse()):
+            s.hide()
+
+    # -- v5.5.10: los captions ANIMADOS del tema (vista_tema.Cuadros.pintar) --------------------------------------------------------------
+    def poner_animador(self, cuadros, k=None, t=None):
+        """cuadros = vista_tema.Cuadros (None: sin vista exacta). k: el cue que se repite en bucle (vista quieta, con su propio reloj);
+        t: un instante fijo (lo marca el play en cada tic)."""
+        anterior = self._animador
+        self._animador = None if cuadros is None else {'cu': cuadros, 'k': k, 't': t}
+        if cuadros is not None and k is not None:
+            if anterior is None or anterior.get('cu') is not cuadros or anterior.get('k') != k or anterior.get('t') is not None:
+                self._t0_bucle = time.perf_counter()
+            if self._reloj_anim is None:
+                self._reloj_anim = QTimer(self)
+                self._reloj_anim.timeout.connect(self._tic_anim)
+                try:
+                    import ritmo_ui
+                    ritmo_ui.ritmo.poner(self._reloj_anim, 16)
+                except Exception:
+                    self._reloj_anim.setInterval(16)
+            if not self._reloj_anim.isActive():
+                self._reloj_anim.start()
+        elif self._reloj_anim is not None:
+            self._reloj_anim.stop()
+        self.update()
+
+    def _tic_anim(self):
+        if self._animador is None or self._animador.get('k') is None or not self.isVisible():
+            self._reloj_anim.stop()
+            return
+        self.update()
+
+    def _t_animador(self):
+        a = self._animador
+        if a.get('t') is not None:
+            return float(a['t'])
+        ini, fin = a['cu'].tramo(a['k'])
+        ciclo = max(0.8, fin - ini) + 0.75                              # el bloque entero (entra, se queda, se va) y una pausa corta
+        return ini - 0.05 + (time.perf_counter() - self._t0_bucle) % ciclo
+
+    def showEvent(self, e):
+        super().showEvent(e)
+        if self._animador is not None and self._animador.get('k') is not None and self._reloj_anim is not None:
+            self._reloj_anim.start()
 
     def resizeEvent(self, e):
         super().resizeEvent(e)
@@ -2806,9 +2882,56 @@ class MarcoVista(QWidget):
         g.setColorAt(1.0, QColorReal(255, 255, 255, 0))
         p.fillRect(pant, QBrush(g))
 
+    def _resplandor(self, p, caja):
+        """v5.5.10 (pedido: «abajo del mockup un resplandor para decorar»): un halo de color bajo el móvil (y un aura muy suave detrás) que late
+        despacio mientras se reproduce."""
+        latido = 1.0
+        if self._progreso is not None:
+            latido = 1.0 + 0.22 * math.sin(time.perf_counter() * 3.2)
+        base = QColorReal(VERDE)
+        p.save()
+        p.setPen(Qt.PenStyle.NoPen)
+        aura = QRadialGradient(caja.center(), caja.height() * 0.62)
+        c0 = QColorReal(base)
+        c0.setAlpha(int(34 * latido))
+        aura.setColorAt(0.0, c0)
+        aura.setColorAt(1.0, QColorReal(base.red(), base.green(), base.blue(), 0))
+        p.setBrush(QBrush(aura))
+        p.drawEllipse(caja.center(), caja.width() * 1.05, caja.height() * 0.62)
+        centro = QPointF(caja.center().x(), caja.bottom() + 10.0)
+        for ancho_f, alto_px, a0, a1 in ((1.05, 46.0, 150, 70), (0.55, 16.0, 235, 120)):      # halo ancho y núcleo brillante
+            rx, ry = caja.width() * ancho_f, alto_px
+            halo = QRadialGradient(QPointF(0, 0), rx)
+            c1 = QColorReal(base)
+            c1.setAlpha(min(255, int(a0 * latido)))
+            c2 = QColorReal(ACCENT_CLARO)
+            c2.setAlpha(min(255, int(a1 * latido)))
+            halo.setColorAt(0.0, c1)
+            halo.setColorAt(0.5, c2)
+            halo.setColorAt(1.0, QColorReal(base.red(), base.green(), base.blue(), 0))
+            p.save()
+            p.translate(centro)
+            p.scale(1.0, ry / rx)
+            p.setBrush(QBrush(halo))
+            p.drawEllipse(QPointF(0, 0), rx, rx)
+            p.restore()
+        p.restore()
+        # y una línea de luz fina justo bajo el móvil (el «suelo» brillante)
+        p.save()
+        linea = QLinearGradient(QPointF(caja.left(), 0), QPointF(caja.right(), 0))
+        for x, a in ((0.0, 0), (0.5, int(200 * min(1.0, latido))), (1.0, 0)):
+            cl = QColorReal(base)
+            cl.setAlpha(a)
+            linea.setColorAt(x, cl)
+        p.setPen(Qt.PenStyle.NoPen)
+        p.setBrush(QBrush(linea))
+        p.drawRoundedRect(QRectF(caja.left() + caja.width() * 0.08, caja.bottom() + 6.0, caja.width() * 0.84, 2.2), 1.1, 1.1)
+        p.restore()
+
     def _pintar_movil(self, p):
         marco, _info, _fondo = self._recursos_movil()
         caja, pant, radio = self.geometria_movil()
+        self._resplandor(p, caja)
         self._sombra_movil(p, caja)
         camino = QPainterPath()
         camino.addRoundedRect(pant, radio, radio)
@@ -2816,7 +2939,14 @@ class MarcoVista(QWidget):
         p.setClipPath(camino)
         p.fillRect(pant, QColorReal('#05080F'))
         img, real = self._imagen_en_pantalla()
-        if not real and self._cuadro is not None:
+        if not real and self._animador is not None:
+            # v5.5.10: los captions del tema ANIMADOS (cada capa entra como su macro), sobre la foto
+            try:
+                self._animador['cu'].pintar(p, pant, self._t_animador())
+            except Exception:
+                pass
+            img = None
+        elif not real and self._cuadro is not None:
             # v5.5.10: el cuadro exacto del tema (foto + captions de render_sin_resolve), ya del tamaño de la pantalla
             p.drawImage(pant, self._cuadro)
             img = None
@@ -2826,8 +2956,10 @@ class MarcoVista(QWidget):
             esc = (pant.width() / iw) if real else max(pant.width() / iw, pant.height() / ih)
             w, h = iw * esc, ih * esc
             p.drawImage(QRectF(pant.center().x() - w / 2, pant.center().y() - h / 2, w, h), img)
-        if not real and self._cuadro is None:
+        if not real and self._cuadro is None and self._animador is None and not getattr(self, 'esperando_tema', False):
             # velo suave abajo para que los captions se lean como en un reel
+            # (v5.5.10: con un tema que tendrá su vista exacta, mientras se prepara se ve la foto limpia: antes salía un instante la maqueta
+            #  aproximada, con otro estilo, y luego saltaba al tema real)
             velo = QLinearGradient(QPointF(0, pant.top() + pant.height() * 0.40), QPointF(0, pant.bottom()))
             velo.setColorAt(0.0, QColorReal(0, 0, 0, 0))
             velo.setColorAt(1.0, QColorReal(0, 0, 0, 120))

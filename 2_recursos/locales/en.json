@@ -3538,6 +3538,9 @@
     "Creativo: no pude dibujar la vista exacta del tema; uso la aproximada.": "Creative: I couldn't draw the exact theme preview; using the approximate one.",
     "Creativo: el móvil enseña exactamente el tema que elegiste en Proyecto (los 6 temas), también al dar play, y cambia en tiempo real al marcar otra palabra como Principal.": "Creative: the phone shows exactly the theme you chose in Project (all 6 themes), also when you press play, and it updates in real time when you mark another word as Main.",
     "Creativo: el móvil es más realista (barra de estado, sombra, reflejo del cristal y barrita de avance al reproducir).": "Creative: the phone looks more realistic (status bar, shadow, glass reflection and a progress bar while playing).",
-    "Tema 1: la palabra que marcas como Principal en Creativo es la que sale grande en Resolve (antes a veces salía la de al lado).": "Theme 1: the word you mark as Main in Creative is the one that comes out big in Resolve (it sometimes used to be the word next to it)."
+    "Tema 1: la palabra que marcas como Principal en Creativo es la que sale grande en Resolve (antes a veces salía la de al lado).": "Theme 1: the word you mark as Main in Creative is the one that comes out big in Resolve (it sometimes used to be the word next to it).",
+    "Activar el sonido": "Turn sound on",
+    "Silenciar el sonido": "Mute sound",
+    "Creativo: los captions entran ANIMADOS como en cada tema (pop con rebote, cintas que se deslizan, subrayados que se dibujan, destellos…) y el bloque elegido se repite en bucle; play nuevo con el avance en un anillo, botón para silenciar al pasar el ratón y un resplandor bajo el móvil.": "Creative: captions come in ANIMATED like in each theme (bouncy pop, sliding tapes, underlines that draw themselves, flashes…) and the chosen block loops; new play button with progress in a ring, a mute button on hover and a glow under the phone."
   }
 }

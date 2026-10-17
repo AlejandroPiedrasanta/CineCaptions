@@ -3886,9 +3886,17 @@ class WordTagWindow(QWidget):
         self.vista_bloque.setMinimumHeight(360)
         self.vista_bloque.al_cambiar_tamano = self._vt_al_cambiar_tamano      # (los cuadros del tema se rehacen al tamaño nuevo)
         dcapa.addWidget(self.vista_bloque, 1)
-        self.reproducir_btn = editor_ui.BotonPlay(tr('Reproducir todo'), tr('Detener'), lado=54)
+        self.reproducir_btn = editor_ui.BotonPlay(tr('Reproducir todo'), tr('Detener'), lado=62)
         self.reproducir_btn.clicked.connect(lambda _=False: self._alternar_reproduccion())
         self.vista_bloque.poner_boton_en_pantalla(self.reproducir_btn)          # el play, dentro de la pantalla del móvil
+        try:                                                                      # v5.5.10: silenciar, al pasar el ratón por el play (se recuerda)
+            import ajustes_ui
+            mudo = bool(ajustes_ui.leer_prefs().get('creativo_mudo', False))
+        except Exception:
+            mudo = False
+        self.sonido_btn = editor_ui.BotonSonido(mudo=mudo, lado=40)
+        self.sonido_btn.clicked.connect(lambda _=False: self._guardar_mudo())
+        self.vista_bloque.poner_boton_secundario(self.sonido_btn)
         fila_v, cfv = caja_h(espacio=8)
         self.mini_pos = editor_ui.MiniPosicion()          # v5.8: dónde cae el bloque en el cuadro del video (arriba / centro / abajo)
         self.mini_pos.setFixedHeight(156)
@@ -5419,7 +5427,10 @@ class WordTagWindow(QWidget):
         pack, estilo = self._vt_estilo()
         if estilo is None:
             self._vt = None
+            self.vista_bloque.esperando_tema = False
             return False
+        # (mientras llega la primera vista exacta, el móvil enseña la foto limpia, no la maqueta aproximada con otro estilo)
+        self.vista_bloque.esperando_tema = (getattr(self, '_vt', None) or {}).get('cuadros') is None
         w, h = self.vista_bloque.tamano_pantalla()
         if w < 60 or h < 120:
             return True
@@ -5444,9 +5455,11 @@ class WordTagWindow(QWidget):
             actual = getattr(self, '_vt', None) or {}
             if actual.get('pidiendo') != clave:
                 return                                          # llegó otra petición después: esta ya no vale
+            self.vista_bloque.esperando_tema = False
             if error is not None or cuadros is None:
                 registro.aviso(tr('Creativo: no pude dibujar la vista exacta del tema; uso la aproximada.'), 'creativo', detalle=str(error or ''))
                 self._vt = {'clave': clave, 'cuadros': None}
+                self.vista_bloque.poner_animador(None)
                 self.vista_bloque.poner_cuadro(None)
                 return
             self._vt = {'clave': clave, 'cuadros': cuadros}
@@ -5458,6 +5471,7 @@ class WordTagWindow(QWidget):
     def _vt_quieto(self, idx):
         """Vista quieta: el bloque del tema donde cae la palabra idx, con todos sus elementos ya dentro."""
         if not self._vt_preparar():
+            self.vista_bloque.poner_animador(None)
             self.vista_bloque.poner_cuadro(None)
             return
         cu = (getattr(self, '_vt', None) or {}).get('cuadros')
@@ -5466,9 +5480,17 @@ class WordTagWindow(QWidget):
         try:
             w = self.palabras[idx] if 0 <= idx < len(self.palabras) else {}
             t = float(w.get('start') or 0.0)
-            self.vista_bloque.poner_cuadro(cu.cuadro(cu.instante_quieto(cu.cue_de_palabra(w.get('word'), t))))
+            # v5.5.10 (pedido: «faltan las animaciones, están muy fijos»): el bloque se repite ANIMADO en bucle (entra, se queda, se va)
+            self.vista_bloque.poner_animador(cu, k=cu.cue_de_palabra(w.get('word'), t))
         except Exception:
             registro.excepcion(origen='Creativo · vista del tema')
+
+    def _guardar_mudo(self):
+        try:
+            import ajustes_ui
+            ajustes_ui.guardar_prefs({'creativo_mudo': bool(self.sonido_btn.mudo)})
+        except Exception:
+            pass
 
     def _vt_al_cambiar_tamano(self):
         if getattr(self, '_repro', None) is not None or not hasattr(self, 'reproducir_btn'):
@@ -5597,15 +5619,15 @@ class WordTagWindow(QWidget):
         else:
             self.vista_bloque.poner(r['lineas'], imagen=imagen)
         self.vista_bloque.animar(max(0.0, t - float(b['start'])), salida=max(0.0, min(1.0, (t - (fin_b - 0.12)) / 0.12)))
-        cu = (getattr(self, '_vt', None) or {}).get('cuadros')           # v5.5.10: el tema elegido, exacto, en el instante t
+        cu = (getattr(self, '_vt', None) or {}).get('cuadros')           # v5.5.10: el tema elegido, exacto y animado, en el instante t
         if cu is not None and cu.cues:
-            try:
-                self.vista_bloque.poner_cuadro(cu.cuadro(t))
-            except Exception:
-                pass
-        self.vista_bloque.poner_progreso((t - r['ini']) / max(0.1, fin - r['ini']))
-        for seg, ruta in r['sonidos']:                  # los sonidos que pasaron desde el tic anterior
-            if r['ultimo_t'] < seg <= t:
+            self.vista_bloque.poner_animador(cu, t=t)
+        avance = (t - r['ini']) / max(0.1, fin - r['ini'])
+        self.vista_bloque.poner_progreso(avance)
+        self.reproducir_btn.poner_progreso(avance)
+        mudo = bool(getattr(getattr(self, 'sonido_btn', None), 'mudo', False))
+        for seg, ruta in r['sonidos']:                  # los sonidos que pasaron desde el tic anterior (no, si se silenció)
+            if r['ultimo_t'] < seg <= t and not mudo:
                 self._escuchar_sfx(ruta)
         r['ultimo_t'] = t
 

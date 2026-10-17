@@ -12,6 +12,22 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-17 10:26  ·  v5.5.10  ·  cambio explicado
+    Creativo: captions animados por tema en el movil (QPainter, bucle del bloque y play), play nuevo con anillo de avance, boton de silenciar al pasar el raton, resplandor bajo el movil; sin el salto de la maqueta aproximada mientras se prepara la vista.
+    modificados (12):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/editor_ui.py
+      ~ 1_codigo/qt_kit.py
+      ~ 1_codigo/render_sin_resolve.py
+      ~ 1_codigo/render_temas.py
+      ~ 1_codigo/vista_tema.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+
 2026-10-17 09:58  ·  v5.5.10  ·  cambio explicado
     Banco probar_vista_creativo.py (6 temas): planificacion identica a lo que recibio Resolve, Principal 22/22; arreglos: kinetic_planificador usaba mal los indices de mains (la Principal caia en la palabra de al lado), Creativo buscaba el bloque de una palabra por tiempo (cue_de_palabra), Tema 5 sin el video para el color.
     nuevos (1):

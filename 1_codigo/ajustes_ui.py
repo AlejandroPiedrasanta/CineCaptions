@@ -488,6 +488,7 @@ NOTAS_VERSION = [
         'Creativo: a la derecha, un móvil grande con una foto de fondo y los captions encima, como quedará en el reel; el play va dentro del móvil.',
         'Creativo: el móvil enseña exactamente el tema que elegiste en Proyecto (los 6 temas), también al dar play, y cambia en tiempo real al marcar otra palabra como Principal.',
         'Creativo: el móvil es más realista (barra de estado, sombra, reflejo del cristal y barrita de avance al reproducir).',
+        'Creativo: los captions entran ANIMADOS como en cada tema (pop con rebote, cintas que se deslizan, subrayados que se dibujan, destellos…) y el bloque elegido se repite en bucle; play nuevo con el avance en un anillo, botón para silenciar al pasar el ratón y un resplandor bajo el móvil.',
         'Tema 1: la palabra que marcas como Principal en Creativo es la que sale grande en Resolve (antes a veces salía la de al lado).',
         'Creativo más limpio: sin la barra de abajo; el tamaño del texto y el botón «Generar» van junto a «Más herramientas».',
         '«Generar» en Creativo te lleva a Inicio y el avance sale en el orbe, como con GO, con las correcciones que hiciste.',
