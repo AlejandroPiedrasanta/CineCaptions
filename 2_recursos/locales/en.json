@@ -3567,6 +3567,10 @@
     "Cifras, mapas con bandera, marcos de cámara y llamadas a la acción.": "Numbers, maps with flags, camera frames and calls to action.",
     "«¡Hola amigos!», «Guárdalo», encuestas… justo cuando dices esa frase.": "«Hi friends!», «Save it», polls… right when you say that phrase.",
     "Encendido · clic para apagar": "On · click to turn off",
-    "Apagado · clic para encender": "Off · click to turn on"
+    "Apagado · clic para encender": "Off · click to turn on",
+    "Proyecto con la Edición PRO: a la derecha, una barra con los motions que pondrá GO (píldora bajo los captions, B-roll, captions detrás de ti, Motions completo, gancho del inicio, escenas, kit, gráficos y plantillas); un clic los enciende o apaga y a la izquierda un móvil enseña el ejemplo real de cada uno. Va de la mano con la página Efectos.": "Project with PRO Edit: on the right, a bar with the motions GO will add (pill under the captions, B-roll, captions behind you, Full motions, opening hook, scenes, kit, graphics and templates); one click turns them on or off, and on the left a phone shows the real example of each one. It stays in sync with the Effects page.",
+    "Proyecto y Sonido más limpios: sin la barra de título; «Crea tu estilo» va junto a Whisper; el slider va sin flechas ni puntos, con arrastre elástico en los extremos, y su píldora es «Solo captions | Con PRO».": "Cleaner Project and Sound pages: no title bar; «Create your style» sits next to Whisper; the slider has no arrows or dots, with elastic dragging at the ends, and its pill is «Captions only | With PRO».",
+    "Librerías al día: Pillow 13, Remotion 4.0.536 y three.js 0.186.": "Libraries up to date: Pillow 13, Remotion 4.0.536 and three.js 0.186.",
+    "Cerrar el programa ya no puede dar un error aunque quede trabajo en segundo plano.": "Closing the program can no longer cause an error, even with work still running in the background."
   }
 }

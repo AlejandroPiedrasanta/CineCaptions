@@ -3567,6 +3567,10 @@
     "Cifras, mapas con bandera, marcos de cámara y llamadas a la acción.": "Números, mapas com bandeira, molduras de câmera e chamadas para ação.",
     "«¡Hola amigos!», «Guárdalo», encuestas… justo cuando dices esa frase.": "«Olá, amigos!», «Salve», enquetes… bem quando você diz essa frase.",
     "Encendido · clic para apagar": "Ligado · clique para desligar",
-    "Apagado · clic para encender": "Desligado · clique para ligar"
+    "Apagado · clic para encender": "Desligado · clique para ligar",
+    "Proyecto con la Edición PRO: a la derecha, una barra con los motions que pondrá GO (píldora bajo los captions, B-roll, captions detrás de ti, Motions completo, gancho del inicio, escenas, kit, gráficos y plantillas); un clic los enciende o apaga y a la izquierda un móvil enseña el ejemplo real de cada uno. Va de la mano con la página Efectos.": "Projeto com a Edição PRO: à direita, uma barra com os motions que o GO vai colocar (pílula sob as legendas, B-roll, legendas atrás de você, Motions completo, gancho do início, cenas, kit, gráficos e modelos); um clique liga ou desliga e, à esquerda, um celular mostra o exemplo real de cada um. Fica em sintonia com a página Efeitos.",
+    "Proyecto y Sonido más limpios: sin la barra de título; «Crea tu estilo» va junto a Whisper; el slider va sin flechas ni puntos, con arrastre elástico en los extremos, y su píldora es «Solo captions | Con PRO».": "Projeto e Som mais limpos: sem a barra de título; «Crie o seu estilo» fica ao lado do Whisper; o slider não tem setas nem pontos, com arraste elástico nas pontas, e sua pílula é «Só legendas | Com PRO».",
+    "Librerías al día: Pillow 13, Remotion 4.0.536 y three.js 0.186.": "Bibliotecas atualizadas: Pillow 13, Remotion 4.0.536 e three.js 0.186.",
+    "Cerrar el programa ya no puede dar un error aunque quede trabajo en segundo plano.": "Fechar o programa já não pode dar erro, mesmo com trabalho em segundo plano."
   }
 }

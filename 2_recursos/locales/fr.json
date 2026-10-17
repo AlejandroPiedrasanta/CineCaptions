@@ -3567,6 +3567,10 @@
     "Cifras, mapas con bandera, marcos de cámara y llamadas a la acción.": "Chiffres, cartes avec drapeau, cadres de caméra et appels à l’action.",
     "«¡Hola amigos!», «Guárdalo», encuestas… justo cuando dices esa frase.": "« Salut les amis ! », « Enregistrez-la », sondages… au moment où vous dites cette phrase.",
     "Encendido · clic para apagar": "Activé · cliquez pour désactiver",
-    "Apagado · clic para encender": "Désactivé · cliquez pour activer"
+    "Apagado · clic para encender": "Désactivé · cliquez pour activer",
+    "Proyecto con la Edición PRO: a la derecha, una barra con los motions que pondrá GO (píldora bajo los captions, B-roll, captions detrás de ti, Motions completo, gancho del inicio, escenas, kit, gráficos y plantillas); un clic los enciende o apaga y a la izquierda un móvil enseña el ejemplo real de cada uno. Va de la mano con la página Efectos.": "Projet avec le Montage PRO : à droite, une barre avec les motions que GO ajoutera (pastille sous les sous-titres, B-roll, sous-titres derrière vous, Motions complet, accroche du début, scènes, kit, graphiques et modèles) ; un clic les active ou désactive, et à gauche un téléphone montre l’exemple réel de chacun. Tout reste synchronisé avec la page Effets.",
+    "Proyecto y Sonido más limpios: sin la barra de título; «Crea tu estilo» va junto a Whisper; el slider va sin flechas ni puntos, con arrastre elástico en los extremos, y su píldora es «Solo captions | Con PRO».": "Projet et Son plus épurés : sans barre de titre ; « Créez votre style » est à côté de Whisper ; le slider n’a plus de flèches ni de points, avec un glissement élastique aux extrémités, et sa pastille est « Sous-titres seuls | Avec PRO ».",
+    "Librerías al día: Pillow 13, Remotion 4.0.536 y three.js 0.186.": "Bibliothèques à jour : Pillow 13, Remotion 4.0.536 et three.js 0.186.",
+    "Cerrar el programa ya no puede dar un error aunque quede trabajo en segundo plano.": "Fermer le programme ne peut plus provoquer d’erreur, même s’il reste du travail en arrière-plan."
   }
 }

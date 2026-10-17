@@ -497,6 +497,10 @@ NOTAS_VERSION = [
         'Videos a 29,97 fps: el timeline se crea con sus fps (antes quedaba a 24).',
         'Temas 4, 5, 6 y Referencia: los captions llevan una sombra suave para leerse sobre fondos claros.',
         'Tema 5: la palabra grande «detrás de la persona» ya no queda tapada cuando la persona ocupa su sitio: se pone delante.',
+        'Proyecto con la Edición PRO: a la derecha, una barra con los motions que pondrá GO (píldora bajo los captions, B-roll, captions detrás de ti, Motions completo, gancho del inicio, escenas, kit, gráficos y plantillas); un clic los enciende o apaga y a la izquierda un móvil enseña el ejemplo real de cada uno. Va de la mano con la página Efectos.',
+        'Proyecto y Sonido más limpios: sin la barra de título; «Crea tu estilo» va junto a Whisper; el slider va sin flechas ni puntos, con arrastre elástico en los extremos, y su píldora es «Solo captions | Con PRO».',
+        'Librerías al día: Pillow 13, Remotion 4.0.536 y three.js 0.186.',
+        'Cerrar el programa ya no puede dar un error aunque quede trabajo en segundo plano.',
     ]),
     ('5.5.9', [
         'Motions completo con el estilo de los mejores reels: ya no repite los captions; arriba, un titular que aparece palabra a palabra (la idea clave en cursiva azul, tachada, en gris o en píldora) y debajo una tarjeta que explica lo que se dice (grabar, horas, material, encontrar, cortar, versiones, ideas, fechas, lugares, entradas, música, premios, compartir…), con el cursor que hace clic y transiciones fluidas sobre un mismo fondo claro. Sin muñecos ni fotos de internet.',
