@@ -14,7 +14,7 @@
 
 **5.5.9 (el usuario: «más animaciones en Proyecto; quítale la V a los temas; cuando selecciono un tema, una mejor animación; dentro de cada tema
 una píldora para ver con o sin modo PRO (quizá solo quiere captions); renderiza todo con y sin PRO; el slider más grande; el botón de Edición PRO a
-la par de Usar tema»):** sin la «V» del formato (`_dibujar_textos`). **Píldora** «✦ Con PRO | Solo captions» abajo de la tarjeta del centro (encima del
+la par de Usar tema»):** sin la «V» del formato (`_dibujar_textos`). **Píldora** «Solo captions | ✦ Con PRO» (v5.5.10: «Con PRO» a la derecha, como el botón «Edición PRO» de abajo) abajo de la tarjeta del centro (encima del
 nombre; arriba va «En uso»), si la tarjeta trae los DOS ejemplos (`Carta.video_sin/poster_sin` ← `vistas_slider.ruta_video_captions` =
 `2_recursos/vistas_slider/<pack>_captions.mp4`): `CarruselPacks.modo_pro`, `poner_vista_pro(pro, animar)` (fundido de 0,35 s entre los dos videos),
 señal `vista_pro`; la de Proyecto empieza como la PRO y la sigue al pulsar el botón PRO. **Elegir** (`poner_elegida` con otro valor):

@@ -766,7 +766,8 @@ class CarruselPacks(QWidget):
         p.restore()
 
     def _dibujar_pildora(self, p, rect, esc, y_pie):
-        """v5.5.9: «✦ Con PRO | Solo captions» arriba de la tarjeta del centro: qué ejemplo se ve (quizá el usuario solo quiere captions)."""
+        """v5.5.9: «Solo captions | ✦ Con PRO» al pie de la tarjeta del centro: qué ejemplo se ve (quizá el usuario solo quiere captions).
+        v5.5.10: «Con PRO» a la DERECHA, para que cuadre con los botones de abajo («En uso» | «Edición PRO»)."""
         pad = 14.0 * esc
         f = ui.fuente(12.0 * esc, peso='negrita')
         fm = QFontMetricsF(f)
@@ -776,8 +777,8 @@ class CarruselPacks(QWidget):
         total = anchos[0] + anchos[1] + 6.0 * esc
         x0, y0 = max(rect.left() + pad * 0.5, rect.center().x() - total / 2.0), y_pie - alto          # v5.5.10: centrada al pie
         toda = QRectF(x0, y0, total, alto)
-        r_pro = QRectF(x0 + 3.0 * esc, y0 + 3.0 * esc, anchos[0], alto - 6.0 * esc)
-        r_sin = QRectF(r_pro.right(), y0 + 3.0 * esc, anchos[1], alto - 6.0 * esc)
+        r_sin = QRectF(x0 + 3.0 * esc, y0 + 3.0 * esc, anchos[1], alto - 6.0 * esc)
+        r_pro = QRectF(r_sin.right(), y0 + 3.0 * esc, anchos[0], alto - 6.0 * esc)
         self._pill_geo = (toda, r_pro, r_sin)
         k = max(0.0, min(1.0, self._pill_k))
         p.save()
