@@ -12,6 +12,22 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-17 00:37  ·  v5.5.10  ·  (automático)
+    modificados (26):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      … y 14 más
+
 2026-10-17 00:33  ·  v5.5.9  ·  cambio explicado
     Creativo: la vista del bloque es un movil con foto de muestra y los captions encima; sin la barra (solo con Mas herramientas); tamano de texto y Generar grandes arriba a la derecha; Generar vuelve a Inicio y ensena el avance en el orbe de GO.
     nuevos (3):
@@ -487,273 +503,6 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
       ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
       ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
       … y 8 más
-
-2026-10-14 01:17  ·  v5.5.5  ·  cambio explicado
-    PC de un cliente con 5.5.5: Avast bloqueaba powershell.exe (IDP.HELU.PSE94) y con él el Puente de Free y el Organizador -> UI Automation nativa en Python (uia_resolve, comtypes), cero PowerShell; Smart App Control bloqueaba av/format.pyd (Bad Image 0xc0e90002) -> sin cuadro de Windows, detección y explicación en el Registro; «Falla al iniciar» ya no sale como «El programa arrancó · no afecta».
-    nuevos (1):
-      + 1_codigo/uia_resolve.py
-    modificados (12):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/colocacion.py
-      ~ 1_codigo/registro_ayuda.py
-      ~ 1_codigo/salud.py
-      ~ 2_recursos/locales/de.json
-      ~ 2_recursos/locales/en.json
-      ~ 2_recursos/locales/fr.json
-      ~ 2_recursos/locales/it.json
-      ~ 2_recursos/locales/pt.json
-      ~ 3_compilar/cinecaptions.spec
-      ~ 3_compilar/requirements.txt
-
-2026-10-13 22:47  ·  v5.5.5  ·  (automático)
-    modificados (20):
-      ~ 1_codigo/version.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
-      ~ 2_recursos/resolve_scripts/CineCaptions.py
-      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
-      … y 8 más
-
-2026-10-13 22:24  ·  v5.5.4  ·  cambio explicado
-    GO real del usuario en los 6 temas (5.5.4): las IA ocupaban la GPU con Resolve abierto (IA de texto colgada 100 s, Resolve a tirones y cerrado en el Tema 2) -> VRAM libre real y soltar_gpu; caché de render en títulos y movimientos; gancho con captions detrás en todos los temas; acompañantes con la PRO en Temas 1-4 y bajo su caption en el 5; fotos de internet de lugares y más temas con hueco propio; STOP era un set de letras; listas que nadie dijo; Tema 3 sin colores rotando; Refrescar en Inicio; GO reabre el último proyecto sin timeline; aviso falso de CTranslate2.
-    modificados (24):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/broll.py
-      ~ 1_codigo/edicion_pro.py
-      ~ 1_codigo/edicion_pro_escenas.py
-      ~ 1_codigo/edicion_pro_kit7.py
-      ~ 1_codigo/edicion_pro_planificador.py
-      ~ 1_codigo/edicion_pro_tema5.py
-      ~ 1_codigo/edicion_pro_tema5_mm.py
-      ~ 1_codigo/edicion_pro_temas.py
-      ~ 1_codigo/fuentes_web.py
-      ~ 1_codigo/motor_voz.py
-      … y 12 más
-
-2026-10-13 20:51  ·  v5.5.4  ·  (automático)
-    modificados (20):
-      ~ 1_codigo/version.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
-      ~ 2_recursos/resolve_scripts/CineCaptions.py
-      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
-      … y 8 más
-
-2026-10-13 20:46  ·  v5.5.3  ·  cambio explicado
-    Práctica de la Edición PRO (Temas 1-6) con un video real del usuario: escenas que acaban antes de su B-roll (antes_del_inserto) y no se ponen sin nadie en cuadro; detector de cortes adaptativo (p75x3, de 6 a 21 cortes); objetos de la IA a cuento (ojo/app/avatares/calendario, fichas >=3, 100 % gratuita no es precio ni gráfica); calendario 3D sin número; órbita del gancho con iconos de evento; Tema 6 sin objetos flotando ni escenas pegadas; foto de relleno fuera de tomas cortas y de la despedida.
-    nuevos (1):
-      + 1_codigo/fuentes_web.py
-    modificados (20):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/broll.py
-      ~ 1_codigo/edicion_pro.py
-      ~ 1_codigo/edicion_pro_catalogo.py
-      ~ 1_codigo/edicion_pro_escenas.py
-      ~ 1_codigo/edicion_pro_kit7.py
-      ~ 1_codigo/edicion_pro_planificador.py
-      ~ 1_codigo/edicion_pro_tema5.py
-      ~ 1_codigo/edicion_pro_tema5_escenas.py
-      ~ 1_codigo/edicion_pro_tema5_mm.py
-      ~ 1_codigo/edicion_pro_tema5_video.py
-      … y 8 más
-
-2026-10-13 19:52  ·  v5.5.3  ·  (automático)
-    modificados (20):
-      ~ 1_codigo/version.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
-      ~ 2_recursos/resolve_scripts/CineCaptions.py
-      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
-      … y 8 más
-
-2026-10-13 17:06  ·  v5.5.2  ·  cambio explicado
-    5.5.3 (segunda tanda): el usuario pidió más B-roll de pantalla completa con motion graphics que expliquen el tema, varias plantillas para distintos casos y que la IA elija con más variedad en la Edición PRO de los Temas 1 al 6. Se hicieron 10 escenas (Escenas9.tsx) con 28 variantes, el director edicion_pro_escenas (reglas + menú de la IA + validación + historial), los captions de los Temas 1–4 bajan durante la escena, los Temas 5/6 las mezclan con sus escenas de papel, cada una suena; recursos libres bajados de internet (Fluent 3D MIT, Google Fonts, Tabler MIT).
-    nuevos (1549):
-      + 1_codigo/edicion_pro_escenas.py
-      + 1_codigo/remotion/public/fluent/LICENCIA.txt
-      + 1_codigo/remotion/public/fluent/abacus.png
-      + 1_codigo/remotion/public/fluent/admission_tickets.png
-      + 1_codigo/remotion/public/fluent/airplane_departure.png
-      + 1_codigo/remotion/public/fluent/axe.png
-      + 1_codigo/remotion/public/fluent/balance_scale.png
-      + 1_codigo/remotion/public/fluent/bicycle.png
-      + 1_codigo/remotion/public/fluent/bomb.png
-      + 1_codigo/remotion/public/fluent/bookmark.png
-      + 1_codigo/remotion/public/fluent/bookmark_tabs.png
-      + 1_codigo/remotion/public/fluent/brick.png
-      … y 1537 más
-    modificados (23):
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/edicion_pro.py
-      ~ 1_codigo/edicion_pro_kit7.py
-      ~ 1_codigo/edicion_pro_planificador.py
-      ~ 1_codigo/edicion_pro_sonido.py
-      ~ 1_codigo/edicion_pro_tema5.py
-      ~ 1_codigo/herramientas_dev/generar_recortes.py
-      ~ 1_codigo/herramientas_dev/importar_sonidos.py
-      ~ 1_codigo/ia_texto.py
-      ~ 1_codigo/remotion/empaquetar.mjs
-      ~ 1_codigo/remotion/public/recortes/color/confetti_ball.webp
-      ~ 1_codigo/remotion/src/Root.tsx
-      … y 11 más
-    quitados (3):
-      - 2_recursos/sfx_library/Fiesta/RISAS DE NIÑOS 2.mp3
-      - 2_recursos/sfx_library/Fiesta/RISAS DE NIÑOS 3.mp3
-      - 2_recursos/sfx_library/Fiesta/RISAS DE NIÑOS.mp3
-
-2026-10-13 15:47  ·  v5.5.2  ·  (automático)
-    nuevos (5):
-      + 2_recursos/edicion_pro/recortes/color/collision.webp
-      + 2_recursos/edicion_pro/recortes/linea/collision.webp
-      + 2_recursos/edicion_pro/recortes/linea/ghost.webp
-      + 2_recursos/edicion_pro/recortes/trama/collision.webp
-      + 2_recursos/edicion_pro/recortes/trama/exploding_head.webp
-    modificados (1):
-      ~ 2_recursos/edicion_pro/recortes/color/ghost.webp
-
-2026-10-13 15:47  ·  v5.5.2  ·  cambio explicado
-    5.5.3: el usuario pidió actualizar, dejar los mejores modelos por defecto y traer más recursos de iconos, sonido y motions a partir de sus referencias (stickers de revista en trama, texto seleccionado tipo iPhone, calendario DAY N, red de neón con interruptor) y de sus bibliotecas de sonido. Librerías: la app ya estaba al día; el motor Qwen se deja fijo (qwen-asr 0.0.6 exige transformers 4.57.6). IA de texto: 4B siempre que esté descargada. +323 sonidos (el usuario responde por las licencias de los packs) con 11 reglas por tema encendidas; Kit8 con 4 motions y 146 recortes derivados de Fluent (MIT).
-    nuevos (1100):
-      + 1_codigo/herramientas_dev/generar_recortes.py
-      + 1_codigo/herramientas_dev/importar_sonidos.py
-      + 1_codigo/remotion/public/recortes/color/1st_place_medal.webp
-      + 1_codigo/remotion/public/recortes/color/airplane.webp
-      + 1_codigo/remotion/public/recortes/color/alarm_clock.webp
-      + 1_codigo/remotion/public/recortes/color/bank.webp
-      + 1_codigo/remotion/public/recortes/color/bar_chart.webp
-      + 1_codigo/remotion/public/recortes/color/books.webp
-      + 1_codigo/remotion/public/recortes/color/brain.webp
-      + 1_codigo/remotion/public/recortes/color/briefcase.webp
-      + 1_codigo/remotion/public/recortes/color/broken_heart.webp
-      + 1_codigo/remotion/public/recortes/color/bullseye.webp
-      … y 1088 más
-    modificados (15):
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/edicion_pro_kit7.py
-      ~ 1_codigo/ia_texto.py
-      ~ 1_codigo/motor_voz.py
-      ~ 1_codigo/remotion/empaquetar.mjs
-      ~ 1_codigo/remotion/src/Kit7.tsx
-      ~ 1_codigo/remotion/src/Root.tsx
-      ~ 1_codigo/sfx_rules.py
-      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js
-      ~ 2_recursos/edicion_pro/remotion/bundle/index.html
-      ~ 2_recursos/locales/de.json
-      ~ 2_recursos/locales/en.json
-      … y 3 más
-
-2026-10-13 14:45  ·  v5.5.2  ·  (automático)
-    modificados (305):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/edicion_pro.py
-      ~ 1_codigo/edicion_pro_tema5_escenas.py
-      ~ 1_codigo/emojis.py
-      ~ 1_codigo/ia_texto.py
-      ~ 1_codigo/remotion/node_modules/.package-lock.json
-      ~ 1_codigo/remotion/node_modules/lottie-web/.babelrc.json
-      ~ 1_codigo/remotion/node_modules/lottie-web/.eslintrc.json
-      ~ 1_codigo/remotion/node_modules/lottie-web/.github/FUNDING.yml
-      ~ 1_codigo/remotion/node_modules/lottie-web/.github/ISSUE_TEMPLATE.md
-      ~ 1_codigo/remotion/node_modules/lottie-web/.github/workflows/testAnimations.yml
-      ~ 1_codigo/remotion/node_modules/lottie-web/CHANGELOG.md
-      … y 293 más
-    quitados (2):
-      - 1_codigo/remotion/node_modules/lottie-web/player/index2.html
-      - 1_codigo/remotion/node_modules/lottie-web/player/test.html
-
-2026-10-13 14:33  ·  v5.5.2  ·  (automático)
-    nuevos (5):
-      + 1_codigo/catalogo_ia.py
-      + 1_codigo/edicion_pro_kit7.py
-      + 1_codigo/rectificador.py
-      + 1_codigo/remotion/src/Kit7.tsx
-      + 2_recursos/edicion_pro/catalogo_ia.json
-    modificados (36):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/edicion_pro.py
-      ~ 1_codigo/edicion_pro_planificador.py
-      ~ 1_codigo/edicion_pro_tema5.py
-      ~ 1_codigo/ia_texto.py
-      ~ 1_codigo/remotion/src/Root.tsx
-      ~ 1_codigo/version.py
-      ~ 2_recursos/edicion_pro/colocar_pro.py
-      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js
-      ~ 2_recursos/locales/de.json
-      ~ 2_recursos/locales/en.json
-      … y 24 más
-
-2026-10-13 12:21  ·  v5.5.1  ·  (automático)
-    modificados (31):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/colocacion.py
-      ~ 1_codigo/resolve_mcp.py
-      ~ 1_codigo/version.py
-      ~ 2_recursos/edicion_pro/colocar_pro.py
-      ~ 2_recursos/locales/de.json
-      ~ 2_recursos/locales/en.json
-      ~ 2_recursos/locales/fr.json
-      ~ 2_recursos/locales/it.json
-      ~ 2_recursos/locales/pt.json
-      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
-      … y 19 más
-
-2026-10-13 11:24  ·  v5.5.0  ·  (automático)
-    modificados (21):
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/version.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
-      ~ 2_recursos/resolve_scripts/CineCaptions.py
-      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
-      … y 9 más
-
-2026-10-13 11:14  ·  v5.4.52  ·  (automático)
-    modificados (2):
-      ~ 1_codigo/edicion_pro_tema5.py
-      ~ 1_codigo/edicion_pro_temas.py
-
-2026-10-13 11:04  ·  v5.4.52  ·  (automático)
-    modificados (8):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/ajustes_ui.py
-      ~ 2_recursos/locales/de.json
-      ~ 2_recursos/locales/en.json
-      ~ 2_recursos/locales/fr.json
-      ~ 2_recursos/locales/it.json
-      ~ 2_recursos/locales/pt.json
-      ~ 3_compilar/traducciones_extra.json
 
 
 (Lo anterior está archivado por mes en DOCUMENTACION/historial/REGISTRO_<aaaa-mm>.txt)

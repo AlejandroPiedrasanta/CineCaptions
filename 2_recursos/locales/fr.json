@@ -3526,6 +3526,14 @@
     "Edición PRO más rápida: «Motions completo» y la descarga del B-roll se hacen a la vez que lo demás (antes iban al final, uno tras otro), «Motions completo» ya no espera a la IA de texto y su video se codifica más rápido.": "Montage PRO plus rapide : « Motions complet » et le téléchargement du B-roll se font en même temps que le reste (avant, à la fin, l’un après l’autre), « Motions complet » n’attend plus l’IA de texte et sa vidéo s’encode plus vite.",
     "Generar no avisó de que terminara: mira tu timeline y el Registro.": "Générer n'a pas signalé la fin : vérifie ta timeline et le Journal.",
     "No se pudo generar: mira el Registro.": "Impossible de générer : vérifie le Journal.",
-    "Ya está en tu timeline.": "C’est déjà dans ta timeline."
+    "Ya está en tu timeline.": "C’est déjà dans ta timeline.",
+    "Creativo: «Así se verá este bloque» se ve dentro de un móvil, con una foto de fondo y los captions encima, como quedará en el reel.": "Créatif : « Voici à quoi ressemblera ce bloc » s’affiche dans un téléphone, avec une photo de fond et les sous-titres par-dessus, comme dans le reel.",
+    "Creativo más limpio: sin la barra de abajo; el tamaño del texto y el botón «Generar» van grandes arriba a la derecha (las herramientas siguen en «Más herramientas»).": "Créatif plus épuré : sans la barre du bas ; la taille du texte et le bouton « Générer » sont grands en haut à droite (les outils restent dans « Plus d’outils »).",
+    "«Generar» en Creativo te lleva a Inicio y el avance sale en el orbe, como con GO, con las correcciones que hiciste.": "« Générer » dans Créatif t’emmène à l’Accueil et l’avancement s’affiche sur l’orbe, comme avec GO, avec les corrections que tu as faites.",
+    "Inicio: solo quedan los chips Estilo, Edición PRO y Motions completo.": "Accueil : il ne reste que les puces Style, Montage PRO et Motions complet.",
+    "Proyecto: el slider de temas se adapta a cualquier tamaño de ventana sin desbordarse.": "Projet : le carrousel de thèmes s’adapte à toutes les tailles de fenêtre sans déborder.",
+    "Videos a 29,97 fps: el timeline se crea con sus fps (antes quedaba a 24).": "Vidéos à 29,97 i/s : la timeline est créée à leur cadence (avant, elle restait à 24).",
+    "Temas 4, 5, 6 y Referencia: los captions llevan una sombra suave para leerse sobre fondos claros.": "Thèmes 4, 5, 6 et Référence : les sous-titres ont une ombre douce pour rester lisibles sur fond clair.",
+    "Tema 5: la palabra grande «detrás de la persona» ya no queda tapada cuando la persona ocupa su sitio: se pone delante.": "Thème 5 : le grand mot « derrière la personne » n’est plus caché quand la personne occupe sa place : il passe devant."
   }
 }

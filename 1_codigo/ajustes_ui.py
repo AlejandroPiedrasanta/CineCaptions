@@ -484,6 +484,16 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.5.10', [
+        'Creativo: «Así se verá este bloque» se ve dentro de un móvil, con una foto de fondo y los captions encima, como quedará en el reel.',
+        'Creativo más limpio: sin la barra de abajo; el tamaño del texto y el botón «Generar» van grandes arriba a la derecha (las herramientas siguen en «Más herramientas»).',
+        '«Generar» en Creativo te lleva a Inicio y el avance sale en el orbe, como con GO, con las correcciones que hiciste.',
+        'Inicio: solo quedan los chips Estilo, Edición PRO y Motions completo.',
+        'Proyecto: el slider de temas se adapta a cualquier tamaño de ventana sin desbordarse.',
+        'Videos a 29,97 fps: el timeline se crea con sus fps (antes quedaba a 24).',
+        'Temas 4, 5, 6 y Referencia: los captions llevan una sombra suave para leerse sobre fondos claros.',
+        'Tema 5: la palabra grande «detrás de la persona» ya no queda tapada cuando la persona ocupa su sitio: se pone delante.',
+    ]),
     ('5.5.9', [
         'Motions completo con el estilo de los mejores reels: ya no repite los captions; arriba, un titular que aparece palabra a palabra (la idea clave en cursiva azul, tachada, en gris o en píldora) y debajo una tarjeta que explica lo que se dice (grabar, horas, material, encontrar, cortar, versiones, ideas, fechas, lugares, entradas, música, premios, compartir…), con el cursor que hace clic y transiciones fluidas sobre un mismo fondo claro. Sin muñecos ni fotos de internet.',
         'Proyecto: el slider de temas es más grande y cada tema enseña su ejemplo con o sin Edición PRO (la píldora «Con PRO / Solo captions» de la tarjeta), el botón de la Edición PRO va al lado de «Usar este tema», el nombre del tema entra letra a letra y elegir un tema tiene su animación (pulso, anillo y destellos). Las tarjetas ya no llevan la «V».',

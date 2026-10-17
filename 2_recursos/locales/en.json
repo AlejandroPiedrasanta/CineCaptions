@@ -3526,6 +3526,14 @@
     "Edición PRO más rápida: «Motions completo» y la descarga del B-roll se hacen a la vez que lo demás (antes iban al final, uno tras otro), «Motions completo» ya no espera a la IA de texto y su video se codifica más rápido.": "Faster PRO Editing: «Full motions» and the B-roll download now run alongside everything else (before, they ran at the end, one after the other), «Full motions» no longer waits for the text AI and its video encodes faster.",
     "Generar no avisó de que terminara: mira tu timeline y el Registro.": "Generate didn't report that it finished: check your timeline and the Log.",
     "No se pudo generar: mira el Registro.": "Couldn't generate: check the Log.",
-    "Ya está en tu timeline.": "It's on your timeline."
+    "Ya está en tu timeline.": "It's on your timeline.",
+    "Creativo: «Así se verá este bloque» se ve dentro de un móvil, con una foto de fondo y los captions encima, como quedará en el reel.": "Creative: “This is how this block will look” is shown inside a phone, with a background photo and the captions on top, just like the reel.",
+    "Creativo más limpio: sin la barra de abajo; el tamaño del texto y el botón «Generar» van grandes arriba a la derecha (las herramientas siguen en «Más herramientas»).": "Cleaner Creative: no bottom bar; text size and the “Generate” button are big at the top right (the tools are still under “More tools”).",
+    "«Generar» en Creativo te lleva a Inicio y el avance sale en el orbe, como con GO, con las correcciones que hiciste.": "“Generate” in Creative takes you to Home and the progress shows on the orb, like with GO, with the corrections you made.",
+    "Inicio: solo quedan los chips Estilo, Edición PRO y Motions completo.": "Home: only the Style, PRO Edit and Full Motions chips remain.",
+    "Proyecto: el slider de temas se adapta a cualquier tamaño de ventana sin desbordarse.": "Project: the theme slider adapts to any window size without overflowing.",
+    "Videos a 29,97 fps: el timeline se crea con sus fps (antes quedaba a 24).": "29.97 fps videos: the timeline is created at their frame rate (it used to end up at 24).",
+    "Temas 4, 5, 6 y Referencia: los captions llevan una sombra suave para leerse sobre fondos claros.": "Themes 4, 5, 6 and Reference: captions have a soft shadow so they read well on light backgrounds.",
+    "Tema 5: la palabra grande «detrás de la persona» ya no queda tapada cuando la persona ocupa su sitio: se pone delante.": "Theme 5: the big word “behind the person” is no longer hidden when the person takes up its spot: it goes in front."
   }
 }
