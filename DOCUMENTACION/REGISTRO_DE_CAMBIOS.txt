@@ -12,6 +12,51 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-17 10:57  ·  v5.5.10  ·  cambio explicado
+    Librerias al dia (2026-10-17): Pillow 12.3.0 -> 13.0.0 (arreglos de seguridad; lo que quito -Image._show, fromarray con cambio de tipo, PNG en modo I, ImageCms product_name- no se usa), filelock 4.2.1; Remotion 4.0.535 -> 4.0.536, three 0.180 -> 0.186.1, @react-three/fiber 9.3 -> 9.8.2 (bundle y runtime rehechos con preparar_remotion.py). Probado sin compilar: humo de ventanas (huella identica a Pillow 12.3), GO sin Resolve con Tema VIRAL y render Remotion (Pastilla + personajes 3D).
+    nuevos (305):
+      + 1_codigo/remotion/node_modules/@react-three/fiber/dist/declarations/react-reconciler/index.d.ts
+      + 1_codigo/remotion/node_modules/@react-three/fiber/dist/declarations/src/core/configuration.d.ts
+      + 1_codigo/remotion/node_modules/@react-three/fiber/dist/declarations/src/core/extend.d.ts
+      + 1_codigo/remotion/node_modules/@react-three/fiber/dist/declarations/src/core/portal.d.ts
+      + 1_codigo/remotion/node_modules/@react-three/fiber/dist/declarations/src/core/root.d.ts
+      + 1_codigo/remotion/node_modules/@react-three/fiber/dist/declarations/src/core/utils/promise.d.ts
+      + 1_codigo/remotion/node_modules/@react-three/fiber/dist/declarations/src/core/utils/react.d.ts
+      + 1_codigo/remotion/node_modules/@react-three/fiber/dist/events-0dab3c53.cjs.dev.js
+      + 1_codigo/remotion/node_modules/@react-three/fiber/dist/events-98e95d43.cjs.prod.js
+      + 1_codigo/remotion/node_modules/@react-three/fiber/dist/events-e51d7528.esm.js
+      + 1_codigo/remotion/node_modules/@react-three/fiber/react-reconciler/constants.d.ts
+      + 1_codigo/remotion/node_modules/@react-three/fiber/react-reconciler/constants.js
+      … y 293 más
+    modificados (1094):
+      ~ 1_codigo/remotion/node_modules/.bin/remotion
+      ~ 1_codigo/remotion/node_modules/.bin/remotion.cmd
+      ~ 1_codigo/remotion/node_modules/.bin/remotionb
+      ~ 1_codigo/remotion/node_modules/.bin/remotionb.cmd
+      ~ 1_codigo/remotion/node_modules/.bin/remotiond
+      ~ 1_codigo/remotion/node_modules/.bin/remotiond.cmd
+      ~ 1_codigo/remotion/node_modules/.package-lock.json
+      ~ 1_codigo/remotion/node_modules/@react-three/fiber/CHANGELOG.md
+      ~ 1_codigo/remotion/node_modules/@react-three/fiber/dist/declarations/src/core/events.d.ts
+      ~ 1_codigo/remotion/node_modules/@react-three/fiber/dist/declarations/src/core/hooks.d.ts
+      ~ 1_codigo/remotion/node_modules/@react-three/fiber/dist/declarations/src/core/index.d.ts
+      ~ 1_codigo/remotion/node_modules/@react-three/fiber/dist/declarations/src/core/loop.d.ts
+      … y 1082 más
+    quitados (286):
+      - 1_codigo/remotion/node_modules/@react-three/fiber/dist/events-d0449b76.cjs.dev.js
+      - 1_codigo/remotion/node_modules/@react-three/fiber/dist/events-d0a20a9c.cjs.prod.js
+      - 1_codigo/remotion/node_modules/@react-three/fiber/dist/events-e3cb66e2.esm.js
+      - 1_codigo/remotion/node_modules/@react-three/fiber/node_modules/scheduler/LICENSE
+      - 1_codigo/remotion/node_modules/@react-three/fiber/node_modules/scheduler/README.md
+      - 1_codigo/remotion/node_modules/@react-three/fiber/node_modules/scheduler/cjs/scheduler-unstable_mock.development.js
+      - 1_codigo/remotion/node_modules/@react-three/fiber/node_modules/scheduler/cjs/scheduler-unstable_mock.production.js
+      - 1_codigo/remotion/node_modules/@react-three/fiber/node_modules/scheduler/cjs/scheduler-unstable_post_task.development.js
+      - 1_codigo/remotion/node_modules/@react-three/fiber/node_modules/scheduler/cjs/scheduler-unstable_post_task.production.js
+      - 1_codigo/remotion/node_modules/@react-three/fiber/node_modules/scheduler/cjs/scheduler.development.js
+      - 1_codigo/remotion/node_modules/@react-three/fiber/node_modules/scheduler/cjs/scheduler.native.development.js
+      - 1_codigo/remotion/node_modules/@react-three/fiber/node_modules/scheduler/cjs/scheduler.native.production.js
+      … y 274 más
+
 2026-10-17 10:26  ·  v5.5.10  ·  cambio explicado
     Creativo: captions animados por tema en el movil (QPainter, bucle del bloque y play), play nuevo con anillo de avance, boton de silenciar al pasar el raton, resplandor bajo el movil; sin el salto de la maqueta aproximada mientras se prepara la vista.
     modificados (12):
