@@ -7222,23 +7222,16 @@ class SubtitleApp(QWidget):
         except Exception:
             pro_tema = False
         txt_pro = tr('sí') if self._go_pro() else (tr('la del tema') if pro_tema else tr('no'))
-        txt_vis = (tr('los de la PRO') if (self._go_pro() or pro_tema) else tr('sí')) if self._go_visuales() else tr('no')
         chips = [(tr('Estilo: {p}', p=nombre_pack), self._menu_estilo_go,
                   tr('Clic: elegir el tema de GO (Tema 1 a Tema 6).') if plantillas.SOLO_TEMAS
                   else tr('Clic: elegir el estilo de GO (Referencia = captions palabra a palabra, línea fina y negrita + palabra grande; Diseño automático = 3 líneas).')),
-                 (tr('Emojis: {v}', v=tr('sí') if self._go_emojis() else tr('no')), self._alternar_emojis_go,
-                  tr('Clic: con o sin emojis en los subtítulos.')),
-                 (tr('Sonido: {v}', v=tr('sí') if self._go_sfx() else tr('no')), self._alternar_sfx_go,
-                  tr('Clic: con o sin efectos de sonido por palabra.')),
-                 (tr('Visuales: {v}', v=txt_vis), self._alternar_visuales_go,
-                  tr('Clic: con o sin efectos visuales (intro, transiciones en los cortes e iconos flotantes). Se eligen en la página «Efectos».')),
+                 # v5.5.10 (pedido: «en Inicio deja estilo de tema, Edición PRO y Motions completo»): sin los chips Emojis, Sonido, Visuales
+                 # y Proyecto; sus ajustes guardados siguen valiendo
                  (tr('Edición PRO: {v}', v=txt_pro), self._menu_pro_go,
                   tr('Edición PRO: GO edita el video en la línea de tiempo de Resolve (titulares detrás de la persona con Magic Mask, cifras, listas, marcos, ficha final y sonidos), con un estilo propio para cada video. Clic: activar y elegir el estilo.')),
                  # v5.5.8 (pedido: «a la par de Edición PRO un botón que diga Motions completo»): el último paso de GO
                  (tr('Motions completo: {v}', v=tr('sí') if self._go_motions_completo() else tr('no')), self._alternar_motions_completo_go,
-                  tr('Motions completo: al final de GO, un video de solo motions de todo el video en el estilo de los mejores reels (un titular arriba y una tarjeta que explica lo que se dice; sin captions) en la pista de más arriba, encima de captions y efectos, para que lo cortes donde quieras ver tu video. Clic: sí o no.')),
-                 (tr('Proyecto: {p}', p=self._go_proyecto() or tr('el abierto')), self._alternar_proyecto_go,
-                  tr('Al soltar un video en Inicio: se arma en el proyecto «CineCaptions» de Resolve (se abre o se crea solo) o en el proyecto que tengas abierto. Clic: cambiar.'))]
+                  tr('Motions completo: al final de GO, un video de solo motions de todo el video en el estilo de los mejores reels (un titular arriba y una tarjeta que explica lo que se dice; sin captions) en la pista de más arriba, encima de captions y efectos, para que lo cortes donde quieras ver tu video. Clic: sí o no.'))]
         chips = [(t, f, a, ui.ACCENT_CLARO) for t, f, a in chips]
         act = getattr(self, '_actualizacion', None)
         if isinstance(act, dict) and act.get('version'):
