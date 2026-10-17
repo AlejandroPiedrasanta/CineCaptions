@@ -1,23 +1,23 @@
 {
     "estable":  {
-                    "version":  "5.5.8",
-                    "notas":  "• Temas 4, 5 y 6 con la Edición PRO ya no cierran DaVinci Resolve: lo que la PRO va a poner se importa todo de una vez antes de tocar el timeline (Studio y Free).\r\n• Temas 5 y 6: los captions son textos de Fusion editables (Inspector › Texto) para corregir cualquier falta, con el diseño de cada tema: la frase clave en serif y en color; el gancho del principio va con Magic Mask en Studio.\r\n• Video MP4 sin Resolve (Ajustes › General): ahora graba cualquiera de los 6 temas, no solo el Tema 4.\r\n• Temas 4, 5 y 6: las palabras de los captions ya no salen pegadas ni encimadas.\r\n• Cancelar, grande y en rojo: para todo lo que estaba haciendo, cierra Resolve y sus procesos y vuelve a Inicio para empezar de cero.\r\n• Estilos: ejemplos nuevos de los 6 temas, hechos con GO y la Edición PRO reales en Resolve (motions que acompañan a los captions).\r\n• Inglés y los demás idiomas: la interfaz sale entera en el idioma elegido.\r\n• Inicio nuevo: un orbe de luz que fluye y se enciende al trabajar, y el título entra letra a letra.\r\n• Motions completo (al lado de Edición PRO): al final crea un video de solo motions del tema, en la pista de más arriba, para que lo cortes donde quieras ver el video.\r\n• Inspector de Resolve: cada caption lleva arriba de todo el banner de CineCaptions, y los gráficos de precios, cifras y gráficas se editan ahí (texto, colores y posición) sin romper la animación.\r\n• Vigilante de la Edición PRO: la IA local y una revisión de cada clip quitan los gráficos que no encajan con lo que se dice o salen rotos.\r\n• Los motions usan fotos de internet del tema que se habla, ya no el mismo fotograma del video.\r\n• Videos grabados con el móvil: la foto ya no sale girada. Y la moneda es la que se dice (naira ₦, euro €, quetzal Q…).\r\n• Los captions que esquivan una cara se quedan todos a la misma altura en todo el video.",
-                    "fecha":  "2026-10-15",
+                    "version":  "5.5.9",
+                    "notas":  "• Motions completo con el estilo de los mejores reels: ya no repite los captions; arriba, un titular que aparece palabra a palabra (la idea clave en cursiva azul, tachada, en gris o en píldora) y debajo una tarjeta que explica lo que se dice (grabar, horas, material, encontrar, cortar, versiones, ideas, fechas, lugares, entradas, música, premios, compartir…), con el cursor que hace clic y transiciones fluidas sobre un mismo fondo claro. Sin muñecos ni fotos de internet.\r\n• Proyecto: el slider de temas es más grande y cada tema enseña su ejemplo con o sin Edición PRO (la píldora «Con PRO / Solo captions» de la tarjeta), el botón de la Edición PRO va al lado de «Usar este tema», el nombre del tema entra letra a letra y elegir un tema tiene su animación (pulso, anillo y destellos). Las tarjetas ya no llevan la «V».\r\n• Motions completo ya no se repite: más tarjetas (lista, buscador, publicación, encuesta, carga, nota, antes/después, cuenta atrás, gráfica y el «golpe» con la palabra enorme), cada una con su color y su lado, con fotogramas de tu propio video dentro y con sonido sincronizado (whoosh al entrar, clics y pops).\r\n• Edición PRO más rápida: «Motions completo» y la descarga del B-roll se hacen a la vez que lo demás (antes iban al final, uno tras otro), «Motions completo» ya no espera a la IA de texto y su video se codifica más rápido.\r\n• Inicio va fluido: se quitó una pausa que congelaba las animaciones al abrir, y si el equipo no llega a 60 fps se queda en 30 parejos, sin tirones. Mientras GO anima o la IA trabaja, la interfaz sigue suave.\r\n• Inicio más limpio: sin el enlace «Detalles y estado del sistema».\r\n• DaVinci Resolve: cada caption lleva arriba de todo, en el Inspector, el banner con el logo de CineCaptions.\r\n• Motions editables en Resolve: Efectos › Títulos › CineCaptions trae 6 motions (titular, píldoras, tercio inferior, cifra que cuenta, lista y llamada) con su texto, colores, posición y tamaño en el Inspector; para cambiar uno, arrastra otro encima. También van en un .drfx para pasarlos a otro equipo.",
+                    "fecha":  "2026-10-16",
                     "archivos":  {
                                      "windows":  {
-                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.8/Instalar_CineCaptions_5.5.8.exe",
-                                                     "sha256":  "9bc7cdffba489213ea56fe6902c30fb30dc024ca6d18df0f35aa872ea983130d",
-                                                     "tam":  558647357
+                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.9/Instalar_CineCaptions_5.5.9.exe",
+                                                     "sha256":  "e1ead075ad629e3564b6abc673a2ff79f79d9b56999ecf3550d98b487f912ef8",
+                                                     "tam":  577576981
                                                  },
                                      "mac_arm64":  {
-                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.8/CineCaptions_Mac_AppleSilicon_5.5.8.dmg",
-                                                       "sha256":  "641e829d632c6f1cf843bc59df547ca84d56f0b2d935f4bf04fbf40f142b2a87",
-                                                       "tam":  566750846
+                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.9/CineCaptions_Mac_AppleSilicon_5.5.9.dmg",
+                                                       "sha256":  "513b7e2cf7967d4b10b8fd98e7a84566352c56f4bd8aadf875569fbcdb64c42a",
+                                                       "tam":  585669714
                                                    },
                                      "mac_x86_64":  {
-                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.8/CineCaptions_Mac_Intel_5.5.8.dmg",
-                                                        "sha256":  "939aba65666ff8240abcea8e7a6686cbf5e19140302e8281bf6aad37f1c579e5",
-                                                        "tam":  511174379
+                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.9/CineCaptions_Mac_Intel_5.5.9.dmg",
+                                                        "sha256":  "10cc5fd52197592cbf3a33cd5a02ce780841c07c72eec9275bd0ab85da723623",
+                                                        "tam":  529687961
                                                     }
                                  }
                 }
