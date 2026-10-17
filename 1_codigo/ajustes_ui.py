@@ -485,8 +485,8 @@ def desactivar_licencia(app, al_terminar=None):
 
 NOTAS_VERSION = [
     ('5.5.10', [
-        'Creativo: «Así se verá este bloque» se ve dentro de un móvil, con una foto de fondo y los captions encima, como quedará en el reel.',
-        'Creativo más limpio: sin la barra de abajo; el tamaño del texto y el botón «Generar» van grandes arriba a la derecha (las herramientas siguen en «Más herramientas»).',
+        'Creativo: a la derecha, un móvil grande con una foto de fondo y los captions encima, como quedará en el reel; el play va dentro del móvil.',
+        'Creativo más limpio: sin la barra de abajo; el tamaño del texto y el botón «Generar» van junto a «Más herramientas».',
         '«Generar» en Creativo te lleva a Inicio y el avance sale en el orbe, como con GO, con las correcciones que hiciste.',
         'Inicio: solo quedan los chips Estilo, Edición PRO y Motions completo.',
         'Proyecto: el slider de temas se adapta a cualquier tamaño de ventana sin desbordarse.',
