@@ -863,14 +863,8 @@ class CarruselPacks(QWidget):
             self._hover = c
             self.setCursor(Qt.CursorShape.PointingHandCursor if c else Qt.CursorShape.ArrowCursor)
             self.update()
-        if c == ('carta', self._obj):                                            # v5.5.9: la del centro mira un poco hacia el ratón
-            w, h, cx, cy = self._medidas()
-            nx = max(-1.0, min(1.0, (x - cx) / (w / 2.0)))
-            ny = max(-1.0, min(1.0, (y - cy) / (h / 2.0)))
-            self._tilt_obj = [-ny * 3.0, nx * 4.0]
-        else:
-            self._tilt_obj = [0.0, 0.0]
-        self._arrancar()
+            self._arrancar()
+        # v5.5.10: la del centro YA NO se inclina hacia el ratón (al usuario no le gustaba que el slider se moviera al pasar por encima)
         super().mouseMoveEvent(e)
 
     def leaveEvent(self, e):

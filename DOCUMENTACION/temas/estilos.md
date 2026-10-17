@@ -19,7 +19,7 @@ nombre; arriba va «En uso»), si la tarjeta trae los DOS ejemplos (`Carta.video
 `2_recursos/vistas_slider/<pack>_captions.mp4`): `CarruselPacks.modo_pro`, `poner_vista_pro(pro, animar)` (fundido de 0,35 s entre los dos videos),
 señal `vista_pro`; la de Proyecto empieza como la PRO y la sigue al pulsar el botón PRO. **Elegir** (`poner_elegida` con otro valor):
 `_dibujar_seleccion` = pulso, dos anillos verdes que se abren, brillo en diagonal y 12 destellos (0,95 s); «✓ En uso» salta con rebote. **Más
-vida:** la del centro se inclina hacia el ratón (`_tilt`, ±3–4°), motas de luz que suben (`_dibujar_motas`). **Más grande:** tope 1040 px de alto,
+vida:** la del centro se inclinaba hacia el ratón (`_tilt`, ±3–4°; v5.5.10: QUITADO, al usuario no le gustaba que el slider se moviera al pasar el ratón), motas de luz que suben (`_dibujar_motas`). **Más grande:** tope 1040 px de alto,
 `PASO` 0,94, vecinas al 88 %, sin flechas ni puntos debajo desde la v5.5.10 (lo pidió el usuario; ALTO_CONTROLES = 0), alto mínimo 540. En Proyecto (`PlantillasWindow`): el nombre es `un_clic_ui.TituloGo` (entra letra a
 letra; `setText`) y la Edición PRO va en la fila de «Usar este tema» (`_pintar_info`: `con_pro`). Ejemplos: `ejemplos_conysin.py` (scratchpad de esa
 sesión) = `hacer_vista_slider.generar` dos veces por tema (`CINECAPTIONS_PRO` 0/1, `CINECAPTIONS_PREFS`), mismas fuentes de 25 s que los de la 5.5.8.

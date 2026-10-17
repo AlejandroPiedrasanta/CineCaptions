@@ -17,6 +17,7 @@ Cada interruptor de motions es un GRUPO del carrusel de Efectos: apagarlo en Aut
 encenderlo los vuelve a marcar y, si quedan todos, vuelve a Automático. Nunca deja la lista vacía (motions_catalogo.modo la trataría como «todos»).
 Los ejemplos: 2_recursos/edicion_pro/ejemplos_pro/<clave>.mp4 (+ .jpg), hechos con herramientas_dev/hacer_ejemplos_pro.py.
 """
+import math
 from pathlib import Path
 
 from PySide6.QtCore import QRectF, QSize, Qt, QTimer, Signal
@@ -27,26 +28,32 @@ import qt_kit as ui
 from i18n import tr
 
 OPCIONES = [
-    {'clave': 'pildora', 'nombre': 'Píldora bajo captions', 'icono': 'ph.pill-bold', 'motions': ['acompanante'],
+    {'clave': 'pildora', 'nombre': 'Píldora bajo captions', 'icono': 'ph.chat-centered-text', 'motions': ['acompanante'],
      'detalle': 'Una píldora animada justo debajo del texto con el lugar, la cifra o el emoji de lo que dices.'},
-    {'clave': 'broll', 'nombre': 'B-roll con fotos', 'icono': 'ph.image-bold', 'motions': ['escena:foto'], 'pref': 'pro_internet',
+    {'clave': 'broll', 'nombre': 'B-roll con fotos', 'icono': 'ph.image-square', 'motions': ['escena:foto'], 'pref': 'pro_internet',
      'detalle': 'Fotos de internet con licencia a pantalla completa cuando nombras algo.'},
-    {'clave': 'detras', 'nombre': 'Captions detrás de ti', 'icono': 'ph.user-focus-bold', 'mascara': True,
+    {'clave': 'detras', 'nombre': 'Captions detrás de ti', 'icono': 'ph.user-focus', 'mascara': True,
      'detalle': 'Se recorta a la persona (IA local o Magic Mask) y el texto pasa por detrás.'},
-    {'clave': 'motions_completo', 'nombre': 'Motions completo', 'icono': 'ph.film-strip-bold', 'pref': 'pro_motions_completo',
+    {'clave': 'motions_completo', 'nombre': 'Motions completo', 'icono': 'ph.film-strip', 'pref': 'pro_motions_completo',
      'detalle': 'Un video de motions encima de todo: el titular palabra a palabra y una tarjeta por idea.'},
-    {'clave': 'gancho', 'nombre': 'Gancho del inicio', 'icono': 'ph.lightning-bold', 'motions': ['ograf:titular', 'ograf:orbita', 't5:orbita', 't5:sticker'],
+    {'clave': 'gancho', 'nombre': 'Gancho del inicio', 'icono': 'ph.lightning', 'motions': ['ograf:titular', 'ograf:orbita', 't5:orbita', 't5:sticker'],
      'detalle': 'Los primeros segundos: un titular detrás de ti e iconos que giran alrededor de tu cabeza.'},
-    {'clave': 'escenas', 'nombre': 'Escenas completas', 'icono': 'ph.frame-corners-bold',
+    {'clave': 'escenas', 'nombre': 'Escenas completas', 'icono': 'ph.monitor-play',
      'detalle': 'Cuaderno, chat, polaroid, calendario… a pantalla completa cuando cuentas algo.'},
-    {'clave': 'kit', 'nombre': 'Kit de motions', 'icono': 'ph.stack-bold',
+    {'clave': 'kit', 'nombre': 'Kit de motions', 'icono': 'ph.squares-four',
      'detalle': 'Listas, ruletas, títulos neón y cajas misterio sobre el video.'},
-    {'clave': 'graficos', 'nombre': 'Gráficos', 'icono': 'ph.chart-bar-bold',
+    {'clave': 'graficos', 'nombre': 'Gráficos', 'icono': 'ph.chart-line-up',
      'detalle': 'Cifras, mapas con bandera, marcos de cámara y llamadas a la acción.'},
-    {'clave': 'plantillas', 'nombre': 'Plantillas por frase', 'icono': 'ph.chat-circle-text-bold',
+    {'clave': 'plantillas', 'nombre': 'Plantillas por frase', 'icono': 'ph.quotes',
      'detalle': '«¡Hola amigos!», «Guárdalo», encuestas… justo cuando dices esa frase.'},
 ]
 _POR_CLAVE = {o['clave']: o for o in OPCIONES}
+
+
+def icono_de(o, relleno=True):
+    """El icono de Phosphor de una opción: relleno (encendido / señalado) o de trazo (apagado). v5.5.10: iconos más claros (bocadillo, imagen,
+    persona enfocada, película, rayo, pantalla con play, cuadrícula, gráfica que sube, comillas)."""
+    return o['icono'] + ('-fill' if relleno else '-bold')
 _IDS = {}
 
 
@@ -188,20 +195,102 @@ def _icono(p, w, nombre, color, cx, cy, tam, opacidad=1.0, escala=1.0):
     p.restore()
 
 
+# ----------------------------------------------------------------------------------------------------------------------- iconos 3D a color
+# v5.5.10 (el usuario eligió el juego «3D a color» entre 7): los iconos 3D que ya trae el programa (emojis 3D, iconos 3D de los gráficos y los
+# Fluent 3D de las escenas). Apagado = en gris y translúcido.
+ICONOS_3D = {
+    'pildora': ('emojis', 'png', 'rcs_emoji_speech_balloon.png'),
+    'broll': ('edicion_pro', 'ograf', 'lib', 'iconos3d', 'picture-dynamic-premium.png'),
+    'detras': ('edicion_pro', 'fluent_extra', 'person_raising_hand.png'),         # (la silueta oscura no se veía sobre la barra negra)
+    'motions_completo': ('emojis', 'png', 'rcs_emoji_clapper_board.png'),          # (la película gris parecía apagada)
+    'gancho': ('emojis', 'png', 'rcs_emoji_fire.png'),
+    'escenas': ('emojis', 'png', 'rcs_emoji_television.png'),
+    'kit': ('edicion_pro', 'fluent_extra', 'puzzle_piece.png'),
+    'graficos': ('emojis', 'png', 'rcs_emoji_chart_increasing.png'),
+    'plantillas': ('emojis', 'png', 'rcs_emoji_memo.png'),
+}
+
+
+def _base_recursos():
+    try:
+        import instalador_scripts
+        return Path(instalador_scripts.BASE_RECURSOS)
+    except Exception:
+        return Path(__file__).resolve().parent.parent / '2_recursos'
+
+
+def _pix3d(clave, tam, dpr, apagado=False):
+    k = ('3d', clave, int(tam), round(float(dpr), 2), bool(apagado))
+    pm = _PIX.get(k)
+    if pm is None:
+        img = QImage(str(_base_recursos().joinpath(*ICONOS_3D.get(clave, ('', '')))))
+        if img.isNull():
+            pm = QPixmap()
+        else:
+            img = img.convertToFormat(QImage.Format.Format_ARGB32)
+            if apagado:
+                alfa = img.convertToFormat(QImage.Format.Format_Alpha8)
+                img = img.convertToFormat(QImage.Format.Format_Grayscale8).convertToFormat(QImage.Format.Format_ARGB32)
+                img.setAlphaChannel(alfa)
+            lado = max(1, int(round(tam * dpr)))
+            img = img.scaled(lado, lado, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+            pm = QPixmap.fromImage(img)
+            pm.setDevicePixelRatio(float(dpr))
+        _PIX[k] = pm
+    return pm
+
+
+def _icono3d(p, w, clave, cx, cy, tam, opacidad=1.0, escala=1.0, apagado=False):
+    pm = _pix3d(clave, tam, w.devicePixelRatioF(), apagado)
+    if pm.isNull() or opacidad <= 0.01:
+        return
+    t = tam * escala
+    p.save()
+    p.setOpacity(p.opacity() * min(1.0, opacidad))
+    p.drawPixmap(QRectF(cx - t / 2, cy - t / 2, t, t), pm, QRectF(pm.rect()))
+    p.restore()
+
+
+def _icono_motion(p, w, clave, cx, cy, tam, on, escala=1.0):
+    """El icono 3D de un motion con su estado: a color (encendido) ↔ gris translúcido (apagado), con fundido entre los dos."""
+    on = max(0.0, min(1.0, on))
+    if on < 0.99:
+        _icono3d(p, w, clave, cx, cy, tam, (1.0 - on) * 0.5, escala, apagado=True)
+    if on > 0.01:
+        _icono3d(p, w, clave, cx, cy, tam, on, escala)
+
+
+def _cuello(p, x_izq, x_der, y, alto_izq, alto_der, pellizco):
+    """Un «cuello» líquido horizontal entre dos cuerpos (como dos gotas que se unen): lados curvos que se pellizcan hacia el centro."""
+    if x_der - x_izq < 1 or min(alto_izq, alto_der) < 1:
+        return
+    mid = (x_izq + x_der) / 2
+    medio = min(alto_izq, alto_der) * (1.0 - pellizco) / 2
+    c = QPainterPath()
+    c.moveTo(x_izq, y - alto_izq / 2)
+    c.quadTo(mid, y - medio, x_der, y - alto_der / 2)
+    c.lineTo(x_der, y + alto_der / 2)
+    c.quadTo(mid, y + medio, x_izq, y + alto_izq / 2)
+    c.closeSubpath()
+    p.drawPath(c)
+
+
 # ----------------------------------------------------------------------------------------------------------------------- interruptores (derecha)
 class PanelMotionsPro(QWidget):
-    """La barra cápsula (propuesta «B» que eligió el usuario): una cápsula negra con SOLO los iconos de los motions. El señalado (pasar el ratón)
-    lleva una burbuja blanca que se desliza con un resorte y, a su izquierda, su nombre fijo en una píldora blanca (no es un globo: siempre está).
-    Clic en un icono = encender / apagar (verde con su punto = GO lo pondrá; gris = apagado). Arriba, la marca de la PRO; abajo, a Efectos.
-    v5.5.10 animaciones (todo con Resorte + motor_resortes, pintado): el punto verde salta con rebote al encender y se encoge al apagar, el
-    icono pasa de gris a verde con un fundido, crece un poco con el ratón encima, la píldora del nombre ajusta su ancho y funde el texto, y la
-    barra entra deslizándose al activar la PRO."""
+    """La barra cápsula (propuesta «B» que eligió el usuario): una cápsula negra con SOLO los iconos de los motions (3D a color = GO lo pondrá,
+    en gris translúcido = apagado); abajo, el botón a Efectos. Clic en un icono = encender / apagar.
+    v5.5.10 animación «Gota» (elegida entre 4 y mejorada): la burbuja blanca es una gota LÍQUIDA: la cabeza va delante y una cola la sigue más
+    despacio, unidas por un cuello que se adelgaza al estirarse; los iconos por los que pasa se hinchan un poco; al pulsar se aplasta y rebota;
+    el clic deja una onda. El nombre del señalado NO se ve en reposo: al entrar con el ratón (o tras un clic, unos segundos) sale de DENTRO de la
+    burbuja como una gota que se separa (con un cuello que se estira y se corta) y se recoge igual al salir. Todo con Resorte + motor_resortes."""
     senalada = Signal(str)
     cambiado = Signal()
     BARRA = 66            # ancho de la cápsula (a escala 1)
     PASO_MAX = 52         # alto de cada icono
-    CABEZA = 70           # sitio de la marca de arriba (y del botón de abajo)
+    ARRIBA = 18           # margen de arriba de la cápsula
+    ABAJO = 70            # sitio del botón de abajo (a Efectos)
     ETIQUETA = 230        # sitio de la píldora con el nombre, a la izquierda de la cápsula
+    INFO_TRAS_CLIC_MS = 2200
 
     def __init__(self, ir_efectos=None, padre=None):
         super().__init__(padre)
@@ -214,13 +303,23 @@ class PanelMotionsPro(QWidget):
         self._hov = {o['clave']: ui.Resorte(0.0, 520.0, 30.0) for o in OPCIONES}
         self._hov['efectos'] = ui.Resorte(0.0, 520.0, 30.0)
         self.activa = OPCIONES[0]['clave']
-        self._res = ui.Resorte(0.0, 260.0, 26.0)        # la burbuja: índice (float) del icono señalado
+        self._res = ui.Resorte(0.0, 300.0, 22.0)        # la CABEZA de la gota (índice float): rápida, se pasa un poco y vuelve
+        self._cola = ui.Resorte(0.0, 95.0, 19.0)        # la COLA: va detrás, más lenta (de ahí el estiramiento líquido)
+        self._pop = ui.Resorte(1.0, 560.0, 15.0)        # el salto del icono señalado
+        self._apriete = ui.Resorte(1.0, 700.0, 16.0)    # se aplasta al pulsar y rebota al soltar
+        self._onda = ui.Resorte(1.0, 60.0, 16.0)        # 0 → 1: la onda del clic
+        self._onda_en = None
+        self._info = ui.Resorte(0.0, 210.0, 24.0)       # 0 → 1: la píldora del nombre sale de la burbuja
         self._et_w = ui.Resorte(0.0, 340.0, 30.0)       # ancho de la píldora del nombre
         self._et_f = ui.Resorte(1.0, 260.0, 26.0)       # 0 → 1: fundido del texto viejo al nuevo
-        self._et_txt = None                              # (nombre, sub, encendido) de ahora y el de antes
+        self._et_txt = None
         self._et_prev = None
         self._entrada = ui.Resorte(1.0, 150.0, 21.0)
         self._encima = None
+        self._dentro = False
+        self._recoger = QTimer(self)                     # la píldora se recoge un poco después de salir (o del clic)
+        self._recoger.setSingleShot(True)
+        self._recoger.timeout.connect(lambda: self._mostrar_info(False))
         self.poner_escala(1.0)
         self.refrescar(animar=False)
 
@@ -239,6 +338,10 @@ class PanelMotionsPro(QWidget):
         """La barra entra deslizándose desde la derecha (al activar la PRO)."""
         self._entrada.poner(0.0)
         self._entrada.objetivo = 1.0
+        ui.motor_resortes.pedir(self)
+
+    def _mostrar_info(self, si):
+        self._info.objetivo = 1.0 if si else 0.0
         ui.motor_resortes.pedir(self)
 
     # -- estado
@@ -272,6 +375,7 @@ class PanelMotionsPro(QWidget):
         return tr(o['nombre']), (tr('Encendido · clic para apagar') if si else tr('Apagado · clic para encender')), si
 
     def senalar(self, clave, animar=True):
+        cambia = clave != self.activa
         self.activa = clave
         i = [o['clave'] for o in OPCIONES].index(clave)
         nuevo = self._texto_etiqueta()
@@ -287,15 +391,21 @@ class PanelMotionsPro(QWidget):
                 self._et_w.poner(ancho)
         if animar:
             self._res.objetivo = float(i)
+            self._cola.objetivo = float(i)
+            if cambia:
+                self._pop.poner(0.72)                    # el icono nuevo salta (el resorte pasa de 1 y vuelve)
+                self._pop.objetivo = 1.0
             ui.motor_resortes.pedir(self)
         else:
             self._res.poner(float(i))
+            self._cola.poner(float(i))
         self.update()
         self.senalada.emit(clave)
 
     def paso_resorte(self, dt):
         sigue = False
-        for r in [self._res, self._et_w, self._et_f, self._entrada] + list(self._k.values()) + list(self._hov.values()):
+        for r in [self._res, self._cola, self._pop, self._apriete, self._onda, self._info, self._et_w, self._et_f, self._entrada] \
+                + list(self._k.values()) + list(self._hov.values()):
             sigue = r.paso(dt) or sigue
         self.update()
         return sigue
@@ -318,18 +428,18 @@ class PanelMotionsPro(QWidget):
     def _geo(self):
         """(cápsula, paso entre iconos, y del primer icono)."""
         n, s = len(OPCIONES), self._s
-        cabeza = self.CABEZA * s
-        paso = max(30.0 * s, min(self.PASO_MAX * s, (self.height() - 2 * cabeza - 24) / n))
-        alto = 2 * cabeza + n * paso
+        arriba, abajo = self.ARRIBA * s, self.ABAJO * s
+        paso = max(30.0 * s, min(self.PASO_MAX * s, (self.height() - arriba - abajo - 24) / n))
+        alto = arriba + abajo + n * paso
         x = self.width() - self.BARRA * s - 4
         top = max(0.0, (self.height() - alto) / 2)
-        return QRectF(x, top, self.BARRA * s, alto), paso, top + cabeza
+        return QRectF(x, top, self.BARRA * s, alto), paso, top + arriba
 
     def _icono_en(self, pos):
         barra, paso, y0 = self._geo()
         if not barra.adjusted(-6, 0, 6, 0).contains(pos):
             return None
-        if pos.y() >= barra.bottom() - self.CABEZA * self._s + 8:
+        if pos.y() >= barra.bottom() - self.ABAJO * self._s + 8:
             return 'efectos'
         i = int((pos.y() - y0) // paso)
         return OPCIONES[i]['clave'] if 0 <= i < len(OPCIONES) else None
@@ -348,17 +458,37 @@ class PanelMotionsPro(QWidget):
     def mouseMoveEvent(self, e):
         k = self._icono_en(e.position())
         self.setCursor(Qt.CursorShape.PointingHandCursor if k else Qt.CursorShape.ArrowCursor)
-        if k and k != 'efectos' and k != self.activa:
+        sobre_barra = k is not None and k != 'efectos'
+        if sobre_barra and not self._dentro:             # entra en los iconos: el nombre sale de la burbuja
+            self._dentro = True
+            self._recoger.stop()
+            self._mostrar_info(True)
+        elif not sobre_barra and self._dentro:
+            self._dentro = False
+            self._recoger.start(350)
+        if sobre_barra and k != self.activa:
             self.senalar(k)
         self._poner_encima(k)
         super().mouseMoveEvent(e)
 
     def leaveEvent(self, e):
         self._poner_encima(None)
+        if self._dentro:
+            self._dentro = False
+            self._recoger.start(350)
         super().leaveEvent(e)
 
     def mousePressEvent(self, e):
         if e.button() == Qt.MouseButton.LeftButton:
+            k = self._icono_en(e.position())
+            if k and k != 'efectos':
+                self._apriete.objetivo = 0.86             # la gota se aplasta mientras se pulsa
+                ui.motor_resortes.pedir(self)
+        super().mousePressEvent(e)
+
+    def mouseReleaseEvent(self, e):
+        if e.button() == Qt.MouseButton.LeftButton:
+            self._apriete.objetivo = 1.0                 # y rebota al soltar
             k = self._icono_en(e.position())
             if k == 'efectos':
                 if self._ir_efectos is not None:
@@ -366,7 +496,14 @@ class PanelMotionsPro(QWidget):
             elif k:
                 self.senalar(k)
                 self._tocar(k)
-        super().mousePressEvent(e)
+                self._onda_en = k                        # la onda del clic
+                self._onda.poner(0.0)
+                self._onda.objetivo = 1.0
+                self._mostrar_info(True)                 # tras un clic, el nombre (con su nuevo estado) se ve un rato
+                if not self._dentro:
+                    self._recoger.start(self.INFO_TRAS_CLIC_MS)
+            ui.motor_resortes.pedir(self)
+        super().mouseReleaseEvent(e)
 
     # -- dibujo
     def paintEvent(self, _e):
@@ -380,75 +517,126 @@ class PanelMotionsPro(QWidget):
         s = self._s
         barra, paso, y0 = self._geo()
         cx = barra.center().x()
-        t_ic = int(round(20 * s))
+        t_ic = int(round(27 * s))
         p.setPen(QPen(QColor(255, 255, 255, 20), 1))
         p.setBrush(QColor('#05070C'))
         p.drawRoundedRect(barra, barra.width() / 2, barra.width() / 2)
         p.setPen(Qt.PenStyle.NoPen)
-        # arriba: la marca de la PRO
-        c = QRectF(cx - 20 * s, barra.top() + 14 * s, 40 * s, 40 * s)
-        p.setBrush(QColor('#FFFFFF'))
-        p.drawEllipse(c)
-        _icono(p, self, 'ph.sparkle-bold', '#05070C', cx, c.center().y(), t_ic)
-        # los iconos: verdes con su punto si GO los pondrá, grises si no (fundido entre los dos al cambiar)
+        cabeza = y0 + self._res.x * paso + paso / 2
+        cola = y0 + self._cola.x * paso + paso / 2
+        rapidez = min(1.0, abs(self._res.v) * 0.09)
+        # el brillo suave detrás del icono que tiene el ratón encima
+        for i, o in enumerate(OPCIONES):
+            h = max(0.0, self._hov[o['clave']].x)
+            if h > 0.02 and o['clave'] != self.activa:
+                cy = y0 + i * paso + paso / 2
+                r = 20 * s * (0.7 + 0.3 * h)
+                p.setBrush(QColor(255, 255, 255, int(20 * h)))
+                p.drawEllipse(QRectF(cx - r, cy - r, 2 * r, 2 * r))
+        # los iconos 3D (a color = encendido, gris = apagado); los que la gota va rozando se hinchan un poco (una ola)
         for i, o in enumerate(OPCIONES):
             k = o['clave']
+            if k == self.activa and abs(cabeza - (y0 + i * paso + paso / 2)) < paso * 0.5:
+                continue
             cy = y0 + i * paso + paso / 2
-            on = max(0.0, min(1.0, self._k[k].x))
-            esc = 1.0 + 0.16 * max(0.0, self._hov[k].x)
-            if on < 0.99:
-                _icono(p, self, o['icono'], '#4A5670', cx, cy, t_ic, 1.0 - on, esc)
-            if on > 0.01:
-                _icono(p, self, o['icono'], '#7FE0B5', cx, cy, t_ic, on, esc)
+            d = (cy - cabeza) / paso
+            ola = math.exp(-d * d * 3.0) * rapidez
+            esc = (1.0 + 0.14 * max(0.0, self._hov[k].x)) * (1.0 + 0.2 * ola)
+            _icono_motion(p, self, k, cx, cy, t_ic, self._k[k].x, esc)
             r = 3.0 * s * max(0.0, self._k[k].x)        # (el resorte pasa de 1 al llegar: el punto rebota)
             if r > 0.2:
                 p.setBrush(QColor('#24D18F'))
-                p.drawEllipse(QRectF(cx + 17 * s - r, cy - 11 * s - r, 2 * r, 2 * r))
-        # la burbuja blanca del señalado (se desliza) y su icono en oscuro
-        by = y0 + self._res.x * paso + paso / 2
-        rb = min(22 * s, paso / 2 - 1)
-        p.setBrush(QColor('#FFFFFF'))
-        p.drawEllipse(QRectF(cx - rb, by - rb, 2 * rb, 2 * rb))
-        o = _POR_CLAVE[self.activa]
-        on = max(0.0, min(1.0, self._k[self.activa].x))
-        _icono(p, self, o['icono'], '#7D8AA5', cx, by, t_ic, 1.0 - on)
-        _icono(p, self, o['icono'], '#05070C', cx, by, t_ic, on)
-        # su nombre, fijo a la izquierda de la burbuja: el punto de estado, el nombre y qué hace un clic (el texto viejo se va, el nuevo entra)
-        f1, f2, se = self._fuentes()
-        alto = 44 * se
-        ancho = max(alto, self._et_w.x)
-        et = QRectF(max(2.0, barra.left() - ancho - 10 * s), by - alto / 2, ancho, alto)
-        p.setBrush(QColor('#FFFFFF'))
-        p.drawRoundedRect(et, alto / 2, alto / 2)
-        p.save()
-        p.setClipRect(et.adjusted(4, 2, -4, -2))
-        f = max(0.0, min(1.0, self._et_f.x))
-        for txt, op, dy in ((self._et_prev, 1.0 - f, -6.0 * f), (self._et_txt, f, 6.0 * (1.0 - f))):
-            if txt is None or op <= 0.01:
-                continue
-            nombre, sub, si = txt
-            p.setOpacity(op * e)
+                p.drawEllipse(QRectF(cx + 17 * s - r, cy - 12 * s - r, 2 * r, 2 * r))
+        # la onda del clic: un anillo que se abre y se apaga
+        o_ = max(0.0, min(1.0, self._onda.x))
+        if self._onda_en in _POR_CLAVE and o_ < 0.995:
+            i = [o['clave'] for o in OPCIONES].index(self._onda_en)
+            cy = y0 + i * paso + paso / 2
+            r = 22 * s * (1.0 + 1.1 * o_)
+            p.setBrush(Qt.BrushStyle.NoBrush)
+            p.setPen(QPen(QColor(127, 224, 181, int(170 * (1.0 - o_))), 2.0 * s))
+            p.drawEllipse(QRectF(cx - r, cy - r, 2 * r, 2 * r))
             p.setPen(Qt.PenStyle.NoPen)
-            p.setBrush(QColor('#24D18F') if si else QColor('#9AA7BF'))
-            p.drawEllipse(QRectF(et.left() + 16 * se, et.center().y() - 4 * se + dy, 8 * se, 8 * se))
-            izq = et.left() + 32 * se
-            p.setFont(f1)
-            p.setPen(QColor('#05070C'))
-            p.drawText(QRectF(izq, et.top() + 4 * se + dy, 400, 20 * se), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, nombre)
-            p.setFont(f2)
-            p.setPen(QColor('#1E7A56' if si else '#6F7C96'))
-            p.drawText(QRectF(izq, et.top() + 22 * se + dy, 400, 16 * se), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, sub)
-        p.restore()
+        rb = min(22 * s, paso / 2 - 1) * max(0.8, self._apriete.x)
+        # el nombre: sale de DENTRO de la burbuja como una gota que se separa y se recoge igual (se dibuja antes que la burbuja: sale de detrás)
+        info = max(0.0, min(1.0, self._info.x))
+        if info > 0.01:
+            self._pintar_etiqueta(p, barra, cabeza, rb, info)
+        # la gota: cabeza + cola unidas por un cuello que se adelgaza al estirarse
+        p.setBrush(QColor('#FFFFFF'))
+        dist = cola - cabeza
+        rc = rb * (1.0 - min(0.45, abs(dist) / (paso * 2.4)))
+        if abs(dist) > 1.0:
+            arriba_y, abajo_y = (cabeza, cola) if dist > 0 else (cola, cabeza)
+            r_arr, r_aba = (rb, rc) if dist > 0 else (rc, rb)
+            pellizco = min(0.55, abs(dist) / (paso * 3.0))
+            c = QPainterPath()
+            mid = (arriba_y + abajo_y) / 2
+            medio = min(r_arr, r_aba) * (1.0 - pellizco)
+            c.moveTo(cx - r_arr, arriba_y)
+            c.quadTo(cx - medio, mid, cx - r_aba, abajo_y)
+            c.lineTo(cx + r_aba, abajo_y)
+            c.quadTo(cx + medio, mid, cx + r_arr, arriba_y)
+            c.closeSubpath()
+            p.drawPath(c)
+            p.drawEllipse(QRectF(cx - rc, cola - rc, 2 * rc, 2 * rc))
+        ach = 1.0 + (1.0 - max(0.8, self._apriete.x)) * 0.9          # al pulsar: más ancha y más baja
+        p.drawEllipse(QRectF(cx - rb * ach, cabeza - rb / ach, 2 * rb * ach, 2 * rb / ach))
+        o = _POR_CLAVE[self.activa]
+        _icono_motion(p, self, o['clave'], cx, cabeza, t_ic, self._k[o['clave']].x, max(0.6, self._pop.x) * max(0.8, self._apriete.x))
         # abajo: a la página Efectos (uno por uno)
         c = QRectF(cx - 20 * s, barra.bottom() - 54 * s, 40 * s, 40 * s)
         h = max(0.0, self._hov['efectos'].x)
         c = c.adjusted(-2 * s * h, -2 * s * h, 2 * s * h, 2 * s * h)
-        p.setPen(Qt.PenStyle.NoPen)
         blanco, menta = QColor('#FFFFFF'), QColor('#7FE0B5')
         p.setBrush(QColor(int(blanco.red() + (menta.red() - blanco.red()) * h), int(blanco.green() + (menta.green() - blanco.green()) * h),
                           int(blanco.blue() + (menta.blue() - blanco.blue()) * h)))
         p.drawEllipse(c)
-        _icono(p, self, 'ph.sliders-horizontal-bold', '#05070C', cx, c.center().y(), t_ic)
+        _icono(p, self, 'ph.sliders-horizontal-bold', '#05070C', cx, c.center().y(), int(round(20 * s)))
+
+    def _pintar_etiqueta(self, p, barra, cabeza, rb, info):
+        """La píldora del nombre saliendo de la burbuja: primero asoma y se separa (con un cuello líquido que se estira y se corta), luego crece
+        hasta su ancho; el texto aparece cuando ya está fuera."""
+        s = self._s
+        f1, f2, se = self._fuentes()
+        alto = 44 * se
+        cx = barra.center().x()
+        sale = 1.0 - (1.0 - min(1.0, info / 0.55)) ** 3                  # 0 → 1: de detrás de la burbuja a su sitio
+        crece = max(0.0, min(1.0, (info - 0.3) / 0.7))
+        crece = crece * crece * (3 - 2 * crece)
+        derecha_final = barra.left() - 10 * s
+        derecha = cx + (derecha_final - cx) * sale
+        ancho = alto + (max(alto, self._et_w.x) - alto) * crece
+        et = QRectF(max(2.0, derecha - ancho), cabeza - alto / 2, ancho, alto)
+        p.save()
+        p.setBrush(QColor('#FFFFFF'))
+        # el cuello: une la píldora con la burbuja mientras sale y se corta al separarse
+        corte = max(0.0, min(1.0, (info - 0.45) / 0.35))
+        if corte < 0.999:
+            alto_c = alto * 0.62 * (1.0 - corte)
+            _cuello(p, et.right() - alto * 0.3, cx - rb * 0.4, cabeza, alto_c, min(2 * rb, alto_c * 1.25), 0.35 + 0.5 * corte)
+        p.drawRoundedRect(et, alto / 2, alto / 2)
+        if crece > 0.15:
+            p.setClipRect(et.adjusted(4, 2, -4, -2))
+            f = max(0.0, min(1.0, self._et_f.x))
+            vis = min(1.0, (crece - 0.15) / 0.5)
+            izq0 = et.left()
+            for txt, op, dy in ((self._et_prev, 1.0 - f, -6.0 * f), (self._et_txt, f, 6.0 * (1.0 - f))):
+                if txt is None or op <= 0.01:
+                    continue
+                nombre, sub, si = txt
+                p.setOpacity(op * vis * (self._entrada.x if self._entrada.x < 0.999 else 1.0))
+                p.setBrush(QColor('#24D18F') if si else QColor('#9AA7BF'))
+                p.drawEllipse(QRectF(izq0 + 16 * se, et.center().y() - 4 * se + dy, 8 * se, 8 * se))
+                izq = izq0 + 32 * se
+                p.setFont(f1)
+                p.setPen(QColor('#05070C'))
+                p.drawText(QRectF(izq, et.top() + 4 * se + dy, 400, 20 * se), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, nombre)
+                p.setFont(f2)
+                p.setPen(QColor('#1E7A56' if si else '#6F7C96'))
+                p.drawText(QRectF(izq, et.top() + 22 * se + dy, 400, 16 * se), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, sub)
+                p.setPen(Qt.PenStyle.NoPen)
+        p.restore()
 
 
 # ----------------------------------------------------------------------------------------------------------------------- ejemplo real (izquierda)
@@ -473,9 +661,20 @@ class PanelEjemploPro(QWidget):
         self._apagado = ui.Resorte(0.0, 260.0, 26.0)
         self._entrada = ui.Resorte(1.0, 150.0, 21.0)
         self._marco = None                             # (ancho, alto, dpr, QPixmap)
+        self.medida_carta = None                       # FilaPro: CarruselPacks._medidas (para alinear el móvil con la tarjeta del centro)
         self._reloj = QTimer(self)
         self._reloj.setInterval(self.TIC_MS)
         self._reloj.timeout.connect(self.update)
+
+    def _carta(self):
+        """(arriba, abajo) de la tarjeta del centro del slider, en las coordenadas de este panel (los dos van en la misma fila), o None."""
+        if self.medida_carta is None:
+            return None
+        try:
+            _w, h, _cx, cy = self.medida_carta()
+            return cy - h / 2.0, cy + h / 2.0
+        except Exception:
+            return None
 
     def entrar(self):
         """El panel entra desde la izquierda (al activar la PRO)."""
@@ -581,7 +780,11 @@ class PanelEjemploPro(QWidget):
         asp = float(info.get('aspecto') or 0.5)
         h = min(disponible.height(), disponible.width() / asp)
         w = h * asp
-        caja = QRectF(disponible.center().x() - w / 2, disponible.top() + (disponible.height() - h) / 2, w, h)
+        top = disponible.top() + (disponible.height() - h) / 2
+        carta = self._carta()
+        if carta is not None:                                      # v5.5.10 («baja más el mockup»): a la altura de la tarjeta del centro
+            top = max(disponible.top(), min(carta[1] - h, disponible.bottom() - h))
+        caja = QRectF(disponible.center().x() - w / 2, top, w, h)
         a = info.get('pantalla') or [0.0625, 0.0272, 0.9363, 0.9728]
         pant = QRectF(caja.left() + a[0] * w, caja.top() + a[1] * h, (a[2] - a[0]) * w, (a[3] - a[1]) * h)
         radio = float(info.get('radio') or 0.127) * pant.width()
@@ -594,7 +797,7 @@ class PanelEjemploPro(QWidget):
         if img is not None and not img.isNull():
             self._cubrir(p, img, pant)
         elif o is not None:
-            _icono(p, self, o['icono'], '#3B4D6E', pant.center().x(), pant.center().y(), 48)
+            _icono3d(p, self, o['clave'], pant.center().x(), pant.center().y(), 56, 0.6, apagado=True)
         f = max(0.0, min(1.0, self._fundido.x))
         if self._anterior is not None and f < 0.999:              # el clip de antes se va fundiendo encima del nuevo
             p.save()
@@ -632,7 +835,7 @@ class PanelEjemploPro(QWidget):
             nombre = tr(oo['nombre'])
             ancho = QFontMetricsF(fuente_n).horizontalAdvance(nombre) + 26
             x0 = caja.center().x() - ancho / 2
-            _icono(p, self, oo['icono'], '#7FE0B5' if enc else '#5F6F8C', x0 + 9, y0 + dy + 10, 18)
+            _icono3d(p, self, clave, x0 + 9, y0 + dy + 10, 20, 1.0 if enc else 0.55, apagado=not enc)
             p.setFont(fuente_n)
             p.setPen(QColor('#FFFFFF' if enc else '#9AA7BF'))
             p.drawText(QRectF(x0 + 26, y0 + dy, ancho, 20), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, nombre)
@@ -660,6 +863,7 @@ class FilaPro(QWidget):
         capa.setContentsMargins(0, 0, 0, 0)
         capa.setSpacing(self.ESPACIO)
         self.ejemplo = PanelEjemploPro()
+        self.ejemplo.medida_carta = getattr(centro, '_medidas', None)
         self.lista = PanelMotionsPro(ir_efectos=ir_efectos)
         capa.addWidget(self.ejemplo)
         capa.addWidget(centro, 1)

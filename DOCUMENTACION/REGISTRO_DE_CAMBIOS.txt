@@ -12,6 +12,17 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-17 16:18  ·  v5.5.10  ·  cambio explicado
+    Barra de motions de Proyecto: iconos 3D a color (elegidos entre 7 juegos; persona y claqueta en vez de silueta y pelicula gris, que no se veian sobre negro) y animacion Gota mejorada (cabeza y cola liquidas con cuello, ola en los iconos, se aplasta al pulsar, el nombre sale de dentro de la burbuja como una gota que se separa).
+    modificados (1):
+      ~ 1_codigo/pro_lateral_ui.py
+
+2026-10-17 16:06  ·  v5.5.10  ·  cambio explicado
+    Proyecto: el slider ya no se inclina al pasar el raton; el movil del ejemplo va a la altura de la tarjeta del centro; la barra de motions sin el icono de arriba, con iconos de relleno/trazo, el nombre solo al pasar el raton o tras un clic (se despliega desde la burbuja), burbuja que se estira, salto del icono y onda al hacer clic.
+    modificados (2):
+      ~ 1_codigo/estilos_slider.py
+      ~ 1_codigo/pro_lateral_ui.py
+
 2026-10-17 15:45  ·  v5.5.10  ·  (automático)
     modificados (7):
       ~ 1_codigo/ajustes_ui.py
