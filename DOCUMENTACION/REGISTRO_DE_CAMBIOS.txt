@@ -12,6 +12,31 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-17 11:28  ·  v5.5.10  ·  cambio explicado
+    Proyecto con la Edicion PRO (pedido del usuario): a la derecha del slider, interruptores de los motions que pondra GO (pildora bajo captions, B-roll, captions detras de ti / Magic Mask, Motions completo, gancho del inicio, escenas, kit, graficos, plantillas) y a la izquierda un movil con el ejemplo REAL del que se senala (clips de 4 s hechos con hacer_ejemplos_pro.py: Remotion + recorte de la persona con IA local). Escriben las MISMAS preferencias que el carrusel de Efectos para que no se contradigan. Solo con la PRO en juego (interruptor o Temas 5/6). pro_lateral_ui.py; tema pro-lateral.
+    nuevos (20):
+      + 1_codigo/herramientas_dev/hacer_ejemplos_pro.py
+      + 1_codigo/pro_lateral_ui.py
+      + 2_recursos/edicion_pro/ejemplos_pro/broll.jpg
+      + 2_recursos/edicion_pro/ejemplos_pro/broll.mp4
+      + 2_recursos/edicion_pro/ejemplos_pro/detras.jpg
+      + 2_recursos/edicion_pro/ejemplos_pro/detras.mp4
+      + 2_recursos/edicion_pro/ejemplos_pro/escenas.jpg
+      + 2_recursos/edicion_pro/ejemplos_pro/escenas.mp4
+      + 2_recursos/edicion_pro/ejemplos_pro/gancho.jpg
+      + 2_recursos/edicion_pro/ejemplos_pro/gancho.mp4
+      + 2_recursos/edicion_pro/ejemplos_pro/graficos.jpg
+      + 2_recursos/edicion_pro/ejemplos_pro/graficos.mp4
+      … y 8 más
+    modificados (7):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 3_compilar/traducciones_extra.json
+
 2026-10-17 10:57  ·  v5.5.10  ·  cambio explicado
     Librerias al dia (2026-10-17): Pillow 12.3.0 -> 13.0.0 (arreglos de seguridad; lo que quito -Image._show, fromarray con cambio de tipo, PNG en modo I, ImageCms product_name- no se usa), filelock 4.2.1; Remotion 4.0.535 -> 4.0.536, three 0.180 -> 0.186.1, @react-three/fiber 9.3 -> 9.8.2 (bundle y runtime rehechos con preparar_remotion.py). Probado sin compilar: humo de ventanas (huella identica a Pillow 12.3), GO sin Resolve con Tema VIRAL y render Remotion (Pastilla + personajes 3D).
     nuevos (305):

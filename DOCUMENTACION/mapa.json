@@ -3212,6 +3212,45 @@
       "resumen": "pro_motions_modo/pro_motions; filtro en la IA, las reglas y el plan; clásicos plegados con la PRO"
     },
     {
+      "id": "pro-lateral",
+      "grupo": "efectos",
+      "tema": "Proyecto con la PRO: motions a los lados del slider (interruptores) y su ejemplo real en un móvil",
+      "claves": [
+        "proyecto",
+        "pro",
+        "laterales",
+        "lados",
+        "interruptores",
+        "píldora",
+        "b-roll",
+        "magic mask",
+        "gancho",
+        "ejemplo real",
+        "motions",
+        "barra",
+        "cápsula",
+        "burbuja"
+      ],
+      "archivos": [
+        "pro_lateral_ui.py",
+        "herramientas_dev/hacer_ejemplos_pro.py",
+        "motions_catalogo.py",
+        "edicion_pro.py",
+        "motions_ui.py"
+      ],
+      "simbolos": [
+        "FilaPro",
+        "PanelMotionsPro",
+        "PanelEjemploPro",
+        "OPCIONES",
+        "ids_de",
+        "estado",
+        "poner",
+        "_cambio_lateral_pro"
+      ],
+      "resumen": "mismas prefs que Efectos (pro_motions*, pro_internet, pro_mascara, pro_motions_completo); clips en edicion_pro/ejemplos_pro"
+    },
+    {
       "id": "sonido-pro",
       "grupo": "sonido",
       "tema": "Sonido › Edición PRO: encendido, volumen y familias de sus sonidos",

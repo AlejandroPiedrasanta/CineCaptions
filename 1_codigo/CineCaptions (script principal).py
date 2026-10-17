@@ -1901,7 +1901,8 @@ class PlantillasWindow(QWidget):
             separador.setStyleSheet(ui.traducir_hoja('QFrame { background-color: #1E2A42; border: none; }'))
             self.tarjeta.capa.addWidget(separador)
         cab, ch = caja_h(espacio=12)
-        ch.addWidget(Etiqueta(tr('Temas') if plantillas.SOLO_TEMAS else tr('Pack de estilos'), 18, peso='medio', color='#FFFFFF'))
+        if not plantillas.SOLO_TEMAS:                 # v5.5.10: con los temas, sin el título «Temas» (lo pidió el usuario)
+            ch.addWidget(Etiqueta(tr('Pack de estilos'), 18, peso='medio', color='#FFFFFF'))
         self.cuenta_lbl = Etiqueta('', 13, color=TEXT_MUTED)
         ch.addWidget(self.cuenta_lbl)
         ch.addStretch(1)
@@ -1930,7 +1931,12 @@ class PlantillasWindow(QWidget):
         self.carrusel.elegida.connect(self._elegir)
         self.carrusel.centrada.connect(self._pintar_info)
         self.carrusel.anadir.connect(self._importar_drt)
-        self.tarjeta.capa.addWidget(self.carrusel, 1)
+        # v5.5.10: con la PRO en juego, a los lados del slider: el ejemplo real (izquierda) y los motions que pondrá GO (derecha), en las mismas
+        # preferencias que la página Efectos (pro_lateral_ui)
+        import pro_lateral_ui
+        self.lateral_pro = pro_lateral_ui.FilaPro(self.carrusel, ir_efectos=lambda: self.app.ir_a('efectos'))
+        self.lateral_pro.cambiado.connect(self._cambio_lateral_pro)
+        self.tarjeta.capa.addWidget(self.lateral_pro, 1)
         # el panel del estilo que está al centro: nombre, aviso de tipografías, nota, estructura y botones
         self._carta_actual = None
         self.info_w = QWidget()
@@ -2083,6 +2089,7 @@ class PlantillasWindow(QWidget):
         self._realzar()
         if self.on_elegir:
             self.on_elegir(valor)
+        self.lateral_pro.refrescar()                  # v5.5.10: los Temas 5 y 6 son siempre la PRO: sus lados aparecen solos
     def _valor_actual(self):
         """El valor que está en uso (el de la tarjeta con «En uso»)."""
         if self.modo == 'normal':
@@ -2165,6 +2172,14 @@ class PlantillasWindow(QWidget):
         except Exception:
             pass
         self._pintar_info()
+        self.lateral_pro.refrescar()                                                  # v5.5.10: los lados (ejemplo y motions) entran o salen
+        try:
+            self.app._pintar_opciones_go()
+        except Exception:
+            pass
+
+    def _cambio_lateral_pro(self):
+        """Un interruptor de los motions de la PRO (lado derecho): Inicio repinta sus chips (p. ej. «Motions completo»)."""
         try:
             self.app._pintar_opciones_go()
         except Exception:

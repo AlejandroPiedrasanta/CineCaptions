@@ -12,12 +12,14 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
 ------------------------------------------------------------------------------
     .cf\   (1 archivos)
         icono.ico
-    herramientas_dev\   (16 archivos)
+    herramientas_dev\   (17 archivos)
         galeria_remotion.py
             la galería de las 100 plantillas Remotion de la Edición PRO: un fotograma de cada una sobre un
         generar_recortes.py
             los «recortes de revista» del motion RecorteK (Kit8.tsx): de cada emoji 3D (Fluent, MIT) saca
         generar_resortes.js
+        hacer_ejemplos_pro.py
+            los EJEMPLOS REALES de los interruptores de la Edición PRO en Proyecto (pro_lateral_ui): un clip
         hacer_previas_motions.py
             las miniaturas del carrusel «Motions de la Edición PRO» (página Efectos): un fotograma de cada
         importar_sonidos.py
@@ -253,6 +255,8 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         packs de estilos: leer, guardar, elegir y preparar el pack que se aplica.
     preparar_efectos.py
         herramienta de desarrollo: convierte las imágenes de iconos sobre fondo blanco en SPRITES con transparencia (uno por icono).
+    pro_lateral_ui.py
+        Proyecto con la Edición PRO: a la DERECHA del slider, los motions que GO pondrá (interruptores) y, a la IZQUIERDA,
     probar_barrido.py
         prueba en el banco zz_BANCO (Resolve) del BARRIDO DE LUZ de las palabras grandes del pack «Referencia»: ¿llega hasta el final de la palabra, en cuánto tiempo?
     probar_efectos.py

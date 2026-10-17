@@ -204,6 +204,42 @@ en `edicion_pro.planificar` y en `aplicar`. Probado con una transcripción sint�
 tarjeta «Edición PRO activa…» (botón «Ver efectos clásicos»); «Ritmo: quitar pausas» sí vale y queda fuera (su «Zoom alterno» se esconde con la PRO).
 El reloj de las vistas previas (40 ms) solo corre con la página a la vista (`showEvent`/`hideEvent`); antes corría siempre.
 
+## pro-lateral — Proyecto con la PRO: motions a la derecha del slider y su ejemplo real a la izquierda (v5.5.10)
+
+**Qué (el usuario):** «en Proyecto, cuando se active el modo PRO, salgan a los laterales los motions que quiero que aplique (píldora abajo de
+captions, B-roll, Magic Mask, Motions completo, intro con overlays…) y al lado izquierdo un ejemplo real; conectado a Efectos para que no se
+contradigan». Decidido con él: la «intro con overlays» es el **gancho PRO** del inicio; el ejemplo es un **clip animado real**; los lados salen
+**solo con la PRO en juego** (`edicion_pro.en_juego()`: el interruptor o los Temas 5/6).
+
+**Dónde:** `pro_lateral_ui.py`: `FilaPro(carrusel, ir_efectos)` = [`PanelEjemploPro` | slider | `PanelMotionsPro`], la arma
+`PlantillasWindow.__init__` (script principal) y la refrescan `_alternar_pro`, `_elegir` y su propio `showEvent`; con poco ancho se esconde primero el
+ejemplo (< 1220 px) y luego la lista (< 900). El ejemplo va SIN tarjeta de fondo (el usuario: «solo el mockup de vista real y abajo la función
+que está activa»): el móvil y, debajo, el icono y el nombre de la función señalada. El móvil es el MISMO marco que Creativo
+(`MarcoVista._recursos_movil`: `2_recursos/creativo/movil_marco.png`, ~9:19,5 como un teléfono de verdad; «no tiene el tamaño real de un formato
+vertical») y el ejemplo LLENA su pantalla sin franjas («que encaje bien el mockup, no franjas negras»): los clips se hacen ya a la proporción de esa
+pantalla (`hacer_ejemplos_pro._alto_pantalla`, de `movil.json`). La cabecera del slider ya no lleva el título «Temas» (solo «Crea tu estilo»). Interruptores (`OPCIONES`): Píldora bajo captions (`acompanante`), B-roll con fotos (`pro_internet` +
+`escena:foto`), Captions detrás de ti (`pro_mascara` ≠ 'no'; al encender vuelve a 'auto' o deja 'magic'), Motions completo (`pro_motions_completo`),
+Gancho del inicio (`ograf:titular`, `ograf:orbita`, `t5:orbita`, `t5:sticker`), Escenas completas, Kit, Gráficos y Plantillas por frase (los grupos
+del catálogo; `ids_de` reparte TODO el catálogo entre ellos). **Forma (propuesta «B» que eligió el usuario entre 9 encapsuladas):**
+`PanelMotionsPro` es UNA barra cápsula negra pintada con SOLO los iconos (verde con su punto = GO lo pondrá; gris = apagado); arriba la marca de la
+PRO y abajo un círculo que lleva a Efectos. Pasar el ratón por un icono lo señala: una burbuja blanca se desliza hasta él (`Resorte` del
+`motor_resortes`) y a su izquierda queda fija una píldora blanca con su nombre y «Encendido · clic para apagar» (no es un globo: siempre está); clic =
+encender/apagar. El móvil de la izquierda pone su clip (`vistas_slider.Reproductor`, reloj de 33 ms solo a la vista; apagado = gris y «GO no lo
+pondrá»). Las propuestas descartadas (A tarjetas de color, C píldoras, D cápsula negra con filas, E cápsulas con miniatura, F cuadrícula, G vidrio
+ON/OFF, H chips, I tarjetas oscuras) se dibujaron con los iconos y miniaturas reales en el scratchpad de esa sesión.
+
+**Sin contradicciones con Efectos:** `poner()` escribe las MISMAS preferencias que el carrusel de Efectos (`edicion_pro.guardar_opciones`): apagar un
+grupo en Automático = «Solo los que elija» con todos menos ese grupo; encenderlo los vuelve a marcar y, si quedan todos, vuelve a Automático. Nunca
+deja la lista vacía (`motions_catalogo.modo` la trataría como «todos»): el último grupo no se apaga y el Registro dice «apaga la Edición PRO».
+Efectos relee al abrirse (`_asegurar_efectos` → `refrescar`) y Proyecto al verse; el chip «Motions completo» de Inicio se repinta
+(`_cambio_lateral_pro`). Probado con prefs en memoria: apagar Kit y B-roll → 133 de 146 en Efectos; Efectos → Automático → Proyecto los vuelve a ver.
+
+**Ejemplos:** `2_recursos/edicion_pro/ejemplos_pro/<clave>.mp4` (+ `.jpg`), 432×936 (la pantalla del móvil), 4 s, ~0,4 MB; viajan con la carpeta `edicion_pro` (los `.spec`).
+Los hace `herramientas_dev/hacer_ejemplos_pro.py` con «Desktop/VIDEOS EN ESPAÑOL/PRUEBA ESPAÑOL.mp4» y su guion.json: los motions reales de Remotion
+(con alfa) sobre la persona, recortada con la IA local (`edicion_pro_persona`) donde el texto va DETRÁS; Motions completo = `motions_completo.crear`
+sobre el tramo. Tramos con la persona en cámara (10–13, 16–21, 43–46, 52–62 s; 47–51 es el cartel y 32–41 el concierto). Rehacer:
+`… hacer_ejemplos_pro.py --rehacer [--solo pildora,kit]`.
+
 ## nota — v5.5.7 · coherencia entre páginas (Inicio, Efectos, Sonido)
 
 `edicion_pro.en_juego()` = el interruptor de la PRO **o** el tema elegido es el 5 o el 6 (`TEMAS_PRO`: usan la PRO siempre). Lo miran la página
