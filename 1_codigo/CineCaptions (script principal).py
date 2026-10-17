@@ -1915,8 +1915,16 @@ class PlantillasWindow(QWidget):
             self.crear_btn.setIcon(icono_crear)
             self.crear_btn.setIconSize(QSize(15, 15))
         Tooltip(self.crear_btn, tr('Elige hasta 3 estilos de una galería y crea tu propio pack en un clic.'))
-        ch.addWidget(self.crear_btn)
+        capa_audio = getattr(master, '_capa_franja_audio', None) if franja is not None else None
+        if capa_audio is not None:                    # v5.5.10 (el usuario: «sube Crea tu estilo, a la par de Whisper»): a la franja del audio
+            capa_audio.addSpacing(4)
+            capa_audio.addWidget(self.crear_btn)
+        else:
+            ch.addWidget(self.crear_btn)
         self.tarjeta.capa.addWidget(cab)
+        self._cab = cab
+        self._cab_vacia = capa_audio is not None and plantillas.SOLO_TEMAS     # sin título ni botón: solo sale si hay aviso (vistas reales)
+        cab.setVisible(not self._cab_vacia)
         self.nota_modo = Etiqueta('', 13, color=ui.AMBAR, envolver=True)
         self.nota_modo.hide()
         self.tarjeta.capa.addWidget(self.nota_modo)
@@ -2178,6 +2186,13 @@ class PlantillasWindow(QWidget):
         except Exception:
             pass
 
+    def _poner_cuenta(self, texto):
+        """El aviso de la cabecera del slider (vistas reales de Resolve, cuántos packs). v5.5.10: con «Crea tu estilo» en la franja del audio la
+        cabecera queda vacía y solo se ve mientras hay un aviso."""
+        self.cuenta_lbl.configure(text=texto)
+        if getattr(self, '_cab_vacia', False):
+            self._cab.setVisible(bool(texto))
+
     def _cambio_lateral_pro(self):
         """Un interruptor de los motions de la PRO (lado derecho): Inicio repinta sus chips (p. ej. «Motions completo»)."""
         try:
@@ -2310,7 +2325,7 @@ class PlantillasWindow(QWidget):
                     packs.append(p)
         if not packs:
             if not silencioso:
-                self.cuenta_lbl.configure(text=tr('Todas las vistas reales están al día'))
+                self._poner_cuenta(tr('Todas las vistas reales están al día'))
             return
         self._renderizando = True
         estado = {'texto': tr('Abriendo Resolve…'), 'hechos': 0, 'errores': []}
@@ -2328,7 +2343,7 @@ class PlantillasWindow(QWidget):
                 estado['hechos'] += 1
         def avance():
             if getattr(self, '_renderizando', False) and vivo(self):
-                self.cuenta_lbl.configure(text=estado['texto'])
+                self._poner_cuenta(estado['texto'])
                 despues(300, avance, self)
         def fin(_r, _e):
             self._renderizando = False
@@ -2391,7 +2406,7 @@ class PlantillasWindow(QWidget):
             self.nota_modo.configure(text=tr('No hay plantillas de básicos: añade un .drb con clips \'basico inferior 1\', \'traducion inferior 1\'… (botón de arriba), o queda la clásica.'), text_color='#E0A030')
             self.nota_modo.show()
         try:
-            self.cuenta_lbl.configure(text=tr('{len} de básicos', len=len(packs)) if packs else '')
+            self._poner_cuenta(tr('{len} de básicos', len=len(packs)) if packs else '')
         except Exception:
             pass
         return cartas
@@ -2468,7 +2483,7 @@ class PlantillasWindow(QWidget):
             cartas.append(estilos_slider.Carta('__anadir__', tr('Añadir plantilla (.drb)'), tipo='anadir', detalle=tr('Exporta una bandeja desde Resolve y súbela aquí: queda guardada como un estilo más.')))
             self.carrusel.poner_cartas(cartas, self._valor_actual())
             try:
-                self.cuenta_lbl.configure(text='' if plantillas.SOLO_TEMAS else (tr('1 pack') if len(packs) == 1 else tr('{n} packs', n=len(packs))))
+                self._poner_cuenta('' if plantillas.SOLO_TEMAS else (tr('1 pack') if len(packs) == 1 else tr('{n} packs', n=len(packs))))
             except Exception:
                 pass
             self._realzar()
@@ -6961,7 +6976,7 @@ class SubtitleApp(QWidget):
         flags = 0x00000008 | 0x00000200 if sys.platform.startswith('win') else 0
         subprocess.Popen(orden, creationflags=flags, close_fds=True)
         QApplication.instance().quit()
-    def _nueva_pagina(self, clave, titulo, subtitulo, desplazable=True):
+    def _nueva_pagina(self, clave, titulo, subtitulo, desplazable=True, con_barra=True):
         pag = QWidget()
         capa = QVBoxLayout(pag)
         capa.setContentsMargins(40, 86, 28, 22)
@@ -6970,6 +6985,7 @@ class SubtitleApp(QWidget):
             barra = BarraTitulo(NUMERO_PAGINA[clave], titulo, subtitulo)
             t, s = barra.titulo, barra.sub
             capa.addWidget(barra)
+            barra.setVisible(con_barra)                # v5.5.10: Proyecto va sin su barra de título (lo pidió el usuario); existe, oculta, por las referencias
         else:
             cab, cc = caja_v(espacio=6)
             import mograf_ui
@@ -9593,6 +9609,7 @@ class SubtitleApp(QWidget):
         self.motor_seg = Segmentado(list(self._motores_voz.keys()), self.motor_var, self._cambio_motor_voz, alto=32, tam=12)
         Tooltip(self.motor_seg, tr('Qué motor convierte la voz en palabras con su tiempo. La IA (Qwen3-ASR) usa la GPU y es la más fina; Whisper large-v3-turbo es el de respaldo y entiende 99 idiomas.'))
         cf.addWidget(self.motor_seg)
+        self._capa_franja_audio = cf                 # v5.5.10: Proyecto pone aquí, a la par de Whisper, su botón «Crea tu estilo»
         self.motor_nota = Etiqueta('', 12, color=TEXT_MUTED, envolver=True)
         self.motor_nota.hide()                       # (el detalle de GPU/modelo queda en el tooltip del selector)
         t.capa.addWidget(fila)
@@ -10326,7 +10343,8 @@ class SubtitleApp(QWidget):
     def _pagina_estilos(self):
         _pag, capa = self._nueva_pagina('estilos', tr('Elegir audio y tema') if plantillas.SOLO_TEMAS else tr('Elegir audio y estilo'),
                                         tr('Obtén el audio de tu timeline, elige un tema y mira cómo queda') if plantillas.SOLO_TEMAS
-                                        else tr('Obtén el audio de tu timeline, elige el pack de estilos y mira cómo queda cada estilo en tu bloque'), desplazable=False)
+                                        else tr('Obtén el audio de tu timeline, elige el pack de estilos y mira cómo queda cada estilo en tu bloque'), desplazable=False,
+                                        con_barra=False)
         self._estilos_capa = capa                     # v5.4.3: la página NO se desplaza: todo cabe y el slider se lleva el alto que sobra
         # el audio («Fuente», se construye en _pagina_nuevo) va dentro de la tarjeta de «Pack de estilos» (ver _asegurar_estilos)
     def _cambio_motor_voz(self, _v=None):
@@ -10466,7 +10484,8 @@ class SubtitleApp(QWidget):
         self._refrescar_receta()
     # -- SFX Lab ---------------------------------------------------------------
     def _pagina_sfx(self):
-        _pag, capa = self._nueva_pagina('sfx', tr('Elegir y retocar sonidos'), tr('Elige el sonido de cada momento, recórtalo y ajusta su volumen · se aplica al generar con GO'))
+        _pag, capa = self._nueva_pagina('sfx', tr('Elegir y retocar sonidos'), tr('Elige el sonido de cada momento, recórtalo y ajusta su volumen · se aplica al generar con GO'),
+                                        con_barra=False)         # v5.5.10: sin barra de título, como Proyecto (lo pidió el usuario)
         self._sfx_capa = capa
     # -- Efectos visuales (v5.4.6): intro, transiciones en los cortes e iconos flotantes -------------------------------------------------------------------
     def _pagina_efectos(self):

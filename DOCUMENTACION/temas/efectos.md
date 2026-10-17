@@ -212,8 +212,10 @@ contradigan». Decidido con él: la «intro con overlays» es el **gancho PRO** 
 **solo con la PRO en juego** (`edicion_pro.en_juego()`: el interruptor o los Temas 5/6).
 
 **Dónde:** `pro_lateral_ui.py`: `FilaPro(carrusel, ir_efectos)` = [`PanelEjemploPro` | slider | `PanelMotionsPro`], la arma
-`PlantillasWindow.__init__` (script principal) y la refrescan `_alternar_pro`, `_elegir` y su propio `showEvent`; con poco ancho se esconde primero el
-ejemplo (< 1220 px) y luego la lista (< 900). El ejemplo va SIN tarjeta de fondo (el usuario: «solo el mockup de vista real y abajo la función
+`PlantillasWindow.__init__` (script principal) y la refrescan `_alternar_pro`, `_elegir` y su propio `showEvent`; v5.5.10 («que se vea coherente en tamaños»): los lados crecen y se
+achican CON el slider: `FilaPro._lados` da al móvil el alto de la tarjeta del centro (la misma cuenta que `CarruselPacks._medidas`, con el
+ancho que le queda al slider) y a la barra una escala por el alto de la fila (`PanelMotionsPro.poner_escala`, 0,75–1,6); con poco sitio se esconde
+primero el ejemplo (móvil < 300 px o slider < 420 px) y luego la barra (< 860 px). Probado a 1280×720, 1536×864, 1920×1080 y 2560×1440. El ejemplo va SIN tarjeta de fondo (el usuario: «solo el mockup de vista real y abajo la función
 que está activa»): el móvil y, debajo, el icono y el nombre de la función señalada. El móvil es el MISMO marco que Creativo
 (`MarcoVista._recursos_movil`: `2_recursos/creativo/movil_marco.png`, ~9:19,5 como un teléfono de verdad; «no tiene el tamaño real de un formato
 vertical») y el ejemplo LLENA su pantalla sin franjas («que encaje bien el mockup, no franjas negras»): los clips se hacen ya a la proporción de esa

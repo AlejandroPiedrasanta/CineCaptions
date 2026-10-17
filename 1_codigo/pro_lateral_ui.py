@@ -164,14 +164,16 @@ class PanelMotionsPro(QWidget):
     Clic en un icono = encender / apagar (verde con su punto = GO lo pondrá; gris = apagado). Arriba, la marca de la PRO; abajo, a Efectos."""
     senalada = Signal(str)
     cambiado = Signal()
-    BARRA = 66            # ancho de la cápsula
+    BARRA = 66            # ancho de la cápsula (a escala 1)
     PASO_MAX = 52         # alto de cada icono
     CABEZA = 70           # sitio de la marca de arriba (y del botón de abajo)
+    ETIQUETA = 230        # sitio de la píldora con el nombre, a la izquierda de la cápsula
 
     def __init__(self, ir_efectos=None, padre=None):
         super().__init__(padre)
-        self.setFixedWidth(300)
-        self.setMinimumHeight(420)
+        self._s = 1.0
+        self.poner_escala(1.0)
+        self.setMinimumHeight(320)
         self.setMouseTracking(True)
         self._ir_efectos = ir_efectos
         self._on = {o['clave']: True for o in OPCIONES}
@@ -179,6 +181,12 @@ class PanelMotionsPro(QWidget):
         self._res = ui.Resorte(0.0, 260.0, 26.0)        # la burbuja: índice (float) del icono señalado
         self._encima = None
         self.refrescar()
+
+    def poner_escala(self, s):
+        """v5.5.10 («que se vea coherente en tamaños»): la barra crece y se achica con el slider (FilaPro le da la escala por el alto)."""
+        self._s = max(0.75, min(1.6, float(s)))
+        self.setFixedWidth(int(round(self.BARRA * self._s + 14 + self.ETIQUETA * min(self._s, 1.25))))
+        self.update()
 
     # -- estado
     def encendido(self, clave):
@@ -224,18 +232,19 @@ class PanelMotionsPro(QWidget):
     # -- geometría
     def _geo(self):
         """(cápsula, paso entre iconos, y del primer icono)."""
-        n = len(OPCIONES)
-        paso = max(36.0, min(self.PASO_MAX, (self.height() - 2 * self.CABEZA - 24) / n))
-        alto = 2 * self.CABEZA + n * paso
-        x = self.width() - self.BARRA - 4
+        n, s = len(OPCIONES), self._s
+        cabeza = self.CABEZA * s
+        paso = max(30.0 * s, min(self.PASO_MAX * s, (self.height() - 2 * cabeza - 24) / n))
+        alto = 2 * cabeza + n * paso
+        x = self.width() - self.BARRA * s - 4
         top = max(0.0, (self.height() - alto) / 2)
-        return QRectF(x, top, self.BARRA, alto), paso, top + self.CABEZA
+        return QRectF(x, top, self.BARRA * s, alto), paso, top + cabeza
 
     def _icono_en(self, pos):
         barra, paso, y0 = self._geo()
         if not barra.adjusted(-6, 0, 6, 0).contains(pos):
             return None
-        if pos.y() >= barra.bottom() - self.CABEZA + 8:
+        if pos.y() >= barra.bottom() - self.CABEZA * self._s + 8:
             return 'efectos'
         i = int((pos.y() - y0) // paso)
         return OPCIONES[i]['clave'] if 0 <= i < len(OPCIONES) else None
@@ -277,56 +286,61 @@ class PanelMotionsPro(QWidget):
         p = QPainter(self)
         p.setRenderHint(QPainter.RenderHint.Antialiasing)
         p.setRenderHint(QPainter.RenderHint.SmoothPixmapTransform)
+        s = self._s
         barra, paso, y0 = self._geo()
         cx = barra.center().x()
+        t_ic = int(round(20 * s))
         p.setPen(QPen(QColor(255, 255, 255, 20), 1))
         p.setBrush(QColor('#05070C'))
-        p.drawRoundedRect(barra, self.BARRA / 2, self.BARRA / 2)
+        p.drawRoundedRect(barra, barra.width() / 2, barra.width() / 2)
         p.setPen(Qt.PenStyle.NoPen)
         # arriba: la marca de la PRO
-        c = QRectF(cx - 20, barra.top() + 14, 40, 40)
+        c = QRectF(cx - 20 * s, barra.top() + 14 * s, 40 * s, 40 * s)
         p.setBrush(QColor('#FFFFFF'))
         p.drawEllipse(c)
-        self._icono(p, 'ph.sparkle-bold', '#05070C', cx, c.center().y())
+        self._icono(p, 'ph.sparkle-bold', '#05070C', cx, c.center().y(), t_ic)
         # los iconos: verdes con su punto si GO los pondrá, grises si no
         for i, o in enumerate(OPCIONES):
             cy = y0 + i * paso + paso / 2
             si = self.encendido(o['clave'])
             encima = self._encima == o['clave']
-            self._icono(p, o['icono'], ('#7FE0B5' if si else '#4A5670') if not encima else ('#B8F2D8' if si else '#7D8AA5'), cx, cy)
+            self._icono(p, o['icono'], ('#7FE0B5' if si else '#4A5670') if not encima else ('#B8F2D8' if si else '#7D8AA5'), cx, cy, t_ic)
             if si:
                 p.setBrush(QColor('#24D18F'))
-                p.drawEllipse(QRectF(cx + 14, cy - 14, 6, 6))
+                p.drawEllipse(QRectF(cx + 14 * s, cy - 14 * s, 6 * s, 6 * s))
         # la burbuja blanca del señalado (se desliza) y su icono en oscuro
         by = y0 + self._res.x * paso + paso / 2
-        b = QRectF(cx - 22, by - 22, 44, 44)
+        rb = min(22 * s, paso / 2 - 1)
         p.setBrush(QColor('#FFFFFF'))
-        p.drawEllipse(b)
+        p.drawEllipse(QRectF(cx - rb, by - rb, 2 * rb, 2 * rb))
         o = _POR_CLAVE[self.activa]
         si = self.encendido(self.activa)
-        self._icono(p, o['icono'], '#05070C' if si else '#7D8AA5', cx, by)
+        self._icono(p, o['icono'], '#05070C' if si else '#7D8AA5', cx, by, t_ic)
         # su nombre, fijo a la izquierda de la burbuja: el punto de estado, el nombre y qué hace un clic
-        f1, f2 = ui.fuente(13, peso='medio'), ui.fuente(10)
+        se = min(s, 1.25)
+        f1, f2 = ui.fuente(13 * se, peso='medio'), ui.fuente(10 * se)
         nombre = tr(o['nombre'])
         sub = tr('Encendido · clic para apagar') if si else tr('Apagado · clic para encender')
-        ancho = max(QFontMetricsF(f1).horizontalAdvance(nombre), QFontMetricsF(f2).horizontalAdvance(sub)) + 44
-        et = QRectF(max(2.0, barra.left() - ancho - 10), by - 22, ancho, 44)
+        alto = 44 * se
+        ancho = max(QFontMetricsF(f1).horizontalAdvance(nombre), QFontMetricsF(f2).horizontalAdvance(sub)) + 44 * se
+        et = QRectF(max(2.0, barra.left() - ancho - 10 * s), by - alto / 2, ancho, alto)
         p.setBrush(QColor('#FFFFFF'))
-        p.drawRoundedRect(et, 22, 22)
+        p.drawRoundedRect(et, alto / 2, alto / 2)
         p.setBrush(QColor('#24D18F') if si else QColor('#9AA7BF'))
-        p.drawEllipse(QRectF(et.left() + 16, et.center().y() - 4, 8, 8))
+        p.drawEllipse(QRectF(et.left() + 16 * se, et.center().y() - 4 * se, 8 * se, 8 * se))
+        izq = et.left() + 32 * se
         p.setFont(f1)
         p.setPen(QColor('#05070C'))
-        p.drawText(QRectF(et.left() + 32, et.top() + 4, ancho - 40, 20), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, nombre)
+        p.drawText(QRectF(izq, et.top() + 4 * se, ancho - 40 * se, 20 * se), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, nombre)
         p.setFont(f2)
         p.setPen(QColor('#1E7A56' if si else '#6F7C96'))
-        p.drawText(QRectF(et.left() + 32, et.top() + 22, ancho - 40, 16), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, sub)
+        p.drawText(QRectF(izq, et.top() + 22 * se, ancho - 40 * se, 16 * se), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, sub)
         # abajo: a la página Efectos (uno por uno)
-        c = QRectF(cx - 20, barra.bottom() - 54, 40, 40)
+        c = QRectF(cx - 20 * s, barra.bottom() - 54 * s, 40 * s, 40 * s)
         p.setPen(Qt.PenStyle.NoPen)
         p.setBrush(QColor('#FFFFFF') if self._encima != 'efectos' else QColor('#7FE0B5'))
         p.drawEllipse(c)
-        self._icono(p, 'ph.sliders-horizontal-bold', '#05070C', cx, c.center().y())
+        self._icono(p, 'ph.sliders-horizontal-bold', '#05070C', cx, c.center().y(), t_ic)
 
 
 # ----------------------------------------------------------------------------------------------------------------------- ejemplo real (izquierda)
@@ -337,8 +351,8 @@ class PanelEjemploPro(QWidget):
 
     def __init__(self, padre=None):
         super().__init__(padre)
-        self.setFixedWidth(330)
-        self.setMinimumHeight(420)
+        self.setFixedWidth(330)                        # (FilaPro lo ajusta: el móvil tan alto como la tarjeta del centro del slider)
+        self.setMinimumHeight(300)
         self._clave = None
         self._reprod = None
         self._poster = {}
@@ -462,16 +476,21 @@ class PanelEjemploPro(QWidget):
 
 # ----------------------------------------------------------------------------------------------------------------------- la fila de Proyecto
 class FilaPro(QWidget):
-    """[ejemplo | slider | interruptores]. Los lados se ven solo con la PRO en juego; con poco ancho se esconde primero el ejemplo y luego la lista."""
+    """[ejemplo | slider | interruptores]. Los lados se ven solo con la PRO en juego. v5.5.10 («que se vea coherente en tamaños»): crecen y
+    se achican CON el slider: el móvil, tan alto como su tarjeta del centro; la barra, a la escala del alto de la fila. Con poco sitio se
+    esconde primero el ejemplo y luego la barra."""
     cambiado = Signal()
-    ANCHO_EJEMPLO = 1220
-    ANCHO_LISTA = 900
+    ESPACIO = 14
+    TEXTO_MOVIL = 74          # lo que ocupa, debajo del móvil, el nombre de la función (y los márgenes del panel)
+    MOVIL_MIN = 300           # más bajo que esto el móvil no se lee: se esconde
+    CENTRO_MIN = 420          # sitio mínimo para el slider
+    ANCHO_LISTA = 860
 
     def __init__(self, centro, ir_efectos=None, padre=None):
         super().__init__(padre)
         capa = QHBoxLayout(self)
         capa.setContentsMargins(0, 0, 0, 0)
-        capa.setSpacing(14)
+        capa.setSpacing(self.ESPACIO)
         self.ejemplo = PanelEjemploPro()
         self.lista = PanelMotionsPro(ir_efectos=ir_efectos)
         capa.addWidget(self.ejemplo)
@@ -498,9 +517,30 @@ class FilaPro(QWidget):
         self._lados()
 
     def _lados(self):
-        w = self.width()
-        self.lista.setVisible(self._pro and w >= self.ANCHO_LISTA)
-        self.ejemplo.setVisible(self._pro and w >= self.ANCHO_EJEMPLO)
+        w, h = self.width(), self.height()
+        self.lista.poner_escala(h / 620.0)
+        ver_lista = self._pro and w >= self.ANCHO_LISTA
+        lista = self.lista.width() + self.ESPACIO if ver_lista else 0
+        # el móvil, del alto de la tarjeta del centro: la misma cuenta que CarruselPacks._medidas con el ancho que le quedaría al slider
+        try:
+            import estilos_slider as ES
+            _marco, info, _foto = ui.MarcoVista._recursos_movil()
+            asp = float(info.get('aspecto') or 0.5)
+            paso, controles = ES.CarruselPacks.PASO, ES.CarruselPacks.ALTO_CONTROLES
+        except Exception:
+            ES, asp, paso, controles = None, 0.5, 0.94, 0
+        alto_max = max(0.0, h - self.TEXTO_MOVIL)
+        movil = alto_max
+        for _ in range(4):                        # (el ancho del móvil quita sitio al slider, que achica su tarjeta: se busca el punto fijo)
+            centro = w - lista - (movil * asp + 20 + self.ESPACIO)
+            carta = max(0.0, centro - 32.0) / (0.88 + 2.0 * paso) / (ES.ASPECTO if ES else 0.5625)
+            movil = max(0.0, min(alto_max, h - controles - 16.0, 1040.0, carta))
+        ancho_ej = int(round(movil * asp + 20))
+        ver_ej = self._pro and movil >= self.MOVIL_MIN and (w - lista - ancho_ej - self.ESPACIO) >= self.CENTRO_MIN
+        if ver_ej and self.ejemplo.width() != ancho_ej:
+            self.ejemplo.setFixedWidth(ancho_ej)
+        self.lista.setVisible(ver_lista)
+        self.ejemplo.setVisible(ver_ej)
 
     def resizeEvent(self, e):
         super().resizeEvent(e)
