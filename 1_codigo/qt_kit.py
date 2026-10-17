@@ -2695,6 +2695,29 @@ class MarcoVista(QWidget):
         pant = QRectF(caja.left() + a[0] * w, caja.top() + a[1] * h, (a[2] - a[0]) * w, (a[3] - a[1]) * h)
         return caja, pant, float(info.get('radio') or 0.127) * pant.width()
 
+    def poner_boton_en_pantalla(self, boton):
+        """Un botón (el play de Creativo) DENTRO de la pantalla del móvil, abajo al centro; se recoloca al cambiar de tamaño."""
+        self._boton_pantalla = boton
+        boton.setParent(self)
+        boton.show()
+        self._colocar_boton_pantalla()
+
+    def _colocar_boton_pantalla(self):
+        b = getattr(self, '_boton_pantalla', None)
+        if b is None:
+            return
+        if self._movil:
+            _caja, pant, _r = self.geometria_movil()
+            x, y = pant.center().x() - b.width() / 2, pant.bottom() - b.height() - pant.height() * 0.045
+        else:
+            x, y = self.width() - b.width() - 14, self.height() - b.height() - 14
+        b.move(int(x), int(y))
+        b.raise_()
+
+    def resizeEvent(self, e):
+        super().resizeEvent(e)
+        self._colocar_boton_pantalla()
+
     def _imagen_en_pantalla(self):
         """(QImage, es_render_real) que se ve dentro de la pantalla: el render real de Resolve si lo hay; si no, la foto de muestra."""
         if getattr(self, '_real', False) and self._fondo is not None:

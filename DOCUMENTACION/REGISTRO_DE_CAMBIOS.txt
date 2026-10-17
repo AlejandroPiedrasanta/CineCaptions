@@ -12,6 +12,13 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-17 00:51  ·  v5.5.10  ·  cambio explicado
+    Creativo: columna derecha solo con el movil grande y el play dentro; tamano y Generar junto a Mas herramientas. Arreglado: soltar un video en GO fallaba en 5.5.10 (fps llegaba como texto y se formateaba con %d en _CREAR_TIMELINE).
+    modificados (3):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/qt_kit.py
+      ~ 1_codigo/resolve_mcp.py
+
 2026-10-17 00:37  ·  v5.5.10  ·  (automático)
     modificados (26):
       ~ 1_codigo/ajustes_ui.py

@@ -860,9 +860,9 @@ if clip:
     while nombre in existentes:
         nombre = '%%s %%d' %% (BASE, k)
         k += 1
-    # v5.5.10: con 29,97 el timeline quedaba a 24 fps (SetSetting del timeline devolvía False). Resolve quiere '30', no '30.0', y los fps
-    # del TIMELINE solo se aceptan bien si el PROYECTO ya los tiene antes de crearlo (el proyecto aún no tiene timelines).
-    fps_txt = ('%%d' %% FPS) if float(FPS) == int(FPS) else ('%%g' %% FPS)
+    # v5.5.10: con 29,97 el timeline quedaba a 24 fps (SetSetting del timeline devolvía False): los fps del TIMELINE solo se aceptan bien si
+    # el PROYECTO ya los tiene antes de crearlo (el proyecto aún no tiene timelines). FPS ya llega como texto «30» / «29.97» (crear_timeline_con_video).
+    fps_txt = str(FPS)
     try:
         if not int(project.GetTimelineCount() or 0):
             res['fps_proyecto'] = bool(project.SetSetting('timelineFrameRate', fps_txt))

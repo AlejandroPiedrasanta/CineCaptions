@@ -3809,13 +3809,16 @@ class WordTagWindow(QWidget):
             casilla_cap.setFixedHeight(34)
             Tooltip(casilla_cap, tr('Encendida: cada palabra importante del contexto, la principal y el complemento empieza con mayúscula. Apagada: el texto sale tal cual lo dejaste en la ventana de selección.'))
             ch.addWidget(casilla_cap)
-        # v5.5.10 (pedido: «la barra elimínala; sube el tamaño de texto y el botón Generar»): los dos van grandes arriba de la columna derecha
-        # y la barra solo aparece con «Más herramientas» (_poner_editor_minimo)
-        self.control_tamano = editor_ui.ControlTamano(self.tam_letra, self.TAM_LETRA_RANGO[0], self.TAM_LETRA_RANGO[1], self.TAM_LETRA_DEFECTO, self._poner_tam_letra,
-                                                      grande=True)
+        # v5.5.10 (pedido: «la barra elimínala; el tamaño y el botón Generar a la par de Más herramientas»): van en la fila de arriba, junto a
+        # «Más herramientas»; la barra solo aparece con «Más herramientas» (_poner_editor_minimo)
+        self.control_tamano = editor_ui.ControlTamano(self.tam_letra, self.TAM_LETRA_RANGO[0], self.TAM_LETRA_RANGO[1], self.TAM_LETRA_DEFECTO, self._poner_tam_letra)
         Tooltip(self.control_tamano, tr('Tamaño de las palabras del párrafo: arrastra para agrandar o achicar.'))
-        self.generar_btn = Boton(tr('Generar'), self._continuar, tipo='primario', alto=50, tam=17, negrita=True)
+        self.generar_btn = Boton(tr('Generar'), self._continuar, tipo='primario', alto=36, tam=15, negrita=True, ancho=150)
         Tooltip(self.generar_btn, tr('Sigue con tus marcas y genera los subtítulos.'))
+        cch.addSpacing(8)
+        cch.addWidget(self.control_tamano)
+        cch.addSpacing(4)
+        cch.addWidget(self.generar_btn)
         self.herr_barra = herr
         capa.addWidget(herr)
         cuerpo, cc = caja_h(espacio=20)
@@ -3851,36 +3854,37 @@ class WordTagWindow(QWidget):
         cl.addWidget(self.atajos_label)
         self.ayuda_label = self.atajos_label
         cc.addWidget(lienzo_card, 1)
-        derecha = Desplazable(espacio=16, margenes=(0, 0, 8, 0))
+        # v5.5.10 (pedido: «elimina "Así se verá este bloque" y todo lo de abajo; solo el mockup en grande, con el play dentro»): la columna
+        # derecha es SOLO el móvil, a todo el alto. El resto de la tarjeta (título, tiempo, SFX, estilo del bloque, «Comprobar en Resolve») se
+        # sigue creando —el código lo actualiza— pero vive en un contenedor que nunca se enseña.
+        derecha = QWidget()
+        dcapa = QVBoxLayout(derecha)
+        dcapa.setContentsMargins(0, 0, 0, 0)
+        dcapa.setSpacing(12)
         derecha.setFixedWidth(400)
         self._derecha = derecha
-        acciones = QWidget()
-        acc = QVBoxLayout(acciones)
-        acc.setContentsMargins(4, 0, 4, 0)
-        acc.setSpacing(10)
-        acc.addWidget(self.control_tamano)
-        acc.addWidget(self.generar_btn)
-        derecha.agregar(acciones)
+        self._piezas_ocultas = QWidget(self)
+        self._piezas_ocultas.hide()
         self.tarjeta_bloque = Tarjeta(margenes=(18, 14, 18, 14), espacio=8)
+        self.tarjeta_bloque.setParent(self._piezas_ocultas)
         cab, ccab = caja_h(espacio=8)
         self.tarjeta_bloque.titulo = Etiqueta(tr('Así se verá este bloque'), 16, peso='medio', color='#FFFFFF')
         ccab.addWidget(self.tarjeta_bloque.titulo)
         ccab.addStretch(1)
         self.reproduccion_lbl = Etiqueta('', 12, color=TEXT_MUTED)
         ccab.addWidget(self.reproduccion_lbl)
-        self.reproducir_btn = editor_ui.BotonPlay(tr('Reproducir todo'), tr('Detener'), lado=36)
-        self.reproducir_btn.clicked.connect(lambda _=False: self._alternar_reproduccion())
-        ccab.addWidget(self.reproducir_btn)
         self.tarjeta_bloque.capa.addWidget(cab)
         if getattr(self, '_guion', False):
             import guion_vista
             self.vista_bloque = guion_vista.MarcoVistaGuion(alto_min=200, movil=True)      # v5.10: el bloque con la geometría real de Resolve
         else:
             self.vista_bloque = MarcoVista(alto_min=150, movil=True)
-        # v5.5.10 (pedido: «un mockup de móvil con el fondo y encima los captions»): el bloque se ve dentro de un móvil
-        self.vista_bloque.setFixedHeight(580)
+        self.vista_bloque.setMinimumHeight(360)
+        dcapa.addWidget(self.vista_bloque, 1)
+        self.reproducir_btn = editor_ui.BotonPlay(tr('Reproducir todo'), tr('Detener'), lado=54)
+        self.reproducir_btn.clicked.connect(lambda _=False: self._alternar_reproduccion())
+        self.vista_bloque.poner_boton_en_pantalla(self.reproducir_btn)          # el play, dentro de la pantalla del móvil
         fila_v, cfv = caja_h(espacio=8)
-        cfv.addWidget(self.vista_bloque, 1)
         self.mini_pos = editor_ui.MiniPosicion()          # v5.8: dónde cae el bloque en el cuadro del video (arriba / centro / abajo)
         self.mini_pos.setFixedHeight(156)
         self.mini_pos.hide()
@@ -3917,7 +3921,6 @@ class WordTagWindow(QWidget):
         self._cache_estilos_pack = None
         self.blocks_label = Etiqueta('', 12, color='#5A6B87')
         self.tarjeta_bloque.capa.addWidget(self.blocks_label)
-        derecha.agregar(self.tarjeta_bloque)
         self.tarjeta_orto = Tarjeta(titulo=tr('Revisión de ortografía'), espacio=10)
         fila_o, cfo = caja_h(espacio=8)
         self.orto_estado = Etiqueta('', 13, color=TEXT_MUTED, envolver=True)
@@ -3964,10 +3967,14 @@ class WordTagWindow(QWidget):
         cfe.setHorizontalSpacing(10)
         cfe.setVerticalSpacing(4)
         self._selector_espacio(cfe)         # se crean (guardan las preferencias) pero no se ponen en pantalla
-        derecha.agregar(self.tarjeta_ajustes)
+        # (los ajustes del bloque solo con «Más herramientas»: debajo del móvil, con su propio desplazamiento)
+        ajustes_extra = Desplazable(espacio=12, margenes=(0, 0, 8, 0))
+        ajustes_extra.agregar(self.tarjeta_ajustes)
+        ajustes_extra.setMaximumHeight(330)
+        dcapa.addWidget(ajustes_extra)
         cc.addWidget(derecha)
         capa.addWidget(cuerpo, 1)
-        self._avanzado_editor = [w_ for w_ in (self.guardado_chip, self.tarjeta_ajustes, self.atajos_label) if w_ is not None]
+        self._avanzado_editor = [w_ for w_ in (self.guardado_chip, ajustes_extra, self.atajos_label) if w_ is not None]
         try:
             import ajustes_ui
             minimo = ajustes_ui.leer_prefs().get('editor_minimo', True) is not False
