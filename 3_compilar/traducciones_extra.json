@@ -6060,5 +6060,12 @@
   "fr": "Page Son plus épurée : la bibliothèque de sons n’occupe plus la page ; elle s’ouvre dans une fenêtre quand vous appuyez sur « Parcourir… » sur chaque son (et chaque emoji), avec la recherche, les catégories et « Depuis mon ordinateur… ».",
   "de": "Aufgeräumtere Sound-Seite: Die Soundbibliothek nimmt keinen Platz mehr auf der Seite ein; sie öffnet sich in einem Fenster, wenn du bei einem Sound (oder Emoji) auf „Datei suchen…“ klickst – mit Suche, Kategorien und „Von meinem Computer…“.",
   "it": "Pagina Suono più pulita: la libreria dei suoni non occupa più la pagina; si apre in una finestra quando premi «Cerca file…» su ogni suono (e su ogni emoji), con la ricerca, le categorie e «Dal mio computer…»."
+ },
+ "Inicio: el botón del Registro va junto a minimizar, igual que en el resto de páginas.": {
+  "en": "Home: the Log button sits next to minimize, just like on the other pages.",
+  "pt": "Início: o botão do Registo fica ao lado de minimizar, como nas outras páginas.",
+  "fr": "Accueil : le bouton du Journal se trouve à côté de réduire, comme sur les autres pages.",
+  "de": "Start: Die Protokoll-Schaltfläche sitzt neben Minimieren, wie auf den anderen Seiten.",
+  "it": "Home: il pulsante del Registro è accanto a riduci a icona, come nelle altre pagine."
  }
 }

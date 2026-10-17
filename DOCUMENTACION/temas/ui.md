@@ -6,6 +6,8 @@
 
 **Dónde:** script principal · `class SubtitleApp`, `ir_a`, `_build_ui`, `_nueva_pagina`
 
+**Registro flotante (5.5.11):** el botón del Registro (`registro_flotante`, un `registro_ui.BotonRegistro`) va a la izquierda de los controles de la ventana en TODAS las páginas, Inicio incluida (`_reposicionar_isla` lo coloca, `ir_a` lo sube). Inicio ya no lleva su propio botón en la fila de `aviso_inicio`.
+
 ## fondo-animado — Fondo animado y entrada de tarjetas
 
 **Qué:** Fondo animado, entrada de tarjetas

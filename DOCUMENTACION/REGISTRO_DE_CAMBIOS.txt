@@ -12,6 +12,21 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-17 17:46  ·  v5.5.11  ·  (automático)
+    modificados (7):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 3_compilar/traducciones_extra.json
+
+2026-10-17 17:45  ·  v5.5.11  ·  cambio explicado
+    Inicio: el botón del Registro pasa de la fila de avisos a flotar junto a minimizar, igual que en el resto de páginas (pedido del usuario).
+    modificados (1):
+      ~ 1_codigo/CineCaptions (script principal).py
+
 2026-10-17 17:37  ·  v5.5.11  ·  (automático)
     modificados (27):
       ~ 1_codigo/ajustes_ui.py
