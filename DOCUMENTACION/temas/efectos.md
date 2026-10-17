@@ -236,10 +236,12 @@ deja la lista vacía (`motions_catalogo.modo` la trataría como «todos»): el �
 Efectos relee al abrirse (`_asegurar_efectos` → `refrescar`) y Proyecto al verse; el chip «Motions completo» de Inicio se repinta
 (`_cambio_lateral_pro`). Probado con prefs en memoria: apagar Kit y B-roll → 133 de 146 en Efectos; Efectos → Automático → Proyecto los vuelve a ver.
 
+**Animaciones (v5.5.10, todo con `Resorte` + `motor_resortes`, pintado; sin efectos Qt):** al activar la PRO los lados entran (el móvil desde la izquierda, la barra desde la derecha, con fundido: `entrar()`, solo cuando la PRO pasa de apagada a encendida, no al redimensionar); al cambiar de motion el clip viejo se funde con el nuevo y el nombre de debajo sube y entra; apagar/encender atenúa la pantalla con suavidad; en la barra el punto verde salta con rebote al encender y se encoge al apagar, el icono pasa de gris a verde con fundido y crece un 16 % con el ratón, y la píldora del nombre ajusta su ancho con resorte y funde el texto. Rendimiento: el marco del móvil se escala una vez por tamaño (`_marco_pm`; antes en cada fotograma, 30/s) y los iconos van rasterizados en caché (`_pix`: `qt_kit.icono_linea` crea el QIcon y dibuja el glifo en cada llamada).
+
 **Ejemplos:** `2_recursos/edicion_pro/ejemplos_pro/<clave>.mp4` (+ `.jpg`), 432×936 (la pantalla del móvil), 4 s, ~0,4 MB; viajan con la carpeta `edicion_pro` (los `.spec`).
 Los hace `herramientas_dev/hacer_ejemplos_pro.py` con «Desktop/VIDEOS EN ESPAÑOL/PRUEBA ESPAÑOL.mp4» y su guion.json: los motions reales de Remotion
 (con alfa) sobre la persona, recortada con la IA local (`edicion_pro_persona`) donde el texto va DETRÁS; Motions completo = `motions_completo.crear`
-sobre el tramo. Tramos con la persona en cámara (10–13, 16–21, 43–46, 52–62 s; 47–51 es el cartel y 32–41 el concierto). Rehacer:
+sobre el tramo; los captions nunca pasan de 2 líneas (la 3.ª tapaba la píldora). Tramos con la persona en cámara (10–13, 16–21, 43–46, 52–62 s; 47–51 es el cartel y 32–41 el concierto). Rehacer:
 `… hacer_ejemplos_pro.py --rehacer [--solo pildora,kit]`.
 
 ## nota — v5.5.7 · coherencia entre páginas (Inicio, Efectos, Sonido)

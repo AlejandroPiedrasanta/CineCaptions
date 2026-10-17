@@ -2186,12 +2186,15 @@ class PlantillasWindow(QWidget):
         except Exception:
             pass
 
-    def _poner_cuenta(self, texto):
+    def _poner_cuenta(self, texto, silencioso=False):
         """El aviso de la cabecera del slider (vistas reales de Resolve, cuántos packs). v5.5.10: con «Crea tu estilo» en la franja del audio la
-        cabecera queda vacía y solo se ve mientras hay un aviso."""
-        self.cuenta_lbl.configure(text=texto)
+        cabecera queda vacía y solo se ve mientras hay un aviso. El avance de un render SILENCIOSO (el que se pide solo al conectar Resolve) no
+        la abre: si no, la fila aparecía y desaparecía y el slider daba saltos mientras el usuario lo miraba."""
         if getattr(self, '_cab_vacia', False):
+            if silencioso:
+                return
             self._cab.setVisible(bool(texto))
+        self.cuenta_lbl.configure(text=texto)
 
     def _cambio_lateral_pro(self):
         """Un interruptor de los motions de la PRO (lado derecho): Inicio repinta sus chips (p. ej. «Motions completo»)."""
@@ -2343,7 +2346,7 @@ class PlantillasWindow(QWidget):
                 estado['hechos'] += 1
         def avance():
             if getattr(self, '_renderizando', False) and vivo(self):
-                self._poner_cuenta(estado['texto'])
+                self._poner_cuenta(estado['texto'], silencioso=silencioso)
                 despues(300, avance, self)
         def fin(_r, _e):
             self._renderizando = False
@@ -7061,7 +7064,8 @@ class SubtitleApp(QWidget):
                 import mograf_ui
                 despues(10, lambda p=pagina: mograf_ui.entrada_escalonada(efectos_ui.tarjetas_de(p)), self)
                 titulo_pagina = self._cabeceras.get(clave, (None, None))[0]
-                if hasattr(titulo_pagina, 'revelar'):
+                barra = titulo_pagina.parentWidget() if titulo_pagina is not None else None
+                if hasattr(titulo_pagina, 'revelar') and not (barra is not None and barra.isHidden()):     # (Proyecto y Sonido: barra oculta)
                     despues(40, titulo_pagina.revelar, self)
         except Exception:
             pass
@@ -14422,6 +14426,21 @@ def main():
         resolve_mcp.cerrar()
     except Exception:
         pass
+    # v5.5.10: salida limpia. Al volver de app.exec() siguen vivos hilos de fondo (la vista de Creativo, los emojis animados, el vigía de
+    # Resolve) que usan numpy/Qt sin el GIL: mientras Python se desmonta podían tocar memoria ya liberada («access violation» al cerrar,
+    # visto en el humo de ventanas). Se corren los atexit (la marca de sesión «cerrada bien»), se vacían los registros y se sale ya.
+    try:
+        import atexit
+        import logging
+        atexit._run_exitfuncs()
+        logging.shutdown()
+        for flujo in (sys.stdout, sys.stderr):
+            try:
+                flujo.flush()
+            except Exception:
+                pass
+    finally:
+        os._exit(0)
 if __name__ == '__main__':
     try:
         main()

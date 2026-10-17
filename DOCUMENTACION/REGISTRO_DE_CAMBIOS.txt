@@ -12,6 +12,35 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-17 12:42  ·  v5.5.10  ·  cambio explicado
+    Animaciones de Proyecto con la PRO: los lados entran al activar la PRO, fundido cruzado entre ejemplos, el punto verde rebota al encender un motion, iconos con fundido y crecen con el raton, la pildora del nombre ajusta su ancho; marco del movil e iconos cacheados (antes se escalaban 30 veces por segundo). Slider: arrastre con resistencia elastica en los extremos. Ejemplos: captions de 2 lineas como maximo.
+    modificados (8):
+      ~ 1_codigo/estilos_slider.py
+      ~ 1_codigo/herramientas_dev/hacer_ejemplos_pro.py
+      ~ 1_codigo/pro_lateral_ui.py
+      ~ 2_recursos/edicion_pro/ejemplos_pro/broll.mp4
+      ~ 2_recursos/edicion_pro/ejemplos_pro/graficos.mp4
+      ~ 2_recursos/edicion_pro/ejemplos_pro/pildora.jpg
+      ~ 2_recursos/edicion_pro/ejemplos_pro/pildora.mp4
+      ~ 2_recursos/edicion_pro/ejemplos_pro/plantillas.mp4
+
+2026-10-17 12:27  ·  v5.5.10  ·  cambio explicado
+    Revision de bugs (2026-10-17): salud.py tenia Pillow 12.3.0 fijada y tras subir a 13 cada arranque avisaba 'Pillow con problemas' (ahora 13.0.0 y el acoplamiento anotado); salida limpia con os._exit tras atexit (los hilos de fondo con numpy/Qt podian dar access violation al cerrar); el avance de los renders silenciosos de vistas reales ya no abre la fila de aviso (el slider daba saltos); la cache de motions de Proyecto no se queda vacia si el catalogo falla; no se anima el titulo de las barras ocultas.
+    modificados (29):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/estilos_slider.py
+      ~ 1_codigo/herramientas_dev/hacer_ejemplos_pro.py
+      ~ 1_codigo/pro_lateral_ui.py
+      ~ 1_codigo/salud.py
+      ~ 2_recursos/edicion_pro/ejemplos_pro/broll.jpg
+      ~ 2_recursos/edicion_pro/ejemplos_pro/broll.mp4
+      ~ 2_recursos/edicion_pro/ejemplos_pro/detras.jpg
+      ~ 2_recursos/edicion_pro/ejemplos_pro/detras.mp4
+      ~ 2_recursos/edicion_pro/ejemplos_pro/escenas.jpg
+      ~ 2_recursos/edicion_pro/ejemplos_pro/escenas.mp4
+      ~ 2_recursos/edicion_pro/ejemplos_pro/gancho.jpg
+      … y 17 más
+
 2026-10-17 11:28  ·  v5.5.10  ·  cambio explicado
     Proyecto con la Edicion PRO (pedido del usuario): a la derecha del slider, interruptores de los motions que pondra GO (pildora bajo captions, B-roll, captions detras de ti / Magic Mask, Motions completo, gancho del inicio, escenas, kit, graficos, plantillas) y a la izquierda un movil con el ejemplo REAL del que se senala (clips de 4 s hechos con hacer_ejemplos_pro.py: Remotion + recorte de la persona con IA local). Escriben las MISMAS preferencias que el carrusel de Efectos para que no se contradigan. Solo con la PRO en juego (interruptor o Temas 5/6). pro_lateral_ui.py; tema pro-lateral.
     nuevos (20):

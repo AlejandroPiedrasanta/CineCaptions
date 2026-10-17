@@ -31,6 +31,7 @@ Antes de dar un cambio por terminado, repasa esta tabla (cada fila costó un fal
 |---|---|
 | `CineCaptions_Subtitulos.lua` (Free) | su gemelo `CineCaptions.py` (Studio) y al revés; el Lua NO tiene `io`: lo que necesite de disco lo escribe la app (sidecars, `emoji_comps`) |
 | un pack `.drb` o una macro Luxe | `plantillas.REVISION_BIN['<Pack>']` +1; solo macros Luxe reales (`MediaOut`, no `Saver`); Amro solo como principal; probar con `.drb`, nunca `InsertFusionTitleIntoTimeline` con nombres dudosos |
+| una librería de `3_compilar/requirements.txt` | su versión fijada en `salud.LIBRERIAS` (el chequeo de cada arranque): si no, avisa «X con problemas» aunque esté bien (pasó con Pillow 13, v5.5.10). Y `3_compilar/requirements.txt` es la fuente: el venv `6_compilacion/venv314` se instala de ahí |
 | la versión | SOLO `1_codigo/version.py`; `3_compilar/sincronizar_version.py` la copia a los scripts; las novedades van en `ajustes_ui.NOTAS_VERSION`. Compilar/publicar solo si el usuario lo pide |
 | el orden de colocación en Resolve | emojis ANTES que sonidos (`place_guion` / `place_guion_track`); al revés Resolve Free se cae (tema `emojis-posicion-free`) |
 | `CineCaptions_ArmarVideo.lua` | las `pausa(…)` tras `CreateEmptyTimeline` y cada `SetSetting` NO se acortan: son la cura del cuelgue de Resolve (tema `resolve-colgado`) |

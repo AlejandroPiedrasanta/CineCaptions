@@ -839,11 +839,15 @@ class CarruselPacks(QWidget):
         if self._arrastre is not None:
             a = self._arrastre
             w = self._medidas()[0]
-            dx = x - a['x']
             if abs(x - a['x0']) > 6:
                 a['mov'] = True
-            self._pos = a['pos0'] - (x - a['x0']) / (w * self.PASO)
-            self._pos = max(-0.4, min(len(self._cartas) - 0.6, self._pos))
+            crudo = a['pos0'] - (x - a['x0']) / (w * self.PASO)
+            ultimo = max(0, len(self._cartas) - 1)
+            if crudo < 0:                                 # v5.5.10: pasado el borde, resistencia elástica (como iOS) en vez de un tope seco
+                crudo = -0.45 * (1.0 - 1.0 / (1.0 + 0.9 * -crudo))
+            elif crudo > ultimo:
+                crudo = ultimo + 0.45 * (1.0 - 1.0 / (1.0 + 0.9 * (crudo - ultimo)))
+            self._pos = crudo
             ahora = time.perf_counter()
             a['muestras'].append((ahora, x))
             a['muestras'] = [m for m in a['muestras'] if ahora - m[0] < 0.12]

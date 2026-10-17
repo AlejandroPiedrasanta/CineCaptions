@@ -186,9 +186,12 @@ def captions(pal, t, y=0.58, max_pal=4):
     grupo = dichas[-max_pal:]
     if len(dichas) > max_pal:                           # cada bloque se limpia al llenarse
         grupo = dichas[(len(dichas) - 1) // max_pal * max_pal:]
-    texto = ' '.join(w for w, _a in grupo).upper()
+    lineas = _partir(' '.join(w for w, _a in grupo).upper(), 18)
+    while len(lineas) > 2 and len(grupo) > 1:            # como GO: nunca más de 2 líneas (la 3.ª tapaba la píldora de debajo)
+        grupo = grupo[1:]
+        lineas = _partir(' '.join(w for w, _a in grupo).upper(), 18)
     q = (t - grupo[-1][1]) / 0.18
-    return texto_rgba(_partir(texto, 16), LETRA_CAP, 34, y, escala=0.92 + 0.08 * _pop(q), alfa=min(1.0, 0.4 + q))
+    return texto_rgba(lineas[-2:], LETRA_CAP, 34, y, escala=0.92 + 0.08 * _pop(q), alfa=min(1.0, 0.4 + q))
 
 
 def _partir(texto, n):

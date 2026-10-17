@@ -101,6 +101,10 @@ Pedido del usuario: **ningún cuadro emergente** (toasts) y **ningún mensaje al
 
 **v5.4.28 — panel «Acerca de» sin pisarse:** `ajustes_ui.PanelRapido` tenía todo en un `QVBoxLayout` de alto fijo: en una ventana baja o con escala 165 % el panel se colocaba más bajo que su contenido (`posicion()` recorta a lo que cabe) y el layout apretaba las filas (el texto de las notas tapaba el enlace; los enlaces de la licencia salían cortados). Ahora la cabecera es fija y el resto va en un `QScrollArea` con los márgenes de los lados DENTRO del contenido (si aparece la barra el contenido se estrecha, no se corta); `sizeHint()` devuelve el alto del contenido entero. Prueba sin pantalla: `QT_SCALE_FACTOR=1.65` + `qt_kit.crear_app()` (con `QApplication([])` suelto no hay la hoja de estilos ni las fuentes) y `p.resize(420, 430)`. «Buscar actualizaciones»: `actualizaciones.comprobar` reintenta una vez; `explicar_fallo(mensaje)` da la causa legible y el crudo va al Registro (`actualizaciones`).
 
+## nota — v5.5.10 · salida limpia
+
+Al volver de `app.exec()` (final de `main`) quedan hilos de fondo vivos (vista de Creativo, emojis animados, vigía de Resolve) que usan numpy/Qt sin el GIL; mientras Python se desmontaba podían tocar memoria liberada («access violation» al cerrar). Ahora `main` cierra el MCP, corre los `atexit` (la marca de sesión «cerrada bien» de `registro`), vacía los registros y sale con `os._exit(0)`. Comprobado que al cerrar solo quedan hilos *daemon* (`vigia-resolve-colgado`, `emojis-secuencias`): ninguno retenía el proceso.
+
 ## ui-menores — Brillo de botones, ventana Registro, avisos, idiomas
 
 - `brillo_ui.py`: barridos de luz y ondas al pulsar (todos los botones). `registro_ui.py`: aviso en la barra de título, botón del Registro con contador y la ventana Registro.
