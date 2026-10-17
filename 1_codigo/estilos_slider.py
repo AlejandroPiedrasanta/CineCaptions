@@ -25,7 +25,7 @@ import time
 import zlib
 from pathlib import Path
 
-from PySide6.QtCore import QPointF, QRectF, Qt, QTimer, Signal
+from PySide6.QtCore import QPointF, QRectF, QSize, Qt, QTimer, Signal
 from PySide6.QtGui import (QBrush, QColor, QFontMetricsF, QImage, QLinearGradient, QPainter, QPainterPath, QPen, QPixmap,
                            QRadialGradient, QTransform)
 from PySide6.QtWidgets import QFrame, QSizePolicy, QWidget
@@ -180,7 +180,9 @@ class CarruselPacks(QWidget):
         self._tilt = [0.0, 0.0]                  # la del centro se inclina un poco hacia el ratón
         self._tilt_obj = [0.0, 0.0]
         self._motas = [((i * 0.6180339) % 1.0, (i * 0.3819660 + 0.13) % 1.0, 0.6 + (i % 5) * 0.35, 1.4 + (i % 4) * 0.9) for i in range(26)]
-        self.setMinimumHeight(int(alto))
+        # v5.5.10: con `flexible` el alto pedido es solo el preferido: el mínimo baja para que la página quepa en pantallas pequeñas
+        self.setMinimumHeight(int(min(alto, 300)) if flexible else int(alto))
+        self._alto_pref = int(alto)
         if flexible:                                  # Proyecto: ocupa todo el alto que sobra (las tarjetas se escalan con él)
             self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         else:
@@ -368,9 +370,17 @@ class CarruselPacks(QWidget):
                             int(ca.blue() + (cb.blue() - ca.blue()) * f))
 
     # -- geometría ------------------------------------------------------------------------------------------------------
+    def sizeHint(self):
+        return QSize(900, getattr(self, '_alto_pref', 540))
+
     def _medidas(self):
-        h_carta = max(260.0, min(1040.0, self.height() - self.ALTO_CONTROLES - 16.0))                # v5.4.22: crecen con la ventana; v5.5.9: más grandes (tope 1040)
-        return h_carta * ASPECTO, h_carta, self.width() / 2.0, 14.0 + h_carta / 2.0
+        # v5.4.22: crecen con la ventana; v5.5.9: más grandes (tope 1040). v5.5.10: también caben a lo ANCHO (la del centro y sus dos vecinas
+        # enteras: 2,76 anchos de tarjeta) y el grupo se centra en el alto que sobra; antes en ventanas estrechas se pisaban y desbordaban.
+        disponible = self.height() - self.ALTO_CONTROLES - 16.0
+        por_ancho = max(0.0, self.width() - 32.0) / (0.88 + 2.0 * self.PASO) / ASPECTO
+        h_carta = max(180.0, min(1040.0, disponible, por_ancho))
+        arriba = 14.0 + max(0.0, (disponible - h_carta) / 2.0)
+        return h_carta * ASPECTO, h_carta, self.width() / 2.0, arriba + h_carta / 2.0
 
     def _transformar(self, d, w, h, cx, cy):
         """(rect, escala, opacidad) de la tarjeta a la distancia `d` del centro (en tarjetas)."""
@@ -697,10 +707,15 @@ class CarruselPacks(QWidget):
         p.drawLine(QPointF(c.x() - 11 * esc, c.y() - 26 * esc), QPointF(c.x() + 11 * esc, c.y() - 26 * esc))
         p.drawLine(QPointF(c.x(), c.y() - 37 * esc), QPointF(c.x(), c.y() - 15 * esc))
         p.setPen(QColor(255, 255, 255, 235))
-        p.setFont(ui.fuente(16 * esc, peso='negrita'))
-        p.drawText(QRectF(rect.left() + 14, c.y() + 18 * esc, rect.width() - 28, 26 * esc), int(Qt.AlignmentFlag.AlignCenter), tr('Añadir plantilla (.drb)'))
+        # v5.5.10: el título se achica hasta caber en la tarjeta (en pantallas pequeñas se salía por los lados)
+        titulo, tam = tr('Añadir plantilla (.drb)'), 16 * esc
+        p.setFont(ui.fuente(tam, peso='negrita'))
+        while tam > 8 and p.fontMetrics().horizontalAdvance(titulo) > rect.width() - 28:
+            tam -= 0.5
+            p.setFont(ui.fuente(tam, peso='negrita'))
+        p.drawText(QRectF(rect.left() + 14, c.y() + 18 * esc, rect.width() - 28, 26 * esc), int(Qt.AlignmentFlag.AlignCenter), titulo)
         p.setPen(QColor(ui.TEXT_MUTED))
-        p.setFont(ui.fuente(12 * esc))
+        p.setFont(ui.fuente(min(12 * esc, tam * 0.78)))
         p.drawText(QRectF(rect.left() + 22, c.y() + 48 * esc, rect.width() - 44, 70 * esc),
                    int(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignTop) | int(Qt.TextFlag.TextWordWrap), tr('En Resolve: clic derecho sobre el bin > Exportar bandeja…'))
 
