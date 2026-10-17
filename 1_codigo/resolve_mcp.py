@@ -860,12 +860,20 @@ if clip:
     while nombre in existentes:
         nombre = '%%s %%d' %% (BASE, k)
         k += 1
+    # v5.5.10: con 29,97 el timeline quedaba a 24 fps (SetSetting del timeline devolvía False). Resolve quiere '30', no '30.0', y los fps
+    # del TIMELINE solo se aceptan bien si el PROYECTO ya los tiene antes de crearlo (el proyecto aún no tiene timelines).
+    fps_txt = ('%%d' %% FPS) if float(FPS) == int(FPS) else ('%%g' %% FPS)
+    try:
+        if not int(project.GetTimelineCount() or 0):
+            res['fps_proyecto'] = bool(project.SetSetting('timelineFrameRate', fps_txt))
+    except Exception as e:
+        res['fps_proyecto'] = repr(e)
     tl = mp.CreateEmptyTimeline(nombre)
     res['timeline'] = nombre if tl else None
     if tl:
         ajustes = {}
         for clave, valor in (('useCustomSettings', '1'), ('timelineResolutionWidth', str(ANCHO)), ('timelineResolutionHeight', str(ALTO)),
-                             ('timelineOutputResolutionWidth', str(ANCHO)), ('timelineOutputResolutionHeight', str(ALTO)), ('timelineFrameRate', str(FPS))):
+                             ('timelineOutputResolutionWidth', str(ANCHO)), ('timelineOutputResolutionHeight', str(ALTO)), ('timelineFrameRate', fps_txt)):
             try:
                 ajustes[clave] = bool(tl.SetSetting(clave, valor))
             except Exception as e:

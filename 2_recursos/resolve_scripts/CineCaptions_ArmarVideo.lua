@@ -495,6 +495,8 @@ local function main()
         nombre = string.format("%s %d", base, k)
         k = k + 1
     end
+    -- v5.5.10: con 29,97 el timeline quedaba a 24 fps; los fps se ponen antes en el PROYECTO (solo si aun no tiene timelines)
+    if (tonumber(project:GetTimelineCount()) or 0) == 0 then pcall(function() project:SetSetting("timelineFrameRate", string.format("%g", FPS)) end) end
     local tl = mp:CreateEmptyTimeline(nombre)
     if not tl then fail("Resolve no creo el timeline «" .. nombre .. "».") end
     res.timeline = nombre

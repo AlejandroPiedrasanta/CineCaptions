@@ -12,6 +12,19 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-17 00:04  ·  v5.5.9  ·  cambio explicado
+    29,97 fps: los fps se ponen en el PROYECTO antes de crear el timeline y como '30' (no '30.0') (resolve_mcp + ArmarVideo.lua). Packs Luxe con sombra oscura suave (elemento 4) para leerse sobre fondos claros: Tema4/5/6 y Referencia regenerados, REVISION_BIN +1. Tema 5: la clave 'detras' pasa a caption normal si la persona esta tan arriba que el texto caeria a media cabeza o mas abajo.
+    modificados (9):
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/resolve_mcp.py
+      ~ 2_recursos/generador_packs/luxe_macro.py
+      ~ 2_recursos/plantillas_incluidas/Referencia/Referencia vertical.drb
+      ~ 2_recursos/plantillas_incluidas/Tema4/Tema4 vertical.drb
+      ~ 2_recursos/plantillas_incluidas/Tema5/Tema5 vertical.drb
+      ~ 2_recursos/plantillas_incluidas/Tema6/Tema6 vertical.drb
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+
 2026-10-16 23:01  ·  v5.5.9  ·  cambio explicado
     Incoherencias: Motions completo no salia si la PRO no tenia graficos para ese video (el plan solo se guardaba con piezas); el rectificador quitaba sus sonidos (ahora llevan sinc). Probado con GO real en Studio (Tema 4 + PRO + Motions completo).
     modificados (3):
