@@ -12,6 +12,22 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-17 17:37  ·  v5.5.11  ·  (automático)
+    modificados (27):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      … y 15 más
+
 2026-10-17 17:33  ·  v5.5.10  ·  cambio explicado
     Sonido: la barra de la biblioteca (buscador, categorías, atajo, + Mi carpeta) sale de la página y aparece como popup al pulsar «Buscar archivo…» en cada sonido (y en Emojis); el popup reutiliza la misma barra y la devuelve oculta al cerrarse.
     modificados (8):

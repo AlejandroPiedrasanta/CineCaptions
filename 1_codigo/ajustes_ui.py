@@ -484,6 +484,9 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.5.11', [
+        'Sonido más limpio: la biblioteca de sonidos ya no ocupa la página; sale en una ventana al pulsar «Buscar archivo…» en cada sonido (y en cada emoji), con el buscador, las categorías y «Desde mi computadora…».',
+    ]),
     ('5.5.10', [
         'Creativo: a la derecha, un móvil grande con una foto de fondo y los captions encima, como quedará en el reel; el play va dentro del móvil.',
         'Creativo: el móvil enseña exactamente el tema que elegiste en Proyecto (los 6 temas), también al dar play, y cambia en tiempo real al marcar otra palabra como Principal.',

@@ -6053,5 +6053,12 @@
   "fr": "{t} · son {n}",
   "de": "{t} · Sound {n}",
   "it": "{t} · suono {n}"
+ },
+ "Sonido más limpio: la biblioteca de sonidos ya no ocupa la página; sale en una ventana al pulsar «Buscar archivo…» en cada sonido (y en cada emoji), con el buscador, las categorías y «Desde mi computadora…».": {
+  "en": "Cleaner Sound page: the sound library no longer takes up the page; it opens in a window when you press “Browse file…” on each sound (and each emoji), with the search box, the categories and “From my computer…”.",
+  "pt": "Página Som mais limpa: a biblioteca de sons já não ocupa a página; abre numa janela ao clicar em «Procurar arquivo…» em cada som (e em cada emoji), com a busca, as categorias e «Do meu computador…».",
+  "fr": "Page Son plus épurée : la bibliothèque de sons n’occupe plus la page ; elle s’ouvre dans une fenêtre quand vous appuyez sur « Parcourir… » sur chaque son (et chaque emoji), avec la recherche, les catégories et « Depuis mon ordinateur… ».",
+  "de": "Aufgeräumtere Sound-Seite: Die Soundbibliothek nimmt keinen Platz mehr auf der Seite ein; sie öffnet sich in einem Fenster, wenn du bei einem Sound (oder Emoji) auf „Datei suchen…“ klickst – mit Suche, Kategorien und „Von meinem Computer…“.",
+  "it": "Pagina Suono più pulita: la libreria dei suoni non occupa più la pagina; si apre in una finestra quando premi «Cerca file…» su ogni suono (e su ogni emoji), con la ricerca, le categorie e «Dal mio computer…»."
  }
 }
