@@ -5997,5 +5997,12 @@
   "fr": "Fermer le programme ne peut plus provoquer d’erreur, même s’il reste du travail en arrière-plan.",
   "de": "Das Schließen des Programms kann keinen Fehler mehr auslösen, auch wenn im Hintergrund noch gearbeitet wird.",
   "it": "Chiudere il programma non può più dare un errore, anche se resta lavoro in background."
+ },
+ "Inicio ya no se queda congelado al cambiar el tamaño de la ventana o maximizarla, y si DaVinci Resolve se cuelga la ventana de CineCaptions sigue respondiendo.": {
+  "en": "Home no longer freezes when you resize or maximize the window, and if DaVinci Resolve hangs, the CineCaptions window keeps responding.",
+  "pt": "O Início já não congela ao mudar o tamanho da janela ou maximizá-la, e se o DaVinci Resolve travar, a janela do CineCaptions continua respondendo.",
+  "fr": "L’accueil ne se fige plus quand vous redimensionnez ou agrandissez la fenêtre, et si DaVinci Resolve se bloque, la fenêtre de CineCaptions continue de répondre.",
+  "de": "Der Start friert nicht mehr ein, wenn du die Fenstergröße änderst oder es maximierst, und wenn DaVinci Resolve hängt, reagiert das CineCaptions-Fenster weiter.",
+  "it": "La Home non si blocca più quando ridimensioni o ingrandisci la finestra, e se DaVinci Resolve si blocca, la finestra di CineCaptions continua a rispondere."
  }
 }

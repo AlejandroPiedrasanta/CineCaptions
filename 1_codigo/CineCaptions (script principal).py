@@ -6779,6 +6779,10 @@ class SubtitleApp(QWidget):
         self.ctrl_ventana.accion.connect(self._accion_isla)
         self.marca_cinema = isla_ui.MarcaCinema(self, LOGO_MARCA_PATH if LOGO_MARCA_PATH.exists() else None)       # el logo, arriba a la izquierda de Inicio
         self.marca_cinema.poner_en_inicio(getattr(self, '_pagina_actual', 'inicio') == 'inicio')
+        # v5.5.10: las páginas ya no llevan barra de título (el usuario las quitó una a una): el botón del Registro (avisos y errores) queda
+        # flotando arriba a la derecha, junto a los controles de la ventana, en todas menos Inicio (que tiene el suyo en su fila de avisos)
+        self.registro_flotante = registro_ui.BotonRegistro(self)
+        self.registro_flotante.setVisible(getattr(self, '_pagina_actual', 'inicio') != 'inicio')
         self.marco_ventana = isla_ui.MarcoVentana(self)
         self.marco_ventana.setGeometry(self.rect())
         # el estado de Resolve (la tarjeta de antes) sale debajo del punto de la isla
@@ -6795,11 +6799,18 @@ class SubtitleApp(QWidget):
         marca = getattr(self, 'marca_cinema', None)
         if marca is not None and marca.isVisible():
             marca.raise_()
+        rf = getattr(self, 'registro_flotante', None)
+        if rf is not None and rf.isVisible():
+            rf.raise_()
     def _reposicionar_isla(self):
         if not hasattr(self, 'isla'):
             return
         self.isla.reposicionar()
         self.ctrl_ventana.reposicionar()
+        rf = getattr(self, 'registro_flotante', None)
+        if rf is not None:                                                    # a la izquierda de los controles de la ventana, a su altura
+            c = self.ctrl_ventana
+            rf.move(c.x() - rf.width() - 10, c.y() + (c.height() - rf.height()) // 2)
         if hasattr(self, 'marca_cinema'):
             self.marca_cinema.reposicionar(self.isla)
         self.marco_ventana.setGeometry(self.rect())
@@ -7074,6 +7085,10 @@ class SubtitleApp(QWidget):
             self._pintar_go_reposo()
         if hasattr(self, 'marca_cinema'):
             self.marca_cinema.poner_en_inicio(clave == 'inicio')
+        if hasattr(self, 'registro_flotante'):
+            self.registro_flotante.setVisible(clave != 'inicio')
+            if clave != 'inicio':
+                self.registro_flotante.raise_()
         if clave == 'editor':
             self._al_entrar_en_creativo()          # v5.3.2: detecta el audio / la línea de tiempo de Proyecto (y abre el editor si ya hay palabras)
     def _marcar_nav(self, clave):
@@ -10110,7 +10125,8 @@ class SubtitleApp(QWidget):
         self._refrescar_pasos()
     # -- Editor de palabras ----------------------------------------------------
     def _pagina_editor(self):
-        _pag, capa = self._nueva_pagina('editor', tr('Retocar las palabras'), tr('Pinta cada palabra con su rol; el bloque se arma solo'), desplazable=False)
+        _pag, capa = self._nueva_pagina('editor', tr('Retocar las palabras'), tr('Pinta cada palabra con su rol; el bloque se arma solo'), desplazable=False,
+                                        con_barra=False)         # v5.5.10: sin barra de título, como Proyecto y Sonido (lo pidió el usuario)
         self._editor_capa = capa
         self._editor_vacio = QWidget()
         cv = QVBoxLayout(self._editor_vacio)
@@ -10493,7 +10509,8 @@ class SubtitleApp(QWidget):
         self._sfx_capa = capa
     # -- Efectos visuales (v5.4.6): intro, transiciones en los cortes e iconos flotantes -------------------------------------------------------------------
     def _pagina_efectos(self):
-        _pag, capa = self._nueva_pagina('efectos', tr('Efectos visuales'), tr('Intro, transiciones en los cortes e iconos flotantes que acompañan a los captions · se aplican al generar con GO'))
+        _pag, capa = self._nueva_pagina('efectos', tr('Efectos visuales'), tr('Intro, transiciones en los cortes e iconos flotantes que acompañan a los captions · se aplican al generar con GO'),
+                                        con_barra=False)         # v5.5.10: sin barra de título, como las demás (el Registro va flotando arriba a la derecha)
         self._efectos_capa = capa
         self._efectos_widget = None
     def _asegurar_efectos(self):
@@ -11423,7 +11440,13 @@ class SubtitleApp(QWidget):
             except OSError:
                 pass
         import resolve_bridge
-        ok, mensaje = resolve_bridge.ejecutar('importar_estilos')
+        # v5.5.10: Resolve trabaja en un HILO (antes en el de la ventana: con Resolve colgado la interfaz se quedaba congelada hasta el
+        # tiempo límite del script); el resto sigue al terminar, en la ventana
+        _correr_en_hilo(self, lambda: resolve_bridge.ejecutar('importar_estilos'),
+                        lambda r, e: self._importar_estilos_fin(r, e, nombre, cuando_termine))
+
+    def _importar_estilos_fin(self, resultado, error_hilo, nombre, cuando_termine):
+        ok, mensaje = resultado if (error_hilo is None and resultado) else (False, str(error_hilo or ''))
         if not ok:
             messagebox.showerror(tr('No pude importar los estilos'), mensaje or tr('Resolve no respondió.'), parent=self)
             return

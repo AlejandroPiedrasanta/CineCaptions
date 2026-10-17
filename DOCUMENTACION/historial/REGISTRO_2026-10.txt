@@ -1,5 +1,219 @@
 REGISTRO DE CAMBIOS ARCHIVADO · 2026-10 (la entrada más nueva arriba)
 
+2026-10-15 17:15  ·  v5.5.8  ·  cambio explicado
+    Motor Qwen: requisitos con numpy 2.5.4, fsspec 2026.9.0, MarkupSafe 3.0.4, narwhals 2.27.1, networkx 3.7, platformdirs 4.13.1, pycparser 3.11. mpmath se queda en 1.3.0 (sympy 1.14.0 pide <1.4). transformers/huggingface_hub/tokenizers/accelerate no: qwen-asr 0.0.6 fija transformers==4.57.6 y accelerate==1.12.0. Probado: PRUEBA ESPANOL.mp4 -> 181 palabras correctas, tiempos validos (Qwen3-ASR 1.7B, cuda). Ojo: los motores ya instalados NO se actualizan (asegurar_listo ve listo.json y no mira los requisitos); solo las instalaciones nuevas.
+    modificados (1):
+      ~ 2_recursos/motor_qwen/requisitos_motor_qwen.txt
+
+2026-10-15 17:06  ·  v5.5.8  ·  cambio explicado
+    Librerias al dia: filelock 4.1.1 -> 4.2.0 (venv; la arrastra huggingface_hub, sin fijar). Remotion: react y react-dom 18.3.1 -> 19.3.1 (1_codigo/remotion/package.json); bundle y runtime rehechos con preparar_remotion.py. Probado: autoprueba del instalador (render real ProRes de 1 s), fotograma de las 50 composiciones (48 con sus props por defecto; AcompananteT5 y OrbitaT5 piden iconos que no existen sin props, y con props reales salen bien).
+    nuevos (102):
+      + 1_codigo/remotion/node_modules/react-dom/cjs/react-dom-client.development.js
+      + 1_codigo/remotion/node_modules/react-dom/cjs/react-dom-client.production.js
+      + 1_codigo/remotion/node_modules/react-dom/cjs/react-dom-profiling.development.js
+      + 1_codigo/remotion/node_modules/react-dom/cjs/react-dom-profiling.profiling.js
+      + 1_codigo/remotion/node_modules/react-dom/cjs/react-dom-server-legacy.browser.production.js
+      + 1_codigo/remotion/node_modules/react-dom/cjs/react-dom-server-legacy.node.production.js
+      + 1_codigo/remotion/node_modules/react-dom/cjs/react-dom-server.browser.production.js
+      + 1_codigo/remotion/node_modules/react-dom/cjs/react-dom-server.bun.development.js
+      + 1_codigo/remotion/node_modules/react-dom/cjs/react-dom-server.bun.production.js
+      + 1_codigo/remotion/node_modules/react-dom/cjs/react-dom-server.edge.development.js
+      + 1_codigo/remotion/node_modules/react-dom/cjs/react-dom-server.edge.production.js
+      + 1_codigo/remotion/node_modules/react-dom/cjs/react-dom-server.node.production.js
+      … y 90 más
+    modificados (81):
+      ~ 1_codigo/remotion/node_modules/.package-lock.json
+      ~ 1_codigo/remotion/node_modules/postcss/lib/processor.js
+      ~ 1_codigo/remotion/node_modules/postcss/lib/stringify.js
+      ~ 1_codigo/remotion/node_modules/postcss/package.json
+      ~ 1_codigo/remotion/node_modules/react-dom/LICENSE
+      ~ 1_codigo/remotion/node_modules/react-dom/README.md
+      ~ 1_codigo/remotion/node_modules/react-dom/cjs/react-dom-server-legacy.browser.development.js
+      ~ 1_codigo/remotion/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js
+      ~ 1_codigo/remotion/node_modules/react-dom/cjs/react-dom-server.browser.development.js
+      ~ 1_codigo/remotion/node_modules/react-dom/cjs/react-dom-server.node.development.js
+      ~ 1_codigo/remotion/node_modules/react-dom/cjs/react-dom-test-utils.development.js
+      ~ 1_codigo/remotion/node_modules/react-dom/cjs/react-dom.development.js
+      … y 69 más
+    quitados (100):
+      - 1_codigo/remotion/node_modules/.bin/loose-envify
+      - 1_codigo/remotion/node_modules/.bin/loose-envify.cmd
+      - 1_codigo/remotion/node_modules/.bin/loose-envify.ps1
+      - 1_codigo/remotion/node_modules/loose-envify/LICENSE
+      - 1_codigo/remotion/node_modules/loose-envify/README.md
+      - 1_codigo/remotion/node_modules/loose-envify/cli.js
+      - 1_codigo/remotion/node_modules/loose-envify/custom.js
+      - 1_codigo/remotion/node_modules/loose-envify/index.js
+      - 1_codigo/remotion/node_modules/loose-envify/loose-envify.js
+      - 1_codigo/remotion/node_modules/loose-envify/package.json
+      - 1_codigo/remotion/node_modules/loose-envify/replace.js
+      - 1_codigo/remotion/node_modules/react-dom/cjs/react-dom-server-legacy.browser.production.min.js
+      … y 88 más
+
+2026-10-15 16:59  ·  v5.5.8  ·  cambio explicado
+    comtypes 1.4.12 -> 1.4.17 (requirements y venv). Envoltorios comtypes.gen regenerados con sello 1.4.17 (los viejos con 1.4.12 harian que GetModule los regenere en el .exe). uia_resolve probado en solo lectura con Resolve abierto: IUIAutomation, ventana principal, menu Area de trabajo, otro hilo COM.
+    modificados (1):
+      ~ 3_compilar/requirements.txt
+
+2026-10-15 15:52  ·  v5.5.8  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-10-15 15:52  ·  v5.5.7  ·  cambio explicado
+    5.5.8: GO sin Resolve (Video MP4) graba cualquiera de los 6 temas (render_temas.py dibuja Kinetic, VIRAL y los packs guion desde sus datos; antes solo Tema 4; encaje por bloque en horizontal). Temas 5/6: Text+ editables con su diseño (serif + color, packs T5 2/T6 2, Instrument Serif OFL). Menú del chip Estilo: solo Tema 1…6.
+    modificados (13):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/herramientas_dev/probar_go_sin_resolve.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/render_sin_resolve.py
+      ~ 1_codigo/render_temas.py
+      ~ 1_codigo/tema4_planificador.py
+      ~ 2_recursos/generador_packs/pack_tema4.py
+      ~ 2_recursos/generador_packs/pack_tema5.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      … y 1 más
+
+2026-10-15 15:46  ·  v5.5.7  ·  cambio explicado
+    Temas 5 y 6: los captions Text+ editables (por defecto desde 5.5.8) tenían el look del Tema 4. Ahora llevan el diseño de sus captions de Remotion: Tema 5 = lo dicho en Inter 18pt Medium blanca + frase clave en DM Serif Text Italic del acento del video (una variante del pack por color); Tema 6 = todo en Instrument Serif (nueva, OFL, convertida del woff2 de Remotion) con la clave en lima o blanco. tema4_planificador.DISENOS/_planificar_skill mide cada palabra con su tipografía; CALIBRADO medido en renders de Resolve Studio (Fusion escala por asc+desc). Packs con pack_tema5.py, REVISION_BIN T5 2 / T6 2. GO reales + PRO probados (39 y 37 captions editables). Ejemplos del slider rehechos. El menú de GO solo dice Tema 1…6.
+    nuevos (3):
+      + 1_codigo/render_temas.py
+      + 2_recursos/fonts/InstrumentSerif-Regular.ttf
+      + 2_recursos/generador_packs/pack_tema5.py
+    modificados (26):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro_tema5.py
+      ~ 1_codigo/guion_editor.py
+      ~ 1_codigo/guion_planificador.py
+      ~ 1_codigo/herramientas_dev/probar_go_sin_resolve.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/render_sin_resolve.py
+      ~ 1_codigo/tema4_planificador.py
+      ~ 2_recursos/fonts/LICENCIAS.txt
+      ~ 2_recursos/generador_packs/pack_tema4.py
+      ~ 2_recursos/locales/de.json
+      … y 14 más
+
+2026-10-15 14:46  ·  v5.5.7  ·  cambio explicado
+    5.5.8 (sin compilar): Temas 4-6 con la PRO tumbaban Resolve Studio (excepción C++ al 2.º ImportMedia tras poner el 1.er .mov y cambiar su alfa; volcado .dmp): _preimportar / PRE.importar_todo importan todo de una vez antes de tocar el timeline; ejecutar_py ya no sondea el MCP durante el trabajo (archivo de estado). Tema 4/5/6: palabras pegadas (medido en render: Resolve 5-13 % más ancho que Pillow) -> AFINADO ancho 1,08 y HUECO 0,28. Ejemplos del slider de los 6 temas rehechos con GO+PRO reales, captions editables verificados (Kinetic 34+adornos, T2 28, T3 33, T4 23, T5 42, T6 37) y sin el negro del final (hacer_vista_slider._fin_sin_negro).
+    modificados (32):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/colocacion.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/guion_planificador.py
+      ~ 1_codigo/hacer_vista_slider.py
+      ~ 1_codigo/probar_go.py
+      ~ 1_codigo/qt_kit.py
+      ~ 1_codigo/resolve_mcp.py
+      ~ 1_codigo/tema4_planificador.py
+      ~ 1_codigo/un_clic_ui.py
+      ~ 2_recursos/edicion_pro/colocar_pro.py
+      … y 20 más
+
+2026-10-14 15:28  ·  v5.5.7  ·  (automático)
+    modificados (1):
+      ~ 3_compilar/Instalador.cs
+
+2026-10-14 15:20  ·  v5.5.7  ·  (automático)
+    modificados (36):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/efectos_extra_ui.py
+      ~ 1_codigo/efectos_pagina.py
+      ~ 1_codigo/guion_planificador.py
+      ~ 1_codigo/motions_ui.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/registro_ui.py
+      ~ 1_codigo/sfx_studio.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/edicion_pro/colocar_pro.py
+      … y 24 más
+
+2026-10-14 14:50  ·  v5.5.6  ·  cambio explicado
+    5.5.7: Free — GO con el video ya en el timeline o al cambiar de tema fallaba porque la reproducción del GO anterior paraba el Puente; ahora se detiene, se espera su latido, plan B relanzar, Puente «en pausa» no es «muerto», 3 reintentos, «conectando…» en vez de «cerrado». Efectos: carrusel con los 147 motions de la PRO (Automático / Solo los que elija, respetado en la IA, las reglas y el plan) y efectos clásicos plegados con la PRO (no se aplican con ella). Sonido: pestaña Edición PRO (encendido, volumen, familias). Ortografía: el diccionario es de solo lemas (marcaba «voy», «hay», «tiene»; cambiaba «hay»→«ahí»): ortografia_es + erratas + índice fonético; GO corrige sin IA; la PRO usa el texto corregido. Rendimiento: relojes de Efectos, escena GO e isla en pausa fuera de vista/minimizada.
+    nuevos (134):
+      + 1_codigo/herramientas_dev/hacer_previas_motions.py
+      + 1_codigo/motions_catalogo.py
+      + 1_codigo/motions_ui.py
+      + 1_codigo/ortografia_es.py
+      + 2_recursos/edicion_pro/previas_motions/acompanante.jpg
+      + 2_recursos/edicion_pro/previas_motions/escena_chat.jpg
+      + 2_recursos/edicion_pro/previas_motions/escena_collage.jpg
+      + 2_recursos/edicion_pro/previas_motions/escena_cuaderno.jpg
+      + 2_recursos/edicion_pro/previas_motions/escena_fecha.jpg
+      + 2_recursos/edicion_pro/previas_motions/escena_movil.jpg
+      + 2_recursos/edicion_pro/previas_motions/escena_pictograma.jpg
+      + 2_recursos/edicion_pro/previas_motions/escena_polaroid.jpg
+      … y 122 más
+    modificados (18):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/colocacion.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_kit7.py
+      ~ 1_codigo/edicion_pro_planificador.py
+      ~ 1_codigo/efectos_pagina.py
+      ~ 1_codigo/escena_go.py
+      ~ 1_codigo/ia_texto.py
+      ~ 1_codigo/isla_ui.py
+      ~ 1_codigo/ortografia.py
+      ~ 1_codigo/resolve_bridge.py
+      ~ 1_codigo/sfx_studio.py
+      … y 6 más
+
+2026-10-14 10:55  ·  v5.5.6  ·  cambio explicado
+    GO real del usuario (Studio) tras 5.5.6: la reproducción lanzada por menú bloquea los scripts de Resolve -> detener antes de GO y reconectar el MCP; un Studio que no contestaba pasaba por Free y se le lanzaba el Puente, que lo colgaba -> en Studio nunca el Puente y la edición sale del título de la ventana; estado 'cerrado' falso -> mira el proceso; vigilancia de conexión cada 15 s (MCP en Studio, Puente por menú en Free, Win y Mac); Magic Mask tumbó Resolve 2 veces -> persona por IA local por defecto; emojis curados y coherentes, sin emoji de GO donde la PRO enseña algo; Registro solo errores; aviso claro si Smart App Control bloquea al abrir; firma digital preparada en la compilación.
+    nuevos (1):
+      + 1_codigo/emojis_conceptos.py
+    modificados (18):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/colocacion.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/ia_texto.py
+      ~ 1_codigo/instalador_scripts.py
+      ~ 1_codigo/motor_voz.py
+      ~ 1_codigo/registro_ui.py
+      ~ 1_codigo/resolve_bridge.py
+      ~ 1_codigo/uia_resolve.py
+      ~ 2_recursos/edicion_pro/colocar_pro.py
+      ~ 2_recursos/locales/de.json
+      … y 6 más
+
+2026-10-14 09:09  ·  v5.5.6  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+
+(Lo anterior está archivado por mes en DOCUMENTACION/historial/REGISTRO_<aaaa-mm>.txt)
 2026-10-14 01:17  ·  v5.5.5  ·  cambio explicado
     PC de un cliente con 5.5.5: Avast bloqueaba powershell.exe (IDP.HELU.PSE94) y con él el Puente de Free y el Organizador -> UI Automation nativa en Python (uia_resolve, comtypes), cero PowerShell; Smart App Control bloqueaba av/format.pyd (Bad Image 0xc0e90002) -> sin cuadro de Windows, detección y explicación en el Registro; «Falla al iniciar» ya no sale como «El programa arrancó · no afecta».
     nuevos (1):

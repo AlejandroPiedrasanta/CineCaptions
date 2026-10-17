@@ -18,6 +18,8 @@
 
 **Dónde:** `orbe_mecanica.py` · `OrbeMecanica.dibujar/avanzar`; lo usa `BotonGo.paintEvent`
 
+**v5.5.10 · sin congelarse al cambiar de tamaño** (el usuario: «la página de inicio tiene fallas con la animación, se queda congelado»): `OrbeMecanica._asegurar` rehacía LAS SEIS capas (hasta 3072 px) en el hilo de la interfaz cada vez que el tamaño cambiaba un poco (redimensionar, maximizar, otra pantalla): ~2,5 s con la animación quieta (el vigía de congelaciones lo anotó en `_capa_filigrana`). Ahora las `_capa_*` devuelven QImage (se pueden hacer en un hilo): la primera vez se hacen rápido a ≤768 px; las buenas, en el hilo `orbe-capas` cuando el tamaño se queda quieto 0,25 s (mientras, se dibujan las que había, escaladas), y las que hay se reutilizan si no son más pequeñas ni el doble de grandes (`clave/1.8 ≤ pix ≤ clave·1.06`). Medido redimensionando: el peor hueco de la interfaz baja de ~60 a ~30 ms.
+
 ## arrastrar-video — Arrastrar un video a Inicio = GO con timeline nuevo
 
 **Qué:** Arrastrar un video a Inicio = GO solo, con timeline nuevo; pack por defecto de GO
