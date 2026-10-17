@@ -17,3 +17,5 @@ __pycache__/
 # v5.5.7: datos del certificado de firma (no van al repositorio)
 3_compilar/firma.json
 *.pfx
+# el video crudo de referencia de la skill (309 MB): GitHub no admite mas de 100 MB por archivo
+skill videos/3 things from beginner to pro.mp4
