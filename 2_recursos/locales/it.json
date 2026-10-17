@@ -3529,11 +3529,15 @@
     "Ya está en tu timeline.": "È già nella tua timeline.",
     "«Generar» en Creativo te lleva a Inicio y el avance sale en el orbe, como con GO, con las correcciones que hiciste.": "«Genera» in Creativo ti porta alla Home e l’avanzamento appare sull’orb, come con GO, con le correzioni che hai fatto.",
     "Inicio: solo quedan los chips Estilo, Edición PRO y Motions completo.": "Home: restano solo i chip Stile, Montaggio PRO e Motions completo.",
-    "Proyecto: el slider de temas se adapta a cualquier tamaño de ventana sin desbordarse.": "Progetto: lo slider dei temi si adatta a qualsiasi dimensione della finestra senza traboccare.",
     "Videos a 29,97 fps: el timeline se crea con sus fps (antes quedaba a 24).": "Video a 29,97 fps: la timeline viene creata con i loro fps (prima restava a 24).",
     "Temas 4, 5, 6 y Referencia: los captions llevan una sombra suave para leerse sobre fondos claros.": "Temi 4, 5, 6 e Riferimento: i sottotitoli hanno un’ombra morbida per leggersi su sfondi chiari.",
     "Tema 5: la palabra grande «detrás de la persona» ya no queda tapada cuando la persona ocupa su sitio: se pone delante.": "Tema 5: la parola grande «dietro la persona» non resta più coperta quando la persona occupa il suo posto: va davanti.",
     "Creativo: a la derecha, un móvil grande con una foto de fondo y los captions encima, como quedará en el reel; el play va dentro del móvil.": "Creativo: a destra, un telefono grande con una foto di sfondo e i sottotitoli sopra, come nel reel; il pulsante play è dentro il telefono.",
-    "Creativo más limpio: sin la barra de abajo; el tamaño del texto y el botón «Generar» van junto a «Más herramientas».": "Creativo più pulito: senza la barra in basso; la dimensione del testo e il pulsante «Genera» sono accanto a «Altri strumenti»."
+    "Creativo más limpio: sin la barra de abajo; el tamaño del texto y el botón «Generar» van junto a «Más herramientas».": "Creativo più pulito: senza la barra in basso; la dimensione del testo e il pulsante «Genera» sono accanto a «Altri strumenti».",
+    "Proyecto: el slider de temas se adapta a cualquier tamaño de ventana sin desbordarse, y sus tarjetas ya no repiten el nombre del tema: solo llevan la píldora «Con PRO / Solo captions».": "Progetto: lo slider dei temi si adatta a qualsiasi dimensione della finestra senza traboccare e le sue schede non ripetono più il nome del tema: hanno solo la pillola «Con PRO / Solo sottotitoli».",
+    "Creativo: no pude dibujar la vista exacta del tema; uso la aproximada.": "Creativo: non sono riuscito a disegnare l'anteprima esatta del tema; uso quella approssimativa.",
+    "Creativo: el móvil enseña exactamente el tema que elegiste en Proyecto (los 6 temas), también al dar play, y cambia en tiempo real al marcar otra palabra como Principal.": "Creativo: il telefono mostra esattamente il tema scelto in Progetto (tutti e 6), anche con il play, e cambia in tempo reale quando segni un’altra parola come Principale.",
+    "Creativo: el móvil es más realista (barra de estado, sombra, reflejo del cristal y barrita de avance al reproducir).": "Creativo: il telefono è più realistico (barra di stato, ombra, riflesso del vetro e barra di avanzamento durante la riproduzione).",
+    "Tema 1: la palabra que marcas como Principal en Creativo es la que sale grande en Resolve (antes a veces salía la de al lado).": "Tema 1: la parola che segni come Principale in Creativo è quella che esce grande in Resolve (prima a volte usciva quella accanto)."
   }
 }

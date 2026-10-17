@@ -648,8 +648,10 @@ class CarruselPacks(QWidget):
     def _dibujar_textos(self, p, carta, rect, esc, centro=False):
         pad = 16.0 * esc
         # (v5.5.9: sin la «V» del formato arriba: el usuario la quitó) · la píldora «Con PRO / Solo captions» en la del centro
-        if centro and getattr(carta, 'video_sin', None) and getattr(carta, 'video', None):          # abajo, encima del nombre (arriba va «En uso»)
-            self._dibujar_pildora(p, rect, esc, rect.bottom() - pad - (18 * esc if carta.meta else 0) - 17.5 * esc - 12 * esc)
+        # v5.5.10 (pedido: «quita el título y el subtítulo de la tarjeta: abajo ya dice el tema; solo las píldoras, más abajo»): la píldora va
+        # al pie, centrada, y la tarjeta no lleva textos (arriba solo «✓ En uso» si es el tema elegido)
+        if centro and getattr(carta, 'video_sin', None) and getattr(carta, 'video', None):
+            self._dibujar_pildora(p, rect, esc, rect.bottom() - pad)
         if carta.valor == self._elegido:
             f = ui.fuente(11.5 * esc, peso='negrita')
             p.setFont(f)
@@ -670,20 +672,6 @@ class CarruselPacks(QWidget):
             p.drawRoundedRect(pill, 11 * esc, 11 * esc)
             p.setPen(QColor('#06251A'))
             p.drawText(pill, int(Qt.AlignmentFlag.AlignCenter), texto)
-        # nombre y datos abajo
-        ft = ui.fuente(17.5 * esc, peso='negrita')
-        p.setFont(ft)
-        fmt = QFontMetricsF(ft)
-        ancho = rect.width() - 2 * pad
-        nombre = fmt.elidedText(carta.titulo, Qt.TextElideMode.ElideRight, ancho)
-        y_base = rect.bottom() - pad - (18 * esc if carta.meta else 0)
-        p.setPen(QColor(255, 255, 255, 245))
-        p.drawText(QPointF(rect.left() + pad, y_base), nombre)
-        if carta.meta:
-            fm2 = ui.fuente(12 * esc)
-            p.setFont(fm2)
-            p.setPen(QColor(220, 230, 245, 190))
-            p.drawText(QPointF(rect.left() + pad, rect.bottom() - pad), QFontMetricsF(fm2).elidedText(carta.meta, Qt.TextElideMode.ElideRight, ancho))
 
     def _dibujar_anadir(self, p, carta, rect, esc, camino, ad):
         fondo = QLinearGradient(rect.topLeft(), rect.bottomRight())
@@ -785,8 +773,9 @@ class CarruselPacks(QWidget):
         textos = ('✦ ' + tr('Con PRO'), tr('Solo captions'))
         anchos = [fm.horizontalAdvance(t) + 26.0 * esc for t in textos]
         alto = 32.0 * esc
-        x0, y0 = rect.left() + pad, y_pie - alto
-        toda = QRectF(x0, y0, anchos[0] + anchos[1] + 6.0 * esc, alto)
+        total = anchos[0] + anchos[1] + 6.0 * esc
+        x0, y0 = max(rect.left() + pad * 0.5, rect.center().x() - total / 2.0), y_pie - alto          # v5.5.10: centrada al pie
+        toda = QRectF(x0, y0, total, alto)
         r_pro = QRectF(x0 + 3.0 * esc, y0 + 3.0 * esc, anchos[0], alto - 6.0 * esc)
         r_sin = QRectF(r_pro.right(), y0 + 3.0 * esc, anchos[1], alto - 6.0 * esc)
         self._pill_geo = (toda, r_pro, r_sin)

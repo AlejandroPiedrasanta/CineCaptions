@@ -3635,6 +3635,10 @@ class WordTagWindow(QWidget):
             barra.setVisible(not minimo)                    # v5.5.10: sin herramientas no hay barra (el tamaño y «Generar» viven en la columna derecha)
         if hasattr(self, 'mas_btn'):
             self.mas_btn.configure(text=tr('Más herramientas') if minimo else tr('Menos herramientas'))
+    def showEvent(self, e):
+        super().showEvent(e)
+        # v5.5.10: al volver a Creativo (quizá con otro tema elegido en Proyecto) la vista del móvil se rehace con el tema de AHORA
+        self._vt_al_cambiar_tamano()
     def ajustar_densidad(self, nivel):
         """v5.2: en pantallas chicas la columna de la derecha cede sitio a las palabras."""
         try:
@@ -3880,6 +3884,7 @@ class WordTagWindow(QWidget):
         else:
             self.vista_bloque = MarcoVista(alto_min=150, movil=True)
         self.vista_bloque.setMinimumHeight(360)
+        self.vista_bloque.al_cambiar_tamano = self._vt_al_cambiar_tamano      # (los cuadros del tema se rehacen al tamaño nuevo)
         dcapa.addWidget(self.vista_bloque, 1)
         self.reproducir_btn = editor_ui.BotonPlay(tr('Reproducir todo'), tr('Detener'), lado=54)
         self.reproducir_btn.clicked.connect(lambda _=False: self._alternar_reproduccion())
@@ -5390,6 +5395,88 @@ class WordTagWindow(QWidget):
             self.sfx_bloque.show()
         else:
             self.sfx_bloque.hide()
+        self._vt_quieto(idx)
+    # -- v5.5.10 (pedido: «en Creativo la vista previa REAL de cómo se verá en Resolve, del tema que estoy usando, y en tiempo real»): los cues del
+    #    planificador del TEMA ELEGIDO (con las marcas de ahora) dibujados como GO sin Resolve (vista_tema.py). Se replanifica en un hilo cuando cambian
+    #    las marcas (_version), el tema o el tamaño del móvil; mientras tanto se ve el cuadro anterior (o, la primera vez, la vista aproximada).
+    def _vt_estilo(self):
+        pack = getattr(self.master, 'plantilla_sel', '') or ''
+        if self.modo != self.MODO_MARCAS:
+            return pack, None
+        try:
+            import vista_tema
+            try:
+                formato = self.master._formato_en_juego() or 'v'
+            except Exception:
+                formato = 'v'
+            return pack, vista_tema.estilo_de_pack(pack, formato)
+        except Exception:
+            registro.excepcion(origen='Creativo · vista del tema')
+            return pack, None
+
+    def _vt_preparar(self):
+        """Pide (si hace falta) los cuadros del tema para las marcas de ahora. Devuelve False si este tema no tiene vista exacta."""
+        pack, estilo = self._vt_estilo()
+        if estilo is None:
+            self._vt = None
+            return False
+        w, h = self.vista_bloque.tamano_pantalla()
+        if w < 60 or h < 120:
+            return True
+        clave = (self._version, pack, w, h)
+        vt = getattr(self, '_vt', None) or {}
+        if vt.get('clave') == clave or vt.get('pidiendo') == clave:
+            return True
+        self._vt = dict(vt, pidiendo=clave)
+        palabras, roles = [dict(p) for p in self.palabras], list(self.roles)
+        idioma, fin_video, ancla = self.idioma, self._fin_video_guion(), self._ancla_guion()
+        try:
+            video = self.master.video_var.get().strip().strip('"') or None       # (el Tema 5 saca de él el color de la frase clave, como Generar)
+        except Exception:
+            video = None
+
+        def trabajo():
+            import vista_tema
+            cues = vista_tema.planificar(palabras, roles, pack, estilo, idioma=idioma, fin_video=fin_video, ancla_guion=ancla, video=video)
+            return vista_tema.Cuadros(cues, estilo, w, h)
+
+        def fin(cuadros, error):
+            actual = getattr(self, '_vt', None) or {}
+            if actual.get('pidiendo') != clave:
+                return                                          # llegó otra petición después: esta ya no vale
+            if error is not None or cuadros is None:
+                registro.aviso(tr('Creativo: no pude dibujar la vista exacta del tema; uso la aproximada.'), 'creativo', detalle=str(error or ''))
+                self._vt = {'clave': clave, 'cuadros': None}
+                self.vista_bloque.poner_cuadro(None)
+                return
+            self._vt = {'clave': clave, 'cuadros': cuadros}
+            if getattr(self, '_repro', None) is None:
+                self._vt_quieto(getattr(self, '_ultimo_idx', 0) or 0)
+        correr_en_hilo(self, trabajo, fin)
+        return True
+
+    def _vt_quieto(self, idx):
+        """Vista quieta: el bloque del tema donde cae la palabra idx, con todos sus elementos ya dentro."""
+        if not self._vt_preparar():
+            self.vista_bloque.poner_cuadro(None)
+            return
+        cu = (getattr(self, '_vt', None) or {}).get('cuadros')
+        if cu is None or not cu.cues:
+            return
+        try:
+            w = self.palabras[idx] if 0 <= idx < len(self.palabras) else {}
+            t = float(w.get('start') or 0.0)
+            self.vista_bloque.poner_cuadro(cu.cuadro(cu.instante_quieto(cu.cue_de_palabra(w.get('word'), t))))
+        except Exception:
+            registro.excepcion(origen='Creativo · vista del tema')
+
+    def _vt_al_cambiar_tamano(self):
+        if getattr(self, '_repro', None) is not None or not hasattr(self, 'reproducir_btn'):
+            return                                              # (aún construyendo la ventana, o reproduciendo: el reloj ya pinta)
+        try:
+            self._vt_quieto(getattr(self, '_ultimo_idx', 0) or 0)
+        except Exception:
+            registro.excepcion(origen='Creativo · vista del tema')
     # -- v5.4: la vista REAL: reproduce todo el parrafo, bloque a bloque, con sus animaciones, el emoji animado y sus sonidos --
     def _glifo_emoji_de(self, eid):
         try:
@@ -5434,6 +5521,7 @@ class WordTagWindow(QWidget):
         self._repro = None
         try:
             self._reloj_repro.stop()
+            self.vista_bloque.poner_progreso(None)
             self.vista_bloque.animar(None)
             self.lienzo.sonando(None)
             self.reproducir_btn.poner_activo(False)
@@ -5509,6 +5597,13 @@ class WordTagWindow(QWidget):
         else:
             self.vista_bloque.poner(r['lineas'], imagen=imagen)
         self.vista_bloque.animar(max(0.0, t - float(b['start'])), salida=max(0.0, min(1.0, (t - (fin_b - 0.12)) / 0.12)))
+        cu = (getattr(self, '_vt', None) or {}).get('cuadros')           # v5.5.10: el tema elegido, exacto, en el instante t
+        if cu is not None and cu.cues:
+            try:
+                self.vista_bloque.poner_cuadro(cu.cuadro(t))
+            except Exception:
+                pass
+        self.vista_bloque.poner_progreso((t - r['ini']) / max(0.1, fin - r['ini']))
         for seg, ruta in r['sonidos']:                  # los sonidos que pasaron desde el tic anterior
             if r['ultimo_t'] < seg <= t:
                 self._escuchar_sfx(ruta)

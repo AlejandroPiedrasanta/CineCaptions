@@ -3529,11 +3529,15 @@
     "Ya está en tu timeline.": "It's on your timeline.",
     "«Generar» en Creativo te lleva a Inicio y el avance sale en el orbe, como con GO, con las correcciones que hiciste.": "“Generate” in Creative takes you to Home and the progress shows on the orb, like with GO, with the corrections you made.",
     "Inicio: solo quedan los chips Estilo, Edición PRO y Motions completo.": "Home: only the Style, PRO Edit and Full Motions chips remain.",
-    "Proyecto: el slider de temas se adapta a cualquier tamaño de ventana sin desbordarse.": "Project: the theme slider adapts to any window size without overflowing.",
     "Videos a 29,97 fps: el timeline se crea con sus fps (antes quedaba a 24).": "29.97 fps videos: the timeline is created at their frame rate (it used to end up at 24).",
     "Temas 4, 5, 6 y Referencia: los captions llevan una sombra suave para leerse sobre fondos claros.": "Themes 4, 5, 6 and Reference: captions have a soft shadow so they read well on light backgrounds.",
     "Tema 5: la palabra grande «detrás de la persona» ya no queda tapada cuando la persona ocupa su sitio: se pone delante.": "Theme 5: the big word “behind the person” is no longer hidden when the person takes up its spot: it goes in front.",
     "Creativo: a la derecha, un móvil grande con una foto de fondo y los captions encima, como quedará en el reel; el play va dentro del móvil.": "Creative: on the right, a big phone with a background photo and the captions on top, just like the reel; the play button is inside the phone.",
-    "Creativo más limpio: sin la barra de abajo; el tamaño del texto y el botón «Generar» van junto a «Más herramientas».": "Cleaner Creative: no bottom bar; text size and the “Generate” button sit next to “More tools”."
+    "Creativo más limpio: sin la barra de abajo; el tamaño del texto y el botón «Generar» van junto a «Más herramientas».": "Cleaner Creative: no bottom bar; text size and the “Generate” button sit next to “More tools”.",
+    "Proyecto: el slider de temas se adapta a cualquier tamaño de ventana sin desbordarse, y sus tarjetas ya no repiten el nombre del tema: solo llevan la píldora «Con PRO / Solo captions».": "Project: the theme slider adapts to any window size without overflowing, and its cards no longer repeat the theme name: they only carry the “With PRO / Captions only” pill.",
+    "Creativo: no pude dibujar la vista exacta del tema; uso la aproximada.": "Creative: I couldn't draw the exact theme preview; using the approximate one.",
+    "Creativo: el móvil enseña exactamente el tema que elegiste en Proyecto (los 6 temas), también al dar play, y cambia en tiempo real al marcar otra palabra como Principal.": "Creative: the phone shows exactly the theme you chose in Project (all 6 themes), also when you press play, and it updates in real time when you mark another word as Main.",
+    "Creativo: el móvil es más realista (barra de estado, sombra, reflejo del cristal y barrita de avance al reproducir).": "Creative: the phone looks more realistic (status bar, shadow, glass reflection and a progress bar while playing).",
+    "Tema 1: la palabra que marcas como Principal en Creativo es la que sale grande en Resolve (antes a veces salía la de al lado).": "Theme 1: the word you mark as Main in Creative is the one that comes out big in Resolve (it sometimes used to be the word next to it)."
   }
 }

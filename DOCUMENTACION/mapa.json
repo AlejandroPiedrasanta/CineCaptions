@@ -638,6 +638,40 @@
       "resumen": "editor_ui + script principal _receta_generar/_gen_abrir/_gen_fase/_gen_fin/_regenerar_marcas"
     },
     {
+      "id": "creativo-vista-tema",
+      "grupo": "creativo",
+      "tema": "Creativo: vista EXACTA del tema elegido en el móvil (quieta, en vivo al cambiar marcas y al reproducir)",
+      "claves": [
+        "vista",
+        "previa",
+        "exacta",
+        "tema",
+        "movil",
+        "mockup",
+        "play",
+        "tiempo real",
+        "creativo"
+      ],
+      "archivos": [
+        "vista_tema.py",
+        "herramientas_dev/probar_vista_creativo.py",
+        "qt_kit.py",
+        "render_sin_resolve.py",
+        "render_temas.py"
+      ],
+      "simbolos": [
+        "estilo_de_pack",
+        "planificar",
+        "Cuadros",
+        "_vt_preparar",
+        "_vt_quieto",
+        "poner_cuadro",
+        "tamano_pantalla",
+        "_pintar_movil"
+      ],
+      "resumen": "vista_tema: cues del planificador del tema + dibujo de GO sin Resolve; WordTagWindow._vt_*; MarcoVista móvil"
+    },
+    {
       "id": "sonido-emojis",
       "grupo": "sonido",
       "tema": "Sonido de cada emoji",

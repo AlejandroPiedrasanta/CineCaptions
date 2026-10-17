@@ -2565,6 +2565,9 @@ class MarcoVista(QWidget):
         self._imagen = None
         self._movil = bool(movil)    # v5.5.10: dentro de un móvil, sobre una foto de muestra (Creativo › «Así se verá este bloque»)
         self._aprox = bool(aprox) and not self._movil
+        self._cuadro = None          # v5.5.10: el cuadro EXACTO del tema (vista_tema.py), ya con foto y captions: se ve tal cual en la pantalla
+        self._progreso = None        # 0..1 mientras se reproduce (la barrita de abajo, como en un reel)
+        self.al_cambiar_tamano = None
         self._pie = ''
         self._fondo = None
         self._t_anim = None          # v5.4: segundos desde que entro el bloque (None = quieto, como siempre)
@@ -2683,7 +2686,7 @@ class MarcoVista(QWidget):
     def geometria_movil(self):
         """(caja del móvil, su pantalla, radio de la pantalla): el móvil entero cabe en el widget, centrado."""
         _marco, info, _fondo = self._recursos_movil()
-        r = QRectF(self.rect()).adjusted(2, 2, -2, -2)
+        r = QRectF(self.rect()).adjusted(16, 8, -16, -22)               # (sitio para la sombra del móvil)
         asp = float(info.get('aspecto') or 0.5)
         h = r.height()
         w = h * asp
@@ -2717,6 +2720,23 @@ class MarcoVista(QWidget):
     def resizeEvent(self, e):
         super().resizeEvent(e)
         self._colocar_boton_pantalla()
+        if callable(self.al_cambiar_tamano):
+            self.al_cambiar_tamano()
+
+    def poner_cuadro(self, imagen):
+        """El cuadro exacto del tema (QImage del tamaño de tamano_pantalla()) o None para volver al dibujo aproximado."""
+        self._cuadro = imagen if imagen is not None and not imagen.isNull() else None
+        self.update()
+
+    def poner_progreso(self, fraccion):
+        self._progreso = None if fraccion is None else max(0.0, min(1.0, float(fraccion)))
+        self.update()
+
+    def tamano_pantalla(self):
+        """(ancho, alto) en píxeles REALES de la pantalla del móvil: a ese tamaño se rasterizan los cuadros del tema (nítidos en pantallas HiDPI)."""
+        _caja, pant, _r = self.geometria_movil()
+        dpr = max(1.0, float(self.devicePixelRatioF() or 1.0))
+        return int(round(pant.width() * dpr)), int(round(pant.height() * dpr))
 
     def _imagen_en_pantalla(self):
         """(QImage, es_render_real) que se ve dentro de la pantalla: el render real de Resolve si lo hay; si no, la foto de muestra."""
@@ -2730,28 +2750,104 @@ class MarcoVista(QWidget):
         zona = QRectF(pant.left() + pant.width() * 0.02, pant.top() + pant.height() * 0.64 - alto / 2, pant.width() * 0.96, alto)
         self._pintar_contenido(p, zona)
 
+    def _sombra_movil(self, p, caja):
+        """Sombra suave alrededor del móvil (capas cada vez más grandes y tenues; un poco hacia abajo, como si flotara sobre la página)."""
+        rad = caja.width() * 0.165
+        p.save()
+        p.setPen(Qt.PenStyle.NoPen)
+        for i in range(10, 0, -1):
+            g = i * 1.6
+            p.setBrush(QColorReal(0, 0, 0, int(7 + (10 - i) * 1.6)))
+            p.drawRoundedRect(caja.adjusted(-g, -g * 0.6 + 4, g, g + 8), rad + g, rad + g)
+        p.restore()
+
+    def _barra_estado(self, p, pant):
+        """La barra de estado del teléfono (hora, cobertura, wifi y batería) a los lados de la isla, y el indicador de inicio abajo."""
+        u = pant.width() / 100.0
+        cy = pant.top() + pant.height() * 0.032
+        blanco = QColorReal(255, 255, 255, 235)
+        p.save()
+        p.setPen(blanco)
+        f = fuente(max(6.0, 4.3 * u), peso='negrita')
+        p.setFont(f)
+        p.drawText(QRectF(pant.left() + 6 * u, cy - 4 * u, 20 * u, 8 * u), int(Qt.AlignmentFlag.AlignCenter), '9:41')
+        p.setPen(Qt.PenStyle.NoPen)
+        p.setBrush(blanco)
+        x = pant.right() - 27 * u                                        # cobertura: 4 barras
+        for i in range(4):
+            h = (1.3 + i * 0.75) * u
+            p.drawRoundedRect(QRectF(x + i * 1.55 * u, cy + 1.6 * u - h, 1.05 * u, h), 0.3 * u, 0.3 * u)
+        x += 7.6 * u                                                     # wifi: tres arcos
+        pen = QPen(blanco, max(1.0, 0.75 * u), Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap)
+        p.setPen(pen)
+        p.setBrush(Qt.BrushStyle.NoBrush)
+        for i, r in enumerate((3.2, 2.1, 1.0)):
+            rr = r * u
+            p.drawArc(QRectF(x + 2.4 * u - rr, cy + 1.4 * u - rr, 2 * rr, 2 * rr), 50 * 16, 80 * 16)
+        x += 6.2 * u                                                     # batería
+        p.setPen(QPen(QColorReal(255, 255, 255, 150), max(1.0, 0.4 * u)))
+        cuerpo = QRectF(x, cy - 1.45 * u, 6.6 * u, 3.1 * u)
+        p.drawRoundedRect(cuerpo, 0.9 * u, 0.9 * u)
+        p.setPen(Qt.PenStyle.NoPen)
+        p.setBrush(blanco)
+        p.drawRoundedRect(cuerpo.adjusted(0.55 * u, 0.55 * u, -1.6 * u, -0.55 * u), 0.5 * u, 0.5 * u)
+        p.setBrush(QColorReal(255, 255, 255, 150))
+        p.drawRoundedRect(QRectF(cuerpo.right() + 0.35 * u, cy - 0.55 * u, 0.55 * u, 1.1 * u), 0.2 * u, 0.2 * u)
+        p.setBrush(QColorReal(255, 255, 255, 215))                       # indicador de inicio
+        p.drawRoundedRect(QRectF(pant.center().x() - 18 * u, pant.bottom() - 2.6 * u, 36 * u, 1.25 * u), 0.62 * u, 0.62 * u)
+        p.restore()
+
+    def _brillo_cristal(self, p, pant):
+        """El reflejo del cristal: una franja diagonal muy tenue (el móvil deja de parecer una foto pegada)."""
+        g = QLinearGradient(pant.topLeft(), QPointF(pant.left() + pant.width() * 0.9, pant.top() + pant.height() * 0.55))
+        g.setColorAt(0.0, QColorReal(255, 255, 255, 26))
+        g.setColorAt(0.38, QColorReal(255, 255, 255, 8))
+        g.setColorAt(0.40, QColorReal(255, 255, 255, 0))
+        g.setColorAt(1.0, QColorReal(255, 255, 255, 0))
+        p.fillRect(pant, QBrush(g))
+
     def _pintar_movil(self, p):
         marco, _info, _fondo = self._recursos_movil()
         caja, pant, radio = self.geometria_movil()
+        self._sombra_movil(p, caja)
         camino = QPainterPath()
         camino.addRoundedRect(pant, radio, radio)
         p.save()
         p.setClipPath(camino)
         p.fillRect(pant, QColorReal('#05080F'))
         img, real = self._imagen_en_pantalla()
+        if not real and self._cuadro is not None:
+            # v5.5.10: el cuadro exacto del tema (foto + captions de render_sin_resolve), ya del tamaño de la pantalla
+            p.drawImage(pant, self._cuadro)
+            img = None
         if img is not None and not img.isNull():
             iw, ih = max(1, img.width()), max(1, img.height())
             # la foto «cubre» la pantalla; un render real se ve ENTERO (a lo ancho) para no cortar los captions
             esc = (pant.width() / iw) if real else max(pant.width() / iw, pant.height() / ih)
             w, h = iw * esc, ih * esc
             p.drawImage(QRectF(pant.center().x() - w / 2, pant.center().y() - h / 2, w, h), img)
-        if not real:
+        if not real and self._cuadro is None:
             # velo suave abajo para que los captions se lean como en un reel
             velo = QLinearGradient(QPointF(0, pant.top() + pant.height() * 0.40), QPointF(0, pant.bottom()))
             velo.setColorAt(0.0, QColorReal(0, 0, 0, 0))
             velo.setColorAt(1.0, QColorReal(0, 0, 0, 120))
             p.fillRect(pant, QBrush(velo))
             self._pintar_en_pantalla(p, pant)
+        # arriba, un degradado oscuro fino para que la barra de estado se lea sobre cualquier foto
+        arriba = QLinearGradient(QPointF(0, pant.top()), QPointF(0, pant.top() + pant.height() * 0.09))
+        arriba.setColorAt(0.0, QColorReal(0, 0, 0, 90))
+        arriba.setColorAt(1.0, QColorReal(0, 0, 0, 0))
+        p.fillRect(pant, QBrush(arriba))
+        if self._progreso is not None:                                   # la barrita de avance del reel
+            u = pant.width() / 100.0
+            barra = QRectF(pant.left() + 5 * u, pant.bottom() - 6.2 * u, pant.width() - 10 * u, 0.7 * u)
+            p.setPen(Qt.PenStyle.NoPen)
+            p.setBrush(QColorReal(255, 255, 255, 70))
+            p.drawRoundedRect(barra, 0.35 * u, 0.35 * u)
+            p.setBrush(QColorReal(255, 255, 255, 230))
+            p.drawRoundedRect(QRectF(barra.left(), barra.top(), barra.width() * self._progreso, barra.height()), 0.35 * u, 0.35 * u)
+        self._barra_estado(p, pant)
+        self._brillo_cristal(p, pant)
         p.restore()
         if marco is not None and not marco.isNull():
             p.drawImage(caja, marco)

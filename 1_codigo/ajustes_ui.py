@@ -486,10 +486,13 @@ def desactivar_licencia(app, al_terminar=None):
 NOTAS_VERSION = [
     ('5.5.10', [
         'Creativo: a la derecha, un móvil grande con una foto de fondo y los captions encima, como quedará en el reel; el play va dentro del móvil.',
+        'Creativo: el móvil enseña exactamente el tema que elegiste en Proyecto (los 6 temas), también al dar play, y cambia en tiempo real al marcar otra palabra como Principal.',
+        'Creativo: el móvil es más realista (barra de estado, sombra, reflejo del cristal y barrita de avance al reproducir).',
+        'Tema 1: la palabra que marcas como Principal en Creativo es la que sale grande en Resolve (antes a veces salía la de al lado).',
         'Creativo más limpio: sin la barra de abajo; el tamaño del texto y el botón «Generar» van junto a «Más herramientas».',
         '«Generar» en Creativo te lleva a Inicio y el avance sale en el orbe, como con GO, con las correcciones que hiciste.',
         'Inicio: solo quedan los chips Estilo, Edición PRO y Motions completo.',
-        'Proyecto: el slider de temas se adapta a cualquier tamaño de ventana sin desbordarse.',
+        'Proyecto: el slider de temas se adapta a cualquier tamaño de ventana sin desbordarse, y sus tarjetas ya no repiten el nombre del tema: solo llevan la píldora «Con PRO / Solo captions».',
         'Videos a 29,97 fps: el timeline se crea con sus fps (antes quedaba a 24).',
         'Temas 4, 5, 6 y Referencia: los captions llevan una sombra suave para leerse sobre fondos claros.',
         'Tema 5: la palabra grande «detrás de la persona» ya no queda tapada cuando la persona ocupa su sitio: se pone delante.',
