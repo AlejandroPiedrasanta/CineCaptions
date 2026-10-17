@@ -2557,11 +2557,14 @@ class MarcoVista(QWidget):
     """El marco negro de las vistas previas: hasta tres lineas con su
     tipografia, tamaño relativo y color. Es APROXIMADO (pedido: «dibujarlas y
     marcarlas aprox.»): Resolve es quien manda; aqui se ve la intencion."""
-    def __init__(self, padre=None, alto_min=160, aprox=True):
+    _MOVIL = None                    # (marco QImage, info, fondo QImage) de 2_recursos/creativo, cargado una vez
+
+    def __init__(self, padre=None, alto_min=160, aprox=True, movil=False):
         super().__init__(padre)
         self._lineas = []
         self._imagen = None
-        self._aprox = bool(aprox)
+        self._movil = bool(movil)    # v5.5.10: dentro de un móvil, sobre una foto de muestra (Creativo › «Así se verá este bloque»)
+        self._aprox = bool(aprox) and not self._movil
         self._pie = ''
         self._fondo = None
         self._t_anim = None          # v5.4: segundos desde que entro el bloque (None = quieto, como siempre)
@@ -2658,11 +2661,91 @@ class MarcoVista(QWidget):
     def tiene_fondo(self):
         return self._fondo is not None
 
+    # -- v5.5.10 (pedido: «un mockup de móvil con el fondo dentro y encima los captions»): el modo móvil ----------------------------
+    @classmethod
+    def _recursos_movil(cls):
+        """El marco del móvil (PNG con la pantalla transparente), dónde está su pantalla (fracciones del PNG) y la foto de muestra."""
+        if cls._MOVIL is None:
+            try:
+                import instalador_scripts
+                base = Path(instalador_scripts.BASE_RECURSOS) / 'creativo'
+            except Exception:
+                base = Path(__file__).resolve().parent.parent / '2_recursos' / 'creativo'
+            info = {'pantalla': [0.0625, 0.0272, 0.9363, 0.9728], 'radio': 0.127, 'aspecto': 0.499}
+            try:
+                import json
+                info.update(json.loads((base / 'movil.json').read_text(encoding='utf-8')))
+            except Exception:
+                pass
+            cls._MOVIL = (QImage(str(base / 'movil_marco.png')), info, QImage(str(base / 'movil_fondo.jpg')))
+        return cls._MOVIL
+
+    def geometria_movil(self):
+        """(caja del móvil, su pantalla, radio de la pantalla): el móvil entero cabe en el widget, centrado."""
+        _marco, info, _fondo = self._recursos_movil()
+        r = QRectF(self.rect()).adjusted(2, 2, -2, -2)
+        asp = float(info.get('aspecto') or 0.5)
+        h = r.height()
+        w = h * asp
+        if w > r.width():
+            w = r.width()
+            h = w / asp
+        caja = QRectF(r.center().x() - w / 2, r.center().y() - h / 2, w, h)
+        a = info.get('pantalla') or [0.0625, 0.0272, 0.9363, 0.9728]
+        pant = QRectF(caja.left() + a[0] * w, caja.top() + a[1] * h, (a[2] - a[0]) * w, (a[3] - a[1]) * h)
+        return caja, pant, float(info.get('radio') or 0.127) * pant.width()
+
+    def _imagen_en_pantalla(self):
+        """(QImage, es_render_real) que se ve dentro de la pantalla: el render real de Resolve si lo hay; si no, la foto de muestra."""
+        if getattr(self, '_real', False) and self._fondo is not None:
+            return self._fondo, True
+        return self._recursos_movil()[2], False
+
+    def _pintar_en_pantalla(self, p, pant):
+        """Los captions sobre la pantalla: en la franja de abajo-centro, donde los ponen los reels (el tamaño relativo de siempre)."""
+        alto = pant.width() * 0.62
+        zona = QRectF(pant.left() + pant.width() * 0.02, pant.top() + pant.height() * 0.64 - alto / 2, pant.width() * 0.96, alto)
+        self._pintar_contenido(p, zona)
+
+    def _pintar_movil(self, p):
+        marco, _info, _fondo = self._recursos_movil()
+        caja, pant, radio = self.geometria_movil()
+        camino = QPainterPath()
+        camino.addRoundedRect(pant, radio, radio)
+        p.save()
+        p.setClipPath(camino)
+        p.fillRect(pant, QColorReal('#05080F'))
+        img, real = self._imagen_en_pantalla()
+        if img is not None and not img.isNull():
+            iw, ih = max(1, img.width()), max(1, img.height())
+            # la foto «cubre» la pantalla; un render real se ve ENTERO (a lo ancho) para no cortar los captions
+            esc = (pant.width() / iw) if real else max(pant.width() / iw, pant.height() / ih)
+            w, h = iw * esc, ih * esc
+            p.drawImage(QRectF(pant.center().x() - w / 2, pant.center().y() - h / 2, w, h), img)
+        if not real:
+            # velo suave abajo para que los captions se lean como en un reel
+            velo = QLinearGradient(QPointF(0, pant.top() + pant.height() * 0.40), QPointF(0, pant.bottom()))
+            velo.setColorAt(0.0, QColorReal(0, 0, 0, 0))
+            velo.setColorAt(1.0, QColorReal(0, 0, 0, 120))
+            p.fillRect(pant, QBrush(velo))
+            self._pintar_en_pantalla(p, pant)
+        p.restore()
+        if marco is not None and not marco.isNull():
+            p.drawImage(caja, marco)
+        if real:
+            p.setFont(fuente(10, peso='negrita'))
+            p.setPen(QColor(ACCENT_CLARO))
+            p.drawText(pant.adjusted(0, 0, -12, -12), int(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignBottom), tr('Render real · Resolve'))
+
     def paintEvent(self, _e):
         p = QPainter(self)
         p.setRenderHint(QPainter.RenderHint.Antialiasing)
         p.setRenderHint(QPainter.RenderHint.TextAntialiasing)
         p.setRenderHint(QPainter.RenderHint.SmoothPixmapTransform)
+        if self._movil:
+            self._pintar_movil(p)
+            p.end()
+            return
         r = QRectF(self.rect()).adjusted(0.5, 0.5, -0.5, -0.5)
         p.setPen(QPen(QColor(BORDER_COLOR), 1))
         p.setBrush(QColor('#0B1220'))

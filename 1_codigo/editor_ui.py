@@ -313,22 +313,24 @@ class PistaPincel(QWidget):
 class ControlTamano(QWidget):
     """«A ──●── A  100 %»: agranda o achica las palabras del párrafo. comando(n) con el tamaño (puntos) mientras se arrastra."""
 
-    def __init__(self, valor, minimo, maximo, referencia, comando, padre=None):
+    def __init__(self, valor, minimo, maximo, referencia, comando, padre=None, grande=False):
         super().__init__(padre)
         self._ref = float(referencia)
         self._comando = comando
         h = QHBoxLayout(self)
         h.setContentsMargins(4, 0, 4, 0)
-        h.setSpacing(8)
-        chica = Etiqueta('A', 11, color='#8D9BB5')
-        grande = Etiqueta('A', 18, peso='negrita', color='#C9D6EC')
+        h.setSpacing(10 if grande else 8)
+        # v5.5.10 (pedido: «quita la barra; sube el tamaño de texto y el botón Generar»): versión grande, a lo ancho de la columna derecha
+        chica = Etiqueta('A', 14 if grande else 11, color='#8D9BB5')
+        grande_a = Etiqueta('A', 26 if grande else 18, peso='negrita', color='#C9D6EC')
         self.deslizador = ui.Deslizador(minimo, maximo, maximo - minimo, comando=self._cambio, inicial=valor)
-        self.deslizador.setFixedWidth(132)
-        self.porcentaje = Etiqueta('', 12, color='#C9D6EC', alineacion=Qt.AlignmentFlag.AlignCenter)
-        self.porcentaje.setFixedWidth(44)
-        for w in (chica, self.deslizador, grande, self.porcentaje):
-            h.addWidget(w, 0, Qt.AlignmentFlag.AlignVCenter)
-        self.setFixedHeight(34)
+        if not grande:
+            self.deslizador.setFixedWidth(132)
+        self.porcentaje = Etiqueta('', 15 if grande else 12, peso='medio' if grande else None, color='#C9D6EC', alineacion=Qt.AlignmentFlag.AlignCenter)
+        self.porcentaje.setFixedWidth(58 if grande else 44)
+        for w in (chica, self.deslizador, grande_a, self.porcentaje):
+            h.addWidget(w, 1 if (grande and w is self.deslizador) else 0, Qt.AlignmentFlag.AlignVCenter)
+        self.setFixedHeight(46 if grande else 34)
         self._texto(valor)
 
     def _texto(self, n):

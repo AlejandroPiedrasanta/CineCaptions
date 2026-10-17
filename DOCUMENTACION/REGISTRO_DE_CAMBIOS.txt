@@ -12,6 +12,25 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-17 00:33  ·  v5.5.9  ·  cambio explicado
+    Creativo: la vista del bloque es un movil con foto de muestra y los captions encima; sin la barra (solo con Mas herramientas); tamano de texto y Generar grandes arriba a la derecha; Generar vuelve a Inicio y ensena el avance en el orbe de GO.
+    nuevos (3):
+      + 2_recursos/creativo/movil.json
+      + 2_recursos/creativo/movil_fondo.jpg
+      + 2_recursos/creativo/movil_marco.png
+    modificados (11):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/editor_ui.py
+      ~ 1_codigo/estilos_slider.py
+      ~ 1_codigo/guion_vista.py
+      ~ 1_codigo/qt_kit.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 3_compilar/cinecaptions.spec
+
 2026-10-17 00:04  ·  v5.5.9  ·  cambio explicado
     29,97 fps: los fps se ponen en el PROYECTO antes de crear el timeline y como '30' (no '30.0') (resolve_mcp + ArmarVideo.lua). Packs Luxe con sombra oscura suave (elemento 4) para leerse sobre fondos claros: Tema4/5/6 y Referencia regenerados, REVISION_BIN +1. Tema 5: la clave 'detras' pasa a caption normal si la persona esta tan arriba que el texto caeria a media cabeza o mas abajo.
     modificados (9):

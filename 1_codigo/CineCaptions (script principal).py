@@ -3631,7 +3631,8 @@ class WordTagWindow(QWidget):
             w.setVisible(not minimo)
         barra = getattr(self, 'herr_barra', None)
         if barra is not None:
-            barra.mostrar_herramientas(not minimo)          # el tamaño del párrafo y «Generar» se quedan siempre
+            barra.mostrar_herramientas(not minimo)
+            barra.setVisible(not minimo)                    # v5.5.10: sin herramientas no hay barra (el tamaño y «Generar» viven en la columna derecha)
         if hasattr(self, 'mas_btn'):
             self.mas_btn.configure(text=tr('Más herramientas') if minimo else tr('Menos herramientas'))
     def ajustar_densidad(self, nivel):
@@ -3808,12 +3809,13 @@ class WordTagWindow(QWidget):
             casilla_cap.setFixedHeight(34)
             Tooltip(casilla_cap, tr('Encendida: cada palabra importante del contexto, la principal y el complemento empieza con mayúscula. Apagada: el texto sale tal cual lo dejaste en la ventana de selección.'))
             ch.addWidget(casilla_cap)
-        self.control_tamano = editor_ui.ControlTamano(self.tam_letra, self.TAM_LETRA_RANGO[0], self.TAM_LETRA_RANGO[1], self.TAM_LETRA_DEFECTO, self._poner_tam_letra)
+        # v5.5.10 (pedido: «la barra elimínala; sube el tamaño de texto y el botón Generar»): los dos van grandes arriba de la columna derecha
+        # y la barra solo aparece con «Más herramientas» (_poner_editor_minimo)
+        self.control_tamano = editor_ui.ControlTamano(self.tam_letra, self.TAM_LETRA_RANGO[0], self.TAM_LETRA_RANGO[1], self.TAM_LETRA_DEFECTO, self._poner_tam_letra,
+                                                      grande=True)
         Tooltip(self.control_tamano, tr('Tamaño de las palabras del párrafo: arrastra para agrandar o achicar.'))
-        herr.agregar_fijo(self.control_tamano)
-        self.generar_btn = Boton(tr('Generar'), self._continuar, tipo='primario', alto=34, tam=13, negrita=True, ancho=118)
+        self.generar_btn = Boton(tr('Generar'), self._continuar, tipo='primario', alto=50, tam=17, negrita=True)
         Tooltip(self.generar_btn, tr('Sigue con tus marcas y genera los subtítulos.'))
-        herr.agregar_fijo(self.generar_btn)
         self.herr_barra = herr
         capa.addWidget(herr)
         cuerpo, cc = caja_h(espacio=20)
@@ -3852,6 +3854,13 @@ class WordTagWindow(QWidget):
         derecha = Desplazable(espacio=16, margenes=(0, 0, 8, 0))
         derecha.setFixedWidth(400)
         self._derecha = derecha
+        acciones = QWidget()
+        acc = QVBoxLayout(acciones)
+        acc.setContentsMargins(4, 0, 4, 0)
+        acc.setSpacing(10)
+        acc.addWidget(self.control_tamano)
+        acc.addWidget(self.generar_btn)
+        derecha.agregar(acciones)
         self.tarjeta_bloque = Tarjeta(margenes=(18, 14, 18, 14), espacio=8)
         cab, ccab = caja_h(espacio=8)
         self.tarjeta_bloque.titulo = Etiqueta(tr('Así se verá este bloque'), 16, peso='medio', color='#FFFFFF')
@@ -3865,11 +3874,11 @@ class WordTagWindow(QWidget):
         self.tarjeta_bloque.capa.addWidget(cab)
         if getattr(self, '_guion', False):
             import guion_vista
-            self.vista_bloque = guion_vista.MarcoVistaGuion(alto_min=200)      # v5.10: el bloque con la geometría real de Resolve
-            self.vista_bloque.setFixedHeight(210)
+            self.vista_bloque = guion_vista.MarcoVistaGuion(alto_min=200, movil=True)      # v5.10: el bloque con la geometría real de Resolve
         else:
-            self.vista_bloque = MarcoVista(alto_min=150)
-            self.vista_bloque.setFixedHeight(156)
+            self.vista_bloque = MarcoVista(alto_min=150, movil=True)
+        # v5.5.10 (pedido: «un mockup de móvil con el fondo y encima los captions»): el bloque se ve dentro de un móvil
+        self.vista_bloque.setFixedHeight(580)
         fila_v, cfv = caja_h(espacio=8)
         cfv.addWidget(self.vista_bloque, 1)
         self.mini_pos = editor_ui.MiniPosicion()          # v5.8: dónde cae el bloque en el cuadro del video (arriba / centro / abajo)
@@ -3878,10 +3887,10 @@ class WordTagWindow(QWidget):
         Tooltip(self.mini_pos, tr('Dónde cae este estilo en el cuadro del video. La posición la pone el estilo que elegiste en Proyecto (aproximada).'))
         cfv.addWidget(self.mini_pos)
         self.tarjeta_bloque.capa.addWidget(fila_v)
-        fila_b, cfb = caja_h(espacio=8)
+        fila_b = QWidget()                     # v5.5.10: salta de línea (el tiempo + «SFX: …» largo desbordaba la columna de 400 px)
+        cfb = ui.FlujoCapa(fila_b, 8, 6)
         self.tiempo_bloque = Etiqueta('', 13, color=TEXT_MUTED)
         cfb.addWidget(self.tiempo_bloque)
-        cfb.addStretch(1)
         self.sfx_bloque = Chip('', ui.ACCENT_CLARO, alto=26, tam=12)
         self.sfx_bloque.hide()
         cfb.addWidget(self.sfx_bloque)
@@ -5303,7 +5312,7 @@ class WordTagWindow(QWidget):
         except Exception:
             formato = 'v'
         comp = composicion.valida(getattr(self.master, 'composicion', None))
-        if actual.get('y') and not getattr(self, '_guion', False):          # (el estilo «guion» ya enseña su posición real en la propia vista)
+        if actual.get('y') and not getattr(self, '_guion', False) and not getattr(self.vista_bloque, '_movil', False):   # (el estilo «guion» ya enseña su posición real en la propia vista; v5.5.10: el móvil también)
             self.mini_pos.poner(formato, actual['y'], _color_de_variante(actual.get('color'), '#F5B84B'), comp)
             self.mini_pos.show()
         else:
@@ -10074,6 +10083,7 @@ class SubtitleApp(QWidget):
         s.configure(text=ventana.subtitulo())
         self.ir_a('editor')
         elegido = None
+        resultado = None
         try:
             resultado = ventana.esperar()
             elegido = getattr(ventana, '_proyecto_elegido', None)
@@ -10090,7 +10100,8 @@ class SubtitleApp(QWidget):
             t.configure(text=tr('Retocar las palabras'))
             s.configure(text=tr('Pinta cada palabra con su rol; el bloque se arma solo'))
             if vivo(self) and self.isVisible():
-                self.ir_a(volver)
+                # v5.5.10 (pedido: «al dar Generar pasa a Inicio y empieza el proceso con las correcciones de Creativo»)
+                self.ir_a('inicio' if resultado is not None else volver)
         if elegido:
             self._cargar_proyecto(elegido)
             self.status_var.set(tr('Proyecto cargado: {nombre}', nombre=Path(elegido).name))
@@ -10120,43 +10131,50 @@ class SubtitleApp(QWidget):
         except Exception:
             pass
         self._guardar_preferencias()
+    # v5.5.10 (pedido: «al dar Generar pasa a la página de Inicio y empieza el proceso con las correcciones de Creativo»): sin el popup; el avance
+    # sale en el orbe de Inicio, con los pasos de GO (la voz y la IA ya están hechas: las palabras son las de Creativo)
+    _GEN_A_PASO_GO = {'armar': 'diseno', 'emojis': 'diseno', 'sfx': 'sfx', 'colocar': 'resolve'}
     def _gen_abrir(self):
-        import editor_ui
         self._gen_fin(False)
-        claves = {'dinamico': ['armar', 'sfx', 'emojis', 'colocar'], 'destacados': ['armar', 'sfx', 'colocar']}.get(self._modo(), ['armar', 'colocar'])
-        nombres = {'armar': tr('Armar los bloques con tus marcas'), 'sfx': tr('Elegir los efectos de sonido'), 'emojis': tr('Preparar los emojis'),
-                   'colocar': tr('Colocar todo en tu timeline')}
-        try:
-            dlg = Dialogo(self, tr('Generando'), 500, 430, redimensionable=False)
-            capa = _capa_dialogo(dlg, (0, 0, 0, 0), 0)
-            panel = editor_ui.PanelAsistencia(tr('Generando tus subtítulos'), tr('Todo listo'), tr('Preparando…'), [nombres[c] for c in claves], '',
-                                              tr('Subtítulos, sonidos y emojis, directo a tu timeline'))
-            capa.addWidget(panel, 1)
-            dlg.show()
-        except Exception:
-            registro.excepcion(origen='Generar · popup')
-            return
-        g = {'dlg': dlg, 'panel': panel, 'claves': claves}
+        self.ir_a('inicio')
+        panel = getattr(self, 'go_panel', None)
+        if panel is None or getattr(self, '_go_corriendo', False) or panel.boton.estado == 'trabajando':
+            return                                     # dentro de GO, Inicio ya enseña el avance de GO
+        panel.al_cancelar = None                       # (sin «Cancelar»: ese botón es el de GO, que cierra Resolve)
+        panel.al_pausar = None
+        panel.empezar()
+        for k in ('timeline', 'voz', 'ia'):
+            panel.paso(k, 'saltado')
+        g = {'go': panel, 'fase': None}
         self._gen = g
-        despues(300000, lambda: self._gen_fin(False) if getattr(self, '_gen', None) is g else None, self)      # por si algo no avisa nunca
+        self._gen_fase('armar')
+        # por si algo no avisa nunca (colocar en Resolve puede tardar varios minutos)
+        despues(900000, lambda: self._gen_fin(False, tr('Generar no avisó de que terminara: mira tu timeline y el Registro.')) if getattr(self, '_gen', None) is g else None, self)
     def _gen_fase(self, clave):
         g = getattr(self, '_gen', None)
-        if g and vivo(g['dlg']) and clave in g['claves']:
-            g['panel'].poner_fase(g['claves'].index(clave))
+        if not g or not vivo(g['go']):
+            return
+        k = self._GEN_A_PASO_GO.get(clave)
+        if k and k != g['fase']:
+            if g['fase']:
+                g['go'].paso(g['fase'], 'hecho')
+            g['fase'] = k
+            g['go'].paso(k)
     def _gen_detalle(self, texto):
         g = getattr(self, '_gen', None)
-        if g and vivo(g['dlg']):
-            g['panel'].poner_detalle(str(texto).strip()[:150])
+        if g and vivo(g['go']) and str(texto).strip():
+            g['go'].linea.configure(text=str(texto).strip()[:150])
     def _gen_fin(self, ok, detalle=''):
         g = getattr(self, '_gen', None)
         self._gen = None
-        if not g or not vivo(g['dlg']):
+        if not g or not vivo(g['go']):
             return
-        if ok:
-            g['panel'].terminar(detalle)
-            despues(1300, g['dlg'].cerrar, self)
-        else:
-            g['dlg'].cerrar()
+        panel = g['go']
+        if g['fase']:
+            if not ok:
+                panel.paso_fallido = g['fase']
+            panel.paso(g['fase'], 'hecho' if ok else 'error')
+        panel.terminar(ok, detalle or (tr('Ya está en tu timeline.') if ok else tr('No se pudo generar: mira el Registro.')))
     def _editor_abierto(self):
         """Una sola sesion del editor a la vez (la v4 lo garantizaba con el
         modal; ahora el resto de pantallas sigue a mano)."""

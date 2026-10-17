@@ -3523,6 +3523,9 @@
     "Motions completo ya no se repite: más tarjetas (lista, buscador, publicación, encuesta, carga, nota, antes/después, cuenta atrás, gráfica y el «golpe» con la palabra enorme), cada una con su color y su lado, con fotogramas de tu propio video dentro y con sonido sincronizado (whoosh al entrar, clics y pops).": "Komplette Motions wiederholen sich nicht mehr: mehr Karten (Liste, Suche, Beitrag, Umfrage, Laden, Notiz, Vorher/Nachher, Countdown, Diagramm und der «Schlag» mit dem riesigen Wort), jede mit eigener Farbe und Seite, mit Bildern aus deinem eigenen Video und synchronem Ton (Whoosh beim Erscheinen, Klicks und Pops).",
     "Con PRO": "Mit PRO",
     "Solo captions": "Nur Untertitel",
-    "Edición PRO más rápida: «Motions completo» y la descarga del B-roll se hacen a la vez que lo demás (antes iban al final, uno tras otro), «Motions completo» ya no espera a la IA de texto y su video se codifica más rápido.": "Schnellerer PRO-Schnitt: «Komplette Motions» und der B-Roll-Download laufen jetzt parallel zum Rest (vorher am Ende, nacheinander), «Komplette Motions» wartet nicht mehr auf die Text-KI und ihr Video wird schneller kodiert."
+    "Edición PRO más rápida: «Motions completo» y la descarga del B-roll se hacen a la vez que lo demás (antes iban al final, uno tras otro), «Motions completo» ya no espera a la IA de texto y su video se codifica más rápido.": "Schnellerer PRO-Schnitt: «Komplette Motions» und der B-Roll-Download laufen jetzt parallel zum Rest (vorher am Ende, nacheinander), «Komplette Motions» wartet nicht mehr auf die Text-KI und ihr Video wird schneller kodiert.",
+    "Generar no avisó de que terminara: mira tu timeline y el Registro.": "Generieren hat das Ende nicht gemeldet: Prüfe deine Timeline und das Protokoll.",
+    "No se pudo generar: mira el Registro.": "Generieren nicht möglich: Prüfe das Protokoll.",
+    "Ya está en tu timeline.": "Es ist jetzt in deiner Timeline."
   }
 }
