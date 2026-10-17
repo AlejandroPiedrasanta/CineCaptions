@@ -339,16 +339,24 @@
         "sonido",
         "sfx",
         "lab",
-        "estudio"
+        "estudio",
+        "biblioteca",
+        "popup",
+        "buscar archivo"
       ],
       "archivos": [
         "sfx_studio.py",
         "sfx_rules.py",
         "sfx_editor.py",
-        "sfx_audio.py"
+        "sfx_audio.py",
+        "emojis_sfx_ui.py"
       ],
-      "simbolos": [],
-      "resumen": "sfx_studio, sfx_rules, sfx_editor, sfx_audio"
+      "simbolos": [
+        "_DialogoBiblioteca",
+        "abrir_biblioteca",
+        "_buscar_sonido"
+      ],
+      "resumen": "sfx_studio, sfx_rules, sfx_editor, sfx_audio; biblioteca de sonidos en popup («Buscar archivo…», _DialogoBiblioteca)"
     },
     {
       "id": "packs-drt",

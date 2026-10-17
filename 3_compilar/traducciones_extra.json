@@ -6004,5 +6004,54 @@
   "fr": "L’accueil ne se fige plus quand vous redimensionnez ou agrandissez la fenêtre, et si DaVinci Resolve se bloque, la fenêtre de CineCaptions continue de répondre.",
   "de": "Der Start friert nicht mehr ein, wenn du die Fenstergröße änderst oder es maximierst, und wenn DaVinci Resolve hängt, reagiert das CineCaptions-Fenster weiter.",
   "it": "La Home non si blocca più quando ridimensioni o ingrandisci la finestra, e se DaVinci Resolve si blocca, la finestra di CineCaptions continua a rispondere."
+ },
+ "Abre la biblioteca de sonidos (o un archivo de tu computadora) para este emoji.": {
+  "en": "Opens the sound library (or a file from your computer) for this emoji.",
+  "pt": "Abre a biblioteca de sons (ou um arquivo do seu computador) para este emoji.",
+  "fr": "Ouvre la bibliothèque de sons (ou un fichier de votre ordinateur) pour cet emoji.",
+  "de": "Öffnet die Soundbibliothek (oder eine Datei von deinem Computer) für dieses Emoji.",
+  "it": "Apre la libreria dei suoni (o un file del tuo computer) per questa emoji."
+ },
+ "Abre la biblioteca de sonidos (o un archivo de tu computadora) para cambiar este sonido.": {
+  "en": "Opens the sound library (or a file from your computer) to change this sound.",
+  "pt": "Abre a biblioteca de sons (ou um arquivo do seu computador) para trocar este som.",
+  "fr": "Ouvre la bibliothèque de sons (ou un fichier de votre ordinateur) pour changer ce son.",
+  "de": "Öffnet die Soundbibliothek (oder eine Datei von deinem Computer), um diesen Sound zu ändern.",
+  "it": "Apre la libreria dei suoni (o un file del tuo computer) per cambiare questo suono."
+ },
+ "Emoji {nombre}": {
+  "en": "Emoji {nombre}",
+  "pt": "Emoji {nombre}",
+  "fr": "Emoji {nombre}",
+  "de": "Emoji {nombre}",
+  "it": "Emoji {nombre}"
+ },
+ "Desde mi computadora…": {
+  "en": "From my computer…",
+  "pt": "Do meu computador…",
+  "fr": "Depuis mon ordinateur…",
+  "de": "Von meinem Computer…",
+  "it": "Dal mio computer…"
+ },
+ "Usar este sonido": {
+  "en": "Use this sound",
+  "pt": "Usar este som",
+  "fr": "Utiliser ce son",
+  "de": "Diesen Sound verwenden",
+  "it": "Usa questo suono"
+ },
+ "Toca un sonido para oírlo y elegirlo": {
+  "en": "Tap a sound to hear it and pick it",
+  "pt": "Toque em um som para ouvi-lo e escolhê-lo",
+  "fr": "Touchez un son pour l’écouter et le choisir",
+  "de": "Tippe auf einen Sound, um ihn zu hören und auszuwählen",
+  "it": "Tocca un suono per ascoltarlo e sceglierlo"
+ },
+ "{t} · sonido {n}": {
+  "en": "{t} · sound {n}",
+  "pt": "{t} · som {n}",
+  "fr": "{t} · son {n}",
+  "de": "{t} · Sound {n}",
+  "it": "{t} · suono {n}"
  }
 }

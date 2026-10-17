@@ -12,6 +12,18 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-17 17:33  ·  v5.5.10  ·  cambio explicado
+    Sonido: la barra de la biblioteca (buscador, categorías, atajo, + Mi carpeta) sale de la página y aparece como popup al pulsar «Buscar archivo…» en cada sonido (y en Emojis); el popup reutiliza la misma barra y la devuelve oculta al cerrarse.
+    modificados (8):
+      ~ 1_codigo/emojis_sfx_ui.py
+      ~ 1_codigo/sfx_studio.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 3_compilar/traducciones_extra.json
+
 2026-10-17 16:39  ·  v5.5.10  ·  cambio explicado
     Inicio sin congelarse: las capas del orbe GO se rehacen en un hilo de fondo y solo si hace falta (antes ~2,5 s parado al redimensionar o maximizar). Resolve colgado ya no congela la ventana: el cliente del MCP toma su candado con limite y, desde la ventana, acota la espera a 8 s y anota quien llamo; importar un .drt va en un hilo.
     modificados (10):
