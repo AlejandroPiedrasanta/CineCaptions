@@ -1,23 +1,23 @@
 {
     "estable":  {
-                    "version":  "5.5.10",
-                    "notas":  "Barra de motions de la Edicion PRO en Proyecto con ejemplo real, Inicio sin congelarse, la ventana no se congela si Resolve se cuelga, paginas mas limpias y librerias al dia.",
+                    "version":  "5.5.11",
+                    "notas":  "Sonido más limpio: la biblioteca de sonidos sale en una ventana al pulsar «Buscar archivo…» en cada sonido y emoji. Inicio: el botón del Registro va junto a minimizar, como en el resto de páginas.",
                     "fecha":  "2026-10-17",
                     "archivos":  {
                                      "windows":  {
-                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.10/Instalar_CineCaptions_5.5.10.exe",
-                                                     "sha256":  "c6e8c40346cc3677058d52b2b8136772439807915d2ff7efb7651660dea64c7c",
-                                                     "tam":  583065450
+                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.11/Instalar_CineCaptions_5.5.11.exe",
+                                                     "sha256":  "d436c5c2cbaab3109032eac1699566d17783f4d23357cfc7fb22d25d276eda06",
+                                                     "tam":  583070104
                                                  },
                                      "mac_arm64":  {
-                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.10/CineCaptions_Mac_AppleSilicon_5.5.10.dmg",
-                                                       "sha256":  "e285d00b3839cc529c93ca3db1b269d0284b70528109ddf82771745e21e86a16",
-                                                       "tam":  590819434
+                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.11/CineCaptions_Mac_AppleSilicon_5.5.11.dmg",
+                                                       "sha256":  "6a24ad83d8251f76d46b62982475862d49f329cfd67862ab17aa4c712fe30c68",
+                                                       "tam":  590931183
                                                    },
                                      "mac_x86_64":  {
-                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.10/CineCaptions_Mac_Intel_5.5.10.dmg",
-                                                        "sha256":  "80bde3cb6dc6fc9fd41e797bfb10232379d8f7bdbfa650c9e55afad54b3f5953",
-                                                        "tam":  535180688
+                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.11/CineCaptions_Mac_Intel_5.5.11.dmg",
+                                                        "sha256":  "7c1663757c172fcf876a87102e9939fd75ff1058254375d24e70d7b6492077d0",
+                                                        "tam":  535209073
                                                     }
                                  }
                 }
