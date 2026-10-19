@@ -8,6 +8,8 @@
 
 ## version — Versión del programa
 
+**Desde la 5.20 (pedido del usuario: «en vez de tanto número»): DOS números** (5.20, 5.21…). `version.py` dice `5.20`; `3_compilar/sincronizar_version.py` acepta 2 o 3 números y `--subir` sube el ÚLTIMO (5.20 → 5.21); `actualizaciones._partes` lee «5.20» como 5.20.0 y `corta()` enseña «5.20» (lo que llega del manifiesto). **Compatibilidad:** los 5.5.x instalados solo entienden x.y.z: `Publicar_Version.ps1` escribe en version.json `5.20.0` (`$versionManifiesto`); los archivos se siguen llamando `_5.20`. El instalador rellena a 4 números (5.20.0.0).
+
 **Qué:** Versión
 
 **Dónde:** `version.py`

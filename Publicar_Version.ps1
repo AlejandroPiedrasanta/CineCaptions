@@ -66,7 +66,9 @@ if (-not $SinSubir) {
         try { $p = Get-Content $previo -Raw | ConvertFrom-Json; foreach ($c in 'estable', 'beta') { if ($c -ne $Canal -and $p.$c) { $manifiesto[$c] = $p.$c } } } catch { }
     }
 }
-$manifiesto[$Canal] = [ordered]@{ version = $version; notas = $Notas; fecha = (Get-Date -Format 'yyyy-MM-dd'); archivos = $archivos }
+# v5.20: las versiones son de DOS numeros (5.20); los programas 5.5.x instalados solo entienden x.y.z: el manifiesto lleva 5.20.0
+$versionManifiesto = if ($version.Split('.').Count -eq 2) { "$version.0" } else { $version }
+$manifiesto[$Canal] = [ordered]@{ version = $versionManifiesto; notas = $Notas; fecha = (Get-Date -Format 'yyyy-MM-dd'); archivos = $archivos }
 $json = $manifiesto | ConvertTo-Json -Depth 8
 $salida = Join-Path (Get-Location) 'INSTALADORES\version.json'
 [IO.File]::WriteAllText($salida, $json, (New-Object Text.UTF8Encoding $false))       # UTF-8 SIN BOM (el programa lo lee con json.loads)

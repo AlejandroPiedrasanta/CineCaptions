@@ -201,6 +201,10 @@ pila en videos claros (`VELO_CAPTIONS`, apagado desde v5.4.52), acompañantes pe
 del video (`color_claves`, estilo «guion») y la regla de la cara (`edicion_pro._captions_sin_cara`). Lo coloca `colocar_pro.py` /
 `CineCaptions_EdicionPro.lua` con `ligero`.
 
+**Píldoras más listas (v5.5.17):** `edicion_pro_tema5_acomp._dato(ps, lang)` saca lo que conviene ver escrito: la FECHA («sábado 10 de octubre» → 📅 «Sábado 10 de octubre»), la HORA («a las 8:30 de la mañana» → 🕙 «8:30 a. m.», del texto original porque `plegar` quita «:») o el SITIO («en el Centro Intercultural» → 📍), antes que la cifra suelta. Nunca repite la palabra que el caption ya enseña EN GRANDE (bloques con la marca `grande`: `kit_neon.bloques_pro` da (x, t, grande); `edicion_pro_temas._piezas` la pasa). Si no cabe debajo del caption, va ENCIMA (`y = arriba - 7.5`, nunca por encima del 14 %). Las piezas `neon_motion` cuentan como ocupado (no se pisan).
+
+**Dónde cabe la píldora (v5.5.17):** `acompanantes` ya no descarta un caption entero porque un motion lo toque 0,1 s: `_tramo_libre(a, z, ocupado)` da el trozo libre más largo del caption, la píldora usa las palabras dichas en ese trozo (o 0,45 s antes) y nunca se alarga hasta el motion que viene. Con el Tema 1 (motions por casi todo el video) antes salía 0; ahora 2 en PRUEBA ESPAÑOL, sin pisar ninguno (`probar_pro_lateral.py`: 161 OK).
+
 ## nota — v5.5.8 · Tema 4 (y 5/6): hueco entre palabras
 
 `tema4_planificador.HUECO` 0,12 → 0,28 (× la letra normal de la línea) y `AFINADO['ancho']` 1,0 → 1,08 (cada palabra sale en Resolve un 5–13 % más ancha que lo que mide Pillow; medido en el render del Tema 5: «héroes» 142 px contra 129 calculados). MEDIDO en el render a 1080 de Resolve (Tema 6): 7 px de hueco con

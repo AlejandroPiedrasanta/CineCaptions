@@ -12,6 +12,278 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-19 15:16  ·  v5.5.19  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-10-19 15:16  ·  v5.5.18  ·  cambio explicado
+    5.5.19, pulido del Tema 1: el desenfoque de movimiento de KitNeon apilaba 5 copias (alfa inflado: sombras que se perdían y tirón al parar) -> media plus-lighter aislada y siempre la misma mezcla; la palabra a mano no tenía salida; las palabras ocultas con display:none re-centraban la línea al aparecer cada una (tambaleo) -> visibility con _guarda.
+    modificados (10):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/remotion/src/KitNeon.tsx
+      ~ 1_codigo/remotion/src/kitneon/motor.ts
+      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js
+      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js.map
+      ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/debug.log
+      ~ 2_recursos/vistas_slider/Kinetic.jpg
+      ~ 2_recursos/vistas_slider/Kinetic.mp4
+      ~ 2_recursos/vistas_slider/Kinetic_captions.jpg
+      ~ 2_recursos/vistas_slider/Kinetic_captions.mp4
+
+2026-10-19 14:02  ·  v5.5.18  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-10-19 14:01  ·  v5.5.17  ·  cambio explicado
+    Tras 5.5.17: aros/rayas sueltos del Tema 1 al salir cada caption (copias del desenfoque de movimiento con display:none medían el aro 0x0; ahora visibility y medir() no mide sin maquetar; caché de clips Remotion con huella del bundle); trazos que caían al final del bloque adelantados o quitados; más parecido a la referencia: ¿ en preguntas, cifra+sustantivo grande con pegatina (3 JÓVENES / INFLUENCERS), 100 % en dos palabras = 100% + GRATUITA, determinantes nunca grandes.
+    modificados (13):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro_remotion.py
+      ~ 1_codigo/kinetic_planificador.py
+      ~ 1_codigo/kit_neon.py
+      ~ 1_codigo/remotion/src/KitNeon.tsx
+      ~ 1_codigo/remotion/src/kitneon/motor.ts
+      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js
+      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js.map
+      ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/debug.log
+      ~ 2_recursos/vistas_slider/Kinetic.jpg
+      ~ 2_recursos/vistas_slider/Kinetic.mp4
+      ~ 2_recursos/vistas_slider/Kinetic_captions.jpg
+      … y 1 más
+
+2026-10-19 10:42  ·  v5.5.17  ·  (automático)
+    modificados (25):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/debug.log
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      … y 13 más
+
+2026-10-19 10:38  ·  v5.5.16  ·  cambio explicado
+    5.5.17: transcripción con vocabulario aprendido (contexto a Qwen3-ASR/Whisper, ahora también en la llamada principal), IA de texto 4B en GO sin Resolve (no se reserva GPU para un Resolve que no se abre; 6 s frente a 24 s del 1.7B) y JSON compacto (1.7B 22→17 s); Tema 1 sin Resolve por fin con kit_neon_mp4 (_kitneon no se armaba en sin_resolve); captions neón: ninguna palabra antes de que entre su bloque (se montaba sobre el anterior); píldoras en el tramo libre de cada caption (con el Tema 1 salían 0), fecha/hora/lugar, nunca lo que ya va en grande; Motions completo del Tema 1 con piezas del kit; placa 2,8× y MP4 sin Resolve 1,8× más rápidos en paralelo, idénticos; probar_pro_lateral 161 OK; GO sin Resolve de los 6 temas OK.
+    nuevos (5):
+      + 1_codigo/herramientas_dev/banco_voz.py
+      + 1_codigo/herramientas_dev/banco_voz/prueba_espanol.txt
+      + 1_codigo/herramientas_dev/probar_pro_lateral.py
+      + 1_codigo/kit_neon_completo.py
+      + 1_codigo/vocabulario.py
+    modificados (19):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/cache_voz.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_tema5_acomp.py
+      ~ 1_codigo/edicion_pro_temas.py
+      ~ 1_codigo/ia_texto.py
+      ~ 1_codigo/kit_neon.py
+      ~ 1_codigo/kit_neon_mp4.py
+      ~ 1_codigo/kit_neon_placa.py
+      ~ 1_codigo/motions_completo.py
+      ~ 1_codigo/motor_voz.py
+      … y 7 más
+
+2026-10-19 01:12  ·  v5.5.16  ·  cambio explicado
+    Tema 1 sin Resolve (kit_neon_mp4: los mismos clips de la PRO compuestos por capas sobre la placa o el video, con sonidos) y Free revisado con un Resolve simulado; vistas del slider del Tema 1 rehechas con el estilo neón (solo captions y con PRO).
+
+2026-10-19 01:08  ·  v5.5.16  ·  (automático)
+    nuevos (1):
+      + 1_codigo/kit_neon_mp4.py
+    modificados (28):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/edicion_pro/colocar_pro.py
+      ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/debug.log
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      … y 16 más
+
+2026-10-19 00:07  ·  v5.5.15  ·  (automático)
+    modificados (23):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/kit_neon.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      … y 11 más
+
+2026-10-18 21:32  ·  v5.5.14  ·  (automático)
+    modificados (22):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/herramientas_dev/comparar_ref_neon.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      … y 10 más
+
+2026-10-18 21:20  ·  v5.5.13  ·  cambio explicado
+    Tema 1 comparado fotograma a fotograma con REFERENCIA.mp4 (alineado por la EDL del kit): emblema del cartel en notificación y órbita, tarjeta de arriba centrada en la cara, cierre al decir la última palabra con 1,2 s de cola, captions recortados (no quitados) ante un motion de abajo, línea fina bajo la pantalla de 4, números en cifra, etiquetas con su categoría, interruptores «Conectados».
+    nuevos (1):
+      + 1_codigo/herramientas_dev/comparar_ref_neon.py
+    modificados (4):
+      ~ 1_codigo/kit_neon.py
+      ~ 1_codigo/kit_neon_motions.py
+      ~ 1_codigo/kit_neon_placa.py
+      ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/debug.log
+
+2026-10-18 20:30  ·  v5.5.13  ·  cambio explicado
+    Tema 1 probado con GO real en Resolve: halftone presente; arreglados la lista sin detectar con la coma de GO, la pantalla de 4 frenada por la ruta, los motions neón borrados por _revisar_persona (se llamaban Caption) y los falsos atascos del vigilante durante Remotion y la placa.
+    modificados (6):
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_planificador.py
+      ~ 1_codigo/edicion_pro_remotion.py
+      ~ 1_codigo/kit_neon_motions.py
+      ~ 1_codigo/kit_neon_placa.py
+      ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/debug.log
+
+2026-10-18 19:50  ·  v5.5.13  ·  cambio explicado
+    Tema 1 neón: GO sin PRO = solo captions neón; con PRO = la referencia del kit (motions + placa); el menú lateral de Proyecto tiene interruptores PROPIOS del Tema 1 (pro_neon_extras, vacío = referencia) y lo encendido se suma sin tapar los motions del kit. Arreglo: GO descartaba el plan neón porque no traía piezas genéricas.
+    nuevos (26):
+      + 1_codigo/herramientas_dev/comparar_kitneon.py
+      + 1_codigo/herramientas_dev/vista_kitneon.py
+      + 1_codigo/kit_neon.py
+      + 1_codigo/kit_neon_motions.py
+      + 1_codigo/kit_neon_placa.py
+      + 1_codigo/remotion/public/fuentes/kit/LICENCIAS.txt
+      + 1_codigo/remotion/public/fuentes/kit/cond.ttf
+      + 1_codigo/remotion/public/fuentes/kit/inter.ttf
+      + 1_codigo/remotion/public/fuentes/kit/script.ttf
+      + 1_codigo/remotion/public/fuentes/kit/serif.ttf
+      + 1_codigo/remotion/public/fuentes/kit/thin.otf
+      + 1_codigo/remotion/src/KitNeon.tsx
+      … y 14 más
+    modificados (16):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_planificador.py
+      ~ 1_codigo/edicion_pro_sonido.py
+      ~ 1_codigo/edicion_pro_temas.py
+      ~ 1_codigo/herramientas_dev/probar_edicion_pro.py
+      ~ 1_codigo/kinetic_planificador.py
+      ~ 1_codigo/pro_lateral_ui.py
+      ~ 1_codigo/remotion/empaquetar.mjs
+      ~ 1_codigo/remotion/src/Root.tsx
+      ~ 2_recursos/edicion_pro/colocar_pro.py
+      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js
+      … y 4 más
+
+2026-10-18 15:06  ·  v5.5.13  ·  cambio explicado
+    Tema 1 en NEON (pedido del usuario, kit Escritorio/TEMA 1): captions con paleta lima/magenta, pegatinas inclinadas, palabra a mano Yellowtail y circulos/lazos/subrayados que se dibujan (pack Kinetic rehecho, REVISION_BIN Kin 7, paleta unica kinetic_paleta.py); la PRO con el Tema 1 va en neon (direccion de arte fija, neonizar() en todas las piezas, paleta neoncc en Kit7).
+    nuevos (2):
+      + 1_codigo/kinetic_paleta.py
+      + 2_recursos/fonts/Yellowtail-Regular.ttf
+    modificados (16):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_planificador.py
+      ~ 1_codigo/edicion_pro_temas.py
+      ~ 1_codigo/kinetic_captions.py
+      ~ 1_codigo/kinetic_planificador.py
+      ~ 1_codigo/kinetic_vista.py
+      ~ 1_codigo/mezcla_planificador.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/remotion/src/Kit7.tsx
+      ~ 1_codigo/render_temas.py
+      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js
+      … y 4 más
+
+2026-10-18 14:37  ·  v5.5.13  ·  cambio explicado
+    GO se detiene antes de Resolve si la voz no deja ninguna palabra con letras (musica: solo simbolos) o si salen 0 bloques: antes llegaba a Resolve Free y fallaba con «'es' no tiene bloques». En Free la tipografia elegida en Crea tu estilo no llegaba: marcar_runs reescribia el .json pero no su gemelo .lua.
+    modificados (2):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/fuente_usuario.py
+
+2026-10-18 14:21  ·  v5.5.13  ·  cambio explicado
+    Librerias al dia: certifi 2026.10.18 en requirements.txt y venv314; motor Qwen con certifi 2026.10.18, filelock 4.2.2, httpcore2/httpx2 2.14.0, platformdirs 4.13.4, transformers 5.20.1 (requisitos_motor_qwen.txt fijado igual; completar_requisitos las sube a los motores ya instalados).
+    modificados (2):
+      ~ 2_recursos/motor_qwen/requisitos_motor_qwen.txt
+      ~ 3_compilar/requirements.txt
+
+2026-10-17 21:09  ·  v5.5.13  ·  (automático)
+    nuevos (1):
+      + 1_codigo/fuente_usuario.py
+    modificados (22):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/crea_estilo_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      … y 10 más
+
+2026-10-17 20:46  ·  v5.5.12  ·  (automático)
+    modificados (22):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/colocacion.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      … y 10 más
+
 2026-10-17 17:46  ·  v5.5.11  ·  (automático)
     modificados (7):
       ~ 1_codigo/ajustes_ui.py
@@ -325,231 +597,6 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
       ~ 1_codigo/CineCaptions (script principal).py
       ~ 1_codigo/motions_completo.py
       ~ 1_codigo/rectificador.py
-
-2026-10-16 22:54  ·  v5.5.9  ·  cambio explicado
-    Rendimiento PRO: Motions completo y el B-roll en hilos desde el principio (se recogen donde antes se hacian); Motions completo sin IA de texto dentro de la PRO (110 s de plan por propuestas que ya pesaban menos que las reglas y recargaba el modelo que la PRO suelta para Resolve); x264 veryfast en el render opaco (79->75 s). Incoherencias: la pildora del slider sigue a la PRO aunque se cambie en Inicio; GENERALES se usa.
-    modificados (13):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/edicion_pro.py
-      ~ 1_codigo/estilos_slider.py
-      ~ 1_codigo/motions_completo.py
-      ~ 1_codigo/remotion/render.mjs
-      ~ 2_recursos/edicion_pro/remotion/runtime/render.mjs
-      ~ 2_recursos/locales/de.json
-      ~ 2_recursos/locales/en.json
-      ~ 2_recursos/locales/fr.json
-      ~ 2_recursos/locales/it.json
-      ~ 2_recursos/locales/pt.json
-      … y 1 más
-
-2026-10-16 22:12  ·  v5.5.9  ·  cambio explicado
-    V1 vacío con Tema 1 + Edición PRO: no era la PRO. Justo después de un GO con efectos visuales, el primer AppendToTimeline([clip]) del proyecto siguiente mete SOLO el audio (medido en Studio 21.1.1, se reproduce también armando a mano). El ejemplo de Kinetic con PRO se hacía tras los ejemplos sin PRO. Arreglo: _CREAR_TIMELINE (resolve_mcp) y CineCaptions_ArmarVideo.lua piden la imagen aparte (mediaType 1) y la enlazan con su audio; si aun así falta, error y GO repara y repite. pausas (py y lua) igual por tramo. Ejemplo Kinetic.mp4 regenerado con el video.
-    nuevos (12):
-      + 2_recursos/vistas_slider/Kinetic_captions.jpg
-      + 2_recursos/vistas_slider/Kinetic_captions.mp4
-      + 2_recursos/vistas_slider/Referencia_captions.jpg
-      + 2_recursos/vistas_slider/Referencia_captions.mp4
-      + 2_recursos/vistas_slider/Tema4_captions.jpg
-      + 2_recursos/vistas_slider/Tema4_captions.mp4
-      + 2_recursos/vistas_slider/Tema5_captions.jpg
-      + 2_recursos/vistas_slider/Tema5_captions.mp4
-      + 2_recursos/vistas_slider/Tema6_captions.jpg
-      + 2_recursos/vistas_slider/Tema6_captions.mp4
-      + 2_recursos/vistas_slider/VIRAL_captions.jpg
-      + 2_recursos/vistas_slider/VIRAL_captions.mp4
-    modificados (32):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/edicion_pro.py
-      ~ 1_codigo/estilos_slider.py
-      ~ 1_codigo/motions_completo.py
-      ~ 1_codigo/pausas.py
-      ~ 1_codigo/remotion/src/MotionsCompleto.tsx
-      ~ 1_codigo/remotion/src/Reel.tsx
-      ~ 1_codigo/resolve_mcp.py
-      ~ 1_codigo/un_clic_ui.py
-      ~ 1_codigo/vistas_slider.py
-      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js
-      … y 20 más
-
-2026-10-16 16:12  ·  v5.5.9  ·  cambio explicado
-    Motions completo: estilo reel replicado del minuto 3:03-3:22 (titular palabra a palabra + una tarjeta de interfaz por tramo con cursor y transiciones de velo); el director elige la tarjeta por lo que se dice (REEL + reglas de datos: fecha, lugar, entrada, musica, premio, compartir; aviso como general); la IA de 1,7B queda por debajo de las reglas porque se equivoca. Fuera fotos/videos de internet, kit neon, escenas y munecos (edicion_pro_escenas.RETIRADAS) porque el usuario no los quiere.
-    nuevos (1):
-      + 1_codigo/remotion/src/Reel.tsx
-    modificados (14):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/edicion_pro_escenas.py
-      ~ 1_codigo/motions_catalogo.py
-      ~ 1_codigo/motions_completo.py
-      ~ 1_codigo/remotion/src/MotionsCompleto.tsx
-      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js
-      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js.map
-      ~ 2_recursos/locales/de.json
-      ~ 2_recursos/locales/en.json
-      ~ 2_recursos/locales/fr.json
-      ~ 2_recursos/locales/it.json
-      … y 2 más
-
-2026-10-16 15:29  ·  v5.5.9  ·  (automático)
-    nuevos (28):
-      + 1_codigo/remotion/src/Widgets.tsx
-      + 2_recursos/edicion_pro/remotion/bundle/129.bundle.js.map
-      + 2_recursos/edicion_pro/remotion/bundle/155.bundle.js.map
-      + 2_recursos/edicion_pro/remotion/bundle/161.bundle.js.map
-      + 2_recursos/edicion_pro/remotion/bundle/18.bundle.js.map
-      + 2_recursos/edicion_pro/remotion/bundle/208.bundle.js.map
-      + 2_recursos/edicion_pro/remotion/bundle/226.bundle.js.map
-      + 2_recursos/edicion_pro/remotion/bundle/25.bundle.js.map
-      + 2_recursos/edicion_pro/remotion/bundle/280.bundle.js.map
-      + 2_recursos/edicion_pro/remotion/bundle/304.bundle.js.map
-      + 2_recursos/edicion_pro/remotion/bundle/328.bundle.js.map
-      + 2_recursos/edicion_pro/remotion/bundle/402.bundle.js.map
-      … y 16 más
-    modificados (37):
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/motions_completo.py
-      ~ 1_codigo/remotion/empaquetar.mjs
-      ~ 1_codigo/remotion/src/MotionsCompleto.tsx
-      ~ 2_recursos/edicion_pro/remotion/bundle/129.bundle.js
-      ~ 2_recursos/edicion_pro/remotion/bundle/155.bundle.js
-      ~ 2_recursos/edicion_pro/remotion/bundle/161.bundle.js
-      ~ 2_recursos/edicion_pro/remotion/bundle/18.bundle.js
-      ~ 2_recursos/edicion_pro/remotion/bundle/208.bundle.js
-      ~ 2_recursos/edicion_pro/remotion/bundle/226.bundle.js
-      ~ 2_recursos/edicion_pro/remotion/bundle/25.bundle.js
-      ~ 2_recursos/edicion_pro/remotion/bundle/280.bundle.js
-      … y 25 más
-
-2026-10-16 14:54  ·  v5.5.9  ·  (automático)
-    modificados (21):
-      ~ 1_codigo/instalador_scripts.py
-      ~ 1_codigo/version.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
-      ~ 2_recursos/resolve_scripts/CineCaptions.py
-      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
-      … y 9 más
-
-2026-10-16 11:04  ·  v5.5.8  ·  cambio explicado
-    5.5.9: probado en Resolve Studio 21.1.1 que el Inspector de un caption de los packs enseña el Text+ «Template» (primer tool de la comp), no el macro Luxe: por eso el banner de la 5.5.8 no se veía. Ahora el banner lleva el LOGO de CineCaptions (PNG en base64) en ese Text+, encima de las pestañas (IC_ControlPage = -1); REVISION_BIN +1. Nuevo «CineCaptions Motions.drfx» (generador_packs/drfx_motions.py): 6 títulos de Fusion editables en el Inspector (texto, colores, posición, tamaño) con animación por expresiones relativas a la duración del clip; la app los instala en Fusion/Templates/Edit/Titles/CineCaptions (instalador_scripts.instalar_motions_en_resolve).
-    nuevos (1624):
-      + 1_codigo/remotion/node_modules/@babel/runtime/LICENSE
-      + 1_codigo/remotion/node_modules/@babel/runtime/README.md
-      + 1_codigo/remotion/node_modules/@babel/runtime/helpers/AwaitValue.js
-      + 1_codigo/remotion/node_modules/@babel/runtime/helpers/OverloadYield.js
-      + 1_codigo/remotion/node_modules/@babel/runtime/helpers/applyDecoratedDescriptor.js
-      + 1_codigo/remotion/node_modules/@babel/runtime/helpers/applyDecs.js
-      + 1_codigo/remotion/node_modules/@babel/runtime/helpers/applyDecs2203.js
-      + 1_codigo/remotion/node_modules/@babel/runtime/helpers/applyDecs2203R.js
-      + 1_codigo/remotion/node_modules/@babel/runtime/helpers/applyDecs2301.js
-      + 1_codigo/remotion/node_modules/@babel/runtime/helpers/applyDecs2305.js
-      + 1_codigo/remotion/node_modules/@babel/runtime/helpers/applyDecs2311.js
-      + 1_codigo/remotion/node_modules/@babel/runtime/helpers/arrayLikeToArray.js
-      … y 1612 más
-    modificados (41):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/edicion_pro_escenas.py
-      ~ 1_codigo/edicion_pro_kit7.py
-      ~ 1_codigo/edicion_pro_remotion.py
-      ~ 1_codigo/escena_go.py
-      ~ 1_codigo/ia_texto.py
-      ~ 1_codigo/instalador_scripts.py
-      ~ 1_codigo/motions_catalogo.py
-      ~ 1_codigo/motions_completo.py
-      ~ 1_codigo/motor_voz.py
-      ~ 1_codigo/plantillas.py
-      … y 29 más
-    quitados (67):
-      - 1_codigo/remotion/public/mapa/banderas/LICENSE-flag-icons.txt
-      - 1_codigo/remotion/public/mapa/banderas/ae.svg
-      - 1_codigo/remotion/public/mapa/banderas/ar.svg
-      - 1_codigo/remotion/public/mapa/banderas/at.svg
-      - 1_codigo/remotion/public/mapa/banderas/au.svg
-      - 1_codigo/remotion/public/mapa/banderas/be.svg
-      - 1_codigo/remotion/public/mapa/banderas/bo.svg
-      - 1_codigo/remotion/public/mapa/banderas/br.svg
-      - 1_codigo/remotion/public/mapa/banderas/bz.svg
-      - 1_codigo/remotion/public/mapa/banderas/ca.svg
-      - 1_codigo/remotion/public/mapa/banderas/ch.svg
-      - 1_codigo/remotion/public/mapa/banderas/cl.svg
-      … y 55 más
-
-2026-10-15 22:44  ·  v5.5.8  ·  (automático)
-    modificados (12):
-      ~ 1_codigo/edicion_pro_kit7.py
-      ~ 1_codigo/edicion_pro_ograf.py
-      ~ 1_codigo/fuentes_web.py
-      ~ 1_codigo/herramientas_dev/vista_ograf.py
-      ~ 1_codigo/monedas.py
-      ~ 1_codigo/motions_completo.py
-      ~ 1_codigo/rotacion_video.py
-      ~ 1_codigo/tareas_instalador.py
-      ~ 1_codigo/vigilante_pro.py
-      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js
-      ~ 2_recursos/generador_packs/banner_inspector.py
-      ~ 2_recursos/motor_qwen/motor_qwen.py
-
-2026-10-15 22:42  ·  v5.5.8  ·  cambio explicado
-    5.5.8: banner de CineCaptions ARRIBA DE TODO en el Inspector (IC_ControlPage = -1, encima de las pestañas del Text+, la misma técnica que la cabecera del macro Luxe) en los 172 captions de los packs (REVISION_BIN +1); Inicio con el Orbe de React Bits (estilo de fábrica) y el título con la entrada SplitText letra a letra; Motions completo con titulares de foto que son frases reales; el vigilante con IA pide un veredicto por gráfico (con la lista libre de malos el 1.7B nunca marcaba nada).
-    nuevos (9):
-      + 1_codigo/herramientas_dev/vista_ograf.py
-      + 1_codigo/monedas.py
-      + 1_codigo/motions_completo.py
-      + 1_codigo/remotion/src/MotionsCompleto.tsx
-      + 1_codigo/rotacion_video.py
-      + 1_codigo/vigilante_pro.py
-      + 2_recursos/edicion_pro/ograf/dato/pieza.js
-      + 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/chrome_debug.log
-      + 2_recursos/generador_packs/banner_inspector.py
-    modificados (45):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/edicion_pro.py
-      ~ 1_codigo/edicion_pro_escenas.py
-      ~ 1_codigo/edicion_pro_kit7.py
-      ~ 1_codigo/edicion_pro_ograf.py
-      ~ 1_codigo/edicion_pro_persona.py
-      ~ 1_codigo/edicion_pro_tema5.py
-      ~ 1_codigo/edicion_pro_tema5_acomp.py
-      ~ 1_codigo/edicion_pro_tema5_escenas.py
-      ~ 1_codigo/edicion_pro_tema5_mm.py
-      ~ 1_codigo/efectos_extra.py
-      … y 33 más
-
-2026-10-15 18:39  ·  v5.5.8  ·  cambio explicado
-    Motor de voz 2.0 y todo al dia (pedido: actualiza todo sin excepciones). Motor: Python 3.14.8 + Qwen3-ASR NATIVO de transformers 5.20 (sin qwen-asr; modelos -hf), huggingface_hub 2.2, tokenizers 0.23.3, accelerate 1.15, mpmath 1.4.1 (sympy pide <1.4: probado); torch segun driver (2.14.1+cu130 con >=580, 2.11.0+cu128 con anterior, cpu). Un motor 1.x se reinstala solo y borra sus modelos viejos (~6 GB). Arreglos encontrados al probar: (1) el Python embebido leia %APPDATA%/Python/Python314 del usuario (pip daba por instalado lo de alli): ahora siempre -s; (2) con torch CUDA 13 Whisper perdia la GPU (usaba las DLL CUDA 12 del motor): instalar() baja cuBLAS/cuDNN cu12 con cuda_libs.reparar. Node 24.22.0 (LTS), npm 12.2.0, motion 14.3.0; Mac: el pkg baja Whisper al instalar. Probado: pyflakes 215 .py, 14 .lua con LuaJIT, humo de ventanas 0 fallos, evaluar 12/13, GO sin Resolve de los 6 temas con MP4, instalacion completa con migracion, Whisper en GPU, autoprueba del exe OK.
-
-2026-10-15 18:32  ·  v5.5.8  ·  (automático)
-    modificados (14):
-      ~ 1_codigo/ia_texto.py
-      ~ 1_codigo/motor_voz.py
-      ~ 1_codigo/salud.py
-      ~ 1_codigo/tareas_instalador.py
-      ~ 2_recursos/edicion_pro/remotion/runtime/version.json
-      ~ 2_recursos/locales/de.json
-      ~ 2_recursos/locales/en.json
-      ~ 2_recursos/locales/fr.json
-      ~ 2_recursos/locales/it.json
-      ~ 2_recursos/locales/pt.json
-      ~ 2_recursos/motor_qwen/motor_qwen.py
-      ~ 2_recursos/motor_qwen/motor_texto.py
-      … y 2 más
-
-2026-10-15 17:26  ·  v5.5.8  ·  cambio explicado
-    Motor Qwen ya instalado: se pone al dia solo. Instalador.cs ya no se salta el paso cuando el motor esta: corre la tarea motor_ia y motor_voz.completar_requisitos instala SOLO lo que no esta en su version de requisitos_motor_qwen.txt (--no-deps, sin torch ni modelos; ~1 s). Si falla, el paso queda en Aviso y el motor sigue con lo que tenia. Probado: 2 librerias viejas -> 2 al dia en 1,3 s; ya al dia -> no hace nada. Reparado el motor real de este PC (pip desde Claude borro 7 librerias de la carpeta real por la virtualizacion de AppData del app de Claude) y transcribe bien.
-    modificados (3):
-      ~ 1_codigo/motor_voz.py
-      ~ 1_codigo/tareas_instalador.py
-      ~ 3_compilar/Instalador.cs
 
 
 (Lo anterior está archivado por mes en DOCUMENTACION/historial/REGISTRO_<aaaa-mm>.txt)

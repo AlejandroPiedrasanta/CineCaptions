@@ -725,7 +725,8 @@
         "vistas_guia.py",
         "crea_estilo_ui.py",
         "hacer_vistas_guia_video.py",
-        "2_recursos/guia_estilo/construir_guia.py"
+        "2_recursos/guia_estilo/construir_guia.py",
+        "fuente_usuario.py"
       ],
       "simbolos": [
         "EJEMPLOS",
@@ -737,7 +738,9 @@
         "vistas",
         "_Tarjeta",
         "CreaEstiloDialogo",
-        "AyudaEstilo"
+        "AyudaEstilo",
+        "aplicar_a_pista",
+        "marcar_runs"
       ],
       "resumen": "ejemplos_estilo, crea_estilo_ui, vistas_guia; guia_estilo/construir_guia.py"
     },
@@ -996,7 +999,12 @@
         "color",
         "acompanantes",
         "cara",
-        "temas_mejoras"
+        "temas_mejoras",
+        "pildora",
+        "píldora",
+        "fecha",
+        "hora",
+        "lugar"
       ],
       "archivos": [
         "edicion_pro_temas.py",
@@ -1004,7 +1012,8 @@
         "remotion/src/Acompanantes.tsx",
         "2_recursos/edicion_pro/colocar_pro.py",
         "resolve_scripts/CineCaptions_EdicionPro.lua",
-        "probar_go.py"
+        "probar_go.py",
+        "edicion_pro_tema5_acomp.py"
       ],
       "simbolos": [
         "piezas",
@@ -1013,7 +1022,11 @@
         "VeloCaptionT",
         "_color_claves",
         "color_claves",
-        "ligero"
+        "ligero",
+        "_dato",
+        "_piezas",
+        "_tramo_libre",
+        "acompanantes"
       ],
       "resumen": "aplicar con plan ligero: mover + velos (video claro) + acompañantes + recolorear la palabra destacada de los captions guion"
     },
@@ -1437,7 +1450,8 @@
         "_revisar_actualizaciones_auto",
         "_ofrecer_actualizacion",
         "_descargar_actualizacion",
-        "buscar_actualizaciones"
+        "buscar_actualizaciones",
+        "corta"
       ],
       "resumen": "actualizaciones.py (comprobar/descargar/instalar), Publicar_Version.ps1; cliente en el script principal"
     },
@@ -1846,12 +1860,17 @@
         "heroe",
         "cinta",
         "recetas",
-        "pila"
+        "pila",
+        "neon",
+        "neón",
+        "pegatina",
+        "trazo"
       ],
       "archivos": [
         "kinetic_planificador.py",
         "kinetic_captions.py",
-        "kinetic_vista.py"
+        "kinetic_vista.py",
+        "kinetic_paleta.py"
       ],
       "simbolos": [
         "planificar",
@@ -1861,7 +1880,14 @@
         "RECETAS",
         "apilar",
         "_medir",
-        "construir_cues"
+        "construir_cues",
+        "puntos_circulo",
+        "puntos_subrayado",
+        "_pads_trazo",
+        "_cifra_con_nombre",
+        "_porcentaje",
+        "_es_cifra",
+        "DETERMINANTES"
       ],
       "resumen": "kinetic_planificador.planificar, kinetic_captions.apilar/construir_cues; place_kinetic_track"
     },
@@ -1897,6 +1923,78 @@
         "blob_con_nombre"
       ],
       "resumen": "pack_kinetic.construir → Kinetic vertical.drb (25 clips); subir REVISION_BIN al cambiar"
+    },
+    {
+      "id": "kinetic-neon-kit",
+      "grupo": "kinetic",
+      "tema": "Tema 1 neón con el motor del kit «TEMA 1» (captions, motions y placa idénticos a la referencia)",
+      "claves": [
+        "neon",
+        "neón",
+        "kit",
+        "tema 1",
+        "hook",
+        "kitneon",
+        "placa",
+        "pantalla dividida",
+        "orbita",
+        "interruptores",
+        "referencia",
+        "menú lateral",
+        "extras",
+        "motions completo",
+        "rendimiento",
+        "sin resolve",
+        "detras de ti"
+      ],
+      "archivos": [
+        "kit_neon.py",
+        "kit_neon_motions.py",
+        "kit_neon_placa.py",
+        "kit_neon_mp4.py",
+        "remotion/src/KitNeon.tsx",
+        "remotion/src/kitneon/motor.ts",
+        "remotion/src/kitneon/estilos.ts",
+        "herramientas_dev/comparar_kitneon.py",
+        "herramientas_dev/vista_kitneon.py",
+        "herramientas_dev/comparar_ref_neon.py",
+        "kit_neon_completo.py",
+        "edicion_pro_remotion.py"
+      ],
+      "simbolos": [
+        "escena_captions",
+        "bloque_hook",
+        "piezas",
+        "escena_motions",
+        "ajustar_captions",
+        "plan_placa",
+        "renderizar",
+        "para_pro",
+        "KitNeon",
+        "neonizar",
+        "_cartel",
+        "_fecha_hora",
+        "_mirar_video",
+        "_cartel_fotograma",
+        "cara",
+        "insignia",
+        "opciones_neon",
+        "neon_elegido",
+        "bloques_pro",
+        "_emblema",
+        "_cifras",
+        "COLA_CIERRE",
+        "NoVertical",
+        "_mezclar",
+        "crear",
+        "sonidos",
+        "plan_de",
+        "carpeta_fuentes",
+        "_huella_bundle",
+        "mapa_camara",
+        "plan_de_pro"
+      ],
+      "resumen": "kit_neon (captions hook), kit_neon_motions (piezas del kit), kit_neon_placa (plate.py), KitNeon.tsx (motor.js portado)"
     },
     {
       "id": "kinetic-app-resolve",
@@ -2843,7 +2941,10 @@
         "plantillas",
         "mapa",
         "bandera",
-        "saas"
+        "saas",
+        "detras de ti",
+        "intensidad",
+        "studio"
       ],
       "archivos": [
         "edicion_pro.py",
@@ -2916,7 +3017,12 @@
         "_permisos",
         "por_frase",
         "PLANTILLAS",
-        "Ubicacion"
+        "Ubicacion",
+        "intensidad_detras",
+        "detras_disponible",
+        "INTENSIDAD_DETRAS",
+        "_clip_en_pista",
+        "_y_en_fuente"
       ],
       "resumen": "GO + interruptor go_edicion_pro: plan por estilo de video con semilla propia, .ograf importados (nada de InsertFusionTitle), Magic Mask con puntos generados y rastreo en la página Fusion (pistas de encima apagadas, nunca StopTracking), ProRes con IA local en Free"
     },
@@ -3237,14 +3343,17 @@
         "motions",
         "barra",
         "cápsula",
-        "burbuja"
+        "burbuja",
+        "intensidad",
+        "detras de ti"
       ],
       "archivos": [
         "pro_lateral_ui.py",
         "herramientas_dev/hacer_ejemplos_pro.py",
         "motions_catalogo.py",
         "edicion_pro.py",
-        "motions_ui.py"
+        "motions_ui.py",
+        "herramientas_dev/probar_pro_lateral.py"
       ],
       "simbolos": [
         "FilaPro",
@@ -3254,7 +3363,11 @@
         "ids_de",
         "estado",
         "poner",
-        "_cambio_lateral_pro"
+        "_cambio_lateral_pro",
+        "opciones_visibles",
+        "poner_intensidad",
+        "NIVELES",
+        "_pintar_niveles"
       ],
       "resumen": "mismas prefs que Efectos (pro_motions*, pro_internet, pro_mascara, pro_motions_completo); clips en edicion_pro/ejemplos_pro"
     },
@@ -3314,6 +3427,47 @@
         "texto_corregido"
       ],
       "resumen": "ortografia_es.conocida evita falsos positivos; GO corrige sin IA; la PRO usa texto_corregido"
+    },
+    {
+      "id": "voz-vocabulario",
+      "grupo": "voz-ia",
+      "tema": "Vocabulario del usuario para la voz, caché por generación del motor y filtro de las correcciones de la IA",
+      "claves": [
+        "vocabulario",
+        "nombres propios",
+        "contexto",
+        "hotwords",
+        "transcripcion",
+        "wer",
+        "caché de voz",
+        "filtro",
+        "homofonos"
+      ],
+      "archivos": [
+        "vocabulario.py",
+        "cache_voz.py",
+        "ia_texto.py",
+        "ortografia.py",
+        "subtitle_transcriber.py",
+        "motor_voz.py",
+        "2_recursos/motor_qwen/motor_qwen.py",
+        "herramientas_dev/banco_voz.py"
+      ],
+      "simbolos": [
+        "aprender_par",
+        "contexto",
+        "aplicar",
+        "unificar",
+        "clave_fonetica",
+        "huella_contexto",
+        "_generacion",
+        "filtrar_correcciones",
+        "_variante_que_suena_igual",
+        "sin_resolve",
+        "vram_para_ia_gb",
+        "precargar"
+      ],
+      "resumen": "vocabulario.py (aprende de Creativo, guía a Qwen3-ASR/Whisper), caché por generación del motor, IA que no reescribe, banco_voz"
     },
     {
       "id": "motions-completo",

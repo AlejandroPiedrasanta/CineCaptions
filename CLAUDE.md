@@ -1,6 +1,6 @@
 # CineCaptions — leer SOLO esto; lo demás se consulta por demanda
 
-App PySide6 (v5.5.11) que subtitula vídeos con IA local y coloca los subtítulos en DaVinci Resolve. Carpetas: `1_codigo` programa · `2_recursos` · `3_compilar` · `4_diseno` · `5_licencias` (otro producto) · `6_compilacion` (temporal, no tocar) · `7_mac` · `INSTALADORES/{Windows,Mac}` · `DOCUMENTACION`.
+App PySide6 (v5.20) que subtitula vídeos con IA local y coloca los subtítulos en DaVinci Resolve. Carpetas: `1_codigo` programa · `2_recursos` · `3_compilar` · `4_diseno` · `5_licencias` (otro producto) · `6_compilacion` (temporal, no tocar) · `7_mac` · `INSTALADORES/{Windows,Mac}` · `DOCUMENTACION`.
 
 ## Consultar SIN leer archivos (en este orden; ahorra tokens)
 1. **MCP `cinecaptions`**: `mapa("palabras")` → temas con archivos y símbolos · `mapa(id="…")` → detalle del tema · `simbolo("nombre")` → solo esa función/clase/método · `modulo("archivo")` → qué es · `cambios(n)` · `resumen()`.
@@ -21,9 +21,9 @@ App PySide6 (v5.5.11) que subtitula vídeos con IA local y coloca los subtítulo
 - **bloques** (Bloques de subtítulos (cerebro, estilo por bloque, pausas)): `bloques` [dynamic_subtitles] · `anim-cortos` [dynamic_subtitles] · `estilo-bloque` [estilos_bloque] · `colgantes` [dynamic_subtitles]
 - **sonido** (Sonido y emojis (SFX Lab, reglas, emojis)): `sfx-lab` [sfx_studio] · `ducking-energia` [estilo_desde_imagen] · `sonido-palabra` [sfx_rules] · `sonido-emojis` [emojis_sfx] · `sonido-extra` [musica_go] · `sonido-estilo` [sfx_rules] · `emojis-estilos` [emojis_sets] · `emojis-posicion-free` [CineCaptions_Subtitulos.lua] · `biblioteca-sonidos` [herramientas_dev/importar_sonidos] · `emojis-coherentes` [emojis_conceptos] · `sonido-pro` [sfx_studio]
 - **guion** (Estilo «guion» (pack Referencia, palabra a palabra)): `guion-planificador` [guion_planificador] · `creativo-guion` [guion_editor] · `estilo-oracion` [guion_planificador] · `barrido-referencia` [luxe_macro]
-- **kinetic** (Estilo «Kinetic» (títulos de gancho: héroe, cintas, anillos)): `kinetic-planificador` [kinetic_planificador] · `kinetic-pack` [2_recursos/generador_packs/pack_kinetic] · `kinetic-app-resolve` [hacer_vista_kinetic] · `kinetic-pruebas` [probar_kinetic]
+- **kinetic** (Estilo «Kinetic» (títulos de gancho: héroe, cintas, anillos)): `kinetic-planificador` [kinetic_planificador] · `kinetic-pack` [2_recursos/generador_packs/pack_kinetic] · `kinetic-neon-kit` [kit_neon] · `kinetic-app-resolve` [hacer_vista_kinetic] · `kinetic-pruebas` [probar_kinetic]
 - **viral** (Estilo «VIRAL» (pila fina + negrita cursiva y los efectos shatter, select, drag)): `viral-planificador` [viral_planificador] · `viral-pack` [2_recursos/generador_packs/pack_viral] · `viral-app-resolve` [hacer_vista_viral] · `viral-pruebas` [probar_viral] · `viral-colores` [viral_captions]
-- **voz-ia** (Voz e IA de texto): `voz-ia` [subtitle_transcriber] · `texto-ayudas` [ortografia] · `ortografia-temas` [ortografia]
+- **voz-ia** (Voz e IA de texto): `voz-ia` [subtitle_transcriber] · `texto-ayudas` [ortografia] · `ortografia-temas` [ortografia] · `voz-vocabulario` [vocabulario]
 - **resolve** (Resolve (API, MCP, scripts, vistas reales)): `resolve-api` [resolve_bridge] · `vista-real-previo` [vistas_reales] · `resolve-mcp-mac` [resolve_mcp] · `free-sin-io` [resolve_scripts/CineCaptions_Subtitulos.lua] · `resolve-colgado` [resolve_bridge] · `scripts-resolve-inventario` [CineCaptions_Puente.lua] · `conexion-auto` [resolve_bridge]
 - **compilar** (Compilar, versiones, instaladores (Windows y Mac)): `instalador-cs` [3_compilar/Instalador.cs] · `version` [version] · `mac` [Construir_Instalador_Mac.sh] · `compilar-win` [Actualizar_Windows.ps1] · `actualizaciones` [1_codigo/actualizaciones] · `mac-actualizar` [Actualizar_Mac.ps1]
 - **vigilancia** (Vigilancia, logs y respaldo de modelos): `vigilancia` [vigilancia]
