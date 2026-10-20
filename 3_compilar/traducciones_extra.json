@@ -6424,5 +6424,33 @@
   "fr": "Uniquement avec DaVinci Resolve Studio : l'option n'apparaît pas dans la version Free.",
   "de": "Nur mit DaVinci Resolve Studio: in der Free-Version erscheint die Option nicht.",
   "it": "Solo con DaVinci Resolve Studio: nella versione Free l'opzione non compare."
+ },
+ "Este audio no trae imagen: pulsa «Obtener» con tu timeline abierto en Resolve (trae su video) o «Elegir video…».": {
+  "en": "This audio has no picture: press «Get» with your timeline open in Resolve (it brings its video) or «Choose video…».",
+  "pt": "Este áudio não traz imagem: toque em «Obter» com sua timeline aberta no Resolve (traz o vídeo) ou em «Escolher vídeo…».",
+  "fr": "Cet audio n'a pas d'image : cliquez sur « Obtenir » avec votre timeline ouverte dans Resolve (elle apporte sa vidéo) ou sur « Choisir la vidéo… ».",
+  "de": "Dieses Audio hat kein Bild: drück «Abrufen» mit geöffneter Timeline in Resolve (das bringt ihr Video mit) oder «Video wählen…».",
+  "it": "Questo audio non ha immagine: premi «Ottieni» con la timeline aperta in Resolve (porta il suo video) o «Scegli video…»."
+ },
+ "Video del timeline: ": {
+  "en": "Timeline video: ",
+  "pt": "Vídeo da timeline: ",
+  "fr": "Vidéo de la timeline : ",
+  "de": "Video der Timeline: ",
+  "it": "Video della timeline: "
+ },
+ "Efectos › «Posición» con el audio que trae «Obtener»: se ven los fotogramas del video de tu timeline, en el segundo justo aunque el clip esté recortado o haya zona marcada.": {
+  "en": "Effects › «Position» with the audio from «Get»: you see the frames of your timeline's video, at the exact second even if the clip is trimmed or there's a marked range.",
+  "pt": "Efeitos › «Posição» com o áudio que traz «Obter»: aparecem os quadros do vídeo da sua timeline, no segundo exato mesmo com o clipe cortado ou com zona marcada.",
+  "fr": "Effets › « Position » avec l'audio d'« Obtenir » : on voit les images de la vidéo de votre timeline, à la seconde près même si le clip est rogné ou s'il y a une zone marquée.",
+  "de": "Effekte › «Position» mit dem Audio von «Abrufen»: du siehst die Bilder des Videos deiner Timeline, sekundengenau, auch wenn der Clip gekürzt ist oder ein Bereich markiert ist.",
+  "it": "Effetti › «Posizione» con l'audio di «Ottieni»: si vedono i fotogrammi del video della tua timeline, al secondo giusto anche se la clip è tagliata o c'è una zona segnata."
+ },
+ "Efectos en el mismo orden que el menú de la Edición PRO.": {
+  "en": "Effects in the same order as the PRO Edit menu.",
+  "pt": "Efeitos na mesma ordem do menu da Edição PRO.",
+  "fr": "Effets dans le même ordre que le menu de l'Édition PRO.",
+  "de": "Effekte in derselben Reihenfolge wie das Menü des PRO-Schnitts.",
+  "it": "Effetti nello stesso ordine del menu dell'Editing PRO."
  }
 }

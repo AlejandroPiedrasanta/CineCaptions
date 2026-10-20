@@ -484,6 +484,10 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.24', [
+        'Efectos › «Posición» con el audio que trae «Obtener»: se ven los fotogramas del video de tu timeline, en el segundo justo aunque el clip esté recortado o haya zona marcada.',
+        'Efectos en el mismo orden que el menú de la Edición PRO.',
+    ]),
     ('5.23', [
         'Efectos › «Posición»: en cada efecto de la Edición PRO, marca en la línea de tiempo de tu video (con sus fotogramas) los segundos donde lo quieres. Elige «Solo mis marcas» o «Mis marcas + automático».',
         'Inicio más fluido: las animaciones ya no se traban ni se reinician al volver de otra página o tras un rato sin usar el programa.',

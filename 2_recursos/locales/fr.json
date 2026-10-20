@@ -3632,7 +3632,11 @@
     "Fuera de Efectos: «Sonido extra», «Cierre del video», «Iconos flotantes» y «Plantillas por frase».": "Retirés des Effets : « Son supplémentaire », « Fin de la vidéo », « Icônes flottantes » et « Modèles par phrase ».",
     "«Captions detrás de ti» más inteligente: Magic Mask (solo personas) con su resultado guardado en la caché, igual en los Temas 1 a 6.": "« Sous-titres derrière vous » plus intelligent : Magic Mask (personnes uniquement) avec son résultat en cache, pareil dans les Thèmes 1 à 6.",
     "Elige la intensidad en el menú de Proyecto (Suave, Media o Fuerte): la cabeza nunca tapa tanto que no se lea el caption.": "Choisissez l'intensité dans le menu Projet (Douce, Moyenne ou Forte) : la tête ne cache jamais au point de rendre le sous-titre illisible.",
-    "Solo con DaVinci Resolve Studio: en la versión Free la opción no aparece.": "Uniquement avec DaVinci Resolve Studio : l'option n'apparaît pas dans la version Free."
+    "Solo con DaVinci Resolve Studio: en la versión Free la opción no aparece.": "Uniquement avec DaVinci Resolve Studio : l'option n'apparaît pas dans la version Free.",
+    "Este audio no trae imagen: pulsa «Obtener» con tu timeline abierto en Resolve (trae su video) o «Elegir video…».": "Cet audio n'a pas d'image : cliquez sur « Obtenir » avec votre timeline ouverte dans Resolve (elle apporte sa vidéo) ou sur « Choisir la vidéo… ».",
+    "Video del timeline: ": "Vidéo de la timeline : ",
+    "Efectos › «Posición» con el audio que trae «Obtener»: se ven los fotogramas del video de tu timeline, en el segundo justo aunque el clip esté recortado o haya zona marcada.": "Effets › « Position » avec l'audio d'« Obtenir » : on voit les images de la vidéo de votre timeline, à la seconde près même si le clip est rogné ou s'il y a une zone marquée.",
+    "Efectos en el mismo orden que el menú de la Edición PRO.": "Effets dans le même ordre que le menu de l'Édition PRO."
   },
   "Suave": "Léger",
   "Media": "Moyen",

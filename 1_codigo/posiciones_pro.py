@@ -158,39 +158,77 @@ def video_actual():
 
 
 # ======================================================================================================================== fotogramas y voz
-def _carpeta_de(ruta):
+AUDIO = ('.wav', '.mp3', '.m4a', '.aac', '.flac', '.ogg', '.aif', '.aiff')
+
+
+def _carpeta_de(ruta, extra=''):
     st = os.stat(ruta)
-    return CACHE / hashlib.sha1(f'{clave_video(ruta)}|{st.st_size}|{st.st_mtime_ns}'.encode('utf-8')).hexdigest()[:16]
+    return CACHE / hashlib.sha1(f'{clave_video(ruta)}|{st.st_size}|{st.st_mtime_ns}|{extra}'.encode('utf-8')).hexdigest()[:16]
+
+
+def _duracion(ruta):
+    import av
+    with av.open(str(ruta)) as c:
+        if c.duration:
+            return float(c.duration / 1e6)
+        s = (c.streams.audio or c.streams.video or [None])[0]
+        return float(s.duration * s.time_base) if s is not None and s.duration else 0.0
+
+
+def fuente_imagen(ruta):
+    """v5.23 (el usuario: «cuando obtenga el audio debe traer el video, para que Efectos tenga el video»): (archivo con imagen, desfase s,
+    duración del audio s | None). Un video: él mismo. El audio que «Obtener» renderiza del timeline de Resolve: el clip principal de V1
+    (video_detectado.json), con el segundo del archivo que suena al empezar ese audio (`clip_principal_desde`; recortado o con zona no es
+    0). (None, 0, None) si no hay imagen. En un HILO (lee el disco)."""
+    if Path(str(ruta)).suffix.lower() not in AUDIO:
+        return str(ruta), 0.0, None
+    try:
+        import resolve_bridge
+        d = resolve_bridge.video_detectado() or {}
+    except Exception:
+        d = {}
+    clip = d.get('clip_principal')
+    if clip and clave_video(d.get('video_path') or '') == clave_video(ruta) and Path(str(clip)).is_file():
+        try:
+            return str(clip), float(d.get('clip_principal_desde') or 0.0), _duracion(ruta)
+        except Exception:
+            return str(clip), float(d.get('clip_principal_desde') or 0.0), None
+    return None, 0.0, None
 
 
 def fotogramas(ruta, n=N_FOTOS, alto=ALTO_FOTO):
-    """{'dur', 'ancho', 'alto', 'fotos': [(t, ruta .jpg)]} del video (en caché por ruta, tamaño y fecha) o None si no tiene imagen.
-    Corre en un HILO (PyAV): nunca desde la interfaz."""
-    carpeta = _carpeta_de(ruta)
+    """{'dur', 'ancho', 'alto', 'fotos': [(t, ruta .jpg)], 'imagen': archivo} sobre el TIEMPO de `ruta` (en caché) o None si no tiene
+    imagen. Con el audio de un timeline, la imagen sale de su clip principal (fuente_imagen). Corre en un HILO (PyAV)."""
+    img, desde, dur_audio = fuente_imagen(ruta)
+    if not img:
+        return None
+    carpeta = _carpeta_de(img, f'{ruta}|{desde}|{dur_audio}')
     meta = carpeta / 'meta.json'
     try:
         d = json.loads(meta.read_text(encoding='utf-8'))
         if d.get('fotos') and all((carpeta / f).exists() for _t, f in d['fotos']):
-            return dict(d, fotos=[(t, str(carpeta / f)) for t, f in d['fotos']])
+            return dict(d, fotos=[(t, str(carpeta / f)) for t, f in d['fotos']], imagen=img)
     except Exception:
         pass
     import av
     import rotacion_video
-    k = rotacion_video.giro(ruta)
+    k = rotacion_video.giro(img)
     fotos = []
-    with av.open(str(ruta)) as c:
+    with av.open(str(img)) as c:
         if not c.streams.video:
             return None
         vs = c.streams.video[0]
         vs.thread_type = 'AUTO'
-        dur = float(c.duration / 1e6) if c.duration else (float(vs.duration * vs.time_base) if vs.duration else 0.0)
-        if dur <= 0:
+        dur_v = float(c.duration / 1e6) if c.duration else (float(vs.duration * vs.time_base) if vs.duration else 0.0)
+        dur = float(dur_audio) if dur_audio else dur_v          # (la línea de tiempo es la del AUDIO que transcribe GO)
+        if dur <= 0 or dur_v <= 0:
             return None
         carpeta.mkdir(parents=True, exist_ok=True)
         tb = float(vs.time_base)
         w = h = 0
         for i in range(n):
-            t = dur * (i + 0.5) / n
+            t_linea = dur * (i + 0.5) / n
+            t = min(max(0.0, t_linea + desde), dur_v - 0.05)     # el segundo del ARCHIVO que se ve en ese momento
             try:
                 c.seek(int(t / tb), stream=vs, backward=True, any_frame=False)
                 fr = None
@@ -200,12 +238,12 @@ def fotogramas(ruta, n=N_FOTOS, alto=ALTO_FOTO):
                         break
                 if fr is None:
                     continue
-                img = rotacion_video.derecho_img(fr.to_image(), k)
-                w, h = img.size
-                img.thumbnail((max(1, int(alto * w / max(1, h))), alto))
+                foto = rotacion_video.derecho_img(fr.to_image(), k)
+                w, h = foto.size
+                foto.thumbnail((max(1, int(alto * w / max(1, h))), alto))
                 nombre = f'{i:03d}.jpg'
-                img.convert('RGB').save(carpeta / nombre, quality=82)
-                fotos.append((round(t, 3), nombre))
+                foto.convert('RGB').save(carpeta / nombre, quality=82)
+                fotos.append((round(t_linea, 3), nombre))
             except Exception:
                 continue
     if not fotos:
@@ -216,7 +254,7 @@ def fotogramas(ruta, n=N_FOTOS, alto=ALTO_FOTO):
         archivos_seguros.escribir_json(meta, d)
     except Exception:
         pass
-    return dict(d, fotos=[(t, str(carpeta / f)) for t, f in fotos])
+    return dict(d, fotos=[(t, str(carpeta / f)) for t, f in fotos], imagen=img)
 
 
 def palabras(ruta):
@@ -261,6 +299,7 @@ if _QT:
         dice en ese momento. Clic = marca nueva (y se puede arrastrar) · arrastrar una marca = moverla · doble clic o clic derecho = quitarla ·
         ← → la mueven una décima (con Mayús, un segundo) · Supr la quita. Todo se guarda al momento."""
         cambio = Signal()
+        cargado = Signal(str)                        # el archivo del que salen los fotogramas (con el audio de un timeline, su clip de V1)
         ALTO_TIRA, MARGEN, ALTO_REGLA = 64, 18, 22
 
         def __init__(self, seccion, padre=None):
@@ -299,7 +338,8 @@ if _QT:
                 if ruta != self.ruta:
                     return
                 if error is not None or not r or not r[0]:
-                    self.aviso = tr('No pude leer la imagen de este video.')
+                    self.aviso = (tr('Este audio no trae imagen: pulsa «Obtener» con tu timeline abierto en Resolve (trae su video) o «Elegir video…».')
+                                  if Path(str(ruta)).suffix.lower() in AUDIO else tr('No pude leer la imagen de este video.'))
                     self.update()
                     return
                 d, pals = r
@@ -309,6 +349,7 @@ if _QT:
                 self.aviso = ''
                 self.marcas = [t for t in self.marcas if t <= self.dur + 0.05]
                 self.update()
+                self.cargado.emit(str(d.get('imagen') or ruta))
             correr_en_hilo(self, trabajo, fin)
 
         def _guardar(self):
@@ -600,7 +641,13 @@ if _QT:
             capa.addWidget(self._lbl_modo)
             self.linea = LineaTiempo(seccion)
             self.linea.cambio.connect(self._al_cambiar)
+            self.linea.cargado.connect(self._al_cargar)
             capa.addWidget(self.linea)
+
+        def _al_cargar(self, imagen):
+            ruta = self.linea.ruta or ''
+            if imagen and clave_video(imagen) != clave_video(ruta):     # el audio de «Obtener»: la imagen es el clip de su timeline
+                self._lbl_video.setText(tr('Video del timeline: ') + Path(imagen).name)
 
         def abrir(self, ruta=None):
             ruta = ruta or video_actual()
@@ -656,4 +703,11 @@ if _QT:
             ruta = filedialog.askopenfilename(parent=self.window(), title=tr('Elige el video'),
                                               filetypes=[(tr('Videos'), '*.mp4 *.mov *.m4v *.mkv *.avi *.mxf'), (tr('Todos'), '*.*')])
             if ruta:
+                self._a_mano = True
                 self.abrir(ruta)
+
+        def al_volver(self):
+            """Al volver a Efectos: si el video de Inicio cambió (soltaste otro o pulsaste «Obtener»), se carga ese (salvo uno elegido a mano)."""
+            actual = video_actual()
+            if actual and not getattr(self, '_a_mano', False) and clave_video(actual) != clave_video(self.linea.ruta or ''):
+                self.abrir(actual)

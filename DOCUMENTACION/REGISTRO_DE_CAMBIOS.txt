@@ -12,6 +12,36 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-19 23:37  ·  v5.24  ·  (automático)
+    modificados (27):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      … y 15 más
+
+2026-10-19 23:02  ·  v5.23  ·  cambio explicado
+    Efectos › «Posición» con el audio de «Obtener»: la imagen sale del clip principal del timeline (clip_principal_desde en los gemelos de Detectar Video) y la tira dura lo que el audio; Efectos ordenado como el menú lateral. Pedido del usuario.
+    modificados (10):
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/posiciones_pro.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 3_compilar/traducciones_extra.json
+
 2026-10-19 22:42  ·  v5.23  ·  (automático)
     nuevos (14):
       + 2_recursos/edicion_pro/remotion/bundle/206.bundle.js

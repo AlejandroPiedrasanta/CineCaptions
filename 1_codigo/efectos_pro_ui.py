@@ -478,6 +478,8 @@ class SeccionEstilo(Tarjeta):
         extra = ''
         try:                                             # v5.22: las posiciones marcadas para el video de Inicio
             import posiciones_pro as POS
+            if self._pos is not None and getattr(self, '_en_pos', False):
+                self._pos.al_volver()                    # (v5.23: otro video en Inicio, p. ej. tras «Obtener»: se carga ese)
             ruta = POS.video_actual()
             n, modo = POS.resumen(ruta, self.clave) if ruta else (0, 'solo')
             if n:
@@ -563,8 +565,9 @@ class SeccionEstilosPro(QWidget):
         except Exception:
             visibles = []
         por = {o['clave']: o for o in visibles}
+        orden = list(por)                                # v5.23 (el usuario: «ordena la página de Efectos conforme al menú»): el orden del menú lateral
         self.secciones = []
-        for s in EST.SECCIONES:
+        for s in sorted(EST.SECCIONES, key=lambda s: orden.index(s['clave']) if s['clave'] in orden else len(orden)):
             if visibles and s['clave'] not in por:
                 continue
             sec = SeccionEstilo(s, por.get(s['clave']))
