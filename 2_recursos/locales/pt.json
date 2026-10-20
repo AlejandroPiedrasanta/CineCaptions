@@ -3710,7 +3710,12 @@
     "Solo ahí.": "Só ali.",
     "«Captions detrás de ti» › Posición: te sugiere los 3 mejores momentos; un clic y quedan puestos (o «Poner las 3»), y el efecto se enciende solo.": "«Legendas atrás de você» › Posição: sugere os 3 melhores momentos; um clique e ficam colocados (ou «Colocar as 3»), e o efeito liga sozinho.",
     "La vista grande enseña cómo queda: tus captions del tema elegido en Inicio, detrás de la persona (los del timeline si ya pasaste GO).": "A visualização grande mostra como fica: suas legendas do tema escolhido no Início, atrás da pessoa (as do timeline se você já rodou o GO).",
-    "Arreglado: con el Tema 1 y el audio del timeline, los emojis animados y «detrás de ti» ya no fallan.": "Corrigido: com o Tema 1 e o áudio do timeline, os emojis animados e «atrás de você» já não falham."
+    "Arreglado: con el Tema 1 y el audio del timeline, los emojis animados y «detrás de ti» ya no fallan.": "Corrigido: com o Tema 1 e o áudio do timeline, os emojis animados e «atrás de você» já não falham.",
+    "poniéndolo en tu timeline…": "colocando no seu timeline…",
+    "en tu timeline": "no seu timeline",
+    "«Listo» en «Captions detrás de ti» lo pone al momento en tu timeline de Resolve (sin volver a pasar GO).": "«Pronto» em «Legendas atrás de você» coloca na hora no seu timeline do Resolve (sem rodar o GO de novo).",
+    "La persona que va delante de los captions la recorta la IA (un matte con alfa): se ve igual en Resolve y en el render.": "A pessoa na frente das legendas é recortada pela IA (um matte com alfa): fica igual no Resolve e no render.",
+    "Arreglado: tus posiciones se aplican aunque Resolve use la copia con el audio compatible de tu video.": "Corrigido: suas posições são aplicadas mesmo quando o Resolve usa a cópia do seu vídeo com áudio compatível."
   },
   "Suave": "Suave",
   "Media": "Média",

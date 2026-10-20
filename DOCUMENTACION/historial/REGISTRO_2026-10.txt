@@ -1,5 +1,265 @@
 REGISTRO DE CAMBIOS ARCHIVADO · 2026-10 (la entrada más nueva arriba)
 
+2026-10-19 01:12  ·  v5.5.16  ·  cambio explicado
+    Tema 1 sin Resolve (kit_neon_mp4: los mismos clips de la PRO compuestos por capas sobre la placa o el video, con sonidos) y Free revisado con un Resolve simulado; vistas del slider del Tema 1 rehechas con el estilo neón (solo captions y con PRO).
+
+2026-10-19 01:08  ·  v5.5.16  ·  (automático)
+    nuevos (1):
+      + 1_codigo/kit_neon_mp4.py
+    modificados (28):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/edicion_pro/colocar_pro.py
+      ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/debug.log
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      … y 16 más
+
+2026-10-19 00:07  ·  v5.5.15  ·  (automático)
+    modificados (23):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/kit_neon.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      … y 11 más
+
+2026-10-18 21:32  ·  v5.5.14  ·  (automático)
+    modificados (22):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/herramientas_dev/comparar_ref_neon.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      … y 10 más
+
+2026-10-18 21:20  ·  v5.5.13  ·  cambio explicado
+    Tema 1 comparado fotograma a fotograma con REFERENCIA.mp4 (alineado por la EDL del kit): emblema del cartel en notificación y órbita, tarjeta de arriba centrada en la cara, cierre al decir la última palabra con 1,2 s de cola, captions recortados (no quitados) ante un motion de abajo, línea fina bajo la pantalla de 4, números en cifra, etiquetas con su categoría, interruptores «Conectados».
+    nuevos (1):
+      + 1_codigo/herramientas_dev/comparar_ref_neon.py
+    modificados (4):
+      ~ 1_codigo/kit_neon.py
+      ~ 1_codigo/kit_neon_motions.py
+      ~ 1_codigo/kit_neon_placa.py
+      ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/debug.log
+
+2026-10-18 20:30  ·  v5.5.13  ·  cambio explicado
+    Tema 1 probado con GO real en Resolve: halftone presente; arreglados la lista sin detectar con la coma de GO, la pantalla de 4 frenada por la ruta, los motions neón borrados por _revisar_persona (se llamaban Caption) y los falsos atascos del vigilante durante Remotion y la placa.
+    modificados (6):
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_planificador.py
+      ~ 1_codigo/edicion_pro_remotion.py
+      ~ 1_codigo/kit_neon_motions.py
+      ~ 1_codigo/kit_neon_placa.py
+      ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/debug.log
+
+2026-10-18 19:50  ·  v5.5.13  ·  cambio explicado
+    Tema 1 neón: GO sin PRO = solo captions neón; con PRO = la referencia del kit (motions + placa); el menú lateral de Proyecto tiene interruptores PROPIOS del Tema 1 (pro_neon_extras, vacío = referencia) y lo encendido se suma sin tapar los motions del kit. Arreglo: GO descartaba el plan neón porque no traía piezas genéricas.
+    nuevos (26):
+      + 1_codigo/herramientas_dev/comparar_kitneon.py
+      + 1_codigo/herramientas_dev/vista_kitneon.py
+      + 1_codigo/kit_neon.py
+      + 1_codigo/kit_neon_motions.py
+      + 1_codigo/kit_neon_placa.py
+      + 1_codigo/remotion/public/fuentes/kit/LICENCIAS.txt
+      + 1_codigo/remotion/public/fuentes/kit/cond.ttf
+      + 1_codigo/remotion/public/fuentes/kit/inter.ttf
+      + 1_codigo/remotion/public/fuentes/kit/script.ttf
+      + 1_codigo/remotion/public/fuentes/kit/serif.ttf
+      + 1_codigo/remotion/public/fuentes/kit/thin.otf
+      + 1_codigo/remotion/src/KitNeon.tsx
+      … y 14 más
+    modificados (16):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_planificador.py
+      ~ 1_codigo/edicion_pro_sonido.py
+      ~ 1_codigo/edicion_pro_temas.py
+      ~ 1_codigo/herramientas_dev/probar_edicion_pro.py
+      ~ 1_codigo/kinetic_planificador.py
+      ~ 1_codigo/pro_lateral_ui.py
+      ~ 1_codigo/remotion/empaquetar.mjs
+      ~ 1_codigo/remotion/src/Root.tsx
+      ~ 2_recursos/edicion_pro/colocar_pro.py
+      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js
+      … y 4 más
+
+2026-10-18 15:06  ·  v5.5.13  ·  cambio explicado
+    Tema 1 en NEON (pedido del usuario, kit Escritorio/TEMA 1): captions con paleta lima/magenta, pegatinas inclinadas, palabra a mano Yellowtail y circulos/lazos/subrayados que se dibujan (pack Kinetic rehecho, REVISION_BIN Kin 7, paleta unica kinetic_paleta.py); la PRO con el Tema 1 va en neon (direccion de arte fija, neonizar() en todas las piezas, paleta neoncc en Kit7).
+    nuevos (2):
+      + 1_codigo/kinetic_paleta.py
+      + 2_recursos/fonts/Yellowtail-Regular.ttf
+    modificados (16):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_planificador.py
+      ~ 1_codigo/edicion_pro_temas.py
+      ~ 1_codigo/kinetic_captions.py
+      ~ 1_codigo/kinetic_planificador.py
+      ~ 1_codigo/kinetic_vista.py
+      ~ 1_codigo/mezcla_planificador.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/remotion/src/Kit7.tsx
+      ~ 1_codigo/render_temas.py
+      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js
+      … y 4 más
+
+2026-10-18 14:37  ·  v5.5.13  ·  cambio explicado
+    GO se detiene antes de Resolve si la voz no deja ninguna palabra con letras (musica: solo simbolos) o si salen 0 bloques: antes llegaba a Resolve Free y fallaba con «'es' no tiene bloques». En Free la tipografia elegida en Crea tu estilo no llegaba: marcar_runs reescribia el .json pero no su gemelo .lua.
+    modificados (2):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/fuente_usuario.py
+
+2026-10-18 14:21  ·  v5.5.13  ·  cambio explicado
+    Librerias al dia: certifi 2026.10.18 en requirements.txt y venv314; motor Qwen con certifi 2026.10.18, filelock 4.2.2, httpcore2/httpx2 2.14.0, platformdirs 4.13.4, transformers 5.20.1 (requisitos_motor_qwen.txt fijado igual; completar_requisitos las sube a los motores ya instalados).
+    modificados (2):
+      ~ 2_recursos/motor_qwen/requisitos_motor_qwen.txt
+      ~ 3_compilar/requirements.txt
+
+2026-10-17 21:09  ·  v5.5.13  ·  (automático)
+    nuevos (1):
+      + 1_codigo/fuente_usuario.py
+    modificados (22):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/crea_estilo_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      … y 10 más
+
+2026-10-17 20:46  ·  v5.5.12  ·  (automático)
+    modificados (22):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/colocacion.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      … y 10 más
+
+2026-10-17 17:46  ·  v5.5.11  ·  (automático)
+    modificados (7):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 3_compilar/traducciones_extra.json
+
+2026-10-17 17:45  ·  v5.5.11  ·  cambio explicado
+    Inicio: el botón del Registro pasa de la fila de avisos a flotar junto a minimizar, igual que en el resto de páginas (pedido del usuario).
+    modificados (1):
+      ~ 1_codigo/CineCaptions (script principal).py
+
+2026-10-17 17:37  ·  v5.5.11  ·  (automático)
+    modificados (27):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      … y 15 más
+
+2026-10-17 17:33  ·  v5.5.10  ·  cambio explicado
+    Sonido: la barra de la biblioteca (buscador, categorías, atajo, + Mi carpeta) sale de la página y aparece como popup al pulsar «Buscar archivo…» en cada sonido (y en Emojis); el popup reutiliza la misma barra y la devuelve oculta al cerrarse.
+    modificados (8):
+      ~ 1_codigo/emojis_sfx_ui.py
+      ~ 1_codigo/sfx_studio.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 3_compilar/traducciones_extra.json
+
+2026-10-17 16:39  ·  v5.5.10  ·  cambio explicado
+    Inicio sin congelarse: las capas del orbe GO se rehacen en un hilo de fondo y solo si hace falta (antes ~2,5 s parado al redimensionar o maximizar). Resolve colgado ya no congela la ventana: el cliente del MCP toma su candado con limite y, desde la ventana, acota la espera a 8 s y anota quien llamo; importar un .drt va en un hilo.
+    modificados (10):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/orbe_mecanica.py
+      ~ 1_codigo/resolve_mcp.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 3_compilar/traducciones_extra.json
+
+2026-10-17 16:23  ·  v5.5.10  ·  cambio explicado
+    Efectos sin la barra de titulo: ninguna pagina la lleva ya; el boton del Registro flota arriba a la derecha junto a los controles de la ventana (menos en Inicio, que tiene el suyo).
+    modificados (1):
+      ~ 1_codigo/CineCaptions (script principal).py
+
+2026-10-17 16:20  ·  v5.5.10  ·  cambio explicado
+    Creativo sin la barra de titulo (como Proyecto y Sonido); solo Efectos la conserva.
+    modificados (1):
+      ~ 1_codigo/CineCaptions (script principal).py
+
+2026-10-17 16:18  ·  v5.5.10  ·  cambio explicado
+    Barra de motions de Proyecto: iconos 3D a color (elegidos entre 7 juegos; persona y claqueta en vez de silueta y pelicula gris, que no se veian sobre negro) y animacion Gota mejorada (cabeza y cola liquidas con cuello, ola en los iconos, se aplasta al pulsar, el nombre sale de dentro de la burbuja como una gota que se separa).
+    modificados (1):
+      ~ 1_codigo/pro_lateral_ui.py
+
+2026-10-17 16:06  ·  v5.5.10  ·  cambio explicado
+    Proyecto: el slider ya no se inclina al pasar el raton; el movil del ejemplo va a la altura de la tarjeta del centro; la barra de motions sin el icono de arriba, con iconos de relleno/trazo, el nombre solo al pasar el raton o tras un clic (se despliega desde la burbuja), burbuja que se estira, salto del icono y onda al hacer clic.
+    modificados (2):
+      ~ 1_codigo/estilos_slider.py
+      ~ 1_codigo/pro_lateral_ui.py
+
+2026-10-17 15:45  ·  v5.5.10  ·  (automático)
+    modificados (7):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 3_compilar/traducciones_extra.json
+
+
+(Lo anterior está archivado por mes en DOCUMENTACION/historial/REGISTRO_<aaaa-mm>.txt)
 2026-10-17 12:42  ·  v5.5.10  ·  cambio explicado
     Animaciones de Proyecto con la PRO: los lados entran al activar la PRO, fundido cruzado entre ejemplos, el punto verde rebota al encender un motion, iconos con fundido y crecen con el raton, la pildora del nombre ajusta su ancho; marco del movil e iconos cacheados (antes se escalaban 30 veces por segundo). Slider: arrastre con resistencia elastica en los extremos. Ejemplos: captions de 2 lineas como maximo.
     modificados (8):

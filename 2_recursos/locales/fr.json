@@ -3710,7 +3710,12 @@
     "Solo ahí.": "Seulement là.",
     "«Captions detrás de ti» › Posición: te sugiere los 3 mejores momentos; un clic y quedan puestos (o «Poner las 3»), y el efecto se enciende solo.": "«Sous-titres derrière vous» › Position : il propose les 3 meilleurs moments ; un clic et c’est placé (ou «Placer les 3»), et l’effet s’active tout seul.",
     "La vista grande enseña cómo queda: tus captions del tema elegido en Inicio, detrás de la persona (los del timeline si ya pasaste GO).": "Le grand aperçu montre le rendu : vos sous-titres du thème choisi dans Accueil, derrière la personne (ceux de la timeline si vous avez déjà lancé GO).",
-    "Arreglado: con el Tema 1 y el audio del timeline, los emojis animados y «detrás de ti» ya no fallan.": "Corrigé : avec le Thème 1 et l’audio de la timeline, les emojis animés et «derrière vous» ne plantent plus."
+    "Arreglado: con el Tema 1 y el audio del timeline, los emojis animados y «detrás de ti» ya no fallan.": "Corrigé : avec le Thème 1 et l’audio de la timeline, les emojis animés et «derrière vous» ne plantent plus.",
+    "poniéndolo en tu timeline…": "placement dans votre timeline…",
+    "en tu timeline": "dans votre timeline",
+    "«Listo» en «Captions detrás de ti» lo pone al momento en tu timeline de Resolve (sin volver a pasar GO).": "«Terminé» dans «Sous-titres derrière vous» le place tout de suite dans votre timeline Resolve (sans relancer GO).",
+    "La persona que va delante de los captions la recorta la IA (un matte con alfa): se ve igual en Resolve y en el render.": "La personne devant les sous-titres est détourée par l’IA (un matte avec alpha) : même rendu dans Resolve et à l’export.",
+    "Arreglado: tus posiciones se aplican aunque Resolve use la copia con el audio compatible de tu video.": "Corrigé : vos positions s’appliquent même quand Resolve utilise la copie de votre vidéo avec l’audio compatible."
   },
   "Suave": "Léger",
   "Media": "Moyen",

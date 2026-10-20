@@ -55,6 +55,13 @@ VERSION_ZONAS = 2                        # (2: los cortes con su fuerza)
 
 # ======================================================================================================================== datos
 def clave_video(ruta):
+    """La clave de un video en posiciones_pro.json. v5.29: la copia con el audio compatible (audio_compatible, la que GO lleva a Resolve
+    cuando el video trae HE-AAC) cuenta como su ORIGINAL: si no, GO con el audio del timeline no veía las marcas hechas sobre el video."""
+    try:
+        import audio_compatible
+        ruta = audio_compatible.original_de(ruta)
+    except Exception:
+        pass
     try:
         return os.path.normcase(os.path.abspath(str(ruta)))
     except Exception:
@@ -70,11 +77,23 @@ def _todo():
         return {}
 
 
+def _clave_en(todo, ruta):
+    """La clave de `ruta` en posiciones_pro.json: la suya o, si no tiene entrada (una copia de audio compatible de antes de la 5.29, sin su
+    origen.json, o el original de una), la de otro archivo con el MISMO nombre que tenga marcas."""
+    clave = clave_video(ruta)
+    if clave in todo:
+        return clave
+    nombre = Path(str(ruta)).name.lower()
+    return next((k for k, v in todo.items() if isinstance(v, dict) and Path(str(v.get('video') or k)).name.lower() == nombre
+                 and any((m or {}).get('ts') for m in (v.get('secciones') or {}).values())), clave)
+
+
 def leer(ruta):
     """{sección: {'modo': 'solo'|'suma', 'ts': [s ordenados]}} de ese video ({} si no tiene marcas)."""
     if not ruta:
         return {}
-    e = _todo().get(clave_video(ruta)) or {}
+    todo = _todo()
+    e = todo.get(_clave_en(todo, ruta)) or {}
     out = {}
     for sec, m in (e.get('secciones') or {}).items():
         if not isinstance(m, dict):
@@ -88,15 +107,16 @@ def guardar(ruta, seccion, ts, modo='solo'):
     """Guarda las marcas de una sección de ese video (las demás secciones y videos no se tocan). True si se guardó."""
     if not ruta or seccion not in SECCIONES:
         return False
-    clave = clave_video(ruta)
-    e = dict(_todo().get(clave) or {})
+    todo = _todo()
+    clave = _clave_en(todo, ruta)
+    e = dict(todo.get(clave) or {})
     secciones = dict(e.get('secciones') or {})
     limpias = sorted({round(max(0.0, float(t)), 2) for t in ts or []})
     if limpias or modo != 'solo':
         secciones[seccion] = {'modo': modo if modo in MODOS else 'solo', 'ts': limpias}
     else:
         secciones.pop(seccion, None)
-    e.update(video=str(ruta), secciones=secciones)
+    e.update(video=e.get('video') or str(ruta), secciones=secciones)     # (v5.29: la entrada del original no pasa a nombre de su copia)
     try:
         import archivos_seguros
         return bool(archivos_seguros.mezclar_json(ARCHIVO, {clave: e}))

@@ -484,6 +484,11 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.29', [
+        '«Listo» en «Captions detrás de ti» lo pone al momento en tu timeline de Resolve (sin volver a pasar GO).',
+        'La persona que va delante de los captions la recorta la IA (un matte con alfa): se ve igual en Resolve y en el render.',
+        'Arreglado: tus posiciones se aplican aunque Resolve use la copia con el audio compatible de tu video.',
+    ]),
     ('5.28', [
         '«Captions detrás de ti» › Posición: te sugiere los 3 mejores momentos; un clic y quedan puestos (o «Poner las 3»), y el efecto se enciende solo.',
         'La vista grande enseña cómo queda: tus captions del tema elegido en Inicio, detrás de la persona (los del timeline si ya pasaste GO).',

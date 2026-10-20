@@ -3710,7 +3710,12 @@
     "Solo ahí.": "Nur dort.",
     "«Captions detrás de ti» › Posición: te sugiere los 3 mejores momentos; un clic y quedan puestos (o «Poner las 3»), y el efecto se enciende solo.": "«Captions hinter dir» › Position: schlägt die 3 besten Momente vor; ein Klick und sie sind gesetzt (oder «Alle 3 setzen»), und der Effekt schaltet sich selbst ein.",
     "La vista grande enseña cómo queda: tus captions del tema elegido en Inicio, detrás de la persona (los del timeline si ya pasaste GO).": "Die große Vorschau zeigt, wie es aussieht: deine Captions im Thema aus Start, hinter der Person (die aus der Timeline, wenn du GO schon gestartet hast).",
-    "Arreglado: con el Tema 1 y el audio del timeline, los emojis animados y «detrás de ti» ya no fallan.": "Behoben: Mit Thema 1 und dem Timeline-Audio schlagen animierte Emojis und «hinter dir» nicht mehr fehl."
+    "Arreglado: con el Tema 1 y el audio del timeline, los emojis animados y «detrás de ti» ya no fallan.": "Behoben: Mit Thema 1 und dem Timeline-Audio schlagen animierte Emojis und «hinter dir» nicht mehr fehl.",
+    "poniéndolo en tu timeline…": "wird in deine Timeline gesetzt…",
+    "en tu timeline": "in deiner Timeline",
+    "«Listo» en «Captions detrás de ti» lo pone al momento en tu timeline de Resolve (sin volver a pasar GO).": "«Fertig» bei «Captions hinter dir» setzt es sofort in deine Resolve-Timeline (ohne GO erneut zu starten).",
+    "La persona que va delante de los captions la recorta la IA (un matte con alfa): se ve igual en Resolve y en el render.": "Die Person vor den Captions schneidet die KI aus (ein Matte mit Alpha): Sie sieht in Resolve und im Render gleich aus.",
+    "Arreglado: tus posiciones se aplican aunque Resolve use la copia con el audio compatible de tu video.": "Behoben: Deine Positionen gelten auch, wenn Resolve die Kopie deines Videos mit kompatiblem Audio nutzt."
   },
   "Suave": "Sanft",
   "Media": "Mittel",

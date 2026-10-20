@@ -6970,5 +6970,40 @@
   "fr": "Corrigé : avec le Thème 1 et l’audio de la timeline, les emojis animés et «derrière vous» ne plantent plus.",
   "de": "Behoben: Mit Thema 1 und dem Timeline-Audio schlagen animierte Emojis und «hinter dir» nicht mehr fehl.",
   "it": "Corretto: con il Tema 1 e l’audio della timeline, le emoji animate e «dietro di te» non falliscono più."
+ },
+ "poniéndolo en tu timeline…": {
+  "en": "placing it in your timeline…",
+  "pt": "colocando no seu timeline…",
+  "fr": "placement dans votre timeline…",
+  "de": "wird in deine Timeline gesetzt…",
+  "it": "lo sto mettendo nella tua timeline…"
+ },
+ "en tu timeline": {
+  "en": "in your timeline",
+  "pt": "no seu timeline",
+  "fr": "dans votre timeline",
+  "de": "in deiner Timeline",
+  "it": "nella tua timeline"
+ },
+ "«Listo» en «Captions detrás de ti» lo pone al momento en tu timeline de Resolve (sin volver a pasar GO).": {
+  "en": "«Done» in «Captions behind you» puts it in your Resolve timeline right away (no need to run GO again).",
+  "pt": "«Pronto» em «Legendas atrás de você» coloca na hora no seu timeline do Resolve (sem rodar o GO de novo).",
+  "fr": "«Terminé» dans «Sous-titres derrière vous» le place tout de suite dans votre timeline Resolve (sans relancer GO).",
+  "de": "«Fertig» bei «Captions hinter dir» setzt es sofort in deine Resolve-Timeline (ohne GO erneut zu starten).",
+  "it": "«Fatto» in «Didascalie dietro di te» lo mette subito nella tua timeline di Resolve (senza rifare GO)."
+ },
+ "La persona que va delante de los captions la recorta la IA (un matte con alfa): se ve igual en Resolve y en el render.": {
+  "en": "The person in front of the captions is cut out by AI (a matte with alpha): it looks the same in Resolve and in the render.",
+  "pt": "A pessoa na frente das legendas é recortada pela IA (um matte com alfa): fica igual no Resolve e no render.",
+  "fr": "La personne devant les sous-titres est détourée par l’IA (un matte avec alpha) : même rendu dans Resolve et à l’export.",
+  "de": "Die Person vor den Captions schneidet die KI aus (ein Matte mit Alpha): Sie sieht in Resolve und im Render gleich aus.",
+  "it": "La persona davanti alle didascalie la ritaglia l’IA (un matte con alfa): si vede uguale in Resolve e nel render."
+ },
+ "Arreglado: tus posiciones se aplican aunque Resolve use la copia con el audio compatible de tu video.": {
+  "en": "Fixed: your positions are applied even when Resolve uses the copy of your video with compatible audio.",
+  "pt": "Corrigido: suas posições são aplicadas mesmo quando o Resolve usa a cópia do seu vídeo com áudio compatível.",
+  "fr": "Corrigé : vos positions s’appliquent même quand Resolve utilise la copie de votre vidéo avec l’audio compatible.",
+  "de": "Behoben: Deine Positionen gelten auch, wenn Resolve die Kopie deines Videos mit kompatiblem Audio nutzt.",
+  "it": "Corretto: le tue posizioni si applicano anche quando Resolve usa la copia del video con audio compatibile."
  }
 }

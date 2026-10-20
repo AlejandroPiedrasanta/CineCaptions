@@ -11,7 +11,7 @@ Lo lanza edicion_pro.aplicar() (resolve_mcp.ejecutar_py) y lee ~/DaVinciSubtitle
      'sonidos': [{'ini': fotograma, 'archivo': .wav, 'dur': segundos}], 'punch': [[inicio absoluto del clip de V1, zoom]], 'cache': True,
      'captions_propios': True (Tema 5: los captions son animaciones Remotion en PRO-SUBS; los Text+ de respaldo que puso GO se apagan),
      'gris_foco': [[ini, fin]] (Tema 5: el fondo en blanco y negro bajo la persona a color), 'zoom': [[corte, n antes, n después]] (Tema 5:
-     la transición con zoom de Fusion en los cortes)}
+     la transición con zoom de Fusion en los cortes), 'solo_encima': True (v5.29, «Listo» en Efectos › Posición: SOLO «detrás de ti»)}
 
 Pistas (de abajo arriba, justo encima de V1 / FX-BROLL y DEBAJO de los captions, que siguen mandando):
 PRO-BROLL · PRO-ZOOM · PRO-GRIS · PRO-FONDO · PRO-VELO · PRO-DETRAS · PRO-PERSONA · PRO-DELANTE · PRO-SUBS; el audio en «PRO-SONIDO». Cada corrida vacía y rellena sus pistas
@@ -550,7 +550,9 @@ def _deshacer_subidas(tl):
     """Re-aplicar no apila: los captions que subió una corrida anterior (llevan la marca) vuelven a su sitio si siguen donde se dejaron, y los
     emojis que se apagaron por un icono 3D se vuelven a encender."""
     vueltos = 0
-    for i in _pistas_captions(tl):
+    # (v5.29: también los captions del Tema 1 en PRO-SUBS / PRO-SUBS2: con «solo_encima» esas pistas NO se rehacen y subían el doble)
+    neon = [i for i in (_indice(tl, 'PRO-SUBS'), _indice(tl, 'PRO-SUBS2')) if i is not None]
+    for i in _pistas_captions(tl) + neon:
         for it in tl.GetItemListInTrack('video', i) or []:
             try:
                 marcas = it.GetMarkers() or {}
@@ -1099,6 +1101,29 @@ def _sonidos(tl, mp, caja, eventos, base):
     return puestos
 
 
+def _solo_encima(tl, mp, caja, datos, base, v1_antes):
+    """v5.29 (el usuario: «cuando le dé Listo debe ponerlo automáticamente en la línea de tiempo; más útil que generar todo»): SOLO «Captions
+    detrás de ti» en el timeline que ya armó GO; lo demás de la Edición PRO no se toca. Los captions vuelven a su sitio, la persona (el matte
+    de la IA, ProRes con alfa) va en PRO-ENCIMA en cada tramo marcado y los captions de esos tramos suben hasta su coronilla."""
+    resolve.OpenPage('edit')
+    encima = datos.get('encima') or []
+    _preimportar(mp, caja, {'encima': encima})
+    _deshacer_subidas(tl)                                                  # (todo a su sitio: lo de antes y lo de «mover» se vuelve a poner)
+    detras, movidos = _encima(tl, mp, caja, encima, base, print, datos.get('cache', True))
+    movidos += _subir_captions(tl, datos.get('mover') or [], base)
+    emojis = _emojis_sin_cara(tl, [c for e in encima for c in e.get('cues') or []] + list(datos.get('mover') or []), base)
+    if datos.get('sin_emoji'):
+        _apagar_emojis(tl, datos['sin_emoji'], base)
+    _quitar_vacias(tl)
+    _etiquetar(tl)
+    print('Captions detrás de ti: %d tramos con la persona delante (%d clips de captions movidos, %d emojis apartados de la cara).' % (
+        detras, movidos, emojis))
+    if len(tl.GetItemListInTrack('video', 1) or []) < v1_antes:
+        raise SystemExit('ATENCION: V1 perdió clips al poner «detrás de ti»')
+    if encima and not detras:
+        raise SystemExit('Resolve no colocó a la persona delante de los captions')
+
+
 def main():
     with open(RUTA_JSON, encoding='utf-8') as f:
         datos = json.load(f)
@@ -1109,6 +1134,9 @@ def main():
     caja = _caja(mp)
     base = int(datos.get('inicio') if datos.get('inicio') is not None else tl.GetStartFrame())
     v1_antes = len(tl.GetItemListInTrack('video', 1) or [])
+    if datos.get('solo_encima'):
+        _solo_encima(tl, mp, caja, datos, base, v1_antes)
+        return
     decir = lambda t: print(t)
     resolve.OpenPage('edit')
     _preimportar(mp, caja, datos)                                          # v5.5.8: todo de una vez, ANTES de tocar el timeline

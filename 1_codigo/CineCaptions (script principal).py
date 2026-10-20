@@ -11924,6 +11924,7 @@ class SubtitleApp(QWidget):
                 marcas = {}
             plan = edicion_pro.planificar(str(media_path), words, duracion, cortes=cortes, idioma=idioma or 'es',
                                           al_estado=lambda t: self.msg_queue.put(('status', tr(t))), tema=tema_pro, marcas=marcas)
+            plan['_recorte'] = recorte                 # v5.29: «Listo» en Efectos › Posición pasa las marcas a ESTE timeline sin rehacer GO
             plan['tema5'] = tema5
             if tema5 and (getattr(self, 'plantilla_sel', '') or '') == 'Tema6':
                 plan['estilo_t5'] = 'editorial'        # Tema 6: el mismo motor, con el estilo editorial (serif fina, melocotón, visor, búsqueda…)

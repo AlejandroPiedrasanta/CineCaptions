@@ -3810,7 +3810,12 @@
         "sugerencias",
         "vista previa",
         "captions detrás",
-        "tema"
+        "tema",
+        "matte",
+        "listo al timeline",
+        "solo_encima",
+        "audio compatible",
+        "copia"
       ],
       "archivos": [
         "posiciones_pro.py",
@@ -3820,7 +3825,9 @@
         "pro_lateral_ui.py",
         "2_recursos/edicion_pro/colocar_pro.py",
         "herramientas_dev/probar_detras_posiciones.py",
-        "vista_tema.py"
+        "vista_tema.py",
+        "audio_compatible.py",
+        "herramientas_dev/probar_detras_timeline.py"
       ],
       "simbolos": [
         "VistaPosiciones",
@@ -3853,9 +3860,17 @@
         "vista_detras",
         "anadir",
         "_encender_al_marcar",
-        "video_img"
+        "video_img",
+        "aplicar_detras",
+        "contexto_detras",
+        "_guardar_contexto_detras",
+        "_encima_de",
+        "_solo_encima",
+        "original_de",
+        "_clave_en",
+        "_poner_en_timeline"
       ],
-      "resumen": "Botón «Posición» (y doble clic) en cada sección de Efectos › Edición PRO: línea de tiempo del video con fotogramas para marcar en qué segundos va el efecto; «Solo mis marcas | + automático»; GO lo respeta (posiciones_pro.para_plan → edicion_pro: _marcas_libres, _ligadas, _marcas_broll, _captions_detras(marcas=), _tramos_motions). v5.27: «detrás de ti» con topes (verde donde queda bien, máximo 8, motivo de cada sitio), marcas guardadas con el VIDEO (valen con el audio del timeline), Magic Mask solo en cara y hombros, «Listo» enciende y pone el video en Inicio. v5.28: 3 sugeridas a un clic (y el efecto se enciende), vista con los captions del tema detrás de la persona."
+      "resumen": "Botón «Posición» (y doble clic) en cada sección de Efectos › Edición PRO: línea de tiempo del video con fotogramas para marcar en qué segundos va el efecto; «Solo mis marcas | + automático»; GO lo respeta (posiciones_pro.para_plan → edicion_pro: _marcas_libres, _ligadas, _marcas_broll, _captions_detras(marcas=), _tramos_motions). v5.27: «detrás de ti» con topes (verde donde queda bien, máximo 8, motivo de cada sitio), marcas guardadas con el VIDEO (valen con el audio del timeline), Magic Mask solo en cara y hombros, «Listo» enciende y pone el video en Inicio. v5.28: 3 sugeridas a un clic (y el efecto se enciende), vista con los captions del tema detrás de la persona. v5.29: la persona con el matte de la IA (no Magic Mask) y «Listo» lo pone ya en el timeline (aplicar_detras + colocar_pro solo_encima); marcas que valen con la copia de audio compatible."
     },
     {
       "id": "emojis-pro",

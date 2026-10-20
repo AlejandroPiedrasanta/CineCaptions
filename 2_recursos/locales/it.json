@@ -3710,7 +3710,12 @@
     "Solo ahí.": "Solo lì.",
     "«Captions detrás de ti» › Posición: te sugiere los 3 mejores momentos; un clic y quedan puestos (o «Poner las 3»), y el efecto se enciende solo.": "«Didascalie dietro di te» › Posizione: suggerisce i 3 momenti migliori; un clic e sono messi (o «Metti tutti e 3»), e l’effetto si attiva da solo.",
     "La vista grande enseña cómo queda: tus captions del tema elegido en Inicio, detrás de la persona (los del timeline si ya pasaste GO).": "L’anteprima grande mostra come viene: le tue didascalie del tema scelto in Home, dietro la persona (quelle della timeline se hai già usato GO).",
-    "Arreglado: con el Tema 1 y el audio del timeline, los emojis animados y «detrás de ti» ya no fallan.": "Corretto: con il Tema 1 e l’audio della timeline, le emoji animate e «dietro di te» non falliscono più."
+    "Arreglado: con el Tema 1 y el audio del timeline, los emojis animados y «detrás de ti» ya no fallan.": "Corretto: con il Tema 1 e l’audio della timeline, le emoji animate e «dietro di te» non falliscono più.",
+    "poniéndolo en tu timeline…": "lo sto mettendo nella tua timeline…",
+    "en tu timeline": "nella tua timeline",
+    "«Listo» en «Captions detrás de ti» lo pone al momento en tu timeline de Resolve (sin volver a pasar GO).": "«Fatto» in «Didascalie dietro di te» lo mette subito nella tua timeline di Resolve (senza rifare GO).",
+    "La persona que va delante de los captions la recorta la IA (un matte con alfa): se ve igual en Resolve y en el render.": "La persona davanti alle didascalie la ritaglia l’IA (un matte con alfa): si vede uguale in Resolve e nel render.",
+    "Arreglado: tus posiciones se aplican aunque Resolve use la copia con el audio compatible de tu video.": "Corretto: le tue posizioni si applicano anche quando Resolve usa la copia del video con audio compatibile."
   },
   "Suave": "Leggero",
   "Media": "Media",

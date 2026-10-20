@@ -39,6 +39,7 @@ import edicion_pro_planificador as PL
 
 CARPETA = Path.home() / 'DaVinciSubtitles' / 'edicion_pro'
 PLAN_JSON = Path.home() / 'DaVinciSubtitles' / 'edicion_pro_plan.json'
+DETRAS_CTX = Path.home() / 'DaVinciSubtitles' / 'detras_contexto.json'    # v5.29: lo del último GO que hace falta para «detrás de ti» al momento
 OPCIONES_POR_DEFECTO = {'pro_genero': 'auto', 'pro_densidad': 'media', 'pro_mascara': 'auto', 'pro_sonidos': True, 'pro_ia_local': True, 'pro_variacion': 0,
                         'pro_internet': True,          # v5.5.3: fotos de internet con licencia (fuentes_web) para las escenas
                         'pro_motions_completo': False,  # v5.5.8: «Motions completo» (motions_completo.py): un video de motions encima de todo, al final
@@ -518,7 +519,7 @@ _INFO = r'''
 tl = project.GetCurrentTimeline() if project else None
 info = {'producto': resolve.GetProductName(), 'version': resolve.GetVersionString()}
 if tl:
-    info.update({'fps': float(tl.GetSetting('timelineFrameRate') or 30), 'ancho': int(tl.GetSetting('timelineResolutionWidth') or 1920),
+    info.update({'nombre': tl.GetName(), 'fps': float(tl.GetSetting('timelineFrameRate') or 30), 'ancho': int(tl.GetSetting('timelineResolutionWidth') or 1920),
                  'alto': int(tl.GetSetting('timelineResolutionHeight') or 1080), 'inicio': tl.GetStartFrame(), 'v1': []})
     for it in tl.GetItemListInTrack('video', 1) or []:
         mpi = it.GetMediaPoolItem()
@@ -1193,6 +1194,67 @@ def _captions_detras(info, video, fps, ocupado, densidad, decir, preferidos=(), 
     return tramos
 
 
+def _encima_de(tramos, info, video, fps, W, H, carpeta, a_cuadro, neon_tema, fx_persona, usar_magic, placa=None, decir=None):
+    """Las entradas «encima» de colocar_pro (la persona DELANTE de los captions) para los tramos de _captions_detras.
+    v5.29 (el usuario: «necesito una máscara que detecte humanos y cree el matte para que quede en el render»): la persona la recorta la IA
+    local (MODNet: solo personas) en un ProRes 4444 con alfa (`modo: 'clip'`, edicion_pro_persona.recorte_prores): Resolve solo lo reproduce,
+    no rastrea nada, y sale igual en el visor y en el render. Antes era Magic Mask, que había que rastrear en la página Fusion y a veces no
+    quedaba. Con la placa del Tema 1 (`a_cuadro`: lo que se ve son sus zooms) el recorte sale de la PLACA (`placa`: su archivo; sin ella, ese
+    tramo no va). Magic Mask solo si se elige a mano en el menú (`usar_magic`)."""
+    import edicion_pro_persona as PE
+    decir = decir or (lambda t: None)
+    out = []
+    for n, t in enumerate(tramos):
+        f0, f1 = int(round(t['ini'] * fps)), int(round(t['fin'] * fps))
+        ref = max(0, min(f1 - f0 - 1, int(round((t['t_det'] - t['ini']) * fps))))
+        e = {'ini': f0, 'fin': f1, 'ref': ref, 'cues': [{'ini': int(round(c['ini'] * fps)), 'fin': int(round(c['fin'] * fps)),
+                                                        'subir': round(c['subir'] * H, 1), 'caras': _caras_redondas(c.get('caras')),
+                                                        'caja': c.get('caja')}
+                                                       for c in t['cues']]}
+        corte = float(t.get('corte') or 1.0)
+        if a_cuadro is not None:
+            e['fuente'] = 'placa'                                    # (colocar_pro: la transformación, la del clip de la placa, PRO-ZOOM)
+        if neon_tema:
+            e['subs_pro'] = True                                     # (los captions del Tema 1 son clips en PRO-SUBS / PRO-SUBS2)
+        if usar_magic:
+            comp = _comp_magic(PE.puntos_fusion(t['det']), ref, carpeta / f'encima_{f0}_{f1}.comp', f'CCProMagicE{f0}', efecto=fx_persona)
+            e.update(modo='magic', comp=str(OG.ruta_larga(comp)), herramienta=f'CCProMagicE{f0}')
+            alto_clip = None
+        else:
+            if a_cuadro is not None:
+                if not placa:
+                    continue                                         # (sin la placa no se sabe qué se ve: ese tramo, sin persona delante)
+                fuente, t0 = str(placa), float(t['ini'])
+            else:
+                fuente, t0, _clip = _fuente_de(info, video, float(t['ini']))
+            dur = (f1 - f0) / float(fps) + 0.1
+            huella = hashlib.sha1(f'{fuente}|{t0:.3f}|{dur:.3f}'.encode('utf-8')).hexdigest()[:8]
+            destino = carpeta / f'detras_{f0}_{f1}_{huella}.mov'
+            decir(f'Edición PRO: recortando a la persona con IA para «detrás de ti» ({n + 1} de {len(tramos)})…')
+            try:
+                if not destino.exists() and PE.recorte_prores(fuente, t0, t0 + dur, destino) is None:
+                    continue
+            except Exception:
+                continue
+            e.update(modo='clip', archivo=str(OG.ruta_larga(destino)))
+            alto_clip = 'clip'
+        if corte < 0.995:
+            if a_cuadro is not None:
+                e['recorte_px'] = int(round((1.0 - corte) * H))       # (la placa va a la resolución del timeline)
+            else:
+                y_src, alto_src = _y_en_fuente(corte, t.get('clip'), W, H)
+                if alto_clip == 'clip':                              # (el recorte de la IA va con el lado largo a 1920 como mucho)
+                    try:
+                        w_src, h_src = (int(x) for x in str((t.get('clip') or {}).get('res') or '').lower().replace(' ', '').split('x')[:2])
+                        alto_src *= min(1.0, 1920.0 / max(w_src, h_src))
+                    except (TypeError, ValueError):
+                        pass
+                e['recorte_px'] = int(round(max(0.0, (1.0 - y_src) * alto_src)))
+        # v5.5.2: SIN el velo oscuro detrás de estos captions (el usuario: «los captions tienen una sombra fea»); la persona encima ya los separa
+        out.append(e)
+    return out
+
+
 def _captions_sin_cara(info, video, ocupado, detras, W, H):
     """REGLA DEL USUARIO: ningún caption tapa una cara. Los bloques que no van detrás de la persona y caerían sobre una cara (al principio o al
     final del bloque) suben encima de la cabeza o bajan debajo de la barbilla (si no cabe en ningún lado, se quedan).
@@ -1808,6 +1870,7 @@ def aplicar(plan, al_estado=None, offset_frames=0, info=None):
     plan['_broll_puesto'] = [{'ini': t['_s']} for t in tomas]
     # captions DETRÁS de la persona (lo que hace que valga la pena el Magic Mask)
     encima, tramos = [], []
+    a_cuadro_detras, ctx_detras = None, None
     # v5.5.20 (el usuario: «más inteligente, con Magic Mask… igual en los Temas 1 a 6… solo Studio; en Free no aparece»): SOLO en Resolve Studio y
     # SIEMPRE con Magic Mask (puntos solo sobre PERSONAS: la IA local los pone; nunca objetos), con su salida cacheada (colocar_pro: render cache
     # de Fusion = el matte con alfa ya calculado); en Free ni en el MP4 hay «detrás de ti». La intensidad del menú dice cuántos y cuánto tapan.
@@ -1839,28 +1902,8 @@ def aplicar(plan, al_estado=None, offset_frames=0, info=None):
             except Exception:
                 pass
             tramos = []
-        for t in tramos:
-            f0, f1 = int(round(t['ini'] * fps)), int(round(t['fin'] * fps))
-            ref = max(0, min(f1 - f0 - 1, int(round((t['t_det'] - t['ini']) * fps))))
-            e = {'ini': f0, 'fin': f1, 'ref': ref, 'cues': [{'ini': int(round(c['ini'] * fps)), 'fin': int(round(c['fin'] * fps)),
-                                                            'subir': round(c['subir'] * H, 1), 'caras': _caras_redondas(c.get('caras')),
-                                                            'caja': c.get('caja')}
-                                                           for c in t['cues']]}
-            comp = _comp_magic(PE.puntos_fusion(t['det']), ref, carpeta / f'encima_{f0}_{f1}.comp', f'CCProMagicE{f0}', efecto=fx_persona)
-            e.update(modo='magic', comp=str(OG.ruta_larga(comp)), herramienta=f'CCProMagicE{f0}')
-            corte = float(t.get('corte') or 1.0)
-            if corte < 0.995:
-                if a_cuadro is not None:
-                    e['recorte_px'] = int(round((1.0 - corte) * H))       # (la placa va a la resolución del timeline)
-                else:
-                    y_src, alto_src = _y_en_fuente(corte, t.get('clip'), W, H)
-                    e['recorte_px'] = int(round(max(0.0, (1.0 - y_src) * alto_src)))
-            if a_cuadro is not None:
-                e['fuente'] = 'placa'                                    # (colocar_pro: la copia sale del clip de la placa, PRO-ZOOM)
-            if neon_tema:
-                e['subs_pro'] = True                                     # (los captions del Tema 1 son clips en PRO-SUBS / PRO-SUBS2)
-            # v5.5.2: SIN el velo oscuro detrás de estos captions (el usuario: «los captions tienen una sombra fea»); la persona encima ya los separa
-            encima.append(e)
+        a_cuadro_detras = a_cuadro                                       # (v5.29: las entradas «encima» se arman al final, con la placa ya hecha)
+        ctx_detras = {'ocupado': ocupado, 'bloques': bloques_tema, 'preferidos': [list(x) for x in plan.get('detras_pref') or []]}
     # el resto de los bloques de captions: ninguno tapa una cara (y colocar_pro aparta sus emojis)
     mover = []
     if hay_ia and not cap_t5 and not neon_tema:
@@ -2125,6 +2168,9 @@ def aplicar(plan, al_estado=None, offset_frames=0, info=None):
         if placa_res.get('ruta'):
             graficos.append({'capa': 'placa', 'ini': 0, 'archivo': str(OG.ruta_larga(placa_res['ruta'])), 'alfa': False,
                              'dur': round(float(plan.get('duracion') or 0), 3), 'nombre': 'PRO · Placa neón (cámara)'})
+    if tramos:                                                     # v5.29: la persona de «detrás de ti», recortada por la IA (matte con alfa)
+        encima = _encima_de(tramos, info, video, fps, W, H, carpeta, a_cuadro_detras, neon_tema, fx_persona, usar_magic,
+                            placa=placa_res.get('ruta'), decir=decir)
     if 'mc' in hilos_fondo:                                        # v5.5.8: «Motions completo», encima de todo (v5.5.9: se hacía en paralelo)
         try:
             import motions_completo as MCO
@@ -2204,6 +2250,8 @@ def aplicar(plan, al_estado=None, offset_frames=0, info=None):
         sidecar_lua.escribir_sidecar(PLAN_JSON, datos)
     except Exception:
         pass
+    if ctx_detras is not None:                                        # v5.29: para que «Listo» en Efectos › Posición lo ponga sin rehacer GO
+        _guardar_contexto_detras(plan, info, video, video_img, fps, W, H, carpeta, neon_tema, placa_res.get('ruta'), ctx_detras, op)
     instalar_plantillas_una_vez()
     limpiar_cache(conservar=carpeta)
     decir('Edición PRO: colocando la edición en Resolve' + (' (Magic Mask)…' if (persona and usar_magic) or encima else '…'))
@@ -2219,6 +2267,106 @@ def aplicar(plan, al_estado=None, offset_frames=0, info=None):
             return False, 'La Edición PRO en Resolve Free necesita el Puente de CineCaptions abierto en Resolve.'
         ok, mensaje = resolve_bridge.ejecutar('edicion_pro', timeout=600)
     return ok, mensaje or plan.get('resumen', '')
+
+
+def _guardar_contexto_detras(plan, info, video, video_img, fps, W, H, carpeta, neon_tema, placa, ctx, op):
+    """v5.29: lo del último GO que hace falta para poner «detrás de ti» DESPUÉS (aplicar_detras), sin rehacer nada: el timeline (V1, inicio),
+    los bloques de captions, lo ocupado, la placa del Tema 1 y su plan de cámara, los cortes y el recorte de pausas."""
+    try:
+        import time as _t
+        import archivos_seguros
+        import posiciones_pro as POS
+        bloques = ctx.get('bloques')
+        if bloques is None:
+            bloques = _bloques_captions()
+        d = {'version': 1, 'hecho': round(_t.time()), 'media': str(video), 'imagen': str(video_img or video),
+             'clave': POS.clave_video(video_img or video), 'fps': fps, 'W': W, 'H': H, 'info': info, 'timeline': info.get('nombre'),
+             'bloques': bloques, 'ocupado': [list(x) for x in ctx.get('ocupado') or []], 'preferidos': ctx.get('preferidos') or [],
+             'densidad': op.get('pro_densidad') or 'media', 'cortes': [list(c) if isinstance(c, (list, tuple)) else c for c in plan.get('_cortes') or []],
+             'neon': bool(neon_tema), 'placa': str(placa) if placa else None, 'carpeta': str(carpeta), 'recorte': plan.get('_recorte'),
+             'plan_placa': ({k: plan.get(k) for k in ('kitneon', 'kitneon_motions', '_cortes', 'duracion', '_neon_ajustado')} if neon_tema else None)}
+        archivos_seguros.escribir_json(DETRAS_CTX, json.loads(json.dumps(d, ensure_ascii=False, default=str)))
+    except Exception:
+        try:
+            import registro
+            registro.excepcion(origen='edición PRO (contexto de «detrás de ti»)')
+        except Exception:
+            pass
+
+
+def contexto_detras(ruta):
+    """El contexto de «detrás de ti» del último GO si fue de este video (o de su audio del timeline), o None. En un HILO (lee el disco)."""
+    try:
+        ctx = json.loads(DETRAS_CTX.read_text(encoding='utf-8'))
+        import posiciones_pro as POS
+        img = POS.fuente_imagen(ruta, duracion=False)
+        claves = {POS.clave_video(ruta), POS.clave_video(img[0] or ruta)}
+        if ctx.get('clave') in claves or POS.clave_video(ctx.get('media') or '') in claves:
+            return ctx
+    except Exception:
+        pass
+    return None
+
+
+def aplicar_detras(ruta, al_estado=None):
+    """v5.29 (el usuario: «cuando le dé Listo debe ponerlo automáticamente en la línea de tiempo; va a ser más útil que generar todo»): pone
+    «Captions detrás de ti» con las marcas de Efectos › Posición en el timeline ABIERTO de Resolve, sin rehacer GO: con lo que guardó el último
+    GO de ese video (DETRAS_CTX) decide los tramos (la misma regla, _captions_detras), recorta a la persona con la IA (matte con alfa) y
+    colocar_pro, en modo «solo_encima», cambia SOLO eso. → (ok, mensaje, tramos puestos). En un HILO."""
+    decir = al_estado or (lambda t: None)
+    ctx = contexto_detras(ruta)
+    if ctx is None:
+        return False, 'Pulsa GO una vez con este video: después, «Listo» pone «detrás de ti» directo en tu timeline.', 0
+    info = _info_timeline()
+    if not info:
+        return False, 'Abre DaVinci Resolve con el timeline de este video.', 0
+    if info.get('via') != 'mcp' or 'studio' not in str(info.get('producto') or '').lower():
+        return False, '«Captions detrás de ti» necesita DaVinci Resolve Studio.', 0
+    ci = ctx.get('info') or {}
+    if ([str(c.get('ruta')) for c in info.get('v1') or []] != [str(c.get('ruta')) for c in ci.get('v1') or []]
+            or int(info.get('inicio') or 0) != int(ci.get('inicio') or 0)):
+        return False, f'En Resolve está abierto otro timeline: abre «{ctx.get("timeline") or "el de tu último GO"}» y vuelve a darle a «Listo».', 0
+    import posiciones_pro as POS
+    fps, W, H = float(ctx['fps']), int(ctx['W']), int(ctx['H'])
+    marcas = (POS.para_plan(ctx['media'], ctx.get('recorte')) or {}).get('detras')
+    a_cuadro = None
+    if ctx.get('neon'):
+        if not ctx.get('placa') or not Path(ctx['placa']).exists():
+            return False, 'Falta la placa del Tema 1 de tu último GO: pulsa GO otra vez.', 0
+        import kit_neon_placa as PLA
+        a_cuadro = PLA.mapa_camara(ctx['imagen'], ctx.get('plan_placa') or {}, W, H)
+    tramos = _captions_detras(ci, ctx['media'], fps, [tuple(x) for x in ctx.get('ocupado') or []], ctx.get('densidad') or 'media', decir,
+                              preferidos=[tuple(x) for x in ctx.get('preferidos') or []], W=W, H=H, intensidad=intensidad_detras(),
+                              bloques=ctx.get('bloques'), a_cuadro=a_cuadro, marcas=marcas, cortes=ctx.get('cortes'))
+    op = opciones_guardadas()
+    try:
+        import estilos_pro as EST
+        fx_persona = EST.efecto_persona(op)
+    except Exception:
+        fx_persona = None
+    carpeta = Path(ctx.get('carpeta') or (CARPETA / 'detras'))
+    carpeta.mkdir(parents=True, exist_ok=True)
+    encima = _encima_de(tramos, ci, ctx['media'], fps, W, H, carpeta, a_cuadro, bool(ctx.get('neon')), fx_persona,
+                        str(op.get('pro_mascara') or 'auto') == 'magic', placa=ctx.get('placa'), decir=decir)
+    try:
+        datos = json.loads(PLAN_JSON.read_text(encoding='utf-8'))
+    except Exception:
+        datos = {}
+    if int(datos.get('inicio') if datos.get('inicio') is not None else -1) != int(ci.get('base', ci.get('inicio') or 0)):
+        datos = {'fps': fps, 'inicio': int(ci.get('base', ci.get('inicio') or 0)), 'cache': True}   # (el plan guardado es de otro timeline)
+    nuevos = [(c['ini'], c['fin']) for e in encima for c in e['cues']]
+    datos['mover'] = [m for m in datos.get('mover') or [] if not any(m['ini'] < b and a < m['fin'] for a, b in nuevos)]
+    datos.update(encima=encima, solo_encima=True)
+    import archivos_seguros
+    archivos_seguros.escribir_json(PLAN_JSON, datos, indent=1)
+    decir('Edición PRO: poniendo «detrás de ti» en tu timeline…')
+    try:
+        import resolve_mcp
+        ok, mensaje = resolve_mcp.ejecutar_py(carpeta_recursos() / 'colocar_pro.py', timeout=600)
+    finally:
+        datos['solo_encima'] = False                                  # (un GO o re-aplicar de después vuelve a ponerlo todo, ya con esto)
+        archivos_seguros.escribir_json(PLAN_JSON, datos, indent=1)
+    return ok, mensaje, len(encima)
 
 
 SONIDOS_USUARIO = Path.home() / 'DaVinciSubtitles' / 'edicion_pro_sonidos'      # (no es la caché: los proyectos de Resolve siguen apuntando a ellos)

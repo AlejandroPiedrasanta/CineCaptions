@@ -87,6 +87,8 @@ def main():
     import posiciones_pro as POS
     POS.ARCHIVO = tmp / 'posiciones_pro.json'
     POS.CACHE = tmp / 'cache_posiciones'
+    EP.PLAN_JSON = tmp / 'edicion_pro_plan.json'                      # (v5.29: «Listo» de «detrás de ti» va al timeline: nunca el contexto ni el
+    EP.DETRAS_CTX = tmp / 'detras_contexto.json'                      # plan reales, y sin un GO de mentira no llega a hablar con Resolve)
 
     # ------------------------------------------------------------------------------------------------------- 1) solo humanos
     print('== 1) Solo humanos (IA local + puntos del Magic Mask)', flush=True)
@@ -280,7 +282,7 @@ def main():
         vista._listo()
         comprobar(LAT.estado('detras'), '«Listo» con marcas → «detrás de ti» sigue ENCENDIDO en GO')
         comprobar(not getattr(sec, '_en_pos', False), '«Listo» cierra la tira')
-        comprobar(any(('posición guardada' in x or 'posiciones guardadas' in x) and 'GO la' in x for _n, x in REG),
+        comprobar(any(('posición guardada' in x or 'posiciones guardadas' in x) and ('GO la' in x or 'ya en tu timeline' in x) for _n, x in REG),
                   f'«Listo» lo dice en el Registro: {REG[-1:]}')
         plan_m = POS.para_plan(str(cliente))
         comprobar(len((plan_m.get('detras') or {}).get('ts') or []) == len(lin.marcas), f'GO (para_plan) las tiene: {plan_m}')
