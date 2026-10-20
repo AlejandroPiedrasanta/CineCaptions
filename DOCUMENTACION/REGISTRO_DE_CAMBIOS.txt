@@ -12,6 +12,46 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-19 22:25  ·  v5.22  ·  cambio explicado
+    Efectos › «Posición» (nuevo, posiciones_pro.py): en cada sección de la PRO un botón (y doble clic) abre la línea de tiempo del video con sus fotogramas para marcar en qué segundos va ese efecto, con «Solo mis marcas | Mis marcas + automático»; GO lo respeta (piezas, B-roll, píldora, detrás de ti, tramos de Motions completo). Inicio: arreglados los tirones/reinicios al volver de otra página o tras inactividad. Pedidos del usuario.
+    modificados (2):
+      ~ 1_codigo/edicion_pro.py
+      ~ 2_recursos/edicion_pro/colocar_pro.py
+
+2026-10-19 22:19  ·  v5.22  ·  cambio explicado
+    Inicio/GO: barras de progreso mejoradas. La de abajo (antes 2 px del HUD que seguía la energía de la esfera y no coincidía con el %) la dibuja ahora la escena con el MISMO % suavizado que el centro, por tramos de cada paso, con textos a los lados; el anillo del centro lleva pista, cortes por paso y texto que siempre cabe. Pedido del usuario: «mejora su barra de progreso tanto abajo como en el centro».
+    nuevos (1):
+      + 1_codigo/posiciones_pro.py
+    modificados (8):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/escena_go.py
+      ~ 1_codigo/estilos_inicio.py
+      ~ 1_codigo/mograf_ui.py
+      ~ 1_codigo/orbe_mecanica.py
+      ~ 1_codigo/un_clic_ui.py
+
+2026-10-19 21:57  ·  v5.22  ·  cambio explicado
+    Interfaz: verde como color de resaltado de fábrica (tema.ACENTO_POR_DEFECTO). «Color de resaltado» rehecho como una fila de muestras redondas (_MuestrasAcento) en lugar de 7 tarjetas y el botón «Elegir color…». Pedido del usuario: «mejora esto y deja por defecto el verde».
+    modificados (2):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/tema.py
+
+2026-10-19 21:48  ·  v5.22  ·  cambio explicado
+    Ajustes: quitadas las filas «Mantener CineCaptions encima» (sigue el alfiler del menú lateral) y «Copias de seguridad» (copias.py queda sin uso). Pedido del usuario.
+    modificados (1):
+      ~ 1_codigo/ajustes_ui.py
+
+2026-10-19 21:45  ·  v5.22  ·  cambio explicado
+    Proyecto/PRO: el menú lateral empieza por «Captions detrás de ti» y luego «Gancho del inicio» (pro_lateral_ui.OPCIONES). Efectos: quitada la tarjeta «Edición PRO activa… / Ver efectos clásicos»; con la PRO o «Visuales: no» los clásicos solo se esconden. Pedido del usuario.
+    modificados (5):
+      ~ 1_codigo/efectos_pagina.py
+      ~ 1_codigo/pro_lateral_ui.py
+      ~ 1_codigo/remotion/package-lock.json
+      ~ 1_codigo/remotion/package.json
+      ~ 3_compilar/requirements.txt
+
 2026-10-19 21:37  ·  v5.22  ·  cambio explicado
     Librerías: revisadas todas contra PyPI/npm (2026-10-19). Parches menores: certifi 2026.10.19 (app y motor); motor Qwen: filelock 4.2.4, httpx2/httpcore2 2.15.1, platformdirs 4.13.5, setuptools 84.2.0, transformers 5.20.2; Remotion 4.0.537 (1_codigo/remotion, npm install hecho; el runtime lo rehace preparar_remotion al compilar). Python 3.15 sigue bloqueado (ctranslate2, onnxruntime, torch sin cp315). Sin compilar.
     nuevos (32):
@@ -495,232 +535,6 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
       ~ 2_recursos/locales/it.json
       ~ 2_recursos/locales/pt.json
       ~ 3_compilar/traducciones_extra.json
-
-2026-10-17 12:42  ·  v5.5.10  ·  cambio explicado
-    Animaciones de Proyecto con la PRO: los lados entran al activar la PRO, fundido cruzado entre ejemplos, el punto verde rebota al encender un motion, iconos con fundido y crecen con el raton, la pildora del nombre ajusta su ancho; marco del movil e iconos cacheados (antes se escalaban 30 veces por segundo). Slider: arrastre con resistencia elastica en los extremos. Ejemplos: captions de 2 lineas como maximo.
-    modificados (8):
-      ~ 1_codigo/estilos_slider.py
-      ~ 1_codigo/herramientas_dev/hacer_ejemplos_pro.py
-      ~ 1_codigo/pro_lateral_ui.py
-      ~ 2_recursos/edicion_pro/ejemplos_pro/broll.mp4
-      ~ 2_recursos/edicion_pro/ejemplos_pro/graficos.mp4
-      ~ 2_recursos/edicion_pro/ejemplos_pro/pildora.jpg
-      ~ 2_recursos/edicion_pro/ejemplos_pro/pildora.mp4
-      ~ 2_recursos/edicion_pro/ejemplos_pro/plantillas.mp4
-
-2026-10-17 12:27  ·  v5.5.10  ·  cambio explicado
-    Revision de bugs (2026-10-17): salud.py tenia Pillow 12.3.0 fijada y tras subir a 13 cada arranque avisaba 'Pillow con problemas' (ahora 13.0.0 y el acoplamiento anotado); salida limpia con os._exit tras atexit (los hilos de fondo con numpy/Qt podian dar access violation al cerrar); el avance de los renders silenciosos de vistas reales ya no abre la fila de aviso (el slider daba saltos); la cache de motions de Proyecto no se queda vacia si el catalogo falla; no se anima el titulo de las barras ocultas.
-    modificados (29):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/estilos_slider.py
-      ~ 1_codigo/herramientas_dev/hacer_ejemplos_pro.py
-      ~ 1_codigo/pro_lateral_ui.py
-      ~ 1_codigo/salud.py
-      ~ 2_recursos/edicion_pro/ejemplos_pro/broll.jpg
-      ~ 2_recursos/edicion_pro/ejemplos_pro/broll.mp4
-      ~ 2_recursos/edicion_pro/ejemplos_pro/detras.jpg
-      ~ 2_recursos/edicion_pro/ejemplos_pro/detras.mp4
-      ~ 2_recursos/edicion_pro/ejemplos_pro/escenas.jpg
-      ~ 2_recursos/edicion_pro/ejemplos_pro/escenas.mp4
-      ~ 2_recursos/edicion_pro/ejemplos_pro/gancho.jpg
-      … y 17 más
-
-2026-10-17 11:28  ·  v5.5.10  ·  cambio explicado
-    Proyecto con la Edicion PRO (pedido del usuario): a la derecha del slider, interruptores de los motions que pondra GO (pildora bajo captions, B-roll, captions detras de ti / Magic Mask, Motions completo, gancho del inicio, escenas, kit, graficos, plantillas) y a la izquierda un movil con el ejemplo REAL del que se senala (clips de 4 s hechos con hacer_ejemplos_pro.py: Remotion + recorte de la persona con IA local). Escriben las MISMAS preferencias que el carrusel de Efectos para que no se contradigan. Solo con la PRO en juego (interruptor o Temas 5/6). pro_lateral_ui.py; tema pro-lateral.
-    nuevos (20):
-      + 1_codigo/herramientas_dev/hacer_ejemplos_pro.py
-      + 1_codigo/pro_lateral_ui.py
-      + 2_recursos/edicion_pro/ejemplos_pro/broll.jpg
-      + 2_recursos/edicion_pro/ejemplos_pro/broll.mp4
-      + 2_recursos/edicion_pro/ejemplos_pro/detras.jpg
-      + 2_recursos/edicion_pro/ejemplos_pro/detras.mp4
-      + 2_recursos/edicion_pro/ejemplos_pro/escenas.jpg
-      + 2_recursos/edicion_pro/ejemplos_pro/escenas.mp4
-      + 2_recursos/edicion_pro/ejemplos_pro/gancho.jpg
-      + 2_recursos/edicion_pro/ejemplos_pro/gancho.mp4
-      + 2_recursos/edicion_pro/ejemplos_pro/graficos.jpg
-      + 2_recursos/edicion_pro/ejemplos_pro/graficos.mp4
-      … y 8 más
-    modificados (7):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 2_recursos/locales/de.json
-      ~ 2_recursos/locales/en.json
-      ~ 2_recursos/locales/fr.json
-      ~ 2_recursos/locales/it.json
-      ~ 2_recursos/locales/pt.json
-      ~ 3_compilar/traducciones_extra.json
-
-2026-10-17 10:57  ·  v5.5.10  ·  cambio explicado
-    Librerias al dia (2026-10-17): Pillow 12.3.0 -> 13.0.0 (arreglos de seguridad; lo que quito -Image._show, fromarray con cambio de tipo, PNG en modo I, ImageCms product_name- no se usa), filelock 4.2.1; Remotion 4.0.535 -> 4.0.536, three 0.180 -> 0.186.1, @react-three/fiber 9.3 -> 9.8.2 (bundle y runtime rehechos con preparar_remotion.py). Probado sin compilar: humo de ventanas (huella identica a Pillow 12.3), GO sin Resolve con Tema VIRAL y render Remotion (Pastilla + personajes 3D).
-    nuevos (305):
-      + 1_codigo/remotion/node_modules/@react-three/fiber/dist/declarations/react-reconciler/index.d.ts
-      + 1_codigo/remotion/node_modules/@react-three/fiber/dist/declarations/src/core/configuration.d.ts
-      + 1_codigo/remotion/node_modules/@react-three/fiber/dist/declarations/src/core/extend.d.ts
-      + 1_codigo/remotion/node_modules/@react-three/fiber/dist/declarations/src/core/portal.d.ts
-      + 1_codigo/remotion/node_modules/@react-three/fiber/dist/declarations/src/core/root.d.ts
-      + 1_codigo/remotion/node_modules/@react-three/fiber/dist/declarations/src/core/utils/promise.d.ts
-      + 1_codigo/remotion/node_modules/@react-three/fiber/dist/declarations/src/core/utils/react.d.ts
-      + 1_codigo/remotion/node_modules/@react-three/fiber/dist/events-0dab3c53.cjs.dev.js
-      + 1_codigo/remotion/node_modules/@react-three/fiber/dist/events-98e95d43.cjs.prod.js
-      + 1_codigo/remotion/node_modules/@react-three/fiber/dist/events-e51d7528.esm.js
-      + 1_codigo/remotion/node_modules/@react-three/fiber/react-reconciler/constants.d.ts
-      + 1_codigo/remotion/node_modules/@react-three/fiber/react-reconciler/constants.js
-      … y 293 más
-    modificados (1094):
-      ~ 1_codigo/remotion/node_modules/.bin/remotion
-      ~ 1_codigo/remotion/node_modules/.bin/remotion.cmd
-      ~ 1_codigo/remotion/node_modules/.bin/remotionb
-      ~ 1_codigo/remotion/node_modules/.bin/remotionb.cmd
-      ~ 1_codigo/remotion/node_modules/.bin/remotiond
-      ~ 1_codigo/remotion/node_modules/.bin/remotiond.cmd
-      ~ 1_codigo/remotion/node_modules/.package-lock.json
-      ~ 1_codigo/remotion/node_modules/@react-three/fiber/CHANGELOG.md
-      ~ 1_codigo/remotion/node_modules/@react-three/fiber/dist/declarations/src/core/events.d.ts
-      ~ 1_codigo/remotion/node_modules/@react-three/fiber/dist/declarations/src/core/hooks.d.ts
-      ~ 1_codigo/remotion/node_modules/@react-three/fiber/dist/declarations/src/core/index.d.ts
-      ~ 1_codigo/remotion/node_modules/@react-three/fiber/dist/declarations/src/core/loop.d.ts
-      … y 1082 más
-    quitados (286):
-      - 1_codigo/remotion/node_modules/@react-three/fiber/dist/events-d0449b76.cjs.dev.js
-      - 1_codigo/remotion/node_modules/@react-three/fiber/dist/events-d0a20a9c.cjs.prod.js
-      - 1_codigo/remotion/node_modules/@react-three/fiber/dist/events-e3cb66e2.esm.js
-      - 1_codigo/remotion/node_modules/@react-three/fiber/node_modules/scheduler/LICENSE
-      - 1_codigo/remotion/node_modules/@react-three/fiber/node_modules/scheduler/README.md
-      - 1_codigo/remotion/node_modules/@react-three/fiber/node_modules/scheduler/cjs/scheduler-unstable_mock.development.js
-      - 1_codigo/remotion/node_modules/@react-three/fiber/node_modules/scheduler/cjs/scheduler-unstable_mock.production.js
-      - 1_codigo/remotion/node_modules/@react-three/fiber/node_modules/scheduler/cjs/scheduler-unstable_post_task.development.js
-      - 1_codigo/remotion/node_modules/@react-three/fiber/node_modules/scheduler/cjs/scheduler-unstable_post_task.production.js
-      - 1_codigo/remotion/node_modules/@react-three/fiber/node_modules/scheduler/cjs/scheduler.development.js
-      - 1_codigo/remotion/node_modules/@react-three/fiber/node_modules/scheduler/cjs/scheduler.native.development.js
-      - 1_codigo/remotion/node_modules/@react-three/fiber/node_modules/scheduler/cjs/scheduler.native.production.js
-      … y 274 más
-
-2026-10-17 10:26  ·  v5.5.10  ·  cambio explicado
-    Creativo: captions animados por tema en el movil (QPainter, bucle del bloque y play), play nuevo con anillo de avance, boton de silenciar al pasar el raton, resplandor bajo el movil; sin el salto de la maqueta aproximada mientras se prepara la vista.
-    modificados (12):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/editor_ui.py
-      ~ 1_codigo/qt_kit.py
-      ~ 1_codigo/render_sin_resolve.py
-      ~ 1_codigo/render_temas.py
-      ~ 1_codigo/vista_tema.py
-      ~ 2_recursos/locales/de.json
-      ~ 2_recursos/locales/en.json
-      ~ 2_recursos/locales/fr.json
-      ~ 2_recursos/locales/it.json
-      ~ 2_recursos/locales/pt.json
-
-2026-10-17 09:58  ·  v5.5.10  ·  cambio explicado
-    Banco probar_vista_creativo.py (6 temas): planificacion identica a lo que recibio Resolve, Principal 22/22; arreglos: kinetic_planificador usaba mal los indices de mains (la Principal caia en la palabra de al lado), Creativo buscaba el bloque de una palabra por tiempo (cue_de_palabra), Tema 5 sin el video para el color.
-    nuevos (1):
-      + 1_codigo/herramientas_dev/probar_vista_creativo.py
-    modificados (9):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/kinetic_planificador.py
-      ~ 1_codigo/vista_tema.py
-      ~ 2_recursos/locales/de.json
-      ~ 2_recursos/locales/en.json
-      ~ 2_recursos/locales/fr.json
-      ~ 2_recursos/locales/it.json
-      ~ 2_recursos/locales/pt.json
-
-2026-10-17 09:45  ·  v5.5.10  ·  cambio explicado
-    Creativo: el movil ensena EXACTAMENTE el tema elegido (6 temas): cues del planificador del tema con las marcas de ahora y el dibujo de GO sin Resolve (vista_tema.py), quieto, en vivo al cambiar Principal y a 30 fps al dar play; movil mas realista (sombra, barra de estado, reflejo, barrita de avance).
-    nuevos (1):
-      + 1_codigo/vista_tema.py
-    modificados (8):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/qt_kit.py
-      ~ 2_recursos/locales/de.json
-      ~ 2_recursos/locales/en.json
-      ~ 2_recursos/locales/fr.json
-      ~ 2_recursos/locales/it.json
-      ~ 2_recursos/locales/pt.json
-
-2026-10-17 09:21  ·  v5.5.10  ·  cambio explicado
-    Slider de Proyecto: las tarjetas ya no llevan el nombre ni el subtitulo del tema (abajo ya lo dice); solo la pildora Con PRO / Solo captions, al pie y centrada.
-    modificados (7):
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/estilos_slider.py
-      ~ 2_recursos/locales/de.json
-      ~ 2_recursos/locales/en.json
-      ~ 2_recursos/locales/fr.json
-      ~ 2_recursos/locales/it.json
-      ~ 2_recursos/locales/pt.json
-
-2026-10-17 09:08  ·  v5.5.10  ·  (automático)
-    modificados (6):
-      ~ 1_codigo/ajustes_ui.py
-      ~ 2_recursos/locales/de.json
-      ~ 2_recursos/locales/en.json
-      ~ 2_recursos/locales/fr.json
-      ~ 2_recursos/locales/it.json
-      ~ 2_recursos/locales/pt.json
-
-2026-10-17 00:51  ·  v5.5.10  ·  cambio explicado
-    Creativo: columna derecha solo con el movil grande y el play dentro; tamano y Generar junto a Mas herramientas. Arreglado: soltar un video en GO fallaba en 5.5.10 (fps llegaba como texto y se formateaba con %d en _CREAR_TIMELINE).
-    modificados (3):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/qt_kit.py
-      ~ 1_codigo/resolve_mcp.py
-
-2026-10-17 00:37  ·  v5.5.10  ·  (automático)
-    modificados (26):
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/version.py
-      ~ 2_recursos/locales/de.json
-      ~ 2_recursos/locales/en.json
-      ~ 2_recursos/locales/fr.json
-      ~ 2_recursos/locales/it.json
-      ~ 2_recursos/locales/pt.json
-      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
-      … y 14 más
-
-2026-10-17 00:33  ·  v5.5.9  ·  cambio explicado
-    Creativo: la vista del bloque es un movil con foto de muestra y los captions encima; sin la barra (solo con Mas herramientas); tamano de texto y Generar grandes arriba a la derecha; Generar vuelve a Inicio y ensena el avance en el orbe de GO.
-    nuevos (3):
-      + 2_recursos/creativo/movil.json
-      + 2_recursos/creativo/movil_fondo.jpg
-      + 2_recursos/creativo/movil_marco.png
-    modificados (11):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/editor_ui.py
-      ~ 1_codigo/estilos_slider.py
-      ~ 1_codigo/guion_vista.py
-      ~ 1_codigo/qt_kit.py
-      ~ 2_recursos/locales/de.json
-      ~ 2_recursos/locales/en.json
-      ~ 2_recursos/locales/fr.json
-      ~ 2_recursos/locales/it.json
-      ~ 2_recursos/locales/pt.json
-      ~ 3_compilar/cinecaptions.spec
-
-2026-10-17 00:04  ·  v5.5.9  ·  cambio explicado
-    29,97 fps: los fps se ponen en el PROYECTO antes de crear el timeline y como '30' (no '30.0') (resolve_mcp + ArmarVideo.lua). Packs Luxe con sombra oscura suave (elemento 4) para leerse sobre fondos claros: Tema4/5/6 y Referencia regenerados, REVISION_BIN +1. Tema 5: la clave 'detras' pasa a caption normal si la persona esta tan arriba que el texto caeria a media cabeza o mas abajo.
-    modificados (9):
-      ~ 1_codigo/edicion_pro.py
-      ~ 1_codigo/plantillas.py
-      ~ 1_codigo/resolve_mcp.py
-      ~ 2_recursos/generador_packs/luxe_macro.py
-      ~ 2_recursos/plantillas_incluidas/Referencia/Referencia vertical.drb
-      ~ 2_recursos/plantillas_incluidas/Tema4/Tema4 vertical.drb
-      ~ 2_recursos/plantillas_incluidas/Tema5/Tema5 vertical.drb
-      ~ 2_recursos/plantillas_incluidas/Tema6/Tema6 vertical.drb
-      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
-
-2026-10-16 23:01  ·  v5.5.9  ·  cambio explicado
-    Incoherencias: Motions completo no salia si la PRO no tenia graficos para ese video (el plan solo se guardaba con piezas); el rectificador quitaba sus sonidos (ahora llevan sinc). Probado con GO real en Studio (Tema 4 + PRO + Motions completo).
-    modificados (3):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/motions_completo.py
-      ~ 1_codigo/rectificador.py
 
 
 (Lo anterior está archivado por mes en DOCUMENTACION/historial/REGISTRO_<aaaa-mm>.txt)

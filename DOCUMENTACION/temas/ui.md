@@ -26,6 +26,8 @@
 
 **Dónde:** `ritmo_ui.py`
 
+**v5.22 (el usuario: «al volver a Inicio las animaciones van trabadas, como que se reinician»):** (1) `EscenaGo._reanudar` (al volver a verse, al volver la ventana y al salir de minimizada): el primer 1,2 s no cuenta para la política «equipo lento» (antes los tirones de la transición la dejaban a 30 fps 8 s, 16 s… hasta 2 min, y cada vuelta más); `changeEvent(ActivationChange)` cambia 60↔30 fps al momento. (2) `TituloGo` solo entra letra a letra la PRIMERA vez (y al cambiar de texto). (3) `ir_a('inicio')` ya no repite `entrada_escalonada` (efectos Qt sobre la escena 3D). (4) `_refrescar_recientes` lee los proyectos (y si existe cada video) en un hilo y solo rehace las filas si cambió algo (`_pintar_recientes`, firma); `_pintar_go_reposo_sin_esperas` mira el video en un hilo antes de pintar: con los videos en un disco dormido, `Path.exists()` congelaba Inicio al volver. Probado sin pantalla: título sin repetir, 60 fps tras volver, lento_n 0, `ir_a` 10–35 ms.
+
 ## qt-kit — Widgets base, hilos y Pila
 
 **Qué:** Widgets base, hilos (`correr_en_hilo`, `despues`), `Pila`
@@ -37,6 +39,8 @@
 **Qué:** Ajustes / tema
 
 **Dónde:** `ajustes_ui.py`, `tema.py`
+
+**v5.22 (pedidos del usuario):** el color de resaltado de fábrica es el **verde** (`tema.ACENTO_POR_DEFECTO`, primero en `tema.ACENTOS`). En Ajustes › Interfaz ya no son 7 tarjetas + «Elegir color…»: es UNA fila de muestras redondas a la derecha (`_MuestrasAcento`): el elegido con su aro y una marca, el ratón las hincha con resorte y debajo de cada una sale su nombre (sin tooltips); la última, «Mi color» (aro de arcoíris), abre el selector. En General se quitaron «Mantener CineCaptions encima» (queda el alfiler del menú lateral) y «Copias de seguridad» (`copias.py` sin uso).
 
 ## isla-nav — Isla de navegación y controles de ventana
 

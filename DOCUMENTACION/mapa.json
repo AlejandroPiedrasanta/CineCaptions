@@ -3779,6 +3779,47 @@
         "RETIRADAS"
       ],
       "resumen": "RETIRADO en 5.5.9 (sin muñecos): edicion_pro_escenas.RETIRADAS; Pictos3D.tsx queda para proyectos viejos"
+    },
+    {
+      "id": "posiciones-pro",
+      "grupo": "efectos",
+      "tema": "Efectos › «Posición»: marcar en la línea de tiempo del video (con fotogramas) los segundos de cada efecto de la PRO; solo ahí o + automático",
+      "claves": [
+        "posición",
+        "posiciones",
+        "marcas",
+        "línea de tiempo",
+        "fotogramas",
+        "segundo",
+        "doble clic",
+        "solo mis marcas",
+        "automático",
+        "detrás de ti",
+        "forzar",
+        "momento",
+        "timeline"
+      ],
+      "archivos": [
+        "posiciones_pro.py",
+        "efectos_pro_ui.py",
+        "edicion_pro.py",
+        "2_recursos/edicion_pro/colocar_pro.py"
+      ],
+      "simbolos": [
+        "VistaPosiciones",
+        "LineaTiempo",
+        "para_plan",
+        "fotogramas",
+        "leer",
+        "guardar",
+        "LIBRES",
+        "_marcas_libres",
+        "_ligadas",
+        "_marcas_broll",
+        "_tramos_motions",
+        "mostrar_posiciones"
+      ],
+      "resumen": "Botón «Posición» (y doble clic) en cada sección de Efectos › Edición PRO: línea de tiempo del video con fotogramas para marcar en qué segundos va el efecto; «Solo mis marcas | + automático»; GO lo respeta (posiciones_pro.para_plan → edicion_pro: _marcas_libres, _ligadas, _marcas_broll, _captions_detras(marcas=), _tramos_motions)."
     }
   ]
 }
