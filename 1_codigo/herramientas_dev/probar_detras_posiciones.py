@@ -54,7 +54,7 @@ def palabras_de(video):
 
 
 def main():
-    videos = [Path(v) for v in sys.argv[1:]] or [PRUEBAS / n for n in ('CLIENTE.mp4', 'PRUEBAS (1).mp4', 'TEMA6USAR.mp4')]
+    videos = [Path(v) for v in sys.argv[1:]] or [PRUEBAS / n for n in ('CLIENTE.mp4', 'PRUEBAS (1).mp4', 'TEMA6USAR.mp4', 'PRUEBAS (8).mp4')]
     videos = [v for v in videos if v.is_file()]
     if not videos:
         print('No encuentro los videos de prueba.')
@@ -141,32 +141,50 @@ def main():
             continue
         _w, _h, dur, fps = EP.medir(str(v))
         cortes = efectos_visuales.detectar_cortes(str(v)) or []
-        plan = EP.planificar(str(v), w, dur, cortes=cortes, idioma='es', opciones=EP.opciones_guardadas(), tema='neon')
-        plan['kitneon'] = KM.ajustar_captions(KN.escena_captions(w, 'es', fin_video=dur), plan['kitneon_motions'])
+        idioma = POS._idioma_de(w)
+        plan = EP.planificar(str(v), w, dur, cortes=cortes, idioma=idioma, opciones=EP.opciones_guardadas(), tema='neon')
+        plan['kitneon'] = KM.ajustar_captions(KN.escena_captions(w, idioma, fin_video=dur), plan['kitneon_motions'])
         bl = KN.bloques_pro(plan['kitneon'])
+        orig_assets = EP._assets_emoji                                # (sin bajar nada de internet: solo que lea las palabras sin fallar)
+        EP._assets_emoji = lambda c, var: None
+        try:
+            EP._emojis_pro(bl, [], {}, {}, 1080, 1920, EP.opciones_guardadas(), None)
+            comprobar(True, f'{v.name}: «Emojis animados» lee los captions del Tema 1 (3 datos por palabra) sin «too many values to unpack»')
+        except Exception as e:
+            comprobar(False, f'{v.name}: «Emojis animados» con los captions del Tema 1: {e!r}')
+        finally:
+            EP._assets_emoji = orig_assets
         mapa = PLA.mapa_camara(str(v), plan, 1080, 1920)
         info = {'fps': fps, 'inicio': 0, 'base': 0, 'v1': [{'ruta': str(v), 'ini': 0, 'fin': int(dur * fps) + 1, 'izq': 0, 'fps': fps,
                                                             'res': f'{_w}x{_h}'}]}
         ocup = [(m['ini'] - 0.1, m['fin'] + 0.1) for m in plan['kitneon_motions'] if m.get('capa') != 'iconos']
+        zonas_c, _mc = POS.zonas_detras(an, pals, [{'start': x['ini'], 'end': x['fin']} for x in bl])     # (el verde de la tira con los captions del Tema 1: solo donde HAY caption)
         marcas = []
-        for a, b in zonas:
+        for a, b in zonas_c:
             t = a + 0.5
             while t < b and len(marcas) < POS.TOPE_MARCAS['detras']:
                 if all(abs(t - x) >= 3.0 for x in marcas):
                     marcas.append(round(t, 1))
                 t += 3.0
-        for via, ac in (('Tema 1 (placa)', mapa), ('vía común (V1)', None)):
-            if not marcas:
-                break
-            REG.clear()
-            tramos = EP._captions_detras(info, str(v), fps, ocup, 'media', lambda t: None, W=1080, H=1920, intensidad='media', bloques=bl,
-                                          a_cuadro=ac, marcas={'modo': 'solo', 'ts': marcas}, cortes=cortes)
-            cues = [c for tr_ in tramos for c in tr_['cues']]
-            puestas = [t for t in marcas if any(c['ini'] - EP.RADIO_MARCA_DETRAS_S <= t <= c['fin'] + EP.RADIO_MARCA_DETRAS_S for c in cues)]
-            avisos = [x for _n, x in REG if 'Posiciones de Efectos' in x]
-            comprobar(len(puestas) >= 0.8 * len(marcas),
-                      f'{v.name} · {via}: {len(puestas)} de {len(marcas)} marcas en verde salen detrás' + (f' · Registro: {avisos[0][:160]}' if avisos else ''))
-            comprobar(all(tr_.get('forzado') for tr_ in tramos), f'{v.name} · {via}: con «solo mis marcas» no hay más que las marcadas')
+        # (v5.28) lo que la tira SUGIERE con los captions del tema (los mismos que ve el usuario): GO pone detrás TODAS
+        cap = POS.captions_del_video(str(v))
+        sugeridas = []
+        if cap:
+            zonas_ui, _m2 = POS.zonas_detras(an, pals, POS.bloques_de(cap))
+            sugeridas = [t for t, _x in POS.sugerir(zonas_ui, an, POS.bloques_de(cap), exigir_grande=cap['pack'] == 'Kinetic')]
+        for nombre, lista, minimo in (('marcas en verde (cada 3 s)', marcas, 0.5), ('sugeridas', sugeridas, 1.0)):
+            for via, ac in (('Tema 1 (placa)', mapa), ('vía común (V1)', None)):
+                if not lista:
+                    break
+                REG.clear()
+                tramos = EP._captions_detras(info, str(v), fps, ocup, 'media', lambda t: None, W=1080, H=1920, intensidad='media', bloques=bl,
+                                              a_cuadro=ac, marcas={'modo': 'solo', 'ts': lista}, cortes=cortes)
+                cues = [c for tr_ in tramos for c in tr_['cues']]
+                puestas = [t for t in lista if any(c['ini'] - EP.RADIO_MARCA_DETRAS_S <= t <= c['fin'] + EP.RADIO_MARCA_DETRAS_S for c in cues)]
+                avisos = [x for _n, x in REG if 'Posiciones de Efectos' in x]
+                comprobar(len(puestas) >= minimo * len(lista),
+                          f'{v.name} · {via}: {len(puestas)} de {len(lista)} {nombre} salen detrás' + (f' · Registro: {avisos[0][:160]}' if avisos else ''))
+                comprobar(all(tr_.get('forzado') for tr_ in tramos), f'{v.name} · {via}: con «solo mis marcas» no hay más que las marcadas')
         if v.name == 'CLIENTE.mp4':
             for via, ac in (('Tema 1 (placa)', mapa), ('vía común (V1)', None)):
                 tramos = EP._captions_detras(info, str(v), fps, ocup, 'media', lambda t: None, W=1080, H=1920, intensidad='media', bloques=bl,
@@ -234,13 +252,14 @@ def main():
     sec.mostrar_posiciones(True)
     vista = sec._pos
     lin = vista.linea
-    listo = esperar(lambda: lin.dur > 0 and lin.zonas is not None)
+    listo = esperar(lambda: lin.dur > 0 and lin.zonas is not None and lin.captions_listos)
     comprobar(listo, f'CLIENTE: la tira carga y sabe dónde queda bien (zonas {lin.zonas})')
     if listo:
         lin.grab().save(str(tmp / 'tira_CLIENTE.png'))
         clic(lin, 20.0)
         comprobar(len(lin.marcas) == 1 and any(a <= lin.marcas[0] <= b for a, b in lin.zonas) and lin.nota,
                   f'clic en 20 s (casa, sin voz) → la marca va al verde: {lin.marcas} · «{lin.nota}»')
+        comprobar(LAT.estado('detras'), 'la primera marca ya enciende «detrás de ti» en GO (sin tener que darle a «Activado en GO»)')
         clic(lin, 0.5)
         comprobar(len(lin.marcas) == 2, f'clic en 0,5 s (verde) → se queda ahí: {lin.marcas}')
         clic(lin, 1.0)
@@ -259,21 +278,80 @@ def main():
         lin.grab().save(str(tmp / 'tira_CLIENTE_marcas.png'))
         REG.clear()
         vista._listo()
-        comprobar(LAT.estado('detras'), '«Listo» con marcas → «detrás de ti» queda ENCENDIDO en GO (estaba apagado)')
+        comprobar(LAT.estado('detras'), '«Listo» con marcas → «detrás de ti» sigue ENCENDIDO en GO')
         comprobar(not getattr(sec, '_en_pos', False), '«Listo» cierra la tira')
-        comprobar(any(('posición guardada' in x or 'posiciones guardadas' in x) and 'lo encendí en GO' in x and 'GO la' in x for _n, x in REG),
+        comprobar(any(('posición guardada' in x or 'posiciones guardadas' in x) and 'GO la' in x for _n, x in REG),
                   f'«Listo» lo dice en el Registro: {REG[-1:]}')
         plan_m = POS.para_plan(str(cliente))
         comprobar(len((plan_m.get('detras') or {}).get('ts') or []) == len(lin.marcas), f'GO (para_plan) las tiene: {plan_m}')
         n, _m = POS.resumen(str(cliente), 'detras')
         comprobar(n == len(lin.marcas), f'el resumen de la sección (su cabecera) cuenta {n}')
+    # v5.27: sugerencias a un clic y la vista con los captions del tema de Inicio (el video de Inicio)
+    import plantillas
+    sug_v = next((v for v in videos if v.name == 'PRUEBAS (8).mp4'), None) or next((v for v in videos if v.name == 'PRUEBAS (1).mp4'), None)
+    if sug_v is not None:
+        INICIO[0] = str(sug_v)
+        vista._a_mano = False
+        PREFS['pro_neon_extras'] = []                                 # (apagado: la sugerencia lo enciende)
+        sec.mostrar_posiciones(True)
+        vista.abrir(str(sug_v))
+        listo = esperar(lambda: lin.ruta == str(sug_v) and lin.zonas is not None and lin.captions_listos and lin.captions is not None and lin.sugeridas)
+        comprobar(listo and 1 <= len(lin.sugeridas) <= POS.N_SUGERIDAS, f'{sug_v.name}: {len(lin.sugeridas)} sitios sugeridos {lin.sugeridas}')
+        if listo:
+            botones = sum(1 for i in range(vista._capa_sug.count()) if vista._capa_sug.itemAt(i).widget() is not None) - 1
+            comprobar(not vista._fila_sug.isHidden() and botones == len(lin.sugeridas) + (1 if len(lin.sugeridas) > 1 else 0),
+                      f'la fila «Sugeridas:» enseña un botón por sitio (+ «Poner las {len(lin.sugeridas)}»)')
+            comprobar(lin.captions['nombre'] == plantillas.nombre_visible(POS.tema_de_inicio()),
+                      f'la vista usa el tema de Inicio: {lin.captions["nombre"]} ({"los captions que GO puso" if lin.captions["de_go"] else "planificados"})')
+            claves = [round(t, 1) for t, _x in lin.sugeridas]
+            esperar(lambda: all(k in lin._vistas for k in claves), 120)
+            infos = [lin._vistas.get(k, (None, {}))[1] for k in claves]
+            comprobar(all(i.get('detras') for i in infos), f'en la vista, cada sugerida queda DETRÁS de la persona: {[i.get("motivo") for i in infos]}')
+            lin._t_sobre = lin.sugeridas[0][0]
+            lin.grab().save(str(tmp / f'vista_{sug_v.stem}_sugerida.png'))
+            lin._t_sobre = None
+            t0 = lin.sugeridas[0][0]
+            vista._poner(t0)
+            comprobar(t0 in lin.marcas and LAT.estado('detras'), f'clic en «+ {POS.texto_t(t0)}» → queda puesta y «detrás de ti» se enciende en GO')
+            comprobar(all(abs(t - t0) >= POS.SEPARACION_MIN for t, _x in lin.sugeridas), 'y deja de sugerirse')
+            if lin.sugeridas:
+                t1 = lin.sugeridas[0][0]
+                clic(lin, t1)
+                comprobar(t1 in lin.marcas, f'clic en su anillo «+» de la tira → puesta en {POS.texto_t(t1)}')
+            antes = len(lin.marcas)
+            vista._poner_todas()
+            comprobar(len(lin.marcas) >= antes and not lin.sugeridas and vista._fila_sug.isHidden(),
+                      f'«Poner las N» → {len(lin.marcas)} marcas y ya no queda nada que sugerir (la fila se esconde)')
+            z = next((zz for zz in lin.zonas if zz[1] - zz[0] > 2.0), None)
+            if z is not None:
+                lin.quitar_todas()
+                borde = next((round(t, 1) for t in (z[1] - 0.1, z[0] + 0.1) if all(abs(t - s) > 0.8 for s, _x in lin.sugeridas)), None)
+                if borde is not None:                                  # (lejos de un anillo «+»: ese pondría la sugerencia)
+                    clic(lin, borde)
+                    comprobar(lin.marcas and abs(lin.marcas[0] - borde) < 0.06 and not lin.nota,
+                              f'clic dentro del verde, junto a su borde ({POS.texto_t(borde)}) → se queda ahí y sin aviso vacío ({lin.marcas}, «{lin.nota}»)')
+            lin._t_sobre = lin.marcas[0] if lin.marcas else None
+            lin.grab().save(str(tmp / f'vista_{sug_v.stem}_marca.png'))
+            lin._t_sobre = None
+            # otro tema en Inicio → la vista con SUS captions
+            PREFS['go_pack'] = PREFS['plantilla'] = 'Referencia'
+            vista.al_volver()
+            esperar(lambda: lin.captions is not None and lin.captions.get('pack') == 'Referencia' and lin.sugeridas, 60)
+            comprobar(lin.captions is not None and lin.captions.get('nombre') == 'Tema 2', f'cambio a Tema 2 en Inicio → la vista lo detecta ({(lin.captions or {}).get("nombre")})')
+            if lin.sugeridas:
+                k = round(lin.sugeridas[0][0], 1)
+                esperar(lambda: k in lin._vistas, 60)
+                lin._t_sobre = lin.sugeridas[0][0]
+                lin.grab().save(str(tmp / f'vista_{sug_v.stem}_tema2.png'))
+                lin._t_sobre = None
+            PREFS['go_pack'] = PREFS['plantilla'] = 'Kinetic'
     # un video elegido a mano: el tope de marcas y «Listo» lo pone en Inicio
     pruebas_v = next((v for v in videos if v.name == 'PRUEBAS (1).mp4'), None)
     if pruebas_v is not None:
         vista._a_mano = True
         sec.mostrar_posiciones(True)
         vista.abrir(str(pruebas_v))
-        listo = esperar(lambda: lin.ruta == str(pruebas_v) and lin.dur > 0 and lin.zonas is not None)
+        listo = esperar(lambda: lin.ruta == str(pruebas_v) and lin.dur > 0 and lin.zonas is not None and lin.captions_listos)
         comprobar(listo, f'PRUEBAS (1) elegido a mano: carga ({lin.zonas})')
         if listo:
             tope = POS.TOPE_MARCAS['detras']
@@ -304,7 +382,7 @@ def main():
     if tema6 is not None:
         sec.mostrar_posiciones(True)
         vista.abrir(str(tema6))
-        listo = esperar(lambda: lin.ruta == str(tema6) and lin.dur > 0 and lin.zonas is not None)
+        listo = esperar(lambda: lin.ruta == str(tema6) and lin.dur > 0 and lin.zonas is not None and lin.captions_listos)
         if comprobar(listo and lin.zonas == [], 'TEMA6USAR: sin ningún verde'):
             clic(lin, 20.0)
             comprobar(not lin.marcas and 'ningún momento' in lin.nota, f'clic → no pone marca y dice por qué: «{lin.nota}»')

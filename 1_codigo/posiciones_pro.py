@@ -50,7 +50,7 @@ ZONA_MIN_S = 0.6                         # un tramo bueno más corto no vale (un
 ZONA_CORONILLA_MIN = 0.2                 # la pila de un caption mide ~0,15 del alto: con la cabeza más arriba, el texto no cabe (TEMA6USAR.mp4: 0,16)
 ZONA_X = (0.15, 0.85)                    # la cabeza, no pegada a un lado (el caption va centrado)
 MOVIMIENTO_ZONA = (0.06, 0.08)           # lo que puede moverse la cabeza entre dos miradas seguidas (alto, ancho) sin cortar la zona
-VERSION_ZONAS = 1
+VERSION_ZONAS = 2                        # (2: los cortes con su fuerza)
 
 
 # ======================================================================================================================== datos
@@ -357,8 +357,8 @@ def fotogramas(ruta, n=N_FOTOS, alto=ALTO_FOTO):
     return dict(d, fotos=[(t, str(carpeta / f)) for t, f in fotos], imagen=img)
 
 
-def palabras(ruta):
-    """[(segundo, palabra)] de lo que se dice en ese video, si GO ya lo transcribió (la caché de la voz); [] si no."""
+def _voz_de(ruta):
+    """Las palabras [{'word', 'start', 'end'}] de ese video si GO ya lo transcribió (la caché de la voz, la más nueva); [] si no."""
     try:
         import cache_voz
         nombre = Path(ruta).name
@@ -369,10 +369,15 @@ def palabras(ruta):
             except Exception:
                 continue
             if d.get('video') == nombre and isinstance(d.get('palabras'), list):
-                return [(float(p['start']), str(p.get('word') or '').strip()) for p in d['palabras'] if p.get('start') is not None]
+                return [p for p in d['palabras'] if isinstance(p, dict) and p.get('start') is not None]
     except Exception:
         pass
     return []
+
+
+def palabras(ruta):
+    """[(segundo, palabra)] de lo que se dice en ese video, si GO ya lo transcribió (la caché de la voz); [] si no."""
+    return [(float(p['start']), str(p.get('word') or '').strip()) for p in _voz_de(ruta)]
 
 
 def texto_t(t):
@@ -436,7 +441,7 @@ def analizar_detras(ruta, al_progreso=None):
             except Exception:
                 pass
     tope = desde + dur + 0.1 if (desde or dur_audio) else None
-    cortes = [round(t - desde, 3) for t, _f in EV.detectar_cortes(img, tope_s=tope, por_fotograma=mirar) if 0.0 < t - desde < dur]
+    cortes = [[round(t - desde, 3), f] for t, f in EV.detectar_cortes(img, tope_s=tope, por_fotograma=mirar) if 0.0 < t - desde < dur]   # (con su fuerza: GO la usa)
     d = {'dur': round(dur, 3), 'paso': PASO_ZONAS, 'muestras': muestras, 'cortes': cortes}
     try:
         carpeta.mkdir(parents=True, exist_ok=True)
@@ -447,19 +452,23 @@ def analizar_detras(ruta, al_progreso=None):
     return d
 
 
-def zonas_detras(analisis, palabras=()):
+def zonas_detras(analisis, palabras=(), cues=None):
     """De analizar_detras: ([(ini, fin)] donde «detrás de ti» queda bien, motivo(t) → clave de edicion_pro.MOTIVOS_DETRAS o None).
     Una zona = miradas seguidas con la persona bien, en la MISMA toma (sin corte entre medias), con la cabeza quieta (MOVIMIENTO_ZONA) y, si el
-    video ya está transcrito, hablando (sin voz no hay captions)."""
+    video ya está transcrito, hablando (sin voz no hay captions). v5.27: con `cues` (los captions del tema), solo donde HAY un caption (en el
+    Tema 1 los motions del kit ocupan tramos con voz y sin captions)."""
     import bisect
     if not analisis:
         return [], (lambda t: None)
     paso = float(analisis.get('paso') or PASO_ZONAS)
     dur = float(analisis.get('dur') or 0.0)
-    cortes = sorted(float(c) for c in analisis.get('cortes') or [])
+    cortes = sorted(float(c[0] if isinstance(c, (list, tuple)) else c) for c in analisis.get('cortes') or [])
     voz = sorted(float(s) for s, _w in palabras or [])
+    tramos = sorted((float(c.get('start') or 0.0), float(c.get('end') or 0.0)) for c in cues or [])
 
     def hablando(t):
+        if tramos:
+            return any(a - 0.1 <= t <= b + 0.1 for a, b in tramos)
         if not voz:
             return True
         i = bisect.bisect_left(voz, t - 0.9)
@@ -516,8 +525,9 @@ def zonas_detras(analisis, palabras=()):
 
 
 def ajustar_a_zonas(t, zonas, margen=0.15):
-    """El segundo más cercano a t dentro de una zona (a `margen` de sus bordes si cabe): el «tope» de las marcas. t si no hay zonas."""
-    if not zonas:
+    """El segundo más cercano a t dentro de una zona (a `margen` de sus bordes si cabe): el «tope» de las marcas. t si no hay zonas o si ya está
+    dentro de una (v5.27: antes lo apartaba del borde y avisaba «Puesta en 0:47.3… (en 0:47.4: )» sin motivo)."""
+    if not zonas or any(a <= t <= b for a, b in zonas):
         return t
     mejor, dist = t, None
     for a, b in zonas:
@@ -529,10 +539,287 @@ def ajustar_a_zonas(t, zonas, margen=0.15):
     return r if any(a <= r <= b for a, b in zonas) else round(mejor, 2)
 
 
+# ======================================================================================================================== sugerencias y vista (v5.27)
+# El usuario: «me dice dónde queda bien, pero que me lo indique: si me sugiere 3 lugares y les doy clic, que quede lista la selección; que
+# detecte el tema y me dé la vista con los captions; si ya lo puse en la línea de tiempo, que muestre ese resultado aquí»
+N_SUGERIDAS = 3
+SEPARACION_SUGERIDAS = 3.0
+
+
+def texto_cue(cue, n=4):
+    """Las primeras palabras de un cue (lo que se lee en él)."""
+    trozos = [str(r.get('texto') or '') for r in cue.get('runs') or []] + [str(ln.get('text') or '') for ln in cue.get('lines') or []]
+    palabras_ = ' '.join(t for t in trozos if t.strip()).split()
+    txt = ' '.join(palabras_[:n])
+    return (txt[:1].upper() + txt[1:].lower() if txt.isupper() else txt) + ('…' if len(palabras_) > n else '')
+
+
+def _grande_abajo(cue):
+    """¿La palabra GRANDE del cue es la de abajo? (es la que tapa la cabeza: así la línea pequeña siempre se lee)."""
+    runs = [r for r in cue.get('runs') or [] if isinstance(r.get('y'), (int, float))]
+    if not runs:
+        return False
+    tam = lambda r: float(r.get('size') or r.get('zoom') or (2.0 if r.get('rol') == 'main' or r.get('fu') == 'main' else 1.0))
+    abajo = max(runs, key=lambda r: float(r['y']))
+    return tam(abajo) >= 0.8 * max(tam(r) for r in runs)
+
+
+def _cue_en(cues, t, holgura=0.6):
+    """Índice del cue que se ve en t (o el más cercano a menos de `holgura` s), o None."""
+    mejor, dist = None, holgura
+    for i, c in enumerate(cues or []):
+        a, b = float(c.get('start') or 0.0), float(c.get('end') or 0.0)
+        d = 0.0 if a <= t <= b else min(abs(t - a), abs(t - b))
+        if d < dist or (d == 0.0 and mejor is None):
+            mejor, dist = i, d
+            if d == 0.0:
+                break
+    return mejor
+
+
+def bloques_de(captions):
+    """Los bloques con los que se decide (el verde, las sugeridas): {'start', 'end', 'caja' [arriba, abajo], 'grande' (la palabra grande abajo),
+    'texto'}. Con el Tema 1 y la PRO, los de GO (captions_del_video: los del kit, sin los que tapan sus motions); si no, de los cues del tema."""
+    if not captions:
+        return []
+    if captions.get('bloques') is not None:
+        return captions['bloques']
+    out = []
+    for c in captions.get('cues') or []:
+        caja = c.get('caja')
+        if not (isinstance(caja, (list, tuple)) and len(caja) == 2):
+            ys = [float(r['y']) for r in c.get('runs') or [] if isinstance(r.get('y'), (int, float))]
+            caja = [min(ys) - 0.03, max(ys) + 0.03] if ys else [0.6, 0.75]
+        out.append({'start': float(c.get('start') or 0.0), 'end': float(c.get('end') or 0.0), 'caja': [float(caja[0]), float(caja[1])],
+                    'grande': _grande_abajo(c), 'texto': texto_cue(c)})
+    return out
+
+
+def sugerir(zonas, analisis=None, bloques=None, n=N_SUGERIDAS, ya=(), exigir_grande=False):
+    """[(t, texto)] los `n` mejores sitios para «detrás de ti»: un bloque (bloques_de) que cabe ENTERO en el verde o, sin captions, el centro
+    de cada zona; antes los de más aire sobre la cabeza, los más largos y los que llevan la palabra grande abajo, el primero (el gancho) con
+    ventaja; separados SEPARACION_SUGERIDAS y sin los que ya están marcados (`ya`). Ordenados por tiempo. `exigir_grande` (Tema 1: GO solo
+    pone detrás un caption con la palabra grande abajo): los demás no se sugieren."""
+    if not zonas:
+        return []
+    ms = [m for m in (analisis or {}).get('muestras') or [] if m[1] is None and m[2] is not None]
+
+    def aire(t):                                             # la coronilla bajo el borde de arriba (0,2 justo; 0,45 o más, de sobra)
+        cerca = [m[2] for m in ms if abs(m[0] - t) <= 0.6]
+        return max(0.0, min(1.0, (sum(cerca) / len(cerca) - ZONA_CORONILLA_MIN) / 0.25)) if cerca else 0.3
+    cand = []
+    for c in bloques or []:
+        a, b = float(c['start']), float(c['end'])
+        if b - a < 0.8 or (exigir_grande and not c.get('grande')):
+            continue
+        cor = [m[2] for m in ms if a - 0.25 <= m[0] <= b + 0.25]
+        if cor and min(cor) < 0.08 + max(0.03, c['caja'][1] - c['caja'][0]) - 0.025:
+            continue                                         # (ese caption es tan alto que, subido encima de la cabeza, se saldría por arriba)
+        for za, zb in zonas:
+            dentro = min(b, zb) - max(a, za)
+            if dentro >= 0.7 * (b - a):
+                t = round(min(max((a + b) / 2.0, za + 0.15), zb - 0.15), 1)
+                cand.append((t, c.get('texto') or '', aire(t) + 0.3 * min(b - a, 3.0) / 3.0 + (0.5 if c.get('grande') else 0.0)))
+                break
+    if not cand:                                             # (sin captions todavía: el centro de cada zona y, si es larga, cada 5 s)
+        for za, zb in zonas:
+            puntos = [(za + zb) / 2.0] if zb - za <= 6.0 else [za + 2.0 + 5.0 * i for i in range(int((zb - za - 2.0) // 5.0) + 1)]
+            for t in puntos:
+                t = round(min(max(t, za + 0.15), zb - 0.15), 1)
+                cand.append((t, '', aire(t) + 0.3 * min(zb - za, 3.0) / 3.0))
+    if cand:
+        primero = min(cand, key=lambda c: c[0])
+        cand = [(t, x, s + (0.4 if (t, x) == primero[:2] else 0.0)) for t, x, s in cand]
+    elegidas = []
+    for t, x, _s in sorted(cand, key=lambda c: -c[2]):
+        if len(elegidas) >= n:
+            break
+        if all(abs(t - e[0]) >= SEPARACION_SUGERIDAS for e in elegidas):
+            elegidas.append((t, x))
+    # (siempre las MISMAS n mejores: las ya marcadas se quitan y no salen otras —con «Poner las 3» se acaba—; si quitas una, vuelve)
+    return sorted(e for e in elegidas if all(abs(e[0] - y) >= SEPARACION_MIN for y in ya))
+
+
+def _clave_nombre(ruta_o_nombre):
+    """El nombre de un video o del proyecto de GO, comparable: sin «CineCaptions», sin «_audio», solo letras y números."""
+    import re
+    s = re.sub(r'[^0-9a-z]', '', Path(str(ruta_o_nombre)).stem.lower() if '.' in Path(str(ruta_o_nombre)).name else str(ruta_o_nombre).lower())
+    s = s[len('cinecaptions'):] if s.startswith('cinecaptions') else s
+    return s[:-len('audio')] if s.endswith('audio') else s
+
+
+def tema_de_inicio():
+    """El tema elegido en Inicio (pack de plantillas: 'Kinetic', 'Referencia'… o '')."""
+    try:
+        import edicion_pro
+        return edicion_pro.tema_actual() or ''
+    except Exception:
+        return ''
+
+
+def _idioma_de(pal):
+    """'en' o 'es' según las palabras más corrientes de lo que se dice."""
+    en = sum(1 for p in pal if str(p.get('word') or '').strip().lower() in ('the', 'and', 'to', 'you', 'is', 'of', 'a', 'it', 'that', 'in'))
+    es = sum(1 for p in pal if str(p.get('word') or '').strip().lower() in ('el', 'la', 'de', 'que', 'y', 'en', 'los', 'es', 'un', 'se'))
+    return 'en' if en > es else 'es'
+
+
+def bloques_neon(ruta, pal, imagen=None, analisis=None):
+    """Tema 1 con la PRO: los bloques que GO pone detrás de verdad (kit_neon: sus captions, quitados los que pisan un motion del kit, con las
+    mismas entradas que edicion_pro.planificar), como bloques_de. None si no se pudo. En un HILO (~3 s)."""
+    try:
+        import edicion_pro as EP
+        import kit_neon as KN
+        import kit_neon_motions as KM
+        img = imagen or fuente_imagen(ruta)
+        an = analisis or analizar_detras(ruta)
+        dur = float((an or {}).get('dur') or 0.0) or None
+        cortes = [tuple(c) if isinstance(c, (list, tuple)) else (float(c), 30.0) for c in (an or {}).get('cortes') or []]
+        idioma = _idioma_de(pal)
+        mot = KM.escena_motions(pal, idioma, dur, cortes=cortes, video=str(img[0] or ruta),
+                                usuario=str(EP.opciones_guardadas().get('pro_usuario') or '') or None)
+        out = []
+        for b in KN.bloques_pro(KM.ajustar_captions(KN.escena_captions(pal, idioma, fin_video=dur), mot)):
+            ws = [str(p[0]) for p in b.get('palabras') or []]
+            out.append({'start': b['ini'], 'end': b['fin'], 'caja': [b['arriba'], b['abajo']], 'grande': bool(b.get('grande_abajo')),
+                        'texto': ' '.join(ws[:4]) + ('…' if len(ws) > 4 else '')})
+        return out
+    except Exception:
+        return None
+
+
+def captions_del_video(ruta, imagen=None):
+    """Los captions de ese video con su tema: {'cues', 'estilo', 'pack', 'nombre' («Tema N»), 'de_go' (True = los que GO puso en el timeline),
+    'bloques' (Tema 1 con la PRO: bloques_neon; si no, None)}. Si el último GO fue de este video y con el mismo tema, sus cues tal cual (el
+    manifiesto); si no, los que pondría el tema de Inicio con lo que se dice (vista_tema.planificar, como Creativo). None si no hay tema de
+    fábrica o el video no está transcrito. En un HILO."""
+    r = _captions_del_video(ruta, imagen)
+    if r and r.get('pack') == 'Kinetic':
+        try:
+            import edicion_pro as EP
+            pal = _voz_de(ruta) if EP.en_juego() else []
+        except Exception:
+            pal = []
+        r['bloques'] = bloques_neon(ruta, pal, imagen) if pal else None
+    return r
+
+
+def _captions_del_video(ruta, imagen=None):
+    import plantillas
+    import vista_tema
+    img = imagen or fuente_imagen(ruta)
+    pack = tema_de_inicio()
+    vertical = True
+    try:
+        import edicion_pro as EP
+        w, h, _d, _f = EP.medir(img[0] or ruta)
+        vertical = not (w and h and w > h)
+    except Exception:
+        pass
+    estilo = vista_tema.estilo_de_pack(pack, 'v' if vertical else 'h')
+    if not estilo:
+        return None
+    nombre = plantillas.nombre_visible(pack)
+    try:                                                     # lo que GO ya puso en el timeline (si fue este video y con este tema)
+        import edicion_pro as EP
+        m = json.loads(EP.MANIFIESTO.read_text(encoding='utf-8'))
+        if _clave_nombre(m.get('project') or '') in {_clave_nombre(ruta), _clave_nombre(img[0] or ruta)}:
+            for t in m.get('tracks') or []:
+                if t.get('style') in ('guion', 'kinetic') and (t.get('plantilla') or {}).get('pack') == pack and t.get('data_path'):
+                    cues = json.loads(Path(t['data_path']).read_text(encoding='utf-8')).get('cues') or []
+                    if cues:
+                        return {'cues': cues, 'estilo': estilo, 'pack': pack, 'nombre': nombre, 'de_go': True}
+    except Exception:
+        pass
+    pal = _voz_de(ruta)
+    if not pal:
+        return None
+    try:
+        cues = vista_tema.planificar(pal, [], pack, estilo, idioma=_idioma_de(pal), fin_video=img[2])
+    except Exception:
+        cues = []
+    return {'cues': cues, 'estilo': estilo, 'pack': pack, 'nombre': nombre, 'de_go': False} if cues else None
+
+
+def vista_detras(ruta, t, captions, imagen=None, alto=640):
+    """La vista previa del instante t COMO QUEDA: el fotograma del video, el caption del tema que suena ahí y la persona DELANTE, subido con la
+    misma regla de GO (la pila acaba un poco por debajo de la coronilla; edicion_pro.motivo_cabeza / INTENSIDAD_DETRAS). Si ahí no puede, el
+    caption en su sitio de siempre. → (RGB uint8 HxWx3, {'detras': bool, 'motivo': clave | None, 'texto'}) o None. En un HILO."""
+    import numpy as np
+    from PIL import Image
+    import edicion_pro as EP
+    import edicion_pro_persona as PE
+    import render_sin_resolve as RSR
+    img_f, desde, _dur = imagen or fuente_imagen(ruta)
+    if not img_f:
+        return None
+    rgb = PE.fotograma(img_f, float(t) + float(desde or 0.0))
+    if rgb is None:
+        return None
+    h0, w0 = rgb.shape[:2]
+    H = int(alto)
+    W = max(2, int(round(H * w0 / float(h0))))
+    base = np.asarray(Image.fromarray(rgb).resize((W, H), Image.LANCZOS), dtype=np.uint8)
+    info = {'detras': False, 'motivo': None, 'texto': ''}
+    cues = (captions or {}).get('cues') or []
+    k = _cue_en(cues, float(t))
+    neon = (captions or {}).get('bloques')
+    if neon is not None and not any(b['start'] - 0.15 <= t <= b['end'] + 0.15 for b in neon):
+        k = None                                             # (Tema 1 con la PRO: ahí va un motion del kit y GO quita ese caption)
+    if k is None:
+        info['motivo'] = 'sin_captions'
+        return base, info
+    cue = cues[k]
+    info['texto'] = texto_cue(cue, 6)
+    capas = RSR.preparar([cue], W, H, estilo=(captions or {}).get('estilo'))
+    letras = [c for c in capas if c.get('tipo') != 'emoji']
+    if not letras:
+        return base, info
+    t_vis = min(float(cue.get('end') or t) - 0.04, max(c['t0'] + c.get('entrada', 0.2) for c in capas) + 0.08)   # (con todo ya dentro)
+
+    def tinta(c):                                            # (filas de la capa con letra de verdad: sin su halo ni su margen)
+        filas = np.nonzero(c['a'][..., 0].max(axis=1) > 0.5)[0]
+        return (c['y'] + int(filas[0]), c['y'] + int(filas[-1]) + 1) if len(filas) else (c['y'], c['y'] + c['a'].shape[0])
+    tintas = [tinta(c) for c in letras]
+    arriba = min(a for a, _b in tintas) / float(H)
+    abajo = max(b for _a, b in tintas) / float(H)
+    linea = max((b - a for a, b in tintas if b == max(z for _y, z in tintas)), default=0) / float(H)   # (el alto de la palabra de abajo)
+    det = PE.personas_de_imagen(rgb)
+    hcab = EP._cabeza(det)
+    dy_px = 0
+    if hcab is None:
+        info['motivo'] = 'sin_persona'
+    else:
+        coronilla, cab_x, alto_p, cab = hcab
+        cfg = EP.INTENSIDAD_DETRAS.get(EP.intensidad_detras()) or EP.INTENSIDAD_DETRAS['media']
+        tapa = max(0.012, min(cfg['tapa_max'], 0.4 * cab, cfg['tapa'] * linea))
+        dy = coronilla + tapa - abajo
+        xs = [(c['x'] + c['a'].shape[1] / 2.0) / W for c in letras]
+        m = EP.motivo_cabeza(coronilla, alto_p)
+        if m is None and not (min(xs) - 0.16 <= cab_x <= max(xs) + 0.16):
+            m = 'lado'
+        if m is None and arriba + dy < 0.08:
+            m = 'cabeza_arriba'
+        if m is None and (abajo + dy > 0.9 or abajo + dy < coronilla + 0.012):
+            m = 'no_cabe'
+        info['motivo'] = m
+        if m is None:
+            dy_px = int(round(dy * H))
+            info['detras'] = True
+    for c in capas:
+        c['y'] += dy_px
+    arr = base.copy()
+    RSR.componer(arr, capas, t_vis)
+    if info['detras']:                                       # la persona DELANTE del texto (su silueta, como el recorte de Magic Mask)
+        alfa = PE.refinar_alfa(PE.mate(rgb), W, H).astype(np.float32)[..., None] / 255.0
+        arr = np.clip(arr.astype(np.float32) * (1.0 - alfa) + base.astype(np.float32) * alfa + 0.5, 0, 255).astype(np.uint8)
+    return arr, info
+
+
 # ======================================================================================================================== la vista
 try:
     from PySide6.QtCore import QPointF, QRectF, Qt, QTimer, Signal
-    from PySide6.QtGui import QFontMetricsF, QPainter, QPainterPath, QPen, QPixmap
+    from PySide6.QtGui import QFontMetricsF, QImage, QPainter, QPainterPath, QPen, QPixmap
     from PySide6.QtWidgets import QHBoxLayout, QVBoxLayout, QWidget
     import qt_kit as ui
     from qt_kit import Boton, Etiqueta, QColor, QColorReal, Segmentado, StringVar, correr_en_hilo, fuente
@@ -547,9 +834,12 @@ if _QT:
         dice en ese momento. Clic = marca nueva (y se puede arrastrar) · arrastrar una marca = moverla · doble clic o clic derecho = quitarla ·
         ← → la mueven una décima (con Mayús, un segundo) · Supr la quita. Todo se guarda al momento.
         v5.27 («detrás de ti», CON_PERSONA): en verde dónde queda bien (zonas_detras) y las marcas no salen de ahí; arriba, por qué no en cada
-        instante; como mucho TOPE_MARCAS y nunca dos en el mismo caption (SEPARACION_MIN)."""
+        instante; como mucho TOPE_MARCAS y nunca dos en el mismo caption (SEPARACION_MIN). Además: 3 sitios SUGERIDOS (anillos con «+» en la
+        tira; un clic y queda puesta) y la vista grande enseña cómo QUEDA: el caption del tema detrás de la persona (vista_detras)."""
         cambio = Signal()
         cargado = Signal(str)                        # el archivo del que salen los fotogramas (con el audio de un timeline, su clip de V1)
+        sugerencias = Signal()                       # v5.27: cambiaron los sitios sugeridos
+        marca_puesta = Signal()                      # v5.27: el usuario puso una marca (la sección se enciende en GO)
         ALTO_TIRA, MARGEN, ALTO_REGLA = 64, 18, 22
         VERDE, AMBAR = '#34D399', '#F5B544'
 
@@ -569,13 +859,24 @@ if _QT:
             self._progreso = [0.0]
             self._reloj = None
             self.nota = ''                           # lo último que pasó con una marca (movida al verde, el tope…)
+            self._analisis = None
+            self.captions = None                     # v5.27: captions_del_video (los del tema, para la vista)
+            self.captions_listos = False
+            self.sugeridas = []                      # [(t, texto)]
+            self._vistas = {}                        # segundo (décimas) → (QPixmap | None, info) de vista_detras
+            self._vista_pedida = None
+            self._vista_ocupada = False
+            self._cola_vistas = []
+            self._reloj_vista = QTimer(self)
+            self._reloj_vista.setSingleShot(True)
+            self._reloj_vista.timeout.connect(self._hacer_vista)
             self._t_sobre = None
             self._arr = None
             self._sel = None
             self._movido = False
             self.setMouseTracking(True)
             self.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
-            self.setMinimumHeight(340)
+            self.setMinimumHeight(520 if seccion in CON_PERSONA else 340)   # (v5.28: la vista con los captions, más grande)
 
         # -- datos
         def cargar(self, ruta):
@@ -583,6 +884,9 @@ if _QT:
             self.marcas, self.modo = [], 'solo'
             self.fotos, self.palabras, self.dur = [], [], 0.0
             self.zonas, self._motivo, self._imagen, self.nota = None, None, None, ''
+            self._analisis, self.captions, self.sugeridas, self._cola_vistas = None, None, [], []
+            self._vistas, self._vista_pedida, self.captions_listos = {}, None, False
+            self.sugerencias.emit()
             self._sel = None
             self.aviso = tr('Leyendo los fotogramas del video…')
             self.update()
@@ -614,7 +918,68 @@ if _QT:
                 self.cargado.emit(str(d.get('imagen') or ruta))
                 if self.seccion in CON_PERSONA:
                     self._analizar(ruta)
+                    self.recargar_captions()
             correr_en_hilo(self, trabajo, fin)
+
+        def recargar_captions(self):
+            """v5.27: los captions del tema de Inicio para la vista (los del timeline si GO ya pasó por este video con ese tema). En un hilo."""
+            ruta, img = self.ruta, self._imagen
+            if not ruta:
+                return
+            self._pack_pedido = tema_de_inicio()
+            self.captions_listos = False
+
+            def fin(cap, error):
+                if ruta != self.ruta:
+                    return
+                self.captions = cap if error is None else None
+                self.captions_listos = True
+                self._vistas, self._vista_pedida, self._cola_vistas = {}, None, []
+                self._rehacer_zonas()                # (con los captions del tema, el verde solo donde HAY caption)
+                self.update()
+                self.cambio.emit()
+            correr_en_hilo(self, lambda: captions_del_video(ruta, img), fin)
+
+        def pack_vista(self):
+            return getattr(self, '_pack_pedido', None)
+
+        def _rehacer_zonas(self):
+            if self._analisis is None:
+                return
+            self.zonas, self._motivo = zonas_detras(self._analisis, self.palabras, bloques_de(self.captions))
+            self._aplicar_topes()
+            self._calcular_sugeridas()
+
+        def _calcular_sugeridas(self):
+            """Los sitios sugeridos (sin los ya marcados) y, de paso, sus vistas y las de las marcas, preparadas para que salgan al momento."""
+            if self.seccion not in CON_PERSONA or self.zonas is None:
+                return
+            nuevas = sugerir(self.zonas, self._analisis, bloques_de(self.captions), ya=self.marcas,
+                             exigir_grande=(self.captions or {}).get('pack') == 'Kinetic')
+            if nuevas != self.sugeridas:
+                self.sugeridas = nuevas
+                self.sugerencias.emit()
+            if self.captions is not None:
+                for t in [s[0] for s in self.sugeridas] + list(self.marcas):
+                    k = round(float(t), 1)
+                    if k not in self._vistas and k not in self._cola_vistas:
+                        self._cola_vistas.append(k)
+                if not self._vista_ocupada:
+                    self._hacer_vista()
+
+        def anadir(self, t):
+            """Pone una marca en t (una sugerencia): con los mismos topes que un clic. True si se puso."""
+            if self.dur <= 0:
+                return False
+            ok, t2 = self._puede_anadir(float(t))
+            if ok:
+                self.marcas = sorted(self.marcas + [t2])
+                self._sel = self.marcas.index(t2)
+                self.nota = ''
+                self._guardar()
+                self.marca_puesta.emit()
+            self.update()
+            return ok
 
         def _analizar(self, ruta):
             """v5.27: dónde hay una persona que deje el texto detrás (en un hilo; mientras, la tira dice cuánto lleva)."""
@@ -632,8 +997,8 @@ if _QT:
                 if error is not None or not an:
                     self.nota = tr('No pude ver dónde está la persona: tus marcas van donde las pongas.')
                 else:
-                    self.zonas, self._motivo = zonas_detras(an, self.palabras)
-                    self._aplicar_topes()
+                    self._analisis = an
+                    self._rehacer_zonas()
                 self.update()
                 self.cambio.emit()
             if self._reloj is None:
@@ -702,13 +1067,83 @@ if _QT:
                 self._sel = cerca
                 return False, t2
             if abs(t2 - t) >= 0.05:
-                self.nota = tr('Puesta en {t}, lo más cerca donde queda bien (en {o}: {m}).', t=texto_t(t2), o=texto_t(t), m=self.texto_motivo(t))
+                m = self.texto_motivo(t)
+                self.nota = (tr('Puesta en {t}, lo más cerca donde queda bien (en {o}: {m}).', t=texto_t(t2), o=texto_t(t), m=m) if m else
+                             tr('Puesta en {t}, lo más cerca donde queda bien.', t=texto_t(t2)))
             return True, t2
 
         def _guardar(self):
             if self.ruta:                            # (sin leer el disco aquí: hasta que el hilo sabe su video, un audio guarda con su ruta)
                 guardar_linea(self.ruta, self.seccion, self.marcas, self.modo, imagen=self._imagen or (str(self.ruta), 0.0, None))
+            self._calcular_sugeridas()               # (lo ya marcado deja de sugerirse; lo que se quita, vuelve)
             self.cambio.emit()
+
+        # -- la vista con los captions (v5.27)
+        def _alto_prev(self):
+            return max(60.0, self._tira().top() - 58)
+
+        def _vista_de(self, t):
+            return self._vistas.get(round(float(t), 1))
+
+        def _pedir_vista(self, t):
+            """La vista de t, en cuanto el ratón se para (lo que ya está hecho sale al momento)."""
+            if self.captions is None or self.dur <= 0:
+                return
+            k = round(float(t), 1)
+            if k in self._vistas or k == self._vista_pedida:
+                return
+            self._vista_pedida = k
+            self._reloj_vista.start(140)
+
+        def _hacer_vista(self):
+            """Una vista en un hilo: la pedida (el ratón) o, si no, la siguiente de la cola (sugerencias y marcas)."""
+            if self._vista_ocupada or self.captions is None or not self.ruta:
+                return
+            k = self._vista_pedida if self._vista_pedida is not None and self._vista_pedida not in self._vistas else None
+            while k is None and self._cola_vistas:
+                c = self._cola_vistas.pop(0)
+                k = c if c not in self._vistas else None
+            if k is None:
+                return
+            self._vista_ocupada = True
+            ruta, cap, img = self.ruta, self.captions, self._imagen
+            dpr = max(1.0, float(self.devicePixelRatioF()))
+            alto = int(max(240, min(960, self._alto_prev() * dpr)))
+
+            def trabajo():
+                r = vista_detras(ruta, k, cap, img, alto=alto)
+                if r is None:
+                    return None
+                arr, info = r
+                h, w = arr.shape[:2]
+                return QImage(arr.data, w, h, 3 * w, QImage.Format.Format_RGB888).copy(), info
+
+            def fin(r, error):
+                self._vista_ocupada = False
+                if ruta != self.ruta or cap is not self.captions:
+                    self._hacer_vista()
+                    return
+                pm = None
+                if error is None and r:
+                    pm = QPixmap.fromImage(r[0])
+                    pm.setDevicePixelRatio(dpr)
+                self._vistas[k] = (pm, r[1] if (error is None and r) else {'detras': False, 'motivo': None})
+                while len(self._vistas) > 60:
+                    self._vistas.pop(next(iter(self._vistas)))
+                self.update()
+                self._hacer_vista()
+            correr_en_hilo(self, trabajo, fin)
+
+        def _sugerida_en(self, pos):
+            r = self._tira()
+            if not (r.top() - 30 <= pos.y() <= r.bottom() + 4):
+                return None
+            mejor, dist = None, 9.0
+            for i, (t, _x) in enumerate(self.sugeridas):
+                d = abs(self._x(t) - pos.x())
+                if d <= dist:
+                    mejor, dist = i, d
+            return mejor
 
         def poner_modo(self, modo):
             self.modo = modo if modo in MODOS else 'solo'
@@ -763,6 +1198,10 @@ if _QT:
             if e.button() != Qt.MouseButton.LeftButton or not self._en_tira(pos):
                 return
             self.setFocus()
+            j = self._sugerida_en(pos) if i is None else None
+            if j is not None:                        # (v5.27: un anillo sugerido: un clic y queda puesta)
+                self.anadir(self.sugeridas[j][0])
+                return
             if i is None:                            # marca nueva donde se pulsó (y se puede arrastrar en el mismo gesto)
                 ok, t = self._puede_anadir(self._t(pos.x()))
                 if not ok:
@@ -771,6 +1210,7 @@ if _QT:
                 self.marcas.append(t)
                 i = len(self.marcas) - 1
                 self._movido = True
+                self.marca_puesta.emit()
             else:
                 self.nota = ''
                 self._movido = False
@@ -870,10 +1310,22 @@ if _QT:
                 return
             # ---- arriba: el fotograma en grande y lo que se dice
             t_ver = self._t_sobre if self._t_sobre is not None else (self.marcas[self._sel] if self._sel is not None and self._sel < len(self.marcas) else
-                                                                    (self.marcas[0] if self.marcas else 0.0))
-            alto_prev = max(60.0, tira.top() - 58)
-            pm = self._foto_en(t_ver)
+                                                                    (self.marcas[0] if self.marcas else (self.sugeridas[0][0] if self.sugeridas else 0.0)))
+            alto_prev = self._alto_prev()
+            con_persona = self.seccion in CON_PERSONA
+            vista = self._vista_de(t_ver) if con_persona else None   # v5.27: cómo QUEDA (el caption del tema detrás de la persona)
+            if con_persona and vista is None:
+                self._pedir_vista(t_ver)
+            info = vista[1] if vista and vista[0] is not None else None
+            pm = vista[0] if info is not None else self._foto_en(t_ver)
             x_txt = self.MARGEN
+            motivo = self.texto_motivo(t_ver) if con_persona and self.zonas is not None else ''
+            if not motivo and info is not None and not info.get('detras') and info.get('motivo'):
+                try:
+                    import edicion_pro as EP
+                    motivo = tr(EP.MOTIVOS_DETRAS.get(info['motivo'], info['motivo']))
+                except Exception:
+                    motivo = ''
             if pm is not None and not pm.isNull():
                 ancho_prev = alto_prev * pm.width() / max(1, pm.height())
                 caja = QRectF(self.MARGEN, 6, ancho_prev, alto_prev)
@@ -881,9 +1333,19 @@ if _QT:
                 camino.addRoundedRect(caja, 12, 12)
                 p.save()
                 p.setClipPath(camino)
-                p.drawPixmap(caja.toRect(), pm)
+                p.drawPixmap(caja, pm, QRectF(pm.rect()))
+                if info is not None:                 # el tema con el que se ve (Inicio) en una pastilla
+                    nombre = (self.captions or {}).get('nombre') or ''
+                    p.setFont(fuente(11, peso='negrita'))
+                    w_chip = QFontMetricsF(p.font()).horizontalAdvance(nombre) + 16
+                    chip = QRectF(caja.left() + 8, caja.top() + 8, w_chip, 20)
+                    p.setPen(Qt.PenStyle.NoPen)
+                    p.setBrush(QColorReal(0, 0, 0, 150))
+                    p.drawRoundedRect(chip, 10, 10)
+                    p.setPen(QColor('#FFFFFF'))
+                    p.drawText(chip, int(Qt.AlignmentFlag.AlignCenter), nombre)
                 p.restore()
-                p.setPen(QPen(QColorReal(255, 255, 255, 40), 1))
+                p.setPen(QPen(QColor(self.AMBAR), 2) if con_persona and info is not None and motivo else QPen(QColorReal(255, 255, 255, 40), 1))
                 p.setBrush(Qt.BrushStyle.NoBrush)
                 p.drawPath(camino)
                 x_txt = caja.right() + 22
@@ -891,16 +1353,16 @@ if _QT:
             p.setPen(QColor('#FFFFFF'))
             p.setFont(fuente(26, peso='negrita'))
             p.drawText(QRectF(x_txt, 6, ancho_txt, 40), int(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter), texto_t(t_ver))
-            if self.seccion in CON_PERSONA:          # v5.27: ¿aquí queda bien el texto detrás de la persona?
+            if con_persona:                          # v5.27: ¿aquí queda bien el texto detrás de la persona?
                 x_est = x_txt + QFontMetricsF(p.font()).horizontalAdvance(texto_t(t_ver)) + 18
                 p.setFont(fuente(13, peso='medio'))
                 if self.analizando():
                     p.setPen(QColor('#8EA2C6'))
                     est = tr('Buscando en tu video dónde queda bien… {p} %', p=int(round(100 * self._progreso[0])))
                 elif self.zonas is not None:
-                    motivo = self.texto_motivo(t_ver)
                     p.setPen(QColor(self.AMBAR if motivo else self.VERDE))
-                    est = (tr('Aquí no queda bien: {m}', m=motivo) if motivo else tr('Aquí queda bien detrás de ti'))
+                    est = (tr('Aquí no queda bien: {m}', m=motivo) if motivo else
+                           tr('Así queda detrás de ti') if info is not None else tr('Aquí queda bien detrás de ti'))
                 else:
                     est = ''
                 if est:
@@ -934,7 +1396,7 @@ if _QT:
             p.setFont(fuente(12))
             ayuda = tr('Clic en la tira: añadir · arrastrar: mover · doble clic o clic derecho: quitar · ← → afinan (Mayús: 1 s)')
             if self.seccion in CON_PERSONA:
-                ayuda += ' · ' + tr('verde: aquí queda bien')
+                ayuda += ' · ' + tr('verde: queda bien · +: sugerido')
             p.setPen(QColor(self.AMBAR) if self.nota else QColor('#8EA2C6'))
             p.drawText(QRectF(x_txt, max(y, alto_prev - 30), ancho_txt, 40), int(Qt.AlignmentFlag.AlignLeft | Qt.TextFlag.TextWordWrap), self.nota or ayuda)
             # ---- la tira de fotogramas
@@ -1006,6 +1468,17 @@ if _QT:
                 p.drawRoundedRect(caja, 10, 10)
                 p.setPen(QColorReal('#0B1220') if sel else QColor('#FFFFFF'))
                 p.drawText(caja, int(Qt.AlignmentFlag.AlignCenter), txt)
+            # ---- v5.27: los sitios sugeridos (un anillo con «+»: clic = queda puesta)
+            verde = QColor(self.VERDE)
+            for t, _txt in self.sugeridas:
+                x = self._x(t)
+                p.setPen(QPen(QColorReal(52, 211, 153, 120), 1.2, Qt.PenStyle.DashLine))
+                p.drawLine(QPointF(x, tira.top() - 6), QPointF(x, tira.bottom()))
+                p.setPen(QPen(verde, 1.8))
+                p.setBrush(QColorReal(10, 18, 34, 235))
+                p.drawEllipse(QPointF(x, tira.top() - 14), 7.5, 7.5)
+                p.drawLine(QPointF(x - 3.5, tira.top() - 14), QPointF(x + 3.5, tira.top() - 14))
+                p.drawLine(QPointF(x, tira.top() - 17.5), QPointF(x, tira.top() - 10.5))
             p.end()
 
     class VistaPosiciones(QWidget):
@@ -1034,10 +1507,44 @@ if _QT:
             capa.addLayout(fila)
             self._lbl_modo = Etiqueta('', 12, color='#8EA2C6', envolver=True)
             capa.addWidget(self._lbl_modo)
+            # v5.27: los sitios sugeridos, a un clic (también son los anillos «+» de la tira)
+            self._fila_sug = QWidget()
+            self._capa_sug = QHBoxLayout(self._fila_sug)
+            self._capa_sug.setContentsMargins(0, 0, 0, 0)
+            self._capa_sug.setSpacing(8)
+            self._fila_sug.setVisible(False)
+            capa.addWidget(self._fila_sug)
             self.linea = LineaTiempo(seccion)
             self.linea.cambio.connect(self._al_cambiar)
             self.linea.cargado.connect(self._al_cargar)
+            self.linea.sugerencias.connect(self._pintar_sugeridas)
             capa.addWidget(self.linea)
+
+        def _pintar_sugeridas(self):
+            while self._capa_sug.count():
+                it = self._capa_sug.takeAt(0)
+                if it.widget() is not None:
+                    it.widget().deleteLater()
+            sug = list(self.linea.sugeridas)
+            self._fila_sug.setVisible(bool(sug))
+            if not sug:
+                return
+            self._capa_sug.addWidget(Etiqueta(tr('Sugeridas:'), 13, peso='medio', color='#C9D6EC'))
+            for t, txt in sug:
+                self._capa_sug.addWidget(Boton('+ ' + texto_t(t) + (f' · {txt}' if txt else ''), lambda t=t: self._poner(t), tipo='neutro', alto=30, tam=12))
+            if len(sug) > 1:
+                self._capa_sug.addWidget(Boton(tr('Poner las {n}', n=len(sug)), self._poner_todas, tipo='primario', alto=30, tam=12))
+            self._capa_sug.addStretch(1)
+
+        def _poner(self, t):
+            self.linea.anadir(t)
+            self.linea.setFocus()
+
+        def _poner_todas(self):
+            for t, _txt in list(self.linea.sugeridas):
+                if not self.linea.anadir(t):
+                    break
+            self.linea.setFocus()
 
         def _al_cargar(self, imagen):
             ruta = self.linea.ruta or ''
@@ -1066,6 +1573,14 @@ if _QT:
 
         def _pintar_modo(self):
             ligada = self.seccion in LIGADAS
+            n = len(self.linea.marcas)
+            if self.seccion in CON_PERSONA:          # v5.27 (el usuario: «más intuitivo, sin ser tan complicado»): una frase
+                txt = (tr('Toca una sugerencia o haz clic en lo verde: el caption de ese momento va detrás de ti.') + ' ' +
+                       (tr('Solo ahí.') if self.linea.modo == 'solo' else tr('Ahí y donde elija el automático.')))
+                if n:
+                    txt += ' · ' + (tr('1 marca') if n == 1 else tr('{n} marcas', n=n)) + f' / {TOPE_MARCAS.get(self.seccion, 8)}'
+                self._lbl_modo.setText(txt)
+                return
             if self.linea.modo == 'solo':
                 txt = tr('GO pone este efecto SOLO en tus marcas (sin marcas, donde lo elija el automático).')
             else:
@@ -1075,10 +1590,6 @@ if _QT:
                        else tr('Con «+ automático», el video de motions va en todo el video, como siempre.'))
             elif ligada:
                 txt += ' ' + tr('Se usa el bloque de captions que suena en ese segundo.')
-            if self.seccion in CON_PERSONA:          # v5.27: los topes, dichos
-                txt += ' ' + tr('Verde = hay una persona quieta y su cabeza deja sitio al texto: tus marcas van ahí (máximo {n}).',
-                                n=TOPE_MARCAS.get(self.seccion, 8))
-            n = len(self.linea.marcas)
             if n:
                 txt += ' · ' + (tr('1 marca') if n == 1 else tr('{n} marcas', n=n))
             self._lbl_modo.setText(txt)
@@ -1123,3 +1634,6 @@ if _QT:
             actual = video_actual()
             if actual and not getattr(self, '_a_mano', False) and clave_video(actual) != clave_video(self.linea.ruta or ''):
                 self.abrir(actual)
+            elif (self.seccion in CON_PERSONA and self.linea.dur > 0 and self.linea.pack_vista() is not None
+                  and self.linea.pack_vista() != tema_de_inicio()):
+                self.linea.recargar_captions()           # (v5.27: otro tema en Inicio: la vista con SUS captions)

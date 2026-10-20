@@ -62,6 +62,7 @@ FAMILIA_DE_PISTA = {'PRO-WHOOSH': 'whoosh', 'PRO-TEXTURA': 'textura', 'PRO-RISER
 NOMBRES_GENERO = {'auto': 'Automático', 'general': 'General', 'inmobiliaria': 'Inmobiliaria / venta de casas', 'boda': 'Bodas', 'xv': 'XV años',
                   'restaurante': 'Restaurantes', 'bts': 'Detrás de cámara'}
 MANIFIESTO = Path.home() / 'DaVinciSubtitles' / 'subtitles_manifest.json'
+AUDIOS = ('.wav', '.mp3', '.m4a', '.aac', '.flac', '.ogg', '.aif', '.aiff')   # (lo que GO transcribe sin imagen: el audio del timeline)
 DETRAS_CAPTIONS = {'sobria': 0.35, 'media': 0.55, 'espectaculo': 0.8}       # de los bloques de captions donde se puede, cuántos van DETRÁS de la persona
 # v5.5.20 (el usuario: «que exista en el menú la intensidad… que se aprecien los captions, que no los tape tanto la Magic Mask»): de los momentos
 # que valen, cuántos van detrás (frac); cuánto de la palabra GRANDE de abajo puede tapar la cabeza (tapa, fracción de su alto; tapa_max, del
@@ -1475,7 +1476,8 @@ def _emojis_pro(bloques, ocupado, subidas, caras_de, W, H, op, marcas=None):
             continue
         if not forzado and (a - ultimo < cfg['cada'] or z - a < 0.8 or any(a < o1 and o0 < z for o0, o1 in ocupado)):
             continue
-        cand = [(EC.concepto(texto), float(t), texto) for texto, t in b.get('palabras') or []]
+        # (v5.27: las palabras del Tema 1 —kit_neon.bloques_pro— traen 3 datos; las de los demás temas, 2: «too many values to unpack»)
+        cand = [(EC.concepto(str(p[0])), float(p[1]), str(p[0])) for p in b.get('palabras') or [] if len(p) >= 2]
         cand = [c for c in cand if c[0]] + ([(b['emoji'], a, '')] if b.get('emoji') else [])
         variante = elegida or ('rebote' if k % 2 == 0 else '3d_salto')          # (Automático: alterna un 2D y un 3D)
         eid = palabra = None
@@ -1638,12 +1640,17 @@ def aplicar(plan, al_estado=None, offset_frames=0, info=None):
     # solo si V1 es el video entero (con pausas quitadas no cuadraría con la fuente)
     hilo_placa, placa_res = None, {}
     v1_neon = sorted(info.get('v1') or [], key=lambda c: c['ini'])
+    # v5.27: GO con el AUDIO del timeline (pulsado sin volver a soltar el video): la imagen es la del clip de V1; el .wav no tiene y la placa
+    # fallaba («tuple index out of range») y el mapa de cámara también, así que el Tema 1 se quedaba sin «detrás de ti»
+    video_img = video
+    if Path(str(video)).suffix.lower() in AUDIOS and len(v1_neon) == 1 and v1_neon[0].get('ruta'):
+        video_img = str(v1_neon[0]['ruta'])
     if neon_tema and not ligero and plan.get('kitneon_motions') is not None and len(v1_neon) == 1 and not int(v1_neon[0].get('izq') or 0):
         # (v5.5.14: SIN «import threading» aquí: lo volvía local en toda la función y, sin este tramo, «Motions completo» caía con UnboundLocalError)
         def _placa():
             try:
                 import kit_neon_placa as PLA
-                placa_res['ruta'] = PLA.para_pro(video, plan, carpeta, W, H, fps, progreso=lambda f: placa_res.update(f=float(f)))
+                placa_res['ruta'] = PLA.para_pro(video_img, plan, carpeta, W, H, fps, progreso=lambda f: placa_res.update(f=float(f)))
             except Exception:
                 placa_res['ruta'] = None
         hilo_placa = threading.Thread(target=_placa, daemon=True, name='placa-neon')
@@ -1669,10 +1676,10 @@ def aplicar(plan, al_estado=None, offset_frames=0, info=None):
                 estilo_mc = {}
             if plan.get('tema') == 'neon' and plan.get('_palabras') and not estilo_mc:     # v5.5.17: el Tema 1: con las piezas del kit «TEMA 1» (kit_neon_completo); con un estilo elegido, el del usuario
                 import kit_neon_completo as KC
-                fondo['mc'] = KC.crear(plan['_palabras'], dur_mc, W, H, fps, carpeta, plan.get('idioma') or 'es', video, decir) if dur_mc > 1.0 else None
+                fondo['mc'] = KC.crear(plan['_palabras'], dur_mc, W, H, fps, carpeta, plan.get('idioma') or 'es', video_img, decir) if dur_mc > 1.0 else None
                 fondo['mc_neon'] = True
             else:
-                fondo['mc'] = MCO.crear(bl, dur_mc, W, H, fps, carpeta, plan.get('idioma') or 'es', plan.get('perfil') or {}, video, decir,
+                fondo['mc'] = MCO.crear(bl, dur_mc, W, H, fps, carpeta, plan.get('idioma') or 'es', plan.get('perfil') or {}, video_img, decir,
                                         ia=bool(op.get('pro_motions_ia', False)), estilo=estilo_mc) if bl and dur_mc > 1.0 else None
         except Exception as e:
             fondo['mc_error'] = e
@@ -1817,7 +1824,7 @@ def aplicar(plan, al_estado=None, offset_frames=0, info=None):
             if hilo_placa is not None:
                 try:
                     import kit_neon_placa as PLA
-                    a_cuadro = PLA.mapa_camara(video, plan, W, H)
+                    a_cuadro = PLA.mapa_camara(video_img, plan, W, H)
                 except Exception:
                     bloques_tema = []                                    # sin saber dónde queda la persona en la placa, nada detrás
         try:

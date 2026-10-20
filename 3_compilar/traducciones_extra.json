@@ -6893,5 +6893,82 @@
   "fr": " + auto",
   "de": " + Auto",
   "it": " + auto"
+ },
+ "Puesta en {t}, lo más cerca donde queda bien.": {
+  "en": "Placed at {t}, the closest spot where it looks right.",
+  "pt": "Colocada em {t}, o mais perto onde fica bem.",
+  "fr": "Placé à {t}, le plus près là où ça rend bien.",
+  "de": "Bei {t} gesetzt, der nächste Punkt, an dem es gut wirkt.",
+  "it": "Messo a {t}, il punto più vicino dove sta bene."
+ },
+ "Así queda detrás de ti": {
+  "en": "This is how it looks behind you",
+  "pt": "Assim fica atrás de você",
+  "fr": "Voici le rendu derrière vous",
+  "de": "So wirkt es hinter dir",
+  "it": "Ecco come sta dietro di te"
+ },
+ "verde: queda bien · +: sugerido": {
+  "en": "green: looks right · +: suggested",
+  "pt": "verde: fica bem · +: sugerido",
+  "fr": "vert : ça rend bien · + : suggéré",
+  "de": "grün: wirkt gut · +: vorgeschlagen",
+  "it": "verde: sta bene · +: suggerito"
+ },
+ "Sugeridas:": {
+  "en": "Suggested:",
+  "pt": "Sugeridas:",
+  "fr": "Suggérés :",
+  "de": "Vorschläge:",
+  "it": "Suggeriti:"
+ },
+ "Poner las {n}": {
+  "en": "Add all {n}",
+  "pt": "Colocar as {n}",
+  "fr": "Placer les {n}",
+  "de": "Alle {n} setzen",
+  "it": "Metti tutti e {n}"
+ },
+ "Toca una sugerencia o haz clic en lo verde: el caption de ese momento va detrás de ti.": {
+  "en": "Tap a suggestion or click on the green: the caption at that moment goes behind you.",
+  "pt": "Toque numa sugestão ou clique no verde: a legenda desse momento vai atrás de você.",
+  "fr": "Touchez une suggestion ou cliquez sur le vert : la légende de ce moment passe derrière vous.",
+  "de": "Tippe auf einen Vorschlag oder klicke ins Grüne: Die Caption dieses Moments kommt hinter dich.",
+  "it": "Tocca un suggerimento o clicca sul verde: la didascalia di quel momento va dietro di te."
+ },
+ "Ahí y donde elija el automático.": {
+  "en": "There and wherever the automatic mode chooses.",
+  "pt": "Ali e onde o automático escolher.",
+  "fr": "Là et là où le mode automatique choisit.",
+  "de": "Dort und wo die Automatik es wählt.",
+  "it": "Lì e dove sceglie l’automatico."
+ },
+ "Solo ahí.": {
+  "en": "Only there.",
+  "pt": "Só ali.",
+  "fr": "Seulement là.",
+  "de": "Nur dort.",
+  "it": "Solo lì."
+ },
+ "«Captions detrás de ti» › Posición: te sugiere los 3 mejores momentos; un clic y quedan puestos (o «Poner las 3»), y el efecto se enciende solo.": {
+  "en": "«Captions behind you» › Position: it suggests the 3 best moments; one click and they are set (or «Add all 3»), and the effect turns on by itself.",
+  "pt": "«Legendas atrás de você» › Posição: sugere os 3 melhores momentos; um clique e ficam colocados (ou «Colocar as 3»), e o efeito liga sozinho.",
+  "fr": "«Sous-titres derrière vous» › Position : il propose les 3 meilleurs moments ; un clic et c’est placé (ou «Placer les 3»), et l’effet s’active tout seul.",
+  "de": "«Captions hinter dir» › Position: schlägt die 3 besten Momente vor; ein Klick und sie sind gesetzt (oder «Alle 3 setzen»), und der Effekt schaltet sich selbst ein.",
+  "it": "«Didascalie dietro di te» › Posizione: suggerisce i 3 momenti migliori; un clic e sono messi (o «Metti tutti e 3»), e l’effetto si attiva da solo."
+ },
+ "La vista grande enseña cómo queda: tus captions del tema elegido en Inicio, detrás de la persona (los del timeline si ya pasaste GO).": {
+  "en": "The large preview shows how it looks: your captions in the theme chosen in Home, behind the person (the timeline ones if you already ran GO).",
+  "pt": "A visualização grande mostra como fica: suas legendas do tema escolhido no Início, atrás da pessoa (as do timeline se você já rodou o GO).",
+  "fr": "Le grand aperçu montre le rendu : vos sous-titres du thème choisi dans Accueil, derrière la personne (ceux de la timeline si vous avez déjà lancé GO).",
+  "de": "Die große Vorschau zeigt, wie es aussieht: deine Captions im Thema aus Start, hinter der Person (die aus der Timeline, wenn du GO schon gestartet hast).",
+  "it": "L’anteprima grande mostra come viene: le tue didascalie del tema scelto in Home, dietro la persona (quelle della timeline se hai già usato GO)."
+ },
+ "Arreglado: con el Tema 1 y el audio del timeline, los emojis animados y «detrás de ti» ya no fallan.": {
+  "en": "Fixed: with Theme 1 and the timeline audio, animated emojis and «behind you» no longer fail.",
+  "pt": "Corrigido: com o Tema 1 e o áudio do timeline, os emojis animados e «atrás de você» já não falham.",
+  "fr": "Corrigé : avec le Thème 1 et l’audio de la timeline, les emojis animés et «derrière vous» ne plantent plus.",
+  "de": "Behoben: Mit Thema 1 und dem Timeline-Audio schlagen animierte Emojis und «hinter dir» nicht mehr fehl.",
+  "it": "Corretto: con il Tema 1 e l’audio della timeline, le emoji animate e «dietro di te» non falliscono più."
  }
 }

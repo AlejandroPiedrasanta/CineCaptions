@@ -12,6 +12,37 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-20 13:20  ·  v5.28  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-10-20 13:05  ·  v5.27  ·  cambio explicado
+    «Detrás de ti» › Posición más intuitiva (el usuario: que me indique dónde, 3 sugerencias a un clic, que detecte el tema y me dé la vista con los captions, la del timeline si ya pasé GO): sugerencias que GO pone de verdad (en el Tema 1 con la PRO, los bloques del kit ya ajustados a sus motions), anillos + y botones, la primera marca enciende el efecto, vista con el fotograma, el caption del tema y la persona delante (regla de GO). Arreglados los errores del Registro con el audio del timeline y el Tema 1: emojis (3 datos por palabra) y la placa y su mapa de cámara (abrían el .wav; el Tema 1 se quedaba sin detrás de ti).
+    modificados (11):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/herramientas_dev/probar_detras_posiciones.py
+      ~ 1_codigo/posiciones_pro.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 3_compilar/traducciones_extra.json
+
 2026-10-20 11:34  ·  v5.27  ·  (automático)
     modificados (20):
       ~ 1_codigo/version.py

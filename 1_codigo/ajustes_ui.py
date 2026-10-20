@@ -484,6 +484,11 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.28', [
+        '«Captions detrás de ti» › Posición: te sugiere los 3 mejores momentos; un clic y quedan puestos (o «Poner las 3»), y el efecto se enciende solo.',
+        'La vista grande enseña cómo queda: tus captions del tema elegido en Inicio, detrás de la persona (los del timeline si ya pasaste GO).',
+        'Arreglado: con el Tema 1 y el audio del timeline, los emojis animados y «detrás de ti» ya no fallan.',
+    ]),
     ('5.27', [
         'Efectos › «Captions detrás de ti» › Posición: la tira marca en verde dónde el texto queda bien detrás de ti y tus marcas no salen de ahí (como mucho 8).',
         'Tus posiciones se aplican al pulsar GO aunque no vuelvas a soltar el video, y «Listo» deja el efecto encendido; Proyecto dice cuántas hay.',

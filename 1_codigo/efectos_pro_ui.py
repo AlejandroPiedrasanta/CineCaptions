@@ -447,6 +447,7 @@ class SeccionEstilo(Tarjeta):
         if si and self._pos is None:
             self._pos = POS.VistaPosiciones(self.clave)
             self._pos.listo.connect(self._listo_posiciones)
+            self._pos.linea.marca_puesta.connect(self._encender_al_marcar)
             self._pos.cambio.connect(self.refrescar)
             self.capa.addWidget(self._pos)
         if not self._abierta:
@@ -461,6 +462,18 @@ class SeccionEstilo(Tarjeta):
         self._b_pos.style().unpolish(self._b_pos)
         self._b_pos.style().polish(self._b_pos)
         self.refrescar()
+
+    def _encender_al_marcar(self):
+        """v5.27 (el usuario: «si le doy clic a una sugerencia, que ya quede lista la selección»): poner una marca enciende el efecto en GO
+        (antes había que acordarse de «Activado en GO» o de «Listo»)."""
+        try:
+            import pro_lateral_ui as LAT
+            if not LAT.estado(self.clave):
+                LAT.poner(self.clave, True)
+                self.refrescar()
+                self.cambio.emit()
+        except Exception:
+            pass
 
     def _listo_posiciones(self):
         """v5.27 (el usuario: «cuando le doy Listo que quede guardado y cuando vuelva a la página de Inicio lo aplique»): con marcas, el efecto
