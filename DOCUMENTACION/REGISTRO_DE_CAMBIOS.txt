@@ -12,6 +12,50 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-19 22:42  ·  v5.23  ·  (automático)
+    nuevos (14):
+      + 2_recursos/edicion_pro/remotion/bundle/206.bundle.js
+      + 2_recursos/edicion_pro/remotion/bundle/206.bundle.js.map
+      + 2_recursos/edicion_pro/remotion/bundle/260.bundle.js
+      + 2_recursos/edicion_pro/remotion/bundle/260.bundle.js.map
+      + 2_recursos/edicion_pro/remotion/bundle/541.bundle.js
+      + 2_recursos/edicion_pro/remotion/bundle/541.bundle.js.map
+      + 2_recursos/edicion_pro/remotion/bundle/578.bundle.js
+      + 2_recursos/edicion_pro/remotion/bundle/578.bundle.js.map
+      + 2_recursos/edicion_pro/remotion/bundle/679.bundle.js
+      + 2_recursos/edicion_pro/remotion/bundle/679.bundle.js.map
+      + 2_recursos/edicion_pro/remotion/bundle/756.bundle.js
+      + 2_recursos/edicion_pro/remotion/bundle/756.bundle.js.map
+      … y 2 más
+    modificados (66):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/edicion_pro/remotion/bundle/155.bundle.js
+      ~ 2_recursos/edicion_pro/remotion/bundle/155.bundle.js.map
+      ~ 2_recursos/edicion_pro/remotion/bundle/18.bundle.js
+      ~ 2_recursos/edicion_pro/remotion/bundle/18.bundle.js.map
+      ~ 2_recursos/edicion_pro/remotion/bundle/428.bundle.js
+      ~ 2_recursos/edicion_pro/remotion/bundle/428.bundle.js.map
+      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js
+      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js.map
+      ~ 2_recursos/edicion_pro/remotion/bundle/index.html
+      ~ 2_recursos/edicion_pro/remotion/runtime/node_modules/.package-lock.json
+      … y 54 más
+    quitados (14):
+      - 2_recursos/edicion_pro/remotion/bundle/134.bundle.js
+      - 2_recursos/edicion_pro/remotion/bundle/134.bundle.js.map
+      - 2_recursos/edicion_pro/remotion/bundle/567.bundle.js
+      - 2_recursos/edicion_pro/remotion/bundle/567.bundle.js.map
+      - 2_recursos/edicion_pro/remotion/bundle/760.bundle.js
+      - 2_recursos/edicion_pro/remotion/bundle/760.bundle.js.map
+      - 2_recursos/edicion_pro/remotion/bundle/798.bundle.js
+      - 2_recursos/edicion_pro/remotion/bundle/798.bundle.js.map
+      - 2_recursos/edicion_pro/remotion/bundle/807.bundle.js
+      - 2_recursos/edicion_pro/remotion/bundle/807.bundle.js.map
+      - 2_recursos/edicion_pro/remotion/bundle/906.bundle.js
+      - 2_recursos/edicion_pro/remotion/bundle/906.bundle.js.map
+      … y 2 más
+
 2026-10-19 22:25  ·  v5.22  ·  cambio explicado
     Efectos › «Posición» (nuevo, posiciones_pro.py): en cada sección de la PRO un botón (y doble clic) abre la línea de tiempo del video con sus fotogramas para marcar en qué segundos va ese efecto, con «Solo mis marcas | Mis marcas + automático»; GO lo respeta (piezas, B-roll, píldora, detrás de ti, tramos de Motions completo). Inicio: arreglados los tirones/reinicios al volver de otra página o tras inactividad. Pedidos del usuario.
     modificados (2):

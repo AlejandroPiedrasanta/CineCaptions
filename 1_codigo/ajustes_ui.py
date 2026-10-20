@@ -484,6 +484,13 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.23', [
+        'Efectos › «Posición»: en cada efecto de la Edición PRO, marca en la línea de tiempo de tu video (con sus fotogramas) los segundos donde lo quieres. Elige «Solo mis marcas» o «Mis marcas + automático».',
+        'Inicio más fluido: las animaciones ya no se traban ni se reinician al volver de otra página o tras un rato sin usar el programa.',
+        'Inicio: las barras de progreso del centro y de abajo, más claras y siempre con el mismo porcentaje.',
+        'Proyecto: «Captions detrás de ti» y «Gancho del inicio», primeros en el menú de la Edición PRO.',
+        'Ajustes más simple: el color de resaltado en una fila de colores (verde de fábrica); fuera «Mantener encima» y «Copias de seguridad».',
+    ]),
     ('5.22', [
         'Efectos más simple: los estilos de la Edición PRO salen desplegados, cada uno en su slider.',
         'Fuera de Efectos (y de GO): Intro, Transiciones en los cortes, Movimiento del video y el carrusel de motions (los motions vuelven a Automático).',
