@@ -12,6 +12,22 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-20 08:32  ·  v5.25  ·  (automático)
+    modificados (27):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      … y 15 más
+
 2026-10-20 08:28  ·  v5.24  ·  cambio explicado
     Edición PRO › Emojis animados (v5.25): opción del menú con Suave/Media/Fuerte y sección de Efectos con 5 estilos 2D Lottie (Google Noto, CC BY 4.0) y 5 3D siempre animados, «Dónde» e «Intensidad»; el emoji sale de la palabra dicha, va junto al caption sin tapar caras ni otros gráficos y sustituye a los iconos 3D estáticos. Pedido del usuario: estilos 3D-2D siempre animados, Lottie, posición coherente e intensidad.
     nuevos (25):

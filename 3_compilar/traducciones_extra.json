@@ -6634,5 +6634,26 @@
   "fr": "Un emoji animé selon ce que tu dis, à côté des sous-titres et sans cacher les visages. L’emoji vient de tes mots ; ici tu choisis comment il bouge, où et combien.",
   "de": "Ein animiertes Emoji zu dem, was du sagst, neben den Untertiteln und ohne Gesichter zu verdecken. Das Emoji kommt aus deinen Worten; hier wählst du, wie es sich bewegt, wo und wie viele.",
   "it": "Un emoji animato con ciò che dici, accanto ai sottotitoli e senza coprire i volti. L’emoji nasce dalle tue parole; qui scegli come si muove, dove e quanti."
+ },
+ "Edición PRO › «Emojis animados»: un emoji que sale de lo que dices, junto a los captions y sin tapar caras; Suave, Media o Fuerte en el menú.": {
+  "en": "PRO Edit › “Animated emojis”: an emoji drawn from what you say, next to the captions and never over faces; Soft, Medium or Strong in the menu.",
+  "pt": "Edição PRO › «Emojis animados»: um emoji que vem do que você diz, junto às legendas e sem cobrir rostos; Suave, Média ou Forte no menu.",
+  "fr": "Montage PRO › « Emojis animés » : un emoji tiré de ce que tu dis, à côté des sous-titres et sans cacher les visages ; Doux, Moyen ou Fort dans le menu.",
+  "de": "PRO-Schnitt › „Animierte Emojis“: ein Emoji aus dem, was du sagst, neben den Untertiteln und ohne Gesichter zu verdecken; Sanft, Mittel oder Stark im Menü.",
+  "it": "Montaggio PRO › «Emoji animati»: un emoji preso da ciò che dici, accanto ai sottotitoli e senza coprire i volti; Leggero, Medio o Forte nel menu."
+ },
+ "En Efectos, sus estilos 2D (Lottie) y 3D, siempre en movimiento, y dónde ponerlo: junto al caption, encima o junto a tu cabeza.": {
+  "en": "In Effects, its 2D (Lottie) and 3D styles, always moving, and where to put it: next to the caption, above it or next to your head.",
+  "pt": "Em Efeitos, seus estilos 2D (Lottie) e 3D, sempre em movimento, e onde colocá-lo: ao lado da legenda, acima ou ao lado da sua cabeça.",
+  "fr": "Dans Effets, ses styles 2D (Lottie) et 3D, toujours en mouvement, et où le placer : à côté du sous-titre, au-dessus ou à côté de ta tête.",
+  "de": "In Effekte seine 2D- (Lottie) und 3D-Stile, immer in Bewegung, und wo es hinkommt: neben die Untertitelzeile, darüber oder neben deinen Kopf.",
+  "it": "In Effetti, i suoi stili 2D (Lottie) e 3D, sempre in movimento, e dove metterlo: accanto al sottotitolo, sopra o accanto alla tua testa."
+ },
+ "Tema 1 más rápido y ordenado en Resolve: ya no crea pistas que luego desactiva, y cada pista de la PRO dice qué hace.": {
+  "en": "Theme 1 faster and tidier in Resolve: it no longer creates tracks it later disables, and every PRO track says what it does.",
+  "pt": "Tema 1 mais rápido e organizado no Resolve: já não cria faixas que depois desativa, e cada faixa da PRO diz o que faz.",
+  "fr": "Thème 1 plus rapide et mieux rangé dans Resolve : il ne crée plus de pistes qu’il désactive ensuite, et chaque piste PRO dit ce qu’elle fait.",
+  "de": "Thema 1 schneller und aufgeräumter in Resolve: keine Spuren mehr, die danach deaktiviert werden, und jede PRO-Spur sagt, was sie macht.",
+  "it": "Tema 1 più veloce e ordinato in Resolve: non crea più tracce che poi disattiva, e ogni traccia PRO dice cosa fa."
  }
 }

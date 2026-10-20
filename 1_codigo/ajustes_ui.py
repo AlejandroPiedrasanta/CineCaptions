@@ -484,6 +484,11 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.25', [
+        'Edición PRO › «Emojis animados»: un emoji que sale de lo que dices, junto a los captions y sin tapar caras; Suave, Media o Fuerte en el menú.',
+        'En Efectos, sus estilos 2D (Lottie) y 3D, siempre en movimiento, y dónde ponerlo: junto al caption, encima o junto a tu cabeza.',
+        'Tema 1 más rápido y ordenado en Resolve: ya no crea pistas que luego desactiva, y cada pista de la PRO dice qué hace.',
+    ]),
     ('5.24', [
         'Efectos › «Posición» con el audio que trae «Obtener»: se ven los fotogramas del video de tu timeline, en el segundo justo aunque el clip esté recortado o haya zona marcada.',
         'Efectos en el mismo orden que el menú de la Edición PRO.',
