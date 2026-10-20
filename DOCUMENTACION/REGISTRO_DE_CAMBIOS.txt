@@ -12,6 +12,85 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-19 20:32  ·  v5.22  ·  (automático)
+    modificados (24):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/efectos_pagina.py
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/efectos_visuales.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      … y 12 más
+
+2026-10-19 19:59  ·  v5.21  ·  (automático)
+    modificados (47):
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/estilos_pro.py
+      ~ 1_codigo/herramientas_dev/hacer_estilos_pro.py
+      ~ 1_codigo/herramientas_dev/probar_edicion_pro.py
+      ~ 1_codigo/herramientas_dev/probar_pro_lateral.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/edicion_pro/estilos_pro/detras_aura.jpg
+      ~ 2_recursos/edicion_pro/estilos_pro/detras_aura.mp4
+      ~ 2_recursos/edicion_pro/estilos_pro/detras_sombra.jpg
+      ~ 2_recursos/edicion_pro/estilos_pro/detras_sombra.mp4
+      ~ 2_recursos/edicion_pro/estilos_pro/detras_sombra_dura.jpg
+      … y 35 más
+
+2026-10-19 19:11  ·  v5.20  ·  cambio explicado
+    Efectos › Edición PRO (pedido del usuario): cada función de la PRO con Automático + 10 estilos con su ejemplo animado y colores propios (estilos_pro.py fuente única; efectos_pro_ui.py; vestir() en edicion_pro.aplicar antes de renderizar; detrás de ti = sombra/orilla/resplandor con nodos de Fusion de nombres sacados de Templates.drfx, sin probar aún en Resolve real). Quitados de Efectos y de GO: Sonido extra, Cierre del video, Iconos flotantes; del menú lateral: Plantillas por frase.
+    nuevos (179):
+      + 1_codigo/efectos_pro_ui.py
+      + 1_codigo/estilos_pro.py
+      + 1_codigo/herramientas_dev/hacer_estilos_pro.py
+      + 2_recursos/edicion_pro/estilos_pro/broll_auto.jpg
+      + 2_recursos/edicion_pro/estilos_pro/broll_auto.mp4
+      + 2_recursos/edicion_pro/estilos_pro/broll_cinta.jpg
+      + 2_recursos/edicion_pro/estilos_pro/broll_cinta.mp4
+      + 2_recursos/edicion_pro/estilos_pro/broll_circulo.jpg
+      + 2_recursos/edicion_pro/estilos_pro/broll_circulo.mp4
+      + 2_recursos/edicion_pro/estilos_pro/broll_completa.jpg
+      + 2_recursos/edicion_pro/estilos_pro/broll_completa.mp4
+      + 2_recursos/edicion_pro/estilos_pro/broll_cristal.jpg
+      … y 167 más
+    modificados (20):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_ograf.py
+      ~ 1_codigo/efectos_extra.py
+      ~ 1_codigo/efectos_extra_ui.py
+      ~ 1_codigo/efectos_pagina.py
+      ~ 1_codigo/efectos_visuales.py
+      ~ 1_codigo/emojis_sfx.py
+      ~ 1_codigo/motions_completo.py
+      ~ 1_codigo/pro_lateral_ui.py
+      ~ 1_codigo/remotion/src/Acompanantes.tsx
+      ~ 1_codigo/remotion/src/Efectos5.tsx
+      … y 8 más
+
+2026-10-19 16:34  ·  v5.20  ·  (automático)
+    modificados (38):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/actualizaciones.py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/herramientas_dev/probar_edicion_pro.py
+      ~ 1_codigo/herramientas_dev/probar_pro_lateral.py
+      ~ 1_codigo/kit_neon.py
+      ~ 1_codigo/kit_neon_placa.py
+      ~ 1_codigo/pro_lateral_ui.py
+      ~ 1_codigo/proyecto_pruebas.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/edicion_pro/colocar_pro.py
+      … y 26 más
+
 2026-10-19 15:16  ·  v5.5.19  ·  (automático)
     modificados (20):
       ~ 1_codigo/version.py

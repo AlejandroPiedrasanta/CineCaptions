@@ -208,7 +208,7 @@ en `edicion_pro.planificar` y en `aplicar`. Probado con una transcripción sint�
 tarjeta «Edición PRO activa…» (botón «Ver efectos clásicos»); «Ritmo: quitar pausas» sí vale y queda fuera (su «Zoom alterno» se esconde con la PRO).
 El reloj de las vistas previas (40 ms) solo corre con la página a la vista (`showEvent`/`hideEvent`); antes corría siempre.
 
-## pro-lateral — Proyecto con la PRO: motions a la derecha del slider y su ejemplo real a la izquierda (v5.5.10)
+## pro-lateral — Proyecto con la PRO: motions a la derecha del slider y su ejemplo real a la izquierda (v5.5.10)
 
 **v5.5.20:** «Captions detrás de ti» solo se enseña con Resolve Studio (`opciones_visibles`; en Free la barra tiene 8 iconos y `estado('detras')` es False aunque esté guardada); encendida, su píldora lleva «Suave · Media · Fuerte» (`_pintar_niveles`, `_nivel_en`, `poner_intensidad`): el ratón sobre la píldora la mantiene abierta y el clic guarda `pro_detras_intensidad`. El chip «Edición PRO» de Inicio tampoco ofrece «Magic Mask» sin Studio.
 
@@ -247,6 +247,61 @@ Los hace `herramientas_dev/hacer_ejemplos_pro.py` con «Desktop/VIDEOS EN ESPAÑ
 (con alfa) sobre la persona, recortada con la IA local (`edicion_pro_persona`) donde el texto va DETRÁS; Motions completo = `motions_completo.crear`
 sobre el tramo; los captions nunca pasan de 2 líneas (la 3.ª tapaba la píldora). Tramos con la persona en cámara (10–13, 16–21, 43–46, 52–62 s; 47–51 es el cartel y 32–41 el concierto). Rehacer:
 `… hacer_ejemplos_pro.py --rehacer [--solo pildora,kit]`.
+
+## estilos-pro — Efectos › Edición PRO: 10 estilos y colores propios por función (v5.20)
+**v5.21:** el carrusel «Motions de la Edición PRO» (`motions_ui.SeccionMotions`) ya NO se ve en Efectos (pedido del usuario); se crea oculto porque
+`refrescar` y las secciones lo siguen avisando. Sus preferencias (`pro_motions_modo` / `pro_motions`) las tocan ahora solo los interruptores de cada
+sección y el menú lateral de Proyecto. También quitadas de Efectos (y de GO: `efectos_visuales.planificar` fuerza `fx_intro=''`, `fx_intro_zoom='no'`,
+`fx_intro_sonido='ninguno'`, `fx_cortes=''`, `fx_zoom='no'`, `fx_fondo=True`): «Intro» (destello, riser y zoom de intro), «Transiciones en los
+cortes» y «Movimiento del video» (sin zoom lento; si el video no llena el cuadro, siempre el fondo desenfocado, el que tenía elegido).
+**Qué (el usuario, 2026-10-19):** «todos los efectos de la edición PRO en la página de Efectos por sección, con varios ejemplos para escoger con su
+render; lo que escoja es lo que se aplica si activo esa función, adaptándose al video; poder personalizar un poco los colores (con el Tema 1, que es
+muy rosado, la píldora la quiero blanca o transparente); 10 ejemplos por caso; en "detrás de ti" sombra, orilla blanca, resplandor o nada». Diseños
+sacados de su tablero `Desktop/How to Edit VIRAL Reels with AI/inspiration` (azul noche e índigo, cristal oscuro con borde de luz, halos de dos
+colores, verde terminal, ámbar, carteles blancos con serif azul, el recorte con orilla blanca de sticker). Quitados de Efectos en esta misma tanda
+(también en GO): «Sonido extra», «Cierre del video», «Iconos flotantes» y, del menú lateral, «Plantillas por frase».
+
+**Dónde:** `estilos_pro.py` = fuente única (`SECCIONES`: por sección «Automático» + 10 estilos, `PALETAS`, `DE_PALETA` = qué colores de la paleta toma
+cada sección, `MUESTRAS` = colores rápidos). Preferencia `pro_estilos` = {clave: {'v': id, 'c': {hueco: hex}}} (en `edicion_pro.OPCIONES_POR_DEFECTO`).
+Página: `efectos_pro_ui.SeccionEstilosPro` (bajo el carrusel de motions en `efectos_pagina`): una `SeccionEstilo` por función visible del menú lateral
+(`pro_lateral_ui.opciones_visibles`: sin Studio no sale «detrás de ti»), con su interruptor «Activado en GO» (= `LAT.estado/poner`: el mismo del menú
+lateral), las 11 `TarjetaEfecto` en UNA fila deslizable (`SliderCartas`: flechas, arrastrar, rueda horizontal; la vertical sigue moviendo la
+página; el clic sin arrastre elige) y la fila «Colores». Cada sección es PLEGABLE (pedido: «de slider para que no ocupe mucho espacio y
+colapsables»): la cabecera (`_Cabecera`: flecha, título, el estilo que usará GO e interruptor) siempre a la vista; v5.21 (el usuario: «siempre deja
+desplegadas las secciones»): al entrar a la página TODAS están abiertas; plegar dura solo mientras la página sigue abierta (no se guarda). La fila «Colores» (`ChipColor`; al pulsar se abre DEBAJO una tira con
+Automático, las muestras y un `#RRGGBB`: sin diálogos ni globos).
+
+**En GO:** `estilos_pro.vestir(plan, op, t56)` en `edicion_pro.aplicar` justo antes de renderizar Remotion/OGraf (manda sobre el color del video y el
+neón del Tema 1; `plan['_estilos']` = cuántas piezas vistió). `seccion_de_pieza` usa `motions_catalogo.id_de_pieza` + `LAT.ids_de` (el fondo de una
+escena va con «escenas»). Por sección: **píldora** → `AcompananteT5` `variante` (cristal, blanca, transparente, vidrio, neon, solida, halo, etiqueta,
+sticker, degradado) + `fondo`/`tinta`/`acento`/`acento2`; **gancho** → `estilo` de la órbita (OGraf `orbita/pieza.js` y `OrbitaT5`: rastro, anillo,
+neon, chips, limpio, cometa, doble, puntos, halo, cinta; OGraf por defecto `limpio` = como antes) + la `fuente` del titular; **escenas** → la variante de
+cada `Escenas9` por TONO (`_tono_escena`: claro/oscuro/neón/color; en Temas 5/6 solo variantes igual de claras porque los captions ya van en su tinta)
++ acento (no en `SIN_ACENTO`) y el fondo OGraf (estilo + colores, siempre oscuro); **kit** → `tema`, `variante` preferida (`prefiere`) y acento (con el
+acento del usuario el `neoncc` del Tema 1 pasa a `neon`, que se rehace con su color); **gráficos** → `fuente`, `estilo` de la cifra, panel
+(`colorPanel`/`colorBloque`), `colorTexto` (la tinta oscura de una paleta clara solo donde hay panel) — los colores OGraf en `#rrggbb` minúsculas (`_og`:
+su manifiesto lo exige); **B-roll** → `FotoE` `variante` (completa, marco, círculo + polaroid, ventana, dividida, inclinada, neón, cinta, cristal) y
+`fondo`; **Motions completo** → `motions_completo(op)` → props `tema`, `fondo`, `acento`, `fija` (todas las tarjetas en un color) de `MotionsCompleto`;
+con un estilo elegido, el Tema 1 usa este motor en vez de `kit_neon_completo`.
+
+**Captions detrás de ti (Fusion):** `estilos_pro.EFECTOS_PERSONA` → `edicion_pro._fx_persona` mete nodos entre el MagicMask y el MediaOut de las
+composiciones `magic_*` y `encima_*` (`_comp_magic(..., efecto=)`). SOLO herramientas y entradas leídas de las plantillas de Blackmagic
+(`Fusion/Templates/Templates.drfx` de Resolve 21: ErodeDilate `XAmount`; BrightnessContrast `Gain/Brightness/PreDividePostMultiply/Alpha`; ColorGain
+`GainRed/Green/Blue/Alpha`, `LockRGB`; Blur `XBlurSize/Filter`; Transform `Center`; Merge `Background/Foreground`): silueta de color = el recorte
+ensanchado con el RGB a 1 (pre-dividido) teñido; resplandor = silueta difuminada; sombra = silueta negra con opacidad, difuminada y desplazada. Todo
+sale del mismo MediaIn (misma resolución). El recorte ProRes de la IA local (sin Magic Mask) NO lleva el efecto. **Probado en Resolve Studio
+21.1.1 real (2026-10-19, permiso del usuario; `probar_edicion_pro.py … --neon --extras detras --intensidad fuerte --efectos orilla,sombra_dura
+--render auto`, que rota un efecto por tramo de Magic Mask):** orilla blanca y resplandor se ven; Resolve lista y conecta bien todas las herramientas.
+Dos hallazgos: (1) el MagicMask NO premultiplica (fuera de la persona el RGB sigue siendo la imagen con alfa 0) y un Merge lo SUMA: lo que suma luz
+se veía y la sombra no → `AlphaMultiply` (de las plantillas) al principio de la cadena; (2) la capa de la persona se corta bajo el caption
+(`recorte_px`), así que una sombra hacia abajo queda fuera: va sobre todo AL LADO (sobre las letras de detrás). El Center de Fusion mide dx sobre el
+ancho y dy sobre el alto. Prueba aislada de la sombra (elipse blanca, 4 variantes): scratchpad `prueba_sombra.py` de esa sesión.
+
+**Ejemplos:** `2_recursos/edicion_pro/estilos_pro/<clave>_<id|auto>.mp4` (+ `.jpg`), 270×480, 3,2 s, ~100 KB (88 clips ≈ 9 MB). Los hace
+`herramientas_dev/hacer_estilos_pro.py [--solo …] [--estilos …] [--rehacer]` con las MISMAS piezas vestidas por `estilos_pro._VESTIR` sobre el video de
+prueba (`hacer_ejemplos_pro`): Remotion con alfa; OGraf pintado en el Chrome del runtime (cada fotograma en su iframe, una sola captura con
+transparencia: el motor recoloca la escena si el elemento no está en el origen); la silueta con MODNet y numpy (`con_efecto`, la misma receta que Fusion).
+Tras cambiar un `.tsx`: `node empaquetar.mjs`.
 
 ## nota — v5.5.7 · coherencia entre páginas (Inicio, Efectos, Sonido)
 
