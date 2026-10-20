@@ -484,6 +484,11 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.27', [
+        'Efectos › «Captions detrás de ti» › Posición: la tira marca en verde dónde el texto queda bien detrás de ti y tus marcas no salen de ahí (como mucho 8).',
+        'Tus posiciones se aplican al pulsar GO aunque no vuelvas a soltar el video, y «Listo» deja el efecto encendido; Proyecto dice cuántas hay.',
+        'Magic Mask recorta solo a la persona: sus puntos van en la cara y los hombros, nunca en el micrófono ni en la mesa.',
+    ]),
     ('5.26', [
         'GO ya no se queda parado si minimizas CineCaptions o cambias de página mientras trabaja.',
         'Tema 1: los captions y la Edición PRO vuelven a colocarse en Resolve (la 5.25 dejaba el video solo con los sonidos).',

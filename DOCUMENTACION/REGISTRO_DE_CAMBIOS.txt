@@ -12,6 +12,41 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-20 11:34  ·  v5.27  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-10-20 11:28  ·  v5.26  ·  cambio explicado
+    «Captions detrás de ti» con topes (el usuario: no funcionaba; topes de recomendación; Listo guarda y GO lo aplica; solo humanos): marcas guardadas con el video y leídas en el tiempo del audio del timeline (GO sin volver a soltar el video no las veía); regla por bloque con motivo, más tolerancia al movimiento en lo marcado, cortes de toma y caption más cercano; Magic Mask con puntos en cara y hombros (no el micrófono); tira con zonas verdes, máximo 8 marcas y motivo de cada sitio; Listo enciende el efecto y pone el video en Inicio; píldora de Proyecto con las posiciones.
+    nuevos (1):
+      + 1_codigo/herramientas_dev/probar_detras_posiciones.py
+    modificados (14):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_persona.py
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/efectos_visuales.py
+      ~ 1_codigo/posiciones_pro.py
+      ~ 1_codigo/pro_lateral_ui.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      … y 2 más
+
 2026-10-20 09:07  ·  v5.26  ·  (automático)
     modificados (27):
       ~ 1_codigo/ajustes_ui.py

@@ -487,9 +487,10 @@ def duracion_video(video):
         return 0.0
 
 
-def detectar_cortes(video, al_progreso=None, tope_s=None):
+def detectar_cortes(video, al_progreso=None, tope_s=None, por_fotograma=None):
     """Los instantes (s) donde la imagen salta de una toma a otra. Compara cada fotograma, reducido a 48×86 en grises, con el anterior: un salto muy por encima de
-    lo normal del momento (movimiento de cámara incluido) es un corte. Devuelve [(t, fuerza)]."""
+    lo normal del momento (movimiento de cámara incluido) es un corte. Devuelve [(t, fuerza)].
+    v5.27: `por_fotograma(fr, t)` recibe cada fotograma en la misma pasada (Efectos › «Posición» busca ahí a la persona sin leer el video dos veces)."""
     import av
     import numpy as np
     cortes = []
@@ -510,6 +511,8 @@ def detectar_cortes(video, al_progreso=None, tope_s=None):
                 continue
             if tope_s and t > tope_s:
                 break
+            if por_fotograma is not None:
+                por_fotograma(fr, t)
             g = fr.reformat(width=48, height=86, format='gray').to_ndarray().astype(np.float32)
             if previo is not None:
                 d = float(np.abs(g - previo).mean())

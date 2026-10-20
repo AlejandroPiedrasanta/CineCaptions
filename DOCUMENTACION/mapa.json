@@ -3797,13 +3797,25 @@
         "detrás de ti",
         "forzar",
         "momento",
-        "timeline"
+        "timeline",
+        "topes",
+        "recomendación",
+        "queda bien",
+        "zonas",
+        "verde",
+        "listo",
+        "solo humanos",
+        "micrófono",
+        "magic mask puntos"
       ],
       "archivos": [
         "posiciones_pro.py",
         "efectos_pro_ui.py",
         "edicion_pro.py",
-        "2_recursos/edicion_pro/colocar_pro.py"
+        "edicion_pro_persona.py",
+        "pro_lateral_ui.py",
+        "2_recursos/edicion_pro/colocar_pro.py",
+        "herramientas_dev/probar_detras_posiciones.py"
       ],
       "simbolos": [
         "VistaPosiciones",
@@ -3812,6 +3824,19 @@
         "fotogramas",
         "leer",
         "guardar",
+        "leer_linea",
+        "guardar_linea",
+        "analizar_detras",
+        "zonas_detras",
+        "ajustar_a_zonas",
+        "poner_video_inicio",
+        "TOPE_MARCAS",
+        "_detras_bloque",
+        "motivo_cabeza",
+        "MOTIVOS_DETRAS",
+        "personas_de_imagen",
+        "_listo_posiciones",
+        "_posiciones",
         "LIBRES",
         "_marcas_libres",
         "_ligadas",
@@ -3819,7 +3844,7 @@
         "_tramos_motions",
         "mostrar_posiciones"
       ],
-      "resumen": "Botón «Posición» (y doble clic) en cada sección de Efectos › Edición PRO: línea de tiempo del video con fotogramas para marcar en qué segundos va el efecto; «Solo mis marcas | + automático»; GO lo respeta (posiciones_pro.para_plan → edicion_pro: _marcas_libres, _ligadas, _marcas_broll, _captions_detras(marcas=), _tramos_motions)."
+      "resumen": "Botón «Posición» (y doble clic) en cada sección de Efectos › Edición PRO: línea de tiempo del video con fotogramas para marcar en qué segundos va el efecto; «Solo mis marcas | + automático»; GO lo respeta (posiciones_pro.para_plan → edicion_pro: _marcas_libres, _ligadas, _marcas_broll, _captions_detras(marcas=), _tramos_motions). v5.27: «detrás de ti» con topes (verde donde queda bien, máximo 8, motivo de cada sitio), marcas guardadas con el VIDEO (valen con el audio del timeline), Magic Mask solo en cara y hombros, «Listo» enciende y pone el video en Inicio."
     },
     {
       "id": "emojis-pro",

@@ -5,13 +5,15 @@ Para que un titular quede DETRÁS de quien habla, Resolve tiene que recortar a l
 
   * Magic Mask (Resolve Studio): la herramienta MagicMask de Fusion necesita puntos sobre la persona; la API no los pone (CreateMagicMask
     solo RASTREA una máscara que ya tiene puntos). Aquí se detecta a cada persona con IA local en el fotograma de referencia y se le dan
-    tres puntos (cabeza, pecho, cuerpo). colocar_pro.py escribe esos puntos en la composición y lanza el rastreo.
+    tres puntos (la cara y los dos hombros: v5.27, nunca el centro del pecho, donde suele haber un micrófono). colocar_pro.py escribe esos
+    puntos en la composición y lanza el rastreo.
   * Sin Magic Mask (Resolve Free, o si falla): el recorte entero con IA local, a ProRes 4444 con alfa (solo los segundos que hacen falta).
 
 El modelo es MODNet (Apache-2.0, 2_recursos/edicion_pro/modelos/modnet.onnx, ~25 MB) con onnxruntime (ya va con el programa).
 Coordenadas: fracciones del cuadro con el origen ARRIBA a la izquierda (Fusion las quiere con el origen abajo: puntos_fusion()).
 
     personas(video, t)                       -> {'personas': [{'bbox', 'puntos', 'area'}], 'arriba', 'abajo', 'izq', 'der'} | None
+    personas_de_imagen(rgb)                  -> lo mismo de una imagen ya leída
     puntos_fusion(det)                       -> [(x, y)] para MagicMaskStrokes.PosStrokes
     recorte_prores(video, t0, t1, destino)   -> Path del .mov (ProRes 4444, alfa recto) | None
 """
@@ -154,11 +156,35 @@ def componentes(m, minimo):
     return out
 
 
+def _pixel_de(c, yy, x_obj, lado=0, cx=None, min_dx=0.0):
+    """(columna, fila) de un píxel de DENTRO de la persona (con sus vecinos de los lados también dentro: nunca su borde) en la fila yy —o una
+    o dos más abajo— lo más cerca de x_obj; con `lado` -1/+1, solo a ese lado de cx y al menos a min_dx de él. None si no hay."""
+    gh, gw = c.shape
+    for fila in (yy, yy + 1, yy + 2):
+        if not 0 <= fila < gh:
+            continue
+        f = c[fila]
+        dentro = f.copy()
+        dentro[1:-1] = f[1:-1] & f[:-2] & f[2:]
+        dentro[0] = dentro[-1] = False
+        cols = np.nonzero(dentro)[0]
+        if lado and cx is not None:
+            cols = cols[(cols - cx) * lado >= min_dx]
+        if len(cols):
+            return int(cols[np.argmin(np.abs(cols - x_obj))]), fila
+    return None
+
+
 def personas(video, t, max_personas=4):
-    """Las personas del fotograma t: caja, área y tres puntos (cabeza, pecho, cuerpo) en fracciones del cuadro (origen arriba)."""
+    """Las personas del fotograma t: caja, área y tres puntos (cara y hombros) en fracciones del cuadro (origen arriba)."""
     img = fotograma(video, t)
     if img is None:
         return None
+    return personas_de_imagen(img, max_personas)
+
+
+def personas_de_imagen(img, max_personas=4):
+    """personas() de una imagen RGB ya leída (v5.27: Efectos › «Posición» lee el video de corrido y mira cada fotograma)."""
     a = mate(img)
     h, w = a.shape
     # rejilla pequeña: las cuentas de manchas son rápidas y no hacen falta más detalles para poner puntos
@@ -170,33 +196,49 @@ def personas(video, t, max_personas=4):
     for c in componentes(m, minimo=int(0.015 * gh * gw)):
         ys, xs = np.nonzero(c)
         y0, y1, x0, x1 = ys.min(), ys.max(), xs.min(), xs.max()
-        # una persona de verdad: el modelo está seguro (≥ 0,95), ocupa algo (≥ 3 %) y es alta (≥ 20 % del cuadro); en los planos
-        # de B-roll el modelo a veces marca una casa o un mueble con 0,89-0,94 y 2-3 %: eso no es nadie
-        if float(ak[c].mean()) < 0.95 or c.sum() < 0.03 * gh * gw or (y1 - y0 + 1) < 0.2 * gh:
+        alto_c = y1 - y0 + 1
+        # una persona de verdad: ocupa algo (≥ 3 %) y es alta (≥ 20 % del cuadro); en los planos de B-roll el modelo a veces marca una casa o un
+        # mueble con 0,89-0,94 y 2-3 %: eso no es nadie
+        if c.sum() < 0.03 * gh * gw or alto_c < 0.2 * gh:
             continue
-        if len(salida) >= max_personas:
-            break
-        puntos = []
-        for f in (0.12, 0.35, 0.6):
-            yy = int(round(y0 + f * (y1 - y0)))
-            banda = c[max(0, yy - 1):yy + 2]
-            cols = np.nonzero(banda.any(axis=0))[0]
-            if len(cols) < 2:
-                continue
-            cx = cols.mean()
-            col = cols[np.argmin(np.abs(cols - cx))]             # un píxel que SÍ es de la persona, el más cercano al centro
-            puntos.append((round(float(col + 0.5) / gw, 5), round(float(yy + 0.5) / gh, 5)))
         # la cabeza: de la coronilla hacia abajo el ancho crece y se estrecha en el cuello (o salta en los hombros si el pelo lo tapa)
         anchos = c[y0:y1 + 1].sum(axis=1)
         maxw, filas = 0, None
-        for r, wr in enumerate(anchos[:max(4, int(0.45 * (y1 - y0 + 1)))]):
+        for r, wr in enumerate(anchos[:max(4, int(0.45 * alto_c))]):
             if r >= 3 and (wr < 0.85 * maxw or wr > 1.6 * maxw):
                 filas = r
                 break
             maxw = max(maxw, int(wr))
-        frente = int(anchos[min(len(anchos) - 1, max(2, int(0.06 * (y1 - y0 + 1))))])
+        # el modelo, seguro (≥ 0,95). v5.27: una persona de cuerpo entero tiene mucho borde fino (brazos, piernas) y se quedaba en 0,92-0,93
+        # (PRUEBAS (1).mp4, de pie en una cocina): con ≥ 0,90 vale si es ALTA (≥ 35 %), grande (≥ 5 %) y tiene cabeza (el cuello estrecha)
+        conf = float(ak[c].mean())
+        if conf < 0.95 and not (conf >= 0.9 and alto_c >= 0.35 * gh and c.sum() >= 0.05 * gh * gw and filas):
+            continue
+        if len(salida) >= max_personas:
+            break
+        frente = int(anchos[min(len(anchos) - 1, max(2, int(0.06 * alto_c)))])
         estimada = 1.35 * frente                                       # alto ≈ 1,35 × el ancho a la altura de la frente (celdas cuadradas)
-        cab_alto = (filas if filas and filas <= 1.6 * estimada else estimada) / gh
+        cab_f = filas if filas and filas <= 1.6 * estimada else estimada
+        cab_alto = cab_f / gh
+        # v5.27 (el usuario: «solo humanos, no objetos ni nada raro»): los puntos del Magic Mask van en la CARA y en los dos HOMBROS. Antes iban por
+        # el centro del pecho y del cuerpo, donde en un podcast está el micrófono (el modelo lo une a la persona) o en un plano entero las manos con
+        # algo: Magic Mask recortaba también ese objeto
+        yc = int(round(y0 + 0.45 * cab_f))
+        fila_cara = np.nonzero(c[yc])[0] if 0 <= yc < gh else np.array([])
+        cx = float(fila_cara.mean()) if len(fila_cara) else float(xs.mean())
+        ancho_cab = max(1.0, float(len(fila_cara)))                     # (en la fila de la cara: la capucha o el pelo no la ensanchan)
+        puntos = []
+        cr = c & (ak > 0.5)                                             # (sin los huecos que rellenar_huecos tapó: entre el brazo y el cuerpo no hay nadie)
+        p = _pixel_de(cr, yc, cx)
+        if p is not None:
+            puntos.append((round(float(p[0] + 0.5) / gw, 5), round(float(p[1] + 0.5) / gh, 5)))
+        yh = int(round(y0 + 1.3 * cab_f))
+        if yh < y1:
+            borde = max(1, int(round(0.03 * gw)))                      # (lo que entra por el borde del cuadro suele ser un brazo de micro o un objeto)
+            for lado in (-1, 1):
+                p = _pixel_de(cr, yh, cx + lado * 0.75 * ancho_cab, lado=lado, cx=cx, min_dx=0.45 * ancho_cab)
+                if p is not None and borde <= p[0] < gw - borde:
+                    puntos.append((round(float(p[0] + 0.5) / gw, 5), round(float(p[1] + 0.5) / gh, 5)))
         if puntos:
             salida.append({'bbox': (round(float(x0) / gw, 4), round(float(y0) / gh, 4), round(float(x1 + 1) / gw, 4), round(float(y1 + 1) / gh, 4)),
                            'area': round(float(c.sum()) / (gh * gw), 4), 'puntos': puntos,

@@ -10583,6 +10583,19 @@ class SubtitleApp(QWidget):
                                         con_barra=False)         # v5.5.10: sin barra de título, como las demás (el Registro va flotando arriba a la derecha)
         self._efectos_capa = capa
         self._efectos_widget = None
+        try:                                     # v5.22: la «Posición» de cada efecto se marca sobre el video de Inicio (el que usará GO); v5.27: desde
+            import posiciones_pro                # el arranque (la píldora de Proyecto dice cuántas hay) y con cómo poner otro («Listo» con un video elegido a mano)
+            posiciones_pro.poner_proveedor(lambda: getattr(self, '_go_archivo', None) or
+                                           (self.video_var.get().strip().strip('"') if hasattr(self, 'video_var') else ''),
+                                           poner=self._poner_video_de_efectos)
+        except Exception:
+            registro.excepcion(origen='posiciones de Efectos')
+    def _poner_video_de_efectos(self, ruta):
+        """v5.27: el video elegido en Efectos › «Posición» pasa a Inicio (como al soltarlo, pero sin arrancar GO): el próximo GO lo usa con sus marcas."""
+        self.video_var.set(str(ruta))
+        self._olvidar_marca(tr('elegiste otro video en Efectos'))
+        self._go_archivo = str(ruta)
+        self._pintar_go_reposo()
     def _asegurar_efectos(self):
         """Arma la página Efectos la primera vez que se abre (lee las vistas previas); las demás veces solo sincroniza su interruptor."""
         if self._efectos_widget is not None:
@@ -10590,9 +10603,6 @@ class SubtitleApp(QWidget):
             return True
         try:
             import efectos_pagina
-            import posiciones_pro                # v5.22: la «Posición» de cada efecto se marca sobre el video de Inicio (el que usará GO)
-            posiciones_pro.poner_proveedor(lambda: getattr(self, '_go_archivo', None) or
-                                           (self.video_var.get().strip().strip('"') if hasattr(self, 'video_var') else ''))
             self._efectos_widget = efectos_pagina.PaginaEfectos(self, al_cambiar=self._pintar_opciones_go)
             self._efectos_capa.addWidget(self._efectos_widget)
         except Exception:

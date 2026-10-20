@@ -446,7 +446,7 @@ class SeccionEstilo(Tarjeta):
         self._en_pos = bool(si)
         if si and self._pos is None:
             self._pos = POS.VistaPosiciones(self.clave)
-            self._pos.listo.connect(lambda: self.mostrar_posiciones(False))
+            self._pos.listo.connect(self._listo_posiciones)
             self._pos.cambio.connect(self.refrescar)
             self.capa.addWidget(self._pos)
         if not self._abierta:
@@ -461,6 +461,35 @@ class SeccionEstilo(Tarjeta):
         self._b_pos.style().unpolish(self._b_pos)
         self._b_pos.style().polish(self._b_pos)
         self.refrescar()
+
+    def _listo_posiciones(self):
+        """v5.27 (el usuario: «cuando le doy Listo que quede guardado y cuando vuelva a la página de Inicio lo aplique»): con marcas, el efecto
+        queda ENCENDIDO en GO (si no, para_plan las saltaba) y, si el video se eligió a mano, pasa a ser el de Inicio; el Registro lo dice."""
+        from pathlib import Path
+        import posiciones_pro as POS
+        pos = self._pos
+        ruta = pos.linea.ruta if pos is not None else None
+        n = len(pos.linea.marcas) if pos is not None else 0
+        if ruta and n:
+            hechos = []
+            try:
+                import pro_lateral_ui as LAT
+                if not LAT.estado(self.clave) and LAT.poner(self.clave, True) is not False:
+                    hechos.append('lo encendí en GO')
+            except Exception:
+                pass
+            if pos.a_mano() and POS.poner_video_inicio(ruta):
+                hechos.append('ahora es el video de Inicio')
+            try:
+                import registro
+                modo = '' if pos.linea.modo == 'solo' else ' + automático'
+                registro.info(f'Efectos › {self.s["titulo"]}: {n} {"posición guardada" if n == 1 else "posiciones guardadas"}{modo} para '
+                              f'«{Path(str(ruta)).name}»' + (f' ({", ".join(hechos)})' if hechos else '') + ('. GO la aplica.' if n == 1 else '. GO las aplica.'),
+                              'Efectos')
+            except Exception:
+                pass
+        self.mostrar_posiciones(False)
+        self.cambio.emit()
 
     def mouseDoubleClickEvent(self, e):
         """Doble clic en cualquier sitio de la sección (fuera de un control): la «Posición»."""
@@ -515,6 +544,8 @@ class SeccionEstilo(Tarjeta):
             if self._pos is not None and getattr(self, '_en_pos', False):
                 self._pos.al_volver()                    # (v5.23: otro video en Inicio, p. ej. tras «Obtener»: se carga ese)
             ruta = POS.video_actual()
+            if self._pos is not None and self._pos.linea.ruta and POS.es_de_inicio(self._pos.linea.ruta):
+                ruta = self._pos.linea.ruta              # (v5.27: el de la vista, ya con su video si Inicio tiene el audio de un timeline)
             n, modo = POS.resumen(ruta, self.clave) if ruta else (0, 'solo')
             if n:
                 extra = ' · ' + (tr('1 posición') if n == 1 else tr('{n} posiciones', n=n)) + ('' if modo == 'solo' else tr(' + automático'))

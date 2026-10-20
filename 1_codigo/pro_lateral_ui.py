@@ -87,6 +87,20 @@ def intensidad(clave='detras'):
         return 'media'
 
 
+def _posiciones(clave):
+    """v5.27 (el usuario: «al volver a Inicio que lo aplique»): «2 posiciones» (+ auto) de Efectos › «Posición» para el video de Inicio, o ''
+    (solo lee posiciones_pro.json: se llama al señalar un icono, no al pintar)."""
+    try:
+        import posiciones_pro as POS
+        ruta = POS.video_actual()
+        n, modo = POS.resumen(ruta, clave) if ruta else (0, 'solo')
+    except Exception:
+        return ''
+    if not n:
+        return ''
+    return (tr('1 posición') if n == 1 else tr('{n} posiciones', n=n)) + ('' if modo == 'solo' else tr(' + auto'))
+
+
 def poner_intensidad(nivel, clave='detras'):
     import edicion_pro
     pref = _pref_niveles(clave)
@@ -455,9 +469,12 @@ class PanelMotionsPro(QWidget):
     def _texto_etiqueta(self):
         o = _POR_CLAVE[self.activa]
         si = self.encendido(self.activa)
-        if si and _pref_niveles(self.activa):
-            return tr(o['nombre']), tr('Encendido · intensidad'), si, True     # (el nivel elegido se lee al pintar)
-        return tr(o['nombre']), (tr('Encendido · clic para apagar') if si else tr('Apagado · clic para encender')), si, None
+        pos = _posiciones(self.activa) if si else ''      # v5.27: lo marcado en Efectos › «Posición» para el video de Inicio (lo que GO aplicará)
+        if si and _pref_niveles(self.activa):          # (con posiciones, sin «· intensidad»: no cabría y Suave · Media · Fuerte ya lo dicen)
+            return tr(o['nombre']), (tr('Encendido · {p}', p=pos) if pos else tr('Encendido · intensidad')), si, True   # (el nivel se lee al pintar)
+        if si:
+            return tr(o['nombre']), (tr('Encendido · {p}', p=pos) if pos else tr('Encendido · clic para apagar')), si, None
+        return tr(o['nombre']), tr('Apagado · clic para encender'), si, None
 
     def senalar(self, clave, animar=True):
         cambia = clave != self.activa

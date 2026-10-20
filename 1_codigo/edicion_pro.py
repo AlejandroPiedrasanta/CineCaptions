@@ -984,8 +984,108 @@ def _cabeza(det):
     return y0, (p['puntos'][0][0] if p.get('puntos') else (x0 + x1) / 2.0), y1 - y0, cab
 
 
+# v5.27 (el usuario: «no está funcionando… que tenga topes de recomendación para que el caption quede bien»): lo que hace falta para que un
+# caption vaya DETRÁS de la persona, compartido con Efectos › «Posición» (posiciones_pro.zonas_detras pinta en la tira dónde queda bien)
+DETRAS_CORONILLA = (0.08, 0.62)       # la coronilla (fracción del alto desde arriba): ni pegada arriba ni tan abajo que el texto no llegue
+DETRAS_ALTO_MIN = 0.3                 # la persona ocupa al menos esto del alto
+DETRAS_QUIETA = {False: (0.05, 0.08), True: (0.10, 0.12)}       # lo que puede moverse su cabeza (alto, ancho) en el caption; True = marcado
+RADIO_MARCA_DETRAS_S = 2.5            # una marca que no puede va al caption más cercano que sí, hasta esto
+MOTIVOS_DETRAS = {
+    'sin_captions': 'ahí no hay captions (no se habla)',
+    'corte': 'cambia de toma a mitad del caption',
+    'sin_persona': 'no se ve a ninguna persona',
+    'se_mueve': 'la persona se mueve demasiado durante el caption',
+    'pequena': 'la persona sale muy pequeña',
+    'cabeza_arriba': 'su cabeza está tan arriba que el texto no cabe detrás',
+    'cabeza_abajo': 'su cabeza está tan abajo que el texto no llega',
+    'lado': 'el caption no le pasa por encima (está a un lado)',
+    'no_cabe': 'el texto tendría que moverse demasiado',
+    'corto': 'el caption dura muy poco',
+    'linea': 'ese caption no tiene la palabra grande abajo',
+}
+
+
+def motivo_cabeza(coronilla, alto_p):
+    """Por qué esa cabeza no deja poner el texto detrás (clave de MOTIVOS_DETRAS) o None si vale."""
+    if alto_p < DETRAS_ALTO_MIN:
+        return 'pequena'
+    if coronilla < DETRAS_CORONILLA[0]:
+        return 'cabeza_arriba'
+    if coronilla > DETRAS_CORONILLA[1]:
+        return 'cabeza_abajo'
+    return None
+
+
+def _dist_bloque(b, t):
+    return 0.0 if b['ini'] <= t <= b['fin'] else min(abs(b['ini'] - t), abs(b['fin'] - t))
+
+
+def _bloque_de(bloques, t):
+    """El bloque de captions que suena en el segundo t (±0,15 s) o, si no hay, el más cercano a menos de 2 s; None si no hay ninguno."""
+    k = next((k for k, b in enumerate(bloques) if b['ini'] - 0.15 <= t <= b['fin'] + 0.15), None)
+    if k is None and bloques:
+        k = min(range(len(bloques)), key=lambda j: _dist_bloque(bloques[j], t))
+        if _dist_bloque(bloques[k], t) > 2.0:
+            k = None
+    return k
+
+
+def _detras_bloque(b, info, video, W, H, cfg, a_cuadro, cortes, forzado):
+    """v5.27: ¿ese bloque de captions puede ir DETRÁS de la persona? → (datos, None) o (None, motivo legible).
+    Lo marcado por el usuario (`forzado`) se mira también a mitad del caption y admite que la cabeza se mueva el doble (quien camina hacia la
+    cámara: en CLIENTE.mp4 la cabeza sube un 6-8 % del cuadro durante el caption y la marca se descartaba); la pila se pone siempre según la
+    cabeza en su punto MÁS ALTO, así nunca tapa más de lo que deja la intensidad."""
+    a, z = b['ini'], b['fin']
+    if b.get('grande_abajo') is False:
+        return None, MOTIVOS_DETRAS['linea']                          # (v5.5.20: la cabeza solo tapa la palabra GRANDE; nunca una línea pequeña)
+    if z - a < (0.6 if forzado else 1.0):
+        return None, MOTIVOS_DETRAS['corto']                          # (v5.5.20: un caption de medio segundo que salta arriba y vuelve se ve forzado)
+    if any(a + 0.12 < c < z - 0.1 for c in cortes):
+        return None, MOTIVOS_DETRAS['corte']                          # (v5.27: un corte DENTRO del clip: el recorte dejaría de seguir a la persona)
+    ts = [a + 0.12, max(a + 0.12, z - 0.15)]
+    if forzado:
+        ts.insert(1, (ts[0] + ts[1]) / 2.0)
+    fuentes = [_fuente_de(info, video, t) for t in ts]
+    if any(f[2] is not fuentes[0][2] for f in fuentes):
+        return None, MOTIVOS_DETRAS['corte']                          # cruza un corte de V1: el recorte no seguiría a la persona
+    try:
+        ds = [_personas(r, t) for r, t, _c in fuentes]
+        if a_cuadro is not None:
+            vs = [a_cuadro(d, t) for d, t in zip(ds, ts)]
+            if any(v is None for v in vs):
+                return None, MOTIVOS_DETRAS['sin_persona']
+        else:
+            vs = [_a_timeline(d, f[2], W, H) for d, f in zip(ds, fuentes)]
+        hs = [_cabeza(v) for v in vs]
+    except Exception:
+        return None, MOTIVOS_DETRAS['sin_persona']
+    if not all(hs):
+        return None, MOTIVOS_DETRAS['sin_persona']
+    tol_y, tol_x = DETRAS_QUIETA[bool(forzado)]
+    if max(h[0] for h in hs) - min(h[0] for h in hs) > tol_y or max(h[1] for h in hs) - min(h[1] for h in hs) > tol_x:
+        return None, MOTIVOS_DETRAS['se_mueve']
+    coronilla, cab_x = min(h[0] for h in hs), sum(h[1] for h in hs) / len(hs)
+    alto_p, cab = min(h[2] for h in hs), min(h[3] for h in hs)
+    m = motivo_cabeza(coronilla, alto_p)
+    if m:
+        return None, MOTIVOS_DETRAS[m]
+    if not (min(b['xs']) - 0.16 <= cab_x <= max(b['xs']) + 0.16):
+        return None, MOTIVOS_DETRAS['lado']
+    # cuánto de la pila tapa la cabeza: hasta la frente (~40 % de la cabeza), sin pasar del 45 % de la línea de abajo (la palabra se sigue
+    # leyendo); en un plano entero (cabeza pequeña) tapa poco y en un primer plano mucho más
+    tapa = max(0.012, min(cfg['tapa_max'] if cfg else 0.055, 0.4 * cab, (cfg['tapa'] if cfg else 0.45) * b['linea']))
+    dy = coronilla + tapa - b['abajo']
+    if b['arriba'] + dy < 0.08:
+        return None, MOTIVOS_DETRAS['cabeza_arriba']                  # (v5.5.20: no sube al borde de arriba del cuadro —«EMPRESA» pegado arriba—)
+    if b['abajo'] + dy < coronilla + 0.012 or b['abajo'] + dy > 0.9 or b['abajo'] + dy - coronilla > tapa + 0.004:
+        return None, MOTIVOS_DETRAS['no_cabe']
+    # (v5.5.20: si la pila no puede subir más —choca arriba— la cabeza taparía más de lo que deja la intensidad: ese bloque no va detrás)
+    caras = [c for v in vs for c in _caras(v)]
+    return dict(b, subir=-dy, clip=fuentes[0][2], det=vs[0] if a_cuadro is not None else ds[0], t_det=ts[0], caras=caras), None
+
+
 def _captions_detras(info, video, fps, ocupado, densidad, decir, preferidos=(), W=1080, H=1920, intensidad=None, bloques=None, a_cuadro=None,
-                     marcas=None):
+                     marcas=None, cortes=None):
     """Qué bloques de captions van DETRÁS de la persona y cuánto suben. Un bloque vale si la persona es grande, su cabeza no se sale por arriba,
     está quieta en todo el bloque (misma toma), la pila le cae encima en horizontal y no hay otro gráfico ni B-roll en ese momento. La pila sube (o
     baja) hasta que su borde de abajo queda un poco por debajo de la coronilla: la cabeza tapa la parte de abajo de la palabra grande y el resto se lee.
@@ -995,81 +1095,66 @@ def _captions_detras(info, video, fps, ocupado, densidad, decir, preferidos=(), 
     v5.5.20: `intensidad` (INTENSIDAD_DETRAS) manda en cuántos y cuánto tapa; `bloques` = los del tema (el Tema 1 da los suyos, kit_neon.bloques_pro)
     y `a_cuadro(det, t)` pasa la detección de la fuente a lo que se VE (el Tema 1: la placa con sus zooms; None = ahí no se puede).
     v5.22: `marcas` = {'modo', 'ts'} de Efectos › «Posición»: el bloque que suena en cada segundo marcado va detrás SIEMPRE que la persona
-    lo permita (aunque haya otro gráfico o le toque descansar); con 'solo', ninguno más. Lo que no se pudo queda en el Registro."""
+    lo permita (aunque haya otro gráfico o le toque descansar); con 'solo', ninguno más. Lo que no se pudo queda en el Registro.
+    v5.27: cada bloque lo decide _detras_bloque (con su motivo); `cortes` (s) = los cambios de toma DENTRO del clip; una marca que no puede va
+    al caption más cercano que sí (RADIO_MARCA_DETRAS_S)."""
     bloques = _bloques_captions() if bloques is None else bloques
     if not bloques:
         return []
     decir('Edición PRO: buscando dónde los captions van detrás de la persona…')
     cfg = INTENSIDAD_DETRAS.get(intensidad) if intensidad else None
     frac = cfg['frac'] if cfg else DETRAS_CAPTIONS.get(densidad, 0.55)
-    forz = {}                                                         # bloque → segundo marcado
+    cortes_t = sorted(float(c[0] if isinstance(c, (list, tuple)) else c) for c in cortes or [])
+    forz, avisos = {}, []                                             # bloque → segundo marcado
     for t in (marcas or {}).get('ts') or []:
-        k = next((k for k, b in enumerate(bloques) if b['ini'] - 0.15 <= t <= b['fin'] + 0.15), None)
-        if k is None:
-            k = min(range(len(bloques)), key=lambda k: min(abs(bloques[k]['ini'] - t), abs(bloques[k]['fin'] - t)))
-            if min(abs(bloques[k]['ini'] - t), abs(bloques[k]['fin'] - t)) > 2.0:
-                k = None
+        k = _bloque_de(bloques, t)
         if k is not None:
             forz.setdefault(k, t)
         else:
-            _avisar_marcas([f'«detrás de ti» en {t:.1f} s: ahí no hay captions'])
+            avisos.append(f'«detrás de ti» en {t:.1f} s: {MOTIVOS_DETRAS["sin_captions"]}')
     solo = bool(marcas) and marcas.get('modo') != 'suma'
+
+    def probar(k, forzado):
+        return _detras_bloque(bloques[k], info, video, W, H, cfg, a_cuadro, cortes_t, forzado)
+
+    # v5.27: las marcas del usuario primero. Si su caption no puede ir detrás, el más cercano que sí (a ±RADIO_MARCA_DETRAS_S de la marca):
+    # «lo más cerca donde queda bien»; y el Registro dice el motivo CONCRETO (antes, uno genérico para todo)
+    hechos = {}
+    for k, t in sorted(forz.items(), key=lambda x: x[1]):
+        e, motivo = probar(k, True)
+        if e is None:
+            cerca = sorted((j for j in range(len(bloques)) if j != k and j not in forz and j not in hechos
+                            and _dist_bloque(bloques[j], t) <= RADIO_MARCA_DETRAS_S), key=lambda j: _dist_bloque(bloques[j], t))
+            for j in cerca:
+                e, _m = probar(j, True)
+                if e is not None:
+                    avisos.append(f'«detrás de ti» en {t:.1f} s: {motivo}; va en el caption de {bloques[j]["ini"]:.1f} s, lo más cerca donde queda bien')
+                    k = j
+                    break
+            else:
+                avisos.append(f'«detrás de ti» en {t:.1f} s: no se puede, {motivo}')
+        if e is not None:
+            hechos[k] = dict(e, k=k, forzado=True)
     elegidos, acum = [], 1.0 - frac
     for k, b in enumerate(bloques):
+        if k in hechos:
+            elegidos.append(hechos[k])
+            continue
+        if solo or k in forz:
+            continue
         a, z = b['ini'], b['fin']
-        forzado = k in forz
-        if solo and not forzado:
+        if any(a < o1 and o0 < z for o0, o1 in ocupado):
             continue
-        if not forzado:
-            if any(a < o1 and o0 < z for o0, o1 in ocupado):
-                continue
-            acum += frac
-            pref = any(a < p1 and p0 < z for p0, p1 in preferidos)
-            if acum < 0.999 and not pref:
-                continue
-        if b.get('grande_abajo') is False:
-            continue                                                  # (v5.5.20: la cabeza solo tapa la palabra GRANDE; nunca una línea pequeña)
-        if z - a < (0.6 if forzado else 1.0):
-            continue                                                  # (v5.5.20: un caption de medio segundo que salta arriba y vuelve se ve forzado)
-        r0, t0, c0 = _fuente_de(info, video, a + 0.12)
-        r1, t1, c1 = _fuente_de(info, video, max(a + 0.12, z - 0.15))
-        if c0 is not c1:
-            continue                                                  # cruza un corte de V1: el recorte no seguiría a la persona
-        try:
-            d0, d1 = _personas(r0, t0), _personas(r1, t1)
-            if a_cuadro is not None:
-                v0, v1_ = a_cuadro(d0, a + 0.12), a_cuadro(d1, max(a + 0.12, z - 0.15))
-                if v0 is None or v1_ is None:
-                    continue
-            else:
-                v0, v1_ = _a_timeline(d0, c0, W, H), _a_timeline(d1, c1, W, H)
-            h0, h1 = _cabeza(v0), _cabeza(v1_)
-        except Exception:
+        acum += frac
+        pref = any(a < p1 and p0 < z for p0, p1 in preferidos)
+        if acum < 0.999 and not pref:
             continue
-        if not h0 or not h1 or abs(h0[0] - h1[0]) > 0.05 or abs(h0[1] - h1[1]) > 0.08:
+        e, _motivo = probar(k, False)
+        if e is None:
             continue
-        coronilla, cab_x, alto_p, cab = min(h0[0], h1[0]), (h0[1] + h1[1]) / 2.0, min(h0[2], h1[2]), min(h0[3], h1[3])   # (v5.5.20: la cabeza en su punto MÁS ALTO: nunca tapa más de lo que deja la intensidad)
-        if coronilla < 0.08 or coronilla > 0.62 or alto_p < 0.3:
-            continue
-        if not (min(b['xs']) - 0.16 <= cab_x <= max(b['xs']) + 0.16):
-            continue
-        # cuánto de la pila tapa la cabeza: hasta la frente (~40 % de la cabeza), sin pasar del 45 % de la línea de abajo (la palabra se sigue
-        # leyendo); en un plano entero (cabeza pequeña) tapa poco y en un primer plano mucho más
-        tapa = max(0.012, min(cfg['tapa_max'] if cfg else 0.055, 0.4 * cab, (cfg['tapa'] if cfg else 0.45) * b['linea']))
-        dy = coronilla + tapa - b['abajo']
-        if b['arriba'] + dy < 0.08:
-            continue                                                  # (v5.5.20: no sube al borde de arriba del cuadro —«EMPRESA» pegado arriba—)
-        if b['abajo'] + dy < coronilla + 0.012 or b['abajo'] + dy > 0.9 or b['abajo'] + dy - coronilla > tapa + 0.004:
-            continue
-        # (v5.5.20: si la pila no puede subir más —choca arriba— la cabeza taparía más de lo que deja la intensidad: ese bloque no va detrás)
-        if not forzado:
-            acum = max(0.0, acum - 1.0)
-        caras = _caras(v0) + _caras(v1_)
-        elegidos.append(dict(b, k=k, subir=-dy, clip=c0, det=v0 if a_cuadro is not None else d0, t_det=a + 0.12, caras=caras, forzado=forzado))
-    fallidos = [t for k, t in sorted(forz.items(), key=lambda x: x[1]) if not any(e['k'] == k for e in elegidos)]
-    if fallidos:
-        _avisar_marcas([f'«detrás de ti» en {t:.1f} s: ahí no se puede (la persona no está quieta en todo el caption, no se ve su cabeza '
-                        f'o el caption no le pasa por encima)' for t in fallidos])
+        acum = max(0.0, acum - 1.0)
+        elegidos.append(dict(e, k=k, forzado=False))
+    _avisar_marcas(avisos)
     # los bloques seguidos (de la misma toma) comparten un solo recorte de la persona: menos rastreos de Magic Mask
     tramos = []
     for e in elegidos:
@@ -1739,8 +1824,13 @@ def aplicar(plan, al_estado=None, offset_frames=0, info=None):
             tramos = _captions_detras(info, video, fps, ocupado, op.get('pro_densidad') or 'media', decir,
                                       preferidos=[tuple(x) for x in plan.get('detras_pref') or []], W=W, H=H,
                                       intensidad=intensidad_detras(op), bloques=bloques_tema, a_cuadro=a_cuadro,
-                                      marcas=_marca(plan, 'detras'))
+                                      marcas=_marca(plan, 'detras'), cortes=plan.get('_cortes'))
         except Exception:
+            try:                                 # (v5.27: antes se callaba y las marcas «no hacían nada» sin decir por qué)
+                import registro
+                registro.excepcion(origen='edición PRO (captions detrás de ti)')
+            except Exception:
+                pass
             tramos = []
         for t in tramos:
             f0, f1 = int(round(t['ini'] * fps)), int(round(t['fin'] * fps))

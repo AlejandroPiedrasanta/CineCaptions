@@ -12,7 +12,7 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
 ------------------------------------------------------------------------------
     .cf\   (1 archivos)
         icono.ico
-    herramientas_dev\   (24 archivos)
+    herramientas_dev\   (25 archivos)
         banco_voz\   (1 archivos)
         banco_voz.py
             v5.5.17: mide la transcripción (WER y la lista de errores) contra un texto CORRECTO, para comparar
@@ -37,6 +37,8 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
             repite el GO N veces seguidas con un pack y cuenta fallos/tiempos (cuelgues intermitentes de Resolve). SOLO desarrollo (no entra en el .exe; necesita Resolve abierto y es seguro con el del usuario solo si él lo autoriza: ver memoria «resolve-uso-paralelo»).
         probar_cuelgue_resolve.py
             suspende Resolve a mitad de un GO real (armar / captions / efectos) y comprueba que el programa lo nota, lo reinicia y termina. SOLO desarrollo (no entra en el .exe; necesita Resolve abierto y es seguro con el del usuario solo si él lo autoriza: ver memoria «resolve-uso-paralelo»).
+        probar_detras_posiciones.py
+            v5.27: prueba «Captions detrás de ti» con Efectos › «Posición» sobre videos REALES de
         probar_edicion_pro.py
             prueba de punta a punta de la Edición PRO en Resolve REAL (proyecto temporal zz_PRUEBAS_CC).
         probar_emojis_temas.py
