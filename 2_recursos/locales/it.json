@@ -3715,7 +3715,11 @@
     "en tu timeline": "nella tua timeline",
     "«Listo» en «Captions detrás de ti» lo pone al momento en tu timeline de Resolve (sin volver a pasar GO).": "«Fatto» in «Didascalie dietro di te» lo mette subito nella tua timeline di Resolve (senza rifare GO).",
     "La persona que va delante de los captions la recorta la IA (un matte con alfa): se ve igual en Resolve y en el render.": "La persona davanti alle didascalie la ritaglia l’IA (un matte con alfa): si vede uguale in Resolve e nel render.",
-    "Arreglado: tus posiciones se aplican aunque Resolve use la copia con el audio compatible de tu video.": "Corretto: le tue posizioni si applicano anche quando Resolve usa la copia del video con audio compatibile."
+    "Arreglado: tus posiciones se aplican aunque Resolve use la copia con el audio compatible de tu video.": "Corretto: le tue posizioni si applicano anche quando Resolve usa la copia del video con audio compatibile.",
+    "Así está ahora en tu timeline: {n}. Quita, mueve o añade y pulsa «Listo»: lo pongo en Resolve sin rehacer el video.": "Così è ora la tua timeline: {n}. Togli, sposta o aggiungi e premi «Fatto»: lo metto in Resolve senza rifare il video.",
+    "En tu timeline no hay ninguno detrás de ti: toca una sugerencia o haz clic en lo verde y pulsa «Listo».": "Nella tua timeline non ce n’è nessuno dietro di te: tocca un suggerimento o clicca sul verde e premi «Fatto».",
+    "En Efectos › Posición ves lo que está ahora en tu timeline (también lo que puso GO por su cuenta) y las sugerencias: quita, mueve o añade y «Listo» lo pone en Resolve.": "In Effetti › Posizione vedi cosa c’è ora nella tua timeline (anche quello che GO ha messo da solo) e i suggerimenti: togli, sposta o aggiungi e «Fatto» lo mette in Resolve.",
+    "«Quitar todas» y «Listo» quita «detrás de ti» de tu timeline; si nada cambió, «Listo» ni toca Resolve.": "«Togli tutte» e «Fatto» toglie «dietro di te» dalla tua timeline; se non è cambiato nulla, «Fatto» non tocca nemmeno Resolve."
   },
   "Suave": "Leggero",
   "Media": "Media",

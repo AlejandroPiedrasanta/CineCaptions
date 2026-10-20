@@ -484,6 +484,10 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.30', [
+        'En Efectos › Posición ves lo que está ahora en tu timeline (también lo que puso GO por su cuenta) y las sugerencias: quita, mueve o añade y «Listo» lo pone en Resolve.',
+        '«Quitar todas» y «Listo» quita «detrás de ti» de tu timeline; si nada cambió, «Listo» ni toca Resolve.',
+    ]),
     ('5.29', [
         '«Listo» en «Captions detrás de ti» lo pone al momento en tu timeline de Resolve (sin volver a pasar GO).',
         'La persona que va delante de los captions la recorta la IA (un matte con alfa): se ve igual en Resolve y en el render.',

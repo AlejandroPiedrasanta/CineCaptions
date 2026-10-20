@@ -2251,6 +2251,7 @@ def aplicar(plan, al_estado=None, offset_frames=0, info=None):
     except Exception:
         pass
     if ctx_detras is not None:                                        # v5.29: para que «Listo» en Efectos › Posición lo ponga sin rehacer GO
+        ctx_detras['aplicados'] = _aplicados_de(encima, fps)          # v5.30: lo que quedó puesto (la tira de Posición lo enseña)
         _guardar_contexto_detras(plan, info, video, video_img, fps, W, H, carpeta, neon_tema, placa_res.get('ruta'), ctx_detras, op)
     instalar_plantillas_una_vez()
     limpiar_cache(conservar=carpeta)
@@ -2284,6 +2285,7 @@ def _guardar_contexto_detras(plan, info, video, video_img, fps, W, H, carpeta, n
              'bloques': bloques, 'ocupado': [list(x) for x in ctx.get('ocupado') or []], 'preferidos': ctx.get('preferidos') or [],
              'densidad': op.get('pro_densidad') or 'media', 'cortes': [list(c) if isinstance(c, (list, tuple)) else c for c in plan.get('_cortes') or []],
              'neon': bool(neon_tema), 'placa': str(placa) if placa else None, 'carpeta': str(carpeta), 'recorte': plan.get('_recorte'),
+             'aplicados': ctx.get('aplicados') or [],
              'plan_placa': ({k: plan.get(k) for k in ('kitneon', 'kitneon_motions', '_cortes', 'duracion', '_neon_ajustado')} if neon_tema else None)}
         archivos_seguros.escribir_json(DETRAS_CTX, json.loads(json.dumps(d, ensure_ascii=False, default=str)))
     except Exception:
@@ -2292,6 +2294,37 @@ def _guardar_contexto_detras(plan, info, video, video_img, fps, W, H, carpeta, n
             registro.excepcion(origen='edición PRO (contexto de «detrás de ti»)')
         except Exception:
             pass
+
+
+def _aplicados_de(encima, fps):
+    """v5.30: el centro (s del timeline de GO) de cada caption que quedó DETRÁS de la persona."""
+    return sorted({round((c['ini'] + c['fin']) / 2.0 / float(fps), 2) for e in encima or [] for c in e.get('cues') or []})
+
+
+def aplicados_para(ruta, ctx):
+    """v5.30 (el usuario: «en Efectos › Posición deben estar donde se aplicó»): los captions que están ahora DETRÁS de la persona en el timeline
+    (los que puso GO por su cuenta o el último «Listo»), en el tiempo de la tira de `ruta`: con el video y las pausas quitadas por GO, de
+    vuelta al tiempo del archivo; con el video y un GO hecho con el audio del timeline, más el desfase del clip. [] si no hay ninguno."""
+    ts = [float(t) for t in (ctx or {}).get('aplicados') or []]
+    if not ts:
+        return []
+    import posiciones_pro as POS
+    es_audio = Path(str(ruta)).suffix.lower() in AUDIOS
+    segs = ((ctx.get('recorte') or {}).get('segmentos') or []) if not es_audio else []
+    if segs:                                                          # (la inversa de pausas.mapear)
+        out = []
+        for t in ts:
+            acum = 0.0
+            for a, b in segs:
+                if t <= acum + (b - a) + 1e-6:
+                    out.append(round(a + (t - acum), 2))
+                    break
+                acum += b - a
+        return out
+    if not es_audio and Path(str(ctx.get('media') or '')).suffix.lower() in AUDIOS:
+        _img, desde, _d = POS.fuente_imagen(ctx['media'], duracion=False)
+        return [round(t + float(desde or 0.0), 2) for t in ts]
+    return [round(t, 2) for t in ts]
 
 
 def contexto_detras(ruta):
@@ -2308,7 +2341,20 @@ def contexto_detras(ruta):
     return None
 
 
-def aplicar_detras(ruta, al_estado=None):
+def _a_timeline_go(ruta, ctx, ts):
+    """v5.30: la inversa de aplicados_para: segundos de la tira de `ruta` → segundos del timeline de ese GO."""
+    import posiciones_pro as POS
+    es_audio = Path(str(ruta)).suffix.lower() in AUDIOS
+    segs = ((ctx.get('recorte') or {}).get('segmentos') or []) if not es_audio else []
+    if segs:
+        return [round(float(n), 3) for n in (POS._mapear(float(t), segs) for t in ts) if n is not None]
+    if not es_audio and Path(str(ctx.get('media') or '')).suffix.lower() in AUDIOS:
+        _img, desde, _d = POS.fuente_imagen(ctx['media'], duracion=False)
+        return [round(float(t) - float(desde or 0.0), 3) for t in ts if float(t) - float(desde or 0.0) >= 0]
+    return [round(float(t), 3) for t in ts]
+
+
+def aplicar_detras(ruta, al_estado=None, marcas_tira=None, modo='solo'):
     """v5.29 (el usuario: «cuando le dé Listo debe ponerlo automáticamente en la línea de tiempo; va a ser más útil que generar todo»): pone
     «Captions detrás de ti» con las marcas de Efectos › Posición en el timeline ABIERTO de Resolve, sin rehacer GO: con lo que guardó el último
     GO de ese video (DETRAS_CTX) decide los tramos (la misma regla, _captions_detras), recorta a la persona con la IA (matte con alfa) y
@@ -2328,7 +2374,10 @@ def aplicar_detras(ruta, al_estado=None):
         return False, f'En Resolve está abierto otro timeline: abre «{ctx.get("timeline") or "el de tu último GO"}» y vuelve a darle a «Listo».', 0
     import posiciones_pro as POS
     fps, W, H = float(ctx['fps']), int(ctx['W']), int(ctx['H'])
-    marcas = (POS.para_plan(ctx['media'], ctx.get('recorte')) or {}).get('detras')
+    if marcas_tira is not None:                                       # v5.30: EXACTAMENTE lo de la tira (vacía = quitarlo del timeline)
+        marcas = {'modo': modo if modo in ('solo', 'suma') else 'solo', 'ts': _a_timeline_go(ruta, ctx, marcas_tira)}
+    else:
+        marcas = (POS.para_plan(ctx['media'], ctx.get('recorte')) or {}).get('detras')
     a_cuadro = None
     if ctx.get('neon'):
         if not ctx.get('placa') or not Path(ctx['placa']).exists():
@@ -2366,6 +2415,13 @@ def aplicar_detras(ruta, al_estado=None):
     finally:
         datos['solo_encima'] = False                                  # (un GO o re-aplicar de después vuelve a ponerlo todo, ya con esto)
         archivos_seguros.escribir_json(PLAN_JSON, datos, indent=1)
+    if ok:                                                            # v5.30: la tira de Posición enseñará esto (lo que hay ahora en el timeline)
+        try:
+            import time as _t
+            ctx.update(aplicados=_aplicados_de(encima, fps), hecho=round(_t.time()))
+            archivos_seguros.escribir_json(DETRAS_CTX, ctx)
+        except Exception:
+            pass
     return ok, mensaje, len(encima)
 
 

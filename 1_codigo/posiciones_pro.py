@@ -99,7 +99,7 @@ def leer(ruta):
         if not isinstance(m, dict):
             continue
         ts = sorted(round(float(t), 2) for t in m.get('ts') or [] if isinstance(t, (int, float)) and t >= 0)
-        out[sec] = {'modo': m.get('modo') if m.get('modo') in MODOS else 'solo', 'ts': ts}
+        out[sec] = {'modo': m.get('modo') if m.get('modo') in MODOS else 'solo', 'ts': ts, 'cuando': float(m.get('cuando') or 0.0)}
     return out
 
 
@@ -112,10 +112,10 @@ def guardar(ruta, seccion, ts, modo='solo'):
     e = dict(todo.get(clave) or {})
     secciones = dict(e.get('secciones') or {})
     limpias = sorted({round(max(0.0, float(t)), 2) for t in ts or []})
-    if limpias or modo != 'solo':
-        secciones[seccion] = {'modo': modo if modo in MODOS else 'solo', 'ts': limpias}
-    else:
-        secciones.pop(seccion, None)
+    # v5.30: con su hora (la tira enseña lo del timeline si es más nuevo que lo guardado) y, aunque quede VACÍA, se guarda: «Quitar todas» +
+    # «Listo» quita «detrás de ti» del timeline (para GO, una sección vacía sigue siendo «donde lo elija el automático»)
+    import time as _t
+    secciones[seccion] = {'modo': modo if modo in MODOS else 'solo', 'ts': limpias, 'cuando': round(_t.time(), 1)}
     e.update(video=e.get('video') or str(ruta), secciones=secciones)     # (v5.29: la entrada del original no pasa a nombre de su copia)
     try:
         import archivos_seguros
@@ -135,10 +135,10 @@ def leer_linea(ruta, imagen=None):
     out = {}
     for sec, m in leer(img).items():
         ts = [max(0.0, round(t - desde, 2)) for t in m['ts'] if t - desde >= -0.05 and (dur is None or t - desde <= dur + 0.05)]
-        out[sec] = {'modo': m['modo'], 'ts': sorted(set(ts))}
+        out[sec] = {'modo': m['modo'], 'ts': sorted(set(ts)), 'cuando': m.get('cuando', 0.0)}
     for sec, m in leer(ruta).items():                    # (las de antes de la 5.27, guardadas con la ruta del audio)
         if m['ts']:
-            o = out.setdefault(sec, {'modo': m['modo'], 'ts': []})
+            o = out.setdefault(sec, {'modo': m['modo'], 'ts': [], 'cuando': m.get('cuando', 0.0)})
             o['ts'] = sorted(set(o['ts']) | set(m['ts']))
     return out
 
@@ -882,6 +882,7 @@ if _QT:
             self._analisis = None
             self.captions = None                     # v5.27: captions_del_video (los del tema, para la vista)
             self.captions_listos = False
+            self._aplicados = None
             self.sugeridas = []                      # [(t, texto)]
             self._vistas = {}                        # segundo (décimas) → (QPixmap | None, info) de vista_detras
             self._vista_pedida = None
@@ -898,12 +899,19 @@ if _QT:
             self.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
             self.setMinimumHeight(520 if seccion in CON_PERSONA else 340)   # (v5.28: la vista con los captions, más grande)
 
+        def igual_que_timeline(self):
+            """v5.30: ¿la tira tiene exactamente lo que ya está en el timeline? (entonces «Listo» no necesita tocar Resolve)."""
+            a = self._aplicados
+            return (a is not None and self.modo == 'solo' and len(a) == len(self.marcas)
+                    and all(abs(x - y) < 0.06 for x, y in zip(sorted(a), sorted(self.marcas))))
+
         # -- datos
         def cargar(self, ruta):
             self.ruta = ruta
             self.marcas, self.modo = [], 'solo'
             self.fotos, self.palabras, self.dur = [], [], 0.0
             self.zonas, self._motivo, self._imagen, self.nota = None, None, None, ''
+            self._aplicados = None                   # v5.30: lo que hay en el timeline (tiempo de la tira) o None si no se sabe
             self._analisis, self.captions, self.sugeridas, self._cola_vistas = None, None, [], []
             self._vistas, self._vista_pedida, self.captions_listos = {}, None, False
             self.sugerencias.emit()
@@ -913,15 +921,33 @@ if _QT:
 
             def trabajo():
                 img = fuente_imagen(ruta)
-                return fotogramas(ruta), palabras(ruta), img, leer_linea(ruta, img).get(self.seccion) or {}
+                aplicados, hecho = None, 0.0
+                if self.seccion in CON_PERSONA:          # v5.30: lo que está AHORA en el timeline (lo puso GO por su cuenta o un «Listo»)
+                    try:
+                        import edicion_pro as EP
+                        ctx = EP.contexto_detras(ruta)
+                        if ctx is not None:
+                            aplicados, hecho = EP.aplicados_para(ruta, ctx), float(ctx.get('hecho') or 0.0)
+                    except Exception:
+                        aplicados = None
+                return fotogramas(ruta), palabras(ruta), img, leer_linea(ruta, img).get(self.seccion) or {}, aplicados, hecho
 
             def fin(r, error):
                 if ruta != self.ruta:
                     return
                 if error is None and r:
                     self._imagen = r[2]
-                    self.marcas = list(r[3].get('ts') or [])
-                    self.modo = r[3].get('modo') or 'solo'
+                    guardadas, aplicados, hecho = r[3], r[4], r[5]
+                    self._aplicados = None if aplicados is None else sorted(aplicados)
+                    if aplicados is not None and float(guardadas.get('cuando') or 0.0) <= hecho:
+                        # (el timeline es más nuevo que lo guardado: la tira enseña lo que hay, y «Listo» pone exactamente lo que quede)
+                        self.marcas, self.modo = sorted(aplicados), 'solo'
+                        self.nota = (tr('Así está ahora en tu timeline: {n}. Quita, mueve o añade y pulsa «Listo»: lo pongo en Resolve sin rehacer el video.',
+                                        n=len(aplicados)) if aplicados else
+                                     tr('En tu timeline no hay ninguno detrás de ti: toca una sugerencia o haz clic en lo verde y pulsa «Listo».'))
+                    else:
+                        self.marcas = list(guardadas.get('ts') or [])
+                        self.modo = guardadas.get('modo') or 'solo'
                     self.cambio.emit()
                 if error is not None or not r or not r[0]:
                     self.aviso = (tr('Este audio no trae imagen: pulsa «Obtener» con tu timeline abierto en Resolve (trae su video) o «Elegir video…».')
@@ -1046,6 +1072,8 @@ if _QT:
         def _aplicar_topes(self):
             """Las marcas que ya había (de antes o puestas mientras se miraba el video) van al verde más cercano; las que sobran o caen en el
             mismo caption se juntan."""
+            if self.igual_que_timeline():
+                return                               # (v5.30: lo que llega del timeline se enseña tal cual: es lo que hay)
             if not self.zonas:
                 if self.zonas == [] and self.marcas:
                     self.nota = tr('Aquí el texto no queda bien detrás de la persona en ningún momento ({m}): GO lo intentará, pero puede no ponerlo.',

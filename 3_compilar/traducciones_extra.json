@@ -7005,5 +7005,33 @@
   "fr": "Corrigé : vos positions s’appliquent même quand Resolve utilise la copie de votre vidéo avec l’audio compatible.",
   "de": "Behoben: Deine Positionen gelten auch, wenn Resolve die Kopie deines Videos mit kompatiblem Audio nutzt.",
   "it": "Corretto: le tue posizioni si applicano anche quando Resolve usa la copia del video con audio compatibile."
+ },
+ "Así está ahora en tu timeline: {n}. Quita, mueve o añade y pulsa «Listo»: lo pongo en Resolve sin rehacer el video.": {
+  "en": "This is how your timeline is now: {n}. Remove, move or add and press «Done»: I put it in Resolve without redoing the video.",
+  "pt": "Assim está agora no seu timeline: {n}. Tire, mova ou adicione e aperte «Pronto»: coloco no Resolve sem refazer o vídeo.",
+  "fr": "Voici votre timeline maintenant : {n}. Retirez, déplacez ou ajoutez puis appuyez sur «Terminé» : je le place dans Resolve sans refaire la vidéo.",
+  "de": "So ist deine Timeline jetzt: {n}. Entfernen, verschieben oder hinzufügen und «Fertig» drücken: Ich setze es in Resolve, ohne das Video neu zu machen.",
+  "it": "Così è ora la tua timeline: {n}. Togli, sposta o aggiungi e premi «Fatto»: lo metto in Resolve senza rifare il video."
+ },
+ "En tu timeline no hay ninguno detrás de ti: toca una sugerencia o haz clic en lo verde y pulsa «Listo».": {
+  "en": "There is none behind you in your timeline: tap a suggestion or click on the green and press «Done».",
+  "pt": "No seu timeline não há nenhum atrás de você: toque numa sugestão ou clique no verde e aperte «Pronto».",
+  "fr": "Aucun n’est derrière vous dans votre timeline : touchez une suggestion ou cliquez sur le vert puis appuyez sur «Terminé».",
+  "de": "In deiner Timeline ist keiner hinter dir: Tippe auf einen Vorschlag oder klicke ins Grüne und drücke «Fertig».",
+  "it": "Nella tua timeline non ce n’è nessuno dietro di te: tocca un suggerimento o clicca sul verde e premi «Fatto»."
+ },
+ "En Efectos › Posición ves lo que está ahora en tu timeline (también lo que puso GO por su cuenta) y las sugerencias: quita, mueve o añade y «Listo» lo pone en Resolve.": {
+  "en": "In Effects › Position you see what is in your timeline now (also what GO placed by itself) and the suggestions: remove, move or add and «Done» puts it in Resolve.",
+  "pt": "Em Efeitos › Posição você vê o que está agora no seu timeline (também o que o GO colocou sozinho) e as sugestões: tire, mova ou adicione e «Pronto» coloca no Resolve.",
+  "fr": "Dans Effets › Position, vous voyez ce qui est dans votre timeline maintenant (y compris ce que GO a placé seul) et les suggestions : retirez, déplacez ou ajoutez et «Terminé» le place dans Resolve.",
+  "de": "In Effekte › Position siehst du, was jetzt in deiner Timeline ist (auch was GO selbst gesetzt hat), und die Vorschläge: entfernen, verschieben oder hinzufügen, und «Fertig» setzt es in Resolve.",
+  "it": "In Effetti › Posizione vedi cosa c’è ora nella tua timeline (anche quello che GO ha messo da solo) e i suggerimenti: togli, sposta o aggiungi e «Fatto» lo mette in Resolve."
+ },
+ "«Quitar todas» y «Listo» quita «detrás de ti» de tu timeline; si nada cambió, «Listo» ni toca Resolve.": {
+  "en": "«Remove all» and «Done» removes «behind you» from your timeline; if nothing changed, «Done» does not even touch Resolve.",
+  "pt": "«Tirar todas» e «Pronto» tira «atrás de você» do seu timeline; se nada mudou, «Pronto» nem toca no Resolve.",
+  "fr": "«Tout retirer» puis «Terminé» retire «derrière vous» de votre timeline ; si rien n’a changé, «Terminé» ne touche même pas Resolve.",
+  "de": "«Alle entfernen» und «Fertig» entfernt «hinter dir» aus deiner Timeline; wenn sich nichts geändert hat, berührt «Fertig» Resolve gar nicht.",
+  "it": "«Togli tutte» e «Fatto» toglie «dietro di te» dalla tua timeline; se non è cambiato nulla, «Fatto» non tocca nemmeno Resolve."
  }
 }

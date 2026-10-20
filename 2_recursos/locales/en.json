@@ -3715,7 +3715,11 @@
     "en tu timeline": "in your timeline",
     "«Listo» en «Captions detrás de ti» lo pone al momento en tu timeline de Resolve (sin volver a pasar GO).": "«Done» in «Captions behind you» puts it in your Resolve timeline right away (no need to run GO again).",
     "La persona que va delante de los captions la recorta la IA (un matte con alfa): se ve igual en Resolve y en el render.": "The person in front of the captions is cut out by AI (a matte with alpha): it looks the same in Resolve and in the render.",
-    "Arreglado: tus posiciones se aplican aunque Resolve use la copia con el audio compatible de tu video.": "Fixed: your positions are applied even when Resolve uses the copy of your video with compatible audio."
+    "Arreglado: tus posiciones se aplican aunque Resolve use la copia con el audio compatible de tu video.": "Fixed: your positions are applied even when Resolve uses the copy of your video with compatible audio.",
+    "Así está ahora en tu timeline: {n}. Quita, mueve o añade y pulsa «Listo»: lo pongo en Resolve sin rehacer el video.": "This is how your timeline is now: {n}. Remove, move or add and press «Done»: I put it in Resolve without redoing the video.",
+    "En tu timeline no hay ninguno detrás de ti: toca una sugerencia o haz clic en lo verde y pulsa «Listo».": "There is none behind you in your timeline: tap a suggestion or click on the green and press «Done».",
+    "En Efectos › Posición ves lo que está ahora en tu timeline (también lo que puso GO por su cuenta) y las sugerencias: quita, mueve o añade y «Listo» lo pone en Resolve.": "In Effects › Position you see what is in your timeline now (also what GO placed by itself) and the suggestions: remove, move or add and «Done» puts it in Resolve.",
+    "«Quitar todas» y «Listo» quita «detrás de ti» de tu timeline; si nada cambió, «Listo» ni toca Resolve.": "«Remove all» and «Done» removes «behind you» from your timeline; if nothing changed, «Done» does not even touch Resolve."
   },
   "Suave": "Subtle",
   "Media": "Medium",

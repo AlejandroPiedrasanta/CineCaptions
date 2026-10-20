@@ -3715,7 +3715,11 @@
     "en tu timeline": "in deiner Timeline",
     "«Listo» en «Captions detrás de ti» lo pone al momento en tu timeline de Resolve (sin volver a pasar GO).": "«Fertig» bei «Captions hinter dir» setzt es sofort in deine Resolve-Timeline (ohne GO erneut zu starten).",
     "La persona que va delante de los captions la recorta la IA (un matte con alfa): se ve igual en Resolve y en el render.": "Die Person vor den Captions schneidet die KI aus (ein Matte mit Alpha): Sie sieht in Resolve und im Render gleich aus.",
-    "Arreglado: tus posiciones se aplican aunque Resolve use la copia con el audio compatible de tu video.": "Behoben: Deine Positionen gelten auch, wenn Resolve die Kopie deines Videos mit kompatiblem Audio nutzt."
+    "Arreglado: tus posiciones se aplican aunque Resolve use la copia con el audio compatible de tu video.": "Behoben: Deine Positionen gelten auch, wenn Resolve die Kopie deines Videos mit kompatiblem Audio nutzt.",
+    "Así está ahora en tu timeline: {n}. Quita, mueve o añade y pulsa «Listo»: lo pongo en Resolve sin rehacer el video.": "So ist deine Timeline jetzt: {n}. Entfernen, verschieben oder hinzufügen und «Fertig» drücken: Ich setze es in Resolve, ohne das Video neu zu machen.",
+    "En tu timeline no hay ninguno detrás de ti: toca una sugerencia o haz clic en lo verde y pulsa «Listo».": "In deiner Timeline ist keiner hinter dir: Tippe auf einen Vorschlag oder klicke ins Grüne und drücke «Fertig».",
+    "En Efectos › Posición ves lo que está ahora en tu timeline (también lo que puso GO por su cuenta) y las sugerencias: quita, mueve o añade y «Listo» lo pone en Resolve.": "In Effekte › Position siehst du, was jetzt in deiner Timeline ist (auch was GO selbst gesetzt hat), und die Vorschläge: entfernen, verschieben oder hinzufügen, und «Fertig» setzt es in Resolve.",
+    "«Quitar todas» y «Listo» quita «detrás de ti» de tu timeline; si nada cambió, «Listo» ni toca Resolve.": "«Alle entfernen» und «Fertig» entfernt «hinter dir» aus deiner Timeline; wenn sich nichts geändert hat, berührt «Fertig» Resolve gar nicht."
   },
   "Suave": "Sanft",
   "Media": "Mittel",

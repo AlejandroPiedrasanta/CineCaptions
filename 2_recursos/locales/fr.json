@@ -3715,7 +3715,11 @@
     "en tu timeline": "dans votre timeline",
     "«Listo» en «Captions detrás de ti» lo pone al momento en tu timeline de Resolve (sin volver a pasar GO).": "«Terminé» dans «Sous-titres derrière vous» le place tout de suite dans votre timeline Resolve (sans relancer GO).",
     "La persona que va delante de los captions la recorta la IA (un matte con alfa): se ve igual en Resolve y en el render.": "La personne devant les sous-titres est détourée par l’IA (un matte avec alpha) : même rendu dans Resolve et à l’export.",
-    "Arreglado: tus posiciones se aplican aunque Resolve use la copia con el audio compatible de tu video.": "Corrigé : vos positions s’appliquent même quand Resolve utilise la copie de votre vidéo avec l’audio compatible."
+    "Arreglado: tus posiciones se aplican aunque Resolve use la copia con el audio compatible de tu video.": "Corrigé : vos positions s’appliquent même quand Resolve utilise la copie de votre vidéo avec l’audio compatible.",
+    "Así está ahora en tu timeline: {n}. Quita, mueve o añade y pulsa «Listo»: lo pongo en Resolve sin rehacer el video.": "Voici votre timeline maintenant : {n}. Retirez, déplacez ou ajoutez puis appuyez sur «Terminé» : je le place dans Resolve sans refaire la vidéo.",
+    "En tu timeline no hay ninguno detrás de ti: toca una sugerencia o haz clic en lo verde y pulsa «Listo».": "Aucun n’est derrière vous dans votre timeline : touchez une suggestion ou cliquez sur le vert puis appuyez sur «Terminé».",
+    "En Efectos › Posición ves lo que está ahora en tu timeline (también lo que puso GO por su cuenta) y las sugerencias: quita, mueve o añade y «Listo» lo pone en Resolve.": "Dans Effets › Position, vous voyez ce qui est dans votre timeline maintenant (y compris ce que GO a placé seul) et les suggestions : retirez, déplacez ou ajoutez et «Terminé» le place dans Resolve.",
+    "«Quitar todas» y «Listo» quita «detrás de ti» de tu timeline; si nada cambió, «Listo» ni toca Resolve.": "«Tout retirer» puis «Terminé» retire «derrière vous» de votre timeline ; si rien n’a changé, «Terminé» ne touche même pas Resolve."
   },
   "Suave": "Léger",
   "Media": "Moyen",

@@ -12,6 +12,37 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-20 15:58  ·  v5.30  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-10-20 15:55  ·  v5.29  ·  cambio explicado
+    Posición de «detrás de ti» como editor de lo que hay en el timeline (el usuario: deben estar donde se aplicó y donde me sugiere; si quito o agrego y doy Listo, que lo ponga en Resolve sin renderizar todo): GO y cada Listo apuntan los tramos puestos; la tira los enseña como marcas si son más nuevos que lo guardado; Listo manda exactamente la tira (vacía = quitar; igual = no tocar Resolve).
+    modificados (11):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/herramientas_dev/probar_detras_timeline.py
+      ~ 1_codigo/posiciones_pro.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 3_compilar/traducciones_extra.json
+
 2026-10-20 15:35  ·  v5.29  ·  (automático)
     modificados (22):
       ~ 1_codigo/efectos_pro_ui.py

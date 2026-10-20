@@ -3868,9 +3868,13 @@
         "_solo_encima",
         "original_de",
         "_clave_en",
-        "_poner_en_timeline"
+        "_poner_en_timeline",
+        "aplicados_para",
+        "_aplicados_de",
+        "_a_timeline_go",
+        "igual_que_timeline"
       ],
-      "resumen": "Botón «Posición» (y doble clic) en cada sección de Efectos › Edición PRO: línea de tiempo del video con fotogramas para marcar en qué segundos va el efecto; «Solo mis marcas | + automático»; GO lo respeta (posiciones_pro.para_plan → edicion_pro: _marcas_libres, _ligadas, _marcas_broll, _captions_detras(marcas=), _tramos_motions). v5.27: «detrás de ti» con topes (verde donde queda bien, máximo 8, motivo de cada sitio), marcas guardadas con el VIDEO (valen con el audio del timeline), Magic Mask solo en cara y hombros, «Listo» enciende y pone el video en Inicio. v5.28: 3 sugeridas a un clic (y el efecto se enciende), vista con los captions del tema detrás de la persona. v5.29: la persona con el matte de la IA (no Magic Mask) y «Listo» lo pone ya en el timeline (aplicar_detras + colocar_pro solo_encima); marcas que valen con la copia de audio compatible."
+      "resumen": "Botón «Posición» (y doble clic) en cada sección de Efectos › Edición PRO: línea de tiempo del video con fotogramas para marcar en qué segundos va el efecto; «Solo mis marcas | + automático»; GO lo respeta (posiciones_pro.para_plan → edicion_pro: _marcas_libres, _ligadas, _marcas_broll, _captions_detras(marcas=), _tramos_motions). v5.27: «detrás de ti» con topes (verde donde queda bien, máximo 8, motivo de cada sitio), marcas guardadas con el VIDEO (valen con el audio del timeline), Magic Mask solo en cara y hombros, «Listo» enciende y pone el video en Inicio. v5.28: 3 sugeridas a un clic (y el efecto se enciende), vista con los captions del tema detrás de la persona. v5.29: la persona con el matte de la IA (no Magic Mask) y «Listo» lo pone ya en el timeline (aplicar_detras + colocar_pro solo_encima); marcas que valen con la copia de audio compatible. v5.30: la tira enseña lo que hay en el timeline (también lo que puso GO) y «Listo» pone exactamente lo de la tira (vacía = quitarlo)."
     },
     {
       "id": "emojis-pro",

@@ -382,6 +382,66 @@ def main():
     comprobar(ok2 and [it.props['Tilt'] for it in subs] == tilts and len(tl.pistas[-1][1]) == n2,
               'darle a «Listo» otra vez no apila (los captions vuelven a su sitio y suben lo mismo; PRO-ENCIMA se rehace)')
     comprobar(json.loads(EP.PLAN_JSON.read_text(encoding='utf-8')).get('solo_encima') is False, 'después, el plan guardado vuelve a ser el completo')
+    ctx = EP.contexto_detras(str(video))
+    puestos = sorted(round(((c['ini'] + c['fin']) / 2.0) / fps, 2) for e in enc for c in e['cues'])
+    comprobar(ctx.get('aplicados') == puestos and EP.aplicados_para(str(video), ctx) == puestos,
+              f'el contexto apunta lo que quedó en el timeline: {ctx.get("aplicados")}')
+    # v5.30: pausas quitadas por GO: del timeline al archivo y vuelta
+    c2 = dict(ctx, recorte={'segmentos': [[0.0, 5.0], [7.0, 30.0]]}, aplicados=[2.0, 6.0])
+    comprobar(EP.aplicados_para(str(video), c2) == [2.0, 8.0] and EP._a_timeline_go(str(video), c2, [2.0, 8.0]) == [2.0, 6.0],
+              'con pausas quitadas: 6 s del timeline = 8 s del archivo, y al revés')
+
+    # ------------------------------------------------------------------------------------------------------- 4) la tira y «Listo» (interfaz)
+    print('== 4) La tira enseña lo que hay en el timeline; «Listo» pone exactamente lo de la tira', flush=True)
+    import qt_kit
+    app = qt_kit.crear_app()
+    import efectos_pro_ui as EPU
+    import estilos_pro as EST
+    import pro_lateral_ui as LAT
+    POS.poner_proveedor(lambda: str(video))
+    sec = EPU.SeccionEstilo(next(x for x in EST.SECCIONES if x['clave'] == 'detras'), LAT._POR_CLAVE['detras'])
+    sec.resize(1400, 760)
+    sec.show()
+
+    def esperar(cond, tope=180):
+        t0 = time.time()
+        while not cond() and time.time() - t0 < tope:
+            app.processEvents()
+            time.sleep(0.02)
+        app.processEvents()
+        return cond()
+    POS.guardar(str(video), 'detras', [1.0], 'solo')                  # (lo guardado es MÁS VIEJO que el último «Listo»: manda el timeline)
+    datos_p = json.loads(POS.ARCHIVO.read_text(encoding='utf-8'))
+    for v in datos_p.values():
+        for m in (v.get('secciones') or {}).values():
+            m['cuando'] = 1.0
+    POS.ARCHIVO.write_text(json.dumps(datos_p), encoding='utf-8')
+    sec.mostrar_posiciones(True)
+    lin = sec._pos.linea
+    esperar(lambda: lin.dur > 0 and lin.zonas is not None and lin.captions_listos)
+    comprobar(lin.marcas == puestos and lin.modo == 'solo' and 'en tu timeline' in lin.nota and lin.igual_que_timeline(),
+              f'la tira enseña lo que hay en el timeline ({lin.marcas}) y lo dice: «{lin.nota[:60]}…»')
+    n_antes = len(corridas)
+    sec._pos._listo()
+    app.processEvents()
+    comprobar(len(corridas) == n_antes and any('ya está así' in x for _n, x in REG), '«Listo» sin cambios: no toca Resolve («ya está así en tu timeline»)')
+    sec.mostrar_posiciones(True)
+    esperar(lambda: lin.dur > 0 and lin.zonas is not None and lin.captions_listos and lin.marcas == puestos)
+    lin._quitar(0)
+    sec._pos._listo()
+    esperar(lambda: not getattr(sec, '_aplicando', False) and len(corridas) > n_antes, 300)
+    comprobar(len(tl.pistas[-1][1]) == len(puestos) - 1 and CP._id(tl.pistas[-1][0]) == 'PRO-ENCIMA',
+              f'quitar una y «Listo» → en el timeline queda una menos ({len(tl.pistas[-1][1])})')
+    sec.mostrar_posiciones(True)
+    esperar(lambda: lin.dur > 0 and lin.zonas is not None and lin.captions_listos and len(lin.marcas) == len(puestos) - 1)
+    comprobar(len(lin.marcas) == len(puestos) - 1, f'al volver a abrir, la tira enseña lo de ahora ({lin.marcas})')
+    sec._pos._quitar_todas()
+    n_antes = len(corridas)
+    sec._pos._listo()
+    esperar(lambda: not getattr(sec, '_aplicando', False) and len(corridas) > n_antes, 300)
+    comprobar(not any(CP._id(p[0]) == 'PRO-ENCIMA' for p in tl.pistas) and all(abs(it.props['Tilt']) < 1e-6 for it in subs),
+              '«Quitar todas» + «Listo» → fuera del timeline: sin PRO-ENCIMA y los captions en su sitio')
+    comprobar(any('quitado de tu timeline' in x for _n, x in REG), 'y el Registro lo dice')
     # otro timeline abierto: no toca nada
     EP._info_timeline = lambda: dict({k: v for k, v in info.items() if k != 'base'}, v1=[dict(info['v1'][0], ruta='otro.mp4')])
     antes = [len(p[1]) for p in tl.pistas]

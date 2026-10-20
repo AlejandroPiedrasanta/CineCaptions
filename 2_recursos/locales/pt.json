@@ -3715,7 +3715,11 @@
     "en tu timeline": "no seu timeline",
     "«Listo» en «Captions detrás de ti» lo pone al momento en tu timeline de Resolve (sin volver a pasar GO).": "«Pronto» em «Legendas atrás de você» coloca na hora no seu timeline do Resolve (sem rodar o GO de novo).",
     "La persona que va delante de los captions la recorta la IA (un matte con alfa): se ve igual en Resolve y en el render.": "A pessoa na frente das legendas é recortada pela IA (um matte com alfa): fica igual no Resolve e no render.",
-    "Arreglado: tus posiciones se aplican aunque Resolve use la copia con el audio compatible de tu video.": "Corrigido: suas posições são aplicadas mesmo quando o Resolve usa a cópia do seu vídeo com áudio compatível."
+    "Arreglado: tus posiciones se aplican aunque Resolve use la copia con el audio compatible de tu video.": "Corrigido: suas posições são aplicadas mesmo quando o Resolve usa a cópia do seu vídeo com áudio compatível.",
+    "Así está ahora en tu timeline: {n}. Quita, mueve o añade y pulsa «Listo»: lo pongo en Resolve sin rehacer el video.": "Assim está agora no seu timeline: {n}. Tire, mova ou adicione e aperte «Pronto»: coloco no Resolve sem refazer o vídeo.",
+    "En tu timeline no hay ninguno detrás de ti: toca una sugerencia o haz clic en lo verde y pulsa «Listo».": "No seu timeline não há nenhum atrás de você: toque numa sugestão ou clique no verde e aperte «Pronto».",
+    "En Efectos › Posición ves lo que está ahora en tu timeline (también lo que puso GO por su cuenta) y las sugerencias: quita, mueve o añade y «Listo» lo pone en Resolve.": "Em Efeitos › Posição você vê o que está agora no seu timeline (também o que o GO colocou sozinho) e as sugestões: tire, mova ou adicione e «Pronto» coloca no Resolve.",
+    "«Quitar todas» y «Listo» quita «detrás de ti» de tu timeline; si nada cambió, «Listo» ni toca Resolve.": "«Tirar todas» e «Pronto» tira «atrás de você» do seu timeline; se nada mudou, «Pronto» nem toca no Resolve."
   },
   "Suave": "Suave",
   "Media": "Média",

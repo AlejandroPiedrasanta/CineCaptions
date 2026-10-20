@@ -493,7 +493,7 @@ class SeccionEstilo(Tarjeta):
                 pass
             if pos.a_mano() and POS.poner_video_inicio(ruta):
                 hechos.append('ahora es el video de Inicio')
-            ya = self.clave == 'detras' and not pos.a_mano()                 # v5.29: «detrás de ti» va YA al timeline (abajo)
+            ya = self.clave == 'detras' and not pos.a_mano() and not pos.linea.igual_que_timeline()   # v5.29: va YA al timeline (abajo)
             try:
                 import registro
                 modo = '' if pos.linea.modo == 'solo' else ' + automático'
@@ -503,12 +503,16 @@ class SeccionEstilo(Tarjeta):
                                ('. GO la aplica.' if n == 1 else '. GO las aplica.')), 'Efectos')
             except Exception:
                 pass
-        if ruta and self.clave == 'detras' and pos is not None and not pos.a_mano():
-            self._poner_en_timeline(ruta)
+        if ruta and self.clave == 'detras' and pos is not None and not pos.a_mano() and pos.linea.dur > 0:
+            if pos.linea.igual_que_timeline():                         # v5.30: nada cambió respecto al timeline: ni se toca Resolve
+                import registro
+                registro.info('Captions detrás de ti: ya está así en tu timeline.', 'Efectos')
+            else:
+                self._poner_en_timeline(ruta, list(pos.linea.marcas), pos.linea.modo)
         self.mostrar_posiciones(False)
         self.cambio.emit()
 
-    def _poner_en_timeline(self, ruta):
+    def _poner_en_timeline(self, ruta, marcas=None, modo='solo'):
         """v5.29 (el usuario: «cuando le dé Listo debe ponerlo automáticamente en la línea de tiempo; va a ser más útil que generar todo»):
         «detrás de ti» con las marcas de ahora en el timeline ABIERTO de Resolve (edicion_pro.aplicar_detras: la persona con el matte de la IA,
         los captions subidos; lo demás de la PRO no se toca), en un hilo. La cabecera dice cómo va; el Registro, cómo acabó. Sin GO de ese video
@@ -536,13 +540,13 @@ class SeccionEstilo(Tarjeta):
                 self._estado_tl = tr('en tu timeline') if n else ''
                 registro.info(f'Captions detrás de ti: {n} {"tramo puesto" if n == 1 else "tramos puestos"} en tu timeline de Resolve (la persona '
                               f'recortada con IA delante de los captions), sin rehacer GO.' if n else
-                              'Captions detrás de ti: quitado de tu timeline (no queda ninguna posición donde quepa).', 'Efectos')
+                              'Captions detrás de ti: quitado de tu timeline (ya no queda ninguno).', 'Efectos')
             else:
                 self._estado_tl = ''
                 registro.aviso(f'Captions detrás de ti no se pudo poner en tu timeline: {mensaje}', 'Efectos')
             self.refrescar()
             self.cambio.emit()
-        ui.correr_en_hilo(self, lambda: EP.aplicar_detras(ruta), fin)
+        ui.correr_en_hilo(self, lambda: EP.aplicar_detras(ruta, marcas_tira=marcas, modo=modo), fin)
 
     def mouseDoubleClickEvent(self, e):
         """Doble clic en cualquier sitio de la sección (fuera de un control): la «Posición»."""
