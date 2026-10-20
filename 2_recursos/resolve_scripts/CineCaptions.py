@@ -46,7 +46,7 @@ TEMPLATE_CLIP_NAME = "Subtitle Template"
 # coincide con la del programa (ver version.py). Se estampa en
 # ultimo_resultado.json: hasta la v1.0.28 este archivo no tenia version
 # ninguna y no habia forma de saber que build habia colocado los subtitulos.
-VERSION = "5.25 (subtitulos)"
+VERSION = "5.26 (subtitulos)"
 
 # Donde se escribe el resultado para que la app lo lea. Hasta la v1.0.26 este
 # script no escribia nada aca -a diferencia del de Importar Estilos, que si
@@ -3916,6 +3916,7 @@ def place_kinetic_track(timeline, media_pool, track_info, base_template,
         _retirar_pistas_nuestras(timeline, [f"{L}-K{k}" for k in range(1, 25)], "elementos", "el Tema 1 pone sus captions con la Edición PRO")
         print(f"  Tema 1: {len(cues)} bloques de captions los pone la Edición PRO (neón); aquí solo sus sonidos.")
         _TOTAL[0] += len(cues)
+        _ALGO_COLOCADO[0] = True       # v5.26: sin esto acababa en «NO se colocó ninguna línea» y GO no llegaba a poner la PRO (como el gemelo .lua)
         return
 
     def _res(clave, por_defecto):

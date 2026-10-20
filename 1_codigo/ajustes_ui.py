@@ -484,6 +484,11 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.26', [
+        'GO ya no se queda parado si minimizas CineCaptions o cambias de página mientras trabaja.',
+        'Tema 1: los captions y la Edición PRO vuelven a colocarse en Resolve (la 5.25 dejaba el video solo con los sonidos).',
+        'Menú de la Edición PRO: primero «Gancho del inicio», luego «Captions detrás de ti» y «Emojis animados».',
+    ]),
     ('5.25', [
         'Edición PRO › «Emojis animados»: un emoji que sale de lo que dices, junto a los captions y sin tapar caras; Suave, Media o Fuerte en el menú.',
         'En Efectos, sus estilos 2D (Lottie) y 3D, siempre en movimiento, y dónde ponerlo: junto al caption, encima o junto a tu cabeza.',

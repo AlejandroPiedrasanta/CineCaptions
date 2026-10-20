@@ -6655,5 +6655,26 @@
   "fr": "Thème 1 plus rapide et mieux rangé dans Resolve : il ne crée plus de pistes qu’il désactive ensuite, et chaque piste PRO dit ce qu’elle fait.",
   "de": "Thema 1 schneller und aufgeräumter in Resolve: keine Spuren mehr, die danach deaktiviert werden, und jede PRO-Spur sagt, was sie macht.",
   "it": "Tema 1 più veloce e ordinato in Resolve: non crea più tracce che poi disattiva, e ogni traccia PRO dice cosa fa."
+ },
+ "GO ya no se queda parado si minimizas CineCaptions o cambias de página mientras trabaja.": {
+  "en": "GO no longer stalls if you minimize CineCaptions or switch pages while it works.",
+  "pt": "O GO já não fica parado se você minimizar o CineCaptions ou mudar de página enquanto ele trabalha.",
+  "fr": "GO ne reste plus bloqué si tu réduis CineCaptions ou changes de page pendant qu’il travaille.",
+  "de": "GO bleibt nicht mehr stehen, wenn du CineCaptions minimierst oder die Seite wechselst, während es arbeitet.",
+  "it": "GO non si blocca più se riduci a icona CineCaptions o cambi pagina mentre lavora."
+ },
+ "Tema 1: los captions y la Edición PRO vuelven a colocarse en Resolve (la 5.25 dejaba el video solo con los sonidos).": {
+  "en": "Theme 1: captions and the PRO Edit are placed in Resolve again (5.25 left the video with only the sounds).",
+  "pt": "Tema 1: as legendas e a Edição PRO voltam a ser colocadas no Resolve (a 5.25 deixava o vídeo só com os sons).",
+  "fr": "Thème 1 : les sous-titres et le Montage PRO sont de nouveau placés dans Resolve (la 5.25 laissait la vidéo avec les sons seulement).",
+  "de": "Thema 1: Untertitel und PRO-Schnitt werden wieder in Resolve platziert (5.25 ließ das Video nur mit den Sounds).",
+  "it": "Tema 1: i sottotitoli e il Montaggio PRO tornano a essere inseriti in Resolve (la 5.25 lasciava il video solo con i suoni)."
+ },
+ "Menú de la Edición PRO: primero «Gancho del inicio», luego «Captions detrás de ti» y «Emojis animados».": {
+  "en": "PRO Edit menu: “Opening hook” first, then “Captions behind you” and “Animated emojis”.",
+  "pt": "Menu da Edição PRO: primeiro «Gancho do início», depois «Legendas atrás de você» e «Emojis animados».",
+  "fr": "Menu du Montage PRO : d’abord « Accroche du début », puis « Sous-titres derrière toi » et « Emojis animés ».",
+  "de": "Menü des PRO-Schnitts: zuerst „Einstiegs-Hook“, dann „Untertitel hinter dir“ und „Animierte Emojis“.",
+  "it": "Menu del Montaggio PRO: prima «Gancio iniziale», poi «Sottotitoli dietro di te» ed «Emoji animati»."
  }
 }

@@ -28,16 +28,16 @@ import qt_kit as ui
 from i18n import tr
 
 OPCIONES = [
-    # v5.22 (el usuario lo pidió): «Captions detrás de ti» la primera y «Gancho del inicio» la segunda; en Free la primera no se ve
-    {'clave': 'detras', 'nombre': 'Captions detrás de ti', 'icono': 'ph.user-focus', 'mascara': True, 'solo_studio': True,
-     'detalle': 'Solo con DaVinci Resolve Studio: Magic Mask recorta a la persona (solo personas) y el texto pasa por detrás.'},
+    # v5.26 (el usuario lo pidió): «Gancho del inicio» la primera, «Captions detrás de ti» la segunda (no se ve en Free) y «Emojis animados» la tercera
     {'clave': 'gancho', 'nombre': 'Gancho del inicio', 'icono': 'ph.lightning', 'motions': ['ograf:titular', 'ograf:orbita', 't5:orbita', 't5:sticker'],
      'detalle': 'Los primeros segundos: un titular detrás de ti e iconos que giran alrededor de tu cabeza.'},
-    {'clave': 'pildora', 'nombre': 'Píldora bajo captions', 'icono': 'ph.chat-centered-text', 'motions': ['acompanante'],
-     'detalle': 'Una píldora animada justo debajo del texto con el lugar, la cifra o el emoji de lo que dices.'},
+    {'clave': 'detras', 'nombre': 'Captions detrás de ti', 'icono': 'ph.user-focus', 'mascara': True, 'solo_studio': True,
+     'detalle': 'Solo con DaVinci Resolve Studio: Magic Mask recorta a la persona (solo personas) y el texto pasa por detrás.'},
     # v5.25: los emojis animados (2D Lottie / 3D en movimiento) con lo que dices; con su intensidad en la píldora, como «detrás de ti»
     {'clave': 'emoji', 'nombre': 'Emojis animados', 'icono': 'ph.smiley', 'pref': 'pro_emojis', 'niveles': 'pro_emoji_intensidad',
      'detalle': 'Un emoji animado (2D o 3D) con lo que dices, junto a los captions y sin tapar caras.'},
+    {'clave': 'pildora', 'nombre': 'Píldora bajo captions', 'icono': 'ph.chat-centered-text', 'motions': ['acompanante'],
+     'detalle': 'Una píldora animada justo debajo del texto con el lugar, la cifra o el emoji de lo que dices.'},
     {'clave': 'broll', 'nombre': 'B-roll con fotos', 'icono': 'ph.image-square', 'motions': ['escena:foto'], 'pref': 'pro_internet',
      'detalle': 'Fotos de internet con licencia a pantalla completa cuando nombras algo.'},
     {'clave': 'motions_completo', 'nombre': 'Motions completo', 'icono': 'ph.film-strip', 'pref': 'pro_motions_completo',

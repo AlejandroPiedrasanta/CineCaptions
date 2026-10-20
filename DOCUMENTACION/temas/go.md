@@ -6,6 +6,8 @@
 
 **Dónde:** `un_clic_ui.py`, escena 3D `escena_go.py`, HUD `mograf_ui.py`
 
+**La colocación nunca espera a la animación (v5.26):** al 100 % `PanelGo.explosion_final` → `EscenaGo.explotar(luego)` y `luego` (= `_go_lanzar`: colocar en Resolve) se llamaba SOLO en el pico de la explosión, dentro de `avanzar`. Con la ventana minimizada u oculta `_tic` no avanza la escena (ahorra CPU), así que GO se quedaba parado hasta volver a la ventana: el usuario lo vio como «paso sfx atascado 8 min» (la vigilancia cerró la conexión con Resolve 3 veces sin motivo). Ahora `explotar` llama a `luego` al momento si la escena no se ve y, si se ve, como mucho a los 0,6 s (`QTimer`), una sola vez (`_disparar_luego`). Prueba: ventana visible 0,28 s · minimizada y oculta 0,00 s · nunca dos veces.
+
 ## estilos-inicio — 10 estilos de Inicio (héroe, fondo, partículas, tema)
 
 **Qué:** 10 estilos de Inicio (héroe + fondo + partículas + tema/acento/aurora de toda la UI; tarjetas en Ajustes > Interfaz)

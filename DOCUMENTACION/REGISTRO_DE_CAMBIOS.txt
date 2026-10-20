@@ -12,6 +12,38 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-20 09:07  ·  v5.26  ·  (automático)
+    modificados (27):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      … y 15 más
+
+2026-10-20 09:05  ·  v5.25  ·  cambio explicado
+    GO real con la 5.25 (Tema 1): 1) GO se quedaba parado con CineCaptions minimizado u en otra página: la colocación esperaba al pico de la animación de la esfera, que no avanza si no se ve; ahora sale sin esperar. 2) El script de Studio, con el Tema 1 «solo sonidos», terminaba en «No se colocó ninguna línea» (faltaba _ALGO_COLOCADO) y GO no ponía la Edición PRO ni el respaldo: el video quedaba sin captions.
+    modificados (2):
+      ~ 1_codigo/escena_go.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+
+2026-10-20 08:56  ·  v5.25  ·  cambio explicado
+    Menú de la Edición PRO: «Emojis animados» sube al tercer puesto, justo debajo de «Captions detrás de ti» (pedido del usuario).
+    modificados (1):
+      ~ 1_codigo/pro_lateral_ui.py
+
+2026-10-20 08:50  ·  v5.25  ·  cambio explicado
+    Menú de la Edición PRO: «Gancho del inicio» pasa a ser la primera opción y «Captions detrás de ti» la segunda (pedido del usuario); Efectos sigue el mismo orden.
+    modificados (1):
+      ~ 1_codigo/pro_lateral_ui.py
+
 2026-10-20 08:32  ·  v5.25  ·  (automático)
     modificados (27):
       ~ 1_codigo/ajustes_ui.py
