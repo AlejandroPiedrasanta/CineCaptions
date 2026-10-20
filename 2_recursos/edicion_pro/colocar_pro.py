@@ -42,6 +42,39 @@ TRANSFORMACION = ('Scaling', 'ZoomX', 'ZoomY', 'Pan', 'Tilt', 'RotationAngle', '
 MARCA = 'ccpro-subir'                    # marca en cada clip de captions que se subió: 'ccpro-subir:<Tilt antes>:<Tilt después>'
 PISTA_SONIDO = 'PRO-SONIDO'              # (versiones anteriores: todo en una pista)
 PISTAS_AUDIO = ['PRO-WHOOSH', 'PRO-TEXTURA', 'PRO-RISER', 'PRO-HIT']   # una familia de sonido por pista (guía de sonido)
+# v5.24 (el usuario: «que cada pista indique qué hace, para que esté más ordenado»): en Resolve cada pista se ve «qué hace · CÓDIGO» (lo que
+# hace delante: la cabecera corta los nombres largos). Se busca SIEMPRE por el código (_id), así re-aplicar y los timelines de antes (solo el
+# código) siguen funcionando. Gemelo: CineCaptions_EdicionPro.lua.
+SEP_PISTA = ' · '
+DESCRIPCION = {
+    'PRO-BROLL': 'B-roll', 'PRO-ZOOM': 'Video con cámara y zooms', 'PRO-GRIS': 'Fondo en gris', 'PRO-FONDO': 'Fondos animados',
+    'PRO-VELO': 'Velos', 'PRO-DETRAS': 'Gráficos detrás de ti', 'PRO-PERSONA': 'Persona recortada', 'PRO-DELANTE': 'Gráficos delante',
+    'PRO-SUBS': 'Captions', 'PRO-SUBS2': 'Captions (2.ª)', 'PRO-ENCIMA': 'Persona encima de los captions', 'PRO-ICONOS': 'Iconos y cortinillas',
+    'PRO-MOTIONS': 'Motions completo', 'PRO-SONIDO': 'Sonidos', 'PRO-WHOOSH': 'Sonidos: whoosh', 'PRO-TEXTURA': 'Sonidos: texturas',
+    'PRO-RISER': 'Sonidos: subidas', 'PRO-HIT': 'Sonidos: golpes',
+}
+
+
+def _id(nombre):
+    """El código de una pista («Captions · PRO-SUBS» → «PRO-SUBS»; uno sin descripción, tal cual)."""
+    nombre = str(nombre or '')
+    return nombre.rsplit(SEP_PISTA, 1)[-1] if SEP_PISTA in nombre else nombre
+
+
+def _etiquetar(tl):
+    """Al final: cada pista de la PRO con lo que hace delante de su código. Devuelve cuántas renombró."""
+    n = 0
+    for tipo in ('video', 'audio'):
+        for i in range(1, int(tl.GetTrackCount(tipo) or 0) + 1):
+            actual = str(tl.GetTrackName(tipo, i) or '')
+            codigo = _id(actual)
+            if codigo in DESCRIPCION and actual != DESCRIPCION[codigo] + SEP_PISTA + codigo:
+                try:
+                    if tl.SetTrackName(tipo, i, DESCRIPCION[codigo] + SEP_PISTA + codigo):
+                        n += 1
+                except Exception:
+                    pass
+    return n
 BIN = 'RCS · Edición PRO'
 NOMBRE_COMP = 'CineCaptions PRO · persona'
 NOMBRE_ZOOM = 'CineCaptions PRO · zoom'
@@ -157,7 +190,7 @@ def _preimportar(mp, caja, datos):
 
 def _indice(tl, nombre, tipo='video'):
     for i in range(1, int(tl.GetTrackCount(tipo) or 0) + 1):
-        if tl.GetTrackName(tipo, i) == nombre:
+        if _id(tl.GetTrackName(tipo, i)) == nombre:                       # (v5.24: con su descripción delante, por el código)
             return i
     return None
 
@@ -509,8 +542,8 @@ def _broll(tl, mp, caja, tomas, base, pista):
 def _pistas_captions(tl):
     """Las pistas de los captions (y sus emojis): las que hay encima de las PRO que no son de PRO ni de los Efectos."""
     n = int(tl.GetTrackCount('video') or 0)
-    tope = max([i for i in range(1, n + 1) if str(tl.GetTrackName('video', i) or '') in ORDEN] or [1])
-    return [i for i in range(tope + 1, n + 1) if not str(tl.GetTrackName('video', i) or '').startswith(('PRO-', 'FX-'))]
+    tope = max([i for i in range(1, n + 1) if _id(tl.GetTrackName('video', i)) in ORDEN] or [1])
+    return [i for i in range(tope + 1, n + 1) if not _id(tl.GetTrackName('video', i)).startswith(('PRO-', 'FX-'))]
 
 
 def _deshacer_subidas(tl):
@@ -1181,6 +1214,7 @@ def main():
     if motions:
         print('Motions completo: %d clip(s) en %s, encima de todo.' % (motions, PISTA_MOTIONS))
     _quitar_vacias(tl)
+    _etiquetar(tl)                                                         # v5.24: cada pista dice qué hace
     if datos.get('cache', True):
         _cachear_al_final(tl)                                              # v5.5.8: la caché de render, AL FINAL
     try:
@@ -1189,7 +1223,7 @@ def main():
         pass
     total = puestos['fondo'] + puestos['velo'] + puestos['detras'] + puestos['delante'] + puestos['iconos'] + puestos['subs'] + puestos['subs2']
     if puestos['subs']:
-        print('Captions animados: %d (%d captions de respaldo apagados).' % (puestos['subs'], respaldo))
+        print('Captions animados: %d%s.' % (puestos['subs'] + puestos['subs2'], (' (%d captions de respaldo apagados)' % respaldo) if respaldo else ''))
     print('Edición PRO: %d gráficos (%d detrás, %d delante, %d escenas, %d velos), %d recortes de persona%s, captions detrás de la persona en %d tramos '
           '(%d clips movidos, %d emojis apartados de la cara), %d iconos 3D (%d emojis cambiados), %d tramos en gris, %d tomas de B-roll, '
           '%d punch-ins, %d sonidos%s.' % (

@@ -64,6 +64,27 @@ SECCIONES = [
          _v('sticker', 'Sticker', 'Blanca con borde grueso y sombra dura, un poco girada.'),
          _v('degradado', 'Degradado', 'Un degradado de dos colores.', 'aurora'),
      ]},
+    # v5.25 (el usuario: «agrega la opción de emoji con diferentes estilos 3D-2D, siempre animados, archivo Lottie, posición e intensidad»): los
+    # 2D son los Lottie animados de Google; los 3D, los de Microsoft con movimiento (remotion/src/EmojiPro.tsx). `ajustes`: filas propias de la
+    # sección en Efectos (las mismas preferencias que la píldora del menú lateral).
+    {'clave': 'emoji', 'titulo': 'Emojis animados',
+     'detalle': 'Un emoji animado con lo que dices, junto a los captions y sin tapar caras. El emoji sale de tus palabras; aquí eliges cómo se mueve, dónde y cuántos.',
+     'colores': [('acento', 'Brillo y chispas')],
+     'ajustes': [('pro_emoji_donde', 'Dónde', [('auto', 'Automático'), ('lado', 'Junto al caption'), ('encima', 'Encima del caption'),
+                                              ('cabeza', 'Junto a tu cabeza')]),
+                 ('pro_emoji_intensidad', 'Intensidad', [('suave', 'Suave'), ('media', 'Media'), ('fuerte', 'Fuerte')])],
+     'variantes': [
+         _v('animado', 'Lottie animado', '2D: el emoji animado de Google, que se mueve solo.'),
+         _v('rebote', 'Lottie con rebote', '2D: entra con un rebote y da saltitos.'),
+         _v('brillo', 'Lottie con brillo', '2D: con un halo de luz de color que late.', 'ambar'),
+         _v('burbuja', 'Burbuja de cristal', '2D: dentro de una burbuja de cristal que tiembla.'),
+         _v('sticker', 'Sticker', '2D: borde blanco grueso y sombra, un poco girado.'),
+         _v('3d_salto', '3D salto', '3D: sube de un salto y rebota con su sombra.'),
+         _v('3d_flota', '3D flotando', '3D: flota y se balancea suave.'),
+         _v('3d_giro', '3D giro', '3D: entra girando en 3D y se mece.'),
+         _v('3d_gelatina', '3D gelatina', '3D: tiembla como gelatina y vuelve a temblar.'),
+         _v('3d_estallido', '3D estallido', '3D: estalla en chispas y sigue latiendo.', 'violeta'),
+     ]},
     {'clave': 'detras', 'titulo': 'Captions detrás de ti',
      'detalle': 'Cuando el texto pasa por detrás de ti (Magic Mask), cómo se ve tu silueta: con sombra, con una orilla, con resplandor o sin nada.',
      'colores': [('acento', 'Color del efecto')],
@@ -176,7 +197,8 @@ SECCIONES = [
 _POR_CLAVE = {s['clave']: s for s in SECCIONES}
 # de la paleta de un estilo, qué colores toma cada sección (la píldora sólida no debe tomar el «fondo» azul noche de su paleta…)
 DE_PALETA = {'pildora': ('acento', 'acento2'), 'detras': ('acento',), 'gancho': ('acento', 'acento2'), 'escenas': ('acento', 'fondo'),
-             'kit': ('acento', 'acento2'), 'graficos': ('acento', 'texto', 'fondo'), 'broll': ('acento',), 'motions_completo': ('acento', 'fondo')}
+             'kit': ('acento', 'acento2'), 'graficos': ('acento', 'texto', 'fondo'), 'broll': ('acento',), 'motions_completo': ('acento', 'fondo'),
+             'emoji': ('acento',)}
 TEMAS_KIT_SIN_ACENTO = ('editorial', 'neoncc')        # Kit7.pal: estos temas no se rehacen con el acento
 
 

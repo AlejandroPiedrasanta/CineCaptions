@@ -35,6 +35,9 @@ OPCIONES = [
      'detalle': 'Los primeros segundos: un titular detrás de ti e iconos que giran alrededor de tu cabeza.'},
     {'clave': 'pildora', 'nombre': 'Píldora bajo captions', 'icono': 'ph.chat-centered-text', 'motions': ['acompanante'],
      'detalle': 'Una píldora animada justo debajo del texto con el lugar, la cifra o el emoji de lo que dices.'},
+    # v5.25: los emojis animados (2D Lottie / 3D en movimiento) con lo que dices; con su intensidad en la píldora, como «detrás de ti»
+    {'clave': 'emoji', 'nombre': 'Emojis animados', 'icono': 'ph.smiley', 'pref': 'pro_emojis', 'niveles': 'pro_emoji_intensidad',
+     'detalle': 'Un emoji animado (2D o 3D) con lo que dices, junto a los captions y sin tapar caras.'},
     {'clave': 'broll', 'nombre': 'B-roll con fotos', 'icono': 'ph.image-square', 'motions': ['escena:foto'], 'pref': 'pro_internet',
      'detalle': 'Fotos de internet con licencia a pantalla completa cuando nombras algo.'},
     {'clave': 'motions_completo', 'nombre': 'Motions completo', 'icono': 'ph.film-strip', 'pref': 'pro_motions_completo',
@@ -68,18 +71,27 @@ def opciones_visibles():
     return [o for o in OPCIONES if (st or not o.get('solo_studio')) and o['clave'] != 'plantillas']   # v5.20: «Plantillas por frase» quitado (el usuario lo pidió)
 
 
-def intensidad():
+def _pref_niveles(clave):
+    """La preferencia de la intensidad de esa opción («detrás de ti» y, v5.25, «Emojis animados»), o None si no tiene."""
+    o = _POR_CLAVE.get(clave) or {}
+    return 'pro_detras_intensidad' if clave == 'detras' else o.get('niveles')
+
+
+def intensidad(clave='detras'):
     try:
         import edicion_pro
+        if clave == 'emoji':
+            return edicion_pro.intensidad_emoji()
         return edicion_pro.intensidad_detras()
     except Exception:
         return 'media'
 
 
-def poner_intensidad(nivel):
+def poner_intensidad(nivel, clave='detras'):
     import edicion_pro
-    if nivel in dict(NIVELES):
-        edicion_pro.guardar_opciones({'pro_detras_intensidad': nivel})
+    pref = _pref_niveles(clave)
+    if pref and nivel in dict(NIVELES):
+        edicion_pro.guardar_opciones({pref: nivel})
 
 
 def icono_de(o, relleno=True):
@@ -250,6 +262,7 @@ def _icono(p, w, nombre, color, cx, cy, tam, opacidad=1.0, escala=1.0):
 # Fluent 3D de las escenas). Apagado = en gris y translúcido.
 ICONOS_3D = {
     'pildora': ('emojis', 'png', 'rcs_emoji_speech_balloon.png'),
+    'emoji': ('emojis', 'png', 'rcs_emoji_star_struck.png'),
     'broll': ('edicion_pro', 'ograf', 'lib', 'iconos3d', 'picture-dynamic-premium.png'),
     'detras': ('edicion_pro', 'fluent_extra', 'person_raising_hand.png'),         # (la silueta oscura no se veía sobre la barra negra)
     'motions_completo': ('emojis', 'png', 'rcs_emoji_clapper_board.png'),          # (la película gris parecía apagada)
@@ -409,7 +422,7 @@ class PanelMotionsPro(QWidget):
             self.activa = self._ops[0]['clave']
         try:
             import edicion_pro
-            self._nivel = edicion_pro.intensidad_detras(op)
+            self._nivel = edicion_pro.intensidad_emoji(op) if self.activa == 'emoji' else edicion_pro.intensidad_detras(op)
         except Exception:
             self._nivel = 'media'
         for o in OPCIONES:
@@ -428,8 +441,8 @@ class PanelMotionsPro(QWidget):
         return ui.fuente(13 * se, peso='medio'), ui.fuente(10 * se), se
 
     def _con_niveles(self):
-        """v5.5.20: la píldora de «Captions detrás de ti» encendido lleva debajo «Suave · Media · Fuerte»."""
-        return self.activa == 'detras' and self.encendido('detras')
+        """v5.5.20: la píldora de «Captions detrás de ti» (y, v5.25, de «Emojis animados») encendido lleva debajo «Suave · Media · Fuerte»."""
+        return bool(_pref_niveles(self.activa)) and self.encendido(self.activa)
 
     def _ancho_etiqueta(self, nombre, sub):
         f1, f2, se = self._fuentes()
@@ -442,13 +455,15 @@ class PanelMotionsPro(QWidget):
     def _texto_etiqueta(self):
         o = _POR_CLAVE[self.activa]
         si = self.encendido(self.activa)
-        if si and self.activa == 'detras':
+        if si and _pref_niveles(self.activa):
             return tr(o['nombre']), tr('Encendido · intensidad'), si, True     # (el nivel elegido se lee al pintar)
         return tr(o['nombre']), (tr('Encendido · clic para apagar') if si else tr('Apagado · clic para encender')), si, None
 
     def senalar(self, clave, animar=True):
         cambia = clave != self.activa
         self.activa = clave
+        if cambia and _pref_niveles(clave):
+            self._nivel = intensidad(clave)               # (v5.25: cada opción con niveles tiene el suyo)
         i = [o['clave'] for o in self._ops].index(clave)
         nuevo = self._texto_etiqueta()
         if nuevo != self._et_txt:
@@ -579,10 +594,10 @@ class PanelMotionsPro(QWidget):
         if nivel:
             if nivel != self._nivel:
                 try:
-                    poner_intensidad(nivel)
+                    poner_intensidad(nivel, self.activa)
                 except Exception:
                     import registro
-                    registro.excepcion(origen='Proyecto · intensidad de «Captions detrás de ti»')
+                    registro.excepcion(origen=f'Proyecto · intensidad de «{self.activa}»')
                 self.refrescar()
                 self.cambiado.emit()
             super().mouseReleaseEvent(e)

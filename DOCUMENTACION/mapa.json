@@ -3820,6 +3820,59 @@
         "mostrar_posiciones"
       ],
       "resumen": "Botón «Posición» (y doble clic) en cada sección de Efectos › Edición PRO: línea de tiempo del video con fotogramas para marcar en qué segundos va el efecto; «Solo mis marcas | + automático»; GO lo respeta (posiciones_pro.para_plan → edicion_pro: _marcas_libres, _ligadas, _marcas_broll, _captions_detras(marcas=), _tramos_motions)."
+    },
+    {
+      "id": "emojis-pro",
+      "grupo": "efectos",
+      "tema": "Edición PRO › «Emojis animados»: emojis 2D (Lottie) y 3D siempre animados, sacados de la palabra dicha, junto al caption sin tapar caras; Dónde e Intensidad",
+      "claves": [
+        "emoji",
+        "emojis",
+        "emojis animados",
+        "lottie",
+        "noto",
+        "3d",
+        "2d",
+        "animado",
+        "rebote",
+        "burbuja",
+        "sticker",
+        "gelatina",
+        "estallido",
+        "intensidad",
+        "dónde",
+        "cabeza",
+        "iconos 3d"
+      ],
+      "archivos": [
+        "edicion_pro.py",
+        "remotion/src/EmojiPro.tsx",
+        "emojis_animados.py",
+        "estilos_pro.py",
+        "efectos_pro_ui.py",
+        "pro_lateral_ui.py",
+        "posiciones_pro.py",
+        "herramientas_dev/hacer_ejemplos_pro.py",
+        "herramientas_dev/hacer_estilos_pro.py"
+      ],
+      "simbolos": [
+        "_emojis_pro",
+        "_sitio_emoji",
+        "_assets_emoji",
+        "_choca",
+        "INTENSIDAD_EMOJI",
+        "DONDE_EMOJI",
+        "intensidad_emoji",
+        "donde_emoji",
+        "EMOJI_2D",
+        "EMOJI_3D",
+        "lottie_de",
+        "EmojiPro",
+        "_cambio_ajuste",
+        "_pref_niveles",
+        "poner_intensidad"
+      ],
+      "resumen": "Opción «Emojis animados» del menú de la PRO (píldora Suave/Media/Fuerte) y sección de Efectos con Automático + 5 estilos 2D Lottie (Google Noto, CC BY 4.0) y 5 3D (PNG Fluent movidos en 3D), «Dónde» (auto/lado/encima/cabeza) e «Intensidad»; edicion_pro._emojis_pro saca el emoji de la palabra dicha, lo pone junto al caption sin tapar caras ni otros gráficos y apaga el emoji del tema ahí; render con Remotion EmojiPro (alfa) en la pista de iconos."
     }
   ]
 }

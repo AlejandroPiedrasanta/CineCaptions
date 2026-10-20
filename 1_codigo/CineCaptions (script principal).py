@@ -11933,8 +11933,39 @@ class SubtitleApp(QWidget):
         except Exception:
             return False
 
+    def _respaldo_tema1(self):
+        """v5.24: con el Tema 1 neón GO ya no coloca los Text+ de respaldo (la PRO los apagaba al final: tiempo perdido y pistas que estorbaban).
+        Si la Edición PRO NO pudo poner los captions neón, se colocan ahora esos Text+ (sin repetir los sonidos, que ya están) para que el video
+        no se quede sin captions. En el hilo de la colocación."""
+        kn = getattr(self, '_kitneon', None) or {}
+        track = kn.get('track_texto')
+        if not track:
+            return False
+        kn.pop('track_texto', None)                       # (una sola vez por GO)
+        try:
+            import resolve_bridge
+            manifest_path = st.SHARED_FOLDER / 'subtitles_manifest.json'
+            try:
+                manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+            except Exception:
+                manifest = {}
+            manifest['tracks'] = [track]
+            archivos_seguros.escribir_json(manifest_path, manifest, indent=2)
+            sidecar_lua.escribir_sidecar(manifest_path, manifest)
+            registro.aviso('Tema 1: la Edición PRO no pudo poner los captions neón; coloco los de respaldo (Text+).', 'GO')
+            self.msg_queue.put(('status', tr('Tema 1: coloco los captions de respaldo…')))
+            ok, err = resolve_bridge.ejecutar('subtitulos')
+            if not ok:
+                registro.aviso(f'Tema 1: tampoco se pudieron colocar los captions de respaldo: {err}', 'GO')
+            return bool(ok)
+        except Exception:
+            registro.excepcion(origen='Tema 1 (respaldo)')
+            return False
+
     def _colocar_pro(self):
-        """Pone la Edición PRO en el timeline de Resolve (tras los captions y los efectos). Devuelve un texto corto para el estado, o ''."""
+        """Pone la Edición PRO en el timeline de Resolve (tras los captions y los efectos). Devuelve un texto corto para el estado, o ''.
+        v5.24: `_pro_ok` dice si quedó puesta (el Tema 1 neón ya no deja Text+ de respaldo: sin la PRO, _respaldo_tema1 los pone)."""
+        self._pro_ok = False
         plan = getattr(self, '_pro_plan', None)
         try:
             import edicion_pro as _ep
@@ -11961,6 +11992,7 @@ class SubtitleApp(QWidget):
                 if self._es_fallo_de_resolve(mensaje):
                     self._efectos_atascado = True                       # v5.5.1: Resolve se colgó o se cayó con la Edición PRO (Magic Mask…): GO lo repara y rehace todo
                 return tr('La Edición PRO no se pudo colocar: {m}', m=str(mensaje)[:120])
+            self._pro_ok = True
             registro.info(f'Edición PRO colocada: {mensaje}', 'edición pro')
             if plan.get('_rectificado'):                                 # v5.5.2: lo que el rectificador quitó (y por qué)
                 registro.info(tr('Rectificador: {n} ajustes en la Edición PRO.', n=len(plan['_rectificado'])) + '\n· ' + '\n· '.join(plan['_rectificado'][:20]),
@@ -12057,6 +12089,8 @@ class SubtitleApp(QWidget):
                 self._rectificar_planes()                                # v5.5.2: Efectos y Edición PRO revisados JUNTOS antes de tocar Resolve
             nota_fx = self._colocar_efectos() if ok else ''
             nota_fx = ', '.join(x for x in (nota_fx, self._colocar_pro() if ok else '') if x)          # v5.4.49: Edición PRO
+            if ok and not getattr(self, '_pro_ok', False) and not getattr(self, '_efectos_atascado', False):
+                self._respaldo_tema1()                                   # v5.24: el Tema 1 sin la PRO puesta: sus Text+ para no quedarse sin captions
             if ok and getattr(self, '_efectos_atascado', False) and getattr(self, '_go_corriendo', False):          # v5.4.40: Resolve se colgó con los efectos: se rehace todo
                 self._efectos_atascado = False
                 if self._go_rearmar_en_resolve('efectos visuales'):
@@ -13520,6 +13554,18 @@ class SubtitleApp(QWidget):
                  'offset_frames': self._offset_frames(), **pista_plantilla, **pista_sfx, **pista_emojis}
         if es_viral:
             track['clip_prueba'] = 'v fina'                       # el clip que prueba que el bin del pack VIRAL está completo (el de Kinetic es «k hero blanco»)
+        if self._kitneon and not es_viral and not sin_resolve:
+            # v5.24 (el usuario: «quita lo que pone y al final desactiva; quédate con lo que importa, así es más rápido»): con el Tema 1 neón la
+            # Edición PRO pone los captions (clips KitNeon); el script de Resolve ya no importa el pack ni coloca los Text+ que luego se apagaban:
+            # solo los sonidos. Si la PRO no pudiera ponerlos, _respaldo_tema1 coloca estos Text+ (sin repetir los sonidos).
+            try:
+                import edicion_pro_remotion as _rm
+                neon_listo = bool(_rm.disponible())
+            except Exception:
+                neon_listo = False
+            if neon_listo:
+                self._kitneon['track_texto'] = {k: v for k, v in track.items() if k not in ('sfx_library', 'sfx_archivos')}
+                track['solo_sonidos'] = True
         n_sonidos = sum(len(b.get('sfx_eventos') or [1]) for b in bloques if b.get('sfx'))
         avisar(tr('Estilo «{p}»: {n} bloques de títulos · {s} sonidos.', p=plantillas.nombre_visible(pack.nombre), n=len(cues), s=n_sonidos))
         return (bloques, track, pista_sfx)

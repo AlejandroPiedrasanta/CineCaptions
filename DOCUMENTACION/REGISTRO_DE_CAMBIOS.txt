@@ -12,6 +12,47 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-20 08:28  ·  v5.24  ·  cambio explicado
+    Edición PRO › Emojis animados (v5.25): opción del menú con Suave/Media/Fuerte y sección de Efectos con 5 estilos 2D Lottie (Google Noto, CC BY 4.0) y 5 3D siempre animados, «Dónde» e «Intensidad»; el emoji sale de la palabra dicha, va junto al caption sin tapar caras ni otros gráficos y sustituye a los iconos 3D estáticos. Pedido del usuario: estilos 3D-2D siempre animados, Lottie, posición coherente e intensidad.
+    nuevos (25):
+      + 1_codigo/remotion/src/EmojiPro.tsx
+      + 2_recursos/edicion_pro/ejemplos_pro/emoji.jpg
+      + 2_recursos/edicion_pro/ejemplos_pro/emoji.mp4
+      + 2_recursos/edicion_pro/estilos_pro/emoji_3d_estallido.jpg
+      + 2_recursos/edicion_pro/estilos_pro/emoji_3d_estallido.mp4
+      + 2_recursos/edicion_pro/estilos_pro/emoji_3d_flota.jpg
+      + 2_recursos/edicion_pro/estilos_pro/emoji_3d_flota.mp4
+      + 2_recursos/edicion_pro/estilos_pro/emoji_3d_gelatina.jpg
+      + 2_recursos/edicion_pro/estilos_pro/emoji_3d_gelatina.mp4
+      + 2_recursos/edicion_pro/estilos_pro/emoji_3d_giro.jpg
+      + 2_recursos/edicion_pro/estilos_pro/emoji_3d_giro.mp4
+      + 2_recursos/edicion_pro/estilos_pro/emoji_3d_salto.jpg
+      … y 13 más
+    modificados (18):
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/emojis_animados.py
+      ~ 1_codigo/estilos_pro.py
+      ~ 1_codigo/herramientas_dev/hacer_ejemplos_pro.py
+      ~ 1_codigo/herramientas_dev/hacer_estilos_pro.py
+      ~ 1_codigo/motions_catalogo.py
+      ~ 1_codigo/posiciones_pro.py
+      ~ 1_codigo/pro_lateral_ui.py
+      ~ 1_codigo/remotion/src/Root.tsx
+      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js
+      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js.map
+      … y 6 más
+
+2026-10-20 07:55  ·  v5.24  ·  cambio explicado
+    Tema 1: GO ya no coloca los Text+ de respaldo en ES-K que la PRO apagaba (solo_sonidos en los gemelos de captions; respaldo solo si la PRO falla) y las pistas de la PRO llevan lo que hacen delante del código («Captions · PRO-SUBS»), buscándose por el código. Probado en Resolve Studio real. Pedido del usuario.
+    modificados (6):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 2_recursos/edicion_pro/colocar_pro.py
+      ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/debug.log
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Subtitulos.lua
+
 2026-10-19 23:37  ·  v5.24  ·  (automático)
     modificados (27):
       ~ 1_codigo/ajustes_ui.py

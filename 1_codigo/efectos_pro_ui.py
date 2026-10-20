@@ -409,6 +409,18 @@ class SeccionEstilo(Tarjeta):
         ct.addStretch(1)
         self._tira.setVisible(False)
         cuerpo.addWidget(self._tira)
+        # v5.25: filas propias de la sección (Emojis animados: «Dónde» e «Intensidad»; las mismas preferencias que la píldora del menú lateral)
+        self._ajustes = []
+        for pref, etiqueta, opciones in seccion.get('ajustes') or []:
+            fila_a, ca = caja_h(espacio=10)
+            ca.addWidget(Etiqueta(tr(etiqueta), 13, color=TEXT_MUTED))
+            nombres = [tr(n) for _k, n in opciones]
+            var = StringVar(nombres[0])
+            seg = ui.Segmentado(nombres, var, lambda *_a, p=pref, o=opciones, v=var: self._cambio_ajuste(p, o, v), alto=30, tam=12)
+            ca.addWidget(seg)
+            ca.addStretch(1)
+            cuerpo.addWidget(fila_a)
+            self._ajustes.append((pref, opciones, var))
         self._abierta = True                            # v5.21 (el usuario: «siempre deja desplegadas las secciones»): abiertas al entrar
         self._cuerpo.setVisible(self._abierta)
         self._cab.poner_abierta(self._abierta)
@@ -455,8 +467,30 @@ class SeccionEstilo(Tarjeta):
         if e.button() == Qt.MouseButton.LeftButton:
             self.alternar_posiciones()
 
+    def _cambio_ajuste(self, pref, opciones, var):
+        inv = {tr(n): k for k, n in opciones}
+        valor = inv.get(str(var.get()))
+        if valor is None:
+            return
+        try:
+            import edicion_pro
+            edicion_pro.guardar_opciones({pref: valor})
+        except Exception:
+            return
+        self.cambio.emit()
+
     # -- estado
     def refrescar(self):
+        if getattr(self, '_ajustes', None):
+            try:
+                import edicion_pro
+                op = edicion_pro.opciones_guardadas()
+            except Exception:
+                op = {}
+            for pref, opciones, var in self._ajustes:
+                actual = dict(opciones).get(op.get(pref)) or opciones[0][1]
+                if str(var.get()) != tr(actual):
+                    var.set(tr(actual))
         est = EST.leer()
         d = est.get(self.clave) or {}
         actual = d.get('v') or ''

@@ -38,7 +38,7 @@ T5 = [('t5:escena', 'Escenas de papel'), ('t5:orbita', 'Órbita de iconos 3D'), 
       ('t6:buscar', 'Barra de búsqueda (Tema 6)'), ('t6:perfil', 'Perfil con seguidores (Tema 6)'), ('t6:equipo', 'Píldora del equipo (Tema 6)')]
 _COMP_T5 = {'OrbitaT5': 't5:orbita', 'TarjetaT5': 't5:tarjeta', 'AcompananteT5': 'acompanante', 'StickerT5': 't5:sticker', 'FinalT5': 't5:final',
             'PasosT5': 't5:pasos', 'DeslizadorT5': 't5:deslizador', 'EscenaT5': 't5:escena', 'Ubicacion': 'ograf:ubicacion'}
-_SIN_MOTION = {'subtitulo', 'velo', 'velo_caption'}
+_SIN_MOTION = {'subtitulo', 'velo', 'velo_caption', 'emoji'}     # (v5.25: los emojis animados tienen su propio interruptor, no son del catálogo)
 _ACOMPANAN = {'fondo', 'velo'}                        # piezas que solo existen junto a otra (el fondo de una escena, el velo de un titular)
 
 

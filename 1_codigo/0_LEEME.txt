@@ -59,7 +59,7 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
             ver una pieza OGraf SIN Resolve: la abre en el Chrome sin ventana del runtime de Remotion (servidor local)
         vista_tema5.py
             el Tema 5 SIN Resolve, para revisarlo y para la tarjeta del slider (2_recursos/vistas_slider/Tema5.mp4
-    remotion\   (17400 archivos)
+    remotion\   (17401 archivos)
     actualizaciones.py
         actualizaciones automáticas: lee un version.json publicado, descarga el instalador, comprueba su huella SHA-256 y lo lanza.
     ajustes_ui.py

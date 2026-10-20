@@ -32,8 +32,8 @@ from i18n import tr
 ARCHIVO = Path.home() / 'DaVinciSubtitles' / 'posiciones_pro.json'
 CACHE = Path.home() / 'DaVinciSubtitles' / 'cache_posiciones'
 MODOS = ('solo', 'suma')
-SECCIONES = ('detras', 'gancho', 'pildora', 'broll', 'motions_completo', 'escenas', 'kit', 'graficos')
-LIGADAS = ('detras', 'pildora')          # van con un bloque de captions: la marca elige el bloque de ese segundo
+SECCIONES = ('detras', 'gancho', 'pildora', 'emoji', 'broll', 'motions_completo', 'escenas', 'kit', 'graficos')
+LIGADAS = ('detras', 'pildora', 'emoji')  # van con un bloque de captions: la marca elige el bloque de ese segundo (v5.25: + emojis animados)
 N_FOTOS = 60
 ALTO_FOTO = 120
 PASO = 0.1                               # las marcas van en décimas de segundo

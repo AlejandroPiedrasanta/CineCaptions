@@ -6452,5 +6452,187 @@
   "fr": "Effets dans le même ordre que le menu de l'Édition PRO.",
   "de": "Effekte in derselben Reihenfolge wie das Menü des PRO-Schnitts.",
   "it": "Effetti nello stesso ordine del menu dell'Editing PRO."
+ },
+ "Tema 1: coloco los captions de respaldo…": {
+  "en": "Theme 1: placing the backup captions…",
+  "pt": "Tema 1: colocando as legendas de reserva…",
+  "fr": "Thème 1 : je place les sous-titres de secours…",
+  "de": "Thema 1: Ersatz-Untertitel werden platziert…",
+  "it": "Tema 1: inserisco i sottotitoli di riserva…"
+ },
+ "2D: borde blanco grueso y sombra, un poco girado.": {
+  "en": "2D: thick white outline and shadow, slightly tilted.",
+  "pt": "2D: borda branca grossa e sombra, um pouco inclinado.",
+  "fr": "2D : contour blanc épais et ombre, un peu incliné.",
+  "de": "2D: dicker weißer Rand und Schatten, leicht gedreht.",
+  "it": "2D: bordo bianco spesso e ombra, un po’ inclinato."
+ },
+ "2D: con un halo de luz de color que late.": {
+  "en": "2D: with a pulsing halo of colored light.",
+  "pt": "2D: com um halo de luz colorida que pulsa.",
+  "fr": "2D : avec un halo de lumière colorée qui pulse.",
+  "de": "2D: mit einem pulsierenden farbigen Lichthof.",
+  "it": "2D: con un alone di luce colorata che pulsa."
+ },
+ "2D: dentro de una burbuja de cristal que tiembla.": {
+  "en": "2D: inside a wobbling glass bubble.",
+  "pt": "2D: dentro de uma bolha de vidro que treme.",
+  "fr": "2D : dans une bulle de verre qui tremble.",
+  "de": "2D: in einer wackelnden Glasblase.",
+  "it": "2D: dentro una bolla di vetro che trema."
+ },
+ "2D: el emoji animado de Google, que se mueve solo.": {
+  "en": "2D: Google’s animated emoji, which moves on its own.",
+  "pt": "2D: o emoji animado do Google, que se move sozinho.",
+  "fr": "2D : l’emoji animé de Google, qui bouge tout seul.",
+  "de": "2D: das animierte Emoji von Google, das sich von selbst bewegt.",
+  "it": "2D: l’emoji animato di Google, che si muove da solo."
+ },
+ "2D: entra con un rebote y da saltitos.": {
+  "en": "2D: bounces in and keeps hopping.",
+  "pt": "2D: entra com um quique e dá pulinhos.",
+  "fr": "2D : arrive en rebondissant et sautille.",
+  "de": "2D: springt herein und hüpft weiter.",
+  "it": "2D: entra con un rimbalzo e saltella."
+ },
+ "3D estallido": {
+  "en": "3D burst",
+  "pt": "3D explosão",
+  "fr": "3D éclat",
+  "de": "3D Explosion",
+  "it": "3D esplosione"
+ },
+ "3D flotando": {
+  "en": "3D floating",
+  "pt": "3D flutuando",
+  "fr": "3D flottant",
+  "de": "3D schwebend",
+  "it": "3D fluttuante"
+ },
+ "3D gelatina": {
+  "en": "3D jelly",
+  "pt": "3D gelatina",
+  "fr": "3D gelée",
+  "de": "3D Wackelpudding",
+  "it": "3D gelatina"
+ },
+ "3D giro": {
+  "en": "3D spin",
+  "pt": "3D giro",
+  "fr": "3D rotation",
+  "de": "3D Drehung",
+  "it": "3D rotazione"
+ },
+ "3D salto": {
+  "en": "3D jump",
+  "pt": "3D salto",
+  "fr": "3D saut",
+  "de": "3D Sprung",
+  "it": "3D salto"
+ },
+ "3D: estalla en chispas y sigue latiendo.": {
+  "en": "3D: bursts into sparks and keeps pulsing.",
+  "pt": "3D: explode em faíscas e continua pulsando.",
+  "fr": "3D : éclate en étincelles et continue de pulser.",
+  "de": "3D: zerplatzt in Funken und pulsiert weiter.",
+  "it": "3D: esplode in scintille e continua a pulsare."
+ },
+ "3D: entra girando en 3D y se mece.": {
+  "en": "3D: spins in in 3D and sways.",
+  "pt": "3D: entra girando em 3D e balança.",
+  "fr": "3D : arrive en tournant en 3D et se balance.",
+  "de": "3D: dreht sich in 3D herein und schaukelt.",
+  "it": "3D: entra ruotando in 3D e ondeggia."
+ },
+ "3D: flota y se balancea suave.": {
+  "en": "3D: floats and sways gently.",
+  "pt": "3D: flutua e balança suavemente.",
+  "fr": "3D : flotte et se balance doucement.",
+  "de": "3D: schwebt und schaukelt sanft.",
+  "it": "3D: fluttua e ondeggia dolcemente."
+ },
+ "3D: sube de un salto y rebota con su sombra.": {
+  "en": "3D: jumps up and bounces with its shadow.",
+  "pt": "3D: sobe com um salto e quica com sua sombra.",
+  "fr": "3D : monte d’un bond et rebondit avec son ombre.",
+  "de": "3D: springt hoch und hüpft mit seinem Schatten.",
+  "it": "3D: sale con un salto e rimbalza con la sua ombra."
+ },
+ "3D: tiembla como gelatina y vuelve a temblar.": {
+  "en": "3D: wobbles like jelly, again and again.",
+  "pt": "3D: treme como gelatina e volta a tremer.",
+  "fr": "3D : tremble comme de la gelée, encore et encore.",
+  "de": "3D: wackelt wie Wackelpudding, immer wieder.",
+  "it": "3D: trema come gelatina e torna a tremare."
+ },
+ "Brillo y chispas": {
+  "en": "Glow and sparks",
+  "pt": "Brilho e faíscas",
+  "fr": "Éclat et étincelles",
+  "de": "Glanz und Funken",
+  "it": "Bagliore e scintille"
+ },
+ "Burbuja de cristal": {
+  "en": "Glass bubble",
+  "pt": "Bolha de vidro",
+  "fr": "Bulle de verre",
+  "de": "Glasblase",
+  "it": "Bolla di vetro"
+ },
+ "Encima del caption": {
+  "en": "Above the caption",
+  "pt": "Acima da legenda",
+  "fr": "Au-dessus du sous-titre",
+  "de": "Über der Untertitelzeile",
+  "it": "Sopra il sottotitolo"
+ },
+ "Junto a tu cabeza": {
+  "en": "Next to your head",
+  "pt": "Ao lado da sua cabeça",
+  "fr": "À côté de ta tête",
+  "de": "Neben deinem Kopf",
+  "it": "Accanto alla tua testa"
+ },
+ "Junto al caption": {
+  "en": "Next to the caption",
+  "pt": "Ao lado da legenda",
+  "fr": "À côté du sous-titre",
+  "de": "Neben der Untertitelzeile",
+  "it": "Accanto al sottotitolo"
+ },
+ "Lottie animado": {
+  "en": "Animated Lottie",
+  "pt": "Lottie animado",
+  "fr": "Lottie animé",
+  "de": "Animiertes Lottie",
+  "it": "Lottie animato"
+ },
+ "Lottie con brillo": {
+  "en": "Lottie with glow",
+  "pt": "Lottie com brilho",
+  "fr": "Lottie avec éclat",
+  "de": "Lottie mit Glanz",
+  "it": "Lottie con bagliore"
+ },
+ "Lottie con rebote": {
+  "en": "Lottie with bounce",
+  "pt": "Lottie com quique",
+  "fr": "Lottie avec rebond",
+  "de": "Lottie mit Hüpfer",
+  "it": "Lottie con rimbalzo"
+ },
+ "Un emoji animado (2D o 3D) con lo que dices, junto a los captions y sin tapar caras.": {
+  "en": "An animated emoji (2D or 3D) for what you say, next to the captions and never over faces.",
+  "pt": "Um emoji animado (2D ou 3D) com o que você diz, junto às legendas e sem cobrir rostos.",
+  "fr": "Un emoji animé (2D ou 3D) selon ce que tu dis, à côté des sous-titres et sans cacher les visages.",
+  "de": "Ein animiertes Emoji (2D oder 3D) zu dem, was du sagst, neben den Untertiteln und ohne Gesichter zu verdecken.",
+  "it": "Un emoji animato (2D o 3D) con ciò che dici, accanto ai sottotitoli e senza coprire i volti."
+ },
+ "Un emoji animado con lo que dices, junto a los captions y sin tapar caras. El emoji sale de tus palabras; aquí eliges cómo se mueve, dónde y cuántos.": {
+  "en": "An animated emoji for what you say, next to the captions and never over faces. The emoji comes from your words; here you choose how it moves, where and how many.",
+  "pt": "Um emoji animado com o que você diz, junto às legendas e sem cobrir rostos. O emoji vem das suas palavras; aqui você escolhe como se move, onde e quantos.",
+  "fr": "Un emoji animé selon ce que tu dis, à côté des sous-titres et sans cacher les visages. L’emoji vient de tes mots ; ici tu choisis comment il bouge, où et combien.",
+  "de": "Ein animiertes Emoji zu dem, was du sagst, neben den Untertiteln und ohne Gesichter zu verdecken. Das Emoji kommt aus deinen Worten; hier wählst du, wie es sich bewegt, wo und wie viele.",
+  "it": "Un emoji animato con ciò che dici, accanto ai sottotitoli e senza coprire i volti. L’emoji nasce dalle tue parole; qui scegli come si muove, dove e quanti."
  }
 }

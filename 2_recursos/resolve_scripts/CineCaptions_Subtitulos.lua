@@ -5535,6 +5535,15 @@ local function place_kinetic(timeline, media_pool, track, fps, start_frame, proj
     if track.sfx_library or track.sfx_archivos then
         place_sfx(timeline, media_pool, cues, track, fps, start_frame)
     end
+    if track.solo_sonidos then
+        -- v5.24 (gemelo de place_kinetic_track): el Tema 1 neon pone SUS captions con la Edicion PRO (clips KitNeon en PRO-SUBS); aqui ya no se
+        -- importa el pack ni se colocan los Text+ que la PRO apagaba al final: solo los sonidos. Las ES-K de una corrida anterior se retiran.
+        local viejas = {}
+        for k = 1, 24 do viejas[#viejas + 1] = string.format("%s-K%d", L, k) end
+        retirar_pistas_nuestras(timeline, viejas, "elementos", "el Tema 1 pone sus captions con la Edicion PRO")
+        print(string.format("  Tema 1: %d bloques de captions los pone la Edicion PRO (neon); aqui solo sus sonidos.", #cues))
+        return #cues, 0
+    end
 
     local function res_tl(clave, por_defecto)
         local ok, v = pcall(function() return timeline:GetSetting(clave) end)

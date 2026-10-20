@@ -54,7 +54,9 @@ OPCIONES_POR_DEFECTO = {'pro_genero': 'auto', 'pro_densidad': 'media', 'pro_masc
                         # v5.5.13: el Tema 1 (neón): lo que el usuario encendió en el menú lateral de Proyecto (pro_lateral_ui); vacío = como la referencia
                         'pro_neon_extras': [],
                         # v5.20: el estilo y los colores de cada función (página Efectos › Edición PRO; estilos_pro.py): {clave: {'v': id, 'c': {hueco: hex}}}
-                        'pro_estilos': {}}
+                        'pro_estilos': {},
+                        # v5.25: «Emojis animados» (2D Lottie / 3D en movimiento) con lo que se dice: encendido, intensidad y dónde
+                        'pro_emojis': True, 'pro_emoji_intensidad': 'media', 'pro_emoji_donde': 'auto'}
 NIVEL_SONIDOS_DB = {'suave': -5.0, 'normal': 0.0, 'fuerte': 3.0}
 FAMILIA_DE_PISTA = {'PRO-WHOOSH': 'whoosh', 'PRO-TEXTURA': 'textura', 'PRO-RISER': 'riser', 'PRO-HIT': 'riser'}
 NOMBRES_GENERO = {'auto': 'Automático', 'general': 'General', 'inmobiliaria': 'Inmobiliaria / venta de casas', 'boda': 'Bodas', 'xv': 'XV años',
@@ -72,6 +74,11 @@ TRAMO_DETRAS_MAX_S = 12.0                                                    # u
 PUNCH_IN = 1.08                                                              # el «punch-in» que alterna en cada salto de V1 (pausas quitadas), como en la skill
 MARGEN_RECORTE_S = 0.8
 ICONO3D_CADA = {'sobria': 6.0, 'media': 3.5, 'espectaculo': 2.4}            # segundos mínimos entre dos iconos 3D junto a los captions
+# v5.25 «Emojis animados»: por intensidad, cada cuánto como mínimo (s), su tamaño (fracción del lado corto del cuadro) y la energía del movimiento
+INTENSIDAD_EMOJI = {'suave': {'cada': 7.0, 'tam': 0.13, 'energia': 0.7},
+                    'media': {'cada': 4.0, 'tam': 0.16, 'energia': 1.0},
+                    'fuerte': {'cada': 2.5, 'tam': 0.20, 'energia': 1.35}}
+DONDE_EMOJI = ('auto', 'lado', 'encima', 'cabeza')
 
 
 # ----------------------------------------------------------------------------------------------------------------------- preferencias
@@ -110,7 +117,7 @@ def neon_elegido():
 # v5.5.13 (el usuario: «si solo es captions, solo captions; si activo el modo PRO lo hará como el de referencia y si activo cosas del menú
 # también lo aplicará; pero el tema por defecto será como la referencia»): con el Tema 1, los interruptores del menú lateral de Proyecto
 # (pro_lateral_ui) son SUYOS: 'pro_neon_extras', por defecto ninguno = la referencia exacta; los de los demás temas no cambian.
-NEON_EXTRAS = ('pildora', 'broll', 'detras', 'motions_completo', 'gancho', 'escenas', 'kit', 'graficos')   # v5.20: sin 'plantillas' (quitado)
+NEON_EXTRAS = ('pildora', 'broll', 'detras', 'motions_completo', 'gancho', 'escenas', 'kit', 'graficos', 'emoji')   # v5.20: sin 'plantillas' · v5.25: + emoji
 
 
 def neon_extras(op=None):
@@ -877,6 +884,19 @@ def intensidad_detras(op=None):
     return v if v in INTENSIDAD_DETRAS else 'media'
 
 
+def intensidad_emoji(op=None):
+    """v5.25: la intensidad de «Emojis animados» ('suave' | 'media' | 'fuerte')."""
+    op = opciones_guardadas() if op is None else op
+    v = str(op.get('pro_emoji_intensidad') or 'media')
+    return v if v in INTENSIDAD_EMOJI else 'media'
+
+
+def donde_emoji(op=None):
+    op = opciones_guardadas() if op is None else op
+    v = str(op.get('pro_emoji_donde') or 'auto')
+    return v if v in DONDE_EMOJI else 'auto'
+
+
 def detras_disponible():
     """v5.5.20 (el usuario: «que sirva para DaVinci Resolve Studio; en la versión Free no aparece la opción»): «Captions detrás de ti» va SOLO
     con Studio (Magic Mask); ni en Free ni en el video MP4 sin Resolve. Barato y sin preguntar a Resolve (se llama desde la interfaz): lo último
@@ -935,7 +955,8 @@ def _bloques_captions():
             if fin - ini >= 0.5 and 0 <= arriba < abajo <= 1:
                 linea = 2.0 * (abajo - max(ys)) if ys and max(ys) < abajo else abajo - arriba     # el alto de la línea de ABAJO (la que tapa la cabeza)
                 out.append({'ini': ini, 'fin': fin, 'arriba': arriba, 'abajo': abajo, 'linea': max(0.02, linea), 'xs': xs or [0.5],
-                            'palabras': [(str(r.get('texto') or ''), float(r['t']) if isinstance(r.get('t'), (int, float)) else ini) for r in runs]})
+                            'palabras': [(str(r.get('texto') or ''), float(r['t']) if isinstance(r.get('t'), (int, float)) else ini) for r in runs],
+                            'emoji': c.get('emoji') if isinstance(c.get('emoji'), str) else None})    # (v5.25: el del tema, ya elegido con coherencia)
     out.sort(key=lambda b: b['ini'])
     return out
 
@@ -1252,6 +1273,156 @@ def _iconos3d_captions(info, ocupado, subidas, caras_de, W, H, densidad):
         out.append({'ini': max(a, t_pal - 0.05), 'fin': z + 0.15, 'valores': {'imagen': nombre, 'tamano': round(tam * 100, 1), 'brillo': 0.75,
                     'flotar': 1.0, 'giro': 8, 'x': round(x * 100, 1), 'y': round(y * 100, 1), 'tiempos': '0'}})
     return out
+
+
+# ----------------------------------------------------------------------------------------------------------------------- emojis animados (v5.25)
+EMOJI_2D = ('animado', 'rebote', 'brillo', 'burbuja', 'sticker')                 # Lottie de Google (o, si ese emoji no tiene, el 3D con ese movimiento)
+EMOJI_3D = ('3d_salto', '3d_flota', '3d_giro', '3d_gelatina', '3d_estallido')     # el 3D de Microsoft, siempre en movimiento
+
+
+def _png_emoji(eid):
+    """(nombre del sticker que trae el programa | None, ruta de un PNG 3D bajado | None)."""
+    try:
+        propio = Path(carpeta_recursos()).parent / 'emojis' / 'png' / f'rcs_emoji_{eid}.png'
+        if propio.is_file():
+            return eid, None
+    except Exception:
+        pass
+    try:
+        import emojis
+        r = emojis.ruta_png(eid)
+        return None, (Path(r) if r and Path(r).is_file() else None)
+    except Exception:
+        return None, None
+
+
+def _assets_emoji(eid, variante):
+    """Las props de la imagen de un emoji para EmojiPro: Lottie (2D) y/o el PNG 3D. None si no hay ninguna."""
+    v = {}
+    if variante in EMOJI_2D:
+        try:
+            import emojis_animados
+            origen, datos = emojis_animados.lottie_de(eid)
+        except Exception:
+            origen, datos = None, None
+        if origen == 'programa':
+            v.update(fuente='lottie', lottie=None)
+        elif origen == 'datos' and datos:
+            v.update(fuente='lottie', lottie=datos)
+    if not v:
+        propio, ruta = _png_emoji(eid)
+        if propio:
+            v.update(fuente='png', imagen=None)
+        elif ruta is not None:
+            import base64
+            v.update(fuente='png', imagen='data:image/png;base64,' + base64.b64encode(ruta.read_bytes()).decode('ascii'))
+        else:
+            return None
+    return v
+
+
+def _choca(cx, cy, ancho, alto, caja, margen=0.012):
+    x0, y0, x1, y1 = caja[:4]
+    return cx - ancho / 2 < x1 + margen and x0 - margen < cx + ancho / 2 and cy - alto / 2 < y1 + margen and y0 - margen < cy + alto / 2
+
+
+def _sitio_emoji(b, sube, caras, tam, ancho, donde):
+    """(x, y) del centro del emoji (fracciones del cuadro) o None. «lado»: arriba a un lado de la pila de captions; «encima»: centrado sobre la
+    pila; «cabeza»: junto a la cabeza (a su lado, a la altura de los ojos); «auto»: lado → encima → cabeza. Nunca sobre una cara ni fuera."""
+    arriba = b['arriba'] - sube
+    xs = b.get('xs') or [0.5]
+    izq, der = min(xs) - 0.1, max(xs) + 0.1                       # (los xs son centros de palabras: la pila llega algo más allá)
+    cands = {'lado': [(der + ancho * 0.55, arriba - tam * 0.2), (izq - ancho * 0.55, arriba - tam * 0.2)],
+             'encima': [(sum(xs) / len(xs), arriba - tam * 0.62)], 'cabeza': []}
+    if caras:
+        c = max(caras, key=lambda k: (k[2] - k[0]) * (k[3] - k[1]))
+        cy = c[1] + (c[3] - c[1]) * 0.35
+        cands['cabeza'] = [(c[2] + ancho * 0.62, cy), (c[0] - ancho * 0.62, cy)]
+    orden = {'lado': ['lado', 'encima'], 'encima': ['encima', 'lado'], 'cabeza': ['cabeza', 'lado', 'encima'],
+             'auto': ['lado', 'encima', 'cabeza']}.get(donde, ['lado', 'encima', 'cabeza'])
+    for clave in orden:
+        for x, y in cands[clave]:
+            if not (0.03 + ancho / 2 <= x <= 0.97 - ancho / 2 and 0.035 + tam / 2 <= y <= 0.95 - tam / 2):
+                continue
+            if any(_choca(x, y, ancho, tam, k) for k in caras):
+                continue
+            if clave != 'encima' and _choca(x, y, ancho, tam, (izq + 0.04, arriba, der - 0.04, b['abajo'] - sube), 0.0):
+                continue
+            return x, y
+    return None
+
+
+def _emojis_pro(bloques, ocupado, subidas, caras_de, W, H, op, marcas=None):
+    """v5.25 «Emojis animados» (Efectos › Edición PRO; el usuario: «emojis con diferentes estilos 3D-2D, siempre animados, archivo Lottie, y la
+    posición: que tenga coherencia de dónde se aplica, y la intensidad»). Un emoji ANIMADO con lo que se dice:
+      · cuál: el de una palabra de ese caption (diccionario curado emojis_conceptos) o el que el tema ya eligió para él (con su coherencia);
+      · dónde: «Dónde» (auto: a un lado de la pila; si no cabe, encima; si no, junto a la cabeza), nunca sobre una cara ni encima de otro
+        gráfico (`ocupado`) ni fuera del cuadro;
+      · cuántos y cómo: la intensidad (INTENSIDAD_EMOJI: cada cuánto, tamaño y energía del movimiento);
+      · `marcas` (Efectos › «Posición»): esos captions van siempre que haya emoji y sitio; con «solo», ninguno más.
+    Devuelve (piezas de Remotion «EmojiPro» en la capa «iconos», ventanas (s) donde se apaga el emoji del tema)."""
+    import emojis_conceptos as EC
+    cfg = INTENSIDAD_EMOJI[intensidad_emoji(op)]
+    donde = donde_emoji(op)
+    try:
+        import estilos_pro as EST
+        v, col = EST.resolver('emoji', op)
+    except Exception:
+        v, col = None, {}
+    elegida = (v or {}).get('id')
+    tam = cfg['tam'] * min(W, H) / float(H)                        # fracción del alto
+    ancho = cfg['tam'] * min(W, H) / float(W)                      # fracción del ancho (es cuadrado)
+    forz = {}
+    for t in (marcas or {}).get('ts') or []:
+        k = next((k for k, b in enumerate(bloques) if b['ini'] - 0.15 <= t <= b['fin'] + 0.15), None)
+        if k is None and bloques:
+            k = min(range(len(bloques)), key=lambda k: min(abs(bloques[k]['ini'] - t), abs(bloques[k]['fin'] - t)))
+            if min(abs(bloques[k]['ini'] - t), abs(bloques[k]['fin'] - t)) > 2.0:
+                k = None
+        if k is not None:
+            forz.setdefault(k, t)
+    solo = bool(marcas) and marcas.get('modo') != 'suma'
+    out, avisos, ultimo, assets = [], [], -99.0, {}
+    for k, b in enumerate(bloques):
+        a, z = float(b['ini']), float(b['fin'])
+        forzado = k in forz
+        if solo and not forzado:
+            continue
+        if not forzado and (a - ultimo < cfg['cada'] or z - a < 0.8 or any(a < o1 and o0 < z for o0, o1 in ocupado)):
+            continue
+        cand = [(EC.concepto(texto), float(t), texto) for texto, t in b.get('palabras') or []]
+        cand = [c for c in cand if c[0]] + ([(b['emoji'], a, '')] if b.get('emoji') else [])
+        variante = elegida or ('rebote' if k % 2 == 0 else '3d_salto')          # (Automático: alterna un 2D y un 3D)
+        eid = palabra = None
+        t_pal = a
+        for c, t, texto in cand:
+            if (c, variante) not in assets:
+                assets[(c, variante)] = _assets_emoji(c, variante)
+            if assets[(c, variante)]:
+                eid, t_pal, palabra = c, max(a, t), texto
+                break
+        if not eid:
+            if forzado:
+                avisos.append(f'«emojis» en {forz[k]:.1f} s: lo que se dice ahí no tiene un emoji claro')
+            continue
+        ini = max(a, t_pal - 0.08)
+        if not forzado and (z - t_pal < 0.45 or ini - ultimo < cfg['cada']):
+            continue                                                  # (la distancia se mide entre lo que de verdad se VE: cuándo sale cada uno)
+        pos = _sitio_emoji(b, subidas.get(round(a, 2), 0.0), caras_de.get(round(a, 2), []) or [], tam, ancho, donde)
+        if pos is None:
+            if forzado:
+                avisos.append(f'«emojis» en {forz[k]:.1f} s: no hay sitio sin tapar una cara o los captions')
+            continue
+        ultimo = ini
+        valores = dict(assets[(eid, variante)], id=eid, variante=variante, x=round(pos[0] * 100, 2), y=round(pos[1] * 100, 2),
+                       tamano=round(cfg['tam'] * 100, 2), energia=cfg['energia'], acento=col.get('acento') or '#FFC24D')
+        out.append({'pieza': 'emoji', 'capa': 'iconos', 'remotion': 'EmojiPro', 'ini': round(ini, 3), 'fin': round(z + 0.25, 3),
+                    'valores': valores, '_marca': forzado,
+                    'motivo': f'emoji «{eid}»' + (f' por «{palabra}»' if palabra else ' (el del caption)')})
+    for p, q in zip(out, out[1:]):                                   # (dos en la misma pista no se pisan: el vigilante quitaría el 2.º)
+        p['fin'] = round(max(p['ini'] + 0.4, min(p['fin'], q['ini'] - 0.05)), 3)
+    _avisar_marcas(avisos)
+    return out, [(p['ini'], p['fin']) for p in out]
 
 
 def _caras_redondas(caras):
@@ -1633,8 +1804,26 @@ def aplicar(plan, al_estado=None, offset_frames=0, info=None):
         caras_de = {round(c['ini'], 2): c.get('caras') or [] for t in tramos for c in t['cues']}
         caras_de.update({round(c['ini'], 2): c['caras'] for c in sin_cara})
         ocupado3d = [(p['ini'] - 0.1, p['fin'] + 0.1) for p in plan['piezas'] if p.get('pantalla')] + [(t['_s'], t['_s'] + t['dur']) for t in tomas]
-        iconos3d = [] if (t5 or ligero or neon_tema) else _iconos3d_captions(info, ocupado3d, subidas, caras_de, W, H, op.get('pro_densidad') or 'media')
+        # v5.25: «Emojis animados» (Lottie 2D / 3D en movimiento) SUSTITUYEN a los iconos 3D fijos; apagados en el menú, no va ninguno
+        emo_on = ('emoji' in ex_neon) if neon_tema else bool(op.get('pro_emojis', True))
+        if emo_on and not ligero and not cap_t5:
+            bl_emo = _bloques_captions()
+            if neon_tema:
+                import kit_neon as KN
+                bl_emo = KN.bloques_pro(plan.get('kitneon') or [])
+            oc_emo = ocupado3d + [(p['ini'] - 0.1, p['fin'] + 0.1) for p in plan['piezas'] if p.get('capa') == 'iconos']
+            oc_emo += [(m['ini'] - 0.1, m['fin'] + 0.1) for m in plan.get('kitneon_motions') or []] if neon_tema else []
+            decir('Edición PRO: eligiendo los emojis animados…')
+            emojis_pro, ventanas_emo = _emojis_pro(bl_emo, oc_emo, subidas, caras_de, W, H, op, _marca(plan, 'emoji'))
+            plan['piezas'] = list(plan.get('piezas') or []) + emojis_pro
+            sin_emoji += [[int(round(a * fps)) - 2, int(round(z * fps))] for a, z in ventanas_emo]
+            plan['_emojis_pro'] = [p['motivo'] for p in emojis_pro]
     except Exception:
+        try:
+            import registro
+            registro.excepcion(origen='edición PRO (emojis animados)')
+        except Exception:
+            pass
         iconos3d = []
     acento = (plan.get('direccion') or {}).get('acento') or '#ffb020'
     for c in iconos3d:
