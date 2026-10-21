@@ -484,6 +484,20 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.32', [
+        'Arreglado: CineCaptions ya no se congela cuando DaVinci Resolve está ocupado, y «Listo» de «detrás de ti» ya no hace caer a Resolve.',
+        'Si Resolve se cierra de golpe, CineCaptions lo avisa al momento y te dice qué hacer (tus marcas siguen guardadas).',
+        'Efectos › «Captions detrás de ti» › Posición, rediseñada: visor que reproduce tu video, pestañas Ajustes / Marcas / Sugerencias y la tira abajo.',
+        'Lo que la tira marca en verde es lo que «Listo» pone de verdad. En videos horizontales eliges el lado del caption: arriba, izquierda o derecha.',
+        'Página Proyecto con aspecto nuevo: la franja del audio, el nombre del tema y los botones «En uso» y «Edición PRO activada», con animación.',
+    ]),
+    ('5.31', [
+        'En Efectos › Posición la tira resalta lo que está en tu timeline (verde), lo nuevo (borde) y lo que se quita (rojo; un clic lo recupera).',
+        '«Listo» enseña una barra mientras lo pone en Resolve y, al acabar, la tira muestra cómo quedó.',
+        'La máscara de la persona es más fina (pelo, orejas, huecos entre brazos y piernas) y se guarda: la segunda vez sale al momento.',
+        'Las sugerencias de «detrás de ti» se comprueban con la misma regla que GO en los Temas 1 a 6: lo que te sugiere es lo que se pone.',
+        'Arreglado: un video con el último fotograma dañado (muchos descargados) ya no deja el Tema 1 sin su placa.',
+    ]),
     ('5.30', [
         'En Efectos › Posición ves lo que está ahora en tu timeline (también lo que puso GO por su cuenta) y las sugerencias: quita, mueve o añade y «Listo» lo pone en Resolve.',
         '«Quitar todas» y «Listo» quita «detrás de ti» de tu timeline; si nada cambió, «Listo» ni toca Resolve.',

@@ -505,7 +505,8 @@ def detectar_cortes(video, al_progreso=None, tope_s=None, por_fotograma=None):
         previo = None
         recientes = []
         ultimo_corte = -9.0
-        for fr in c.decode(s):
+        import rotacion_video as RV
+        for fr in RV.fotogramas(c, s):                    # (v5.31: sin romperse en un paquete dañado)
             t = float(fr.pts * s.time_base) if fr.pts is not None else None
             if t is None:
                 continue

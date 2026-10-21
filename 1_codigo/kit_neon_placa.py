@@ -346,7 +346,7 @@ def renderizar(video, plan, salida, ancho=1080, alto=1920, fps=None, progreso=No
         n = 0
         cola = deque()
         with ThreadPoolExecutor(hilos, thread_name_prefix='placa') as pool:
-            for fr in ent.decode(vs):
+            for fr in RV.fotogramas(ent, vs):                    # (v5.31: un paquete dañado ya no tira la placa entera)
                 t = n / fps
                 if t >= dur:
                     break

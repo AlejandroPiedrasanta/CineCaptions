@@ -7033,5 +7033,607 @@
   "fr": "«Tout retirer» puis «Terminé» retire «derrière vous» de votre timeline ; si rien n’a changé, «Terminé» ne touche même pas Resolve.",
   "de": "«Alle entfernen» und «Fertig» entfernt «hinter dir» aus deiner Timeline; wenn sich nichts geändert hat, berührt «Fertig» Resolve gar nicht.",
   "it": "«Togli tutte» e «Fatto» toglie «dietro di te» dalla tua timeline; se non è cambiato nulla, «Fatto» non tocca nemmeno Resolve."
+ },
+ "se quita": {
+  "en": "removed",
+  "pt": "sai",
+  "fr": "retiré",
+  "de": "fällt weg",
+  "it": "si toglie"
+ },
+ "nueva": {
+  "en": "new",
+  "pt": "nova",
+  "fr": "nouveau",
+  "de": "neu",
+  "it": "nuovo"
+ },
+ "Aplicando en tu timeline de Resolve…": {
+  "en": "Applying to your Resolve timeline…",
+  "pt": "Aplicando na sua timeline do Resolve…",
+  "fr": "Application dans votre timeline Resolve…",
+  "de": "Wird in deine Resolve-Timeline eingefügt…",
+  "it": "Applicazione nella tua timeline di Resolve…"
+ },
+ "relleno: en tu timeline · borde: nueva · rojo: se quita": {
+  "en": "filled: in your timeline · outline: new · red: removed",
+  "pt": "preenchido: na sua timeline · borda: nova · vermelho: sai",
+  "fr": "plein : dans votre timeline · contour : nouveau · rouge : retiré",
+  "de": "gefüllt: in deiner Timeline · Rand: neu · rot: fällt weg",
+  "it": "pieno: nella tua timeline · bordo: nuovo · rosso: si toglie"
+ },
+ "Quitado de tu timeline: ya no hay ninguno detrás de ti.": {
+  "en": "Removed from your timeline: there are none behind you now.",
+  "pt": "Removido da sua timeline: já não há nenhum atrás de você.",
+  "fr": "Retiré de votre timeline : il n'y en a plus aucun derrière vous.",
+  "de": "Aus deiner Timeline entfernt: Jetzt ist keiner mehr hinter dir.",
+  "it": "Tolto dalla tua timeline: non ce n’è più nessuno dietro di te."
+ },
+ "Puesto en tu timeline: {n} de {m} (en el resto el texto no queda bien detrás de ti).": {
+  "en": "Placed in your timeline: {n} of {m} (in the rest the text does not look right behind you).",
+  "pt": "Colocado na sua timeline: {n} de {m} (no resto o texto não fica bem atrás de você).",
+  "fr": "Placé dans votre timeline : {n} sur {m} (pour le reste, le texte ne rend pas bien derrière vous).",
+  "de": "In deine Timeline gesetzt: {n} von {m} (beim Rest wirkt der Text hinter dir nicht gut).",
+  "it": "Messo nella tua timeline: {n} di {m} (negli altri il testo non sta bene dietro di te)."
+ },
+ "Puesto en tu timeline: {n}. Lo verde relleno es lo que hay ahora en Resolve.": {
+  "en": "Placed in your timeline: {n}. The filled green is what is in Resolve now.",
+  "pt": "Colocado na sua timeline: {n}. O verde preenchido é o que há agora no Resolve.",
+  "fr": "Placé dans votre timeline : {n}. Le vert plein correspond à ce qui est maintenant dans Resolve.",
+  "de": "In deine Timeline gesetzt: {n}. Das gefüllte Grün ist das, was jetzt in Resolve ist.",
+  "it": "Messo nella tua timeline: {n}. Il verde pieno è ciò che c’è ora in Resolve."
+ },
+ "Recortando a la persona con IA ({n} de {m})…": {
+  "en": "Cutting out the person with AI ({n} of {m})…",
+  "pt": "Recortando a pessoa com IA ({n} de {m})…",
+  "fr": "Détourage de la personne par IA ({n} sur {m})…",
+  "de": "Person wird mit KI freigestellt ({n} von {m})…",
+  "it": "Scontorno della persona con l’IA ({n} di {m})…"
+ },
+ "En Resolve está abierto otro timeline: abre «{t}» y vuelve a darle a «Listo».": {
+  "en": "Another timeline is open in Resolve: open “{t}” and press “Done” again.",
+  "pt": "Há outra timeline aberta no Resolve: abra «{t}» e pressione «Pronto» de novo.",
+  "fr": "Une autre timeline est ouverte dans Resolve : ouvrez « {t} » et appuyez de nouveau sur « Terminé ».",
+  "de": "In Resolve ist eine andere Timeline offen: Öffne „{t}“ und drücke erneut auf „Fertig“.",
+  "it": "In Resolve è aperta un’altra timeline: apri «{t}» e premi di nuovo «Fatto»."
+ },
+ "Listo: ya está en tu timeline de Resolve.": {
+  "en": "Done: it is now in your Resolve timeline.",
+  "pt": "Pronto: já está na sua timeline do Resolve.",
+  "fr": "Terminé : c’est maintenant dans votre timeline Resolve.",
+  "de": "Fertig: Es ist jetzt in deiner Resolve-Timeline.",
+  "it": "Fatto: ora è nella tua timeline di Resolve."
+ },
+ "No se pudo poner en tu timeline": {
+  "en": "It could not be placed in your timeline",
+  "pt": "Não foi possível colocar na sua timeline",
+  "fr": "Impossible de le placer dans votre timeline",
+  "de": "Es konnte nicht in deine Timeline gesetzt werden",
+  "it": "Non è stato possibile metterlo nella tua timeline"
+ },
+ "Preparando…": {
+  "en": "Preparing…",
+  "pt": "Preparando…",
+  "fr": "Préparation…",
+  "de": "Wird vorbereitet…",
+  "it": "Preparazione…"
+ },
+ "Buscando dónde va cada caption…": {
+  "en": "Finding where each caption goes…",
+  "pt": "Procurando onde vai cada legenda…",
+  "fr": "Recherche de la place de chaque sous-titre…",
+  "de": "Suche, wohin jede Caption gehört…",
+  "it": "Cerco dove va ogni didascalia…"
+ },
+ "Poniéndolo en tu timeline de Resolve…": {
+  "en": "Placing it in your Resolve timeline…",
+  "pt": "Colocando na sua timeline do Resolve…",
+  "fr": "Placement dans votre timeline Resolve…",
+  "de": "Wird in deine Resolve-Timeline gesetzt…",
+  "it": "Lo metto nella tua timeline di Resolve…"
+ },
+ "Listo en tu timeline": {
+  "en": "Done in your timeline",
+  "pt": "Pronto na sua timeline",
+  "fr": "Terminé dans votre timeline",
+  "de": "Fertig in deiner Timeline",
+  "it": "Fatto nella tua timeline"
+ },
+ "Pulsa GO una vez con este video: después, «Listo» pone «detrás de ti» directo en tu timeline.": {
+  "en": "Press GO once with this video: after that, “Done” puts “behind you” straight into your timeline.",
+  "pt": "Pressione GO uma vez com este vídeo: depois, «Pronto» coloca «atrás de você» direto na sua timeline.",
+  "fr": "Appuyez une fois sur GO avec cette vidéo : ensuite, « Terminé » place « derrière vous » directement dans votre timeline.",
+  "de": "Drücke einmal GO mit diesem Video: Danach setzt „Fertig“ „hinter dir“ direkt in deine Timeline.",
+  "it": "Premi GO una volta con questo video: poi «Fatto» mette «dietro di te» direttamente nella tua timeline."
+ },
+ "Abre DaVinci Resolve con el timeline de este video.": {
+  "en": "Open DaVinci Resolve with this video’s timeline.",
+  "pt": "Abra o DaVinci Resolve com a timeline deste vídeo.",
+  "fr": "Ouvrez DaVinci Resolve avec la timeline de cette vidéo.",
+  "de": "Öffne DaVinci Resolve mit der Timeline dieses Videos.",
+  "it": "Apri DaVinci Resolve con la timeline di questo video."
+ },
+ "«Captions detrás de ti» necesita DaVinci Resolve Studio.": {
+  "en": "“Captions behind you” needs DaVinci Resolve Studio.",
+  "pt": "«Legendas atrás de você» precisa do DaVinci Resolve Studio.",
+  "fr": "« Sous-titres derrière vous » nécessite DaVinci Resolve Studio.",
+  "de": "„Captions hinter dir“ braucht DaVinci Resolve Studio.",
+  "it": "«Didascalie dietro di te» richiede DaVinci Resolve Studio."
+ },
+ "Falta la placa del Tema 1 de tu último GO: pulsa GO otra vez.": {
+  "en": "The Theme 1 plate from your last GO is missing: press GO again.",
+  "pt": "Falta a placa do Tema 1 do seu último GO: pressione GO de novo.",
+  "fr": "La plaque du Thème 1 de votre dernier GO manque : appuyez de nouveau sur GO.",
+  "de": "Die Platte von Thema 1 aus deinem letzten GO fehlt: Drücke GO noch einmal.",
+  "it": "Manca la lastra del Tema 1 del tuo ultimo GO: premi di nuovo GO."
+ },
+ "En Efectos › Posición la tira resalta lo que está en tu timeline (verde), lo nuevo (borde) y lo que se quita (rojo; un clic lo recupera).": {
+  "en": "In Effects › Position the strip highlights what is in your timeline (green), what is new (outline) and what will be removed (red; one click brings it back).",
+  "pt": "Em Efeitos › Posição a faixa destaca o que está na sua timeline (verde), o novo (borda) e o que sai (vermelho; um clique o recupera).",
+  "fr": "Dans Effets › Position, la bande met en évidence ce qui est dans votre timeline (vert), le nouveau (contour) et ce qui sera retiré (rouge ; un clic le récupère).",
+  "de": "In Effekte › Position hebt der Streifen hervor, was in deiner Timeline ist (grün), was neu ist (Rand) und was wegfällt (rot; ein Klick holt es zurück).",
+  "it": "In Effetti › Posizione la striscia evidenzia ciò che è nella tua timeline (verde), il nuovo (bordo) e ciò che si toglie (rosso; un clic lo recupera)."
+ },
+ "«Listo» enseña una barra mientras lo pone en Resolve y, al acabar, la tira muestra cómo quedó.": {
+  "en": "“Done” shows a progress bar while it places it in Resolve and, when it finishes, the strip shows how it turned out.",
+  "pt": "«Pronto» mostra uma barra enquanto coloca no Resolve e, ao terminar, a faixa mostra como ficou.",
+  "fr": "« Terminé » affiche une barre pendant le placement dans Resolve et, à la fin, la bande montre le résultat.",
+  "de": "„Fertig“ zeigt einen Balken, während es in Resolve gesetzt wird, und danach zeigt der Streifen das Ergebnis.",
+  "it": "«Fatto» mostra una barra mentre lo mette in Resolve e, alla fine, la striscia mostra com’è rimasto."
+ },
+ "La máscara de la persona es más fina (pelo, orejas, huecos entre brazos y piernas) y se guarda: la segunda vez sale al momento.": {
+  "en": "The person mask is finer (hair, ears, gaps between arms and legs) and it is saved: the second time it is instant.",
+  "pt": "A máscara da pessoa é mais fina (cabelo, orelhas, espaços entre braços e pernas) e fica salva: na segunda vez sai na hora.",
+  "fr": "Le masque de la personne est plus fin (cheveux, oreilles, espaces entre bras et jambes) et il est conservé : la deuxième fois, il est immédiat.",
+  "de": "Die Personenmaske ist feiner (Haare, Ohren, Lücken zwischen Armen und Beinen) und wird gespeichert: Beim zweiten Mal ist sie sofort da.",
+  "it": "La maschera della persona è più fine (capelli, orecchie, spazi tra braccia e gambe) e resta salvata: la seconda volta è immediata."
+ },
+ "En {t} GO no lo pone ({m}): toca una sugerencia o lleva la marca a otro caption.": {
+  "en": "At {t} GO won’t place it ({m}): tap a suggestion or move the mark to another caption.",
+  "pt": "Em {t} o GO não coloca ({m}): toque numa sugestão ou leve a marca para outra legenda.",
+  "fr": "À {t}, GO ne le place pas ({m}) : touchez une suggestion ou déplacez le repère vers un autre sous-titre.",
+  "de": "Bei {t} setzt GO es nicht ({m}): Tippe auf einen Vorschlag oder zieh die Marke auf eine andere Caption.",
+  "it": "A {t} GO non lo mette ({m}): tocca un suggerimento o sposta il segno su un’altra didascalia."
+ },
+ "Las sugerencias de «detrás de ti» se comprueban con la misma regla que GO en los Temas 1 a 6: lo que te sugiere es lo que se pone.": {
+  "en": "“Behind you” suggestions are checked with the same rule as GO in Themes 1 to 6: what it suggests is what gets placed.",
+  "pt": "As sugestões de «atrás de você» são verificadas com a mesma regra do GO nos Temas 1 a 6: o que ele sugere é o que é colocado.",
+  "fr": "Les suggestions « derrière vous » sont vérifiées avec la même règle que GO dans les Thèmes 1 à 6 : ce qui est suggéré est ce qui est placé.",
+  "de": "Die Vorschläge für „hinter dir“ werden in den Themen 1 bis 6 mit derselben Regel wie GO geprüft: Was vorgeschlagen wird, wird auch gesetzt.",
+  "it": "I suggerimenti di «dietro di te» vengono verificati con la stessa regola di GO nei Temi da 1 a 6: ciò che suggerisce è ciò che viene messo."
+ },
+ "Arreglado: un video con el último fotograma dañado (muchos descargados) ya no deja el Tema 1 sin su placa.": {
+  "en": "Fixed: a video with a damaged last frame (many downloaded ones) no longer leaves Theme 1 without its plate.",
+  "pt": "Corrigido: um vídeo com o último quadro danificado (muitos baixados) já não deixa o Tema 1 sem sua placa.",
+  "fr": "Corrigé : une vidéo dont la dernière image est endommagée (beaucoup de vidéos téléchargées) ne laisse plus le Thème 1 sans sa plaque.",
+  "de": "Behoben: Ein Video mit beschädigtem letztem Bild (viele heruntergeladene) lässt Thema 1 nicht mehr ohne seine Platte.",
+  "it": "Risolto: un video con l’ultimo fotogramma danneggiato (molti scaricati) non lascia più il Tema 1 senza la sua lastra."
+ },
+ "Resolve no responde; espero a que termine…": {
+  "en": "Resolve is not responding; waiting for it to finish…",
+  "pt": "O Resolve não responde; espero que termine…",
+  "fr": "Resolve ne répond pas ; j’attends qu’il termine…",
+  "de": "Resolve antwortet nicht; ich warte, bis es fertig ist…",
+  "it": "Resolve non risponde; aspetto che finisca…"
+ },
+ "DaVinci Resolve se cerró de golpe. Ábrelo con tu proyecto y pulsa «Listo» otra vez: tus marcas siguen aquí.": {
+  "en": "DaVinci Resolve closed suddenly. Open it with your project and press «Done» again: your marks are still here.",
+  "pt": "O DaVinci Resolve fechou de repente. Abra-o com o seu projeto e clique em «Pronto» de novo: suas marcas continuam aqui.",
+  "fr": "DaVinci Resolve s’est fermé d’un coup. Ouvrez-le avec votre projet et appuyez de nouveau sur « Terminé » : vos repères sont toujours là.",
+  "de": "DaVinci Resolve wurde plötzlich geschlossen. Öffne es mit deinem Projekt und drücke erneut «Fertig»: deine Markierungen sind noch da.",
+  "it": "DaVinci Resolve si è chiuso all’improvviso. Aprilo con il tuo progetto e premi di nuovo «Fatto»: i tuoi segni sono ancora qui."
+ },
+ "Resolve dejó de responder. Ciérralo, ábrelo con tu proyecto y pulsa «Listo» otra vez: tus marcas siguen aquí.": {
+  "en": "Resolve stopped responding. Close it, open it with your project and press «Done» again: your marks are still here.",
+  "pt": "O Resolve parou de responder. Feche-o, abra-o com o seu projeto e clique em «Pronto» de novo: suas marcas continuam aqui.",
+  "fr": "Resolve ne répond plus. Fermez-le, rouvrez-le avec votre projet et appuyez de nouveau sur « Terminé » : vos repères sont toujours là.",
+  "de": "Resolve reagiert nicht mehr. Schließe es, öffne es mit deinem Projekt und drücke erneut «Fertig»: deine Markierungen sind noch da.",
+  "it": "Resolve ha smesso di rispondere. Chiudilo, aprilo con il tuo progetto e premi di nuovo «Fatto»: i tuoi segni sono ancora qui."
+ },
+ "DaVinci Resolve se cerró de golpe (se cayó)": {
+  "en": "DaVinci Resolve closed suddenly (it crashed)",
+  "pt": "O DaVinci Resolve fechou de repente (travou)",
+  "fr": "DaVinci Resolve s’est fermé d’un coup (plantage)",
+  "de": "DaVinci Resolve wurde plötzlich geschlossen (abgestürzt)",
+  "it": "DaVinci Resolve si è chiuso all’improvviso (crash)"
+ },
+ "Resolve tuvo un error interno mientras CineCaptions cambiaba el timeline y se cerró solo (deja un volcado en su carpeta de registros).": {
+  "en": "Resolve had an internal error while CineCaptions was changing the timeline and closed by itself (it leaves a dump in its logs folder).",
+  "pt": "O Resolve teve um erro interno enquanto o CineCaptions alterava a timeline e fechou sozinho (deixa um dump na pasta de registros).",
+  "fr": "Resolve a eu une erreur interne pendant que CineCaptions modifiait la timeline et s’est fermé tout seul (il laisse un dump dans son dossier de journaux).",
+  "de": "Resolve hatte einen internen Fehler, während CineCaptions die Timeline änderte, und hat sich selbst geschlossen (es hinterlässt einen Dump in seinem Log-Ordner).",
+  "it": "Resolve ha avuto un errore interno mentre CineCaptions modificava la timeline e si è chiuso da solo (lascia un dump nella sua cartella dei log)."
+ },
+ "Abre DaVinci Resolve con tu proyecto: guarda solo cada pocos minutos, así que lo de antes sigue ahí.": {
+  "en": "Open DaVinci Resolve with your project: it saves by itself every few minutes, so what you had is still there.",
+  "pt": "Abra o DaVinci Resolve com o seu projeto: ele salva sozinho a cada poucos minutos, então o que havia antes continua lá.",
+  "fr": "Ouvrez DaVinci Resolve avec votre projet : il enregistre tout seul toutes les quelques minutes, donc ce que vous aviez est toujours là.",
+  "de": "Öffne DaVinci Resolve mit deinem Projekt: Es speichert alle paar Minuten selbst, dein bisheriger Stand ist also noch da.",
+  "it": "Apri DaVinci Resolve con il tuo progetto: salva da solo ogni pochi minuti, quindi quello che c’era è ancora lì."
+ },
+ "Si fue con «Listo» de Efectos › Posición, tus marcas siguen guardadas: pulsa «Listo» otra vez.": {
+  "en": "If it happened with «Done» in Effects › Position, your marks are still saved: press «Done» again.",
+  "pt": "Se foi com «Pronto» em Efeitos › Posição, suas marcas continuam salvas: clique em «Pronto» de novo.",
+  "fr": "Si c’était avec « Terminé » dans Effets › Position, vos repères sont toujours enregistrés : appuyez de nouveau sur « Terminé ».",
+  "de": "Wenn es bei «Fertig» unter Effekte › Position passiert ist, sind deine Markierungen noch gespeichert: Drücke erneut «Fertig».",
+  "it": "Se è successo con «Fatto» in Effetti › Posizione, i tuoi segni sono ancora salvati: premi di nuovo «Fatto»."
+ },
+ "Mientras CineCaptions trabaja, no reproduzcas ni edites en Resolve; si se repite, avisa a soporte con el informe.": {
+  "en": "While CineCaptions is working, don’t play or edit in Resolve; if it happens again, contact support with the report.",
+  "pt": "Enquanto o CineCaptions trabalha, não reproduza nem edite no Resolve; se acontecer de novo, avise o suporte com o relatório.",
+  "fr": "Pendant que CineCaptions travaille, ne lisez ni ne montez dans Resolve ; si cela se reproduit, contactez le support avec le rapport.",
+  "de": "Während CineCaptions arbeitet, nichts in Resolve abspielen oder bearbeiten; passiert es wieder, melde dich mit dem Bericht beim Support.",
+  "it": "Mentre CineCaptions lavora, non riprodurre né montare in Resolve; se si ripete, avvisa il supporto con il rapporto."
+ },
+ "Tema activo": {
+  "en": "Active theme",
+  "pt": "Tema ativo",
+  "fr": "Thème actif",
+  "de": "Aktives Thema",
+  "it": "Tema attivo"
+ },
+ "Vista previa": {
+  "en": "Preview",
+  "pt": "Pré-visualização",
+  "fr": "Aperçu",
+  "de": "Vorschau",
+  "it": "Anteprima"
+ },
+ "Estado del tracking": {
+  "en": "Tracking status",
+  "pt": "Estado do tracking",
+  "fr": "État du suivi",
+  "de": "Tracking-Status",
+  "it": "Stato del tracking"
+ },
+ "Sugerencia": {
+  "en": "Tip",
+  "pt": "Sugestão",
+  "fr": "Conseil",
+  "de": "Tipp",
+  "it": "Suggerimento"
+ },
+ "Marcas": {
+  "en": "Marks",
+  "pt": "Marcas",
+  "fr": "Repères",
+  "de": "Markierungen",
+  "it": "Segni"
+ },
+ "Sugerencias": {
+  "en": "Suggestions",
+  "pt": "Sugestões",
+  "fr": "Suggestions",
+  "de": "Vorschläge",
+  "it": "Suggerimenti"
+ },
+ "Modo de marcas": {
+  "en": "Mark mode",
+  "pt": "Modo das marcas",
+  "fr": "Mode des repères",
+  "de": "Markierungsmodus",
+  "it": "Modalità dei segni"
+ },
+ "Usa solo las que tú coloques": {
+  "en": "Uses only the ones you place",
+  "pt": "Usa só as que você colocar",
+  "fr": "N’utilise que ceux que vous placez",
+  "de": "Nutzt nur die, die du setzt",
+  "it": "Usa solo quelli che metti tu"
+ },
+ "Combina tus marcas con IA": {
+  "en": "Combines your marks with AI",
+  "pt": "Combina suas marcas com IA",
+  "fr": "Combine vos repères avec l’IA",
+  "de": "Kombiniert deine Markierungen mit KI",
+  "it": "Combina i tuoi segni con l’IA"
+ },
+ "Posición del caption": {
+  "en": "Caption position",
+  "pt": "Posição da legenda",
+  "fr": "Position du sous-titre",
+  "de": "Position der Caption",
+  "it": "Posizione della didascalia"
+ },
+ "Derecha": {
+  "en": "Right",
+  "pt": "Direita",
+  "fr": "Droite",
+  "de": "Rechts",
+  "it": "Destra"
+ },
+ "Izquierda": {
+  "en": "Left",
+  "pt": "Esquerda",
+  "fr": "Gauche",
+  "de": "Links",
+  "it": "Sinistra"
+ },
+ "Intensidad / tamaño": {
+  "en": "Intensity / size",
+  "pt": "Intensidade / tamanho",
+  "fr": "Intensité / taille",
+  "de": "Intensität / Größe",
+  "it": "Intensità / dimensione"
+ },
+ "Horizontal: elige el lado": {
+  "en": "Horizontal: choose the side",
+  "pt": "Horizontal: escolha o lado",
+  "fr": "Horizontal : choisissez le côté",
+  "de": "Horizontal: wähle die Seite",
+  "it": "Orizzontale: scegli il lato"
+ },
+ "Vertical: siempre arriba": {
+  "en": "Vertical: always on top",
+  "pt": "Vertical: sempre em cima",
+  "fr": "Vertical : toujours en haut",
+  "de": "Vertikal: immer oben",
+  "it": "Verticale: sempre in alto"
+ },
+ "Buscando a la persona en tu video… {p} %": {
+  "en": "Looking for the person in your video… {p} %",
+  "pt": "Procurando a pessoa no seu vídeo… {p} %",
+  "fr": "Recherche de la personne dans votre vidéo… {p} %",
+  "de": "Suche die Person in deinem Video… {p} %",
+  "it": "Cerco la persona nel tuo video… {p} %"
+ },
+ "Aún no se ha mirado este video.": {
+  "en": "This video hasn’t been analyzed yet.",
+  "pt": "Este vídeo ainda não foi analisado.",
+  "fr": "Cette vidéo n’a pas encore été analysée.",
+  "de": "Dieses Video wurde noch nicht analysiert.",
+  "it": "Questo video non è ancora stato analizzato."
+ },
+ "Casi no se ve a nadie": {
+  "en": "Hardly anyone visible",
+  "pt": "Quase não se vê ninguém",
+  "fr": "Presque personne de visible",
+  "de": "Kaum jemand zu sehen",
+  "it": "Quasi nessuno visibile"
+ },
+ "Funcionando bien": {
+  "en": "Working well",
+  "pt": "Funcionando bem",
+  "fr": "Fonctionne bien",
+  "de": "Funktioniert gut",
+  "it": "Funziona bene"
+ },
+ "Regular": {
+  "en": "Fair",
+  "pt": "Regular",
+  "fr": "Moyen",
+  "de": "Mittel",
+  "it": "Discreto"
+ },
+ "La persona se detecta en el {p} % de los fotogramas del video.": {
+  "en": "The person is detected in {p} % of the video frames.",
+  "pt": "A pessoa é detectada em {p} % dos quadros do vídeo.",
+  "fr": "La personne est détectée sur {p} % des images de la vidéo.",
+  "de": "Die Person wird in {p} % der Videobilder erkannt.",
+  "it": "La persona viene rilevata nel {p} % dei fotogrammi del video."
+ },
+ "Coloca las marcas en los momentos clave donde quieras que aparezca un caption detrás de ti. Puedes ajustar la posición y la intensidad.": {
+  "en": "Place marks at the key moments where you want a caption to appear behind you. You can adjust the position and the intensity.",
+  "pt": "Coloque as marcas nos momentos-chave em que quer que uma legenda apareça atrás de você. Você pode ajustar a posição e a intensidade.",
+  "fr": "Placez des repères aux moments clés où vous voulez qu’un sous-titre apparaisse derrière vous. Vous pouvez régler la position et l’intensité.",
+  "de": "Setze Markierungen an den Schlüsselmomenten, an denen eine Caption hinter dir erscheinen soll. Position und Intensität kannst du anpassen.",
+  "it": "Metti i segni nei momenti chiave in cui vuoi che una didascalia appaia dietro di te. Puoi regolare la posizione e l’intensità."
+ },
+ "En tu timeline": {
+  "en": "In your timeline",
+  "pt": "Na sua timeline",
+  "fr": "Dans votre timeline",
+  "de": "In deiner Timeline",
+  "it": "Nella tua timeline"
+ },
+ "No se puede aquí": {
+  "en": "Not possible here",
+  "pt": "Não dá aqui",
+  "fr": "Impossible ici",
+  "de": "Hier nicht möglich",
+  "it": "Non si può qui"
+ },
+ "No se puede: {m}": {
+  "en": "Not possible: {m}",
+  "pt": "Não dá: {m}",
+  "fr": "Impossible : {m}",
+  "de": "Nicht möglich: {m}",
+  "it": "Non si può: {m}"
+ },
+ "Guardada: GO la aplica": {
+  "en": "Saved: GO applies it",
+  "pt": "Salva: o GO a aplica",
+  "fr": "Enregistré : GO l’applique",
+  "de": "Gespeichert: GO wendet sie an",
+  "it": "Salvato: GO lo applica"
+ },
+ "Nueva": {
+  "en": "New",
+  "pt": "Nova",
+  "fr": "Nouveau",
+  "de": "Neu",
+  "it": "Nuovo"
+ },
+ "{n} de {m} marcas": {
+  "en": "{n} of {m} marks",
+  "pt": "{n} de {m} marcas",
+  "fr": "{n} sur {m} repères",
+  "de": "{n} von {m} Markierungen",
+  "it": "{n} di {m} segni"
+ },
+ "Aún no hay marcas: haz clic en la tira de abajo o toca una sugerencia.": {
+  "en": "No marks yet: click the strip below or tap a suggestion.",
+  "pt": "Ainda não há marcas: clique na faixa abaixo ou toque numa sugestão.",
+  "fr": "Pas encore de repères : cliquez sur la bande ci-dessous ou touchez une suggestion.",
+  "de": "Noch keine Markierungen: Klicke auf den Streifen unten oder tippe auf einen Vorschlag.",
+  "it": "Ancora nessun segno: clicca sulla striscia qui sotto o tocca un suggerimento."
+ },
+ "Ver": {
+  "en": "View",
+  "pt": "Ver",
+  "fr": "Voir",
+  "de": "Ansehen",
+  "it": "Vedi"
+ },
+ "Se quita de tu timeline": {
+  "en": "Removed from your timeline",
+  "pt": "Sai da sua timeline",
+  "fr": "Retiré de votre timeline",
+  "de": "Wird aus deiner Timeline entfernt",
+  "it": "Viene tolto dalla tua timeline"
+ },
+ "Recuperar": {
+  "en": "Restore",
+  "pt": "Recuperar",
+  "fr": "Récupérer",
+  "de": "Wiederherstellen",
+  "it": "Recupera"
+ },
+ "Donde GO lo pone detrás de ti y queda bien. Un toque y queda marcada.": {
+  "en": "Where GO puts it behind you and it looks good. One tap and it’s marked.",
+  "pt": "Onde o GO a coloca atrás de você e fica bem. Um toque e fica marcada.",
+  "fr": "Là où GO le place derrière vous et où ça rend bien. Une touche et c’est marqué.",
+  "de": "Wo GO sie hinter dich setzt und es gut aussieht. Ein Tipp, und sie ist markiert.",
+  "it": "Dove GO la mette dietro di te e sta bene. Un tocco ed è segnata."
+ },
+ "Ahora no hay sugerencias: ya están marcadas, o tu video aún se está analizando.": {
+  "en": "No suggestions right now: they’re already marked, or your video is still being analyzed.",
+  "pt": "Agora não há sugestões: já estão marcadas, ou seu vídeo ainda está sendo analisado.",
+  "fr": "Aucune suggestion pour l’instant : elles sont déjà marquées, ou votre vidéo est encore en cours d’analyse.",
+  "de": "Gerade keine Vorschläge: Sie sind schon markiert, oder dein Video wird noch analysiert.",
+  "it": "Ora non ci sono suggerimenti: sono già segnati, oppure il tuo video è ancora in analisi."
+ },
+ "Elegir video": {
+  "en": "Choose video",
+  "pt": "Escolher vídeo",
+  "fr": "Choisir la vidéo",
+  "de": "Video wählen",
+  "it": "Scegli video"
+ },
+ "Sin video": {
+  "en": "No video",
+  "pt": "Sem vídeo",
+  "fr": "Pas de vidéo",
+  "de": "Kein Video",
+  "it": "Nessun video"
+ },
+ "Video elegido a mano: GO lo aplica": {
+  "en": "Video chosen by hand: GO applies it",
+  "pt": "Vídeo escolhido manualmente: o GO aplica",
+  "fr": "Vidéo choisie à la main : GO l’applique",
+  "de": "Video von Hand gewählt: GO wendet es an",
+  "it": "Video scelto a mano: GO lo applica"
+ },
+ "Proyecto listo": {
+  "en": "Project ready",
+  "pt": "Projeto pronto",
+  "fr": "Projet prêt",
+  "de": "Projekt bereit",
+  "it": "Progetto pronto"
+ },
+ "Pulsa GO una vez con este video": {
+  "en": "Press GO once with this video",
+  "pt": "Aperte GO uma vez com este vídeo",
+  "fr": "Appuyez une fois sur GO avec cette vidéo",
+  "de": "Drücke einmal GO mit diesem Video",
+  "it": "Premi GO una volta con questo video"
+ },
+ "Timeline": {
+  "en": "Timeline",
+  "pt": "Timeline",
+  "fr": "Timeline",
+  "de": "Timeline",
+  "it": "Timeline"
+ },
+ "Arrastra para mover": {
+  "en": "Drag to move",
+  "pt": "Arraste para mover",
+  "fr": "Glissez pour déplacer",
+  "de": "Ziehen zum Verschieben",
+  "it": "Trascina per spostare"
+ },
+ "Clic para añadir marcas": {
+  "en": "Click to add marks",
+  "pt": "Clique para adicionar marcas",
+  "fr": "Cliquez pour ajouter des repères",
+  "de": "Klicken zum Hinzufügen",
+  "it": "Clic per aggiungere segni"
+ },
+ "Doble clic o clic derecho para quitar": {
+  "en": "Double-click or right-click to remove",
+  "pt": "Clique duplo ou botão direito para tirar",
+  "fr": "Double-clic ou clic droit pour retirer",
+  "de": "Doppelklick oder Rechtsklick zum Entfernen",
+  "it": "Doppio clic o clic destro per togliere"
+ },
+ "← → para afinar": {
+  "en": "← → to fine-tune",
+  "pt": "← → para ajustar",
+  "fr": "← → pour affiner",
+  "de": "← → zum Feinjustieren",
+  "it": "← → per rifinire"
+ },
+ "Aplicando en Resolve…": {
+  "en": "Applying in Resolve…",
+  "pt": "Aplicando no Resolve…",
+  "fr": "Application dans Resolve…",
+  "de": "Wird in Resolve angewendet…",
+  "it": "Applicazione in Resolve…"
+ },
+ "No se pudo: mira el aviso": {
+  "en": "Couldn’t do it: see the notice",
+  "pt": "Não deu: veja o aviso",
+  "fr": "Échec : voir l’avis",
+  "de": "Hat nicht geklappt: siehe Hinweis",
+  "it": "Non è riuscito: guarda l’avviso"
+ },
+ "a ese lado de la persona no cabe el texto": {
+  "en": "the text doesn’t fit on that side of the person",
+  "pt": "o texto não cabe desse lado da pessoa",
+  "fr": "le texte ne tient pas de ce côté de la personne",
+  "de": "auf dieser Seite der Person passt der Text nicht",
+  "it": "da quel lato della persona il testo non ci sta"
+ },
+ "Analizando…": {
+  "en": "Analyzing…",
+  "pt": "Analisando…",
+  "fr": "Analyse…",
+  "de": "Wird analysiert…",
+  "it": "Analisi…"
+ },
+ "Arreglado: CineCaptions ya no se congela cuando DaVinci Resolve está ocupado, y «Listo» de «detrás de ti» ya no hace caer a Resolve.": {
+  "en": "Fixed: CineCaptions no longer freezes when DaVinci Resolve is busy, and «Done» in «behind you» no longer crashes Resolve.",
+  "pt": "Corrigido: o CineCaptions não trava mais quando o DaVinci Resolve está ocupado, e «Pronto» em «atrás de você» não derruba mais o Resolve.",
+  "fr": "Corrigé : CineCaptions ne se fige plus quand DaVinci Resolve est occupé, et « Terminé » de « derrière toi » ne fait plus planter Resolve.",
+  "de": "Behoben: CineCaptions friert nicht mehr ein, wenn DaVinci Resolve beschäftigt ist, und «Fertig» bei «hinter dir» bringt Resolve nicht mehr zum Absturz.",
+  "it": "Risolto: CineCaptions non si blocca più quando DaVinci Resolve è occupato, e «Fatto» di «dietro di te» non fa più chiudere Resolve."
+ },
+ "Si Resolve se cierra de golpe, CineCaptions lo avisa al momento y te dice qué hacer (tus marcas siguen guardadas).": {
+  "en": "If Resolve closes suddenly, CineCaptions tells you right away and what to do (your marks stay saved).",
+  "pt": "Se o Resolve fechar de repente, o CineCaptions avisa na hora e diz o que fazer (suas marcas continuam salvas).",
+  "fr": "Si Resolve se ferme d’un coup, CineCaptions le signale aussitôt et vous dit quoi faire (vos repères restent enregistrés).",
+  "de": "Wenn Resolve plötzlich schließt, meldet CineCaptions es sofort und sagt dir, was zu tun ist (deine Markierungen bleiben gespeichert).",
+  "it": "Se Resolve si chiude all’improvviso, CineCaptions lo segnala subito e ti dice cosa fare (i tuoi segni restano salvati)."
+ },
+ "Efectos › «Captions detrás de ti» › Posición, rediseñada: visor que reproduce tu video, pestañas Ajustes / Marcas / Sugerencias y la tira abajo.": {
+  "en": "Effects › «Captions behind you» › Position, redesigned: a viewer that plays your video, Settings / Marks / Suggestions tabs and the strip below.",
+  "pt": "Efeitos › «Legendas atrás de você» › Posição, redesenhada: visor que reproduz seu vídeo, abas Ajustes / Marcas / Sugestões e a faixa embaixo.",
+  "fr": "Effets › « Sous-titres derrière toi » › Position, repensée : un lecteur qui lit votre vidéo, onglets Réglages / Repères / Suggestions et la bande en bas.",
+  "de": "Effekte › «Captions hinter dir» › Position, neu gestaltet: ein Player, der dein Video abspielt, Tabs Einstellungen / Markierungen / Vorschläge und der Streifen unten.",
+  "it": "Effetti › «Didascalie dietro di te» › Posizione, ridisegnata: un visore che riproduce il tuo video, schede Impostazioni / Segni / Suggerimenti e la striscia sotto."
+ },
+ "Lo que la tira marca en verde es lo que «Listo» pone de verdad. En videos horizontales eliges el lado del caption: arriba, izquierda o derecha.": {
+  "en": "What the strip shows in green is what «Done» really places. In horizontal videos you choose the caption side: top, left or right.",
+  "pt": "O que a faixa marca em verde é o que «Pronto» coloca de verdade. Em vídeos horizontais você escolhe o lado da legenda: em cima, à esquerda ou à direita.",
+  "fr": "Ce que la bande montre en vert est ce que « Terminé » place vraiment. Dans les vidéos horizontales, vous choisissez le côté du sous-titre : haut, gauche ou droite.",
+  "de": "Was der Streifen grün zeigt, setzt «Fertig» wirklich. Bei horizontalen Videos wählst du die Seite der Caption: oben, links oder rechts.",
+  "it": "Ciò che la striscia segna in verde è ciò che «Fatto» mette davvero. Nei video orizzontali scegli il lato della didascalia: in alto, a sinistra o a destra."
+ },
+ "Página Proyecto con aspecto nuevo: la franja del audio, el nombre del tema y los botones «En uso» y «Edición PRO activada», con animación.": {
+  "en": "New look for the Project page: the audio strip, the theme name and the «In use» and «PRO editing on» buttons, animated.",
+  "pt": "Página Projeto com visual novo: a faixa do áudio, o nome do tema e os botões «Em uso» e «Edição PRO ativada», com animação.",
+  "fr": "Nouveau look pour la page Projet : la bande audio, le nom du thème et les boutons « Utilisé » et « Édition PRO activée », animés.",
+  "de": "Neues Aussehen der Projektseite: der Audiostreifen, der Themenname und die Schaltflächen «In Verwendung» und «PRO-Bearbeitung aktiv», animiert.",
+  "it": "Nuovo aspetto della pagina Progetto: la striscia dell’audio, il nome del tema e i pulsanti «In uso» e «Edizione PRO attiva», animati."
  }
 }

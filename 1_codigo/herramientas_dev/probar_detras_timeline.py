@@ -257,6 +257,8 @@ def main():
         print('     (sin la copia de PRUEBA ESPAÑOL o sin sus marcas: no pruebo tu caso real)')
     POS.ARCHIVO = tmp / 'posiciones_pro.json'
     POS.CACHE = tmp / 'cache_posiciones'
+    import edicion_pro_persona as PE
+    PE.MASCARAS = tmp / 'mascaras_persona'                            # (v5.31: las máscaras guardadas, aisladas)
     AC.CARPETA = tmp / 'audio_compatible'
     copia = AC.CARPETA / 'abc123' / video.name
     copia.parent.mkdir(parents=True)
@@ -338,8 +340,10 @@ def main():
     CP.RUTA_JSON = str(EP.PLAN_JSON)
     corridas = []
 
-    def ejecutar_py(script, timeout=600):
+    def ejecutar_py(script, timeout=600, on_progreso=None):
         corridas.append(json.loads(EP.PLAN_JSON.read_text(encoding='utf-8')))
+        if on_progreso:                                                  # (v5.32: la barra de «Listo» sigue viva mientras Resolve trabaja)
+            on_progreso(3.0)
         import contextlib
         import io
         salida = io.StringIO()
@@ -350,8 +354,15 @@ def main():
     resolve_mcp.ejecutar_py = ejecutar_py
     EP._info_timeline = lambda: {k: v for k, v in info.items() if k != 'base'}
     t0 = time.time()
-    ok, mensaje, n = EP.aplicar_detras(str(video), al_estado=lambda t: None)
-    print(f'     aplicar_detras: {time.time() - t0:.0f} s · {mensaje.strip()[-160:]}')
+    avances = []
+    ok, mensaje, n = EP.aplicar_detras(str(video), al_estado=lambda t: None, al_progreso=lambda f, t='': avances.append((f, t)))
+    t_primero = time.time() - t0
+    print(f'     aplicar_detras: {t_primero:.0f} s · {mensaje.strip()[-160:]}')
+    fs = [f for f, _t in avances]
+    comprobar(fs and all(b >= a - 1e-9 for a, b in zip(fs, fs[1:])) and abs(fs[-1] - 1.0) < 1e-9 and any('Recortando' in t for _f, t in avances),
+              f'la barra avanza sin volver atrás hasta el 100 % ({len(fs)} avisos, con «Recortando a la persona…»)')
+    guardadas = sorted(PE.MASCARAS.glob('*.mov')) if PE.MASCARAS.is_dir() else []
+    comprobar(len(guardadas) == n, f'{len(guardadas)} máscaras guardadas para siempre en mascaras_persona (una por tramo)')
     comprobar(ok and n == len(sug), f'«Listo» pone {n} de {len(sug)} tramos (uno por marca)')
     plan_enviado = corridas[-1] if corridas else {}
     comprobar(plan_enviado.get('solo_encima') is True, 'colocar_pro recibe el modo «solo_encima» (solo «detrás de ti»)')
@@ -378,7 +389,10 @@ def main():
     comprobar(subidos and all(it.props['Tilt'] > 0 for it in subidos), f'{len(subidos)} captions del Tema 1 subidos (Tilt) con su marca para re-aplicar')
     comprobar(len(tl.pistas[0][1]) == 1 and tl.pistas[2][1][0].nombre == 'gráfico', 'V1 y el gráfico de la PRO, intactos')
     tilts = [it.props['Tilt'] for it in subs]
+    t0 = time.time()
     ok2, _m2, n2 = EP.aplicar_detras(str(video), al_estado=lambda t: None)
+    t_segundo = time.time() - t0
+    comprobar(t_segundo < max(3.0, t_primero * 0.25), f'la segunda vez usa las máscaras guardadas: {t_segundo:.1f} s (antes {t_primero:.0f} s)')
     comprobar(ok2 and [it.props['Tilt'] for it in subs] == tilts and len(tl.pistas[-1][1]) == n2,
               'darle a «Listo» otra vez no apila (los captions vuelven a su sitio y suben lo mismo; PRO-ENCIMA se rehace)')
     comprobar(json.loads(EP.PLAN_JSON.read_text(encoding='utf-8')).get('solo_encima') is False, 'después, el plan guardado vuelve a ser el completo')
@@ -427,11 +441,41 @@ def main():
     comprobar(len(corridas) == n_antes and any('ya está así' in x for _n, x in REG), '«Listo» sin cambios: no toca Resolve («ya está así en tu timeline»)')
     sec.mostrar_posiciones(True)
     esperar(lambda: lin.dur > 0 and lin.zonas is not None and lin.captions_listos and lin.marcas == puestos)
+    est = lin.estado_marcas()
+    comprobar(est == (puestos, [], []), f'todo lo de la tira sale «en tu timeline» (relleno verde): {est}')
+    quitada = lin.marcas[0]
     lin._quitar(0)
+    est = lin.estado_marcas()
+    comprobar(est[2] == [quitada] and not est[1], f'quitar una: sale en rojo «se quita» ({est[2]})')
+    from PySide6.QtCore import QPointF
+    pos_q = QPointF(lin._x(quitada), lin._tira().top() - 14)
+    comprobar(lin._quitada_en(pos_q) == quitada, 'un clic en la ✕ roja la recupera tal cual')
+    sec._pos.grab().save(str(tmp / 'tira_quitada.png'))
     sec._pos._listo()
-    esperar(lambda: not getattr(sec, '_aplicando', False) and len(corridas) > n_antes, 300)
+    comprobar(sec._en_pos and sec._pos.isVisible() and lin.bloqueada and sec._pos._fila_prog.isVisible(),
+              '«Listo» con cambios: la vista sigue abierta, la tira bloqueada y la barra a la vista')
+    marcas_antes = list(lin.marcas)
+    from PySide6.QtGui import QMouseEvent
+    from PySide6.QtCore import QEvent, Qt as _Qt
+    ev = QMouseEvent(QEvent.Type.MouseButtonPress, QPointF(lin._tira().center()), QPointF(lin._tira().center()),
+                     _Qt.MouseButton.LeftButton, _Qt.MouseButton.LeftButton, _Qt.KeyboardModifier.NoModifier)
+    lin.mousePressEvent(ev)
+    comprobar(lin.marcas == marcas_antes, 'mientras aplica, un clic en la tira no cambia nada')
+    vistos = []
+    while getattr(sec, '_aplicando', False):
+        app.processEvents()
+        vistos.append(sec._pos._barra.get())
+        if len(vistos) == 40:
+            sec._pos.grab().save(str(tmp / 'tira_aplicando.png'))
+        time.sleep(0.02)
+    app.processEvents()
+    comprobar(max(vistos or [0]) > 0.0 and len(corridas) > n_antes, f'la barra de la vista avanza (llegó al {100 * max(vistos or [0]):.0f} %)')
     comprobar(len(tl.pistas[-1][1]) == len(puestos) - 1 and CP._id(tl.pistas[-1][0]) == 'PRO-ENCIMA',
               f'quitar una y «Listo» → en el timeline queda una menos ({len(tl.pistas[-1][1])})')
+    esperar(lambda: len(lin.marcas) == len(puestos) - 1 and lin._aplicados == lin.marcas, 30)
+    comprobar(not lin.bloqueada and lin._aplicados == lin.marcas and 'Puesto en tu timeline' in lin.nota and 'ya está en tu timeline' in sec._pos._lbl_prog.text(),
+              f'al acabar, la tira enseña lo de ahora en verde ({lin.marcas}) y lo dice: «{lin.nota[:50]}…»')
+    sec._pos.grab().save(str(tmp / 'tira_aplicada.png'))
     sec.mostrar_posiciones(True)
     esperar(lambda: lin.dur > 0 and lin.zonas is not None and lin.captions_listos and len(lin.marcas) == len(puestos) - 1)
     comprobar(len(lin.marcas) == len(puestos) - 1, f'al volver a abrir, la tira enseña lo de ahora ({lin.marcas})')
@@ -442,6 +486,8 @@ def main():
     comprobar(not any(CP._id(p[0]) == 'PRO-ENCIMA' for p in tl.pistas) and all(abs(it.props['Tilt']) < 1e-6 for it in subs),
               '«Quitar todas» + «Listo» → fuera del timeline: sin PRO-ENCIMA y los captions en su sitio')
     comprobar(any('quitado de tu timeline' in x for _n, x in REG), 'y el Registro lo dice')
+    esperar(lambda: lin._aplicados == [], 30)
+    comprobar(lin._aplicados == [] and 'Quitado' in lin.nota, f'y la tira: «{lin.nota}»')
     # otro timeline abierto: no toca nada
     EP._info_timeline = lambda: dict({k: v for k, v in info.items() if k != 'base'}, v1=[dict(info['v1'][0], ruta='otro.mp4')])
     antes = [len(p[1]) for p in tl.pistas]

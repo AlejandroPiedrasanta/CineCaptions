@@ -75,13 +75,14 @@ def _sesion():
         return _SESION['s'], _SESION['entrada']
 
 
-def mate(rgb: np.ndarray) -> np.ndarray:
-    """La silueta (0..1) de las personas de una imagen RGB uint8, a ALTO_MODELO px de alto."""
+def mate(rgb: np.ndarray, alto=None) -> np.ndarray:
+    """La silueta (0..1) de las personas de una imagen RGB uint8, a `alto` (ALTO_MODELO) px de alto."""
     from PIL import Image
     s, nombre = _sesion()
     h, w = rgb.shape[:2]
-    rw = max(32, int(round(w * ALTO_MODELO / h / 32.0)) * 32)
-    x = np.asarray(Image.fromarray(rgb).resize((rw, ALTO_MODELO), Image.BILINEAR), dtype=np.float32)
+    alto = max(32, int(round(int(alto or ALTO_MODELO) / 32.0)) * 32)  # (MODNet: alto y ancho múltiplos de 32)
+    rw = max(32, int(round(w * alto / h / 32.0)) * 32)
+    x = np.asarray(Image.fromarray(rgb).resize((rw, alto), Image.BILINEAR), dtype=np.float32)
     x = ((x / 255.0 - 0.5) / 0.5).transpose(2, 0, 1)[None]
     return np.clip(s.run(None, {nombre: x})[0][0, 0], 0.0, 1.0)
 
@@ -96,7 +97,8 @@ def fotograma(video, t):
             tb = float(vs.time_base)
             c.seek(max(0, int((t - 0.5) / tb)), stream=vs, backward=True, any_frame=False)
             ultimo = None
-            for f in c.decode(vs):
+            import rotacion_video as RV
+            for f in RV.fotogramas(c, vs):                             # (v5.31: un paquete dañado no corta la lectura)
                 ts = float(f.pts * tb) if f.pts is not None else 0.0
                 ultimo = f
                 if ts >= t - 0.5 / float(vs.average_rate or 30):
@@ -131,7 +133,8 @@ def _inundar(semilla, dentro, maximo=4000):
 
 
 def rellenar_huecos(m):
-    """Cierra los agujeros de la silueta (una cara que el modelo dejó medio transparente)."""
+    """Cierra los agujeros de la silueta (una cara que el modelo dejó medio transparente). (v5.31: el relleno de Pillow va en Python píxel a
+    píxel y era 5 veces más lento; a 512 px esto tarda ~30 ms: por eso matte_persona rellena la FORMA, a 512, y no la pasada fina.)"""
     fuera = ~m
     borde = np.zeros_like(m)
     borde[0, :] = borde[-1, :] = True
@@ -265,9 +268,144 @@ def puntos_fusion(det):
     return [(x, round(1.0 - y, 5)) for p in (det or {}).get('personas') or [] for (x, y) in p['puntos']]
 
 
-def recorte_prores(video, t0, t1, destino, al_progreso=None, lado_max=1920):
+ALTO_MATTE = 1024                        # v5.31: el BORDE del recorte con el modelo a 1024 px (a 512 el pelo y las orejas llevaban halo de fondo)
+ALTO_FORMA = 512                         # …y la FORMA de la persona a 512 (a 1024 el modelo a veces deja huecos dentro del cuerpo)
+VERSION_MATTE = 3
+MASCARAS = Path.home() / 'DaVinciSubtitles' / 'mascaras_persona'   # v5.31: los mattes de «detrás de ti», FUERA de la caché (Resolve los usa)
+DIAS_MASCARAS = 120
+
+
+def _limpiar_islas(a, binaria):
+    """Fuera las manchas sueltas (un trozo de fondo que el modelo marcó): solo quedan las siluetas de al menos el 15 % de la mayor."""
+    h, w = binaria.shape
+    k = max(1, h // 128)
+    g = binaria[::k, ::k]
+    trozos = componentes(g, minimo=max(4, int(0.002 * g.size)))
+    if len(trozos) <= 1:
+        return a if trozos else a * 0.0
+    mayor = int(trozos[0].sum())
+    vale = np.zeros_like(g)
+    for c in trozos:
+        if c.sum() >= 0.15 * mayor:
+            vale |= c
+    vale = _dilatar(_dilatar(vale))                                    # (un poco de margen: el borde fino de esas siluetas también vale)
+    grande = np.repeat(np.repeat(vale, k, axis=0), k, axis=1)[:h, :w]
+    return a * grande
+
+
+def _rellenar_huecos_persona(a):
+    """Los agujeros DENTRO de la silueta que de verdad son persona: los que el modelo ya veía a medias (alfa medio ≥ 0,25: una cara medio
+    transparente) o una mota (≤ 0,2 % de la persona). NO el fondo que queda encerrado entre las piernas o entre un brazo y el cuerpo
+    (PRUEBAS (1): 6,8 % de la persona con alfa 0,03; antes se rellenaba y se veía la cocina entre las piernas)."""
+    m = a > 0.5
+    huecos = rellenar_huecos(m) & ~m
+    if not huecos.any():
+        return a
+    persona = max(1, int(m.sum()))
+    tapar = np.zeros_like(m)
+    for c in componentes(huecos, minimo=1):
+        if float(a[c].mean()) >= 0.25 or c.sum() <= 0.002 * persona:
+            tapar |= c
+    return np.maximum(a, tapar.astype(np.float32) * 0.98)
+
+
+def _caja_persona(forma, h, w, caja=None):
+    """La zona de la pasada fina (en la rejilla fina): la persona con margen; con `caja` (la del fotograma anterior), la MISMA mientras la
+    persona quepa (el modelo no se reajusta a un tamaño nuevo en cada fotograma); si se sale, una más grande que abarque las dos."""
+    ys, xs = np.nonzero(forma > 0.05)
+    if not len(ys):
+        return caja
+    my, mx = int(0.1 * h), int(0.1 * w)
+    nueva = (max(0, ys.min() - my), min(h, ys.max() + my + 1), max(0, xs.min() - mx), min(w, xs.max() + mx + 1))
+    if caja is not None:
+        y0, y1, x0, x1 = caja
+        if y0 <= ys.min() and ys.max() < y1 and x0 <= xs.min() and xs.max() < x1:
+            return caja
+        nueva = (min(y0, nueva[0]), max(y1, nueva[1]), min(x0, nueva[2]), max(x1, nueva[3]))
+    return nueva
+
+
+def matte_persona(rgb, previo=None, estado=None):
+    """v5.31 (el usuario: «la máscara perfecta para humanos, sin bugs ni fallas»): la silueta de las personas para el recorte, en DOS pasadas
+    del modelo: la FORMA a ALTO_FORMA px (robusta: ni huecos en el cuerpo ni manchas de fondo) y el BORDE a ALTO_MATTE px (pelo, orejas,
+    dedos), que solo cuenta en una franja alrededor del contorno de la forma; sin manchas sueltas (_limpiar_islas), sin agujeros dentro (la cara,
+    una mano delante) y estable de un fotograma a otro sin dejar estela (se suaviza solo donde casi no cambió). Devuelve el alfa (0..1) a la
+    resolución de la pasada fina."""
+    from PIL import Image
+    forma = mate(rgb, ALTO_FORMA)
+    forma = _limpiar_islas(forma, forma > 0.5)
+    forma = _rellenar_huecos_persona(forma)                            # (los huecos, en la forma: ~30 ms a 512)
+    H0, W0 = rgb.shape[:2]
+    h = ALTO_MATTE                                                     # (la rejilla fina: el cuadro entero a ALTO_MATTE px de alto)
+    w = max(1, int(round(W0 * h / float(H0))))
+    forma = np.asarray(Image.fromarray(forma.astype(np.float32)).resize((w, h), Image.BILINEAR), dtype=np.float32)
+    fino = np.zeros((h, w), np.float32)
+    estado = estado if estado is not None else {}
+    caja = _caja_persona(forma, h, w, estado.get('caja'))
+    estado['caja'] = caja
+    if caja is not None:
+        # la pasada fina SOLO sobre la persona (con margen), a ALTO_MATTE px: el modelo es de retratos y, con la persona más grande, ve más
+        # detalle (también una persona pequeña en el cuadro) y tarda menos que el cuadro entero
+        y0, y1, x0, x1 = caja
+        sy, sx = H0 / float(h), W0 / float(w)
+        trozo = rgb[int(y0 * sy):int(np.ceil(y1 * sy)), int(x0 * sx):int(np.ceil(x1 * sx))]
+        if trozo.size:
+            ft = mate(trozo, ALTO_MATTE)
+            fino[y0:y1, x0:x1] = np.asarray(Image.fromarray(ft.astype(np.float32)).resize((x1 - x0, y1 - y0), Image.BILINEAR), dtype=np.float32)
+    franja = (forma > 0.02) & (forma < 0.98)
+    for _ in range(max(2, h // 220)):                                  # (≈4-5 px a 1024 por lado: el pelo suelto; con numpy, unos ms)
+        franja = _dilatar(franja)
+    a = np.where(franja, fino, forma)
+    if previo is not None and previo.shape == a.shape:
+        quieto = np.abs(a - previo) < 0.25
+        a = np.where(quieto, previo * 0.35 + a * 0.65, a)
+    return a
+
+
+def _podar_mascaras():
+    """Las máscaras de más de DIAS_MASCARAS días se borran (un proyecto de Resolve de hace meses ya no las pide)."""
+    try:
+        import time as _t
+        limite = _t.time() - DIAS_MASCARAS * 86400
+        for f in MASCARAS.glob('*.mov'):
+            if f.stat().st_mtime < limite:
+                f.unlink(missing_ok=True)
+    except Exception:
+        pass
+
+
+def mascara_guardada(video, t0, t1, corte=1.0, al_progreso=None):
+    """v5.31 (el usuario: «guarda la máscara para que siempre quede ahí y no ponga lento nada»): el recorte de la persona de t0 a t1 en la
+    carpeta de las máscaras (MASCARAS, fuera de la caché que se limpia: el proyecto de Resolve sigue apuntando a ella), una sola vez por video,
+    tramo y versión: volver a pulsar «Listo» o rehacer GO la reutiliza al momento. Devuelve la ruta o None."""
+    import hashlib
+    p = Path(str(video))
+    try:
+        st = p.stat()
+        huella = hashlib.sha1(f'{p.resolve()}|{st.st_size}|{st.st_mtime_ns}|{float(t0):.3f}|{float(t1):.3f}|{float(corte):.3f}|v{VERSION_MATTE}'
+                              .encode('utf-8')).hexdigest()[:16]
+    except OSError:
+        return None
+    destino = MASCARAS / f'{p.stem[:40]}_{huella}.mov'
+    if destino.is_file() and destino.stat().st_size > 1000:
+        try:
+            import os
+            os.utime(destino, None)                                    # (en uso: no se poda)
+        except OSError:
+            pass
+        if al_progreso:
+            al_progreso(1.0)
+        return destino
+    MASCARAS.mkdir(parents=True, exist_ok=True)
+    _podar_mascaras()
+    return recorte_prores(video, t0, t1, destino, al_progreso=al_progreso, corte=corte)
+
+
+def recorte_prores(video, t0, t1, destino, al_progreso=None, lado_max=1920, corte=1.0):
     """La persona recortada de t0 a t1 (segundos del ARCHIVO) como ProRes 4444 con alfa recto. Devuelve la ruta o None.
-    Se codifica a la resolución del archivo (con el lado largo como mucho `lado_max`): Resolve lo encaja igual que el clip de V1."""
+    Se codifica a la resolución del archivo (con el lado largo como mucho `lado_max`): Resolve lo encaja igual que el clip de V1.
+    v5.31: la silueta de matte_persona; el fondo (alfa 0) va en NEGRO y, por debajo de `corte` (fracción del alto: ahí la persona es idéntica a
+    lo que tiene debajo), nada: el archivo pesa una fracción (antes 70–100 MB por 2 s) y Resolve lo reproduce sin esfuerzo."""
     import av
     from PIL import Image
     destino = Path(destino)
@@ -287,31 +425,55 @@ def recorte_prores(video, t0, t1, destino, al_progreso=None, lado_max=1920):
             with av.open(str(tmp), 'w') as o:
                 os_ = o.add_stream('prores_ks', rate=fps)
                 os_.width, os_.height, os_.pix_fmt = ow, oh, 'yuva444p10le'
-                os_.options = {'profile': '4', 'vendor': 'apl0', 'qscale': '9'}
+                os_.options = {'profile': '4', 'vendor': 'apl0', 'qscale': '4'}   # (v5.31: más calidad; el fondo negro casi no pesa)
                 c.seek(max(0, int((t0 - 0.5) / tb)), stream=vs, backward=True, any_frame=False)
                 previo, n, total = None, 0, max(1, int((t1 - t0) * float(fps)))
-                for f in c.decode(vs):
-                    ts = float(f.pts * tb) if f.pts is not None else 0.0
-                    if ts < t0 - 0.5 / float(fps):
-                        continue
-                    if ts >= t1:
-                        break
-                    rgb = RV.derecho_nd(f.to_ndarray(format='rgb24'), k)
-                    a = mate(rgb)
-                    b = rellenar_huecos(a > 0.5)
-                    a = np.maximum(a, b.astype(np.float32) * 0.98)
-                    a = a if previo is None else previo * 0.3 + a * 0.7          # suaviza el parpadeo del borde de un fotograma a otro
-                    previo = a
-                    alfa = refinar_alfa(a, ow, oh)
-                    img = rgb if (ow, oh) == (W, H) else np.asarray(Image.fromarray(rgb).resize((ow, oh), Image.BILINEAR))
-                    fr = av.VideoFrame.from_ndarray(np.dstack([img, alfa]), format='rgba')
-                    for pk in os_.encode(fr):
-                        o.mux(pk)
-                    n += 1
-                    if al_progreso and n % 10 == 0:
-                        al_progreso(min(1.0, n / total))
-                for pk in os_.encode():
-                    o.mux(pk)
+                estado = {}                                            # (la zona de la persona, la misma en todo el tramo)
+                # v5.31: el ProRes se codifica en otro hilo mientras la IA recorta el fotograma siguiente (en orden; la cola es corta)
+                import queue
+                import threading
+                cola, fallo = queue.Queue(maxsize=4), []
+
+                def codificar():
+                    try:
+                        while True:
+                            x = cola.get()
+                            if x is None:
+                                break
+                            for pk in os_.encode(av.VideoFrame.from_ndarray(x, format='rgba')):
+                                o.mux(pk)
+                        for pk in os_.encode():
+                            o.mux(pk)
+                    except Exception as e:                             # (se sigue vaciando la cola: el hilo de la IA no se queda esperando)
+                        fallo.append(e)
+                        while cola.get() is not None:
+                            pass
+                hilo = threading.Thread(target=codificar, daemon=True)
+                hilo.start()
+                try:
+                    for f in RV.fotogramas(c, vs):
+                        ts = float(f.pts * tb) if f.pts is not None else 0.0
+                        if ts < t0 - 0.5 / float(fps):
+                            continue
+                        if ts >= t1 or fallo:
+                            break
+                        rgb = RV.derecho_nd(f.to_ndarray(format='rgb24'), k)
+                        a = matte_persona(rgb, previo, estado)
+                        previo = a
+                        alfa = refinar_alfa(a, ow, oh)
+                        if corte < 0.999:
+                            alfa[int(round(max(0.0, corte) * oh)):, :] = 0
+                        img = rgb if (ow, oh) == (W, H) else np.asarray(Image.fromarray(rgb).resize((ow, oh), Image.BILINEAR))
+                        img = np.where((alfa > 0)[..., None], img, 0).astype(np.uint8)   # (el fondo, negro: casi no pesa)
+                        cola.put(np.dstack([img, alfa]))
+                        n += 1
+                        if al_progreso and n % 10 == 0:
+                            al_progreso(min(1.0, n / total))
+                finally:
+                    cola.put(None)
+                    hilo.join()
+                if fallo:
+                    raise fallo[0]
         if n == 0:
             tmp.unlink(missing_ok=True)
             return None

@@ -761,6 +761,8 @@ def ejecutar_py(ruta_script, timeout=600, on_progreso=None):
                     import resolve_bridge
                     if resolve_bridge._listar_pids_resolve() == []:
                         return False, 'Resolve se cerró mientras trabajaba'
+                    if resolve_bridge.resolve_se_cayo(inicio):          # v5.32: al momento (el proceso tarda ~70 s en morir guardando el volcado)
+                        return False, 'Resolve se cayó mientras trabajaba'
                     if resolve_bridge.resolve_colgado(120) and resolve_bridge._registro_resolve_callado_s() > 120:
                         return False, 'Resolve dejó de responder mientras trabajaba (2 min «No responde» y sin escribir en su registro)'
                 except Exception:

@@ -12,6 +12,86 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-20 19:30  ·  v5.32  ·  (automático)
+    modificados (27):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      … y 15 más
+
+2026-10-20 19:26  ·  v5.31  ·  cambio explicado
+    5.32 (Proyecto): el usuario pidió quitar la píldora «TEMA ACTIVO» para que el slider sea más grande, que cuadren fondo y animaciones y botones algo más pequeños, proporcionales y simétricos: sin píldora; título 64 px; BotonEstado de 80 px emparejados al mismo ancho (respiran a la vez y el destello cruza los dos seguidos); FondoTema mide el texto del nombre (el halo tomaba el ancho de la fila y se veía una franja) y los botones: arcos en espejo de los botones al nombre con los puntos en espejo.
+    modificados (3):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/proyecto_ui.py
+      ~ 1_codigo/un_clic_ui.py
+
+2026-10-20 19:18  ·  v5.31  ·  cambio explicado
+    5.32: el usuario: «No se pudo poner en tu timeline: Resolve se cerró… se congela el programa igual con DaVinci Resolve; más intuitivo y fluido». Medido en su registro y en el volcado de Resolve (18:14:31): (1) la app se congelaba 53–57 s porque, con el MCP sin contestar, asegurar_conexion caía a la API directa (fusionscript retiene el GIL dentro de un Resolve ocupado): con ResolveMCP instalado ya no se usa (_api_directa_permitida); (2) Resolve se cayó (std::out_of_range en su hilo de interfaz) al cambiar de página y tocar el timeline con la reproducción de GO en marcha: «Listo» la detiene, solo cambia a Edit si hace falta y espera; la caída se ve al momento (resolve_se_cayo) con un mensaje que dice qué hacer; (3) la tira valida con el timeline del último GO (0:58.8 salía verde y «Listo» la rechazaba). Además, con sus maquetas: Posición de «detrás de ti» rediseñada (posiciones_detras_ui: visor con reproducción, panel Ajustes/Marcas/Sugerencias, tira compacta), posición del caption (vertical = arriba; horizontal = arriba/izquierda/derecha con Pan en colocar_pro) y la página Proyecto (proyecto_ui: franja del audio, «Tema activo», «En uso», «Edición PRO activada», animados con un solo reloj). Probado sin Resolve: probar_detras_vista 20 OK, probar_detras_timeline 40 OK, tira = «Listo» con su video; NO probado en Resolve real.
+    nuevos (4):
+      + 1_codigo/herramientas_dev/captura_proyecto.py
+      + 1_codigo/herramientas_dev/probar_detras_vista.py
+      + 1_codigo/posiciones_detras_ui.py
+      + 1_codigo/proyecto_ui.py
+    modificados (17):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/colocacion.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/herramientas_dev/probar_detras_timeline.py
+      ~ 1_codigo/posiciones_pro.py
+      ~ 1_codigo/registro_ayuda.py
+      ~ 1_codigo/resolve_bridge.py
+      ~ 1_codigo/resolve_mcp.py
+      ~ 1_codigo/un_clic_ui.py
+      ~ 2_recursos/edicion_pro/colocar_pro.py
+      ~ 2_recursos/locales/de.json
+      … y 5 más
+
+2026-10-20 17:30  ·  v5.31  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-10-20 17:29  ·  v5.30  ·  cambio explicado
+    5.31: Posición de «detrás de ti» como editor (resaltado de lo aplicado/nuevo/quitado, barra de «Listo» sin cerrar la vista), máscara fina a 1024 guardada en mascaras_persona, sugerencias y marcas comprobadas con la regla de GO (reglas_go/valida_go/sugerir_go) en los Temas 1–6, umbral de cabeza 0,12, lectura tolerante a paquetes dañados (TIPS_ES dejaba el Tema 1 sin placa). Probado con probar_detras_temas.py: 8+4 videos × 6 temas sin fallos.
+    nuevos (1):
+      + 1_codigo/herramientas_dev/probar_detras_temas.py
+    modificados (16):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_persona.py
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/efectos_visuales.py
+      ~ 1_codigo/herramientas_dev/probar_detras_posiciones.py
+      ~ 1_codigo/herramientas_dev/probar_detras_timeline.py
+      ~ 1_codigo/kit_neon_placa.py
+      ~ 1_codigo/posiciones_pro.py
+      ~ 1_codigo/rotacion_video.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      … y 4 más
+
 2026-10-20 15:58  ·  v5.30  ·  (automático)
     modificados (20):
       ~ 1_codigo/version.py

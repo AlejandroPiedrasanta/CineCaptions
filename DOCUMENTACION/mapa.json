@@ -79,9 +79,21 @@
         "pantalla",
         "proyecto",
         "slider",
-        "tipografias"
+        "tipografias",
+        "en uso",
+        "edición pro activada",
+        "obtener",
+        "franja del audio",
+        "transcribir con",
+        "animación",
+        "simétrico",
+        "arcos"
       ],
-      "archivos": [],
+      "archivos": [
+        "proyecto_ui.py",
+        "un_clic_ui.py",
+        "herramientas_dev/captura_proyecto.py"
+      ],
       "simbolos": [
         "PlantillasWindow",
         "_asegurar_estilos",
@@ -89,9 +101,18 @@
         "_carta_pack",
         "_carta_simple",
         "_pintar_info",
-        "_pagina_estilos"
+        "_pagina_estilos",
+        "BotonLuz",
+        "PildoraMotor",
+        "Separador",
+        "FondoTema",
+        "BotonEstado",
+        "RELOJ",
+        "_boton_pro",
+        "_pintar_boton_usar",
+        "emparejar"
       ],
-      "resumen": "PlantillasWindow: _asegurar_estilos, _fila_pack"
+      "resumen": "PlantillasWindow: _asegurar_estilos, _fila_pack · v5.32: aspecto de las maquetas (proyecto_ui: franja del audio y bloque del tema animado)."
     },
     {
       "id": "estilos-slider",
@@ -2847,14 +2868,22 @@
         "avast",
         "uia",
         "smart app control",
-        "bad image"
+        "bad image",
+        "congela",
+        "congelación",
+        "GIL",
+        "fusionscript",
+        "crash dump",
+        "se cayó"
       ],
       "archivos": [
         "resolve_bridge.py",
         "colocacion.py",
         "resolve_scripts/CineCaptions_ArmarVideo.lua",
         "resolve_scripts/CineCaptions_Vista.lua",
-        "uia_resolve.py"
+        "uia_resolve.py",
+        "resolve_mcp.py",
+        "registro_ayuda.py"
       ],
       "simbolos": [
         "estado_resolve",
@@ -2869,7 +2898,11 @@
         "organizador",
         "lanzar_script",
         "smart_app_control",
-        "_uia"
+        "_uia",
+        "_api_directa_permitida",
+        "resolve_se_cayo",
+        "conectar",
+        "asegurar_conexion"
       ],
       "resumen": "resolve_bridge, colocacion, ArmarVideo.lua, Vista.lua"
     },
@@ -3815,7 +3848,27 @@
         "listo al timeline",
         "solo_encima",
         "audio compatible",
-        "copia"
+        "copia",
+        "barra de progreso",
+        "aplicado",
+        "resaltado",
+        "se quita",
+        "regla de go",
+        "sugerencias comprobadas",
+        "máscara guardada",
+        "paquete dañado",
+        "temas 1 a 6",
+        "visor",
+        "reproducir",
+        "izquierda",
+        "derecha",
+        "horizontal",
+        "posición del caption",
+        "tracking",
+        "diseño nuevo",
+        "pestañas",
+        "se congela",
+        "se cayó"
       ],
       "archivos": [
         "posiciones_pro.py",
@@ -3827,7 +3880,13 @@
         "herramientas_dev/probar_detras_posiciones.py",
         "vista_tema.py",
         "audio_compatible.py",
-        "herramientas_dev/probar_detras_timeline.py"
+        "herramientas_dev/probar_detras_timeline.py",
+        "herramientas_dev/probar_detras_temas.py",
+        "rotacion_video.py",
+        "kit_neon_placa.py",
+        "posiciones_detras_ui.py",
+        "herramientas_dev/probar_detras_vista.py",
+        "colocacion.py"
       ],
       "simbolos": [
         "VistaPosiciones",
@@ -3872,9 +3931,34 @@
         "aplicados_para",
         "_aplicados_de",
         "_a_timeline_go",
-        "igual_que_timeline"
+        "igual_que_timeline",
+        "reglas_go",
+        "valida_go",
+        "sugerir_go",
+        "estado_go",
+        "bloques_de_cues",
+        "matte_persona",
+        "mascara_guardada",
+        "estado_marcas",
+        "refrescar_aplicados",
+        "empezar_aplicar",
+        "terminar_aplicar",
+        "armar",
+        "VisorDetras",
+        "PanelDetras",
+        "CabeceraDetras",
+        "ReproductorVisor",
+        "posicion_detras",
+        "desplazar_lado",
+        "bloque_go",
+        "mapa_a_timeline_go",
+        "POSICIONES_DETRAS",
+        "recuperar",
+        "poner_posicion",
+        "poner_intensidad",
+        "deteccion"
       ],
-      "resumen": "Botón «Posición» (y doble clic) en cada sección de Efectos › Edición PRO: línea de tiempo del video con fotogramas para marcar en qué segundos va el efecto; «Solo mis marcas | + automático»; GO lo respeta (posiciones_pro.para_plan → edicion_pro: _marcas_libres, _ligadas, _marcas_broll, _captions_detras(marcas=), _tramos_motions). v5.27: «detrás de ti» con topes (verde donde queda bien, máximo 8, motivo de cada sitio), marcas guardadas con el VIDEO (valen con el audio del timeline), Magic Mask solo en cara y hombros, «Listo» enciende y pone el video en Inicio. v5.28: 3 sugeridas a un clic (y el efecto se enciende), vista con los captions del tema detrás de la persona. v5.29: la persona con el matte de la IA (no Magic Mask) y «Listo» lo pone ya en el timeline (aplicar_detras + colocar_pro solo_encima); marcas que valen con la copia de audio compatible. v5.30: la tira enseña lo que hay en el timeline (también lo que puso GO) y «Listo» pone exactamente lo de la tira (vacía = quitarlo)."
+      "resumen": "Botón «Posición» (y doble clic) en cada sección de Efectos › Edición PRO: línea de tiempo del video con fotogramas para marcar en qué segundos va el efecto; «Solo mis marcas | + automático»; GO lo respeta (posiciones_pro.para_plan → edicion_pro: _marcas_libres, _ligadas, _marcas_broll, _captions_detras(marcas=), _tramos_motions). v5.27: «detrás de ti» con topes (verde donde queda bien, máximo 8, motivo de cada sitio), marcas guardadas con el VIDEO (valen con el audio del timeline), Magic Mask solo en cara y hombros, «Listo» enciende y pone el video en Inicio. v5.28: 3 sugeridas a un clic (y el efecto se enciende), vista con los captions del tema detrás de la persona. v5.29: la persona con el matte de la IA (no Magic Mask) y «Listo» lo pone ya en el timeline (aplicar_detras + colocar_pro solo_encima); marcas que valen con la copia de audio compatible. v5.30: la tira enseña lo que hay en el timeline (también lo que puso GO) y «Listo» pone exactamente lo de la tira (vacía = quitarlo). v5.32: «Listo» detiene la reproducción de GO y no cambia de página sin esperar (Resolve se caía), ve la caída al momento; la tira usa la regla del timeline de GO (= «Listo»); diseño nuevo de «detrás de ti» (posiciones_detras_ui: cabecera, visor con reproducción, panel Ajustes/Marcas/Sugerencias, tira compacta); en horizontal Arriba/Izquierda/Derecha (Pan en colocar_pro)."
     },
     {
       "id": "emojis-pro",

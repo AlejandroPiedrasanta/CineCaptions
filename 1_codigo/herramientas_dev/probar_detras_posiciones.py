@@ -131,8 +131,8 @@ def main():
         if v.name == 'PRUEBAS (1).mp4':
             comprobar(total >= 18.0, f'PRUEBAS (1): de pie y quieto casi todo el video: {total:.1f} s en verde')
         if v.name == 'TEMA6USAR.mp4':
-            comprobar(not zonas and motivo(20.0) == 'cabeza_arriba',
-                      'TEMA6USAR: ningún verde (su cabeza está al 16 % del alto: el texto no cabe encima) y lo dice')
+            comprobar(bool(zonas), 'TEMA6USAR: con la cabeza al 16 % del alto hay verde (v5.31: GO pone ahí los captions bajos; cada '
+                      'sugerencia y cada marca la comprueba la regla de GO)')
         t1 = time.time()
         POS.analizar_detras(str(v))
         comprobar(time.time() - t1 < 0.5, f'{v.name}: la segunda vez sale de la caché ({time.time() - t1:.2f} s)')
@@ -330,7 +330,7 @@ def main():
                 borde = next((round(t, 1) for t in (z[1] - 0.1, z[0] + 0.1) if all(abs(t - s) > 0.8 for s, _x in lin.sugeridas)), None)
                 if borde is not None:                                  # (lejos de un anillo «+»: ese pondría la sugerencia)
                     clic(lin, borde)
-                    comprobar(lin.marcas and abs(lin.marcas[0] - borde) < 0.06 and not lin.nota,
+                    comprobar(lin.marcas and abs(lin.marcas[0] - borde) < 0.06 and (not lin.nota or 'GO no lo pone' in lin.nota),
                               f'clic dentro del verde, junto a su borde ({POS.texto_t(borde)}) → se queda ahí y sin aviso vacío ({lin.marcas}, «{lin.nota}»)')
             lin._t_sobre = lin.marcas[0] if lin.marcas else None
             lin.grab().save(str(tmp / f'vista_{sug_v.stem}_marca.png'))
@@ -385,10 +385,10 @@ def main():
         sec.mostrar_posiciones(True)
         vista.abrir(str(tema6))
         listo = esperar(lambda: lin.ruta == str(tema6) and lin.dur > 0 and lin.zonas is not None and lin.captions_listos)
-        if comprobar(listo and lin.zonas == [], 'TEMA6USAR: sin ningún verde'):
-            clic(lin, 20.0)
-            comprobar(not lin.marcas and 'ningún momento' in lin.nota, f'clic → no pone marca y dice por qué: «{lin.nota}»')
-            lin._t_sobre = 20.0
+        listo = listo and esperar(lambda: isinstance(lin._reglas, dict) and not lin._go_ocupado and lin.sugeridas, 120)
+        if comprobar(listo, f'TEMA6USAR: sugerencias comprobadas con la regla de GO ({lin.sugeridas})'):
+            comprobar(all(lin.estado_go(t) for t, _x in lin.sugeridas), 'y GO pone todas')
+            lin._t_sobre = lin.sugeridas[0][0]
             lin.grab().save(str(tmp / 'tira_TEMA6USAR.png'))
     print(f'\n{len(OKS)} OK · {len(FALLOS)} FALLO', flush=True)
     for f in FALLOS:

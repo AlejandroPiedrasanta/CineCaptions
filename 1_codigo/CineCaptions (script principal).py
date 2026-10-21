@@ -1909,15 +1909,12 @@ class PlantillasWindow(QWidget):
         if not plantillas.SOLO_TEMAS:
             ch.addWidget(Etiqueta(tr('Rueda, ← → o arrastra  ·  clic en la del centro para usarla'), 12, color=TEXT_MUTED))
         # «Crea tu estilo»: el único botón de la cabecera (las vistas reales de Resolve se piden solas)
-        self.crear_btn = Boton(tr('Crea tu estilo'), self._crear_estilo, tipo='primario', alto=32, tam=13, negrita=True)
-        icono_crear = ui.icono_linea('ph.sparkle-bold', '#FFFFFF')
-        if icono_crear is not None:
-            self.crear_btn.setIcon(icono_crear)
-            self.crear_btn.setIconSize(QSize(15, 15))
+        import proyecto_ui                            # v5.32 (maqueta del usuario): botón luminoso, como «Obtener»
+        self.crear_btn = proyecto_ui.BotonLuz(tr('Crea tu estilo'), self._crear_estilo, 'sparkle')
         Tooltip(self.crear_btn, tr('Elige hasta 3 estilos de una galería y crea tu propio pack en un clic.'))
         capa_audio = getattr(master, '_capa_franja_audio', None) if franja is not None else None
         if capa_audio is not None:                    # v5.5.10 (el usuario: «sube Crea tu estilo, a la par de Whisper»): a la franja del audio
-            capa_audio.addSpacing(4)
+            capa_audio.addWidget(proyecto_ui.Separador())
             capa_audio.addWidget(self.crear_btn)
         else:
             ch.addWidget(self.crear_btn)
@@ -1947,14 +1944,17 @@ class PlantillasWindow(QWidget):
         self.tarjeta.capa.addWidget(self.lateral_pro, 1)
         # el panel del estilo que está al centro: nombre, aviso de tipografías, nota, estructura y botones
         self._carta_actual = None
-        self.info_w = QWidget()
-        iv = QVBoxLayout(self.info_w)
-        iv.setContentsMargins(6, 0, 6, 0)
-        iv.setSpacing(4)
         import un_clic_ui
-        self.info_nombre = un_clic_ui.TituloGo('')      # v5.5.9: el nombre del tema entra letra a letra cada vez que llega otro al centro
-        self.info_nombre.setFixedHeight(54)
+        import proyecto_ui
+        self.info_w = proyecto_ui.FondoTema()           # v5.32 (referencia del usuario): halo lila y arcos con su punto detrás del nombre
+        iv = QVBoxLayout(self.info_w)
+        iv.setContentsMargins(6, 0, 6, 8)
+        iv.setSpacing(4)
+        # v5.32 (maqueta del usuario): el nombre en grande (blanco → celeste → lila) con su raya; sin la píldora «TEMA ACTIVO» (el usuario:
+        # «elimina esto para que el slider esté más grande»)
+        self.info_nombre = un_clic_ui.TituloGo('', estilo='tema')      # v5.5.9: el nombre del tema entra letra a letra cada vez que llega otro al centro
         iv.addWidget(self.info_nombre)
+        self.info_w.ancla = self.info_nombre
         fila_n, cn = caja_h(espacio=12)
         cn.addStretch(1)
         self.info_fuentes = ui.Enlace('', self._instalar_fuentes_central, 12, color=ui.AMBAR, color_hover=ui.NARANJA)
@@ -1972,11 +1972,12 @@ class PlantillasWindow(QWidget):
         self.info_extra.setContentsMargins(0, 0, 0, 0)
         self.info_extra.setSpacing(6)
         iv.addLayout(self.info_extra)
-        fila_b, cb = caja_h(espacio=8)
+        fila_b, cb = caja_h(espacio=18)
         cb.addStretch(1)
         self.info_izq = QWidget()                      # v5.4.20: del ancho de los botones de la derecha, para que «Usar este tema» quede justo en el centro
         cb.addWidget(self.info_izq)
-        self.usar_btn = Boton(tr('Usar este tema') if plantillas.SOLO_TEMAS else tr('Usar este estilo'), self._usar_central, tipo='primario', alto=40, ancho=220, tam=14, negrita=True)
+        # v5.32 (maqueta del usuario): «En uso» / «Usar este tema» como botón grande verde con su ✓ (proyecto_ui.BotonEstado)
+        self.usar_btn = proyecto_ui.BotonEstado('uso', tr('Usar este tema') if plantillas.SOLO_TEMAS else tr('Usar este estilo'), self._usar_central)
         cb.addWidget(self.usar_btn)
         self.info_acciones_w = QWidget()
         self.info_acciones = QHBoxLayout(self.info_acciones_w)
@@ -2135,8 +2136,13 @@ class PlantillasWindow(QWidget):
         if carta.extra is not None:
             self.info_extra.addWidget(carta.extra(), 0, Qt.AlignmentFlag.AlignHCenter)
         con_pro = carta.pack is not None and plantillas.es_de_fabrica(carta.pack.nombre)   # v5.4.49: los temas → la Edición PRO (el mismo interruptor que el chip de Inicio)
+        import proyecto_ui
         if con_pro:                                                                     # v5.5.9: AL LADO de «Usar este tema» (antes, encima)
-            self.info_acciones.addWidget(self._boton_pro())
+            b_pro = self._boton_pro()
+            self.info_acciones.addWidget(b_pro)
+            proyecto_ui.BotonEstado.emparejar(self.usar_btn, b_pro)                     # v5.32: los dos del mismo ancho (simétricos)
+        else:
+            proyecto_ui.BotonEstado.emparejar(self.usar_btn, None)
         for icono, glifo, ayuda, fn in ([] if solo_temas else carta.acciones):         # v5.8: ✎ editar en Resolve y 🗑 quitar
             ic = ui.icono_linea(icono, '#C9D6EC')
             b = Boton('' if ic is not None else glifo, lambda _=False, f=fn: f(), tipo='fantasma', alto=36, ancho=40, tam=14, icono=ic)
@@ -2163,11 +2169,9 @@ class PlantillasWindow(QWidget):
             activa = edicion_pro.activado()
         except Exception:
             activa = False
-        b = Boton(('✓ ' + tr('Edición PRO activada')) if activa else ('✦ ' + tr('Activar edición PRO')), self._alternar_pro,
-                  tipo='fantasma' if activa else 'primario', alto=40, ancho=240, tam=14, negrita=True)
-        if activa:
-            b.setStyleSheet(ui.traducir_hoja('QPushButton { background-color: #2A2310; border: 1px solid #C9A46A; color: #F2D9A6; }'))
-        Tooltip(b, tr('Además de los captions de este tema, GO edita el video en Resolve: los captions y titulares DETRÁS de la persona (Magic Mask), '
+        import proyecto_ui                              # v5.32 (maqueta del usuario): el botón grande dorado con su corona
+        b = proyecto_ui.BotonEstado('pro', tr('Edición PRO activada') if activa else tr('Activar edición PRO'), self._alternar_pro, activo=activa)
+        Tooltip(b,tr('Además de los captions de este tema, GO edita el video en Resolve: los captions y titulares DETRÁS de la persona (Magic Mask), '
                       'escenas de motion graphics y B-roll, cifras, listas, marcos, ficha final y sonidos, con un estilo propio para cada video (bodas, XV años, restaurantes, inmobiliaria, detrás de cámara…). '
                       'El estilo se elige en el chip «Edición PRO» de Inicio.'))
         return b
@@ -2208,17 +2212,16 @@ class PlantillasWindow(QWidget):
         if c is None:
             return
         if c.tipo == 'anadir':
-            self.usar_btn.setText(tr('Añadir plantilla (.drb)'))
+            self.usar_btn.poner(False, tr('Añadir plantilla (.drb)'))
             self.usar_btn.setEnabled(True)
             self.usar_btn.setVisible(True)
             return
         # en el modo «normal» la elección es la combinación (chips de abajo), no el pack
         self.usar_btn.setVisible(not (self.modo == 'normal' and c.valor != '__clasica__'))
         en_uso = c.valor == self._valor_actual()
-        self.usar_btn.setText('✓ ' + tr('En uso') if en_uso else (tr('Usar este tema') if plantillas.SOLO_TEMAS else tr('Usar este estilo')))
+        # «En uso» no es un botón apagado: es una confirmación (verde, encendido)
+        self.usar_btn.poner(en_uso, tr('En uso') if en_uso else (tr('Usar este tema') if plantillas.SOLO_TEMAS else tr('Usar este estilo')))
         self.usar_btn.setEnabled(not en_uso)
-        # «En uso» no es un botón apagado: es una confirmación (verde)
-        self.usar_btn.setStyleSheet(ui.traducir_hoja('QPushButton:disabled { background-color: #0F2A22; border: 1px solid #1F7A56; color: #6FE3AE; }') if en_uso else '')
     def _usar_central(self):
         c = getattr(self, '_carta_actual', None)
         if c is None:
@@ -9635,20 +9638,25 @@ class SubtitleApp(QWidget):
             lbl.hide()
             self._insignias_audio[n] = lbl
             return lbl
+        # v5.32 (maqueta del usuario, «aplica ese estilo tal cual»): chip del formato con borde de acento, onda del acento, separadores finos,
+        # «Obtener» y «Crea tu estilo» luminosos y el motor de voz en dos píldoras (proyecto_ui)
+        import proyecto_ui
+        ac = QColor(ui.ACCENT)
         self.insignia = QLabel('—')
         self.insignia.setObjectName('insignia')
-        self.insignia.setFixedSize(40, 40)
+        self.insignia.setFixedSize(54, 38)
         self.insignia.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.insignia.setFont(ui.fuente(11, peso='negrita'))
-        self.insignia.setStyleSheet(ui.traducir_hoja('QLabel#insignia { background-color: #111D33; border: 1px solid #1E2A42; border-radius: 9px; color: #4589FF; }'))
+        self.insignia.setFont(ui.fuente(13, peso='negrita'))
+        self.insignia.setStyleSheet(f'QLabel#insignia {{ background-color: rgba({ac.red()}, {ac.green()}, {ac.blue()}, 22); '
+                                    f'border: 1.5px solid {ac.name()}; border-radius: 9px; color: {ac.name()}; }}')
         info, cinf = caja_v(espacio=1)
-        self.fuente_nombre = _Elidida(tr('Ningún archivo elegido'), 14, peso='medio', color='#FFFFFF')
+        self.fuente_nombre = _Elidida(tr('Ningún archivo elegido'), 16, peso='negrita', color='#FFFFFF')
         cinf.addWidget(self.fuente_nombre)
-        self.fuente_meta = _Elidida(tr('Pulsa «Obtener» para traer el audio de tu timeline de Resolve'), 12, color=TEXT_MUTED)
+        self.fuente_meta = _Elidida(tr('Pulsa «Obtener» para traer el audio de tu timeline de Resolve'), 13, color=TEXT_MUTED)
         cinf.addWidget(self.fuente_meta)
-        self.fuente_onda = Onda(ui.ACCENT_CLARO, alto=36, barra=3.0, hueco=2.6)
-        self.fuente_onda.setMinimumWidth(110)
-        self.fuente_onda.setMaximumWidth(260)
+        self.fuente_onda = Onda(ui.ACCENT, alto=46, barra=3.2, hueco=2.8)
+        self.fuente_onda.setMinimumWidth(90)
+        self.fuente_onda.setMaximumWidth(220)
         # La entrada, «Buscar» y «Proyectos guardados» siguen existiendo (el resto del programa lee y bloquea sus
         # valores) pero fuera de pantalla: aquí solo se ve «Obtener». Soltar un video en la ventana y el clic derecho
         # sobre esta franja siguen sirviendo para elegir un archivo a mano.
@@ -9664,30 +9672,29 @@ class SubtitleApp(QWidget):
         co.addWidget(proy_btn)
         oculto.hide()
         t.capa.addWidget(oculto)
-        fila, cf = caja_h(espacio=12)
+        fila, cf = caja_h(espacio=14)
+        fila.layout().setContentsMargins(14, 10, 14, 10)
         _numero(1)
         _numero(2)
-        self.detect_btn = Boton(tr('Obtener'), lambda: self._detectar_desde_resolve(silencioso=False), tipo='primario', alto=40, ancho=132, tam=14, negrita=True)
-        icono_obtener = ui.icono_linea('ph.download-simple-bold', '#FFFFFF')
-        if icono_obtener is not None:
-            self.detect_btn.setIcon(icono_obtener)
-            self.detect_btn.setIconSize(QSize(16, 16))
+        self.detect_btn = proyecto_ui.BotonLuz(tr('Obtener'), lambda: self._detectar_desde_resolve(silencioso=False), 'download-simple', ancho=176)
         Tooltip(self.detect_btn, tr('Trae el audio del timeline que tienes abierto en Resolve (conexión MCP, rápida). Si Resolve está cerrado, lo abre.'))
         cf.addWidget(self.detect_btn)
+        cf.addWidget(proyecto_ui.Separador())
         cf.addWidget(self.insignia)
-        cf.addWidget(info, 2)
+        cf.addWidget(info, 3)
         cf.addWidget(self.fuente_onda, 1)
+        cf.addWidget(proyecto_ui.Separador())
         col_t, ct_ = caja_v(espacio=0)
-        self.fuente_duracion = Etiqueta('--:--', 22, peso='extra', color='#FFFFFF', alineacion=Qt.AlignmentFlag.AlignRight)
+        self.fuente_duracion = Etiqueta('--:--', 26, peso='extra', color='#FFFFFF')
         ct_.addWidget(self.fuente_duracion)
-        self.fuente_duracion_lbl = Etiqueta(tr('duración'), 10, color=TEXT_MUTED, alineacion=Qt.AlignmentFlag.AlignRight)
+        self.fuente_duracion_lbl = Etiqueta(tr('duración'), 12, color=TEXT_MUTED)
         ct_.addWidget(self.fuente_duracion_lbl)
         cf.addWidget(col_t)
-        cf.addSpacing(10)
+        cf.addWidget(proyecto_ui.Separador())
         self.obtener_nota = Etiqueta(tr('Del timeline abierto en Resolve · conexión MCP'), 12, color=TEXT_MUTED, envolver=True)
         self.obtener_nota.hide()
         # el motor que transcribe ese audio: la IA (Qwen3-ASR) o Whisper large-v3-turbo; el mismo ajuste que Ajustes > General
-        cf.addWidget(Etiqueta(tr('Transcribir con'), 13, color='#E0EBFB'))
+        cf.addWidget(Etiqueta(tr('Transcribir con'), 14, peso='medio', color='#E0EBFB'))
         self._motores_voz = {tr('IA · Qwen3-ASR'): 'qwen3', tr('Whisper large-v3-turbo'): 'whisper'}
         try:
             import ajustes_ui
@@ -9695,7 +9702,23 @@ class SubtitleApp(QWidget):
         except Exception:
             motor_guardado = 'qwen3'
         self.motor_var = StringVar(next((k for k, v in self._motores_voz.items() if v == motor_guardado), tr('IA · Qwen3-ASR')))
-        self.motor_seg = Segmentado(list(self._motores_voz.keys()), self.motor_var, self._cambio_motor_voz, alto=32, tam=12)
+        # v5.32: las dos opciones como píldoras (la elegida con borde y halo del acento); motor_seg sigue siendo el que lleva la ayuda
+        self.motor_seg = QWidget()
+        cm = QHBoxLayout(self.motor_seg)
+        cm.setContentsMargins(0, 0, 0, 0)
+        cm.setSpacing(8)
+        self._pildoras_motor = {}
+        for nombre, icono in zip(self._motores_voz, ('brain', 'sparkle')):
+            pm_ = proyecto_ui.PildoraMotor(nombre, icono)
+            pm_.clicked.connect(lambda _c=False, n=nombre: (self.motor_var.set(n), self._cambio_motor_voz()))
+            cm.addWidget(pm_)
+            self._pildoras_motor[nombre] = pm_
+
+        def _pintar_pildoras(*_a):
+            for n, b in self._pildoras_motor.items():
+                b.setChecked(n == self.motor_var.get())
+        _pintar_pildoras()
+        self.motor_var.observar(_pintar_pildoras, self)
         Tooltip(self.motor_seg, tr('Qué motor convierte la voz en palabras con su tiempo. La IA (Qwen3-ASR) usa la GPU y es la más fina; Whisper large-v3-turbo es el de respaldo y entiende 99 idiomas.'))
         cf.addWidget(self.motor_seg)
         self._capa_franja_audio = cf                 # v5.5.10: Proyecto pone aquí, a la par de Whisper, su botón «Crea tu estilo»

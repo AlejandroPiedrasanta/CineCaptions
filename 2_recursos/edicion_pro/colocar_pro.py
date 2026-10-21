@@ -570,26 +570,40 @@ def _deshacer_subidas(tl):
                 if not dato.startswith(MARCA + ':'):
                     continue
                 try:
-                    antes, despues = (float(x) for x in dato.split(':')[1:3])
+                    partes = dato.split(':')
+                    antes, despues = float(partes[1]), float(partes[2])
                     if abs(float(it.GetProperty('Tilt') or 0.0) - despues) < 0.5 and it.SetProperty('Tilt', antes):
                         vueltos += 1
+                    if len(partes) >= 5:                               # (v5.32: también se movió de lado —horizontal—: su Pan de antes)
+                        pan_antes, pan_despues = float(partes[3]), float(partes[4])
+                        if abs(float(it.GetProperty('Pan') or 0.0) - pan_despues) < 0.5:
+                            it.SetProperty('Pan', pan_antes)
                     it.DeleteMarkerByCustomData(dato)
                 except Exception:
                     pass
     return vueltos
 
 
-def _poner_tilt(it, nuevo):
-    """Pone el Tilt de un clip de captions y deja (o actualiza) la marca con su Tilt ORIGINAL, para que re-aplicar lo devuelva a su sitio."""
+def _poner_tilt(it, nuevo, pan=None):
+    """Pone el Tilt de un clip de captions y deja (o actualiza) la marca con su Tilt ORIGINAL, para que re-aplicar lo devuelva a su sitio.
+    v5.32: con `pan` (horizontal, el caption a un lado de la persona) también el Pan; la marca lleva entonces el de antes y el nuevo."""
     try:
         original = float(it.GetProperty('Tilt') or 0.0)
+        pan_original = float(it.GetProperty('Pan') or 0.0) if pan is not None else 0.0
+        extra = ''
         for m in list((it.GetMarkers() or {}).values()):
             dato = str(m.get('customData') or '')
             if dato.startswith(MARCA + ':'):
-                original = float(dato.split(':')[1])
+                partes = dato.split(':')
+                original = float(partes[1])
+                if len(partes) >= 5:
+                    pan_original = float(partes[3])
+                    extra = ':%s:%s' % (partes[3], partes[4])          # (solo se cambia el Tilt: el Pan de antes no se pierde)
                 it.DeleteMarkerByCustomData(dato)
-        if it.SetProperty('Tilt', float(nuevo)):
-            it.AddMarker(0, 'Sand', 'PRO · captions movidos', '', 1, '%s:%.3f:%.3f' % (MARCA, original, float(nuevo)))
+        if it.SetProperty('Tilt', float(nuevo)) and (pan is None or it.SetProperty('Pan', float(pan))):
+            if pan is not None:
+                extra = ':%.3f:%.3f' % (pan_original, float(pan))
+            it.AddMarker(0, 'Sand', 'PRO · captions movidos', '', 1, '%s:%.3f:%.3f%s' % (MARCA, original, float(nuevo), extra))
             return True
     except Exception:
         pass
@@ -604,6 +618,7 @@ def _subir_captions(tl, cues, base, subs_pro=False):
     W = float(tl.GetSetting('timelineResolutionWidth') or 1080)
     H = float(tl.GetSetting('timelineResolutionHeight') or 1920)
     k_emoji = H / max(1.0, min(W, H))
+    k_pan = W / max(1.0, min(W, H))                                    # (v5.32: el Pan de un PNG «Fit», como en _emojis_sin_cara)
     clips = [(it.GetStart(), it, 'EMOJI' in str(tl.GetTrackName('video', i) or '').upper(), False)
              for i in _pistas_captions(tl) for it in tl.GetItemListInTrack('video', i) or []]
     if subs_pro:                                                       # v5.5.20: el Tema 1: sus captions son los clips neón de PRO-SUBS / PRO-SUBS2
@@ -612,12 +627,16 @@ def _subir_captions(tl, cues, base, subs_pro=False):
     movidos = 0
     for c in cues:
         f0, f1, d = base + int(c['ini']), base + int(c['fin']), float(c['subir'])
-        if abs(d) < 0.5:
+        mx = float(c.get('mover') or 0.0)                              # (v5.32: px a la derecha; horizontal, a un lado de la persona)
+        if abs(d) < 0.5 and abs(mx) < 0.5:
             continue
         for s, it, es_emoji, neon in clips:
             # (un clip neón por bloque: SOLO el que empieza con el bloque; el siguiente empieza 0,15 s antes de que este acabe y también subía)
             dentro = (f0 - 2 <= s <= f0 + 6) if neon else (f0 - 1 <= s < f1)
-            if dentro and _poner_tilt(it, float(it.GetProperty('Tilt') or 0.0) + d * (k_emoji if es_emoji else 1.0)):
+            if not dentro:
+                continue
+            pan = float(it.GetProperty('Pan') or 0.0) + mx * (k_pan if es_emoji else 1.0) if abs(mx) >= 0.5 else None
+            if _poner_tilt(it, float(it.GetProperty('Tilt') or 0.0) + d * (k_emoji if es_emoji else 1.0), pan):
                 movidos += 1
     return movidos
 
@@ -1104,11 +1123,20 @@ def _sonidos(tl, mp, caja, eventos, base):
 def _solo_encima(tl, mp, caja, datos, base, v1_antes):
     """v5.29 (el usuario: «cuando le dé Listo debe ponerlo automáticamente en la línea de tiempo; más útil que generar todo»): SOLO «Captions
     detrás de ti» en el timeline que ya armó GO; lo demás de la Edición PRO no se toca. Los captions vuelven a su sitio, la persona (el matte
-    de la IA, ProRes con alfa) va en PRO-ENCIMA en cada tramo marcado y los captions de esos tramos suben hasta su coronilla."""
-    resolve.OpenPage('edit')
+    de la IA, ProRes con alfa) va en PRO-ENCIMA en cada tramo marcado y los captions de esos tramos suben hasta su coronilla.
+    v5.32 (Resolve Studio 21.1.1 se CAYÓ con «Listo»: std::out_of_range en su hilo de interfaz en el mismo segundo de «Main view page is
+    changed to 2»): este script corre en un hilo y cambiaba el timeline mientras la interfaz aún montaba la página Edit (o dibujaba lo recién
+    importado). Ahora solo cambia de página si no está ya en Edit, y espera a que la interfaz termine antes de tocar el timeline."""
+    try:
+        pagina = resolve.GetCurrentPage()
+    except Exception:
+        pagina = None
+    if pagina != 'edit':
+        resolve.OpenPage('edit')
+        time.sleep(2.0)
     encima = datos.get('encima') or []
-    _preimportar(mp, caja, {'encima': encima})
-    _deshacer_subidas(tl)                                                  # (todo a su sitio: lo de antes y lo de «mover» se vuelve a poner)
+    _preimportar(mp, caja, {'encima': encima})                             # (con algo nuevo, ya espera 1 s a que Resolve lo lea)
+    _deshacer_subidas(tl)                                              # (todo a su sitio: lo de antes y lo de «mover» se vuelve a poner)
     detras, movidos = _encima(tl, mp, caja, encima, base, print, datos.get('cache', True))
     movidos += _subir_captions(tl, datos.get('mover') or [], base)
     emojis = _emojis_sin_cara(tl, [c for e in encima for c in e.get('cues') or []] + list(datos.get('mover') or []), base)

@@ -12,10 +12,11 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
 ------------------------------------------------------------------------------
     .cf\   (1 archivos)
         icono.ico
-    herramientas_dev\   (26 archivos)
+    herramientas_dev\   (29 archivos)
         banco_voz\   (1 archivos)
         banco_voz.py
             v5.5.17: mide la transcripción (WER y la lista de errores) contra un texto CORRECTO, para comparar
+        captura_proyecto.py
         comparar_kitneon.py
             v5.5.13: compara el Tema 1 neón (composición KitNeon de Remotion) con el video de referencia del kit
         comparar_ref_neon.py
@@ -39,8 +40,10 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
             suspende Resolve a mitad de un GO real (armar / captions / efectos) y comprueba que el programa lo nota, lo reinicia y termina. SOLO desarrollo (no entra en el .exe; necesita Resolve abierto y es seguro con el del usuario solo si él lo autoriza: ver memoria «resolve-uso-paralelo»).
         probar_detras_posiciones.py
             v5.27: prueba «Captions detrás de ti» con Efectos › «Posición» sobre videos REALES de
+        probar_detras_temas.py
         probar_detras_timeline.py
             v5.29: prueba «Listo → al timeline» de «Captions detrás de ti» SIN Resolve: el matte de la
+        probar_detras_vista.py
         probar_edicion_pro.py
             prueba de punta a punta de la Edición PRO en Resolve REAL (proyecto temporal zz_PRUEBAS_CC).
         probar_emojis_temas.py
@@ -288,6 +291,8 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         «Quitar pausas» (jump cuts en los silencios) para GO (v5.4.8).
     plantillas.py
         packs de estilos: leer, guardar, elegir y preparar el pack que se aplica.
+    posiciones_detras_ui.py
+        Efectos › «Captions detrás de ti» › Posición con el diseño nuevo (v5.32): cabecera, visor, panel y tira.
     posiciones_pro.py
         «Posición» de cada efecto de la Edición PRO: el usuario marca en la línea de tiempo de SU video (con sus
     preparar_efectos.py
@@ -318,6 +323,8 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         prueba del estilo «VIRAL» DENTRO de la app (sin pantalla y SIN Resolve): GO, Creativo (palabras marcadas), sonidos y emojis.
     proyecto_pruebas.py
         un proyecto TEMPORAL y vacío de Resolve para probar sin ensuciar el del usuario.
+    proyecto_ui.py
+        v5.32: el aspecto nuevo de la página Proyecto (las maquetas del usuario): la franja del audio y el bloque del tema.
     proyectos.py
         registro de proyectos (vídeos) trabajados: recientes, abrir, borrar.
     qt_kit.py
