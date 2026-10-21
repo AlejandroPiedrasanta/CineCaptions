@@ -7635,5 +7635,103 @@
   "fr": "Nouveau look pour la page Projet : la bande audio, le nom du thème et les boutons « Utilisé » et « Édition PRO activée », animés.",
   "de": "Neues Aussehen der Projektseite: der Audiostreifen, der Themenname und die Schaltflächen «In Verwendung» und «PRO-Bearbeitung aktiv», animiert.",
   "it": "Nuovo aspetto della pagina Progetto: la striscia dell’audio, il nome del tema e i pulsanti «In uso» e «Edizione PRO attiva», animati."
+ },
+ "El de la intro": {
+  "en": "The intro's own",
+  "pt": "O da intro",
+  "fr": "Celui de l'intro",
+  "de": "Der des Intros",
+  "it": "Quello dell'intro"
+ },
+ "Personaliza": {
+  "en": "Customize",
+  "pt": "Personalize",
+  "fr": "Personnalise",
+  "de": "Anpassen",
+  "it": "Personalizza"
+ },
+ "Zoom": {
+  "en": "Zoom",
+  "pt": "Zoom",
+  "fr": "Zoom",
+  "de": "Zoom",
+  "it": "Zoom"
+ },
+ "Tu sonido…": {
+  "en": "Your sound…",
+  "pt": "Seu som…",
+  "fr": "Ton son…",
+  "de": "Dein Ton…",
+  "it": "Il tuo suono…"
+ },
+ "Tu sonido: ": {
+  "en": "Your sound: ",
+  "pt": "Seu som: ",
+  "fr": "Ton son : ",
+  "de": "Dein Ton: ",
+  "it": "Il tuo suono: "
+ },
+ " · sonido: ": {
+  "en": " · sound: ",
+  "pt": " · som: ",
+  "fr": " · son : ",
+  "de": " · Ton: ",
+  "it": " · suono: "
+ },
+ " · zoom: ": {
+  "en": " · zoom: ",
+  "pt": " · zoom: ",
+  "fr": " · zoom : ",
+  "de": " · Zoom: ",
+  "it": " · zoom: "
+ },
+ "Elige tu sonido": {
+  "en": "Choose your sound",
+  "pt": "Escolha seu som",
+  "fr": "Choisis ton son",
+  "de": "Wähle deinen Ton",
+  "it": "Scegli il tuo suono"
+ },
+ "La llevé a {n}, el caption más cercano donde cabe: en {v} {m}.": {
+  "en": "I moved it to {n}, the nearest caption where it fits: in {v} {m}.",
+  "pt": "Levei para {n}, a legenda mais próxima onde cabe: em {v} {m}.",
+  "fr": "Je l'ai déplacée à {n}, le sous-titre le plus proche où il tient : dans {v} {m}.",
+  "de": "Ich habe sie auf {n} verschoben, den nächsten Untertitel, in den sie passt: in {v} {m}.",
+  "it": "L'ho spostata a {n}, il sottotitolo più vicino in cui entra: in {v} {m}."
+ },
+ "La llevé a {n}, el caption más cercano donde cabe.": {
+  "en": "I moved it to {n}, the nearest caption where it fits.",
+  "pt": "Levei para {n}, a legenda mais próxima onde cabe.",
+  "fr": "Je l'ai déplacée à {n}, le sous-titre le plus proche où il tient.",
+  "de": "Ich habe sie auf {n} verschoben, den nächsten Untertitel, in den sie passt.",
+  "it": "L'ho spostata a {n}, il sottotitolo più vicino in cui entra."
+ },
+ "Nuevo «Gancho del inicio»: 8 intros para el primer segundo, con un destello de luz, el video que se aleja con un zoom y un golpe de sonido. Viene encendido con la Edición PRO en todos los temas.": {
+  "en": "New «Opening hook»: 8 intros for the first second, with a flash of light, the video pulling back with a zoom and a sound hit. It comes on with the PRO Edit in every theme.",
+  "pt": "Novo «Gancho do início»: 8 intros para o primeiro segundo, com um flash de luz, o vídeo que se afasta com um zoom e um impacto sonoro. Vem ativado com a Edição PRO em todos os temas.",
+  "fr": "Nouvelle « Accroche du début » : 8 intros pour la première seconde, avec un éclair de lumière, la vidéo qui recule avec un zoom et un impact sonore. Elle est activée avec l'Édition PRO dans tous les thèmes.",
+  "de": "Neu: «Hook am Anfang»: 8 Intros für die erste Sekunde, mit einem Lichtblitz, einem Zoom, mit dem sich das Video entfernt, und einem Sound-Schlag. Mit der PRO-Bearbeitung ist er in allen Themen eingeschaltet.",
+  "it": "Nuovo «Gancio iniziale»: 8 intro per il primo secondo, con un lampo di luce, il video che si allontana con uno zoom e un colpo sonoro. È attivo con l'Edizione PRO in tutti i temi."
+ },
+ "Cada intro tiene su color, su zoom (golpe, suave, desenfoque, giro, temblor, rebote, RGB o latigazo) y su sonido; al elegirla, suena.": {
+  "en": "Each intro has its own color, zoom (punch, soft, blur, spin, shake, bounce, RGB or whip) and sound; it plays when you pick it.",
+  "pt": "Cada intro tem sua cor, seu zoom (golpe, suave, desfoque, giro, tremor, rebote, RGB ou chicote) e seu som; ao escolhê-la, ela toca.",
+  "fr": "Chaque intro a sa couleur, son zoom (coup, doux, flou, rotation, tremblement, rebond, RVB ou fouet) et son son ; elle se fait entendre quand tu la choisis.",
+  "de": "Jedes Intro hat seine Farbe, seinen Zoom (Schlag, sanft, Unschärfe, Drehung, Wackeln, Abprall, RGB oder Peitsche) und seinen Ton; beim Auswählen ist er zu hören.",
+  "it": "Ogni intro ha il suo colore, il suo zoom (colpo, morbido, sfocatura, rotazione, tremolio, rimbalzo, RGB o frusta) e il suo suono; quando la scegli, suona."
+ },
+ "En Efectos › Gancho del inicio › Personaliza cambias el color de la luz, el sonido (el de otra intro, ninguno o uno tuyo) y el zoom.": {
+  "en": "In Effects › Opening hook › Customize you change the light's color, the sound (another intro's, none or your own) and the zoom.",
+  "pt": "Em Efeitos › Gancho do início › Personalize você muda a cor da luz, o som (o de outra intro, nenhum ou um seu) e o zoom.",
+  "fr": "Dans Effets › Accroche du début › Personnalise, tu changes la couleur de la lumière, le son (celui d'une autre intro, aucun ou le tien) et le zoom.",
+  "de": "Unter Effekte › Hook am Anfang › Anpassen änderst du die Farbe des Lichts, den Ton (den eines anderen Intros, keinen oder deinen eigenen) und den Zoom.",
+  "it": "In Effetti › Gancio iniziale › Personalizza cambi il colore della luce, il suono (quello di un'altra intro, nessuno o il tuo) e lo zoom."
+ },
+ "Página Proyecto: el nombre del tema y sus botones, un poco más pequeños. En «Captions detrás de ti» quedan los estilos más limpios.": {
+  "en": "Project page: the theme name and its buttons, a bit smaller. «Captions behind you» keeps the cleanest styles.",
+  "pt": "Página Projeto: o nome do tema e seus botões, um pouco menores. Em «Legendas atrás de você» ficam os estilos mais limpos.",
+  "fr": "Page Projet : le nom du thème et ses boutons, un peu plus petits. « Sous-titres derrière vous » garde les styles les plus nets.",
+  "de": "Seite Projekt: der Themenname und seine Buttons, etwas kleiner. «Untertitel hinter dir» behält die saubersten Stile.",
+  "it": "Pagina Progetto: il nome del tema e i suoi pulsanti, un po’ più piccoli. In «Sottotitoli dietro di te» restano gli stili più puliti."
  }
 }

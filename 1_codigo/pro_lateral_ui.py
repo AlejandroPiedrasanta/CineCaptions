@@ -29,8 +29,12 @@ from i18n import tr
 
 OPCIONES = [
     # v5.26 (el usuario lo pidió): «Gancho del inicio» la primera, «Captions detrás de ti» la segunda (no se ve en Free) y «Emojis animados» la tercera
-    {'clave': 'gancho', 'nombre': 'Gancho del inicio', 'icono': 'ph.lightning', 'motions': ['ograf:titular', 'ograf:orbita', 't5:orbita', 't5:sticker'],
-     'detalle': 'Los primeros segundos: un titular detrás de ti e iconos que giran alrededor de tu cabeza.'},
+    # v5.33: el gancho es una INTRO (intros_gancho: luz, zoom hacia fuera y golpe en el primer segundo) con su propia preferencia; la órbita y
+    # el sticker del gancho quedan retirados (motions_catalogo.RETIRADOS: siguen nombrados aquí para no caer en otro interruptor) y el titular
+    # detrás de la persona pasa a «Gráficos»
+    {'clave': 'gancho', 'nombre': 'Gancho del inicio', 'icono': 'ph.lightning', 'motions': ['ograf:orbita', 't5:orbita', 't5:sticker'],
+     'pref': 'pro_gancho_intro', 'solo_pref': True, 'defecto': True,
+     'detalle': 'El primer segundo: un destello de luz, el video que se aleja con un zoom y un golpe de sonido.'},
     {'clave': 'detras', 'nombre': 'Captions detrás de ti', 'icono': 'ph.user-focus', 'mascara': True, 'solo_studio': True,
      'detalle': 'Solo con DaVinci Resolve Studio: Magic Mask recorta a la persona (solo personas) y el texto pasa por detrás.'},
     # v5.25: los emojis animados (2D Lottie / 3D en movimiento) con lo que dices; con su intensidad en la píldora, como «detrás de ti»
@@ -185,6 +189,8 @@ def estado(clave, op=None):
     if o.get('solo_studio') and not _studio():
         return False                                    # (v5.5.20: sin Studio no va, aunque estuviera guardada encendida)
     op = _op() if op is None else op
+    if o.get('solo_pref'):                              # (v5.33: el gancho = la intro, solo su preferencia; también en el Tema 1, encendido por
+        return bool(op.get(o['pref'], o.get('defecto', False)))         # defecto: el usuario lo pidió)
     if _neon():
         return clave in (op.get('pro_neon_extras') or [])
     if o.get('mascara'):
@@ -204,10 +210,13 @@ def poner(clave, si):
     """Guarda el interruptor. Devuelve False si no se pudo (apagar el último grupo de motions dejaría la lista vacía = «todos»)."""
     import edicion_pro
     import motions_catalogo as MC
+    o = _POR_CLAVE[clave]
+    if o.get('solo_pref'):                              # (v5.33: el gancho, la misma preferencia en todos los temas)
+        edicion_pro.guardar_opciones({o['pref']: bool(si)})
+        return True
     if _neon():
         edicion_pro.poner_neon_extra(clave, si)
         return True
-    o = _POR_CLAVE[clave]
     op = edicion_pro.opciones_guardadas()
     cambios = {}
     if o.get('mascara'):
@@ -215,7 +224,7 @@ def poner(clave, si):
         cambios['pro_mascara'] = (antes if antes != 'no' else 'auto') if si else 'no'
     if o.get('pref'):
         cambios[o['pref']] = bool(si)
-    ids = ids_de(clave) if (o.get('motions') is not None or 'pref' not in o) and not o.get('mascara') else []
+    ids = ids_de(clave) if (o.get('motions') is not None or 'pref' not in o) and not o.get('mascara') and not o.get('solo_pref') else []
     if ids:
         todos = [i for i, _g in _catalogo_ids()]
         lista = [i for i in (op.get('pro_motions') or []) if i in set(todos)] if MC.modo(op) == 'elegidos' else list(todos)

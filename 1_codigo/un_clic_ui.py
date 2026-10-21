@@ -355,7 +355,7 @@ class TituloGo(QWidget):
         self._anim = None
         # v5.32 (maqueta del usuario para Proyecto): estilo 'tema' = el nombre del tema en grande, de blanco a celeste y lila, con su raya lila
         self._estilo = estilo
-        self.setFixedHeight(100 if estilo == 'tema' else 64)
+        self.setFixedHeight(86 if estilo == 'tema' else 64)
         self.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, True)
 
     def latir(self):
@@ -443,7 +443,7 @@ class TituloGo(QWidget):
         return pm
 
     def _preparar(self, w, h, dpr):
-        f = fuente(64 if self._estilo == 'tema' else 34, peso='extra')
+        f = fuente(54 if self._estilo == 'tema' else 34, peso='extra')      # (tema: 64 → 54, el usuario: «un poco más pequeño»)
         f.setLetterSpacing(QFont.SpacingType.PercentageSpacing, 100 if self._estilo == 'tema' else 102)
         fm = QFontMetricsF(f)
         texto = self._texto

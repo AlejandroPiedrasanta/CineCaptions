@@ -11797,8 +11797,16 @@ class SubtitleApp(QWidget):
     def _planificar_efectos(self, media_path, words, cortes_fx, avisar=True):
         """El plan de efectos de ESTE video (nunca rompe GO: si algo falla, se sigue sin efectos). Con avisar=False (en segundo plano, mientras la IA corrige el texto) no toca la línea de estado."""
         self._efectos_plan = None
-        if self._es_tema5():
-            return                                     # v5.4.51: el Tema 5 hace TODA la edición (también el sonido): Efectos no pone nada
+        if self._es_tema5():                           # v5.4.51: el Tema 5 hace TODA la edición (también el sonido): Efectos no pone nada…
+            try:                                       # …salvo, v5.33, la intro del «Gancho del inicio» (primer segundo: luz, zoom y su golpe)
+                import efectos_visuales
+                plan = {'eventos': [], 'duracion': None, 'resumen': '', 'zonas': [], 'solo_audio': True, 'video': str(media_path)}
+                if efectos_visuales.con_intro_gancho(plan, str(media_path)):
+                    self._efectos_plan = plan
+                    registro.info('Efectos: ' + plan.get('resumen', ''), 'efectos')
+            except Exception:
+                registro.excepcion(origen='intro del gancho (Tema 5)')
+            return
         try:
             import efectos_visuales
             import edicion_pro
@@ -11822,6 +11830,7 @@ class SubtitleApp(QWidget):
             else:                                      # sin efectos visuales el audio extra (música, sonidos de gancho) sale igual
                 dur = duracion or (efectos_visuales.duracion_video(str(media_path)) or (float(words[-1].get('end') or 0.0) if words else 0.0))
                 plan = {'eventos': [], 'duracion': dur, 'resumen': '', 'zonas': [], 'solo_audio': True}
+                efectos_visuales.con_intro_gancho(plan, str(media_path))      # v5.33: con la PRO, la intro del «Gancho del inicio» sí va
             plan['video'] = str(media_path)
             # v5.4.8: el audio extra (música de fondo, sonidos de las transiciones, riser + golpe del gancho) y los efectos que se acercan al pulso
             try:

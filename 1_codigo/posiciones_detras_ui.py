@@ -708,7 +708,7 @@ class VisorDetras(QWidget):
         p.drawRoundedRect(QRectF(pista.left(), pista.top(), max(6.0, pista.width() * f), pista.height()), 3, 3)
         for tm in ln.marcas:                                              # (las marcas, como puntos sobre la barra)
             xm = pista.left() + pista.width() * (tm / ln.dur if ln.dur > 0 else 0.0)
-            p.setBrush(QColor(AMBAR) if ln._mal_go(tm) else QColorReal(255, 255, 255, 210))
+            p.setBrush(QColor(AMBAR) if ln.queda_mal(tm) else QColorReal(255, 255, 255, 210))
             p.drawEllipse(QPointF(xm, pista.center().y()), 2.6, 2.6)
         xk = pista.left() + pista.width() * f
         p.setBrush(_alfa(acento, 70))
@@ -905,7 +905,7 @@ class PanelDetras(QWidget):
         ln = self.linea
         if any(abs(t - x) < 0.06 for x in aplicadas):
             return tr('En tu timeline'), VERDE
-        if ln._mal_go(t) or (ln.zonas is not None and not any(a <= t <= b for a, b in ln.zonas)):
+        if ln.queda_mal(t):
             m = ln.motivo_go(t) or ln.texto_motivo(t)
             return (tr('No se puede: {m}', m=m) if m else tr('No se puede aquí')), AMBAR
         if ln.estado_go(t) is None and isinstance(ln._reglas, dict):

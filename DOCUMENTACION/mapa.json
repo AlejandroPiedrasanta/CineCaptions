@@ -3465,6 +3465,58 @@
       "resumen": "pref pro_estilos {clave: {v, c}}; vestir() en edicion_pro.aplicar antes de renderizar; detrás de ti = nodos Fusion entre MagicMask y MediaOut; ejemplos en edicion_pro/estilos_pro"
     },
     {
+      "id": "intros-gancho",
+      "grupo": "efectos",
+      "tema": "«Gancho del inicio» = intro de 0-1 s: luz de overlays coloreada, zoom hacia fuera y golpe de sonido (8 intros)",
+      "claves": [
+        "intro",
+        "intros",
+        "gancho",
+        "gancho del inicio",
+        "overlay",
+        "overlays",
+        "destello",
+        "fogonazo",
+        "fuga de luz",
+        "zoom hacia fuera",
+        "zoom out",
+        "sonido de la intro",
+        "golpe",
+        "impacto",
+        "primer segundo",
+        "órbita retirada"
+      ],
+      "archivos": [
+        "intros_gancho.py",
+        "herramientas_dev/hacer_intros.py",
+        "estilos_pro.py",
+        "efectos_visuales.py",
+        "fusion_v1.py",
+        "2_recursos/efectos/colocar_efectos.py",
+        "resolve_scripts/CineCaptions_Efectos.lua",
+        "motions_catalogo.py",
+        "pro_lateral_ui.py",
+        "efectos_pro_ui.py",
+        "rectificador.py",
+        "kit_neon_placa.py"
+      ],
+      "simbolos": [
+        "activa",
+        "elegida",
+        "eventos",
+        "colorear",
+        "preparar_clip",
+        "preparar_sonido",
+        "expresiones",
+        "zoom_np",
+        "con_intro_gancho",
+        "RETIRADOS",
+        "SIN_POSICION",
+        "ZOOMS"
+      ],
+      "resumen": "pref pro_gancho_intro; efectos_visuales.con_intro_gancho (también con la PRO y los Temas 5/6): luz en FX-INTRO (Pantalla), sonido en FX-SONIDO bajo la voz, zoom en V1 con la comp «CineCaptions Intro»; recursos con hacer_intros.py"
+    },
+    {
       "id": "sonido-pro",
       "grupo": "sonido",
       "tema": "Sonido › Edición PRO: encendido, volumen y familias de sus sonidos",

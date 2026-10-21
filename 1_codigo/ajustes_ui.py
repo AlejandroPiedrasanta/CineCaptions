@@ -484,6 +484,12 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.33', [
+        'Nuevo «Gancho del inicio»: 8 intros para el primer segundo, con un destello de luz, el video que se aleja con un zoom y un golpe de sonido. Viene encendido con la Edición PRO en todos los temas.',
+        'Cada intro tiene su color, su zoom (golpe, suave, desenfoque, giro, temblor, rebote, RGB o latigazo) y su sonido; al elegirla, suena.',
+        'En Efectos › Gancho del inicio › Personaliza cambias el color de la luz, el sonido (el de otra intro, ninguno o uno tuyo) y el zoom.',
+        'Página Proyecto: el nombre del tema y sus botones, un poco más pequeños. En «Captions detrás de ti» quedan los estilos más limpios.',
+    ]),
     ('5.32', [
         'Arreglado: CineCaptions ya no se congela cuando DaVinci Resolve está ocupado, y «Listo» de «detrás de ti» ya no hace caer a Resolve.',
         'Si Resolve se cierra de golpe, CineCaptions lo avisa al momento y te dice qué hacer (tus marcas siguen guardadas).',

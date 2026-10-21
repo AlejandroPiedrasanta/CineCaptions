@@ -122,11 +122,13 @@ def _quitar_si_vacia(tl, nombre, tipo='video'):
 
 
 NOMBRE_COMP = 'CineCaptions FX'
+NOMBRE_INTRO = 'CineCaptions Intro'          # v5.33: solo el zoom de la intro del gancho (con la PRO: colocar_pro sí recorta a la persona encima)
 
 
 def _poner_movimiento(tl, entradas):
     """La composición de Fusion de cada clip de V1 (zoom, temblor, transiciones, fondo desenfocado): se quita la de la vez anterior y se importa la nueva.
-    `entradas`: [{'inicio': fotograma del clip en el timeline, 'ruta': .comp | None}]. Devuelve cuántas se pusieron."""
+    `entradas`: [{'inicio': fotograma del clip en el timeline, 'ruta': .comp | None, 'nombre': nombre de la comp (por defecto NOMBRE_COMP)}].
+    Devuelve cuántas se pusieron."""
     puestas = 0
     por_inicio = {int(e['inicio']): e for e in entradas}
     for it in tl.GetItemListInTrack('video', 1) or []:
@@ -135,10 +137,11 @@ def _poner_movimiento(tl, entradas):
             continue
         try:
             for n in list(it.GetFusionCompNameList() or []):
-                if n == NOMBRE_COMP:
+                if n in (NOMBRE_COMP, NOMBRE_INTRO):
                     it.DeleteFusionCompByName(n)
             if not e.get('ruta'):
                 continue
+            nombre = e.get('nombre') or NOMBRE_COMP
             antes = set(it.GetFusionCompNameList() or [])
             comp = it.ImportFusionComp(e['ruta'])
             if not comp:
@@ -147,8 +150,8 @@ def _poner_movimiento(tl, entradas):
             nuevos = [n for n in (it.GetFusionCompNameList() or []) if n not in antes]
             if nuevos:
                 try:
-                    it.RenameFusionCompByName(nuevos[0], NOMBRE_COMP)
-                    it.LoadFusionCompByName(NOMBRE_COMP)
+                    it.RenameFusionCompByName(nuevos[0], nombre)
+                    it.LoadFusionCompByName(nombre)
                 except Exception:
                     pass
             try:

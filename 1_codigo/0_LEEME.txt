@@ -12,7 +12,7 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
 ------------------------------------------------------------------------------
     .cf\   (1 archivos)
         icono.ico
-    herramientas_dev\   (29 archivos)
+    herramientas_dev\   (30 archivos)
         banco_voz\   (1 archivos)
         banco_voz.py
             v5.5.17: mide la transcripción (WER y la lista de errores) contra un texto CORRECTO, para comparar
@@ -30,6 +30,8 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
             los EJEMPLOS REALES de los interruptores de la Edición PRO en Proyecto (pro_lateral_ui): un clip
         hacer_estilos_pro.py
             v5.20: los EJEMPLOS de cada estilo de la página Efectos › Edición PRO (estilos_pro.SECCIONES):
+        hacer_intros.py
+            v5.33: los RECURSOS de las intros del «Gancho del inicio» (intros_gancho.py, estilos_pro 'gancho'):
         hacer_previas_motions.py
             las miniaturas del carrusel «Motions de la Edición PRO» (página Efectos): un fotograma de cada
         importar_sonidos.py
@@ -228,6 +230,8 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         copia los scripts de CineCaptions al menú de DaVinci Resolve y comprueba que estén al día.
     instalar_fuentes.py
         instala en el sistema las tipografías de las plantillas (para que Resolve/Fusion las vea).
+    intros_gancho.py
+        v5.33: el «Gancho del inicio» de la Edición PRO = una INTRO en el primer segundo: un destello de luz (los overlays
     isla_ui.py
         la «isla dinámica»: el menú de navegación flotante de arriba, los controles de la ventana y el borde.
     kinetic_captions.py

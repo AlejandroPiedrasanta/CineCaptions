@@ -1139,7 +1139,7 @@ if _QT:
                 self._pedir_vista(t_ver)
             info = vista[1] if vista and vista[0] is not None else None
             pm = vista[0] if info is not None else self._foto_en(t_ver)
-            motivo = self.texto_motivo(t_ver) if con_persona and self.zonas is not None else ''
+            motivo = (self.texto_motivo(t_ver) if con_persona and self.zonas is not None and self.estado_go(t_ver) is not True else '')
             if not motivo and con_persona:
                 motivo = self.motivo_go(t_ver)       # (v5.31: lo que la regla de GO ya comprobó de ese caption)
             if not motivo and info is not None and not info.get('detras') and info.get('motivo'):
@@ -1340,27 +1340,67 @@ if _QT:
                 self._go_otra = True
                 return
             self._go_ocupado = True
-            ruta, cache = self.ruta, dict(self._go_cache)
+            ruta, cache, cap = self.ruta, dict(self._go_cache), self.captions
+            aplicados = list(self._aplicados or [])
 
             def trabajo():
                 for t in ts:
                     valida_go(r, t, cache)
-                return cache
+                # v5.33 (el usuario: «me lo impide aunque claramente sí se pueda»): una marca nueva que GO no pondría pasa al caption más
+                # cercano donde sí (a ±RADIO_MARCA_DETRAS_S, lo mismo que hará «Listo»); se mira aquí, en el hilo
+                import edicion_pro as EP
+                centros = sorted({round((float(b['start']) + float(b['end'])) / 2.0, 1) for b in bloques_de(cap)})
+                cerca = {}
+                for t in ts:
+                    if estado_go(r, t, cache) is not False or any(abs(t - x) < 0.06 for x in aplicados):
+                        continue
+                    for c in sorted((c for c in centros if 0.06 < abs(c - t) <= EP.RADIO_MARCA_DETRAS_S), key=lambda c: abs(c - t)):
+                        if valida_go(r, c, cache)[0]:
+                            cerca[t] = (c, valida_go(r, t, cache)[1])
+                            break
+                return cache, cerca
 
-            def fin(c, error):
+            def fin(res, error):
                 self._go_ocupado = False
                 if ruta != self.ruta or r is not self._reglas:
                     return
-                if error is None and c:
+                if error is None and res:
+                    c, cerca = res
                     nuevos = set(c) - set(self._go_cache)
                     self._go_cache.update(c)
                     self._avisar_go(nuevos)
+                    self._llevar_a_donde_cabe(cerca)
                 otra, self._go_otra = self._go_otra, False
                 self._calcular_sugeridas()
                 self.update()
                 if otra:
                     self._calcular_sugeridas()
             correr_en_hilo(self, trabajo, fin)
+
+        def _llevar_a_donde_cabe(self, cerca):
+            """{marca: (caption más cercano donde GO sí la pone, motivo)}: cada marca (si sigue ahí y no la está arrastrando) pasa a ese
+            caption y la nota dice por qué; sin juntar dos en el mismo caption."""
+            if not cerca or self._arr is not None:
+                return
+            import edicion_pro as EP
+            movidas = []
+            for viejo, (nuevo, motivo) in sorted(cerca.items()):
+                if viejo not in self.marcas or any(abs(nuevo - x) < SEPARACION_MIN for x in self.marcas if x != viejo):
+                    continue
+                i = self.marcas.index(viejo)
+                self.marcas[i] = nuevo
+                if self._sel == i or self.cabezal is not None and abs(self.cabezal - viejo) < 0.06:
+                    self.cabezal = nuevo
+                movidas.append((viejo, nuevo, tr(EP.MOTIVOS_DETRAS.get(motivo, motivo)) if motivo else ''))
+            if not movidas:
+                return
+            self.marcas.sort()
+            if self._sel is not None and self.cabezal is not None:
+                self._sel = min(range(len(self.marcas)), key=lambda j: abs(self.marcas[j] - self.cabezal))
+            viejo, nuevo, m = movidas[-1]
+            self.nota = (tr('La llevé a {n}, el caption más cercano donde cabe: en {v} {m}.', n=texto_t(nuevo), v=texto_t(viejo), m=m) if m else
+                         tr('La llevé a {n}, el caption más cercano donde cabe.', n=texto_t(nuevo)))
+            self._guardar()
 
         def _avisar_go(self, nuevos):
             """La marca elegida (o la última) que GO no pondría, recién comprobada (`nuevos`: sus bloques): lo dice la nota, con el motivo."""
@@ -1391,6 +1431,16 @@ if _QT:
 
         def _mal_go(self, t):
             return self.estado_go(t) is False and not any(abs(t - x) < 0.06 for x in self._aplicados or [])
+
+        def queda_mal(self, t):
+            """v5.33: ¿la marca de t sale en ámbar? Con el veredicto de la regla de GO, ese (lo que «Listo» pone de verdad); sin él aún, el
+            verde aproximado de la tira. Lo que ya está en el timeline, nunca."""
+            if self.seccion not in CON_PERSONA or any(abs(t - x) < 0.06 for x in self._aplicados or []):
+                return False
+            e = self.estado_go(t)
+            if e is not None:
+                return e is False
+            return self.zonas is not None and not any(a <= t <= b for a, b in self.zonas)
 
         def _calcular_sugeridas(self):
             """Los sitios sugeridos (sin los ya marcados) y, de paso, sus vistas y las de las marcas, preparadas para que salgan al momento."""
@@ -1985,9 +2035,8 @@ if _QT:
             for i, t in enumerate(self.marcas):
                 x = self._x(t)
                 sel = i == self._sel
-                acento = (QColor(self.AMBAR) if self.seccion in CON_PERSONA and ((self.zonas is not None and not any(a <= t <= b for a, b in self.zonas))
-                                                                                   or self._mal_go(t))
-                          else QColor(ui.ACCENT))        # (v5.27: una marca donde no queda bien, en ámbar; v5.31: o donde GO no la pone)
+                acento = (QColor(self.AMBAR) if self.queda_mal(t)
+                          else QColor(ui.ACCENT))        # (v5.27: una marca donde no queda bien, en ámbar; v5.31: o donde GO no la pone; v5.33: manda GO)
                 p.setPen(QPen(acento, 2.4 if sel else 1.8))
                 p.drawLine(QPointF(x, tira.top() - 12), QPointF(x, tira.bottom()))
                 p.setPen(Qt.PenStyle.NoPen)

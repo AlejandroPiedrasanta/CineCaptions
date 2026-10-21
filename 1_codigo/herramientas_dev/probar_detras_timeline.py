@@ -340,7 +340,7 @@ def main():
     CP.RUTA_JSON = str(EP.PLAN_JSON)
     corridas = []
 
-    def ejecutar_py(script, timeout=600, on_progreso=None):
+    def ejecutar_py(script, timeout=600, on_progreso=None, sincrono=False):
         corridas.append(json.loads(EP.PLAN_JSON.read_text(encoding='utf-8')))
         if on_progreso:                                                  # (v5.32: la barra de «Listo» sigue viva mientras Resolve trabaja)
             on_progreso(3.0)

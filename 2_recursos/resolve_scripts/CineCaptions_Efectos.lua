@@ -10,7 +10,7 @@ Reglas (las mismas que la gemela): nunca toca V1/A1 ni las pistas de los caption
 los clips de una misma pista nunca se pisan; los archivos se importan una sola vez al bin «RCS · Efectos».
 ]]
 
-local VERSION = "5.32 (efectos)"
+local VERSION = "5.33 (efectos)"
 
 -- La ENTREGA del Puente: ver CineCaptions_InsertarSFX.lua.
 local ENTREGA_PUENTE = ({...})[1]
@@ -463,19 +463,22 @@ local function lista_api_texto(t)
 end
 
 -- La composicion de Fusion de cada clip de V1 (zoom, temblor, transiciones, fondo desenfocado): se quita la de la vez anterior y se importa la nueva.
--- `entradas`: [{inicio = fotograma del clip en el timeline, ruta = .comp | nil}]. Devuelve cuantas se pusieron.
+-- `entradas`: [{inicio = fotograma del clip en el timeline, ruta = .comp | nil, nombre = nombre de la comp (por defecto NOMBRE_COMP)}].
+-- v5.33: «CineCaptions Intro» = solo el zoom de la intro del gancho (con la PRO: colocar_pro si recorta a la persona encima). Devuelve cuantas se pusieron.
 local function poner_movimiento(tl, entradas)
     local puestas = 0
     local por_inicio = {}
+    local NOMBRE_INTRO = "CineCaptions Intro"
     for _, e in ipairs(entradas or {}) do por_inicio[math.floor(tonumber(e.inicio) or -1)] = e end
     for _, it in ipairs(lista_api(tl:GetItemListInTrack("video", 1))) do
         local e = por_inicio[math.floor(tonumber(it:GetStart()) or -2)]
         if e ~= nil then
             local ok, err = pcall(function()
                 for _, n in ipairs(lista_api_texto(it:GetFusionCompNameList())) do
-                    if n == NOMBRE_COMP then it:DeleteFusionCompByName(n) end
+                    if n == NOMBRE_COMP or n == NOMBRE_INTRO then it:DeleteFusionCompByName(n) end
                 end
                 if e.ruta == nil or e.ruta == "" then return end
+                local nombre = (e.nombre ~= nil and e.nombre ~= "") and e.nombre or NOMBRE_COMP
                 local antes = {}
                 for _, n in ipairs(lista_api_texto(it:GetFusionCompNameList())) do antes[n] = true end
                 local comp = it:ImportFusionComp(e.ruta)
@@ -489,8 +492,8 @@ local function poner_movimiento(tl, entradas)
                 end
                 if nuevo ~= nil then
                     pcall(function()
-                        it:RenameFusionCompByName(nuevo, NOMBRE_COMP)
-                        it:LoadFusionCompByName(NOMBRE_COMP)
+                        it:RenameFusionCompByName(nuevo, nombre)
+                        it:LoadFusionCompByName(nombre)
                     end)
                 end
                 pcall(function() it:SetFusionOutputCache("enabled") end)   -- v5.5.4: se pre-renderiza en segundo plano (gemelo de colocar_efectos.py)

@@ -1,5 +1,233 @@
 REGISTRO DE CAMBIOS ARCHIVADO · 2026-10 (la entrada más nueva arriba)
 
+2026-10-19 21:37  ·  v5.22  ·  cambio explicado
+    Librerías: revisadas todas contra PyPI/npm (2026-10-19). Parches menores: certifi 2026.10.19 (app y motor); motor Qwen: filelock 4.2.4, httpx2/httpcore2 2.15.1, platformdirs 4.13.5, setuptools 84.2.0, transformers 5.20.2; Remotion 4.0.537 (1_codigo/remotion, npm install hecho; el runtime lo rehace preparar_remotion al compilar). Python 3.15 sigue bloqueado (ctranslate2, onnxruntime, torch sin cp315). Sin compilar.
+    nuevos (32):
+      + 1_codigo/remotion/node_modules/@remotion/captions/dist/parse-vtt.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/captions/dist/parse-vtt.js
+      + 1_codigo/remotion/node_modules/@remotion/codemods/dist/unwrap-node.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/studio-server/dist/preview-server/routes/unwrap-node.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/studio-server/dist/preview-server/routes/unwrap-node.js
+      + 1_codigo/remotion/node_modules/@remotion/studio/dist/components/InspectorPanel/SequenceUnwrapAction.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/studio/dist/components/InspectorPanel/SequenceUnwrapAction.js
+      + 1_codigo/remotion/node_modules/@remotion/studio/dist/components/Timeline/get-sequence-unwrap-menu-item.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/studio/dist/components/Timeline/get-sequence-unwrap-menu-item.js
+      + 1_codigo/remotion/node_modules/@remotion/studio/dist/components/Timeline/unwrap-sequence-from-source.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/studio/dist/components/Timeline/unwrap-sequence-from-source.js
+      + 1_codigo/remotion/node_modules/@remotion/studio/dist/components/WrapperRefactorModal.d.ts
+      … y 20 más
+    modificados (175):
+      ~ 1_codigo/remotion/node_modules/.package-lock.json
+      ~ 1_codigo/remotion/node_modules/@mediabunny/aac-encoder/dist/modules/tsconfig.tsbuildinfo
+      ~ 1_codigo/remotion/node_modules/@mediabunny/aac-encoder/package.json
+      ~ 1_codigo/remotion/node_modules/@mediabunny/flac-encoder/dist/modules/tsconfig.tsbuildinfo
+      ~ 1_codigo/remotion/node_modules/@mediabunny/flac-encoder/package.json
+      ~ 1_codigo/remotion/node_modules/@mediabunny/mp3-encoder/dist/modules/tsconfig.tsbuildinfo
+      ~ 1_codigo/remotion/node_modules/@mediabunny/mp3-encoder/package.json
+      ~ 1_codigo/remotion/node_modules/@remotion/bundler/package.json
+      ~ 1_codigo/remotion/node_modules/@remotion/captions/dist/esm/index.mjs
+      ~ 1_codigo/remotion/node_modules/@remotion/captions/dist/index.d.ts
+      ~ 1_codigo/remotion/node_modules/@remotion/captions/dist/index.js
+      ~ 1_codigo/remotion/node_modules/@remotion/captions/package.json
+      … y 163 más
+    quitados (17):
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/components/WrapRefactorModal.d.ts
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/components/WrapRefactorModal.js
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/CaptionQueueProcessor-a8dceter.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/LazyModels-srqb2saw.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/LazyModels-szd8xazd.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/TranscriptionModal-h32evyqp.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/VideoMattingModal-y3e4q15f.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/VideoMattingQueueProcessor-sn2am444.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/index-00qdn7kw.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/index-2c9r9533.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/index-a0vnj1t4.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/index-a94vwgt9.mjs
+      … y 5 más
+
+2026-10-19 20:32  ·  v5.22  ·  (automático)
+    modificados (24):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/efectos_pagina.py
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/efectos_visuales.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      … y 12 más
+
+2026-10-19 19:59  ·  v5.21  ·  (automático)
+    modificados (47):
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/estilos_pro.py
+      ~ 1_codigo/herramientas_dev/hacer_estilos_pro.py
+      ~ 1_codigo/herramientas_dev/probar_edicion_pro.py
+      ~ 1_codigo/herramientas_dev/probar_pro_lateral.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/edicion_pro/estilos_pro/detras_aura.jpg
+      ~ 2_recursos/edicion_pro/estilos_pro/detras_aura.mp4
+      ~ 2_recursos/edicion_pro/estilos_pro/detras_sombra.jpg
+      ~ 2_recursos/edicion_pro/estilos_pro/detras_sombra.mp4
+      ~ 2_recursos/edicion_pro/estilos_pro/detras_sombra_dura.jpg
+      … y 35 más
+
+2026-10-19 19:11  ·  v5.20  ·  cambio explicado
+    Efectos › Edición PRO (pedido del usuario): cada función de la PRO con Automático + 10 estilos con su ejemplo animado y colores propios (estilos_pro.py fuente única; efectos_pro_ui.py; vestir() en edicion_pro.aplicar antes de renderizar; detrás de ti = sombra/orilla/resplandor con nodos de Fusion de nombres sacados de Templates.drfx, sin probar aún en Resolve real). Quitados de Efectos y de GO: Sonido extra, Cierre del video, Iconos flotantes; del menú lateral: Plantillas por frase.
+    nuevos (179):
+      + 1_codigo/efectos_pro_ui.py
+      + 1_codigo/estilos_pro.py
+      + 1_codigo/herramientas_dev/hacer_estilos_pro.py
+      + 2_recursos/edicion_pro/estilos_pro/broll_auto.jpg
+      + 2_recursos/edicion_pro/estilos_pro/broll_auto.mp4
+      + 2_recursos/edicion_pro/estilos_pro/broll_cinta.jpg
+      + 2_recursos/edicion_pro/estilos_pro/broll_cinta.mp4
+      + 2_recursos/edicion_pro/estilos_pro/broll_circulo.jpg
+      + 2_recursos/edicion_pro/estilos_pro/broll_circulo.mp4
+      + 2_recursos/edicion_pro/estilos_pro/broll_completa.jpg
+      + 2_recursos/edicion_pro/estilos_pro/broll_completa.mp4
+      + 2_recursos/edicion_pro/estilos_pro/broll_cristal.jpg
+      … y 167 más
+    modificados (20):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_ograf.py
+      ~ 1_codigo/efectos_extra.py
+      ~ 1_codigo/efectos_extra_ui.py
+      ~ 1_codigo/efectos_pagina.py
+      ~ 1_codigo/efectos_visuales.py
+      ~ 1_codigo/emojis_sfx.py
+      ~ 1_codigo/motions_completo.py
+      ~ 1_codigo/pro_lateral_ui.py
+      ~ 1_codigo/remotion/src/Acompanantes.tsx
+      ~ 1_codigo/remotion/src/Efectos5.tsx
+      … y 8 más
+
+2026-10-19 16:34  ·  v5.20  ·  (automático)
+    modificados (38):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/actualizaciones.py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/herramientas_dev/probar_edicion_pro.py
+      ~ 1_codigo/herramientas_dev/probar_pro_lateral.py
+      ~ 1_codigo/kit_neon.py
+      ~ 1_codigo/kit_neon_placa.py
+      ~ 1_codigo/pro_lateral_ui.py
+      ~ 1_codigo/proyecto_pruebas.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/edicion_pro/colocar_pro.py
+      … y 26 más
+
+2026-10-19 15:16  ·  v5.5.19  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-10-19 15:16  ·  v5.5.18  ·  cambio explicado
+    5.5.19, pulido del Tema 1: el desenfoque de movimiento de KitNeon apilaba 5 copias (alfa inflado: sombras que se perdían y tirón al parar) -> media plus-lighter aislada y siempre la misma mezcla; la palabra a mano no tenía salida; las palabras ocultas con display:none re-centraban la línea al aparecer cada una (tambaleo) -> visibility con _guarda.
+    modificados (10):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/remotion/src/KitNeon.tsx
+      ~ 1_codigo/remotion/src/kitneon/motor.ts
+      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js
+      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js.map
+      ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/debug.log
+      ~ 2_recursos/vistas_slider/Kinetic.jpg
+      ~ 2_recursos/vistas_slider/Kinetic.mp4
+      ~ 2_recursos/vistas_slider/Kinetic_captions.jpg
+      ~ 2_recursos/vistas_slider/Kinetic_captions.mp4
+
+2026-10-19 14:02  ·  v5.5.18  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-10-19 14:01  ·  v5.5.17  ·  cambio explicado
+    Tras 5.5.17: aros/rayas sueltos del Tema 1 al salir cada caption (copias del desenfoque de movimiento con display:none medían el aro 0x0; ahora visibility y medir() no mide sin maquetar; caché de clips Remotion con huella del bundle); trazos que caían al final del bloque adelantados o quitados; más parecido a la referencia: ¿ en preguntas, cifra+sustantivo grande con pegatina (3 JÓVENES / INFLUENCERS), 100 % en dos palabras = 100% + GRATUITA, determinantes nunca grandes.
+    modificados (13):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro_remotion.py
+      ~ 1_codigo/kinetic_planificador.py
+      ~ 1_codigo/kit_neon.py
+      ~ 1_codigo/remotion/src/KitNeon.tsx
+      ~ 1_codigo/remotion/src/kitneon/motor.ts
+      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js
+      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js.map
+      ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/debug.log
+      ~ 2_recursos/vistas_slider/Kinetic.jpg
+      ~ 2_recursos/vistas_slider/Kinetic.mp4
+      ~ 2_recursos/vistas_slider/Kinetic_captions.jpg
+      … y 1 más
+
+2026-10-19 10:42  ·  v5.5.17  ·  (automático)
+    modificados (25):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/debug.log
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      … y 13 más
+
+2026-10-19 10:38  ·  v5.5.16  ·  cambio explicado
+    5.5.17: transcripción con vocabulario aprendido (contexto a Qwen3-ASR/Whisper, ahora también en la llamada principal), IA de texto 4B en GO sin Resolve (no se reserva GPU para un Resolve que no se abre; 6 s frente a 24 s del 1.7B) y JSON compacto (1.7B 22→17 s); Tema 1 sin Resolve por fin con kit_neon_mp4 (_kitneon no se armaba en sin_resolve); captions neón: ninguna palabra antes de que entre su bloque (se montaba sobre el anterior); píldoras en el tramo libre de cada caption (con el Tema 1 salían 0), fecha/hora/lugar, nunca lo que ya va en grande; Motions completo del Tema 1 con piezas del kit; placa 2,8× y MP4 sin Resolve 1,8× más rápidos en paralelo, idénticos; probar_pro_lateral 161 OK; GO sin Resolve de los 6 temas OK.
+    nuevos (5):
+      + 1_codigo/herramientas_dev/banco_voz.py
+      + 1_codigo/herramientas_dev/banco_voz/prueba_espanol.txt
+      + 1_codigo/herramientas_dev/probar_pro_lateral.py
+      + 1_codigo/kit_neon_completo.py
+      + 1_codigo/vocabulario.py
+    modificados (19):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/cache_voz.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_tema5_acomp.py
+      ~ 1_codigo/edicion_pro_temas.py
+      ~ 1_codigo/ia_texto.py
+      ~ 1_codigo/kit_neon.py
+      ~ 1_codigo/kit_neon_mp4.py
+      ~ 1_codigo/kit_neon_placa.py
+      ~ 1_codigo/motions_completo.py
+      ~ 1_codigo/motor_voz.py
+      … y 7 más
+
+
+(Lo anterior está archivado por mes en DOCUMENTACION/historial/REGISTRO_<aaaa-mm>.txt)
 2026-10-19 01:12  ·  v5.5.16  ·  cambio explicado
     Tema 1 sin Resolve (kit_neon_mp4: los mismos clips de la PRO compuestos por capas sobre la placa o el video, con sonidos) y Free revisado con un Resolve simulado; vistas del slider del Tema 1 rehechas con el estilo neón (solo captions y con PRO).
 

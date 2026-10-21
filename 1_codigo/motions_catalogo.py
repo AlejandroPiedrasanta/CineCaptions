@@ -119,10 +119,16 @@ def modo(op=None):
     return 'elegidos' if str(op.get('pro_motions_modo') or 'auto') == 'elegidos' and op.get('pro_motions') else 'auto'
 
 
+RETIRADOS = {'ograf:orbita', 't5:orbita', 't5:sticker'}     # v5.33: el «Gancho del inicio» ya es una intro (intros_gancho): ni órbita ni sticker
+
+
 def permitido(mid, op=None):
-    """¿Puede la PRO usar ese motion? En «auto», todos; en «elegidos», solo los marcados por el usuario. Un id desconocido (None) siempre."""
+    """¿Puede la PRO usar ese motion? En «auto», todos; en «elegidos», solo los marcados por el usuario. Un id desconocido (None) siempre.
+    Los RETIRADOS, nunca."""
     if not mid:
         return True
+    if mid in RETIRADOS:
+        return False
     op = _op(op)
     if modo(op) != 'elegidos':
         return True
@@ -164,9 +170,7 @@ def id_de_pieza(p):
 def filtrar(piezas, op=None):
     """Las piezas sin los motions no permitidos. Un fondo o un velo que solo acompañaba a una pieza quitada (mismo tramo) se va con ella."""
     op = _op(op)
-    if modo(op) != 'elegidos':
-        return list(piezas or [])
-    fuera = [p for p in piezas or [] if not permitido(id_de_pieza(p), op)]
+    fuera = [p for p in piezas or [] if not permitido(id_de_pieza(p), op)]       # (en «auto» solo salen los RETIRADOS)
     if not fuera:
         return list(piezas or [])
     quedan = [p for p in piezas or [] if p not in fuera]

@@ -43,6 +43,7 @@ DETRAS_CTX = Path.home() / 'DaVinciSubtitles' / 'detras_contexto.json'    # v5.2
 OPCIONES_POR_DEFECTO = {'pro_genero': 'auto', 'pro_densidad': 'media', 'pro_mascara': 'auto', 'pro_sonidos': True, 'pro_ia_local': True, 'pro_variacion': 0,
                         'pro_internet': True,          # v5.5.3: fotos de internet con licencia (fuentes_web) para las escenas
                         'pro_motions_completo': False,  # v5.5.8: «Motions completo» (motions_completo.py): un video de motions encima de todo, al final
+                        'pro_gancho_intro': True,       # v5.33: «Gancho del inicio» = la intro del primer segundo (intros_gancho)
                         'pro_motions_modo': 'auto', 'pro_motions': [],     # v5.5.7: 'auto' (la IA elige entre todos) o 'elegidos' (solo los de la lista)
                         'pro_sonidos_nivel': 'normal',  # v5.5.7 (página Sonido › Edición PRO): 'suave' | 'normal' | 'fuerte'
                         'pro_sonidos_familias': {'whoosh': True, 'textura': True, 'riser': True},   # movimiento · apariciones · riser + golpe
@@ -121,7 +122,9 @@ def neon_elegido():
 # v5.5.13 (el usuario: «si solo es captions, solo captions; si activo el modo PRO lo hará como el de referencia y si activo cosas del menú
 # también lo aplicará; pero el tema por defecto será como la referencia»): con el Tema 1, los interruptores del menú lateral de Proyecto
 # (pro_lateral_ui) son SUYOS: 'pro_neon_extras', por defecto ninguno = la referencia exacta; los de los demás temas no cambian.
-NEON_EXTRAS = ('pildora', 'broll', 'detras', 'motions_completo', 'gancho', 'escenas', 'kit', 'graficos', 'emoji')   # v5.20: sin 'plantillas' · v5.25: + emoji
+# v5.33: sin 'gancho': ahora es la intro del primer segundo (intros_gancho) con su propia preferencia (pro_gancho_intro, encendida por defecto
+# también en el Tema 1, pedido del usuario); un 'gancho' guardado aquí de antes ya no cuenta (cambiaría la densidad de la PRO del Tema 1)
+NEON_EXTRAS = ('pildora', 'broll', 'detras', 'motions_completo', 'escenas', 'kit', 'graficos', 'emoji')   # v5.20: sin 'plantillas' · v5.25: + emoji
 
 
 def neon_extras(op=None):
@@ -1091,8 +1094,12 @@ def _detras_bloque(b, info, video, W, H, cfg, a_cuadro, cortes, forzado, posicio
     (desplazar_lado) y los datos llevan además 'mover' (fracción del ancho, + = a la derecha: el Pan de colocar_pro)."""
     a, z = b['ini'], b['fin']
     lateral = float(W) > float(H) and (posicion or posicion_detras()) in ('izquierda', 'derecha')
-    if b.get('grande_abajo') is False and not lateral:
-        return None, MOTIVOS_DETRAS['linea']                          # (v5.5.20: la cabeza solo tapa la palabra GRANDE; nunca una línea pequeña)
+    # v5.33 (el usuario: «cuando quiero seleccionar dónde lo quiero me lo impide aunque claramente sí se pueda, hay espacio»): la última
+    # línea pequeña bajo la palabra grande ya no impide una MARCA suya; la cabeza tapa poco esa línea (`linea_chica`, abajo). Lo automático
+    # sigue eligiendo solo los de palabra grande abajo
+    linea_chica = b.get('grande_abajo') is False and not lateral
+    if linea_chica and not forzado:
+        return None, MOTIVOS_DETRAS['linea']                        # (v5.5.20: la cabeza solo tapa la palabra GRANDE; nunca una línea pequeña)
     if z - a < (0.6 if forzado else 1.0):
         return None, MOTIVOS_DETRAS['corto']                          # (v5.5.20: un caption de medio segundo que salta arriba y vuelve se ve forzado)
     if any(a + 0.12 < c < z - 0.1 for c in cortes):
@@ -1136,10 +1143,12 @@ def _detras_bloque(b, info, video, W, H, cfg, a_cuadro, cortes, forzado, posicio
     # cuánto de la pila tapa la cabeza: hasta la frente (~40 % de la cabeza), sin pasar del 45 % de la línea de abajo (la palabra se sigue
     # leyendo); en un plano entero (cabeza pequeña) tapa poco y en un primer plano mucho más
     tapa = max(0.012, min(cfg['tapa_max'] if cfg else 0.055, 0.4 * cab, (cfg['tapa'] if cfg else 0.45) * b['linea']))
+    if linea_chica:                                                   # (una línea pequeña abajo: la cabeza solo le roza el pie, se sigue leyendo)
+        tapa = max(0.006, min(tapa, 0.28 * b['linea']))
     dy = coronilla + tapa - b['abajo']
     if b['arriba'] + dy < 0.08:
         return None, MOTIVOS_DETRAS['cabeza_arriba']                  # (v5.5.20: no sube al borde de arriba del cuadro —«EMPRESA» pegado arriba—)
-    if b['abajo'] + dy < coronilla + 0.012 or b['abajo'] + dy > 0.9 or b['abajo'] + dy - coronilla > tapa + 0.004:
+    if b['abajo'] + dy < coronilla + min(0.012, tapa) - 1e-6 or b['abajo'] + dy > 0.9 or b['abajo'] + dy - coronilla > tapa + 0.004:
         return None, MOTIVOS_DETRAS['no_cabe']
     # (v5.5.20: si la pila no puede subir más —choca arriba— la cabeza taparía más de lo que deja la intensidad: ese bloque no va detrás)
     caras = [c for v in vs for c in _caras(v)]
@@ -1956,6 +1965,12 @@ def aplicar(plan, al_estado=None, offset_frames=0, info=None):
         ocupado += [(m['ini'] - 0.1, m['fin'] + 0.1) for m in plan.get('kitneon_motions') or [] if neon_tema]   # (Tema 1: nunca tapa un motion del kit)
         ocupado += [(t['_s'] - 0.1, t['_s'] + t['dur'] + 0.1) for t in tomas]
         ocupado += [((a - info['base']) / fps, (b - info['base']) / fps) for a, b in info.get('ocupado') or []]
+        try:                                     # v5.33: durante el zoom de la intro del gancho la persona recortada no casaría con V1
+            import intros_gancho
+            if intros_gancho.activa(op):
+                ocupado.append((0.0, intros_gancho.fin_zoom_s(op) + 0.05))
+        except Exception:
+            pass
         bloques_tema, a_cuadro = None, None
         if neon_tema:
             import kit_neon as KN
@@ -2515,7 +2530,10 @@ def aplicar_detras(ruta, al_estado=None, marcas_tira=None, modo='solo', al_progr
         progreso(0.88 + 0.1 * (1.0 - 0.5 ** (float(seg) / 6.0)), 'Poniéndolo en tu timeline de Resolve…')
     try:
         import resolve_mcp
-        ok, mensaje = resolve_mcp.ejecutar_py(carpeta_recursos() / 'colocar_pro.py', timeout=600, on_progreso=en_resolve)
+        # v5.33: síncrono (dentro de la llamada del MCP, sin un hilo que cambie el timeline mientras la interfaz de Resolve lo dibuja: así
+        # se caía); con Magic Mask (rastreo de hasta 150 s) no cabe en los 60 s del MCP y va en su hilo, como antes
+        ok, mensaje = resolve_mcp.ejecutar_py(carpeta_recursos() / 'colocar_pro.py', timeout=600, on_progreso=en_resolve,
+                                              sincrono=str(op.get('pro_mascara') or 'auto') != 'magic')
     finally:
         datos['solo_encima'] = False                                  # (un GO o re-aplicar de después vuelve a ponerlo todo, ya con esto)
         archivos_seguros.escribir_json(PLAN_JSON, datos, indent=1)

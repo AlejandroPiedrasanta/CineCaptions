@@ -86,6 +86,14 @@ def _norm(r):
     return os.path.normcase(os.path.normpath(str(r)))
 
 
+def _pausa(s):
+    """Esperar a que la interfaz de Resolve se ponga al día solo sirve si este script corre en un hilo aparte; en el hilo principal (v5.33,
+    «Listo» síncrono) la bloquearía sin dejarla avanzar."""
+    import threading
+    if threading.current_thread() is not threading.main_thread():
+        time.sleep(s)
+
+
 def _buscar(carpeta, buscada):
     for c in carpeta.GetClipList() or []:
         try:
@@ -184,7 +192,7 @@ def _preimportar(mp, caja, datos):
                 _alfa_recto(c)
         except Exception:
             pass
-    time.sleep(1.0)                                                        # (que Resolve termine de leerlos antes de empezar a colocar)
+    _pausa(1.0)                                                            # (que Resolve termine de leerlos antes de empezar a colocar)
     return len(nuevos)
 
 
@@ -1133,7 +1141,7 @@ def _solo_encima(tl, mp, caja, datos, base, v1_antes):
         pagina = None
     if pagina != 'edit':
         resolve.OpenPage('edit')
-        time.sleep(2.0)
+        _pausa(2.0)
     encima = datos.get('encima') or []
     _preimportar(mp, caja, {'encima': encima})                             # (con algo nuevo, ya espera 1 s a que Resolve lo lea)
     _deshacer_subidas(tl)                                              # (todo a su sitio: lo de antes y lo de «mover» se vuelve a poner)

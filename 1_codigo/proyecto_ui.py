@@ -353,9 +353,10 @@ class BotonEstado(_Latente, QAbstractButton):
     («En uso») se ve igual que activo: es una confirmación. v5.32 (el usuario: «un poco más pequeños, todo proporcional y simétrico»):
     `emparejar(a, b)` los deja del MISMO ancho, respiran a la vez y el destello cruza los dos seguidos, de izquierda a derecha."""
     MARGEN = 10                                                          # (alrededor, para el halo)
-    TAM_TEXTO = 22
+    TAM_TEXTO = 19                                                       # (el usuario: «un poco más pequeño» → ~15 % menos)
+    HUECO = 18                                                           # (entre el círculo y el texto)
 
-    def __init__(self, tipo, texto, comando=None, activo=False, alto=80, ancho=340, padre=None):
+    def __init__(self, tipo, texto, comando=None, activo=False, alto=68, ancho=290, padre=None):
         super().__init__(padre)
         self.tipo = tipo
         self._activo = bool(activo)
@@ -398,7 +399,7 @@ class BotonEstado(_Latente, QAbstractButton):
     def _necesario(self):
         alto = self.height() - 2 * self.MARGEN if self.height() > 2 * self.MARGEN else 60
         d = self._diametro(alto)
-        return QFontMetricsF(fuente(self.TAM_TEXTO, peso='negrita')).horizontalAdvance(self.text()) + d + 22 + 2 * 34 + 2 * self.MARGEN
+        return QFontMetricsF(fuente(self.TAM_TEXTO, peso='negrita')).horizontalAdvance(self.text()) + d + self.HUECO + 2 * 29 + 2 * self.MARGEN
 
     def _medir(self):
         """Ancho para que quepa el texto con su círculo y aire a los lados; emparejados, los dos el del más largo."""
@@ -413,7 +414,7 @@ class BotonEstado(_Latente, QAbstractButton):
 
     @staticmethod
     def _diametro(alto_dentro):
-        return min(alto_dentro * 0.66, 46.0)
+        return min(alto_dentro * 0.66, 39.0)
 
     def latir(self):
         if self._activo:
@@ -498,7 +499,7 @@ class BotonEstado(_Latente, QAbstractButton):
         fm = QFontMetricsF(p.font())
         w_txt = fm.horizontalAdvance(self.text())
         d = self._diametro(r.height())                                   # el círculo del icono
-        x = r.center().x() - (d + 22 + w_txt) / 2
+        x = r.center().x() - (d + self.HUECO + w_txt) / 2
         c = QPointF(x + d / 2, r.center().y())
         if on:
             rg = QRadialGradient(QPointF(c.x() - d * 0.15, c.y() - d * 0.2), d * 0.7)
@@ -521,5 +522,5 @@ class BotonEstado(_Latente, QAbstractButton):
             p.setPen(QPen(t, 1))
         else:
             p.setPen(col['texto'] if on else QColorReal(214, 224, 240))
-        p.drawText(QRectF(x + d + 22, r.top(), w_txt + 8, r.height()), int(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter), self.text())
+        p.drawText(QRectF(x + d + self.HUECO, r.top(), w_txt + 8, r.height()), int(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter), self.text())
         p.end()

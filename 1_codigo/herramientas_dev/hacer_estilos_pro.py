@@ -308,6 +308,8 @@ def main():
         clave = s['clave']
         if solo and clave not in solo:
             continue
+        if clave == 'gancho':                                    # v5.33: las intros tienen su herramienta (hacer_intros.py --previas)
+            continue
         cache = {}
         for v in [None] + list(s['variantes']):
             ident = v['id'] if v else 'auto'
