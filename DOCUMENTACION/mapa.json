@@ -473,7 +473,9 @@
         "motor_qwen.py",
         "motor_texto.py",
         "compat_av.py",
-        "audio_compatible.py"
+        "audio_compatible.py",
+        "motor_compat.py",
+        "2_recursos/motor_compat/worker.py"
       ],
       "simbolos": [
         "completar_requisitos"
@@ -915,7 +917,6 @@
         "guion_planificador.py",
         "plantillas.py",
         "remotion/src/Skill.tsx",
-        "skill videos",
         "edicion_pro_tema5_escenas.py",
         "remotion/src/Objetos.tsx",
         "edicion_pro_tema5_video.py",
@@ -4156,7 +4157,9 @@
         "herramientas_dev/probar_epidemic.py",
         "director_sonido_sintesis.py",
         "director_sonido_fuentes.py",
-        "herramientas_dev/demo_director_sonido.py"
+        "herramientas_dev/demo_director_sonido.py",
+        "director_sonido_recursos_libres.py",
+        "director_sonido_vista.py"
       ],
       "simbolos": [
         "activo",

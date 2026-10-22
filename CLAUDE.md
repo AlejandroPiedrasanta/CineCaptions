@@ -3,13 +3,13 @@
 App PySide6 (v5.38) que subtitula vídeos con IA local y coloca los subtítulos en DaVinci Resolve. Carpetas: `1_codigo` programa · `2_recursos` · `3_compilar` · `4_diseno` · `5_licencias` (otro producto) · `6_compilacion` (temporal, no tocar) · `7_mac` · `INSTALADORES/{Windows,Mac}` · `DOCUMENTACION`.
 
 ## Consultar SIN leer archivos (en este orden; ahorra tokens)
-1. **MCP `cinecaptions`**: `mapa("palabras")` → temas con archivos y símbolos · `mapa(id="…")` → detalle del tema · `simbolo("nombre")` → solo esa función/clase/método · `modulo("archivo")` → qué es · `cambios(n)` · `resumen()`.
+1. **MCP `cinecaptions`**: `mapa("palabras")` → temas con archivos y símbolos · `mapa(id="…")` → detalle del tema (si es largo, un índice: luego `parte="N"` o `parte="palabras"`) · `simbolo("nombre")` → solo esa función/clase/método · `modulo("archivo")` → qué es · `cambios(n)` · `resumen()`.
    Sin MCP: `6_compilacion/venv315/Scripts/python.exe 1_codigo/mapa_codigo.py mapa|tema|simbolo|modulo|cambios <x>`.
 2. Si hace falta más: Grep del nombre + Read con `offset`/`limit` (~60 líneas).
 3. **NUNCA leer enteros**: `CineCaptions (script principal).py` (13 600 líneas; usa `simbolo`), `DOCUMENTACION/{LEEME.txt,REGISTRO_DE_CAMBIOS.txt,historial/}`, `6_compilacion/`, `2_recursos/`, `*.drb/.drt`, `.json` de packs, `__pycache__`. Primera vez en el proyecto: `DOCUMENTACION/RESUMEN.md` (una página).
-4. Responde breve, muestra solo el cambio; salidas largas: solo errores/últimas líneas. Antes de cambios grandes, avisa qué archivos tocarás.
-5. Al añadir o cambiar un tema: sección en `DOCUMENTACION/temas/<grupo>.md` + entrada en `DOCUMENTACION/mapa.json`, y `python 1_codigo/mapa_codigo.py generar` (reescribe el mapa de abajo; avisa de lo que ya no existe y de código sin tema).
-6. **Antes de dar un cambio por terminado**: `mapa(id="acoplamientos")` = qué más hay que cambiar (gemelos `.lua`/`.py`, `REVISION_BIN`, versión, huella, mapa). Estado de versiones y pendientes: memoria `estado-y-pendientes`. Arneses de prueba con Resolve: `mapa(id="herramientas-dev")`.
+4. Antes de cambios grandes, avisa qué archivos tocarás.
+5. Al añadir o cambiar un tema: sección en `DOCUMENTACION/temas/<grupo>.md` (párrafos cortos que empiecen con `**Rótulo:**`, así salen en el índice) + entrada en `DOCUMENTACION/mapa.json`, y `python 1_codigo/mapa_codigo.py generar` (reescribe el mapa de abajo; avisa de lo que ya no existe y de código sin tema).
+6. **Antes de dar un cambio por terminado**: `mapa(id="acoplamientos")` = qué más hay que cambiar (gemelos `.lua`/`.py`, `REVISION_BIN`, versión, huella, mapa). Estado de versiones y pendientes: memoria `estado-y-pendientes` (solo lo ACTUAL; lo viejo a `DOCUMENTACION/historial/`). Arneses de prueba con Resolve: `mapa(id="herramientas-dev")`.
 
 ## Mapa de temas — `id` [archivos]; detalle con `mapa(id=…)`
 <!-- MAPA:INICIO (lo escribe 1_codigo/mapa_codigo.py generar; no lo edites a mano) -->

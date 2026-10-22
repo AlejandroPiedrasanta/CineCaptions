@@ -25,3 +25,6 @@ skill videos/3 things from beginner to pro.mp4
 .env
 .env.*
 !.env.example
+
+# Iconos de carpeta de Windows
+desktop.ini
