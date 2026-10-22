@@ -1,0 +1,61 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="base.css"><script src="wave.js"></script><script src="cabecera.js"></script><style>
+.en{position:relative;height:96px;margin-left:92px}
+.en svg{position:absolute;inset:0;width:100%;height:100%}
+.band{position:absolute;top:0;height:100%;border-right:1px dashed #2A3956}
+.band span{position:absolute;top:4px;left:8px;font-size:10px;font-weight:700;letter-spacing:.4px;color:#B9C4D8}
+.scs{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-left:92px}
+.sc{border:1px solid var(--bd);border-radius:14px;padding:10px 11px;display:flex;flex-direction:column;gap:6px;background:#0B1322}
+.sc.on{border-color:#24D18F88;box-shadow:0 0 0 1px #24D18F44}
+.sc .t{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--mut)}
+.sc .t b{color:var(--tx);font-size:12.5px}
+.sc .f{font-size:12px;line-height:1.35;color:#C9D3E5}
+.it{display:flex;align-items:center;gap:7px;font-size:11px;padding:4px 7px;border-radius:7px;background:#111D33}
+.it .d{width:8px;height:8px;border-radius:2px;flex:none}
+.it em{margin-left:auto;font-style:normal;color:var(--mut);font-size:10px}
+.ac{display:flex;gap:6px;margin-top:2px}.ac span{flex:1;height:26px;font-size:11px;padding:0}
+.dv{position:absolute;top:0;bottom:0;border-left:1px dashed #2A3956}
+</style></head><body onload="cabecera('La IA dividió el video en 5 escenas y diseñó el sonido de cada una · 21 sonidos · 1 música · 2 ambientes')">
+<div class="card hdr" id="cab"></div>
+<div class="card col" style="gap:10px">
+ <div class="row" style="align-items:center"><h2>Plan de sonido por escenas</h2>&nbsp;&nbsp;<span class="pill g">✦ Diseñado por la IA</span><div class="sp"></div><span class="s mut">Arrastra la curva para subir o bajar la energía · la IA vuelve a elegir los sonidos</span></div>
+ <div class="row" style="align-items:center;gap:0"><div style="width:92px;text-align:right;padding-right:10px" class="xs mut"><b style="color:#B9C4D8">ENERGÍA</b></div>
+  <div class="en" style="margin-left:0;flex:1">
+   <div class="band" style="left:0;width:17.5%"><span>1 · GANCHO</span></div><div class="band" style="left:17.5%;width:16%"><span>2 · CONTEXTO</span></div><div class="band" style="left:33.5%;width:16%"><span>3 · SUSPENSO</span></div><div class="band" style="left:49.5%;width:25%"><span>4 · CLÍMAX</span></div><div class="band" style="left:74.5%;width:25.5%;border:0"><span>5 · CIERRE</span></div>
+   <svg viewBox="0 0 1000 96" preserveAspectRatio="none"><defs><linearGradient id="g" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#F5B84B" stop-opacity=".35"/><stop offset="1" stop-color="#F5B84B" stop-opacity="0"/></linearGradient></defs>
+    <path d="M0 40 C50 18 110 22 175 40 S290 66 335 70 S440 80 495 64 S620 20 700 18 S800 46 860 62 S960 70 1000 74 L1000 96 L0 96Z" fill="url(#g)"/>
+    <path d="M0 40 C50 18 110 22 175 40 S290 66 335 70 S440 80 495 64 S620 20 700 18 S800 46 860 62 S960 70 1000 74" fill="none" stroke="#F5B84B" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>
+   <div style="position:absolute;left:69%;top:12px;width:12px;height:12px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px #F5B84B55"></div><div style="position:absolute;left:39%;top:70px;width:12px;height:12px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px #F5B84B55"></div></div></div>
+ <div class="scs">
+  <div class="sc"><div class="t"><b>Gancho</b><div class="sp"></div>0:00–0:10</div><div class="f">“XELA: <b>$10.000</b> en un mes…”</div>
+   <div class="it"><span class="d" style="background:#8B6FD6"></span>Hit Reverb en «XELA»<em>golpe</em></div><div class="it"><span class="d" style="background:#1A86B5"></span>Riser de entrada<em>trans.</em></div><div class="it"><span class="d" style="background:#5B4B9E"></span>Música arranca fuerte<em>beat</em></div>
+   <div class="ac"><span class="btn">Otra idea</span><span class="btn t">Bloquear</span></div></div>
+  <div class="sc"><div class="t"><b>Contexto</b><div class="sp"></div>0:10–0:19</div><div class="f">“…y lo hice sin invertir nada”</div>
+   <div class="it"><span class="d" style="background:#1A86B5"></span>Whoosh en el corte<em>trans.</em></div><div class="it"><span class="d" style="background:#4E9A45"></span>2 pops de texto<em>UI</em></div><div class="it"><span class="d" style="background:#5B4B9E"></span>Música baja: voz<em>−8 dB</em></div>
+   <div class="ac"><span class="btn">Otra idea</span><span class="btn t">Bloquear</span></div></div>
+  <div class="sc on"><div class="t"><b>Suspenso</b><span class="g" title="editada">✎</span><div class="sp"></div>0:19–0:29</div><div class="f">“Y nadie te dice esto…”</div>
+   <div class="it"><span class="d" style="background:#163A33;outline:1px solid #2E7D64"></span>Tension Drone<em>nuevo ✦</em></div><div class="it"><span class="d" style="background:#163A33;outline:1px solid #2E7D64"></span>Tic-tac de reloj<em>amb.</em></div><div class="it"><span class="d" style="background:#5B4B9E"></span>Música: solo bajo<em>filtro</em></div>
+   <div class="ac"><span class="btn">Otra idea</span><span class="btn sel">Bloqueada</span></div></div>
+  <div class="sc"><div class="t"><b>Clímax</b><div class="sp"></div>0:29–0:44</div><div class="f">“…el secreto es <b>ESTE</b>”</div>
+   <div class="it"><span class="d" style="background:#8B6FD6"></span>Bass Drop<em>buscando… ◌</em></div><div class="it"><span class="d" style="background:#A9803C"></span>Ding + click<em>UI</em></div><div class="it"><span class="d" style="background:#5B4B9E"></span>Música: drop<em>+4 dB</em></div>
+   <div class="ac"><span class="btn">Otra idea</span><span class="btn t">Bloquear</span></div></div>
+  <div class="sc"><div class="t"><b>Cierre</b><div class="sp"></div>0:44–1:00</div><div class="f">“Sígueme para la parte 2”</div>
+   <div class="it"><span class="d" style="background:#A9803C"></span>Ding de suscripción<em>UI</em></div><div class="it"><span class="d" style="background:#1A86B5"></span>Swish de salida<em>trans.</em></div><div class="it"><span class="d" style="background:#5B4B9E"></span>Música: outro suave<em>fade</em></div>
+   <div class="ac"><span class="btn">Otra idea</span><span class="btn t">Bloquear</span></div></div>
+ </div></div>
+<div class="card" style="padding-bottom:12px">
+ <div class="row" style="align-items:center"><h2>Línea de sonido</h2><div class="sp"></div><span class="btn t">▶ Original</span><span class="btn sel">▶ AI Sound</span><span class="btn t mut">■</span>&nbsp;<span class="btn v">Aplicar a Resolve</span></div>
+ <div class="ruler" style="margin-top:8px"><span style="left:0;transform:none">0:00</span><span style="left:16.6%">0:10</span><span style="left:33.3%">0:20</span><span style="left:50%">0:30</span><span style="left:66.6%">0:40</span><span style="left:83.3%">0:50</span><span style="right:0;transform:none">1:00</span></div>
+ <div style="position:relative">
+  <div class="ln"><div class="k">VOZ</div><div class="l"><div class="bar" style="left:0;width:84%;background:var(--voz)"></div><div class="bar" style="left:85%;width:15%;background:var(--voz)"></div></div></div>
+  <div class="ln"><div class="k">MÚSICA</div><div class="l"><div class="bar" style="left:0;right:0;background:var(--mus)"></div></div></div>
+  <div class="ln"><div class="k">AMBIENTE</div><div class="l"><div class="bar" style="left:33.5%;width:16%;background:var(--amb)"></div></div></div>
+  <div class="ln"><div class="k">SONIDOS IA</div><div class="l">
+   <span class="bar" style="left:.5%;width:1.2%;background:#8B6FD6"></span><span class="bar" style="left:3%;width:1%;background:#1A86B5"></span><span class="bar" style="left:16%;width:.8%;background:#1A86B5"></span><span class="bar" style="left:22%;width:.6%;background:#4E9A45"></span><span class="bar" style="left:27%;width:.6%;background:#4E9A45"></span><span class="bar" style="left:35%;width:12%;background:#2E7D64"></span><span class="bar" style="left:56%;width:1.4%;background:#8B6FD6"></span><span class="bar" style="left:62%;width:.7%;background:#A9803C"></span><span class="bar" style="left:88%;width:.8%;background:#A9803C"></span><span class="bar" style="left:96%;width:1.2%;background:#1A86B5"></span></div></div>
+  <div class="dv" style="left:calc(92px + (100% - 92px)*.175)"></div><div class="dv" style="left:calc(92px + (100% - 92px)*.335)"></div><div class="dv" style="left:calc(92px + (100% - 92px)*.495)"></div><div class="dv" style="left:calc(92px + (100% - 92px)*.745)"></div>
+  <div class="ph" style="left:calc(92px + (100% - 92px)*.41)"></div></div>
+</div>
+<div class="card chat"><span class="pill g">✦ IA</span><div class="in">Dile a AI Sound Director qué cambiar… («más suspenso en la escena 3», «quita el ding»)</div><span class="btn">Enviar</span></div>
+<div class="card col" style="gap:8px"><div class="row" style="align-items:center"><h2>Dirige el sonido</h2><span class="s mut">&nbsp;&nbsp;Para este diseño y próximos GO · En Auto decide la IA</span><div class="sp"></div><span class="btn t">Restaurar diseño IA</span></div>
+<div style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px 10px" class="s mut"><span>Estilo</span><span>Intensidad</span><span>Densidad de sonidos</span><span>Prioridad de la voz</span><span>Música</span><span>Ambiente</span>
+<div class="sel3">Auto</div><div class="sel3">Auto</div><div class="sel3">Auto</div><div class="sel3">Auto</div><div class="sel3">Auto</div><div class="sel3">Auto</div></div></div>
+</body></html>

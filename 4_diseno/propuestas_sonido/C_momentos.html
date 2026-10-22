@@ -1,0 +1,73 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="base.css"><script src="wave.js"></script><script src="cabecera.js"></script><style>
+.stage{position:relative;margin-left:92px;height:252px}
+.pin{position:absolute;top:0;display:flex;flex-direction:column;align-items:center;transform:translateX(-50%)}
+.pin .h{height:24px;padding:0 8px;border-radius:12px;font-size:10.5px;font-weight:600;display:flex;align-items:center;gap:4px;white-space:nowrap;color:#fff}
+.pin .st{width:1.5px;height:40px;background:currentColor;opacity:.7}
+.pin.on .h{outline:2px solid #fff;outline-offset:1px}
+.vz{position:absolute;left:0;right:0;top:66px;height:96px;color:#1A8FB5}
+.vz svg{position:absolute;inset:0;width:100%;height:100%}
+.secs{position:absolute;left:0;right:0;top:194px;height:24px;display:flex;gap:3px}
+.secs div{border-radius:6px;background:#111D33;border:1px solid var(--bd);font-size:10px;font-weight:700;color:#B9C4D8;display:flex;align-items:center;padding-left:8px}
+.mus{position:absolute;left:0;right:0;top:224px;height:22px;display:flex;gap:3px}
+.mus div{border-radius:6px;font-size:10px;color:#E1D8FF;display:flex;align-items:center;padding-left:8px;background:var(--mus)}
+.pop{position:absolute;left:47%;top:30px;width:330px;padding:12px 14px;border-radius:14px;background:#111D33;border:1px solid #2A3956;box-shadow:0 16px 40px #000a;display:flex;flex-direction:column;gap:5px;z-index:3}
+.pop::before{content:"";position:absolute;left:-7px;top:22px;width:12px;height:12px;background:#111D33;border-left:1px solid #2A3956;border-bottom:1px solid #2A3956;transform:rotate(45deg)}
+.op{display:flex;align-items:center;gap:8px;height:27px;padding:0 8px;border-radius:8px;border:1px solid var(--bd);font-size:11.5px}.op.on{border-color:#24D18F88;background:#24D18F0d}
+.op .p{width:20px;height:20px;border-radius:50%;border:1px solid var(--bd2);display:grid;place-items:center;font-size:7px}
+.fad{display:flex;flex-direction:column;align-items:center;gap:6px;flex:1}
+.fad .tr{width:8px;height:190px;border-radius:6px;background:#111D33;position:relative;border:1px solid var(--bd)}
+.fad .tr i{position:absolute;left:-1px;right:-1px;bottom:-1px;border-radius:6px}
+.fad .tr b{position:absolute;left:50%;width:26px;height:12px;border-radius:4px;background:#E8F1FF;transform:translate(-50%,50%);box-shadow:0 2px 6px #0008}
+.lst{display:flex;align-items:center;gap:10px;height:34px;border-bottom:1px solid #1E2A4288;font-size:12px}
+.lst .d{width:8px;height:8px;border-radius:2px}
+</style></head><body onload="cabecera('La IA escuchó el video y marcó 18 momentos · buscó en tu biblioteca, los packs e internet · 23 sonidos elegidos')">
+<div class="card hdr" id="cab"></div>
+<div class="card" style="padding-bottom:12px">
+ <div class="row" style="align-items:center"><h2>Momentos de sonido</h2>&nbsp;&nbsp;<span class="pill g">✦ 18 momentos</span><div class="sp"></div><span class="btn t">▶ Original</span><span class="btn sel">▶ AI Sound</span><span class="btn t mut">■</span>&nbsp;<span class="btn v">Aplicar a Resolve</span></div>
+ <div class="ruler" style="margin-top:10px"><span style="left:0;transform:none">0:00</span><span style="left:16.6%">0:10</span><span style="left:33.3%">0:20</span><span style="left:50%">0:30</span><span style="left:66.6%">0:40</span><span style="left:83.3%">0:50</span><span style="right:0;transform:none">1:00</span></div>
+ <div style="position:relative">
+  <div style="position:absolute;left:0;width:92px;top:0;height:252px" class="xs"><div style="position:absolute;right:10px;top:6px;color:#B9C4D8;font-weight:700">MOMENTOS</div><div style="position:absolute;right:10px;top:106px;color:#B9C4D8;font-weight:700">VOZ</div><div style="position:absolute;right:10px;top:200px;color:#B9C4D8;font-weight:700">PARTES</div><div style="position:absolute;right:10px;top:229px;color:#B9C4D8;font-weight:700">MÚSICA</div></div>
+  <div class="stage">
+   <div class="pin" style="left:3%;color:#8B6FD6;z-index:2"><div class="h" style="background:#8B6FD6">💥 XELA</div><div class="st"></div></div>
+   <div class="pin" style="left:13%;color:#7A5BC4"><div class="h" style="background:#7A5BC4">💥 $10.000</div><div class="st"></div></div>
+   <div class="pin" style="left:22%;color:#1A86B5"><div class="h" style="background:#1A86B5">〰 corte</div><div class="st"></div></div>
+   <div class="pin" style="left:31%;color:#4E9A45"><div class="h" style="background:#4E9A45">• pop</div><div class="st"></div></div>
+   <div class="pin on" style="left:44%;color:#2E7D64"><div class="h" style="background:#2E7D64">🌫 suspenso</div><div class="st"></div></div>
+   <div class="pin" style="left:61%;color:#7A5BC4"><div class="h" style="background:#7A5BC4">💣 SABE</div><div class="st"></div></div>
+   <div class="pin" style="left:72%;color:#1A86B5"><div class="h" style="background:#1A86B5">↗ riser</div><div class="st"></div></div>
+   <div class="pin" style="left:80%;color:#7A5BC4"><div class="h" style="background:#7A5BC4">💥 ESTO</div><div class="st"></div></div>
+   <div class="pin" style="left:93%;color:#A9803C"><div class="h" style="background:#A9803C">🔔 sígueme</div><div class="st"></div></div>
+   <div class="vz"><div class="wave" data-wave="301"></div>
+    <svg viewBox="0 0 1000 96" preserveAspectRatio="none"><path d="M0 34 C60 14 120 20 190 40 S300 70 380 74 S520 70 600 36 S700 10 790 22 S900 58 1000 66" fill="none" stroke="#F5B84B" stroke-width="2" stroke-dasharray="5 4" vector-effect="non-scaling-stroke"/></svg></div>
+   <div class="secs"><div style="flex:17">Gancho</div><div style="flex:16">Contexto</div><div style="flex:16">Suspenso</div><div style="flex:25">Clímax</div><div style="flex:26">Cierre</div></div>
+   <div class="mus"><div style="flex:17;background:#5B4B9E">Intro con golpe</div><div style="flex:32;background:#3E3470">Baja · solo bajo (deja hablar)</div><div style="flex:25;background:#6A57B8">Drop</div><div style="flex:26;background:#4A3D85">Outro suave</div></div>
+   <div class="ph" style="left:44%;top:66px"></div>
+   <div class="pop"><div class="row" style="align-items:center"><span class="mut s">0:26,4 · Suspenso</span><div class="sp"></div><span class="pill">AMBIENTE</span></div>
+    <b style="font-size:14px">Tension Drone</b><span class="g s">Diseño IA: dron grave que sube 4 s antes de «nadie»</span>
+    <div class="op on"><span class="p">▶</span>Tension Drone<div class="sp"></div><span class="pill c">Pack CineCaptions</span></div>
+    <div class="op"><span class="p">▶</span>Dark Pad Rise<div class="sp"></div><span class="pill">Tu biblioteca</span></div>
+    <div class="op"><span class="p">▶</span>Crear uno nuevo con IA<div class="sp"></div><span class="pill l">✦ Generar</span></div>
+    <div class="row" style="gap:6px"><span class="btn" style="flex:1;height:28px;font-size:12px">Menos…</span><span class="btn" style="flex:1;height:28px;font-size:12px">Más…</span><span class="btn t" style="flex:1;height:28px;font-size:12px">Silenciar</span><span class="btn t" style="flex:1;height:28px;font-size:12px">Bloquear</span></div></div>
+  </div></div>
+ <div class="s mut" style="margin:4px 0 0 92px">La línea punteada es la energía que diseñó la IA · clic en un momento para oír y cambiar su sonido · arrastra un momento para moverlo</div>
+</div>
+<div class="row" style="flex:1;min-height:0">
+ <div class="card col" style="width:330px;gap:10px"><div class="row" style="align-items:center"><h2>Mezcla</h2><div class="sp"></div><span class="pill g">Auto · −14 LUFS</span></div>
+  <div class="row" style="flex:1;align-items:flex-end;padding:0 6px">
+   <div class="fad"><span class="s">0 dB</span><div class="tr"><i style="height:82%;background:var(--voz)"></i><b style="bottom:82%"></b></div><span class="s mut">Voz</span></div>
+   <div class="fad"><span class="s">−6</span><div class="tr"><i style="height:60%;background:#8B6FD6"></i><b style="bottom:60%"></b></div><span class="s mut">Sonidos</span></div>
+   <div class="fad"><span class="s">−18</span><div class="tr"><i style="height:38%;background:var(--mus)"></i><b style="bottom:38%"></b></div><span class="s mut">Música</span></div>
+   <div class="fad"><span class="s">−24</span><div class="tr"><i style="height:24%;background:#2E7D64"></i><b style="bottom:24%"></b></div><span class="s mut">Ambiente</span></div></div>
+  <div class="s mut">La música baja sola cuando hablas (ducking).</div></div>
+ <div class="card col" style="flex:1;gap:2px"><div class="row" style="align-items:center;margin-bottom:6px"><h2>Sonidos que encontró la IA</h2><div class="sp"></div><span class="s mut">23 elegidos de 64 · todos con licencia libre</span></div>
+  <div class="lst"><span class="d" style="background:#8B6FD6"></span>Hit Drum Reverb 01<span class="mut s">× 3</span><div class="sp"></div><span class="pill">Tu biblioteca</span><span class="g">✔</span></div>
+  <div class="lst"><span class="d" style="background:#2E7D64"></span>Tension Drone<span class="mut s">× 1</span><div class="sp"></div><span class="pill c">Pack CineCaptions</span><span class="g">✔</span></div>
+  <div class="lst"><span class="d" style="background:#1A86B5"></span>Whoosh Air 04<span class="mut s">× 4</span><div class="sp"></div><span class="pill a">Freesound · CC0</span><span class="g">✔</span></div>
+  <div class="lst"><span class="d" style="background:#5B4B9E"></span>Dark Momentum (música)<span class="mut s">1:00</span><div class="sp"></div><span class="pill c">Pack CineCaptions</span><span class="g">✔</span></div>
+  <div class="lst"><span class="d" style="background:#7A5BC4"></span>Bass Drop «SABE»<span class="mut s">× 1</span><div class="sp"></div><span class="pill l">✦ Creado con IA</span><span class="g">✔</span></div>
+  <div class="lst"><span class="d" style="background:#4E9A45"></span>Pop UI suave<span class="mut s">× 6</span><div class="sp"></div><span class="pill">Tu biblioteca</span><span class="g">✔</span></div>
+  <div class="lst"><span class="d" style="background:#A9803C"></span>Ding de suscripción<span class="mut s">× 2</span><div class="sp"></div><span class="pill a">Freesound · CC0</span><span class="g">✔</span></div>
+  <div class="row" style="gap:8px;margin-top:auto;padding-top:8px"><span class="btn">Crear otra versión</span><span class="btn t">Restaurar diseño IA</span><div class="sp"></div><span class="btn t">Ver diagnóstico de la IA</span></div></div>
+</div>
+<div class="card chat"><span class="pill g">✦ IA</span><div class="in">Dile a AI Sound Director qué quieres cambiar… («menos sonidos», «la voz más clara», «rediseña el final»)</div><span class="btn">Enviar</span></div>
+</body></html>
