@@ -402,3 +402,12 @@ se maneja con ← → y Enter/espacio = oír), material, importancia y Menos…/
 **Probar:** `python 1_codigo/herramientas_dev/probar_revision_sonido.py` (24 casos sin video: rescates por profundidad, silencios del usuario,
 choques con lo fijo, ráfagas, la PRO como externa, cortes en Máximo, estabilidad, nunca lanza, «Exígele más»). Siguen pasando sesión segura (17),
 ciclo (7) y destino Python/Lua (32).
+
+**Estilo «Social (CapCut)» (control `estilo` = `social`; «tipo CapCut / TikTok / reels / captions» en «Exígele más»):** pedido tras escuchar el
+Tema 1 («suenan baratos o falsos» y «no van con la animación»). En `disenar`, sin umbral: cada caption que entra suena al APARECER (pop en `t + 0,02`;
+swipe suave en el `start` del bloque si su palabra principal llega ≥ 0,25 s después), golpe solo en el primer gancho y en UNA llamada a la acción,
+swipe en cada corte que no pise una palabra; nada a < `SOCIAL_HUECO_S` (0,22 s) del anterior; sin riser de gancho, sin motivo de datos ni nota de
+cierre; tope `SOCIAL_TOPE` (14) por ventana de 10 s (la revisión lo respeta y admite ráfagas de 5). Todos sus eventos llevan `sin_capa` (el archivo
+LIMPIO, sin la capa procedural del modo híbrido: era lo que sonaba a falso) y `sin_sintesis` (`director_sonido_sfx.fabricar`: si hay librería y el
+anti-repetición la agotó, repite el mejor archivo antes que sintetizar; sin librería, la síntesis de siempre). Pruebas: 30/30 en
+`probar_revision_sonido.py`.

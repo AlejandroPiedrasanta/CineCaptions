@@ -53,7 +53,8 @@ def _anclas(eventos, externos):
 
 
 def _tope(car, p):
-    return int(round(2 + 4 * float(car.get('densidad', 0.3)))) + PROFUNDIDAD[p]['extra']
+    base = D3.SOCIAL_TOPE if car.get('social') else int(round(2 + 4 * float(car.get('densidad', 0.3))))
+    return base + PROFUNDIDAD[p]['extra']
 
 
 def _sitio(eventos, externos, t, tope):
@@ -137,7 +138,7 @@ def _rescatar(d, car, ctx, p, externos, fps, notas):
         info['por_que'] = porque + f' → la revisión ({NOMBRE[p].lower()}) le dio sonido: score {s:.2f} a {umbral + cfg["margen"] - s:.2f} del umbral'
         cambios += 1
         notas.append(f"{t:.1f} s: «{info.get('texto')}» tenía score {s:.2f} y estaba solo: ahora suena")
-    if car.get('cortes_whoosh') and cfg['cortes_k'] < 1.0:          # (máximo) cortes de escena que respiran, más juntos
+    if car.get('cortes_whoosh') and not car.get('social') and cfg['cortes_k'] < 1.0:          # (máximo) cortes de escena que respiran, más juntos
         cada = float(car.get('cortes_cada_s') or 8.0) * cfg['cortes_k']
         for tc in sorted(float(x) for x in ctx.get('cortes') or []):
             anclas = _anclas(eventos, externos)
@@ -185,14 +186,15 @@ def _coherencia(d, car, p, externos, notas):
                 cambios += 1
                 notas.append(f"{float(e['ancla']):.1f} s: la PRO ya sonaba → quito el mío")
     cortos = sorted((e for e in _suenan(eventos) if e.get('tipo') not in LARGOS), key=lambda e: float(e['ancla']))
+    n_rafaga = RAFAGA_N + (2 if car.get('social') else 0)            # (Social: el ritmo de las palabras es más rápido a propósito)
     for i in range(len(cortos)):                                      # ráfagas
         grupo = [e for e in cortos[i:] if e.get('decision') == 'GENERATE' and float(e['ancla']) - float(cortos[i]['ancla']) < RAFAGA_S]
-        while len(grupo) > RAFAGA_N:
+        while len(grupo) > n_rafaga:
             libres = [e for e in grupo if not _fijo(e)]
             if not libres:
                 break
             debil = min(libres, key=lambda e: float(e.get('importancia') or 0))
-            _quitar(debil, f'más de {RAFAGA_N} sonidos en {RAFAGA_S} s se amontonan')
+            _quitar(debil, f'más de {n_rafaga} sonidos en {RAFAGA_S} s se amontonan')
             grupo.remove(debil)
             cambios += 1
             notas.append(f"{float(debil['ancla']):.1f} s: ráfaga → uno menos")

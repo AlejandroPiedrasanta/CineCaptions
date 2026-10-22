@@ -194,6 +194,8 @@ def fabricar(diseno, carpeta, nivel_voz_db, modo=MODO):
         x, off, fuente, eleccion = None, 0.0, 'procedural', None
         if modo == 'hibrido' and not p.get('solo_procedural'):
             x, off, eleccion = de_biblioteca(e, usados)
+            if x is None and p.get('sin_sintesis') and (eleccion or {}).get('candidatos'):     # (Social: con librería, nunca sintético: se repite
+                x, off, eleccion = de_biblioteca(e, {})                                         # el mejor archivo antes que sonar a falso)
             if x is not None:
                 fuente = 'biblioteca curada'
         if x is None:

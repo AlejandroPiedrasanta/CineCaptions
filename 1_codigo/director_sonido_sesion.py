@@ -683,6 +683,7 @@ _REGLAS = [   # (patrón, acción, lo que se entendió) — en orden: lo más co
     (r'\b(mas (sonidos|efectos|sfx)|more sounds?)\b', ('control', 'densidad', 'mucho'), 'más sonidos'),
     (r'\b(mas (fuerte|potente|impacto|pegada)|louder|more impact)\b', ('control', 'intensidad', 'mucho'), 'más intensidad'),
     (r'\b(mas (suave|bajo|sutil)|menos fuerte|softer|quieter)\b', ('control', 'intensidad', 'poco'), 'más suave'),
+    (r'\b(capcut|captions|tiktok|reels?|shorts|social|redes)\b', ('control', 'estilo', 'social'), 'estilo social (tipo CapCut)'),
     (r'\b(mas limpio|limpio|clean)\b', ('control', 'estilo', 'limpio'), 'estilo limpio'),
     (r'\b(cine\w*|epico|cinematic)\b', ('control', 'estilo', 'cinematico'), 'estilo cinematográfico'),
     (r'\b(energ\w*|dinamico|mas ritmo)\b', ('control', 'estilo', 'energico'), 'estilo enérgico'),

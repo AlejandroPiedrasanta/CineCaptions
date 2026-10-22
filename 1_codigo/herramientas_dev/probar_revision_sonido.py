@@ -106,6 +106,25 @@ comprobar('máximo da aire a los cortes sin sonido', sum(1 for e in r['eventos']
 r, _ = REV.revisar(diseno([ev(1, 'tick', 1.0)]), ctx(cortes=[12.0, 25.0]), ANALISIS, 'profundo')
 comprobar('profundo deja los cortes como los decidió el diseño', not any(e.get('origen') == 'corte' for e in r['eventos']))
 
+# 5b. estilo «Social (CapCut)»: cada palabra que entra suena, limpia (sin capa sintética) y al aparecer
+A_SOCIAL = dict(ANALISIS, narrativa={'frases': []}, voz={'duracion': 20.0})
+
+
+def bloque(t, inicio=None):
+    return {'start': t if inicio is None else inicio, 'runs': [{'rol': 'main', 't': t, 'zoom': 1.2, 'texto': f'P{t}'}]}
+
+
+cs = {'video': 'prueba.mp4', 'palabras': [], 'bloques': [bloque(0.5), bloque(1.5), bloque(1.6), bloque(3.0, 2.6), bloque(10.0)], 'cortes': [5.0]}
+ds = D3.disenar(A_SOCIAL, cs, 30.0, controles={'estilo': 'social'})
+suenan = [(round(e['ancla'], 2), e['tipo']) for e in ds['eventos'] if e['decision'] == 'GENERATE']
+comprobar('social: golpe solo al abrir, pop en cada palabra, swipe al entrar la frase y en el corte',
+          suenan == [(0.52, 'golpe'), (1.52, 'pop'), (2.64, 'whoosh'), (3.02, 'pop'), (5.0, 'whoosh'), (10.02, 'pop')], str(suenan))
+comprobar('social: nada a menos de 0,22 s del anterior (la palabra de 1,6 s calla)', ds['captions'][2]['decision'] == 'LEAVE_SILENT')
+comprobar('social: todo limpio, sin la capa sintética', all(e['params'].get('sin_capa') for e in ds['eventos'] if e['decision'] == 'GENERATE'))
+comprobar('social: sin riser de gancho ni nota de cierre', not any(e['tipo'] in ('riser', 'acento') for e in ds['eventos']))
+r, inf = REV.revisar(ds, cs, A_SOCIAL, 'profundo')
+comprobar('social: la revisión no le quita el ritmo', sum(1 for e in r['eventos'] if e['decision'] == 'GENERATE') == len(suenan), str(inf['notas']))
+
 # 6. estable, informe y nunca lanza
 d1, i1 = REV.revisar(base, ctx(), ANALISIS, 'maximo')
 d2, i2 = REV.revisar(d1, ctx(), ANALISIS, 'maximo')
@@ -122,6 +141,8 @@ try:
     comprobar('«piensa más y revisa todo» → razonamiento máximo', ('control', 'razonamiento', 'maximo') in a, str(a))
     a = S.interpretar('más sonidos')['acciones']
     comprobar('«más sonidos» sigue siendo densidad', a == [('control', 'densidad', 'mucho')], str(a))
+    a = S.interpretar('quiero sonidos tipo CapCut')['acciones']
+    comprobar('«tipo CapCut» → estilo social', ('control', 'estilo', 'social') in a, str(a))
 except Exception as err:                                              # (sin las dependencias del motor)
     comprobar('interpretar', False, f'{type(err).__name__}: {err}')
 

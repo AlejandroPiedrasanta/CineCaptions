@@ -27,7 +27,8 @@ TEXT_MUTED = ui.TEXT_MUTED
 COLOR_TIPO = {'golpe': '#F5B84B', 'whoosh': '#00C8FF', 'giro': '#7FDBFF', 'riser': '#B388FF', 'trazo': '#4ADE80', 'acento': '#FFB86B',
               'tick': '#4589FF', 'pop': '#FF8FB1'}
 OPCIONES = {   # control → [(valor, etiqueta)]
-    'estilo': [('auto', 'Auto'), ('limpio', 'Limpio'), ('cinematico', 'Cinemático'), ('energico', 'Enérgico'), ('minimo', 'Mínimo')],
+    'estilo': [('auto', 'Auto'), ('limpio', 'Limpio'), ('cinematico', 'Cinemático'), ('energico', 'Enérgico'), ('minimo', 'Mínimo'),
+               ('social', 'Social (CapCut)')],
     'intensidad': [('auto', 'Auto'), ('poco', 'Suave'), ('medio', 'Media'), ('mucho', 'Potente')],
     'densidad': [('auto', 'Auto'), ('poco', 'Mínima'), ('medio', 'Media'), ('mucho', 'Rica')],
     'voz': [('auto', 'Auto'), ('poco', 'Equilibrio'), ('medio', 'Alta'), ('mucho', 'Máxima')],
