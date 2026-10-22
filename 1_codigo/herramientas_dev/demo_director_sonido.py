@@ -9,7 +9,12 @@ dibujados por render_sin_resolve (el render de «GO sin Resolve»), con cuatro b
     B  AI · procedural        el director decide qué suena (la mayoría en silencio) y DISEÑA cada sonido a la medida de la animación real
     C  AI · biblioteca autor  las mismas decisiones con sonidos de la biblioteca del autor que pasan el Quality Gate (si ninguno pasa: silencio)
     D  AI · híbrido           C + una capa procedural (sub y clic en los golpes, aire en los whooshes) ajustada a cada motion
-Deja los MP4, el audio de cada versión (WAV), los sonidos del director solos (stem) y `informe_demo.json` (decisiones, motivos, medidas).
+    E  FASE 3 como en GO     director_sonido_diseno + director_sonido_sfx tal cual (con el estilo de la página: «Social» = el kit), con
+                             ctx['render'] = 'mp4': el sonido aterriza con la curva de entrada de ESTE render (render_temas), no con la de Resolve
+Deja, por versión, la copia PRINCIPAL para juzgar —`<versión>_con_voz.mp4`: la mezcla con la voz, como se publica— y, SECUNDARIOS, el audio de la
+mezcla (WAV) y los sonidos del director solos (`<versión>_SECUNDARIO_solo_sonidos_<N>LUFS.wav`: subidos hacia −16 LUFS SIN limitador y sin pasar
+de −1 dBFS de pico; unos pops cortos llegan antes al pico, así que el nombre dice los LUFS que MIDEN —p. ej. −24—, nunca unos que no tienen; solos y
+subidos exageran cada defecto: no son la referencia), más `informe_demo.json` (decisiones, motivos, medidas, `entrega`) y el LEEME.
 No toca Resolve ni las preferencias del usuario.
 """
 import copy
@@ -175,6 +180,22 @@ def limitar(x, techo_dbtp=-1.0):
     return y.astype(np.float32)
 
 
+def a_lufs(x, objetivo=-16.0):
+    """La copia secundaria de los sonidos solos: ganancia hasta `objetivo` LUFS, sin limitador (si el pico de muestra pasara de −1 dBFS, se queda
+    más baja: nunca se recorta ni se comprime). (audio, LUFS final, nota)."""
+    lo = medir(x).get('lufs')
+    if lo is None or not np.isfinite(lo):
+        return x, None, 'sin nivel medible'
+    g = objetivo - float(lo)
+    pico = float(np.abs(x).max()) or 1e-9
+    nota = f'{g:+.1f} dB hasta {objetivo:.0f} LUFS, sin limitador'
+    if 20 * np.log10(pico) + g > -1.0:
+        g = -1.0 - 20 * np.log10(pico)
+        nota = f'{g:+.1f} dB (el pico de muestra llega a −1 dBFS antes de {objetivo:.0f} LUFS), sin limitador'
+    y = (x * (10 ** (g / 20.0))).astype(np.float32)
+    return y, medir(y).get('lufs'), nota
+
+
 def medir(x):
     import director_sonido_medir as M
     S = M.Sonometro(2)
@@ -187,6 +208,10 @@ def _leeme(salida, informe, diseno, nombres):
     """Un LEEME para comparar: qué es cada versión, qué decidió el director y por qué."""
     r = diseno['resumen']
     lin = ['AI Sound Director — Tema 1 (Kinetic) con 4 bandas sonoras. Mismo video, mismos captions (los que puso GO); solo cambia el sonido.', '',
+           'PARA JUZGAR: los *_con_voz.mp4 (la mezcla con la voz, como se publica). Los *_SECUNDARIO_solo_sonidos_<N>LUFS.wav son los sonidos SOLOS,',
+           'subidos hacia −16 LUFS sin limitador y sin pasar de −1 dBFS de pico: si el pico llega antes, se quedan más bajos y su nombre dice los LUFS',
+           'que miden (sin limitador no caben −16 LUFS en unos pops cortos sin recortar). Sirven para revisar uno a uno, pero solos y subidos exageran',
+           'cada defecto (no son la referencia).', '',
            f"Video: {Path(informe['video']).name} · tema {informe['tema']} · perfil: {informe['perfil']}",
            f"Música: {informe['musica']['estado']} — {informe['musica']['por_que']}",
            f"Voz: ruido {informe['voz']['ruido']} — el video trae música mezclada con la voz: se deja la voz original (no se separa ni se toca la música).", '',
@@ -198,7 +223,9 @@ def _leeme(salida, informe, diseno, nombres):
               'E': 'la FASE 3 tal como la pone GO (director_sonido_diseno + director_sonido_sfx, modo híbrido): los mismos WAV y tiempos de las pistas AI SFX'}
     for v, d in informe['versiones'].items():
         lo = d['loudness']
-        lin.append(f"{v}  {nombres[v]}.mp4 — {textos[v]} · {d['sonidos']} sonidos · {lo.get('lufs')} LUFS · true peak {lo.get('tp_db')} dBTP")
+        lin.append(f"{v}  {Path(d['archivo']).name} — {textos[v]} · {d['sonidos']} sonidos · {lo.get('lufs')} LUFS · true peak {lo.get('tp_db')} dBTP")
+        if d.get('solo_sonidos'):
+            lin.append(f"     secundario: {Path(d['solo_sonidos']['archivo']).name} ({d['solo_sonidos']['nota']})")
     lin += ['', f"DECISIONES (B, C y D): {r['captions']} captions → {r['con_sonido']} con sonido, {r['en_silencio']} en silencio (CAPTION_SOUND_SCORE ≥ {r['umbral']}); "
             f"de los «Hit» viejos: {r['viejos'].get('REPLACE', 0)} sustituidos por un golpe diseñado, {r['viejos'].get('REMOVE', 0)} quitados.", '']
     for c in diseno['captions']:
@@ -290,8 +317,8 @@ def main():
             sel = []
         else:
             sel = []
-            if v == 'E':                                               # fase 3 tal cual: los WAV y los tiempos que GO manda a las pistas AI SFX
-                sfx = D.preparar_sfx(ctx, analisis)
+            if v == 'E':                                               # fase 3 tal cual: los WAV y los tiempos que GO manda a las pistas AI SFX,
+                sfx = D.preparar_sfx(dict(ctx, render='mp4'), analisis)  # con la curva de entrada de ESTE render (el MP4, no Resolve)
                 stem = np.zeros((2, n), np.float32)
                 for x in sfx['eventos']:
                     _poner(stem, np.concatenate(list(M.leer_wav(x['archivo'])), axis=1), x['ini'])
@@ -302,7 +329,7 @@ def main():
             mezcla = limitar(base + stem)
             cues_v = [dict(c, sfx_eventos=[]) for c in cues]
         R.mezclar_audio = (lambda m: (lambda video_, cues_, dur_: m))(mezcla)
-        destino = salida / f'{nombres[v]}.mp4'
+        destino = salida / f'{nombres[v]}_con_voz.mp4'
         try:
             R.renderizar(video, cues_v, salida=str(destino), estilo={'tipo': 'kinetic', 'pack': 'Kinetic'})
         finally:
@@ -310,16 +337,26 @@ def main():
         W = M.EscritorWav(salida / f'{nombres[v]}.wav', 2)
         W.escribir(mezcla)
         W.cerrar()
-        if stem is not None:
-            Ws = M.EscritorWav(salida / f'{nombres[v]}_solo_sonidos.wav', 2)
-            Ws.escribir(limitar(stem))
+        solo = None
+        if stem is not None:                                           # secundario: los sonidos solos hacia −16 LUFS, sin limitador (el nombre,
+            y, lufs_solo, nota = a_lufs(stem)                          # con los LUFS que miden: el pico de −1 dBFS puede pararlos antes)
+            marca = f'_{lufs_solo:.0f}LUFS' if lufs_solo is not None and np.isfinite(lufs_solo) else ''
+            solo = {'archivo': str(salida / f'{nombres[v]}_SECUNDARIO_solo_sonidos{marca}.wav'), 'lufs': lufs_solo, 'nota': nota}
+            Ws = M.EscritorWav(Path(solo['archivo']), 2)
+            Ws.escribir(y)
             Ws.cerrar()
         lo = medir(mezcla)
         informe['versiones'][v] = {'archivo': str(destino), 'sonidos': len([p for p in puestos if p.get('fuente') != 'LEAVE_SILENT']), 'detalle': puestos,
-                                   'loudness': lo, 'segundos': round(time.time() - t, 1), 'seleccion_biblioteca': sel}
+                                   'loudness': lo, 'segundos': round(time.time() - t, 1), 'seleccion_biblioteca': sel, 'solo_sonidos': solo}
         print(f"  {v}: {destino.name} · {informe['versiones'][v]['sonidos']} sonidos · {lo.get('lufs')} LUFS · TP {lo.get('tp_db')} dBTP · {time.time() - t:.1f} s")
+    informe['entrega'] = {'principal': [d['archivo'] for d in informe['versiones'].values()],
+                          'secundario': [d['solo_sonidos']['archivo'] for d in informe['versiones'].values() if d.get('solo_sonidos')],
+                          'nota': 'juzgar con la mezcla con voz (principal); los sonidos solos (hacia −16 LUFS sin limitador ni pasar de −1 dBFS: su '
+                                  'nombre dice los LUFS que miden) son solo para revisar'}
     (salida / 'informe_demo.json').write_text(json.dumps(Es.limpio(informe), ensure_ascii=False, indent=1, default=str), encoding='utf-8')
     _leeme(salida, informe, diseno, nombres)
+    print('PRINCIPAL (para juzgar): ' + ' · '.join(Path(a).name for a in informe['entrega']['principal']))
+    print('secundario (sonidos solos, sin limitador; LUFS en el nombre): ' + ' · '.join(Path(a).name for a in informe['entrega']['secundario']))
     print(f'listo en {time.time() - t0:.1f} s → {salida}')
     sys.stdout.flush()
     os._exit(0)

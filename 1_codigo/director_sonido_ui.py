@@ -787,7 +787,9 @@ class PaginaDirector(QWidget):
         self._lbl_diseno.setText(tr('Diseño IA: {d}', d=tr(e.get('diseno') or '') + (tr(' + capa a la medida') if e.get('con_capa') else '') +
                                     (tr(' + clic') if e.get('con_clic') else '')))
         fuente = str(e.get('fuente') or '')
-        if e.get('material'):
+        if e.get('material') and e.get('kit'):                       # v5.39, Social: el kit (un sonido para todo el video)
+            self._lbl_material.setText(tr('Material: «{m}», el del kit Social (el mismo en todo el video)', m=e.get('material')))
+        elif e.get('material'):
             self._lbl_material.setText(tr('Material: «{m}» de tu biblioteca (pasó el Quality Gate)', m=e.get('material')))
         elif 'procedural' in fuente:
             self._lbl_material.setText(tr('Material: sintetizado a la medida de este movimiento'))

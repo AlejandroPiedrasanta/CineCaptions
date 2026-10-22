@@ -281,6 +281,21 @@ no se toca) y Resolve usa siempre el archivo LOCAL. Pruebas: `herramientas_dev/p
 semántico por el nombre** (palabras ENTERAS; núcleo obligatorio por tipo; objetos concretos —plástico, acero, bate, mesa…— y tonos oscuros en un
 video luminoso penalizan; nunca memes/fart/voces/música) + duration/spectral/energy fit + anti-repetición por familia. Lección: sin la parte
 semántica la «calidad» técnica aprobaba «…Farts…» como golpe.
+**v5.39 (todos los estilos), archivos limpios y VETOS** (tras el diagnóstico del Social v4, «suena barato»): `leer_para_mezcla` quita DC y subgraves
+(paso alto 30 Hz, `paso_alto` = magnitud Butterworth por FFT, fase cero), el silencio de delante (desde 5 ms antes del ataque a −40 dB), pone 3 ms de
+entrada en coseno (nunca un escalón al empezar), alarga la cola hasta +0,3 s mientras no caiga 45 dB y funde el mayor de `fundido_s` y el 25 % de lo
+que queda (sin `dur` —el riser— el archivo entero). `calidad` mide además (`_finas`: ataque 10–90 % con 1 ms, golpes a −10 dB en 150 ms con valle de
+−6 dB entre ellos, tramo a −40 dB, % < 150 Hz y > 1 kHz, centroide del tramo, suelo dentro de él, bordes de 5 ms, pico desde el ataque y el corte de
+agudos de un MP3 aunque sea .wav: ≤ −25 dB de 10–15 a 16,5–20 kHz = −15) y los defectos claros son **VETO** (score 0, `vetos`), no −10 que se
+aguantan contra UMBRAL 70: pop/ui con flam (> 1 golpe), ataque > 8 ms, > 10 % bajo 150 Hz o centroide < 600 Hz; whoosh con < 10 % sobre 1 kHz
+(rumble), suelo > −20 dB bajo el pico (bloque de ruido) o bordes > −20 dB (cortado). Los finos (`vetos_estrictos`: pop con más de 200 ms a −40 dB;
+whoosh con bordes > −35 dB, > 15 % bajo 150 Hz o su pico pasado el corte; nada de carpetas de impactos) solo con `objetivo['estricto']` (el kit
+Social); en los demás estilos, el pico tardío de un whoosh solo resta (−0,3): así siguen encontrando archivos en una biblioteca normal. En la
+biblioteca del render del Tema 1 quedan pop_sfx_neutral, pop_in y ui_series_a (pops) y swish_single_4 y short_woosh_04 (whooshes); los otros 12,
+con su motivo. Caché en disco con `CALIDAD_VERSION` (2: las medidas de antes se rehacen). `fabricar`: pops, tics y acentos se alinean por su
+ATAQUE (primera muestra a −20 dB del pico en la suma mono, medida en el sonido ya terminado; `indice_ataque`), golpes y whooshes por su pico; con
+`fps` (Resolve: `preparar_sfx` y `redisenar_pro`) cada WAV empieza en un fotograma exacto con el silencio justo delante (colocar_efectos redondea
+`ini` a fotogramas: hasta ±16,7 ms). `_variar` remuestrea por FFT (np.interp apagaba 2–5 dB los agudos). `VERSION` 3: los WAV de antes se rehacen.
 
 **Fase 4 — música y ambiente (`director_sonido_capas`):** `musica`: «Sin música» (control) → NO_MUSIC_REQUIRED · el video ya la trae → KEEP_EXISTING
 (no se separa ni se pone otra encima) · hace falta y hay proveedor AUTORIZADO → ADD_NEW: consulta según energía/tono/paleta, VARIAS candidatas con
@@ -399,15 +414,55 @@ inspector con ▶ Oír / Otro sonido / Silenciar / Bloquear · «Exígele más�
 ocho notas. Ocultos (siguen vivos para el motor y las pruebas): destino (va en la ayuda de Aplicar), tramo A/B (ayuda), la lista de eventos (la línea
 se maneja con ← → y Enter/espacio = oír), material, importancia y Menos…/Más…. `_cuerpo` y la zona con alto `Maximum`: el sobrante va abajo.
 
-**Probar:** `python 1_codigo/herramientas_dev/probar_revision_sonido.py` (24 casos sin video: rescates por profundidad, silencios del usuario,
+**Probar:** `python 1_codigo/herramientas_dev/probar_revision_sonido.py` (49 casos sin video, con los de Social: rescates por profundidad, silencios del usuario,
 choques con lo fijo, ráfagas, la PRO como externa, cortes en Máximo, estabilidad, nunca lanza, «Exígele más»). Siguen pasando sesión segura (17),
 ciclo (7) y destino Python/Lua (32).
 
 **Estilo «Social (CapCut)» (control `estilo` = `social`; «tipo CapCut / TikTok / reels / captions» en «Exígele más»):** pedido tras escuchar el
-Tema 1 («suenan baratos o falsos» y «no van con la animación»). En `disenar`, sin umbral: cada caption que entra suena al APARECER (pop en `t + 0,02`;
-swipe suave en el `start` del bloque si su palabra principal llega ≥ 0,25 s después), golpe solo en el primer gancho y en UNA llamada a la acción,
-swipe en cada corte que no pise una palabra; nada a < `SOCIAL_HUECO_S` (0,22 s) del anterior; sin riser de gancho, sin motivo de datos ni nota de
-cierre; tope `SOCIAL_TOPE` (14) por ventana de 10 s (la revisión lo respeta y admite ráfagas de 5). Todos sus eventos llevan `sin_capa` (el archivo
-LIMPIO, sin la capa procedural del modo híbrido: era lo que sonaba a falso) y `sin_sintesis` (`director_sonido_sfx.fabricar`: si hay librería y el
-anti-repetición la agotó, repite el mejor archivo antes que sintetizar; sin librería, la síntesis de siempre). Pruebas: 30/30 en
-`probar_revision_sonido.py`.
+Tema 1 («suenan baratos o falsos» y «no van con la animación»). v5.39, rehecho con el diagnóstico medido del render v4 (cada palabra con OTRO archivo
+por el anti-repetición; whoosh en la etiqueta diminuta y booms de cine en gancho y CTA; cintas y líneas sin sonido; el ataque antes que la imagen;
+pops casi inaudibles; paneo sin movimiento lateral):
+- **El kit** (`director_sonido_sfx.KIT_SOCIAL`, en `2_recursos`, PyInstaller lo lleva: carpeta `kit_social` en los dos `.spec`): UN pop —
+  `sfx_emoji/burbuja.wav` (CC0, farfadet46: 148 ms, un solo golpe, ataque 3,3 ms, glide 870→1180 Hz, nada bajo 150 Hz)— y UN swipe —
+  `kit_social/swish_single_4_393811.wav` (CC0, Freesound 393811; `kit_social/LICENCIAS.txt`)—; tic opcional `Interfaz (CC0)/click_interface_tick_002`;
+  respaldo del pop: `pop_sfx_neutral_776016` en «Mis sonidos». `_preparar_kit` UNA vez: mono, sin DC, paso alto 150 Hz (200 el swipe), desde 5 ms antes
+  del ataque con 3 ms de entrada, corte a −50 dB + 20 ms (el pop queda en ~130 ms). El tono por tipo, por FFT y en caché (`_tono`). Sin biblioteca,
+  sin `elegir`, sin anti-repetición, sin capa, sin paneo y sin azar: el mismo pop en cada palabra (sha1 del preparado en `puestos[].kit` y en
+  `fabricar(...)['kit']`; determinista byte a byte). **«Otro sonido»** en un evento del kit cambia ese sonido en TODO el video (`_kits`: `evitar` /
+  `firma` de cualquier evento de ese tipo → respaldo o el mejor de la biblioteca con el Quality Gate ESTRICTO; si no hay otro, sigue el del kit).
+- **Qué suena** (`disenar` → `_captions_social` / `entradas_social`): TODO run con `k` y `t` (Kinetic, VIRAL) con el pop del kit según
+  `SOCIAL_MAPA` — héroe 0 st · cinta −3 st · texto, cifra, script y `k sup` normal +2 st · etiqueta (`k label`, `k sup` pequeño) +4 st · anillo /
+  subrayado: calla si empieza < `SOCIAL_TRAZO_S` (0,25 s) tras su héroe (si no, +2 st). Sin clips (guion, líneas): la palabra principal y, si el
+  bloque aparece ≥ 0,25 s antes, su entrada. El PRIMER héroe del video y el de UNA llamada a la acción: **acento** del kit (pop −2 st y +3 dB con el
+  mismo pop −12 st 8 dB debajo; ≤ 0,2 s, mono): nunca IMPACTOS, riser ni boom (sin riser de gancho ni de la PRO, sin motivo ni nota de cierre).
+  Cortes de escena: el swipe del kit centrado con su PICO en el corte, salvo que otro sonido caiga a < `SOCIAL_HUECO_S` de su inicio (45 ms antes)
+  o de su pico (`_cerca_social`: el corte es lo último; antes callaba solo a < 0,12 s y dejaba swipe + pop a 0,135 s); motions de la PRO / Efectos,
+  también con el kit y la misma separación. Nada a < `SOCIAL_HUECO_S` (0,22 s) entre DOS sonidos cualesquiera: manda la prioridad (acento > héroe >
+  cinta > texto > etiqueta > trazo > corte). Lo que se funde queda en su caption (`captions[].fusionados` = texto, clase, ancla, con quién va y a
+  cuánto; y en su porqué: «LOS» → con el pop de «SUBTÍTULOS»): una entrada a < 0,22 s de un sonido de más prioridad no tiene sonido propio a
+  propósito. `SOCIAL_TOPE` 24 por ventana de 10 s (el Tema 1 llega a 18). Un caption calla solo si se quedó sin TODOS sus pops.
+- **Cuándo** (`_aterrizaje`, en la rejilla de fotogramas): `ctx['render'] == 'mp4'` (MP4 sin Resolve: `director_sonido.contexto(render=)` desde
+  `_director_sonido_arrancar` con `_go_sin_resolve`, y la versión E de la demo) = el primer fotograma con ≥ 50 % del fundido smoothstep de
+  `MP4_ENTRADA_S` (= `render_temas.ENTRADA_S`): ceil((t0 + 0,06)·fps)/fps; Resolve = fotograma del clip + los suyos hasta el 50 % (`ANIM_KINETIC`
+  easeOutBack: héroe «pop» + 2 f —ya a escala 0,82 = 50 % de su área—, «sube» + 1 f, cinta / «abre» + 2 f; anillo, su primer fotograma); sin clip
+  del Tema 1, el instante de siempre llevado al fotograma siguiente. El ataque del pop (−20 dB) cae ahí (`fabricar`, al fotograma exacto).
+- **Nivel** (`director_sonido_eventos.SOCIAL_NIVEL`, dB bajo `nivel_voz_db`, medido como «K100» = `director_sonido_sfx._nivel_k100`: la sonoridad
+  máxima de 100 ms de BS.1770 —ponderación K exacta a 48 kHz, canales sumados, −0,691—, la MISMA medida que el sonómetro; el RMS activo leía hasta
+  10,5 dB mal un sonido corto y el «corto50» de antes —máximo de 50 ms sin ponderar— se desviaba con el tono y el brillo: cinta→texto quedaba en
+  1,5 dB y el swipe, 2 dB más fuerte de lo pedido): héroe −9,5 (≈ −12,3 dB K bajo la voz momentánea en el Tema 1), cinta −12, texto −14,5, etiqueta
+  −17 (pasos de 2,5 dB), trazo −17,5, acento −6,5, corte −14,5 (5 dB bajo el héroe) y siempre ≥ `SWIPE_BAJO_HEROE_DB` (4 dB, K100) bajo el héroe.
+  Igual sobre la voz o no (todos los héroes al mismo nivel). `VERSION` 4 de los WAV (el mismo número con otra medida no reutiliza los viejos).
+- **Revisión** (`director_sonido_revision`): el mismo kit (rescate = el pop del kit en el aterrizaje de lo que más pesa, nunca un golpe ni un
+  archivo), tope 24 y, en Social, choque de `SOCIAL_HUECO_S` (`_choque`: en la coherencia y en el rescate, lo mismo que separa el diseño);
+  ráfagas de 5 en 1,5 s. Sound Score: en Social, el tope de densidad es el suyo.
+- **En el Tema 1** (cues del render v4, MP4; render v5b): 34 pops + 1 swipe (18,933 s; 4,733 s lo cubre el pop de SUBTÍTULOS y 9,467 / 14,2 s callan:
+  un pop a 0,13–0,17 s), ningún golpe, cintas, «90» y líneas con su pop salvo «LOS» y «O SE» (a 0,17 s de SUBTÍTULOS / QUEDA: se funden, y
+  queda dicho), 6 anillos/subrayados en silencio; IOI mín 0,233 s, mediana 0,63 s, CV 0,38, hueco máx 1,17 s; K100 bajo la voz: héroe −12,3, pasos
+  2,5 / 2,5 / 2,5, swipe 5 dB bajo el héroe, acento −8,7; la revisión no cambia nada.
+- La demo (`demo_director_sonido.py`) entrega como copia PRINCIPAL `<versión>_con_voz.mp4` (la mezcla como se publica) y, SECUNDARIA,
+  `<versión>_SECUNDARIO_solo_sonidos_<N>LUFS.wav` (los sonidos solos subidos hacia −16 LUFS SIN limitador y sin pasar de −1 dBFS de pico; unos pops
+  cortos llegan antes al pico —en el Tema 1, −24 LUFS—, así que el NOMBRE dice los LUFS que miden; antes ponía «-16LUFS» midiendo −23,6). Nunca
+  una copia sola subida a −16 LUFS sin limitador: sus picos pasan de 0 dBFS y se recortan en cualquier reproductor de enteros (el móvil).
+Pruebas: 49/49 en `probar_revision_sonido.py` (kit, aterrizaje Resolve/MP4, tonos, niveles K100 y sus pasos, lo fundido anotado, un corte a
+0,13–0,17 s de un pop que calla —diseño y revisión: nada a < 0,22 s—, revisión, `fabricar`: una fuente, ataque en el ancla, al fotograma,
+determinista, «Otro sonido» global; vetos y `leer_para_mezcla`), sesión segura 17, ciclo 7 y destino 32.

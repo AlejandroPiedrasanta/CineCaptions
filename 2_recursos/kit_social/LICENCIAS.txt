@@ -1,0 +1,10 @@
+KIT «SOCIAL (CapCut)» DEL AI SOUND DIRECTOR · origen y licencia
+
+Un solo pop y un solo swipe para todo el video (director_sonido_sfx.KIT_SOCIAL): el mismo sonido en cada palabra que entra, como en CapCut.
+Las grabaciones de abajo son CC0 (dominio público): se pueden usar y redistribuir sin atribución. Se citan por cortesía.
+
+swish_single_4_393811.wav  <-  swish_single_4  ·  Freesound id 393811  ·  CC0  ·  https://freesound.org/s/393811/   (el SWIPE de los cortes de escena; viene del preview de 128 kbps: sin agudos sobre 16,5 kHz)
+
+Los otros dos sonidos del kit ya viajan con el programa (no se duplican aquí):
+pop   2_recursos/sfx_emoji/burbuja.wav  <-  pop.ogg  ·  bubbles 'pop'  ·  farfadet46  ·  CC0  ·  https://opengameart.org/content/bubbles-pop   (ver sfx_emoji/LICENCIAS.txt)
+tick  2_recursos/sfx_library/Interfaz (CC0)/click_interface_tick_002.wav  ·  Kenney · Interface Sounds  ·  CC0  ·  https://kenney.nl/assets/interface-sounds   (ver su LICENCIA.txt)

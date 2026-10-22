@@ -9000,5 +9000,12 @@
   "fr": "La page SON applique seule chaque changement dans Resolve et vous dit si tout est à jour. Elle est activée.",
   "de": "Die Seite SOUND überträgt jede Änderung selbst nach Resolve und zeigt, ob alles aktuell ist. Sie ist eingeschaltet.",
   "it": "La pagina SUONO applica da sola ogni modifica in Resolve e ti dice se è tutto aggiornato. È attiva."
+ },
+ "Material: «{m}», el del kit Social (el mismo en todo el video)": {
+  "en": "Material: “{m}”, the Social kit sound (the same one across the whole video)",
+  "pt": "Material: «{m}», o do kit Social (o mesmo em todo o vídeo)",
+  "fr": "Matériau : « {m} », celui du kit Social (le même dans toute la vidéo)",
+  "de": "Material: „{m}“, der Sound des Social-Kits (derselbe im ganzen Video)",
+  "it": "Materiale: «{m}», quello del kit Social (lo stesso in tutto il video)"
  }
 }

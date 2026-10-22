@@ -18,6 +18,14 @@ Cada evento: tipo (golpe, whoosh, giro, riser, trazo, acento, tick, pop), instan
 animación, pista AI, nivel bajo la voz, parámetros de síntesis (easing, dirección, peso, brillo, semilla), decisión GENERATE y su porqué.
 Los sonidos de Simple en cada caption reciben REPLACE / REMOVE con su motivo (los de Efectos y la PRO, en director_sonido.al_colocar / sonidos_pro).
 
+Estilo «Social (CapCut)» (v5.39, `controles['estilo'] == 'social'`): TODO lo que se ve entrar suena con el MISMO pop del kit (director_sonido_sfx.
+KIT_SOCIAL), con el tono y el nivel de su tamaño (`SOCIAL_MAPA`, director_sonido_eventos.SOCIAL_NIVEL: héroe > cinta > texto > etiqueta), en el
+fotograma en que ATERRIZA (`_aterrizaje`: el MP4 sin Resolve —ctx['render'] == 'mp4'— o el clip de Resolve); el primer héroe y UNA llamada a la
+acción, con el acento del kit (el pop +3 dB con su octava baja), nunca un golpe ni un riser; los anillos que se dibujan justo tras su héroe callan;
+el swipe del kit solo en los cortes de escena (centrado, sin paneo). Nada a < SOCIAL_HUECO_S de otro sonido (`_cerca_social`: de inicio a inicio
+o de ancla a ancla; manda el de más prioridad: héroe > cinta > texto > etiqueta > trazo > corte); lo que se funde queda en su caption
+('fusionados' y su porqué: «LOS» → con el pop de «SUBTÍTULOS»), nunca se pierde en silencio.
+
 Lo que pide el usuario en la página (fase 6, el 5 % humano) entra aquí:
     controles   {'estilo': auto|limpio|cinematico|energico|minimo, 'intensidad' / 'densidad' / 'voz': auto|poco|medio|mucho} (música y ambiente:
                 fase 4). AUTO = lo que decidió la IA. El estilo mueve la paleta; la intensidad, el nivel y el peso (no cambia el carácter del tema);
@@ -26,6 +34,7 @@ Lo que pide el usuario en la página (fase 6, el 5 % humano) entra aquí:
     ronda       sube con «Rediseñar sonido»: otras variaciones de todo lo que no esté bloqueado.
 """
 import hashlib
+import math
 
 import numpy as np
 
@@ -44,8 +53,16 @@ ESTILOS = {'limpio': {'impacto': -0.25, 'densidad': -0.1, 'ui': 0.2, 'reverb': -
            'energico': {'densidad': 0.2, 'transitorios': 0.2, 'motion': 0.2, 'impacto': 0.1},
            'minimo': {'densidad': -0.3, 'impacto': -0.1, 'motion': -0.2},
            'social': {'impacto': -0.2, 'densidad': 0.3, 'ui': 0.3, 'reverb': -0.2}}          # «Social (CapCut)»: ver disenar
-SOCIAL_HUECO_S = 0.22                  # Social: nada a menos de esto del sonido anterior (el ritmo de las palabras, sin amontonar)
-SOCIAL_TOPE = 14                       # Social: sonidos por ventana de 10 s (casi una palabra por segundo y algo más)
+SOCIAL_HUECO_S = 0.22                  # Social: nada a menos de esto de otro sonido, pops, swipes de corte y motions (el ritmo, sin amontonar)
+SOCIAL_TOPE = 24                       # Social: sonidos por ventana de 10 s (el Tema 1 llega a 18 en 10 s: con 14 se perdían palabras que se ven)
+SOCIAL_TRAZO_S = 0.25                  # Social: un anillo / subrayado que empieza a menos de esto tras su héroe calla (ya suena el pop del héroe)
+MP4_ENTRADA_S = 0.12                   # el fundido de entrada de cada elemento en el MP4 sin Resolve (render_temas.ENTRADA_S, smoothstep)
+# Social: lo que suena en cada cosa que se ve —el MISMO sonido del kit— (sonido del kit, semitonos, prioridad al fusionar dos a < SOCIAL_HUECO_S,
+# importancia para la densidad, duración del archivo). El nivel, en director_sonido_eventos.SOCIAL_NIVEL.
+SOCIAL_MAPA = {'acento': ('pop', -2, 6, 0.95, 0.2), 'heroe': ('pop', 0, 5, 0.9, 0.15), 'cinta': ('pop', -3, 4, 0.8, 0.15),
+               'texto': ('pop', 2, 3, 0.7, 0.15), 'etiqueta': ('pop', 4, 2, 0.6, 0.15), 'trazo': ('pop', 2, 1, 0.5, 0.15),
+               'corte': ('whoosh', 0, 0, 0.45, 0.21)}
+SOCIAL_CAPA_ACENTO = (-12, -8.0)       # el acento: el mismo pop una octava abajo y 8 dB bajo él, para darle cuerpo (sin boom)
 DENSIDAD = {'poco': 0.1, 'medio': 0.35, 'mucho': 0.7}
 INTENSIDAD = {'poco': (-4.0, 0.8), 'medio': (0.0, 1.0), 'mucho': (3.0, 1.15)}        # (dB para todos, factor de peso del golpe)
 VOZ = {'poco': (1.0, 1.0), 'medio': (0.0, 2.0), 'mucho': (-3.0, 5.0)}              # (dB para todos, dB más si cae sobre una palabra)
@@ -158,12 +175,155 @@ def _en_voz(palabras, t):
     return any(float(p.get('start') or 0) <= t <= float(p.get('end') or 0) for p in palabras or [])
 
 
+def _ease_out_back(p, c1=1.70158):
+    return 1.0 + (c1 + 1.0) * (p - 1.0) ** 3 + c1 * (p - 1.0) ** 2
+
+
+def _fotogramas_hasta(anim):
+    """Fotogramas desde el inicio de un clip del Tema 1 (ANIM_KINETIC, easeOutBack) hasta el primero con ≥ 50 %: en el héroe («pop», de 0,38× a
+    1×), el 50 % de su ÁREA final (escala ≥ 0,71: + 2 f, ya a 0,82); en los demás, de su entrada; un anillo que se dibuja, su primer fotograma."""
+    a = EV.ANIM_KINETIC.get(anim) or EV.ANIM_KINETIC['abre']
+    if anim == 'trazo' or not a.get('f'):
+        return 1
+    umbral = (math.sqrt(0.5) - 0.38) / 0.62 if anim == 'pop' else 0.5
+    return next((k for k in range(1, int(a['f']) + 1) if _ease_out_back(k / float(a['f'])) >= umbral), 1)
+
+
+def _aterrizaje(t, clase, render, fps, anim=None, ancla=None):
+    """El instante (en la rejilla de fotogramas) en que lo que entra ATERRIZA, donde va su sonido en Social:
+        MP4 sin Resolve (ctx['render'] == 'mp4'; render_temas: fundido smoothstep de MP4_ENTRADA_S) → el primer fotograma con ≥ 50 % de opacidad,
+            ceil((t0 + MP4_ENTRADA_S / 2)·fps)/fps; un anillo / subrayado, su primer fotograma visible.
+        Resolve → el fotograma del clip + los suyos hasta el 50 % (`_fotogramas_hasta`; héroe «pop»: + 2 f). Sin clip del Tema 1 (guion, VIRAL,
+            líneas): el instante de siempre (`ancla`), llevado al fotograma siguiente."""
+    fps = float(fps or 30.0)
+    if render == 'mp4':
+        if clase == 'trazo':
+            return math.ceil(t * fps + 1e-6) / fps
+        return math.ceil((t + 0.5 * MP4_ENTRADA_S) * fps - 1e-6) / fps
+    if anim:
+        return (int(round(t * fps)) + _fotogramas_hasta(anim)) / fps
+    return math.ceil((t if ancla is None else ancla) * fps - 1e-6) / fps
+
+
+def _clase_social(r):
+    """Qué es lo que entra, para su sonido en Social: 'heroe' | 'cinta' | 'texto' | 'etiqueta' | 'trazo' | None."""
+    k = str(r.get('k') or '')
+    if k.startswith('k hero'):
+        return 'heroe'
+    if k.startswith(('k tape', 'k tapes')):
+        return 'cinta'
+    if k.startswith('k ') and EV.anim_de_clip(k) == 'trazo':
+        return 'trazo'
+    if k.startswith('k label') or (k.startswith('k sup') and float(r.get('size') or 0.1) < 0.07):
+        return 'etiqueta'                                             # (el «sup» pequeño hace de etiqueta; el normal y las cifras, de texto)
+    if ' '.join(k.split()[:2]) in CLIP_VIRAL:
+        return 'heroe'
+    return 'texto' if str(r.get('texto') or '').strip() else None
+
+
+def entradas_social(c, car, fps, render):
+    """Lo que se ve entrar en un caption, para Social: [{'ancla', 'clase', 'texto', 't'}]. Con los clips del tema (Kinetic, VIRAL): cada run con 'k'
+    y 't', en su aterrizaje; un anillo / subrayado a < SOCIAL_TRAZO_S tras su héroe, fuera (ya suena el héroe). Sin ellos (guion, líneas): la
+    palabra principal y, si el bloque aparece ≥ 0,25 s antes, su entrada (texto)."""
+    runs = [r for r in (c.get('runs') or []) if isinstance(r, dict) and r.get('k') and r.get('t') is not None]
+    salida = []
+    if runs:
+        heroes = [float(r['t']) for r in runs if _clase_social(r) == 'heroe']
+        for r in runs:
+            clase, t = _clase_social(r), float(r['t'])
+            if clase is None or (clase == 'trazo' and any(0.0 <= t - th < SOCIAL_TRAZO_S for th in heroes)):
+                continue
+            anim = EV.anim_de_clip(r['k']) if str(r['k']).startswith('k ') else None
+            salida.append({'ancla': _aterrizaje(t, clase, render, fps, anim, t + 0.05), 'clase': clase, 'texto': str(r.get('texto') or ''), 't': t})
+        return salida
+    m = _momento_caption(c, car, fps)
+    if m is None:
+        return []
+    salida.append({'ancla': _aterrizaje(m['t'], 'heroe', render, fps, None, m['ancla']), 'clase': 'heroe', 'texto': m['texto'], 't': m['t']})
+    inicio = float(c.get('start') if c.get('start') is not None else m['t'])
+    if m['t'] - inicio >= 0.25:
+        salida.append({'ancla': _aterrizaje(inicio, 'texto', render, fps, None, inicio + 0.04), 'clase': 'texto', 'texto': '', 't': inicio})
+    return salida
+
+
+def _cerca_social(eventos, inicio, ancla):
+    """Social: los sonidos que se oirían a < SOCIAL_HUECO_S de uno que empieza en `inicio` con su ancla en `ancla` (de inicio a inicio o de ancla
+    a ancla: el swipe empieza 45 ms antes de su pico)."""
+    return [e for e in eventos if e.get('decision') == 'GENERATE'
+            and min(abs(float(e['t']) - inicio), abs(float(e['ancla']) - ancla)) < SOCIAL_HUECO_S]
+
+
+def params_social(clase):
+    """(tipo, duración, params) de un sonido del kit Social para esa clase (`SOCIAL_MAPA`): sin capa, sin síntesis, sin paneo."""
+    kit, st, _prio, _imp, d = SOCIAL_MAPA[clase]
+    p = {'kit': kit, 'social': clase, 'semitonos': st, 'direccion': 0.0, 'sin_capa': True, 'sin_sintesis': True}
+    if clase == 'acento':
+        p['capa_kit'] = list(SOCIAL_CAPA_ACENTO)
+    return ('whoosh' if kit == 'whoosh' else 'pop'), d, p
+
+
+def _captions_social(ctx, car, fps, render, frases, fin_intro, ev):
+    """Social: cada cosa que entra en cada caption (`entradas_social`) con su sonido del kit; el primer héroe del video y el de UNA llamada a la
+    acción, con el acento; dos a < SOCIAL_HUECO_S se funden quedándose el de más prioridad (héroe > cinta > texto > etiqueta > trazo); nada encima
+    de la intro de Efectos. Crea los eventos con `ev` y devuelve (captions, viejos) como el resto de disenar."""
+    captions, viejos, todos = [], [], []
+    for i, c in enumerate(ctx.get('bloques') or []):
+        if not isinstance(c, dict):
+            continue
+        entradas = entradas_social(c, car, fps, render)
+        th = next((x['t'] for x in entradas if x['clase'] == 'heroe'), entradas[0]['t'] if entradas else float(c.get('start') or 0.0))
+        rol, imp, _frase = EV._rol_en(frases, th)
+        rol = 'HOOK' if i == 0 else rol
+        captions.append({'cue': i, 't': round(th, 3), 'texto': next((x['texto'] for x in entradas if x['clase'] == 'heroe'), ''), 'rol': rol,
+                         'caption_sound_score': 1.0, '_viejos': [e for e in (c.get('sfx_eventos') or []) if isinstance(e, dict)]})
+        todos += [dict(x, cue=i, rol=rol, imp=float(imp)) for x in entradas]
+    todos.sort(key=lambda x: x['ancla'])
+    gancho = next((x for x in todos if x['clase'] == 'heroe'), None)
+    cierre = next((x for x in todos if x['clase'] == 'heroe' and x['rol'] == 'CTA' and x is not gancho), None)
+    for x in (gancho, cierre):
+        if x is not None:
+            x['clase'] = 'acento'
+    puestos, fundidos = [], []
+    for x in sorted(todos, key=lambda x: (-SOCIAL_MAPA[x['clase']][2], x['ancla'])):
+        cerca = [y for y in puestos if abs(x['ancla'] - y['ancla']) < SOCIAL_HUECO_S]
+        if x['ancla'] < fin_intro or cerca:                           # (lo que calla queda dicho en su caption: con quién va, o la intro)
+            fundidos.append((x, min(cerca, key=lambda y: abs(x['ancla'] - y['ancla'])) if cerca and x['ancla'] >= fin_intro else None))
+        else:
+            puestos.append(x)
+    for x in sorted(puestos, key=lambda x: x['ancla']):
+        tipo, d, pk = params_social(x['clase'])
+        que = {'acento': 'el acento del kit (pop +3 dB con su octava baja): la palabra que abre / cierra, sin golpe', 'heroe': 'el pop del kit',
+               'cinta': 'el pop del kit, 3 semitonos abajo', 'texto': 'el pop del kit, 2 semitonos arriba y 4 dB menos',
+               'etiqueta': 'el pop del kit, agudo y suave', 'trazo': 'el pop del kit, suave, al empezar a dibujarse'}[x['clase']]
+        motivo = f"«{x['texto'] or x['clase']}» ({x['rol'].lower()}, {x['clase']}): {que}, cuando aterriza"
+        ev(tipo, x['ancla'], x['ancla'], d, motivo, SOCIAL_MAPA[x['clase']][3] + 0.05 * x['imp'], 'caption', x['cue'],
+           rel_db=EV.SOCIAL_NIVEL[x['clase']], **pk)
+    for info in captions:
+        suyos = [x for x in puestos if x['cue'] == info['cue']]
+        info['decision'] = 'GENERATE' if suyos else 'LEAVE_SILENT'
+        info['por_que'] = ('Social (CapCut): ' + ', '.join(f"{x['clase']} «{x['texto']}»" if x['texto'] else x['clase'] for x in suyos) +
+                           ' con el kit, al aterrizar' if suyos else 'Social: lo suyo ya suena con otro sonido')
+        info['fusionados'] = [{'texto': x['texto'], 'clase': x['clase'], 'ancla': round(x['ancla'], 3),
+                               'con': (y['texto'] or y['clase']) if y else None, 'a_s': round(abs(x['ancla'] - y['ancla']), 3) if y else None}
+                              for x, y in fundidos if x['cue'] == info['cue']]
+        if info['fusionados']:
+            info['por_que'] += ' · ' + '; '.join(
+                f"«{f['texto'] or f['clase']}» → con el pop de «{f['con']}» (a {f['a_s']:.2f} s: nada a menos de {SOCIAL_HUECO_S:.2f} s)" if f['con']
+                else f"«{f['texto'] or f['clase']}» calla: suena la intro de Efectos" for f in info['fusionados'])
+        for e in info.pop('_viejos'):
+            viejos.append({'cue': info['cue'], 'viejo': e.get('sfx_nombre') or e.get('sfx'), 't': e.get('t'), 'decision': 'REPLACE' if suyos else 'REMOVE',
+                           'por_que': 'Social: el genérico se cambia por el pop del kit al aterrizar'})
+    return captions, viejos
+
+
 def disenar(analisis, ctx, fps=30.0, controles=None, ajustes=None, ronda=0):
     """El diseño de sonido de ESTE video (ver el docstring del módulo). Nunca cambia lo visual: solo lee."""
     car = caracter(analisis, controles)
-    social = (controles or {}).get('estilo') == 'social'              # «Social (CapCut)»: cada palabra que entra suena, limpia y al APARECER
+    social = (controles or {}).get('estilo') == 'social'              # «Social (CapCut)»: todo lo que entra suena con el MISMO pop, al aterrizar
+    render = 'mp4' if ctx.get('render') == 'mp4' else 'resolve'
     if social:
-        car = dict(car, social=True, por_que='Social (CapCut): un pop limpio en cada palabra que entra, swipe al cambiar de frase y en los cortes')
+        car = dict(car, social=True, riser=False, render=render, acento='pop',
+                   por_que='Social (CapCut): el mismo pop del kit en todo lo que entra, al aterrizar; swipe solo en los cortes')
     analisis = con_controles(analisis, controles)
     narr = analisis.get('narrativa') or {}
     frases = narr.get('frases') or []
@@ -174,7 +334,7 @@ def disenar(analisis, ctx, fps=30.0, controles=None, ajustes=None, ronda=0):
     eventos, viejos, captions, motions = [], [], [], []
     nota = (523.25 if brillo >= 0.5 else 392.0) * (0.75 if car['modo_pro'] == 'editorial' else 1.0)   # el MOTIVO del video: siempre la misma nota
 
-    def ev(tipo, t, ancla, d, motivo, imp, origen, ref=None, **params):
+    def ev(tipo, t, ancla, d, motivo, imp, origen, ref=None, rel_db=None, **params):
         params.setdefault('brillo', brillo)
         params['semilla'] = _semilla(tipo, round(ancla, 3), ref, ctx.get('video'), *((ronda,) if ronda else ()))
         if 'peso' in params:
@@ -182,6 +342,8 @@ def disenar(analisis, ctx, fps=30.0, controles=None, ajustes=None, ronda=0):
         sobre = _en_voz(palabras, ancla)
         rel = EV.NIVEL_REL_VOZ[tipo] + car['nivel_extra_db'] - (car['sobre_voz_db'] if tipo not in ('golpe', 'riser') and sobre else 0.0)
         rel -= max(0.0, car['sobre_voz_db'] - 2.0) * 0.3 if tipo == 'golpe' and sobre else 0.0     # (voz «máxima»: hasta el golpe se aparta un poco)
+        if rel_db is not None:                                        # Social: el nivel de su tamaño, igual sobre la voz o no (el mismo pop)
+            rel = rel_db + car['nivel_extra_db']
         eventos.append({'id': f'{tipo}-{len(eventos) + 1:02d}', 'tipo': tipo, 't': round(max(0.0, t), 3), 'ancla': round(ancla, 3), 'dur': round(d, 3),
                         'pista': EV.PISTA[tipo], 'nivel_rel_voz_db': round(rel, 1),
                         'params': params, 'decision': 'GENERATE', 'por_que': motivo, 'importancia': round(float(imp), 2), 'origen': origen, 'ref': ref})
@@ -192,10 +354,12 @@ def disenar(analisis, ctx, fps=30.0, controles=None, ajustes=None, ronda=0):
     intro_sonido = next((e for e in fx_ev if e.get('tipo') == 'sonido' and not e.get('extra') and float(e.get('ini') or 0) < 1.0), None)
     fin_intro = float(intro_sonido.get('pico') or intro_sonido.get('dur') or 0.8) + 0.25 if intro_sonido else 0.0
 
-    # --- captions
-    ultimo, n_datos, gancho_usado, lado_s, cierre_usado = -99.0, 0, False, 0.5, False
+    # --- captions. Social: todo lo que entra, con el kit (sin umbral, sin capa sintética, sin golpes); se funde por prioridad
+    if social:
+        captions, viejos = _captions_social(ctx, car, fps, render, frases, fin_intro, ev)
+    ultimo, n_datos, gancho_usado = -99.0, 0, False
     for i, c in enumerate(ctx.get('bloques') or []):
-        if not isinstance(c, dict):
+        if not isinstance(c, dict) or social:
             continue
         viejos_c = [e for e in (c.get('sfx_eventos') or []) if isinstance(e, dict)]
         m = _momento_caption(c, car, fps)
@@ -208,34 +372,6 @@ def disenar(analisis, ctx, fps=30.0, controles=None, ajustes=None, ronda=0):
         rol, imp, _frase = EV._rol_en(frases, t)
         if i == 0:
             rol = 'HOOK'
-        if social:                                                    # sin umbral: el ritmo es que TODO lo que entra suene (sin capa sintética)
-            info = {'cue': i, 't': round(t, 3), 'texto': m['texto'], 'rol': rol, 'caption_sound_score': 1.0}
-            hechos = []
-            inicio = float(c.get('start') if c.get('start') is not None else t)
-            if t - inicio >= 0.25 and inicio - ultimo >= SOCIAL_HUECO_S and inicio >= fin_intro:
-                hechos.append(ev('whoosh', inicio - 0.08, inicio + 0.04, 0.26, f"«{m['texto']}»: entra la frase — swipe suave justo al aparecer", 0.45,
-                                 'caption', i, direccion=lado_s, easing='easeOutCubic', peso=0.25, sin_capa=True, sin_sintesis=True))
-                lado_s = -lado_s
-            a = t + 0.02
-            if a - (hechos[-1]['ancla'] if hechos else ultimo) >= SOCIAL_HUECO_S and a >= fin_intro:
-                if (rol == 'HOOK' and not gancho_usado) or (rol == 'CTA' and not cierre_usado):     # (un golpe al abrir y UNO al cerrar)
-                    cierre_usado = cierre_usado or rol == 'CTA'
-                    hechos.append(ev('golpe', a - 0.03, a, 0.5, f"«{m['texto']}» ({rol.lower()}): la palabra que abre / cierra pega, sin pasarse", 0.9,
-                                     'caption', i, peso=0.35, cola=0.25, pre=0.03, sin_capa=True, sin_sintesis=True))
-                else:
-                    hechos.append(ev('pop', a, a, 0.25, f"«{m['texto']}» ({rol.lower()}): pop limpio justo cuando aparece", 0.6 + 0.2 * float(imp), 'caption',
-                                     i, sin_capa=True, sin_sintesis=True))
-            info['decision'] = 'GENERATE' if hechos else 'LEAVE_SILENT'
-            info['por_que'] = ('Social (CapCut): lo que entra suena, limpio y al aparecer' if hechos else
-                               f'Social: a menos de {SOCIAL_HUECO_S:.2f} s del sonido anterior (sin amontonar)')
-            for e in viejos_c:
-                viejos.append({'cue': i, 'viejo': e.get('sfx_nombre') or e.get('sfx'), 't': e.get('t'), 'decision': 'REPLACE' if hechos else 'REMOVE',
-                               'por_que': 'Social: el genérico se cambia por un sonido limpio al aparecer'})
-            if hechos:
-                ultimo = hechos[-1]['ancla']
-                gancho_usado = gancho_usado or rol == 'HOOK'
-            captions.append(info)
-            continue
         cifra = any(ch.isdigit() for ch in m['texto'])
         peso_rol = EV.PESO_ROL.get(rol, 0.0)
         if rol == 'HOOK' and gancho_usado:
@@ -346,11 +482,18 @@ def disenar(analisis, ctx, fps=30.0, controles=None, ajustes=None, ronda=0):
                            {'peso': 0.4, 'brillo': float(np.clip(brillo + (0.2 if claro else 0.0), 0, 1)), 'direccion': 0.0}))
     lado = 1.0
     for tipo, t, d, imp, motivo, params in sorted(candidatos, key=lambda x: x[1]):
-        cerca = [e for e in eventos if abs(e['ancla'] - t) < CHOQUE_S]
+        cerca = (_cerca_social(eventos, t - (0.045 if tipo == 'whoosh' else 0.0), t) if social
+                 else [e for e in eventos if abs(e['ancla'] - t) < CHOQUE_S])
         if cerca:
-            motions.append({'t': round(t, 3), 'que': motivo, 'decision': 'LEAVE_SILENT', 'por_que': f"pisaría «{cerca[0]['id']}» (a menos de {CHOQUE_S:.2f} s)"})
+            motions.append({'t': round(t, 3), 'que': motivo, 'decision': 'LEAVE_SILENT',
+                            'por_que': f"pisaría «{cerca[0]['id']}» (a menos de {SOCIAL_HUECO_S if social else CHOQUE_S:.2f} s)"})
             continue
-        if tipo == 'whoosh':
+        if social:                                                    # (Social: el mismo kit también en lo que mueve la PRO / Efectos)
+            clase = 'corte' if tipo == 'whoosh' else ('heroe' if tipo == 'golpe' else 'texto')
+            tp, d_k, pk = params_social(clase)
+            ev(tp, t - (0.045 if tp == 'whoosh' else 0.0), t, d_k, f'{motivo}: el {pk["kit"]} del kit Social', imp, 'motion', None,
+               rel_db=EV.SOCIAL_NIVEL[clase], brillo=params.get('brillo', brillo), **pk)
+        elif tipo == 'whoosh':
             params['direccion'] = lado * 0.7
             lado = -lado
             ev('whoosh', t - 0.55 * d, t, d + 0.12, f'{motivo}: aire con el pico en el movimiento ({d:.2f} s)', imp, 'motion', None, easing='easeInOutCubic', **params)
@@ -372,14 +515,21 @@ def disenar(analisis, ctx, fps=30.0, controles=None, ajustes=None, ronda=0):
     # --- cortes de escena que respiran (sin otra transición): aire, de lado alterno — solo en temas enérgicos (en uno sobrio, un corte seco no
     #     tiene movimiento que suene: sería un sonido sin causa)
     ultimo_w = -99.0
-    cada, aire = (0.0, 0.3) if social else (car['cortes_cada_s'], 0.6)         # Social: cada corte con su swipe (si no pisa una palabra)
     for tc in sorted(float(x) for x in (ctx.get('cortes') or []) if car['cortes_whoosh'] or social):
-        if (tc - ultimo_w < cada or tc < 1.0 or any(abs(tc - e['ancla']) < aire for e in eventos)
+        if social:                                                    # Social: el swipe del kit en cada corte, centrado y con su pico en el corte,
+            if (tc < 1.0 or _cerca_social(eventos, tc - 0.045, tc)    # salvo que otro sonido caiga a < SOCIAL_HUECO_S (el corte es lo último:
+                    or any(e['origen'] == 'motion' and e['tipo'] in ('whoosh', 'riser', 'golpe') and abs(tc - e['ancla']) < 1.5 for e in eventos)):
+                continue                                              # un pop a 0,13 s ya lo marca y los dos juntos se amontonan)
+            tp, d_k, pk = params_social('corte')
+            ev(tp, tc - 0.045, tc, d_k, f'corte de escena a {tc:.2f} s: el swipe del kit, centrado, con su pico en el corte', SOCIAL_MAPA['corte'][3],
+               'corte', None, rel_db=EV.SOCIAL_NIVEL['corte'], **pk)
+            continue
+        if (tc - ultimo_w < car['cortes_cada_s'] or tc < 1.0 or any(abs(tc - e['ancla']) < 0.6 for e in eventos)
                 or any(e['origen'] == 'motion' and e['tipo'] in ('whoosh', 'riser', 'golpe') and abs(tc - e['ancla']) < 1.5 for e in eventos)):
             continue
         d = 0.42
         ev('whoosh', tc - d * 0.55, tc, d + 0.12, f'corte de escena a {tc:.2f} s: aire que pasa con easeInOutCubic (pico en el corte), de lado alterno', 0.5,
-           'corte', None, direccion=lado * 0.8, easing='easeInOutCubic', peso=0.4, **({'sin_capa': True, 'sin_sintesis': True} if social else {}))
+           'corte', None, direccion=lado * 0.8, easing='easeInOutCubic', peso=0.4)
         lado, ultimo_w = -lado, tc
 
     # --- lo que el usuario pidió para cada evento (página AI Sound Director): silenciar, bloquear, MENOS / MÁS, regenerar
@@ -420,6 +570,8 @@ def disenar(analisis, ctx, fps=30.0, controles=None, ajustes=None, ronda=0):
         if info.get('decision') == 'LEAVE_SILENT':
             continue
         suyos = [e for e in eventos if e.get('ref') == info['cue'] and e['origen'] in ('caption', 'dato')]
+        if social and suyos and any(e['decision'] == 'GENERATE' for e in suyos):
+            continue                                                  # (Social: un caption tiene varios pops; calla solo si se quedó sin todos)
         if suyos and suyos[0]['decision'] == 'REMOVE':
             for e in suyos:
                 if e['decision'] == 'GENERATE':

@@ -161,6 +161,12 @@ ANIM_KINETIC = {
 PISTA = {'golpe': 'AI SFX IMPACTS', 'whoosh': 'AI SFX MOTION', 'giro': 'AI SFX MOTION', 'riser': 'AI SFX MOTION', 'trazo': 'AI SFX TEXTURE',
          'acento': 'AI SFX TONAL', 'tick': 'AI SFX UI', 'pop': 'AI SFX UI'}
 NIVEL_REL_VOZ = {'golpe': -9.0, 'whoosh': -15.0, 'giro': -17.0, 'riser': -13.0, 'trazo': -19.0, 'acento': -17.0, 'tick': -22.0, 'pop': -20.0}
+# v5.39, estilo «Social (CapCut)»: dB bajo la voz (nivel_voz_db = RMS de la voz activa) medidos como «K100» (director_sonido_sfx._nivel_k100: la
+# sonoridad máxima de 100 ms de BS.1770, la MISMA medida que el sonómetro, así que cada paso de la tabla es el que se mide, sea cual sea el tono o el
+# brillo del sonido), por lo que se VE: el pop del héroe manda (≈ −12 dB K bajo la voz momentánea, ≈ 15 dB bajo su pico) y cada cosa más pequeña,
+# 2,5 dB menos (cinta, texto, etiqueta); el acento del gancho / CTA, +3 dB; el swipe de un corte, 5 dB bajo el héroe (y nunca a menos de
+# SWIPE_BAJO_HEROE_DB = 4: director_sonido_sfx)
+SOCIAL_NIVEL = {'heroe': -9.5, 'cinta': -12.0, 'texto': -14.5, 'etiqueta': -17.0, 'trazo': -17.5, 'acento': -6.5, 'corte': -14.5}
 PESO_ROL = {'HOOK': 0.45, 'CTA': 0.35, 'REVEAL': 0.3, 'DATA': 0.3, 'RESULT': 0.2, 'SOLUTION': 0.2, 'PROBLEM': 0.15, 'INTRO': 0.1, 'EXAMPLE': 0.05}
 
 

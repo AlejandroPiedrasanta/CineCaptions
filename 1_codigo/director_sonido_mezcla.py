@@ -242,6 +242,9 @@ def puntuar(medidas, estado, diseno_eventos=None):
         s = estado.get('sfx_summary') or {}
         tope = int(round(2 + 4 * float(((estado.get('paleta') or {}).get('valores') or {}).get('densidad', 0.3)))) + 1
         act = [e for e in diseno_eventos if e.get('decision') == 'GENERATE']
+        if any((e.get('params') or {}).get('social') for e in act):
+            import director_sonido_diseno as D3
+            tope = D3.SOCIAL_TOPE + 1                                 # (v5.39, Social: una palabra que entra = un pop; su tope es otro)
         dur = max([float(e.get('ancla') or 0) for e in act] or [0.0])
         pasadas = sum(1 for k0 in np.arange(0, dur + 0.1, 10.0) if sum(1 for e in act if k0 <= float(e['ancla']) < k0 + 10) > tope)
     partes['consistencia'] = (float(np.clip(100 - 15 * clones - 10 * pasadas, 0, 100)), f'{clones} clones, {pasadas} ventanas por encima del tope')

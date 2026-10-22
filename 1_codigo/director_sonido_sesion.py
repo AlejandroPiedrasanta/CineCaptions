@@ -188,7 +188,7 @@ def resumen(video):
                         'nombre': _nombre_evento(e, captions), 'diseno': DISENO.get(e.get('tipo'), e.get('tipo')),
                         'con_capa': 'capa' in str(p.get('fuente') or ''), 'con_clic': 'clic' in str(p.get('fuente') or ''),
                         'fuente': p.get('fuente'), 'archivo': p.get('archivo'), 'bloqueado': bool(aj.get('bloqueado')), 'silenciado': bool(aj.get('silenciar')),
-                        'material': (p.get('eleccion') or {}).get('elegido')})
+                        'material': (p.get('eleccion') or {}).get('elegido'), 'kit': bool(p.get('kit'))})
     n_suenan = sum(1 for e in eventos if e['suena'])
     dur = float((a.get('voz') or {}).get('duracion') or 0.0) or max([float(p.get('end') or 0) for p in ctx.get('palabras') or []] or [0.0])
     mezcla = estado.get('mix') or {}
@@ -434,6 +434,8 @@ def retocar(video, clave, accion, al_estado=None):
         aj['params'] = p
         etiquetas = dict(MENOS + MAS + (('regenerar', 'Regenerado'),))
         hecho = f"{etiquetas.get(op, op)}: hecho solo para «{_nombre_evento(e, estado.get('caption_decisions') or [])}»."
+        if op in ('otro_sfx', 'otra_textura') and puesto.get('kit'):    # v5.39, Social: el kit es UNO (director_sonido_sfx._kits)
+            hecho = f"{etiquetas.get(op, op)}: el kit Social cambia ese sonido en TODO el video (el mismo en cada palabra, como en CapCut)."
     ajustes[clave] = aj
     estado['ajustes'] = ajustes
     E.guardar(video, estado)

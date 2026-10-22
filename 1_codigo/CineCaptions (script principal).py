@@ -11896,7 +11896,8 @@ class SubtitleApp(QWidget):
             ctx = director_sonido.contexto(media_path, words, self._plantilla_un_clic(), formato='h' if ancho and alto and ancho > alto * 1.2 else 'v',
                                            recorte=getattr(self, '_recorte', None), timeline_de_go=getattr(self, '_go_tl_listo', None) is not None,
                                            bloques=getattr(self, '_ultimos_bloques', None), plan_efectos=getattr(self, '_efectos_plan', None),
-                                           plan_pro=getattr(self, '_pro_plan', None), idioma=idioma)
+                                           plan_pro=getattr(self, '_pro_plan', None), idioma=idioma,
+                                           render='mp4' if getattr(self, '_go_sin_resolve', False) else None)   # v5.39: el MP4 sin Resolve entra con otra curva
 
             def trabajo():
                 try:

@@ -3992,7 +3992,8 @@
     "AI Sound Director se encarga de todo el sonido: los sonidos de las reglas de antes ya no suenan, y los de los motions (también los del Tema 1) los rehace a la medida.": "AI Sound Director übernimmt den ganzen Sound: die Sounds der alten Regeln laufen nicht mehr, und die der Motions (auch Thema 1) werden passend neu gebaut.",
     "Usa todas tus bibliotecas de sonido: miles de whooshes, golpes, risers y tonos, camas de música de score y ambientes reales, cada uno revisado antes de usarlo.": "Er nutzt alle deine Sound-Bibliotheken: Tausende Whooshes, Hits, Riser und Töne, Score-Musikbetten und echte Atmos, jeder vor dem Einsatz geprüft.",
     "Si no hay música de Epidemic, pone una cama de score de tus colecciones, siempre por debajo de la voz; el ambiente sale de tus grabaciones del mismo entorno.": "Ohne Epidemic-Musik legt er ein Score-Bett aus deinen Sammlungen, immer unter der Stimme; die Atmo stammt aus deinen Aufnahmen derselben Umgebung.",
-    "La página SONIDO aplica sola cada cambio en Resolve y te dice si todo está al día. Viene encendida.": "Die Seite SOUND überträgt jede Änderung selbst nach Resolve und zeigt, ob alles aktuell ist. Sie ist eingeschaltet."
+    "La página SONIDO aplica sola cada cambio en Resolve y te dice si todo está al día. Viene encendida.": "Die Seite SOUND überträgt jede Änderung selbst nach Resolve und zeigt, ob alles aktuell ist. Sie ist eingeschaltet.",
+    "Material: «{m}», el del kit Social (el mismo en todo el video)": "Material: „{m}“, der Sound des Social-Kits (derselbe im ganzen Video)"
   },
   "Suave": "Sanft",
   "Media": "Mittel",

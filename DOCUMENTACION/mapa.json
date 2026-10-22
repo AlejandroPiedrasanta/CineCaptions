@@ -4124,7 +4124,15 @@
         "revisión",
         "razonamiento",
         "exígele más",
-        "cobertura"
+        "cobertura",
+        "social",
+        "capcut",
+        "kit social",
+        "pop",
+        "swipe",
+        "aterrizaje",
+        "veto",
+        "archivos limpios"
       ],
       "archivos": [
         "director_sonido.py",
@@ -4162,7 +4170,8 @@
         "director_sonido_fuentes.py",
         "herramientas_dev/demo_director_sonido.py",
         "director_sonido_revision.py",
-        "herramientas_dev/probar_revision_sonido.py"
+        "herramientas_dev/probar_revision_sonido.py",
+        "2_recursos/kit_social/LICENCIAS.txt"
       ],
       "simbolos": [
         "activo",
@@ -4238,9 +4247,24 @@
         "revision_final",
         "profundidad",
         "_director_sonido_revision_final",
-        "_guardar_rehecho"
+        "_guardar_rehecho",
+        "KIT_SOCIAL",
+        "SOCIAL_MAPA",
+        "SOCIAL_NIVEL",
+        "_aterrizaje",
+        "entradas_social",
+        "_captions_social",
+        "params_social",
+        "_kits",
+        "_nivel_k100",
+        "_cerca_social",
+        "_choque",
+        "leer_para_mezcla",
+        "vetos_estrictos",
+        "indice_ataque",
+        "paso_alto"
       ],
-      "resumen": "apagado = GO de siempre; encendido analiza tema/voz/ruido/música/ambiente/captions/motions/narrativa, pone la voz restaurada (copia) en AI VOICE apagando A1 solo tras verificarla y es el ÚNICO dueño del sonido: decide caption a caption y motion a motion (la mayoría en silencio), hace cada sonido a la medida (híbrido) en las pistas AI SFX, apaga los de Simple y toma los de la PRO; fallback al motor original"
+      "resumen": "apagado = GO de siempre; encendido analiza tema/voz/ruido/música/ambiente/captions/motions/narrativa, pone la voz restaurada (copia) en AI VOICE apagando A1 solo tras verificarla y es el ÚNICO dueño del sonido: decide caption a caption y motion a motion (la mayoría en silencio), hace cada sonido a la medida (híbrido) en las pistas AI SFX, apaga los de Simple y toma los de la PRO; fallback al motor original; estilo Social (CapCut) = UN kit (pop + swipe en 2_recursos) en todo lo que entra, al aterrizar"
     }
   ]
 }

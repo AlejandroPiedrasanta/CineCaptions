@@ -14,6 +14,9 @@ con captions, Efectos y PRO ya en Resolve: ahí los sonidos de la PRO rehechos e
 
 Razonamiento (control 'razonamiento' de la página; Auto = profundo): cuántas rondas, desde qué importancia se rescata, cuánto margen bajo el umbral
 tiene un caption y cuántos sonidos más caben por ventana de 10 s. Lo bloqueado, lo retocado por el usuario, el gancho y el cierre no se tocan.
+
+Social (v5.39): las rondas usan el MISMO kit (lo rescatado es el pop del kit en el aterrizaje de lo que entra, nunca un golpe ni un archivo de la
+biblioteca), el tope SOCIAL_TOPE y el choque de SOCIAL_HUECO_S entre dos sonidos cualesquiera, pops y swipes (el diseño ya los separa así).
 """
 import copy
 
@@ -52,6 +55,11 @@ def _anclas(eventos, externos):
     return sorted([float(e['ancla']) for e in _suenan(eventos)] + [float(x['ancla']) for x in externos])
 
 
+def _choque(car):
+    """A menos de esto, dos sonidos cortos chocan (Social: SOCIAL_HUECO_S, lo mismo que separa el diseño, también al swipe de un corte)."""
+    return D3.SOCIAL_HUECO_S if car.get('social') else D3.CHOQUE_S
+
+
 def _tope(car, p):
     base = D3.SOCIAL_TOPE if car.get('social') else int(round(2 + 4 * float(car.get('densidad', 0.3))))
     return base + PROFUNDIDAD[p]['extra']
@@ -62,14 +70,16 @@ def _sitio(eventos, externos, t, tope):
     return sum(1 for a in _anclas(eventos, externos) if k0 <= a < k0 + 10.0) < tope
 
 
-def _nuevo(eventos, car, ctx, tipo, t, ancla, d, motivo, imp, origen, ref=None, **params):
-    """Un evento con las MISMAS reglas que disenar (semilla, peso, nivel bajo la voz)."""
+def _nuevo(eventos, car, ctx, tipo, t, ancla, d, motivo, imp, origen, ref=None, rel_db=None, **params):
+    """Un evento con las MISMAS reglas que disenar (semilla, peso, nivel bajo la voz; `rel_db`: el nivel fijo de Social)."""
     params.setdefault('brillo', car['brillo'])
     params['semilla'] = D3._semilla('revision', tipo, round(ancla, 3), ref, ctx.get('video'))
     if 'peso' in params:
         params['peso'] = round(float(np.clip(params['peso'] * car['peso_k'], 0.2, 1.0)), 3)
     sobre = D3._en_voz(ctx.get('palabras') or [], ancla)
     rel = EV.NIVEL_REL_VOZ[tipo] + car['nivel_extra_db'] - (car['sobre_voz_db'] if tipo not in ('golpe', 'riser') and sobre else 0.0)
+    if rel_db is not None:
+        rel = rel_db + car['nivel_extra_db']
     e = {'id': f'{tipo}-r{len(eventos) + 1:02d}', 'tipo': tipo, 't': round(max(0.0, t), 3), 'ancla': round(ancla, 3), 'dur': round(d, 3),
          'pista': EV.PISTA[tipo], 'nivel_rel_voz_db': round(rel, 1), 'params': params, 'decision': 'GENERATE', 'por_que': motivo,
          'importancia': round(float(imp), 2), 'origen': origen, 'ref': ref, 'revision': 'rescatado'}
@@ -85,6 +95,14 @@ def _sonido_de_caption(eventos, car, ctx, info, fps):
     cue = info.get('cue')
     if not isinstance(cue, int) or cue >= len(bloques) or not isinstance(bloques[cue], dict):
         return None
+    if car.get('social'):                                             # Social: el pop del kit en lo que más pesa de ese caption, al aterrizar
+        entradas = D3.entradas_social(bloques[cue], car, fps, car.get('render') or ('mp4' if ctx.get('render') == 'mp4' else 'resolve'))
+        if not entradas:
+            return None
+        x = max(entradas, key=lambda x: (D3.SOCIAL_MAPA[x['clase']][2], -x['ancla']))
+        tipo, d, pk = D3.params_social(x['clase'])
+        return _nuevo(eventos, car, ctx, tipo, x['ancla'], x['ancla'], d, f"«{x['texto'] or x['clase']}»: se veía sin sonido; la revisión le pone el "
+                      f"pop del kit ({x['clase']})", D3.SOCIAL_MAPA[x['clase']][3], 'caption', cue, rel_db=EV.SOCIAL_NIVEL[x['clase']], **pk)
     m = D3._momento_caption(bloques[cue], car, fps)
     if m is None:
         return None
@@ -109,7 +127,7 @@ def _rescatar(d, car, ctx, p, externos, fps, notas):
         a = float(e['ancla'])
         if float(e.get('importancia') or 0) < cfg['rescate'] or not _sitio(eventos, externos, a, tope):
             continue
-        if e.get('tipo') not in LARGOS and any(abs(a - x) < D3.CHOQUE_S for x in _anclas(eventos, externos)):
+        if e.get('tipo') not in LARGOS and any(abs(a - x) < _choque(car) for x in _anclas(eventos, externos)):
             continue
         e['decision'] = 'GENERATE'
         e['revision'] = 'rescatado'
@@ -162,12 +180,13 @@ def _quitar(e, motivo):
 def _coherencia(d, car, p, externos, notas):
     """Choques, ráfagas y densidad, con lo de fuera contado. Quita siempre el que menos pesa (nunca lo fijo)."""
     eventos, cambios = d['eventos'], 0
+    choque = _choque(car)                                             # (Social: el diseño ya separa 0,22 s todo, pops y swipes)
     cortos = sorted((e for e in _suenan(eventos) if e.get('tipo') not in LARGOS), key=lambda e: float(e['ancla']))
     for i, e in enumerate(cortos):                                    # choques entre los del director
         if e.get('decision') != 'GENERATE':
             continue
         for o in cortos[i + 1:]:
-            if float(o['ancla']) - float(e['ancla']) >= D3.CHOQUE_S:
+            if float(o['ancla']) - float(e['ancla']) >= choque:
                 break
             if o.get('decision') != 'GENERATE':
                 continue

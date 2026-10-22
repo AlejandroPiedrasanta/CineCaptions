@@ -113,9 +113,11 @@ def fallback(donde):
 
 
 def contexto(video, palabras, pack, formato='v', recorte=None, timeline_de_go=False, cortes=None, bloques=None, plan_efectos=None,
-             plan_pro=None, idioma=None):
-    """La foto de lo que el director necesita, en datos simples (copias: el hilo del director nunca lee los planes vivos de GO)."""
+             plan_pro=None, idioma=None, render=None):
+    """La foto de lo que el director necesita, en datos simples (copias: el hilo del director nunca lee los planes vivos de GO). `render`: 'mp4'
+    si los captions se graban en el MP4 sin Resolve (render_sin_resolve: otra curva de entrada; el sonido aterriza con ella), si no 'resolve'."""
     return {'video': str(video) if video else '', 'palabras': [dict(p) for p in (palabras or []) if isinstance(p, dict)],
+            'render': 'mp4' if render == 'mp4' else 'resolve',
             'pack': str(pack or ''), 'formato': formato or 'v', 'idioma': idioma,
             'recorte': copy.deepcopy(recorte) if recorte else None, 'timeline_de_go': bool(timeline_de_go),
             'cortes': [float(t) for t in (cortes or [])], 'bloques': copy.deepcopy(bloques) if bloques else [],
@@ -437,9 +439,9 @@ def preparar_sfx(ctx, analisis, nivel_voz_db=None, diseno=None, ctrl=None, ajust
             e['nivel_rel_voz_db'] = round(float(e['nivel_rel_voz_db']) + float((mezcla.get('eventos') or {}).get(e.get('clave'), 0.0))
                                           + float(mezcla.get('bus') or 0.0), 1)
     nivel = _nivel_voz_previsto(ctx, analisis) if nivel_voz_db is None else round(float(nivel_voz_db), 1)
-    hecho = SFX.fabricar(diseno, E.carpeta_de(ctx['video']) / 'sfx', nivel)
+    hecho = SFX.fabricar(diseno, E.carpeta_de(ctx['video']) / 'sfx', nivel, fps=None if ctx.get('render') == 'mp4' else fps)   # (Resolve: al fotograma)
     sfx = {'diseno': diseno, 'eventos': hecho['eventos'], 'puestos': hecho['puestos'], 'nivel_voz_db': nivel, 'modo': hecho['modo'],
-           'segundos': hecho['segundos'], 'revision': diseno.get('revision')}
+           'segundos': hecho['segundos'], 'revision': diseno.get('revision'), 'kit': hecho.get('kit') or {}}
     _log_sfx(sfx)
     return sfx
 
@@ -457,6 +459,8 @@ def _log_sfx(sfx):
     v = r['viejos']
     if any(v.values()):
         log(f"Old caption SFX: {v['REPLACE']} REPLACE, {v['REMOVE']} REMOVE, {v['KEEP']} KEEP")
+    if sfx.get('kit'):
+        log('Kit Social: ' + ' · '.join(f"{t} {k['archivo']} ({k['sha1']}) en {k['eventos']} eventos — {k['por_que']}" for t, k in sfx['kit'].items()))
 
 
 def preparar_capas(ctx, analisis, nivel_voz_db=None, ctrl=None):
@@ -486,7 +490,8 @@ def _guardar_sfx(estado, sfx):
                                                             'ref', 'params', 'bloqueado', 'ajustado')}
                                     for e in d['eventos']],
                    'sound_events_placed': sfx['puestos'], 'sfx_plan': sfx['eventos'], 'caption_decisions': d['captions'], 'motion_decisions': d['motions'],
-                   'old_sfx_decisions': d['viejos'], 'sfx_summary': dict(d['resumen'], modo=sfx['modo'], nivel_voz_db=sfx['nivel_voz_db']),
+                   'old_sfx_decisions': d['viejos'], 'sfx_summary': dict(d['resumen'], modo=sfx['modo'], nivel_voz_db=sfx['nivel_voz_db'],
+                                                                          kit=sfx.get('kit') or {}),
                    'revision': d.get('revision')})
 
 
@@ -771,7 +776,7 @@ def redisenar_pro(plan, sonidos, fps=30.0):
         for c in sorted(dentro, key=lambda c: (c['importancia'], -c['t']))[:max(0, len(dentro) - sitio)]:
             c['decision'] = 'REMOVE'
     activos = [c for c in candidatos if c['decision'] == 'GENERATE']
-    hecho = SFX.fabricar({'eventos': activos}, E.carpeta_de(video) / 'sfx', nivel) if activos else {'eventos': [], 'puestos': []}
+    hecho = SFX.fabricar({'eventos': activos}, E.carpeta_de(video) / 'sfx', nivel, fps=fps) if activos else {'eventos': [], 'puestos': []}
     pistas = {c['id']: c['_pista_pro'] for c in activos}
     try:
         from edicion_pro_ograf import ruta_larga
