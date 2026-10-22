@@ -41,8 +41,13 @@ def _norm(t):
     return ''.join(c for c in t if unicodedata.category(c) != 'Mn')
 
 
+def _unir_temas(t):
+    """«Tema 5» / «tema-5» → «tema5», para que el número (una sola cifra) cuente al buscar."""
+    return re.sub(r'\btema[\s_-]*(\d)\b', r'tema\1', t)
+
+
 def _palabras(texto):
-    return re.findall(r'[a-z0-9_]+', _norm(texto))
+    return re.findall(r'[a-z0-9_]+', _unir_temas(_norm(texto)))
 
 
 def _cuenta(palabras, w):
@@ -53,7 +58,7 @@ def _cuenta(palabras, w):
 
 
 def _terminos(consulta):
-    return [w for w in re.findall(r'[a-z0-9_]+', _norm(consulta)) if len(w) > 1 and w not in _PARADA]
+    return [w for w in re.findall(r'[a-z0-9_]+', _unir_temas(_norm(consulta))) if len(w) > 1 and w not in _PARADA]
 
 
 # ---------------------------------------------------------------------------------------------------------------------------------- índice del código

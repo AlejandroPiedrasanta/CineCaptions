@@ -444,7 +444,14 @@
         "dynamic",
         "subtitles",
         "composicion",
-        "grupos"
+        "grupos",
+        "cortado",
+        "cortados",
+        "corta",
+        "partido",
+        "renglon",
+        "salto de linea",
+        "largo"
       ],
       "archivos": [
         "dynamic_subtitles.py",
@@ -464,7 +471,12 @@
         "whisper",
         "qwen",
         "modelo",
-        "texto"
+        "texto",
+        "transcribir",
+        "palabras mal",
+        "reconocimiento",
+        "dictado",
+        "error de palabra"
       ],
       "archivos": [
         "subtitle_transcriber.py",
@@ -741,7 +753,10 @@
         "real",
         "amro",
         "luxe",
-        "guia"
+        "guia",
+        "estilo propio",
+        "crear estilo",
+        "personalizado"
       ],
       "archivos": [
         "ejemplos_estilo.py",
@@ -1244,7 +1259,8 @@
         "a",
         "palabra",
         "frases",
-        "grande"
+        "grande",
+        "tema2"
       ],
       "archivos": [
         "guion_planificador.py",
@@ -1886,7 +1902,8 @@
         "neon",
         "neón",
         "pegatina",
-        "trazo"
+        "trazo",
+        "tema1"
       ],
       "archivos": [
         "kinetic_planificador.py",
@@ -2087,7 +2104,8 @@
         "efecto",
         "planificador",
         "creativo",
-        "marcas"
+        "marcas",
+        "tema3"
       ],
       "archivos": [
         "viral_planificador.py",
@@ -2475,7 +2493,8 @@
         "traduccion",
         "argos",
         "i18n",
-        "tr"
+        "tr",
+        "traducciones"
       ],
       "archivos": [
         "brillo_ui.py",
@@ -3075,7 +3094,8 @@
         "lima",
         "instrument serif",
         "text+",
-        "editables"
+        "editables",
+        "tema6"
       ],
       "archivos": [
         "edicion_pro_tema6.py",
