@@ -50,5 +50,6 @@ Python con dependencias (`$PY`): `6_compilacion/venv315/Scripts/python.exe`.
 - Interfaz simple: sin toasts ni tooltips (avisos al Registro); en la UI solo «Tema N».
 
 ## Probar (detalle: `mapa(id="pruebas-sin-pantalla")`)
+- **Nada de pruebas dentro de esta carpeta.** Scripts, videos, renders, logs y salidas de prueba van al scratchpad de la sesión (o una carpeta temporal fuera del proyecto). Si algo de prueba tiene que crearse aquí, se BORRA al terminar y se comprueba con `git status --short` que no queda nada suelto.
 - Sin pantalla: `QT_QPA_PLATFORM=offscreen` y parchear `ajustes_ui.guardar_prefs` (los arneses escriben las prefs REALES).
 - El usuario usa Resolve a la vez: NO `go_real` ni lanzar el Puente en Studio; probar efectos con Resolve simulado. MCP: `probar_video`, `probar_referencia`, `arrastrar_video`, `evaluar` (tras tocar `mcp_cinecaptions.py`, reconectar el MCP).
