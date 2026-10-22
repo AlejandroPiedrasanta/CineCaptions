@@ -19,3 +19,8 @@ __pycache__/
 *.pfx
 # el video crudo de referencia de la skill (309 MB): GitHub no admite mas de 100 MB por archivo
 skill videos/3 things from beginner to pro.mp4
+
+# v5.34, AI Sound Director: las claves (EPIDEMIC_API_KEY) solo en el entorno o en un .env local: NUNCA en Git (la plantilla es .env.example)
+.env
+.env.*
+!.env.example

@@ -24,4 +24,4 @@ Datos del usuario (fuera del programa): `~/DaVinciSubtitles/` (ajustes, marcas, 
 Estado del usuario solo con `archivos_seguros` (nunca `write_text`) · nada de red/subprocess/`sleep` en el hilo de la interfaz (`correr_en_hilo`) · packs = solo macros reales Luxe (MediaOut, no Saver; subir `REVISION_BIN` al cambiar uno) · Amro solo como texto principal · no insertar efectos por nombre dudoso en un Resolve vivo · versión única en `version.py` (`sincronizar_version.py` la copia a los scripts).
 
 ## Cómo encontrar algo SIN leer archivos enteros
-`mapa(consulta)` → temas con archivos y símbolos · `mapa(id=…)` → detalle · `simbolo(nombre)` → solo esa función · `modulo(nombre)` → qué es un archivo · `cambios(n)` → últimos cambios. (MCP `cinecaptions`; sin MCP: `6_compilacion/venv314/Scripts/python.exe 1_codigo/mapa_codigo.py mapa <palabras>`.)
+`mapa(consulta)` → temas con archivos y símbolos · `mapa(id=…)` → detalle · `simbolo(nombre)` → solo esa función · `modulo(nombre)` → qué es un archivo · `cambios(n)` → últimos cambios. (MCP `cinecaptions`; sin MCP: `6_compilacion/venv315/Scripts/python.exe 1_codigo/mapa_codigo.py mapa <palabras>`.)

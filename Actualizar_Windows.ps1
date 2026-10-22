@@ -19,7 +19,7 @@ $raiz = Split-Path -Parent $MyInvocation.MyCommand.Path
 Set-Location $raiz
 $utf8 = New-Object System.Text.UTF8Encoding($false)
 $obra = Join-Path $raiz '6_compilacion'
-$vpy = Join-Path $obra 'venv314\Scripts\python.exe'
+$vpy = Join-Path $obra 'venv315\Scripts\python.exe'
 $estadoRuta = Join-Path $obra 'huella_fuentes.json'
 function Paso($t) { Write-Host ''; Write-Host "== $t" -ForegroundColor Cyan }
 

@@ -1234,8 +1234,11 @@ if tl:
                 a1 = tl.GetItemListInTrack('audio', 1) or []
         except Exception as e:
             res['error'] = repr(e)
+    res['ai_voice'] = any(tl.GetTrackName('audio', i) == 'AI VOICE' and (tl.GetItemListInTrack('audio', i) or [])
+                          for i in range(1, int(tl.GetTrackCount('audio') or 0) + 1))
     try:
-        tl.SetTrackEnable('audio', 1, True)
+        if not res['ai_voice']:                          # v5.34: con la voz del AI Sound Director puesta, A1 sigue apagada (si no, sonarían las dos voces)
+            tl.SetTrackEnable('audio', 1, True)
         for a in (tl.GetItemListInTrack('audio', 1) or []):
             a.SetClipEnabled(True)
     except Exception:

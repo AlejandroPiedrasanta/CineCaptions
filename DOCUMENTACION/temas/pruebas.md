@@ -8,7 +8,7 @@
 
 ## pruebas-sin-pantalla — Probar la app sin pantalla (arneses Qt)
 
-Python con dependencias: `6_compilacion/venv314/Scripts/python.exe`. Con `QT_QPA_PLATFORM=offscreen`; importar el script principal con `importlib`, parchear `licencia.vigente=lambda:True` y `SubtitleApp._revisar_licencia_al_arrancar=lambda s:None`. Los errores de pruebas se escriben en `~/DaVinciSubtitles/cinecaptions.log`.
+Python con dependencias: `6_compilacion/venv315/Scripts/python.exe`. Con `QT_QPA_PLATFORM=offscreen`; importar el script principal con `importlib`, parchear `licencia.vigente=lambda:True` y `SubtitleApp._revisar_licencia_al_arrancar=lambda s:None`. Los errores de pruebas se escriben en `~/DaVinciSubtitles/cinecaptions.log`.
 - **Prefs reales:** `_poner_go_pack`, `_plantilla_elegida`, `poner_estilo_fijo`, `_alternar_*_go` escriben `~/DaVinciSubtitles/preferencias.json` de verdad: parchea `ajustes_ui.leer_prefs/guardar_prefs` en memoria (como `probar_go.py`) o haz copia antes.
 - **GO sin Resolve:** `resolve_mcp.ruta_exe = lambda: None` (con solo `CINECAPTIONS_SIN_MCP` GO se detiene tras transcribir por `_abortar_si_fallo_el_timeline`) y anular `ui.error_con_acciones` (el diálogo modal bloquea el hilo UI). `w.show()` es obligatorio (la animación final de GO dispara la colocación).
 - Este venv no trae las DLL de CUDA para Whisper: cae a CPU.

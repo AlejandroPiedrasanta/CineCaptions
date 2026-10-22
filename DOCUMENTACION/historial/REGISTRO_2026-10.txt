@@ -1,5 +1,295 @@
 REGISTRO DE CAMBIOS ARCHIVADO · 2026-10 (la entrada más nueva arriba)
 
+2026-10-20 14:12  ·  v5.28  ·  cambio explicado
+    «Detrás de ti»: el usuario seguía sin verlo aplicado. Causa: su video trae HE-AAC y GO lleva a Resolve una copia con audio compatible; con el audio del timeline las marcas (del original) no se encontraban: ahora la copia apunta a su original (origen.json) y se buscan también por nombre. Pidió una máscara que detecte humanos y quede en el render: la persona va como matte ProRes 4444 con alfa de la IA (no Magic Mask). Y que Listo lo ponga directo en el timeline: aplicar_detras con el contexto del último GO y colocar_pro en modo solo_encima.
+    nuevos (1):
+      + 1_codigo/herramientas_dev/probar_detras_timeline.py
+    modificados (13):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/audio_compatible.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/posiciones_pro.py
+      ~ 2_recursos/edicion_pro/colocar_pro.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      … y 1 más
+
+2026-10-20 13:20  ·  v5.28  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-10-20 13:05  ·  v5.27  ·  cambio explicado
+    «Detrás de ti» › Posición más intuitiva (el usuario: que me indique dónde, 3 sugerencias a un clic, que detecte el tema y me dé la vista con los captions, la del timeline si ya pasé GO): sugerencias que GO pone de verdad (en el Tema 1 con la PRO, los bloques del kit ya ajustados a sus motions), anillos + y botones, la primera marca enciende el efecto, vista con el fotograma, el caption del tema y la persona delante (regla de GO). Arreglados los errores del Registro con el audio del timeline y el Tema 1: emojis (3 datos por palabra) y la placa y su mapa de cámara (abrían el .wav; el Tema 1 se quedaba sin detrás de ti).
+    modificados (11):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/herramientas_dev/probar_detras_posiciones.py
+      ~ 1_codigo/posiciones_pro.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 3_compilar/traducciones_extra.json
+
+2026-10-20 11:34  ·  v5.27  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-10-20 11:28  ·  v5.26  ·  cambio explicado
+    «Captions detrás de ti» con topes (el usuario: no funcionaba; topes de recomendación; Listo guarda y GO lo aplica; solo humanos): marcas guardadas con el video y leídas en el tiempo del audio del timeline (GO sin volver a soltar el video no las veía); regla por bloque con motivo, más tolerancia al movimiento en lo marcado, cortes de toma y caption más cercano; Magic Mask con puntos en cara y hombros (no el micrófono); tira con zonas verdes, máximo 8 marcas y motivo de cada sitio; Listo enciende el efecto y pone el video en Inicio; píldora de Proyecto con las posiciones.
+    nuevos (1):
+      + 1_codigo/herramientas_dev/probar_detras_posiciones.py
+    modificados (14):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_persona.py
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/efectos_visuales.py
+      ~ 1_codigo/posiciones_pro.py
+      ~ 1_codigo/pro_lateral_ui.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      … y 2 más
+
+2026-10-20 09:07  ·  v5.26  ·  (automático)
+    modificados (27):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      … y 15 más
+
+2026-10-20 09:05  ·  v5.25  ·  cambio explicado
+    GO real con la 5.25 (Tema 1): 1) GO se quedaba parado con CineCaptions minimizado u en otra página: la colocación esperaba al pico de la animación de la esfera, que no avanza si no se ve; ahora sale sin esperar. 2) El script de Studio, con el Tema 1 «solo sonidos», terminaba en «No se colocó ninguna línea» (faltaba _ALGO_COLOCADO) y GO no ponía la Edición PRO ni el respaldo: el video quedaba sin captions.
+    modificados (2):
+      ~ 1_codigo/escena_go.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+
+2026-10-20 08:56  ·  v5.25  ·  cambio explicado
+    Menú de la Edición PRO: «Emojis animados» sube al tercer puesto, justo debajo de «Captions detrás de ti» (pedido del usuario).
+    modificados (1):
+      ~ 1_codigo/pro_lateral_ui.py
+
+2026-10-20 08:50  ·  v5.25  ·  cambio explicado
+    Menú de la Edición PRO: «Gancho del inicio» pasa a ser la primera opción y «Captions detrás de ti» la segunda (pedido del usuario); Efectos sigue el mismo orden.
+    modificados (1):
+      ~ 1_codigo/pro_lateral_ui.py
+
+2026-10-20 08:32  ·  v5.25  ·  (automático)
+    modificados (27):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      … y 15 más
+
+2026-10-20 08:28  ·  v5.24  ·  cambio explicado
+    Edición PRO › Emojis animados (v5.25): opción del menú con Suave/Media/Fuerte y sección de Efectos con 5 estilos 2D Lottie (Google Noto, CC BY 4.0) y 5 3D siempre animados, «Dónde» e «Intensidad»; el emoji sale de la palabra dicha, va junto al caption sin tapar caras ni otros gráficos y sustituye a los iconos 3D estáticos. Pedido del usuario: estilos 3D-2D siempre animados, Lottie, posición coherente e intensidad.
+    nuevos (25):
+      + 1_codigo/remotion/src/EmojiPro.tsx
+      + 2_recursos/edicion_pro/ejemplos_pro/emoji.jpg
+      + 2_recursos/edicion_pro/ejemplos_pro/emoji.mp4
+      + 2_recursos/edicion_pro/estilos_pro/emoji_3d_estallido.jpg
+      + 2_recursos/edicion_pro/estilos_pro/emoji_3d_estallido.mp4
+      + 2_recursos/edicion_pro/estilos_pro/emoji_3d_flota.jpg
+      + 2_recursos/edicion_pro/estilos_pro/emoji_3d_flota.mp4
+      + 2_recursos/edicion_pro/estilos_pro/emoji_3d_gelatina.jpg
+      + 2_recursos/edicion_pro/estilos_pro/emoji_3d_gelatina.mp4
+      + 2_recursos/edicion_pro/estilos_pro/emoji_3d_giro.jpg
+      + 2_recursos/edicion_pro/estilos_pro/emoji_3d_giro.mp4
+      + 2_recursos/edicion_pro/estilos_pro/emoji_3d_salto.jpg
+      … y 13 más
+    modificados (18):
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/emojis_animados.py
+      ~ 1_codigo/estilos_pro.py
+      ~ 1_codigo/herramientas_dev/hacer_ejemplos_pro.py
+      ~ 1_codigo/herramientas_dev/hacer_estilos_pro.py
+      ~ 1_codigo/motions_catalogo.py
+      ~ 1_codigo/posiciones_pro.py
+      ~ 1_codigo/pro_lateral_ui.py
+      ~ 1_codigo/remotion/src/Root.tsx
+      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js
+      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js.map
+      … y 6 más
+
+2026-10-20 07:55  ·  v5.24  ·  cambio explicado
+    Tema 1: GO ya no coloca los Text+ de respaldo en ES-K que la PRO apagaba (solo_sonidos en los gemelos de captions; respaldo solo si la PRO falla) y las pistas de la PRO llevan lo que hacen delante del código («Captions · PRO-SUBS»), buscándose por el código. Probado en Resolve Studio real. Pedido del usuario.
+    modificados (6):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 2_recursos/edicion_pro/colocar_pro.py
+      ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/debug.log
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Subtitulos.lua
+
+2026-10-19 23:37  ·  v5.24  ·  (automático)
+    modificados (27):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      … y 15 más
+
+2026-10-19 23:02  ·  v5.23  ·  cambio explicado
+    Efectos › «Posición» con el audio de «Obtener»: la imagen sale del clip principal del timeline (clip_principal_desde en los gemelos de Detectar Video) y la tira dura lo que el audio; Efectos ordenado como el menú lateral. Pedido del usuario.
+    modificados (10):
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/posiciones_pro.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 3_compilar/traducciones_extra.json
+
+2026-10-19 22:42  ·  v5.23  ·  (automático)
+    nuevos (14):
+      + 2_recursos/edicion_pro/remotion/bundle/206.bundle.js
+      + 2_recursos/edicion_pro/remotion/bundle/206.bundle.js.map
+      + 2_recursos/edicion_pro/remotion/bundle/260.bundle.js
+      + 2_recursos/edicion_pro/remotion/bundle/260.bundle.js.map
+      + 2_recursos/edicion_pro/remotion/bundle/541.bundle.js
+      + 2_recursos/edicion_pro/remotion/bundle/541.bundle.js.map
+      + 2_recursos/edicion_pro/remotion/bundle/578.bundle.js
+      + 2_recursos/edicion_pro/remotion/bundle/578.bundle.js.map
+      + 2_recursos/edicion_pro/remotion/bundle/679.bundle.js
+      + 2_recursos/edicion_pro/remotion/bundle/679.bundle.js.map
+      + 2_recursos/edicion_pro/remotion/bundle/756.bundle.js
+      + 2_recursos/edicion_pro/remotion/bundle/756.bundle.js.map
+      … y 2 más
+    modificados (66):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/edicion_pro/remotion/bundle/155.bundle.js
+      ~ 2_recursos/edicion_pro/remotion/bundle/155.bundle.js.map
+      ~ 2_recursos/edicion_pro/remotion/bundle/18.bundle.js
+      ~ 2_recursos/edicion_pro/remotion/bundle/18.bundle.js.map
+      ~ 2_recursos/edicion_pro/remotion/bundle/428.bundle.js
+      ~ 2_recursos/edicion_pro/remotion/bundle/428.bundle.js.map
+      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js
+      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js.map
+      ~ 2_recursos/edicion_pro/remotion/bundle/index.html
+      ~ 2_recursos/edicion_pro/remotion/runtime/node_modules/.package-lock.json
+      … y 54 más
+    quitados (14):
+      - 2_recursos/edicion_pro/remotion/bundle/134.bundle.js
+      - 2_recursos/edicion_pro/remotion/bundle/134.bundle.js.map
+      - 2_recursos/edicion_pro/remotion/bundle/567.bundle.js
+      - 2_recursos/edicion_pro/remotion/bundle/567.bundle.js.map
+      - 2_recursos/edicion_pro/remotion/bundle/760.bundle.js
+      - 2_recursos/edicion_pro/remotion/bundle/760.bundle.js.map
+      - 2_recursos/edicion_pro/remotion/bundle/798.bundle.js
+      - 2_recursos/edicion_pro/remotion/bundle/798.bundle.js.map
+      - 2_recursos/edicion_pro/remotion/bundle/807.bundle.js
+      - 2_recursos/edicion_pro/remotion/bundle/807.bundle.js.map
+      - 2_recursos/edicion_pro/remotion/bundle/906.bundle.js
+      - 2_recursos/edicion_pro/remotion/bundle/906.bundle.js.map
+      … y 2 más
+
+2026-10-19 22:25  ·  v5.22  ·  cambio explicado
+    Efectos › «Posición» (nuevo, posiciones_pro.py): en cada sección de la PRO un botón (y doble clic) abre la línea de tiempo del video con sus fotogramas para marcar en qué segundos va ese efecto, con «Solo mis marcas | Mis marcas + automático»; GO lo respeta (piezas, B-roll, píldora, detrás de ti, tramos de Motions completo). Inicio: arreglados los tirones/reinicios al volver de otra página o tras inactividad. Pedidos del usuario.
+    modificados (2):
+      ~ 1_codigo/edicion_pro.py
+      ~ 2_recursos/edicion_pro/colocar_pro.py
+
+2026-10-19 22:19  ·  v5.22  ·  cambio explicado
+    Inicio/GO: barras de progreso mejoradas. La de abajo (antes 2 px del HUD que seguía la energía de la esfera y no coincidía con el %) la dibuja ahora la escena con el MISMO % suavizado que el centro, por tramos de cada paso, con textos a los lados; el anillo del centro lleva pista, cortes por paso y texto que siempre cabe. Pedido del usuario: «mejora su barra de progreso tanto abajo como en el centro».
+    nuevos (1):
+      + 1_codigo/posiciones_pro.py
+    modificados (8):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/escena_go.py
+      ~ 1_codigo/estilos_inicio.py
+      ~ 1_codigo/mograf_ui.py
+      ~ 1_codigo/orbe_mecanica.py
+      ~ 1_codigo/un_clic_ui.py
+
+2026-10-19 21:57  ·  v5.22  ·  cambio explicado
+    Interfaz: verde como color de resaltado de fábrica (tema.ACENTO_POR_DEFECTO). «Color de resaltado» rehecho como una fila de muestras redondas (_MuestrasAcento) en lugar de 7 tarjetas y el botón «Elegir color…». Pedido del usuario: «mejora esto y deja por defecto el verde».
+    modificados (2):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/tema.py
+
+2026-10-19 21:48  ·  v5.22  ·  cambio explicado
+    Ajustes: quitadas las filas «Mantener CineCaptions encima» (sigue el alfiler del menú lateral) y «Copias de seguridad» (copias.py queda sin uso). Pedido del usuario.
+    modificados (1):
+      ~ 1_codigo/ajustes_ui.py
+
+2026-10-19 21:45  ·  v5.22  ·  cambio explicado
+    Proyecto/PRO: el menú lateral empieza por «Captions detrás de ti» y luego «Gancho del inicio» (pro_lateral_ui.OPCIONES). Efectos: quitada la tarjeta «Edición PRO activa… / Ver efectos clásicos»; con la PRO o «Visuales: no» los clásicos solo se esconden. Pedido del usuario.
+    modificados (5):
+      ~ 1_codigo/efectos_pagina.py
+      ~ 1_codigo/pro_lateral_ui.py
+      ~ 1_codigo/remotion/package-lock.json
+      ~ 1_codigo/remotion/package.json
+      ~ 3_compilar/requirements.txt
+
+
+(Lo anterior está archivado por mes en DOCUMENTACION/historial/REGISTRO_<aaaa-mm>.txt)
 2026-10-19 21:37  ·  v5.22  ·  cambio explicado
     Librerías: revisadas todas contra PyPI/npm (2026-10-19). Parches menores: certifi 2026.10.19 (app y motor); motor Qwen: filelock 4.2.4, httpx2/httpcore2 2.15.1, platformdirs 4.13.5, setuptools 84.2.0, transformers 5.20.2; Remotion 4.0.537 (1_codigo/remotion, npm install hecho; el runtime lo rehace preparar_remotion al compilar). Python 3.15 sigue bloqueado (ctranslate2, onnxruntime, torch sin cp315). Sin compilar.
     nuevos (32):

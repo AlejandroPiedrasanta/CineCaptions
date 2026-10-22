@@ -19,14 +19,11 @@ Coordenadas: fracciones del cuadro con el origen ARRIBA a la izquierda (Fusion l
 """
 from __future__ import annotations
 
-import threading
 from pathlib import Path
 
 import numpy as np
 
 ALTO_MODELO = 512
-_SESION = {'s': None, 'entrada': None}
-_LOCK = threading.Lock()
 
 
 def ruta_modelo() -> Path | None:
@@ -41,51 +38,29 @@ def ruta_modelo() -> Path | None:
     cache = Path.home() / 'DaVinciSubtitles' / 'edicion_pro' / 'modelos' / 'modnet.onnx'
     if cache.exists():
         return cache
-    try:                                     # último recurso: el mismo modelo desde Hugging Face (Xenova/modnet, Apache-2.0)
-        from huggingface_hub import hf_hub_download
-        bajado = Path(hf_hub_download('Xenova/modnet', 'onnx/model.onnx'))
-        cache.parent.mkdir(parents=True, exist_ok=True)
-        cache.write_bytes(bajado.read_bytes())
-        return cache
+    try:                                     # modelo de respaldo desde el motor auxiliar Python 3.14
+        import motor_compat
+        motor_compat.descargar_modnet(cache)
+        return cache if cache.is_file() else None
     except Exception:
         return None
 
-
 def disponible() -> bool:
     try:
-        import onnxruntime  # noqa: F401
+        import motor_compat
         import av  # noqa: F401
+        return motor_compat.instalado() and ruta_modelo() is not None
     except Exception:
         return False
-    return ruta_modelo() is not None
-
-
-def _sesion():
-    with _LOCK:
-        if _SESION['s'] is None:
-            import onnxruntime as ort
-            ruta = ruta_modelo()
-            if ruta is None:
-                raise RuntimeError('falta el modelo de recorte (modnet.onnx)')
-            op = ort.SessionOptions()
-            op.log_severity_level = 3
-            preferidos = [p for p in ('CUDAExecutionProvider', 'DmlExecutionProvider', 'CoreMLExecutionProvider') if p in ort.get_available_providers()]
-            s = ort.InferenceSession(str(ruta), sess_options=op, providers=preferidos + ['CPUExecutionProvider'])
-            _SESION['s'], _SESION['entrada'] = s, s.get_inputs()[0].name
-        return _SESION['s'], _SESION['entrada']
 
 
 def mate(rgb: np.ndarray, alto=None) -> np.ndarray:
-    """La silueta (0..1) de las personas de una imagen RGB uint8, a `alto` (ALTO_MODELO) px de alto."""
-    from PIL import Image
-    s, nombre = _sesion()
-    h, w = rgb.shape[:2]
-    alto = max(32, int(round(int(alto or ALTO_MODELO) / 32.0)) * 32)  # (MODNet: alto y ancho múltiplos de 32)
-    rw = max(32, int(round(w * alto / h / 32.0)) * 32)
-    x = np.asarray(Image.fromarray(rgb).resize((rw, alto), Image.BILINEAR), dtype=np.float32)
-    x = ((x / 255.0 - 0.5) / 0.5).transpose(2, 0, 1)[None]
-    return np.clip(s.run(None, {nombre: x})[0][0, 0], 0.0, 1.0)
-
+    """Calcula la silueta en el motor auxiliar Python 3.14."""
+    import motor_compat
+    ruta = ruta_modelo()
+    if ruta is None:
+        raise RuntimeError('falta el modelo de recorte (modnet.onnx)')
+    return motor_compat.mate(rgb, alto=int(alto or ALTO_MODELO), modelo=ruta)
 
 def fotograma(video, t):
     """El fotograma del video en el segundo t (RGB uint8) o None."""

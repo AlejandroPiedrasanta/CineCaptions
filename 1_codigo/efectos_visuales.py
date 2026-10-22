@@ -1208,7 +1208,7 @@ def aplicar(plan, al_estado=None, offset_frames=0):
         e = dict(e)
         if e['tipo'] == 'v1':
             continue
-        if e['tipo'] in ('sonido', 'musica'):
+        if e['tipo'] in ('sonido', 'musica', 'voz_ai'):                  # v5.34: 'voz_ai' = la voz restaurada del AI Sound Director (pista AI VOICE)
             if not e.get('archivo') or not Path(e['archivo']).is_file():
                 continue
             e['modo'] = 'audio'
@@ -1254,6 +1254,8 @@ def aplicar(plan, al_estado=None, offset_frames=0):
             e['modo'] = 'normal'
         listos.append(e)
     datos = {'eventos': listos, 'fps': fps, 'inicio': info['inicio'], 'offset_frames': int(offset_frames or 0), 'v1': v1_comps, 'solo_audio': bool((plan or {}).get('solo_audio')),
+             'solo_ai': bool((plan or {}).get('solo_ai')),
+             'apagar_sfx': [str(x) for x in ((plan or {}).get('apagar_sfx') or [])],          # v5.37: los sonidos de Simple que el AI Sound Director apaga
              'movimiento': ({k: evento_v1.get(k) for k in ('zoom', 'temblor', 'transicion', 'cortes', 'golpes', 'fondo', 'saltos', 'zoom_saltos', 'zoom_intro', 'intro_gancho')}
                             if evento_v1 else None)}
     PLAN_JSON.parent.mkdir(parents=True, exist_ok=True)

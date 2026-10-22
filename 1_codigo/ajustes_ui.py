@@ -484,6 +484,19 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.37', [
+        'AI Sound Director se encarga de todo el sonido: los sonidos de las reglas de antes ya no suenan, y los de los motions (también los del Tema 1) los rehace a la medida.',
+        'Usa todas tus bibliotecas de sonido: miles de whooshes, golpes, risers y tonos, camas de música de score y ambientes reales, cada uno revisado antes de usarlo.',
+        'Si no hay música de Epidemic, pone una cama de score de tus colecciones, siempre por debajo de la voz; el ambiente sale de tus grabaciones del mismo entorno.',
+        'La página SONIDO aplica sola cada cambio en Resolve y te dice si todo está al día. Viene encendida.',
+    ]),
+    ('5.35', [
+        'Nueva página SONIDO = AI Sound Director: la IA diseña el sonido de cada video (voz, sonidos, música y ambiente) y tú lo diriges. Viene apagada: enciéndela arriba de la página.',
+        'Decide caption a caption qué suena y qué se queda en silencio, y hace cada sonido a la medida de su animación. Los sonidos de antes se apagan, no se borran.',
+        'Escucha el antes y el después (Original / AI Sound) y toca un sonido para oírlo, pedir menos o más, regenerarlo, silenciarlo o bloquearlo; o díselo con una frase.',
+        'La voz limpia va en su propia pista (AI VOICE) y la original se apaga solo cuando la copia quedó bien puesta. El Sound Score te dice cómo quedó la mezcla.',
+        'El programa funciona ahora con Python 3.15.1 y PySide6 6.12.0, con las librerías al día.',
+    ]),
     ('5.33', [
         'Nuevo «Gancho del inicio»: 8 intros para el primer segundo, con un destello de luz, el video que se aleja con un zoom y un golpe de sonido. Viene encendido con la Edición PRO en todos los temas.',
         'Cada intro tiene su color, su zoom (golpe, suave, desenfoque, giro, temblor, rebote, RGB o latigazo) y su sonido; al elegirla, suena.',

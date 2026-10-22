@@ -2302,6 +2302,8 @@ def aplicar(plan, al_estado=None, offset_frames=0, info=None):
                             e['db'] = 0.0
                         except Exception:
                             e['archivo'] = str(OG.ruta_larga(_copia_de_usuario(e['archivo'])))
+                        if plan.get('_ai_sound'):
+                            e['origen'] = 'motions'                   # v5.34: el AI Sound Director los deja (van con el diseño de su proyecto)
                         sonidos.append(e)
         except Exception as e:
             try:
@@ -2329,6 +2331,11 @@ def aplicar(plan, al_estado=None, offset_frames=0, info=None):
         if motivos:
             plan['_rectificado'] = motivos
             decir(f'Edición PRO: el rectificador quitó {len(motivos)} cosas que no iban')
+    except Exception:
+        pass
+    try:                                                              # v5.34: con el AI Sound Director al mando, sus sonidos sustituyen a los de la PRO
+        import director_sonido
+        datos['sonidos'] = director_sonido.sonidos_pro(plan, datos['sonidos'], fps)
     except Exception:
         pass
     try:

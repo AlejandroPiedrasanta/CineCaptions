@@ -8,7 +8,7 @@
 
 Programa de escritorio (Windows 10/11, también corre en macOS) que **subtitula vídeos solo** y coloca los subtítulos ya diseñados en el timeline de **DaVinci Resolve**, con estilo de reels virales. Autor/marca: *CineCaptions · By Cinema Productions*.
 
-Stack: **Python 3.14.8 + PySide6 (Qt)**. IA local (sin internet salvo la licencia): Qwen3-ASR (voz), Qwen3-4B-Instruct (texto), Whisper de respaldo, Argos Translate (traducción).
+Stack: **Python 3.15.1 + PySide6 (Qt)**; Whisper/Argos/ONNX en el motor auxiliar **Python 3.14.9**; Qwen mantiene su runtime Python 3.14.8. IA local (sin internet salvo la licencia): Qwen3-ASR (voz), Qwen3-4B-Instruct (texto), Whisper de respaldo, Argos Translate (traducción).
 
 Cada subtítulo son hasta 4 bloques, uno encima del otro (v5.3, la estructura de los packs `.drb`):
 - `arriba` (pequeña, máx. 2 palabras; antes «contexto»)

@@ -18,8 +18,7 @@ funciones de subtitle_transcriber.py que usa la version de consola, para que
 las dos siempre produzcan resultados identicos.
 
 v5.0.0: la interfaz pasa de CustomTkinter a Qt (PySide6) y el programa a
-Python 3.14.8 (pedido literal: «actualiza todo mi programa con Python 3.14.8 y
-PySide6 para mejorar la interfaz y fluidez»), con la propuesta de panel de 5
+Python 3.15.1 en la aplicación principal; Whisper/Argos/ONNX usan el motor auxiliar Python 3.14.9., con la propuesta de panel de 5
 pantallas (Inicio, Nuevo proyecto, Editor de palabras, Estilos y composición,
 SFX Lab) y un menu lateral. La LOGICA es la de la v4.1.0: lo que cambia es
 como se ve y donde vive cada control. Lo comun de la interfaz (colores,
@@ -7047,7 +7046,8 @@ class SubtitleApp(QWidget):
         construyendo, fuera de pantalla, porque el resto del programa lee y guarda sus valores."""
         if clave == 'nuevo':
             clave = 'estilos'
-        if (clave == 'estilos' and self._plantillas_ventana is None) or (clave == 'sfx' and self._estudio_ventana is None):
+        if (clave == 'estilos' and self._plantillas_ventana is None) or (clave == 'sfx' and self._estudio_ventana is None
+                                                                          and getattr(self, '_director_pagina', None) is None):
             # v5.4: la primera vez armar la pantalla cuesta unas decimas de segundo: el boton del menu ya se ve
             # pulsado antes de empezar (si no, parece que el clic no hizo nada)
             self._marcar_nav('nuevo' if clave == 'estilos' else clave)
@@ -10597,8 +10597,8 @@ class SubtitleApp(QWidget):
         self._refrescar_receta()
     # -- SFX Lab ---------------------------------------------------------------
     def _pagina_sfx(self):
-        _pag, capa = self._nueva_pagina('sfx', tr('Elegir y retocar sonidos'), tr('Elige el sonido de cada momento, recórtalo y ajusta su volumen · se aplica al generar con GO'),
-                                        con_barra=False)         # v5.5.10: sin barra de título, como Proyecto (lo pidió el usuario)
+        _pag, capa = self._nueva_pagina('sfx', tr('AI Sound Director'), tr('La IA diseña el sonido de cada video; tú lo diriges · se aplica al generar con GO'),
+                                        con_barra=False)         # v5.5.10: sin barra de título, como Proyecto (lo pidió el usuario); v5.34: AI Sound Director
         self._sfx_capa = capa
     # -- Efectos visuales (v5.4.6): intro, transiciones en los cortes e iconos flotantes -------------------------------------------------------------------
     def _pagina_efectos(self):
@@ -10634,7 +10634,23 @@ class SubtitleApp(QWidget):
             return False
         return True
     def _asegurar_sfx(self):
-        """Arma el SFX Lab la primera vez (av/numpy solo si se usa)."""
+        """v5.34: la página SONIDO es «AI Sound Director» (director_sonido_ui): la IA hace el sonido y el usuario lo dirige. El SFX Lab de antes
+        solo se arma si la nueva no pudiera construirse (red técnica, no una página a elegir); sus motores siguen trabajando por dentro."""
+        pag = getattr(self, '_director_pagina', None)
+        if pag is not None:
+            pag.refrescar()
+            return True
+        if self._estudio_ventana is None:
+            try:
+                import director_sonido_ui
+                self._director_pagina = director_sonido_ui.PaginaDirector(
+                    self, video=lambda: getattr(self, '_go_archivo', None) or self.video_var.get().strip().strip('"'), offset=self._offset_frames)
+                self._sfx_capa.addWidget(self._director_pagina, 1)
+                self._director_pagina.refrescar()
+                return True
+            except Exception:
+                self._director_pagina = None
+                registro.excepcion(origen='página AI Sound Director')
         if self._estudio_ventana is not None:
             try:
                 self._estudio_ventana.poner_video(self.video_var.get().strip().strip('"') or None)
@@ -11867,10 +11883,59 @@ class SubtitleApp(QWidget):
                               'rectificador')
         except Exception:
             registro.excepcion(origen='rectificador')
+        self._director_sonido_al_colocar()
+    def _director_sonido_arrancar(self, media_path, words, cortes_fx, idioma=None):
+        """v5.34, AI Sound Director: con su interruptor encendido, una foto de lo que hay (tema, palabras, bloques, planes de Efectos y PRO) y su
+        trabajo (análisis y voz restaurada) en un hilo propio; lo recoge _director_sonido_al_colocar. Apagado no hace nada. Nunca lanza."""
+        self._director_hilo, self._director_res = None, None
+        try:
+            import director_sonido
+            if not director_sonido.activo():
+                return
+            ancho, alto = getattr(self, '_ancho_timeline', None) or 0, getattr(self, '_alto_timeline', None) or 0
+            ctx = director_sonido.contexto(media_path, words, self._plantilla_un_clic(), formato='h' if ancho and alto and ancho > alto * 1.2 else 'v',
+                                           recorte=getattr(self, '_recorte', None), timeline_de_go=getattr(self, '_go_tl_listo', None) is not None,
+                                           bloques=getattr(self, '_ultimos_bloques', None), plan_efectos=getattr(self, '_efectos_plan', None),
+                                           plan_pro=getattr(self, '_pro_plan', None), idioma=idioma)
+
+            def trabajo():
+                try:
+                    if cortes_fx is not None and cortes_fx.hilo is not None:
+                        cortes_fx.hilo.join(90)                      # los cortes que ya busca GO (nunca se vuelve a mirar el video para esto)
+                    cortes = [c[0] if isinstance(c, (list, tuple)) else c for c in ((cortes_fx.resultado if cortes_fx is not None else None) or [])]
+                    if cortes and ctx.get('recorte'):
+                        import pausas
+                        cortes = [c[0] if isinstance(c, (list, tuple)) else c for c in (pausas.remapear_cortes([(t, 1.0) for t in cortes], ctx['recorte']['segmentos']) or [])]
+                    ctx['cortes'] = [float(t) for t in cortes]
+                except Exception:
+                    ctx['cortes'] = []
+                director_sonido.preparar(ctx, res=res)               # (lo va rellenando: GO recoge lo que ya esté hecho)
+            res = {}
+            self._director_res = res
+            self._director_hilo = threading.Thread(target=trabajo, daemon=True, name='ai-sound-director')
+            self._director_hilo.start()
+        except Exception:
+            registro.excepcion(origen='AI Sound Director')
+    def _director_sonido_al_colocar(self):
+        """v5.34: lo del AI Sound Director entra en el plan de Efectos (la voz restaurada en «AI VOICE»), o la limpieza de una vez anterior si se apagó.
+        Apagado y sin nada pendiente, el plan queda EXACTAMENTE igual. Nunca lanza."""
+        try:
+            import director_sonido
+            hilo = getattr(self, '_director_hilo', None)
+            res = getattr(self, '_director_res', None)
+            if hilo is not None:
+                hilo.join(300)
+                if hilo.is_alive():                                     # v5.34: los sonidos ya están; la voz no llegó: la original se queda
+                    director_sonido.log('la voz no terminó a tiempo: la original se queda' + (' (los sonidos sí van)' if (res or {}).get('sfx') else ''), 'aviso')
+                    res = {k: v for k, v in (res or {}).items() if k not in ('evento_voz', 'voz')}
+            self._efectos_plan = director_sonido.al_colocar(getattr(self, '_efectos_plan', None), res, self.video_var.get().strip().strip('"'),
+                                                            plan_pro=getattr(self, '_pro_plan', None))
+        except Exception:
+            registro.excepcion(origen='AI Sound Director')
     def _colocar_efectos(self):
         """Pone el plan de efectos en el timeline de Resolve (tras los captions). Devuelve un texto corto para el estado, o ''."""
         plan = getattr(self, '_efectos_plan', None)
-        if not plan or not plan.get('eventos'):
+        if not plan or not (plan.get('eventos') or plan.get('solo_ai')):          # v5.34: 'solo_ai' = solo limpiar las pistas del AI Sound Director
             return ''
         try:                                   # el plan es de un video: si ahora hay otro cargado (regenerar), no se aplica el de antes
             actual = self.video_var.get().strip().strip('"')
@@ -13395,6 +13460,13 @@ class SubtitleApp(QWidget):
                 detalle = tr(' No encontré sonidos en: {join}.', join=', '.join(sorted(perdidas))) if perdidas else ''
                 self.msg_queue.put(('status', tr('No pude asignar ningún efecto de sonido.') + detalle + tr(' Los subtítulos se generan igual.')))
                 return {}
+            try:                                       # v5.37: con el AI Sound Director encendido, él es el único dueño del sonido: las reglas de
+                import director_sonido                 # siempre solo le dicen qué había (sfx_eventos en los bloques) y Resolve no recibe sus «Hit»
+                if director_sonido.activo() and not getattr(self, '_go_sin_resolve', False):     # (sin Resolve, el MP4 lleva los de siempre)
+                    director_sonido.log(f"Simple: {sum(len(b.get('sfx_eventos') or []) for b in bloques)} sonidos de las reglas de siempre NO van a Resolve (los decide el director)")
+                    return {}
+            except Exception:
+                pass
             archivos = {cat: sfx_rules.archivos_de(cat) for cat in cuenta}
             return {'sfx_library': str(sfx_rules.carpeta_libreria()), 'sfx_archivos': {c: a for c, a in archivos.items() if a}, 'sfx_config': {'nombre_pista_audio': config.get('nombre_pista_audio'), 'volumen_db': config.get('volumen_db'), 'al_inicio': bool(config.get('al_inicio'))}, 'sfx_resumen': cuenta}
         except Exception:
@@ -14102,6 +14174,7 @@ class SubtitleApp(QWidget):
             else:
                 self._planificar_efectos(media_path, words, cortes_fx)
             self._planificar_pro(media_path, getattr(self, '_words_corregidas', None) or words, cortes_fx, base_lang)   # v5.4.49: la Edición PRO (si está activada); v5.5.7: con el texto corregido
+            self._director_sonido_arrancar(media_path, getattr(self, '_words_corregidas', None) or words, cortes_fx, base_lang)   # v5.34: AI Sound Director (solo si está encendido)
             ev_tl = getattr(self, '_go_tl_listo', None)
             if ev_tl is not None and not ev_tl.is_set():
                 # GO con un video soltado: Resolve todavía está armando el timeline con él (los captions se colocan ahí)
@@ -14420,12 +14493,21 @@ def escribir_diagnostico():
     cfg = sfx_rules.cargar_reglas()
     lineas.append(f"categoria x defecto: {cfg.get('categoria_por_defecto')}")
     lineas.append(f"reglas cargadas    : {len(cfg.get('reglas', []))}")
-    for modulo in ['faster_whisper', 'ctranslate2', 'PySide6.QtWidgets', 'PIL', 'av', 'argostranslate']:
+    for modulo in ['PySide6.QtWidgets', 'PIL', 'av']:
         try:
             __import__(modulo)
             lineas.append(f'import {modulo:<16} OK')
         except Exception as e:
             lineas.append(f'import {modulo:<16} FALLA: {e}')
+    try:
+        import motor_compat
+        if motor_compat.instalado():
+            datos_motor = motor_compat.verificar()
+            lineas.append(f"motor auxiliar : Python {datos_motor.get('python')} · Whisper/Argos/ONNX OK")
+        else:
+            lineas.append('motor auxiliar : no instalado')
+    except Exception as e:
+        lineas.append(f'motor auxiliar : FALLA: {e}')
     try:
         import salud
         lineas.append('')
@@ -14616,6 +14698,11 @@ def _licencia_al_abrir():
         return False
 def main():
     ui.ajustar_planificacion()
+    try:                                              # v5.34: la clave de Epidemic (EPIDEMIC_API_KEY) sale del entorno al arrancar: Resolve, la IA local y node no la heredan
+        import director_sonido_epidemic
+        director_sonido_epidemic.configurada()
+    except Exception:
+        pass
     if '--tarea' in sys.argv:
         import tareas_instalador
         sys.exit(tareas_instalador.ejecutar(sys.argv))

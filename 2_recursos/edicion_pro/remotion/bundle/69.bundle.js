@@ -1,5 +1,5 @@
 "use strict";
-(self["webpackChunkcinecaptions_pro_remotion"] = self["webpackChunkcinecaptions_pro_remotion"] || []).push([[18],{
+(self["webpackChunkcinecaptions_pro_remotion"] = self["webpackChunkcinecaptions_pro_remotion"] || []).push([[69],{
 
 /***/ 2018
 (__unused_webpack___webpack_module__, __unused_webpack___webpack_exports__, __webpack_require__) {
@@ -341,11 +341,6 @@ self.addEventListener("message", (event) => {
 /***/ 1299
 (__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   Im: () => (/* binding */ aacFrequencyTable),
-/* harmony export */   Ti: () => (/* binding */ aacChannelMap),
-/* harmony export */   zF: () => (/* binding */ parseAacAudioSpecificConfig)
-/* harmony export */ });
 /* unused harmony exports buildAacAudioSpecificConfig, buildAdtsHeaderTemplate, writeAdtsFrameLength */
 /* unused harmony import specifier */ var Bitstream;
 /* harmony import */ var _bitstream_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1390);
@@ -524,6 +519,12 @@ const writeAdtsFrameLength = (bitstream, frameLength) => {
     bitstream.writeBits(13, frameLength);
 };
 
+/* harmony export */ __webpack_require__.d(__webpack_exports__, [
+/* harmony export */   "Im", 0, /* binding */ aacFrequencyTable,
+/* harmony export */   "Ti", 0, /* binding */ aacChannelMap,
+/* harmony export */   "zF", 0, /* binding */ parseAacAudioSpecificConfig
+/* harmony export */ ]);
+
 
 /***/ },
 
@@ -531,15 +532,7 @@ const writeAdtsFrameLength = (bitstream, frameLength) => {
 (__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   D_: () => (/* binding */ MP3_FRAME_HEADER_SIZE),
-/* harmony export */   EZ: () => (/* binding */ getXingOffset),
-/* harmony export */   Fm: () => (/* binding */ decodeSynchsafe),
-/* harmony export */   MJ: () => (/* binding */ XingFlags),
-/* harmony export */   P8: () => (/* binding */ readMp3FrameHeader),
-/* harmony export */   fX: () => (/* binding */ getMp3ChannelCount),
-/* harmony export */   hD: () => (/* binding */ computeAverageMp3FrameSize),
-/* harmony export */   hY: () => (/* binding */ XING),
-/* harmony export */   rD: () => (/* binding */ INFO)
+/* harmony export */   MJ: () => (/* binding */ XingFlags)
 /* harmony export */ });
 /* unused harmony exports SAMPLING_RATES, KILOBIT_RATES, computeMp3FrameSize, encodeSynchsafe */
 /*!
@@ -713,6 +706,16 @@ var XingFlags;
 const getMp3ChannelCount = (channel) => {
     return channel === 3 ? 1 : 2;
 };
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, [
+/* harmony export */   "EZ", 0, /* binding */ getXingOffset,
+/* harmony export */   "Fm", 0, /* binding */ decodeSynchsafe,
+/* harmony export */   "P8", 0, /* binding */ readMp3FrameHeader,
+/* harmony export */   "fX", 0, /* binding */ getMp3ChannelCount,
+/* harmony export */   "hD", 0, /* binding */ computeAverageMp3FrameSize,
+/* harmony export */   "hY", 0, /* binding */ XING,
+/* harmony export */   "rD", 0, /* binding */ INFO
+/* harmony export */ ]);
 
 
 /***/ },
@@ -908,19 +911,22 @@ const extractNalUnitTypeForAvc = (byte) => {
     return byte & 0x1F;
 };
 const removeEmulationPreventionBytes = (data) => {
-    const result = [];
+    const result = new Uint8Array(data.length); // The result can only be shorter
     const len = data.length;
+    let resultLength = 0;
     for (let i = 0; i < len; i++) {
         // Look for the 0x000003 pattern
         if (i + 2 < len && data[i] === 0x00 && data[i + 1] === 0x00 && data[i + 2] === 0x03) {
-            result.push(0x00, 0x00); // Push the first two bytes
+            // Push the first two bytes
+            result[resultLength++] = 0x00;
+            result[resultLength++] = 0x00;
             i += 2; // Skip the 0x03 byte
         }
         else {
-            result.push(data[i]);
+            result[resultLength++] = data[i];
         }
     }
-    return new Uint8Array(result);
+    return result.subarray(0, resultLength);
 };
 const addEmulationPreventionBytes = (data) => {
     const result = [];
@@ -996,13 +1002,14 @@ const extractAvcDecoderConfigurationRecord = (packetData) => {
         for (const loc of iterateNalUnitsInAnnexB(packetData)) {
             const nalUnit = packetData.subarray(loc.offset, loc.offset + loc.length);
             const type = extractNalUnitTypeForAvc(nalUnit[0]);
-            if (type === AvcNalUnitType.SPS) {
+            // The counts are capped at what the record can hold
+            if (type === AvcNalUnitType.SPS && spsUnits.length < 31) {
                 spsUnits.push(nalUnit);
             }
-            else if (type === AvcNalUnitType.PPS) {
+            else if (type === AvcNalUnitType.PPS && ppsUnits.length < 255) {
                 ppsUnits.push(nalUnit);
             }
-            else if (type === AvcNalUnitType.SPS_EXT) {
+            else if (type === AvcNalUnitType.SPS_EXT && spsExtUnits.length < 255) {
                 spsExtUnits.push(nalUnit);
             }
         }
@@ -1015,7 +1022,9 @@ const extractAvcDecoderConfigurationRecord = (packetData) => {
         // Let's get the first SPS for profile and level information
         const spsData = spsUnits[0];
         const spsInfo = parseAvcSps(spsData);
-        (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .assert */ .vA)(spsInfo !== null);
+        if (!spsInfo) {
+            return null;
+        }
         const hasExtendedData = spsInfo.profileIdc === 100
             || spsInfo.profileIdc === 110
             || spsInfo.profileIdc === 122
@@ -1243,7 +1252,7 @@ const parseAvcSps = (sps) => {
                 }
             }
         }
-        (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .readExpGolomb */ .IP)(bitstream); // log2_max_frame_num_minus4
+        ;(0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .readExpGolomb */ .IP)(bitstream); // log2_max_frame_num_minus4
         const picOrderCntType = (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .readExpGolomb */ .IP)(bitstream);
         if (picOrderCntType === 0) {
             (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .readExpGolomb */ .IP)(bitstream); // log2_max_pic_order_cnt_lsb_minus4
@@ -1257,7 +1266,7 @@ const parseAvcSps = (sps) => {
                 (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .readSignedExpGolomb */ .OO)(bitstream); // offset_for_ref_frame[i]
             }
         }
-        (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .readExpGolomb */ .IP)(bitstream); // max_num_ref_frames
+        ;(0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .readExpGolomb */ .IP)(bitstream); // max_num_ref_frames
         bitstream.skipBits(1); // gaps_in_frame_num_value_allowed_flag
         const picWidthInMbsMinus1 = (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .readExpGolomb */ .IP)(bitstream);
         const picHeightInMapUnitsMinus1 = (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .readExpGolomb */ .IP)(bitstream);
@@ -1293,6 +1302,9 @@ const parseAvcSps = (sps) => {
             }
             displayWidth -= (cropUnitX * (frameCropLeftOffset + frameCropRightOffset));
             displayHeight -= (cropUnitY * (frameCropTopOffset + frameCropBottomOffset));
+        }
+        if (displayWidth <= 0 || displayHeight <= 0) {
+            return null; // Cropped away everything, invalid
         }
         // 2 = unspecified
         let colourPrimaries = 2;
@@ -1369,8 +1381,10 @@ const parseAvcSps = (sps) => {
                 (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .readExpGolomb */ .IP)(bitstream); // max_bits_per_mb_denom
                 (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .readExpGolomb */ .IP)(bitstream); // log2_max_mv_length_horizontal
                 (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .readExpGolomb */ .IP)(bitstream); // log2_max_mv_length_vertical
-                numReorderFrames = (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .readExpGolomb */ .IP)(bitstream);
-                maxDecFrameBuffering = (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .readExpGolomb */ .IP)(bitstream);
+                // Both can't exceed MaxDpbFrames, which is at most 16. Bigger values would make us buffer absurd
+                // amounts of frames
+                numReorderFrames = Math.min((0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .readExpGolomb */ .IP)(bitstream), 16);
+                maxDecFrameBuffering = Math.min((0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .readExpGolomb */ .IP)(bitstream), 16);
             }
         }
         if (numReorderFrames === null) {
@@ -1396,7 +1410,7 @@ const parseAvcSps = (sps) => {
                 maxDecFrameBuffering = maxDpbFrames;
             }
         }
-        (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .assert */ .vA)(maxDecFrameBuffering !== null);
+        ;(0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .assert */ .vA)(maxDecFrameBuffering !== null);
         return {
             emulationUnpreventedBytes,
             profileIdc,
@@ -1552,6 +1566,9 @@ const parseHevcSps = (sps) => {
             displayWidth -= (confWinLeftOffset + confWinRightOffset) * subWidthC;
             displayHeight -= (confWinTopOffset + confWinBottomOffset) * subHeightC;
         }
+        if (displayWidth <= 0 || displayHeight <= 0) {
+            return null; // Cropped away everything, invalid
+        }
         const bitDepthLumaMinus8 = (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .readExpGolomb */ .IP)(bitstream);
         const bitDepthChromaMinus8 = (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .readExpGolomb */ .IP)(bitstream);
         (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .readExpGolomb */ .IP)(bitstream); // log2_max_pic_order_cnt_lsb_minus4
@@ -1563,7 +1580,7 @@ const parseHevcSps = (sps) => {
             spsMaxNumReorderPics = (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .readExpGolomb */ .IP)(bitstream); // sps_max_num_reorder_pics[i]
             (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .readExpGolomb */ .IP)(bitstream); // sps_max_latency_increase_plus1[i]
         }
-        (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .readExpGolomb */ .IP)(bitstream); // log2_min_luma_coding_block_size_minus3
+        ;(0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .readExpGolomb */ .IP)(bitstream); // log2_min_luma_coding_block_size_minus3
         (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .readExpGolomb */ .IP)(bitstream); // log2_diff_max_min_luma_coding_block_size
         (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .readExpGolomb */ .IP)(bitstream); // log2_min_luma_transform_block_size_minus2
         (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .readExpGolomb */ .IP)(bitstream); // log2_diff_max_min_luma_transform_block_size
@@ -1617,7 +1634,9 @@ const parseHevcSps = (sps) => {
             transferCharacteristics,
             matrixCoefficients,
             fullRangeFlag,
-            maxDecFrameBuffering: spsMaxNumReorderPics + 1,
+            // Can't exceed MaxDpbSize, which is at most 16. Bigger values would make us buffer absurd amounts of
+            // frames
+            maxDecFrameBuffering: Math.min(spsMaxNumReorderPics + 1, 16),
             spsMaxSubLayersMinus1,
             spsTemporalIdNestingFlag,
             generalProfileSpace: general_profile_space,
@@ -1644,19 +1663,22 @@ const extractHevcDecoderConfigurationRecord = (packetData) => {
         const spsUnits = [];
         const ppsUnits = [];
         const seiUnits = [];
+        // The counts are capped at what the record can hold
+        const MAX_NAL_UNITS_PER_ARRAY = 0xffff;
         for (const loc of iterateNalUnitsInAnnexB(packetData)) {
             const nalUnit = packetData.subarray(loc.offset, loc.offset + loc.length);
             const type = extractNalUnitTypeForHevc(nalUnit[0]);
-            if (type === HevcNalUnitType.VPS_NUT) {
+            if (type === HevcNalUnitType.VPS_NUT && vpsUnits.length < MAX_NAL_UNITS_PER_ARRAY) {
                 vpsUnits.push(nalUnit);
             }
-            else if (type === HevcNalUnitType.SPS_NUT) {
+            else if (type === HevcNalUnitType.SPS_NUT && spsUnits.length < MAX_NAL_UNITS_PER_ARRAY) {
                 spsUnits.push(nalUnit);
             }
-            else if (type === HevcNalUnitType.PPS_NUT) {
+            else if (type === HevcNalUnitType.PPS_NUT && ppsUnits.length < MAX_NAL_UNITS_PER_ARRAY) {
                 ppsUnits.push(nalUnit);
             }
-            else if (type === HevcNalUnitType.PREFIX_SEI_NUT || type === HevcNalUnitType.SUFFIX_SEI_NUT) {
+            else if ((type === HevcNalUnitType.PREFIX_SEI_NUT || type === HevcNalUnitType.SUFFIX_SEI_NUT)
+                && seiUnits.length < MAX_NAL_UNITS_PER_ARRAY) {
                 seiUnits.push(nalUnit);
             }
         }
@@ -1686,7 +1708,7 @@ const extractHevcDecoderConfigurationRecord = (packetData) => {
             if (ppsBitstream.readBits(1)) { // cu_qp_delta_enabled_flag
                 (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .readExpGolomb */ .IP)(ppsBitstream); // diff_cu_qp_delta_depth
             }
-            (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .readSignedExpGolomb */ .OO)(ppsBitstream); // pps_cb_qp_offset
+            ;(0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .readSignedExpGolomb */ .OO)(ppsBitstream); // pps_cb_qp_offset
             (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .readSignedExpGolomb */ .OO)(ppsBitstream); // pps_cr_qp_offset
             ppsBitstream.skipBits(1); // pps_slice_chroma_qp_offsets_present_flag
             ppsBitstream.skipBits(1); // weighted_pred_flag
@@ -2382,7 +2404,7 @@ const iterateAv1PacketObus = function* (packet) {
             // Calculate remaining bits and convert to bytes, rounding down
             obuSize = Math.floor(bitstream.getBitsLeft() / 8);
         }
-        (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .assert */ .vA)(bitstream.pos % 8 === 0);
+        ;(0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .assert */ .vA)(bitstream.pos % 8 === 0);
         yield {
             type: obuType,
             data: packet.subarray(bitstream.pos / 8, bitstream.pos / 8 + obuSize),
@@ -2626,6 +2648,9 @@ const extractProresCodecInfoFromPacket = (packet) => {
     };
 };
 const parseOpusIdentificationHeader = (bytes) => {
+    if (bytes.byteLength < 19) {
+        throw new Error('Invalid Opus identification header: too short.');
+    }
     const view = (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .toDataView */ .Zc)(bytes);
     const outputChannelCount = view.getUint8(9);
     const preSkip = view.getUint16(10, true);
@@ -2806,7 +2831,13 @@ const determineVideoPacketType = (codec, decoderConfig, packetData) => {
                             if (payloadType === PAYLOAD_TYPE_RECOVERY_POINT) {
                                 const bitstream = new _shared_bitstream_js__WEBPACK_IMPORTED_MODULE_4__/* .Bitstream */ ._(bytes);
                                 bitstream.pos = 8 * pos;
-                                const recoveryFrameCount = (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .readExpGolomb */ .IP)(bitstream);
+                                let recoveryFrameCount = -1;
+                                try {
+                                    recoveryFrameCount = (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .readExpGolomb */ .IP)(bitstream);
+                                }
+                                catch {
+                                    // Malformed SEI payload, so it's surely no recovery point
+                                }
                                 const exactMatchFlag = bitstream.readBits(1);
                                 if (recoveryFrameCount === 0 && exactMatchFlag === 1) {
                                     // https://github.com/w3c/webcodecs/pull/910
@@ -2921,6 +2952,9 @@ const readVorbisComments = (bytes, metadataTags) => {
     // https://datatracker.ietf.org/doc/html/rfc7845#section-5.2
     const commentView = (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .toDataView */ .Zc)(bytes);
     let commentPos = 0;
+    if (bytes.length < 4) {
+        return;
+    }
     const vendorStringLength = commentView.getUint32(commentPos, true);
     commentPos += 4;
     const vendorString = _misc_js__WEBPACK_IMPORTED_MODULE_1__/* .textDecoder */ .su.decode(bytes.subarray(commentPos, commentPos + vendorStringLength));
@@ -2930,10 +2964,16 @@ const readVorbisComments = (bytes, metadataTags) => {
         metadataTags.raw ??= {};
         metadataTags.raw['vendor'] ??= vendorString;
     }
+    if (commentPos + 4 > bytes.length) {
+        return;
+    }
     const listLength = commentView.getUint32(commentPos, true);
     commentPos += 4;
     // Loop over all metadata tags
     for (let i = 0; i < listLength; i++) {
+        if (commentPos + 4 > bytes.length) {
+            break; // The list is cut off, keep what we have
+        }
         const stringLength = commentView.getUint32(commentPos, true);
         commentPos += 4;
         const string = _misc_js__WEBPACK_IMPORTED_MODULE_1__/* .textDecoder */ .su.decode(bytes.subarray(commentPos, commentPos + stringLength));
@@ -2946,7 +2986,7 @@ const readVorbisComments = (bytes, metadataTags) => {
         const value = string.slice(separatorIndex + 1);
         metadataTags.raw ??= {};
         if (Array.isArray(metadataTags.raw[key])) {
-            metadataTags.raw[key] = [...metadataTags.raw[key], value];
+            metadataTags.raw[key].push(value);
         }
         else if (typeof metadataTags.raw[key] === 'string') {
             metadataTags.raw[key] = [metadataTags.raw[key], value];
@@ -3070,23 +3110,28 @@ const readVorbisComments = (bytes, metadataTags) => {
             case 'METADATA_BLOCK_PICTURE':
                 {
                     // https://datatracker.ietf.org/doc/rfc9639/ Section 8.8
-                    const decoded = (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .base64ToBytes */ .Kp)(value);
-                    const view = (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .toDataView */ .Zc)(decoded);
-                    const pictureType = view.getUint32(0, false);
-                    const mediaTypeLength = view.getUint32(4, false);
-                    const mediaType = String.fromCharCode(...decoded.subarray(8, 8 + mediaTypeLength)); // ASCII
-                    const descriptionLength = view.getUint32(8 + mediaTypeLength, false);
-                    const description = _misc_js__WEBPACK_IMPORTED_MODULE_1__/* .textDecoder */ .su.decode(decoded.subarray(12 + mediaTypeLength, 12 + mediaTypeLength + descriptionLength));
-                    const dataLength = view.getUint32(mediaTypeLength + descriptionLength + 28);
-                    const data = decoded.subarray(mediaTypeLength + descriptionLength + 32, mediaTypeLength + descriptionLength + 32 + dataLength);
-                    metadataTags.images ??= [];
-                    metadataTags.images.push({
-                        data,
-                        mimeType: mediaType,
-                        kind: pictureType === 3 ? 'coverFront' : pictureType === 4 ? 'coverBack' : 'unknown',
-                        name: undefined,
-                        description: description || undefined,
-                    });
+                    try {
+                        const decoded = (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .base64ToBytes */ .Kp)(value);
+                        const view = (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .toDataView */ .Zc)(decoded);
+                        const pictureType = view.getUint32(0, false);
+                        const mediaTypeLength = view.getUint32(4, false);
+                        const mediaType = _misc_js__WEBPACK_IMPORTED_MODULE_1__/* .textDecoder */ .su.decode(decoded.subarray(8, 8 + mediaTypeLength)); // ASCII
+                        const descriptionLength = view.getUint32(8 + mediaTypeLength, false);
+                        const description = _misc_js__WEBPACK_IMPORTED_MODULE_1__/* .textDecoder */ .su.decode(decoded.subarray(12 + mediaTypeLength, 12 + mediaTypeLength + descriptionLength));
+                        const dataLength = view.getUint32(mediaTypeLength + descriptionLength + 28);
+                        const data = decoded.subarray(mediaTypeLength + descriptionLength + 32, mediaTypeLength + descriptionLength + 32 + dataLength);
+                        metadataTags.images ??= [];
+                        metadataTags.images.push({
+                            data,
+                            mimeType: mediaType,
+                            kind: pictureType === 3 ? 'coverFront' : pictureType === 4 ? 'coverBack' : 'unknown',
+                            name: undefined,
+                            description: description || undefined,
+                        });
+                    }
+                    catch {
+                        // Malformed picture, let's just skip it
+                    }
                 }
                 ;
                 break;
@@ -4020,7 +4065,7 @@ const AVC_LEVEL_TABLE = [
     { maxMacroblocks: 139264, maxBitrate: 800000000, maxDpbMbs: 696320, level: 0x3E }, // Level 6.2
 ];
 // https://en.wikipedia.org/wiki/High_Efficiency_Video_Coding
-const HEVC_LEVEL_TABLE = [
+const HEVC_LEVEL_TABLE = (/* unused pure expression or super */ null && ([
     { maxPictureSize: 36864, maxBitrate: 128000, tier: 'L', level: 30 }, // Level 1 (Low Tier)
     { maxPictureSize: 122880, maxBitrate: 1500000, tier: 'L', level: 60 }, // Level 2 (Low Tier)
     { maxPictureSize: 245760, maxBitrate: 3000000, tier: 'L', level: 63 }, // Level 2.1 (Low Tier)
@@ -4042,7 +4087,7 @@ const HEVC_LEVEL_TABLE = [
     { maxPictureSize: 35651584, maxBitrate: 480000000, tier: 'H', level: 183 }, // Level 6.1 (High Tier)
     { maxPictureSize: 35651584, maxBitrate: 240000000, tier: 'L', level: 186 }, // Level 6.2 (Low Tier)
     { maxPictureSize: 35651584, maxBitrate: 800000000, tier: 'H', level: 186 }, // Level 6.2 (High Tier)
-];
+]));
 // https://en.wikipedia.org/wiki/VP9
 const VP9_LEVEL_TABLE = [
     { maxPictureSize: 36864, maxBitrate: 200000, level: 10 }, // Level 1
@@ -4061,7 +4106,7 @@ const VP9_LEVEL_TABLE = [
     { maxPictureSize: 35651584, maxBitrate: 480000000, level: 62 }, // Level 6.2
 ];
 // https://en.wikipedia.org/wiki/AV1
-const AV1_LEVEL_TABLE = [
+const AV1_LEVEL_TABLE = (/* unused pure expression or super */ null && ([
     { maxPictureSize: 147456, maxBitrate: 1500000, tier: 'M', level: 0 }, // Level 2.0 (Main Tier)
     { maxPictureSize: 278784, maxBitrate: 3000000, tier: 'M', level: 1 }, // Level 2.1 (Main Tier)
     { maxPictureSize: 665856, maxBitrate: 6000000, tier: 'M', level: 4 }, // Level 3.0 (Main Tier)
@@ -4086,7 +4131,7 @@ const AV1_LEVEL_TABLE = [
     { maxPictureSize: 35651584, maxBitrate: 800000000, tier: 'H', level: 18 }, // Level 6.2 (High Tier)
     { maxPictureSize: 35651584, maxBitrate: 160000000, tier: 'M', level: 19 }, // Level 6.3 (Main Tier)
     { maxPictureSize: 35651584, maxBitrate: 800000000, tier: 'H', level: 19 }, // Level 6.3 (High Tier)
-];
+]));
 const VP9_DEFAULT_SUFFIX = '.01.01.01.01.00';
 const AV1_DEFAULT_SUFFIX = '.0.110.01.01.01.0';
 const PRORES_FOURCCS = [
@@ -4104,14 +4149,14 @@ const DTS_FOURCCS = [
     'dtse', // DTS Express
 ];
 // Target data rates of the ProRes profiles at 1920x1080 ~30fps, as published by Apple
-const PRORES_PROFILE_TARGET_BITRATES = [
+const PRORES_PROFILE_TARGET_BITRATES = (/* unused pure expression or super */ null && ([
     { fourCc: 'apco', bitrate: 45_000_000, alpha: false }, // 422 Proxy
     { fourCc: 'apcs', bitrate: 102_000_000, alpha: false }, // 422 LT
     { fourCc: 'apcn', bitrate: 147_000_000, alpha: false }, // 422 Standard
     { fourCc: 'apch', bitrate: 220_000_000, alpha: false }, // 422 HQ
     { fourCc: 'ap4h', bitrate: 330_000_000, alpha: true }, // 4444
     { fourCc: 'ap4x', bitrate: 500_000_000, alpha: true }, // 4444 XQ
-];
+]));
 const buildVideoCodecString = (codec, width, height, bitrate, alpha) => {
     if (codec === 'avc') {
         const profileIndication = 0x64; // High Profile
@@ -5296,6 +5341,9 @@ const parseId3V2Tag = (slice, header, tags) => {
         reader.ununsynchronizeAll();
     }
     if (header.flags & Id3V2HeaderFlags.ExtendedHeader) {
+        if (reader.bytes.length < 4) {
+            return;
+        }
         const extendedHeaderSize = reader.readU32();
         if (header.majorVersion === 3) {
             reader.pos += extendedHeaderSize; // The extended header size excludes itself
@@ -5310,7 +5358,8 @@ const parseId3V2Tag = (slice, header, tags) => {
             break;
         }
         const frameStartPos = reader.pos;
-        const frameEndPos = reader.pos + frame.size;
+        const nextFramePos = Math.min(reader.pos + frame.size, reader.bytes.length);
+        let frameEndPos = nextFramePos;
         let frameEncrypted = false;
         let frameCompressed = false;
         let frameUnsynchronized = false;
@@ -5326,20 +5375,27 @@ const parseId3V2Tag = (slice, header, tags) => {
         }
         if (frameEncrypted) {
             _logging_js__WEBPACK_IMPORTED_MODULE_1__/* .Logging */ .y._warn(`Skipping encrypted ID3v2 frame ${frame.id}`);
-            reader.pos = frameEndPos;
+            reader.pos = nextFramePos;
             continue;
         }
         if (frameCompressed) {
             _logging_js__WEBPACK_IMPORTED_MODULE_1__/* .Logging */ .y._warn(`Skipping compressed ID3v2 frame ${frame.id}`); // Maybe someday? Idk
-            reader.pos = frameEndPos;
+            reader.pos = nextFramePos;
             continue;
         }
         if (frameUnsynchronized) {
-            reader.ununsynchronizeRegion(reader.pos, frameEndPos);
+            frameEndPos = reader.ununsynchronizeRegion(reader.pos, frameEndPos);
         }
+        // Frames don't necessarily hold the fixed-size fields they're supposed to
+        const ensureFrameHasBytes = (byteCount) => {
+            if (frameEndPos - reader.pos < byteCount) {
+                throw new Error(`Invalid ID3v2 ${frame.id} frame: too short.`);
+            }
+        };
         tags.raw ??= {};
         if (frame.id === 'TXXX') {
             const txxx = tags.raw['TXXX'] ??= {};
+            ensureFrameHasBytes(1);
             const encoding = reader.readId3V2TextEncoding();
             const description = reader.readId3V2Text(encoding, frameEndPos);
             const value = reader.readId3V2Text(encoding, frameEndPos);
@@ -5351,7 +5407,7 @@ const parseId3V2Tag = (slice, header, tags) => {
         }
         else {
             // For the others, let's just get the bytes
-            tags.raw[frame.id] ??= reader.readBytes(frame.size);
+            tags.raw[frame.id] ??= reader.readBytes(frameEndPos - reader.pos);
         }
         reader.pos = frameStartPos;
         switch (frame.id) {
@@ -5482,6 +5538,7 @@ const parseId3V2Tag = (slice, header, tags) => {
             case 'USLT':
             case 'ULT':
                 {
+                    ensureFrameHasBytes(4);
                     const encoding = reader.readU8();
                     reader.pos += 3; // Skip language
                     reader.readId3V2Text(encoding, frameEndPos); // Short content description
@@ -5492,6 +5549,7 @@ const parseId3V2Tag = (slice, header, tags) => {
             case 'COMM':
             case 'COM':
                 {
+                    ensureFrameHasBytes(4);
                     const encoding = reader.readU8();
                     reader.pos += 3; // Skip language
                     reader.readId3V2Text(encoding, frameEndPos); // Short content description
@@ -5502,9 +5560,11 @@ const parseId3V2Tag = (slice, header, tags) => {
             case 'APIC':
             case 'PIC':
                 {
+                    ensureFrameHasBytes(1);
                     const encoding = reader.readId3V2TextEncoding();
                     let mimeType;
                     if (header.majorVersion === 2) {
+                        ensureFrameHasBytes(3);
                         const imageFormat = reader.readAscii(3);
                         mimeType = imageFormat === 'PNG'
                             ? 'image/png'
@@ -5515,6 +5575,7 @@ const parseId3V2Tag = (slice, header, tags) => {
                     else {
                         mimeType = reader.readId3V2Text(encoding, frameEndPos);
                     }
+                    ensureFrameHasBytes(1);
                     const pictureType = reader.readU8();
                     const description = reader.readId3V2Text(encoding, frameEndPos).trimEnd(); // Trim ending spaces
                     const imageDataSize = frameEndPos - reader.pos;
@@ -5543,7 +5604,7 @@ const parseId3V2Tag = (slice, header, tags) => {
                 ;
                 break;
         }
-        reader.pos = frameEndPos;
+        reader.pos = nextFramePos;
     }
 };
 // https://id3.org/id3v2.3.0
@@ -5552,6 +5613,7 @@ class Id3V2Reader {
         this.header = header;
         this.bytes = bytes;
         this.pos = 0;
+        this.ownsBytes = false;
         this.view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
     }
     frameHeaderSize() {
@@ -5573,10 +5635,17 @@ class Id3V2Reader {
         this.view = new DataView(this.bytes.buffer);
     }
     ununsynchronizeRegion(start, end) {
-        const newBytes = [];
+        if (!this.ownsBytes) {
+            // The bytes might belong to the file, which we must not modify
+            this.bytes = this.bytes.slice();
+            this.view = (0,_misc_js__WEBPACK_IMPORTED_MODULE_2__/* .toDataView */ .Zc)(this.bytes);
+            this.ownsBytes = true;
+        }
+        // Done in place rather than rebuilding the entire tag, which keeps it cheap for tags with tons of frames
+        let writePos = start;
         for (let i = start; i < end; i++) {
             const value1 = this.bytes[i];
-            newBytes.push(value1);
+            this.bytes[writePos++] = value1;
             if (value1 === 0xff && i !== end - 1) {
                 const value2 = this.bytes[i + 1];
                 if (value2 === 0x00) {
@@ -5584,13 +5653,7 @@ class Id3V2Reader {
                 }
             }
         }
-        const before = this.bytes.subarray(0, start);
-        const after = this.bytes.subarray(end);
-        this.bytes = new Uint8Array(before.length + newBytes.length + after.length);
-        this.bytes.set(before, 0);
-        this.bytes.set(newBytes, before.length);
-        this.bytes.set(after, before.length + newBytes.length);
-        this.view = new DataView(this.bytes.buffer);
+        return writePos;
     }
     readBytes(length) {
         const slice = this.bytes.subarray(this.pos, this.pos + length);
@@ -6092,7 +6155,6 @@ class Id3V2Writer {
 /* harmony import */ var _reader_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(7735);
 /* harmony import */ var _flac_flac_demuxer_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(4582);
 /* harmony import */ var _mpeg_ts_mpeg_ts_demuxer_js__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(7540);
-/* harmony import */ var _mpeg_ts_mpeg_ts_misc_js__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(2490);
 /* harmony import */ var _hls_hls_demuxer_js__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(2261);
 /* harmony import */ var _hls_hls_misc_js__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(3622);
 /* harmony import */ var _source_js__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(4709);
@@ -6171,6 +6233,9 @@ class IsobmffInputFormat extends InputFormat {
     /** @internal */
     _createDemuxer(input) {
         return new _isobmff_isobmff_demuxer_js__WEBPACK_IMPORTED_MODULE_0__/* .IsobmffDemuxer */ .T(input);
+    }
+    get supportsTimestampedMediaData() {
+        return true;
     }
 }
 /**
@@ -6298,6 +6363,9 @@ class MatroskaInputFormat extends InputFormat {
             const dataStartPos = dataSlice.filePos;
             if (size === undefined)
                 return false;
+            if (dataStartPos + size > startPos + dataSize || (size > 8 && id !== _matroska_ebml_js__WEBPACK_IMPORTED_MODULE_1__/* .EBMLId */ .Cl.DocType)) {
+                return false; // The element overruns the header or is an integer of impossible size
+            }
             switch (id) {
                 case _matroska_ebml_js__WEBPACK_IMPORTED_MODULE_1__/* .EBMLId */ .Cl.EBMLVersion:
                     {
@@ -6353,6 +6421,9 @@ class MatroskaInputFormat extends InputFormat {
     }
     get mimeType() {
         return 'video/x-matroska';
+    }
+    get supportsTimestampedMediaData() {
+        return true;
     }
 }
 /**
@@ -6419,7 +6490,7 @@ class Mp3InputFormat extends InputFormat {
         currentPos = firstResult.startPos + firstResult.header.totalSize;
         // Fine, we found one frame header, but we're still not entirely sure this is MP3. Let's check if we can find
         // another header right after it:
-        const secondResult = await (0,_mp3_mp3_reader_js__WEBPACK_IMPORTED_MODULE_6__/* .readNextMp3FrameHeader */ .W)(input._reader, currentPos, currentPos + _shared_mp3_misc_js__WEBPACK_IMPORTED_MODULE_4__/* .MP3_FRAME_HEADER_SIZE */ .D_);
+        const secondResult = await (0,_mp3_mp3_reader_js__WEBPACK_IMPORTED_MODULE_6__/* .readNextMp3FrameHeader */ .W)(input._reader, currentPos, currentPos + (/* inlined export .MP3_FRAME_HEADER_SIZE */4));
         if (!secondResult) {
             return false;
         }
@@ -6440,6 +6511,9 @@ class Mp3InputFormat extends InputFormat {
     }
     get mimeType() {
         return 'audio/mpeg';
+    }
+    get supportsTimestampedMediaData() {
+        return false;
     }
 }
 /**
@@ -6476,6 +6550,9 @@ class WaveInputFormat extends InputFormat {
     get mimeType() {
         return 'audio/wav';
     }
+    get supportsTimestampedMediaData() {
+        return false;
+    }
 }
 /**
  * Ogg file format.
@@ -6504,6 +6581,9 @@ class OggInputFormat extends InputFormat {
     }
     get mimeType() {
         return 'application/ogg';
+    }
+    get supportsTimestampedMediaData() {
+        return true;
     }
 }
 /**
@@ -6543,6 +6623,9 @@ class FlacInputFormat extends InputFormat {
     }
     get mimeType() {
         return 'audio/flac';
+    }
+    get supportsTimestampedMediaData() {
+        return false;
     }
     /** @internal */
     _createDemuxer(input) {
@@ -6606,6 +6689,9 @@ class AdtsInputFormat extends InputFormat {
     get mimeType() {
         return 'audio/aac';
     }
+    get supportsTimestampedMediaData() {
+        return false;
+    }
 }
 /**
  * MPEG Transport Stream (MPEG-TS) file format.
@@ -6622,22 +6708,22 @@ class AdtsInputFormat extends InputFormat {
 class MpegTsInputFormat extends InputFormat {
     /** @internal */
     async _canReadInput(input) {
-        const lengthToCheck = _mpeg_ts_mpeg_ts_misc_js__WEBPACK_IMPORTED_MODULE_14__/* .TS_PACKET_SIZE */ .ZT + 16 + 1;
+        const lengthToCheck = (/* inlined export .TS_PACKET_SIZE */188) + 16 + 1;
         let slice = input._reader.requestSlice(0, lengthToCheck);
         if ((0,_misc_js__WEBPACK_IMPORTED_MODULE_18__/* .isThenable */ .Qg)(slice))
             slice = await slice;
         if (!slice)
             return false;
         const bytes = (0,_reader_js__WEBPACK_IMPORTED_MODULE_11__/* .readBytes */ .io)(slice, lengthToCheck);
-        if (bytes[0] === 0x47 && bytes[_mpeg_ts_mpeg_ts_misc_js__WEBPACK_IMPORTED_MODULE_14__/* .TS_PACKET_SIZE */ .ZT] === 0x47) {
+        if (bytes[0] === 0x47 && bytes[(/* inlined export .TS_PACKET_SIZE */188)] === 0x47) {
             // Regular MPEG-TS
             return true;
         }
-        else if (bytes[0] === 0x47 && bytes[_mpeg_ts_mpeg_ts_misc_js__WEBPACK_IMPORTED_MODULE_14__/* .TS_PACKET_SIZE */ .ZT + 16] === 0x47) {
+        else if (bytes[0] === 0x47 && bytes[(/* inlined export .TS_PACKET_SIZE */188) + 16] === 0x47) {
             // MPEG-TS with Forward Error Correction
             return true;
         }
-        else if (bytes[4] === 0x47 && bytes[4 + _mpeg_ts_mpeg_ts_misc_js__WEBPACK_IMPORTED_MODULE_14__/* .TS_PACKET_SIZE */ .ZT + 4] === 0x47) {
+        else if (bytes[4] === 0x47 && bytes[4 + (/* inlined export .TS_PACKET_SIZE */188) + 4] === 0x47) {
             // MPEG-2-TS (DVHS)
             return true;
         }
@@ -6652,6 +6738,9 @@ class MpegTsInputFormat extends InputFormat {
     }
     get mimeType() {
         return 'video/MP2T';
+    }
+    get supportsTimestampedMediaData() {
+        return true;
     }
 }
 /**
@@ -6689,6 +6778,9 @@ class HlsInputFormat extends InputFormat {
     }
     get mimeType() {
         return _hls_hls_misc_js__WEBPACK_IMPORTED_MODULE_16__/* .HLS_MIME_TYPE */ .is;
+    }
+    get supportsTimestampedMediaData() {
+        return true;
     }
 }
 /**
@@ -6770,7 +6862,7 @@ const ALL_FORMATS = [HLS, MP4, QTFF, MATROSKA, WEBM, WAVE, OGG, FLAC, MP3, ADTS,
  * @group Input formats
  * @public
  */
-const HLS_FORMATS = [HLS, MP4, QTFF, MP3, ADTS, MPEG_TS];
+const HLS_FORMATS = (/* unused pure expression or super */ null && ([HLS, MP4, QTFF, MP3, ADTS, MPEG_TS]));
 const validateInputFormatOptions = (options, prefix) => {
     if (!options || typeof options !== 'object') {
         throw new TypeError(`${prefix}, when provided, must be an object.`);
@@ -7329,7 +7421,8 @@ const readVarInt = (slice) => {
     return value;
 };
 const readUnsignedInt = (slice, width) => {
-    if (width < 1 || width > 8) {
+    // Zero width is valid and means zero
+    if (width > 8) {
         throw new Error('Bad unsigned int size ' + width);
     }
     let value = 0;
@@ -7341,7 +7434,7 @@ const readUnsignedInt = (slice, width) => {
     return value;
 };
 const readUnsignedBigInt = (slice, width) => {
-    if (width < 1) {
+    if (width < 1 || width > 8) {
         throw new Error('Bad unsigned int size ' + width);
     }
     let value = 0n;
@@ -7410,11 +7503,11 @@ const readElementHeader = (slice) => {
 const readAsciiString = (slice, length) => {
     const bytes = (0,_reader_js__WEBPACK_IMPORTED_MODULE_1__/* .readBytes */ .io)(slice, length);
     // Actual string length might be shorter due to null terminators
-    let strLength = 0;
-    while (strLength < length && bytes[strLength] !== 0) {
-        strLength += 1;
+    let str = '';
+    for (let i = 0; i < length && bytes[i] !== 0; i++) {
+        str += String.fromCharCode(bytes[i]);
     }
-    return String.fromCharCode(...bytes.subarray(0, strLength));
+    return str;
 };
 const readUnicodeString = (slice, length) => {
     const bytes = (0,_reader_js__WEBPACK_IMPORTED_MODULE_1__/* .readBytes */ .io)(slice, length);
@@ -7465,11 +7558,12 @@ const resync = async (reader, startPos, ids, until) => {
         let slice = reader.requestSliceRange(currentPos, 0, Math.min(CHUNK_SIZE, until - currentPos));
         if ((0,_misc_js__WEBPACK_IMPORTED_MODULE_0__/* .isThenable */ .Qg)(slice))
             slice = await slice;
-        if (!slice)
+        if (!slice || slice.length === 0)
             break;
-        if (slice.length < MAX_VAR_INT_SIZE)
-            break;
-        for (let i = 0; i < slice.length - MAX_VAR_INT_SIZE; i++) {
+        // The last few positions are left for the next chunk so their IDs can be read in full. Close to the end, there
+        // is no next chunk to speak of, so we must still make progress.
+        const positionsToCheck = Math.max(slice.length - MAX_VAR_INT_SIZE, 1);
+        for (let i = 0; i < positionsToCheck; i++) {
             slice.filePos = currentPos;
             const elementId = readElementId(slice);
             if (elementId !== null && idsSet.has(elementId)) {
@@ -7683,17 +7777,27 @@ class EncodedPacketSink {
         if (!options.verifyKeyPackets) {
             return this._track._backing.getKeyPacket(timestamp, options);
         }
-        const packet = await this._track._backing.getKeyPacket(timestamp, options);
-        if (!packet) {
-            return packet;
+        let packet = await this._track._backing.getKeyPacket(timestamp, options);
+        while (packet) {
+            (0,_misc_js__WEBPACK_IMPORTED_MODULE_5__/* .assert */ .vA)(packet.type === 'key');
+            const determinedType = await this._track.determinePacketType(packet);
+            if (determinedType !== 'delta') {
+                return packet;
+            }
+            // Try the previous key packet instead (in hopes that it's actually a key packet)
+            let step = 1 / await this._track.getTimeResolution();
+            let previousPacket;
+            while (true) {
+                previousPacket = await this._track._backing.getKeyPacket(packet.timestamp - step, options);
+                if (!previousPacket || previousPacket.timestamp < packet.timestamp) {
+                    break;
+                }
+                // Huge timestamps, the step wasn't enough to move us, try again
+                step *= 2;
+            }
+            packet = previousPacket;
         }
-        (0,_misc_js__WEBPACK_IMPORTED_MODULE_5__/* .assert */ .vA)(packet.type === 'key');
-        const determinedType = await this._track.determinePacketType(packet);
-        if (determinedType === 'delta') {
-            // Try returning the previous key packet (in hopes that it's actually a key packet)
-            return this.getKeyPacket(packet.timestamp - 1 / await this._track.getTimeResolution(), options);
-        }
-        return packet;
+        return null;
     }
     /**
      * Retrieves the key packet following the given packet (in decode order), or null if the given packet is the last
@@ -7712,17 +7816,17 @@ class EncodedPacketSink {
         if (!options.verifyKeyPackets) {
             return this._track._backing.getNextKeyPacket(packet, options);
         }
-        const nextPacket = await this._track._backing.getNextKeyPacket(packet, options);
-        if (!nextPacket) {
-            return nextPacket;
+        let nextPacket = await this._track._backing.getNextKeyPacket(packet, options);
+        while (nextPacket) {
+            (0,_misc_js__WEBPACK_IMPORTED_MODULE_5__/* .assert */ .vA)(nextPacket.type === 'key');
+            const determinedType = await this._track.determinePacketType(nextPacket);
+            if (determinedType !== 'delta') {
+                return nextPacket;
+            }
+            // Try the next key packet instead (in hopes that it's actually a key packet)
+            nextPacket = await this._track._backing.getNextKeyPacket(nextPacket, options);
         }
-        (0,_misc_js__WEBPACK_IMPORTED_MODULE_5__/* .assert */ .vA)(nextPacket.type === 'key');
-        const determinedType = await this._track.determinePacketType(nextPacket);
-        if (determinedType === 'delta') {
-            // Try returning the next key packet (in hopes that it's actually a key packet)
-            return this.getNextKeyPacket(nextPacket, options);
-        }
-        return nextPacket;
+        return null;
     }
     /**
      * Creates an async iterator that yields the packets in this track in decode order. To enable fast iteration, this
@@ -8012,7 +8116,7 @@ class BaseMediaSampleSink {
     }
     /** @internal */
     mediaSamplesAtTimestamps(timestamps, options) {
-        (0,_misc_js__WEBPACK_IMPORTED_MODULE_5__/* .validateAnyIterable */ .D5)(timestamps);
+        ;(0,_misc_js__WEBPACK_IMPORTED_MODULE_5__/* .validateAnyIterable */ .D5)(timestamps);
         const timestampIterator = (0,_misc_js__WEBPACK_IMPORTED_MODULE_5__/* .toAsyncIterator */ .i1)(timestamps);
         const timestampsOfInterest = [];
         const sampleQueue = [];
@@ -8089,7 +8193,9 @@ class BaseMediaSampleSink {
                         break;
                     }
                     const nextPacket = await packetSink.getNextPacket(currentPacket, retrievalOptions);
-                    (0,_misc_js__WEBPACK_IMPORTED_MODULE_5__/* .assert */ .vA)(nextPacket);
+                    if (!nextPacket) {
+                        throw new Error('Internal error: couldn\'t get next packet when one was expected.');
+                    }
                     decoder.decode(nextPacket);
                     currentPacket = nextPacket;
                 }
@@ -8555,7 +8661,7 @@ class VideoDecoderWrapper extends DecoderWrapper {
                 }
                 this.sampleQueue.length = 0;
             }
-            (0,_misc_js__WEBPACK_IMPORTED_MODULE_5__/* .insertSorted */ .h8)(this.sampleQueue, sample, x => x.timestamp);
+            ;(0,_misc_js__WEBPACK_IMPORTED_MODULE_5__/* .insertSorted */ .h8)(this.sampleQueue, sample, x => x.timestamp);
         }
         else {
             // Assign it the next earliest timestamp from the input. We do this because browsers, by spec, are
@@ -8604,11 +8710,11 @@ class VideoDecoderWrapper extends DecoderWrapper {
             }
         }
         catch (error) {
-            (0,_misc_js__WEBPACK_IMPORTED_MODULE_5__/* .removeItem */ .Ai)(this.finalSamples, result);
+            ;(0,_misc_js__WEBPACK_IMPORTED_MODULE_5__/* .removeItem */ .Ai)(this.finalSamples, result);
             this.onError(error);
         }
         finally {
-            (0,_misc_js__WEBPACK_IMPORTED_MODULE_5__/* .removeItem */ .Ai)(this.mergeAlphaPromises, resolver.promise);
+            ;(0,_misc_js__WEBPACK_IMPORTED_MODULE_5__/* .removeItem */ .Ai)(this.mergeAlphaPromises, resolver.promise);
             resolver.resolve();
         }
     }
@@ -9512,7 +9618,8 @@ class PcmAudioDecoderWrapper extends DecoderWrapper {
     }
     decode(packet) {
         const inputView = (0,_misc_js__WEBPACK_IMPORTED_MODULE_5__/* .toDataView */ .Zc)(packet.data);
-        const numberOfFrames = packet.byteLength / this.decoderConfig.numberOfChannels / this.inputSampleSize;
+        // A trailing partial frame (only in malformed files) gets dropped
+        const numberOfFrames = Math.floor(packet.byteLength / this.decoderConfig.numberOfChannels / this.inputSampleSize);
         const outputBufferSize = numberOfFrames * this.decoderConfig.numberOfChannels * this.outputSampleSize;
         const outputBuffer = new ArrayBuffer(outputBufferSize);
         const outputView = new DataView(outputBuffer);
@@ -9696,7 +9803,6 @@ class AudioBufferSink {
 
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   VF: () => (/* binding */ AttachedFile),
-/* harmony export */   gM: () => (/* binding */ DEFAULT_TRACK_DISPOSITION),
 /* harmony export */   sF: () => (/* binding */ RichImageData)
 /* harmony export */ });
 /* unused harmony exports validateMetadataTags, metadataTagsAreEmpty, validateTrackDisposition */
@@ -9908,6 +10014,10 @@ const validateTrackDisposition = (disposition) => {
     }
 };
 
+/* harmony export */ __webpack_require__.d(__webpack_exports__, [
+/* harmony export */   "gM", 0, /* binding */ DEFAULT_TRACK_DISPOSITION
+/* harmony export */ ]);
+
 
 /***/ },
 
@@ -10116,7 +10226,8 @@ const readExpGolomb = (bitstream) => {
     if (leadingZeroBits >= 32) {
         throw new Error('Invalid exponential-Golomb code.');
     }
-    const result = (1 << leadingZeroBits) - 1 + bitstream.readBits(leadingZeroBits);
+    // Not using bit shifts here, since they'd overflow into negative numbers for 31 leading zeros
+    const result = 2 ** leadingZeroBits - 1 + bitstream.readBits(leadingZeroBits);
     return result;
 };
 const writeExpGolomb = (bitstream, value) => {
@@ -10129,9 +10240,10 @@ const writeExpGolomb = (bitstream, value) => {
 /** Reads a signed exponential-Golomb universal code from a Bitstream. */
 const readSignedExpGolomb = (bitstream) => {
     const codeNum = readExpGolomb(bitstream);
-    return ((codeNum & 1) === 0)
-        ? -(codeNum >> 1)
-        : ((codeNum + 1) >> 1);
+    // Division instead of bit shifts, since codeNum may exceed the 32-bit signed range
+    return codeNum % 2 === 0
+        ? -(codeNum / 2)
+        : (codeNum + 1) / 2;
 };
 const writeBits = (bytes, start, end, value) => {
     for (let i = start; i < end; i++) {
@@ -10326,7 +10438,7 @@ const TextDecoder = typeof globalThis.TextDecoder !== 'undefined'
         }
     };
 const textDecoder = /* #__PURE__ */ new TextDecoder();
-const textEncoder = /* #__PURE__ */ new TextEncoder();
+const textEncoder = /* #__PURE__ */ (/* unused pure expression or super */ null && (new TextEncoder()));
 const isIso88591Compatible = (text) => {
     for (let i = 0; i < text.length; i++) {
         const code = text.charCodeAt(i);
@@ -10882,7 +10994,13 @@ const imageMimeTypeToExtension = (mimeType) => {
     }
 };
 const base64ToBytes = (base64) => {
-    const decoded = atob(base64);
+    let decoded;
+    try {
+        decoded = atob(base64);
+    }
+    catch {
+        throw new Error('Invalid base64 string.');
+    }
     const bytes = new Uint8Array(decoded.length);
     for (let i = 0; i < decoded.length; i++) {
         bytes[i] = decoded.charCodeAt(i);
@@ -10985,11 +11103,15 @@ const getQueryParameter = (path, name) => {
     for (const parameter of query.split('&')) {
         const equalsIndex = parameter.indexOf('=');
         const encodedName = equalsIndex === -1 ? parameter : parameter.slice(0, equalsIndex);
-        if (decodeURIComponent(encodedName) !== name) {
-            continue;
-        }
         const encodedValue = equalsIndex === -1 ? '' : parameter.slice(equalsIndex + 1);
-        return decodeURIComponent(encodedValue);
+        try {
+            if (decodeURIComponent(encodedName) === name) {
+                return decodeURIComponent(encodedValue);
+            }
+        }
+        catch {
+            // Malformed percent-encoding, so let's not treat this as the parameter we're looking for
+        }
     }
     return null;
 };
@@ -11316,13 +11438,104 @@ const isRecordStringString = (value) => {
 
 /***/ },
 
+/***/ 9730
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+/* unused harmony export computeOggPageCrc */
+/* unused harmony import specifier */ var toDataView;
+/* harmony import */ var _codec_data_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6297);
+/* harmony import */ var _misc_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3912);
+/*!
+ * Copyright (c) 2026-present, Vanilagy and contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+
+const OGGS = 0x5367674f; // 'OggS'
+const OGG_CRC_POLYNOMIAL = 0x04c11db7;
+const OGG_CRC_TABLE = new Uint32Array(256);
+for (let n = 0; n < 256; n++) {
+    let crc = n << 24;
+    for (let k = 0; k < 8; k++) {
+        crc = (crc & 0x80000000)
+            ? ((crc << 1) ^ OGG_CRC_POLYNOMIAL)
+            : (crc << 1);
+    }
+    OGG_CRC_TABLE[n] = (crc >>> 0) & 0xffffffff;
+}
+const computeOggPageCrc = (bytes) => {
+    const view = toDataView(bytes);
+    const originalChecksum = view.getUint32(22, true);
+    view.setUint32(22, 0, true); // Zero out checksum field
+    let crc = 0;
+    for (let i = 0; i < bytes.length; i++) {
+        const byte = bytes[i];
+        crc = ((crc << 8) ^ OGG_CRC_TABLE[(crc >>> 24) ^ byte]) >>> 0;
+    }
+    view.setUint32(22, originalChecksum, true); // Restore checksum field
+    return crc;
+};
+const extractSampleMetadata = (data, codecInfo, vorbisLastBlocksize) => {
+    let durationInSamples = 0;
+    let currentBlocksize = null;
+    if (data.length > 0) {
+        // To know sample duration, we'll need to peak inside the packet
+        if (codecInfo.codec === 'vorbis') {
+            (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .assert */ .vA)(codecInfo.vorbisInfo);
+            const vorbisModeCount = codecInfo.vorbisInfo.modeBlockflags.length;
+            const bitCount = (0,_misc_js__WEBPACK_IMPORTED_MODULE_1__/* .ilog */ .al)(vorbisModeCount - 1);
+            const modeMask = ((1 << bitCount) - 1) << 1;
+            const modeNumber = (data[0] & modeMask) >> 1;
+            if (modeNumber >= codecInfo.vorbisInfo.modeBlockflags.length) {
+                throw new Error('Invalid mode number.');
+            }
+            // In Vorbis, packet duration also depends on the blocksize of the previous packet
+            let prevBlocksize = vorbisLastBlocksize;
+            const blockflag = codecInfo.vorbisInfo.modeBlockflags[modeNumber];
+            currentBlocksize = codecInfo.vorbisInfo.blocksizes[blockflag];
+            if (blockflag === 1) {
+                const prevMask = (modeMask | 0x1) + 1;
+                const flag = data[0] & prevMask ? 1 : 0;
+                prevBlocksize = codecInfo.vorbisInfo.blocksizes[flag];
+            }
+            durationInSamples = prevBlocksize !== null
+                ? (prevBlocksize + currentBlocksize) >> 2
+                : 0; // The first sample outputs no audio data and therefore has a duration of 0
+        }
+        else if (codecInfo.codec === 'opus') {
+            const toc = (0,_codec_data_js__WEBPACK_IMPORTED_MODULE_0__/* .parseOpusTocByte */ .ls)(data);
+            durationInSamples = toc.durationInSamples;
+        }
+    }
+    return {
+        durationInSamples,
+        vorbisBlockSize: currentBlocksize,
+    };
+};
+const buildOggMimeType = (info) => {
+    let string = 'audio/ogg';
+    if (info.codecStrings) {
+        const uniqueCodecMimeTypes = [...new Set(info.codecStrings)];
+        string += `; codecs="${uniqueCodecMimeTypes.join(', ')}"`;
+    }
+    return string;
+};
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, [
+/* harmony export */   "Ob", 0, /* binding */ buildOggMimeType,
+/* harmony export */   "Zk", 0, /* binding */ OGGS,
+/* harmony export */   "nL", 0, /* binding */ extractSampleMetadata
+/* harmony export */ ]);
+
+
+/***/ },
+
 /***/ 358
 (__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   aw: () => (/* binding */ fromAlaw),
-/* harmony export */   qS: () => (/* binding */ fromUlaw)
-/* harmony export */ });
 /* unused harmony exports toUlaw, toAlaw */
 /*!
  * Copyright (c) 2026-present, Vanilagy and contributors
@@ -11412,6 +11625,11 @@ const fromAlaw = (u8) => {
     }
     return ((sign === 0) ? -decoded : decoded) << 3;
 };
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, [
+/* harmony export */   "aw", 0, /* binding */ fromAlaw,
+/* harmony export */   "qS", 0, /* binding */ fromUlaw
+/* harmony export */ ]);
 
 
 /***/ },
@@ -11919,7 +12137,7 @@ class VideoSample {
         if (this._closed) {
             throw new Error('VideoSample is closed.');
         }
-        (0,_misc_js__WEBPACK_IMPORTED_MODULE_0__/* .assert */ .vA)(this._data !== null);
+        ;(0,_misc_js__WEBPACK_IMPORTED_MODULE_0__/* .assert */ .vA)(this._data !== null);
         if (this._data instanceof VideoSampleResource) {
             return new VideoSample(this._data, {
                 timestamp: this.timestamp,
@@ -12033,7 +12251,7 @@ class VideoSample {
         if ((options.format ?? this.format) == null) {
             throw new Error('Cannot copy video sample data when format is null.');
         }
-        (0,_misc_js__WEBPACK_IMPORTED_MODULE_0__/* .assert */ .vA)(this._data !== null);
+        ;(0,_misc_js__WEBPACK_IMPORTED_MODULE_0__/* .assert */ .vA)(this._data !== null);
         if (isVideoFrame(this._data)) {
             return this._data.copyTo(destination, options);
         }
@@ -12206,7 +12424,7 @@ class VideoSample {
         if (this._closed) {
             throw new Error('VideoSample is closed.');
         }
-        (0,_misc_js__WEBPACK_IMPORTED_MODULE_0__/* .assert */ .vA)(this._data !== null);
+        ;(0,_misc_js__WEBPACK_IMPORTED_MODULE_0__/* .assert */ .vA)(this._data !== null);
         if (this._data instanceof VideoSampleResource) {
             if (this.format === null) {
                 throw new Error('Cannot convert a VideoSampleResource-backed VideoSample to VideoFrame if format is null.');
@@ -12535,7 +12753,7 @@ class VideoSample {
         if (this._closed) {
             throw new Error('VideoSample is closed.');
         }
-        (0,_misc_js__WEBPACK_IMPORTED_MODULE_0__/* .assert */ .vA)(this._data !== null);
+        ;(0,_misc_js__WEBPACK_IMPORTED_MODULE_0__/* .assert */ .vA)(this._data !== null);
         if (this._data instanceof VideoSampleResource || this._data instanceof Uint8Array) {
             // Requires VideoFrame to be defined
             const videoFrame = this.toVideoFrame();
@@ -13933,7 +14151,7 @@ const audioSampleToInterleavedFormat = (sample, format) => {
 /***/ 4709
 (__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
-var _node_js__WEBPACK_IMPORTED_MODULE_1___namespace_cache;
+let _node_js__WEBPACK_IMPORTED_MODULE_1___namespace_cache;
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   Fy: () => (/* binding */ SourceRef),
 /* harmony export */   QI: () => (/* binding */ PathedSource),
@@ -14366,7 +14584,7 @@ class BlobSource extends Source {
     }
     /** @internal */
     async _runWorker(worker) {
-        (0,_misc_js__WEBPACK_IMPORTED_MODULE_0__/* .assert */ .vA)(worker.strictTarget);
+        ;(0,_misc_js__WEBPACK_IMPORTED_MODULE_0__/* .assert */ .vA)(worker.strictTarget);
         let reader = this._readers.get(worker);
         if (reader === undefined) {
             // https://github.com/Vanilagy/mediabunny/issues/184
@@ -15031,7 +15249,13 @@ class CustomSource extends Source {
                 if (!Number.isInteger(size) || size < 0) {
                     throw new TypeError('options.getSize must return or resolve to a non-negative integer.');
                 }
+                if (this._disposed) {
+                    throw new _input_js__WEBPACK_IMPORTED_MODULE_2__/* .InputDisposedError */ .QO();
+                }
                 this._orchestrator.fileSize = size;
+                if (end > size) {
+                    return null; // Now that we know the size, it turns out the read doesn't fit
+                }
                 return this._orchestrator.read(start, end, minReadPosition, maxReadPosition);
             });
         }
@@ -15040,6 +15264,9 @@ class CustomSource extends Source {
                 throw new TypeError('options.getSize must return or resolve to a non-negative integer.');
             }
             this._orchestrator.fileSize = result;
+            if (end > result) {
+                return null;
+            }
             return this._orchestrator.read(start, end, minReadPosition, maxReadPosition);
         }
     }
@@ -15199,7 +15426,7 @@ class ReadableStreamSource extends Source {
             };
         }
         let lastEnd = start;
-        const bytes = new Uint8Array(end - start);
+        const parts = [];
         if (cacheStartIndex !== -1) {
             // Walk over the cache to see if we can satisfy the request using multiple cache entries
             for (let i = cacheStartIndex; i < this._cache.length; i++) {
@@ -15214,17 +15441,16 @@ class ReadableStreamSource extends Source {
                 }
                 const cappedEnd = Math.min(end, cacheEntry.end);
                 if (cappedStart < cappedEnd) {
-                    bytes.set(cacheEntry.bytes.subarray(cappedStart - cacheEntry.start, cappedEnd - cacheEntry.start), cappedStart - start);
+                    parts.push({
+                        start: cappedStart,
+                        bytes: cacheEntry.bytes.subarray(cappedStart - cacheEntry.start, cappedEnd - cacheEntry.start),
+                    });
                     lastEnd = cappedEnd;
                 }
             }
         }
         if (lastEnd === end) {
-            return {
-                bytes,
-                view: (0,_misc_js__WEBPACK_IMPORTED_MODULE_0__/* .toDataView */ .Zc)(bytes),
-                offset: start,
-            };
+            return assembleSlice(start, end, parts);
         }
         // We need to pull more data
         if (this._currentIndex > lastEnd) {
@@ -15235,7 +15461,7 @@ class ReadableStreamSource extends Source {
         this._pendingSlices.push({
             start,
             end,
-            bytes,
+            parts,
             resolve,
             reject,
         });
@@ -15288,14 +15514,14 @@ class ReadableStreamSource extends Source {
                 const cappedStart = Math.max(startIndex, pendingSlice.start);
                 const cappedEnd = Math.min(endIndex, pendingSlice.end);
                 if (cappedStart < cappedEnd) {
-                    pendingSlice.bytes.set(value.subarray(cappedStart - startIndex, cappedEnd - startIndex), cappedStart - pendingSlice.start);
+                    pendingSlice.parts.push({
+                        start: cappedStart,
+                        bytes: value.subarray(cappedStart - startIndex, cappedEnd - startIndex),
+                    });
                     if (cappedEnd === pendingSlice.end) {
-                        // Pending slice fully filled
-                        pendingSlice.resolve({
-                            bytes: pendingSlice.bytes,
-                            view: (0,_misc_js__WEBPACK_IMPORTED_MODULE_0__/* .toDataView */ .Zc)(pendingSlice.bytes),
-                            offset: pendingSlice.start,
-                        });
+                        // Pending slice fully filled. Assembling only at the end protects us from attacks where huge
+                        // data ranges are requested, despite those never being fulfillable.
+                        pendingSlice.resolve(assembleSlice(pendingSlice.start, pendingSlice.end, pendingSlice.parts));
                         this._pendingSlices.splice(i, 1);
                         i--;
                     }
@@ -15333,6 +15559,17 @@ class ReadableStreamSource extends Source {
         void this._reader?.cancel().catch(() => { });
     }
 }
+const assembleSlice = (start, end, parts) => {
+    const bytes = new Uint8Array(end - start);
+    for (const part of parts) {
+        bytes.set(part.bytes, part.start - start);
+    }
+    return {
+        bytes,
+        view: (0,_misc_js__WEBPACK_IMPORTED_MODULE_0__/* .toDataView */ .Zc)(bytes),
+        offset: start,
+    };
+};
 const PREFETCH_PROFILES = {
     none: (start, end) => ({ start, end }),
     fileSystem: (start, end) => {
@@ -15395,7 +15632,7 @@ class ReadOrchestrator {
         this.queuedReads = [];
     }
     read(innerStart, innerEnd, minReadPosition, maxReadPosition) {
-        (0,_misc_js__WEBPACK_IMPORTED_MODULE_0__/* .assert */ .vA)(!this.disposed);
+        ;(0,_misc_js__WEBPACK_IMPORTED_MODULE_0__/* .assert */ .vA)(!this.disposed);
         const prefetchRange = this.options.prefetchProfile(innerStart, innerEnd, this.workers);
         const outerStart = Math.max(prefetchRange.start, minReadPosition);
         const outerEnd = Math.min(prefetchRange.end, this.fileSize ?? Infinity, maxReadPosition);
@@ -15652,7 +15889,7 @@ class ReadOrchestrator {
         return worker;
     }
     runWorker(worker) {
-        (0,_misc_js__WEBPACK_IMPORTED_MODULE_0__/* .assert */ .vA)(!worker.running);
+        ;(0,_misc_js__WEBPACK_IMPORTED_MODULE_0__/* .assert */ .vA)(!worker.running);
         (0,_misc_js__WEBPACK_IMPORTED_MODULE_0__/* .assert */ .vA)(worker.currentPos < worker.targetPos);
         worker.running = true;
         worker.age = this.nextAge++;
@@ -15700,7 +15937,7 @@ class ReadOrchestrator {
     }
     /** Called by a worker when it has read some data. */
     supplyWorkerData(worker, bytes) {
-        (0,_misc_js__WEBPACK_IMPORTED_MODULE_0__/* .assert */ .vA)(!worker.aborted);
+        ;(0,_misc_js__WEBPACK_IMPORTED_MODULE_0__/* .assert */ .vA)(!worker.aborted);
         const start = worker.currentPos;
         const end = start + bytes.length;
         this.insertIntoCache({
@@ -15758,7 +15995,7 @@ class ReadOrchestrator {
         }
     }
     supplyFileSize(size) {
-        (0,_misc_js__WEBPACK_IMPORTED_MODULE_0__/* .assert */ .vA)(this.fileSize === null);
+        ;(0,_misc_js__WEBPACK_IMPORTED_MODULE_0__/* .assert */ .vA)(this.fileSize === null);
         this.fileSize = size;
         // Trim the workers with this new information
         for (const worker of this.workers) {
@@ -16097,7 +16334,7 @@ class WaveDemuxer extends _demuxer_js__WEBPACK_IMPORTED_MODULE_0__/* .Demuxer */
                 else if (chunkId === 'data') {
                     dataChunkSize ??= chunkSize;
                     this.dataStart = slice.filePos;
-                    this.dataSize = Math.min(dataChunkSize, (totalFileSize ?? Infinity) - this.dataStart);
+                    this.dataSize = Math.max(Math.min(dataChunkSize, (totalFileSize ?? Infinity) - this.dataStart), 0);
                     if (this.reader.fileSize === null) {
                         break; // Stop once we hit the data chunk
                     }
@@ -16109,6 +16346,9 @@ class WaveDemuxer extends _demuxer_js__WEBPACK_IMPORTED_MODULE_0__/* .Demuxer */
                         ds64Slice = await ds64Slice;
                     if (!ds64Slice)
                         break;
+                    if (chunkSize < 16) {
+                        throw new Error('Invalid RF64 file: "ds64" chunk is too small.');
+                    }
                     const riffChunkSize = (0,_reader_js__WEBPACK_IMPORTED_MODULE_4__/* .readU64 */ .IM)(ds64Slice, littleEndian);
                     dataChunkSize = (0,_reader_js__WEBPACK_IMPORTED_MODULE_4__/* .readU64 */ .IM)(ds64Slice, littleEndian);
                     totalFileSize = Math.min(riffChunkSize + 8, this.reader.fileSize ?? Infinity);
@@ -16139,13 +16379,19 @@ class WaveDemuxer extends _demuxer_js__WEBPACK_IMPORTED_MODULE_0__/* .Demuxer */
             slice = await slice;
         if (!slice)
             return; // File too short
+        if (size < 14) {
+            throw new Error('Invalid WAVE file - "fmt " chunk is too small');
+        }
         let formatTag = (0,_reader_js__WEBPACK_IMPORTED_MODULE_4__/* .readU16 */ .Vv)(slice, littleEndian);
         const numChannels = (0,_reader_js__WEBPACK_IMPORTED_MODULE_4__/* .readU16 */ .Vv)(slice, littleEndian);
         const sampleRate = (0,_reader_js__WEBPACK_IMPORTED_MODULE_4__/* .readU32 */ .PF)(slice, littleEndian);
         slice.skip(4); // Bytes per second
         const blockAlign = (0,_reader_js__WEBPACK_IMPORTED_MODULE_4__/* .readU16 */ .Vv)(slice, littleEndian);
+        if (numChannels === 0 || sampleRate === 0 || blockAlign === 0) {
+            throw new Error('Invalid WAVE file - channel count, sample rate and block align must be positive');
+        }
         let bitsPerSample;
-        if (size === 14) { // Plain WAVEFORMAT
+        if (size < 16) { // Plain WAVEFORMAT
             bitsPerSample = 8;
         }
         else {
@@ -16189,6 +16435,8 @@ class WaveDemuxer extends _demuxer_js__WEBPACK_IMPORTED_MODULE_0__/* .Demuxer */
         };
     }
     async parseListChunk(startPos, size, littleEndian) {
+        if (size < 4)
+            return; // Chunk too short
         let slice = this.reader.requestSlice(startPos, size);
         if ((0,_misc_js__WEBPACK_IMPORTED_MODULE_2__/* .isThenable */ .Qg)(slice))
             slice = await slice;
@@ -16203,15 +16451,14 @@ class WaveDemuxer extends _demuxer_js__WEBPACK_IMPORTED_MODULE_0__/* .Demuxer */
             slice.filePos = currentPos;
             const chunkName = (0,_reader_js__WEBPACK_IMPORTED_MODULE_4__/* .readAscii */ .IT)(slice, 4);
             const chunkSize = (0,_reader_js__WEBPACK_IMPORTED_MODULE_4__/* .readU32 */ .PF)(slice, littleEndian);
-            const bytes = (0,_reader_js__WEBPACK_IMPORTED_MODULE_4__/* .readBytes */ .io)(slice, chunkSize);
-            let stringLength = 0;
-            for (let i = 0; i < bytes.length; i++) {
-                if (bytes[i] === 0) {
-                    break;
-                }
-                stringLength++;
+            if (chunkSize > slice.remainingLength) {
+                break; // The sub-chunk doesn't fit into the LIST chunk
             }
-            const value = String.fromCharCode(...bytes.subarray(0, stringLength));
+            const bytes = (0,_reader_js__WEBPACK_IMPORTED_MODULE_4__/* .readBytes */ .io)(slice, chunkSize);
+            let value = '';
+            for (let i = 0; i < bytes.length && bytes[i] !== 0; i++) {
+                value += String.fromCharCode(bytes[i]);
+            }
             this.metadataTags.raw ??= {};
             this.metadataTags.raw[chunkName] = value;
             switch (chunkName) {
@@ -16296,6 +16543,8 @@ class WaveDemuxer extends _demuxer_js__WEBPACK_IMPORTED_MODULE_0__/* .Demuxer */
     }
     async parseId3Chunk(startPos, size) {
         // Parse ID3 tag embedded in WAV file (non-default, but used a lot in practice anyway)
+        if (size < _id3_js__WEBPACK_IMPORTED_MODULE_5__/* .ID3_V2_HEADER_SIZE */ .sY)
+            return; // Chunk too short
         let slice = this.reader.requestSlice(startPos, size);
         if ((0,_misc_js__WEBPACK_IMPORTED_MODULE_2__/* .isThenable */ .Qg)(slice))
             slice = await slice;
@@ -16314,7 +16563,7 @@ class WaveDemuxer extends _demuxer_js__WEBPACK_IMPORTED_MODULE_0__/* .Demuxer */
         }
     }
     getCodec() {
-        (0,_misc_js__WEBPACK_IMPORTED_MODULE_2__/* .assert */ .vA)(this.audioInfo);
+        ;(0,_misc_js__WEBPACK_IMPORTED_MODULE_2__/* .assert */ .vA)(this.audioInfo);
         if (this.audioInfo.format === WaveFormat.MULAW) {
             return 'ulaw';
         }
@@ -16344,7 +16593,7 @@ class WaveDemuxer extends _demuxer_js__WEBPACK_IMPORTED_MODULE_0__/* .Demuxer */
                 return 'pcm-f64';
             }
         }
-        (0,_misc_js__WEBPACK_IMPORTED_MODULE_2__/* .assert */ .vA)(false);
+        ;(0,_misc_js__WEBPACK_IMPORTED_MODULE_2__/* .assert */ .vA)(false);
     }
     async getMimeType() {
         return 'audio/wav';
@@ -16376,7 +16625,7 @@ class WaveAudioTrackBacking {
         return this.demuxer.getCodec();
     }
     getInternalCodecId() {
-        (0,_misc_js__WEBPACK_IMPORTED_MODULE_2__/* .assert */ .vA)(this.demuxer.audioInfo);
+        ;(0,_misc_js__WEBPACK_IMPORTED_MODULE_2__/* .assert */ .vA)(this.demuxer.audioInfo);
         return this.demuxer.audioInfo.format;
     }
     async getDecoderConfig() {
@@ -16384,7 +16633,7 @@ class WaveAudioTrackBacking {
         if (!codec) {
             return null;
         }
-        (0,_misc_js__WEBPACK_IMPORTED_MODULE_2__/* .assert */ .vA)(this.demuxer.audioInfo);
+        ;(0,_misc_js__WEBPACK_IMPORTED_MODULE_2__/* .assert */ .vA)(this.demuxer.audioInfo);
         return {
             codec,
             numberOfChannels: this.demuxer.audioInfo.numberOfChannels,
@@ -16392,15 +16641,15 @@ class WaveAudioTrackBacking {
         };
     }
     getNumberOfChannels() {
-        (0,_misc_js__WEBPACK_IMPORTED_MODULE_2__/* .assert */ .vA)(this.demuxer.audioInfo);
+        ;(0,_misc_js__WEBPACK_IMPORTED_MODULE_2__/* .assert */ .vA)(this.demuxer.audioInfo);
         return this.demuxer.audioInfo.numberOfChannels;
     }
     getSampleRate() {
-        (0,_misc_js__WEBPACK_IMPORTED_MODULE_2__/* .assert */ .vA)(this.demuxer.audioInfo);
+        ;(0,_misc_js__WEBPACK_IMPORTED_MODULE_2__/* .assert */ .vA)(this.demuxer.audioInfo);
         return this.demuxer.audioInfo.sampleRate;
     }
     getTimeResolution() {
-        (0,_misc_js__WEBPACK_IMPORTED_MODULE_2__/* .assert */ .vA)(this.demuxer.audioInfo);
+        ;(0,_misc_js__WEBPACK_IMPORTED_MODULE_2__/* .assert */ .vA)(this.demuxer.audioInfo);
         return this.demuxer.audioInfo.sampleRate;
     }
     isRelativeToUnixEpoch() {
@@ -16419,7 +16668,7 @@ class WaveAudioTrackBacking {
         return null;
     }
     async getDurationFromMetadata() {
-        (0,_misc_js__WEBPACK_IMPORTED_MODULE_2__/* .assert */ .vA)(this.demuxer.dataSize !== -1);
+        ;(0,_misc_js__WEBPACK_IMPORTED_MODULE_2__/* .assert */ .vA)(this.demuxer.dataSize !== -1);
         return this.demuxer.dataSize / this.demuxer.audioInfo.blockSizeInBytes / this.demuxer.audioInfo.sampleRate;
     }
     async getLiveRefreshInterval() {
@@ -16437,7 +16686,7 @@ class WaveAudioTrackBacking {
         };
     }
     async getPacketAtIndex(packetIndex, options) {
-        (0,_misc_js__WEBPACK_IMPORTED_MODULE_2__/* .assert */ .vA)(packetIndex >= 0);
+        ;(0,_misc_js__WEBPACK_IMPORTED_MODULE_2__/* .assert */ .vA)(packetIndex >= 0);
         (0,_misc_js__WEBPACK_IMPORTED_MODULE_2__/* .assert */ .vA)(this.demuxer.audioInfo);
         const startOffset = packetIndex * PACKET_SIZE_IN_FRAMES * this.demuxer.audioInfo.blockSizeInBytes;
         if (startOffset >= this.demuxer.dataSize) {
@@ -16475,7 +16724,7 @@ class WaveAudioTrackBacking {
         return this.getPacketAtIndex(0, options);
     }
     async getPacket(timestamp, options) {
-        (0,_misc_js__WEBPACK_IMPORTED_MODULE_2__/* .assert */ .vA)(this.demuxer.audioInfo);
+        ;(0,_misc_js__WEBPACK_IMPORTED_MODULE_2__/* .assert */ .vA)(this.demuxer.audioInfo);
         const packetIndex = Math.floor(Math.min(timestamp * this.demuxer.audioInfo.sampleRate / PACKET_SIZE_IN_FRAMES, (this.demuxer.dataSize - 1) / (PACKET_SIZE_IN_FRAMES * this.demuxer.audioInfo.blockSizeInBytes)));
         if (packetIndex < 0) {
             return null;
@@ -16487,7 +16736,7 @@ class WaveAudioTrackBacking {
         if (packetIndex === 0) {
             return null; // Empty data chunk
         }
-        (0,_misc_js__WEBPACK_IMPORTED_MODULE_2__/* .assert */ .vA)(this.demuxer.reader.fileSize === null);
+        ;(0,_misc_js__WEBPACK_IMPORTED_MODULE_2__/* .assert */ .vA)(this.demuxer.reader.fileSize === null);
         // The file is shorter than we thought, meaning the packet we were looking for doesn't exist. So, let's find
         // the last packet by doing a sequential scan, instead.
         let currentPacket = await this.getPacketAtIndex(this.demuxer.lastKnownPacketIndex, options);
@@ -16501,7 +16750,7 @@ class WaveAudioTrackBacking {
         return currentPacket;
     }
     getNextPacket(packet, options) {
-        (0,_misc_js__WEBPACK_IMPORTED_MODULE_2__/* .assert */ .vA)(this.demuxer.audioInfo);
+        ;(0,_misc_js__WEBPACK_IMPORTED_MODULE_2__/* .assert */ .vA)(this.demuxer.audioInfo);
         const packetIndex = Math.round(packet.timestamp * this.demuxer.audioInfo.sampleRate / PACKET_SIZE_IN_FRAMES);
         return this.getPacketAtIndex(packetIndex + 1, options);
     }
@@ -16517,4 +16766,4 @@ class WaveAudioTrackBacking {
 /***/ }
 
 }]);
-//# sourceMappingURL=18.bundle.js.map
+//# sourceMappingURL=69.bundle.js.map

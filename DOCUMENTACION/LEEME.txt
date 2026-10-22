@@ -1,8 +1,8 @@
 ================================================================================
- CINECAPTIONS 5.33  ·  By Cinema Productions  —  LEEME
+ CINECAPTIONS 5.37  ·  By Cinema Productions  —  LEEME
  Subtítulos automáticos y virales para DaVinci Resolve
- Python 3.14.8 + PySide6 (Qt) · Windows 10/11 (también corre en macOS)
- Documentación al día el 2026-10-20 (la rehace 3_compilar\documentar.py)
+ Python 3.15.1 + PySide6 (Qt) · motor auxiliar 3.14.9 · Windows 10/11
+ Documentación al día el 2026-10-21 (la rehace 3_compilar\documentar.py)
 ================================================================================
 
 LEEME.txt es para PERSONAS (~30 KB). Un asistente NO debe leerlo entero: DOCUMENTACION/RESUMEN.md + mapa()/simbolo() del MCP.
@@ -350,8 +350,8 @@ Búscalas con Ctrl+F (los números de línea exactos están en la sección 14):
 
 7. COMPILAR EL .EXE
 --------------------------------------------------------------------------------
-Requisitos: Windows 10/11 x64. Python 3.14.8 vive en 6_compilacion\python-3.14.8
-(si falta, el script lo baja con el «Python Install Manager» de python.org).
+Requisitos: Windows 10/11 x64. Python 3.15.1 vive en 6_compilacion\python-3.15.1; el motor auxiliar usa Python 3.14.9.
+(si falta, el script prepara el Python de compilación con el Python Install Manager de python.org).
 El compilador de C# ya viene con Windows.
 
     powershell -ExecutionPolicy Bypass -File Actualizar_Windows.ps1          (el de siempre: lo deja AL DIA)
@@ -522,4 +522,4 @@ v3.x y anteriores    Instalador .exe con librerías fijas; interfaz Tk (retirada
 13. ÍNDICE DE ARCHIVOS Y MAPA DEL CÓDIGO: ya no se escriben aquí (eran 267 KB).
 --------------------------------------------------------------------------------
 Qué es cada archivo: el 0_LEEME.txt de su carpeta o «modulo(nombre)» del MCP. Dónde está algo: «mapa(consulta)». El código de una función: «simbolo(nombre)».
-Sin MCP: 6_compilacion\venv314\Scripts\python.exe 1_codigo\mapa_codigo.py mapa|simbolo|modulo <palabras>. Una página de todo: DOCUMENTACION\RESUMEN.md.
+Sin MCP: 6_compilacion\venv315\Scripts\python.exe 1_codigo\mapa_codigo.py mapa|simbolo|modulo <palabras>. Una página de todo: DOCUMENTACION\RESUMEN.md.

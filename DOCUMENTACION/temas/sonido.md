@@ -178,3 +178,176 @@ nivel antes de hornear la ganancia en el archivo. Dice el tema actual y que los 
 emojis) solo se aplica ×min/alto (0,5625 en vertical), así que el emoji recorría ~56 %: con subidas de 500–760 px (medidas en un plan real)
 quedaba 250–330 px lejos del texto, o encima al bajar. Ahora en las pistas EMOJI el desplazamiento va ×alto/min, y `_emojis_sin_cara` lee y escribe
 la posición del emoji con ese mismo factor (Pan ×ancho/min, Tilt ×alto/min, como `colocar_emojis`).
+
+## ai-sound-director — AI Sound Director (v5.34–5.35, fases 0–6: análisis, voz, AI SFX, música y ambiente, mezcla/QC/Sound Score y la página SONIDO)
+
+**Qué:** el sound designer de GO, ENCIMA de los motores de siempre (`sfx_rules`, `sonidos_extra`, `edicion_pro_sonido`, `rectificador`, `musica_go`,
+`ducking`, que quedan como motores internos). Interruptor `ai_sound_director` (pref, **apagado por defecto**; `CINECAPTIONS_AI_SOUND=1/0` lo fuerza en
+las pruebas). **Apagado = GO exactamente como antes** (`al_colocar` devuelve el MISMO plan; probado contra el código de HEAD). Solo toca AUDIO: lee
+captions, motions, cortes y planes para entenderlos, nunca los cambia. Cualquier excepción → `[AI SOUND] fallback: motor original` y GO sigue.
+Plan completo y fases 3–8 (SFX y síntesis, música + ambiente, mezcla/QC/Sound Score, la NUEVA página Sonido = AI Sound Director, incremental,
+regresión): `plan_ai_sound_director.md` (notas de la sesión).
+
+**Flujo en GO:** tras `_planificar_pro`, `_director_sonido_arrancar` hace una FOTO en datos simples (`director_sonido.contexto`: palabras, tema,
+recorte de pausas, bloques, planes de Efectos y PRO) y arranca `director_sonido.preparar(ctx, res=…)` en un hilo (`ai-sound-director`), que rellena
+`res` según avanza: análisis → SONIDOS (fase 3, rápidos) → voz. En `_rectificar_planes`, `_director_sonido_al_colocar` lo recoge (espera ≤ 300 s; si
+la voz no acabó, la original se queda pero los sonidos sí van) y `al_colocar(plan, res, video, plan_pro=…)` arma el plan de Efectos (abajo), o
+—director apagado tras haberlo usado (`general.json: voz_ai_puesta` / `ai_puesto`)— un plan `solo_ai` que solo limpia. `_colocar_efectos` acepta ese plan.
+
+**Fase 1 — análisis (no cambia nada audible):** `director_sonido_medir` (PyAV en streaming: `trozos`, `Grafo` de ffmpeg, `Sonometro` = ebur128 LUFS/LRA/
+true peak, `Analizador` con marcos de 20 ms y finos de 171 ms, `EscritorWav` 24 bits) · `director_sonido_voz.analizar/diagnostico` (fondo medido en
+silencios o, si casi no hay, en los HUECOS entre palabras; hum 50/60 Hz + armónicos, hiss, rumble y viento con marcos finos —en 20 ms los graves se
+cuelan de la ventana—, resonancias sin la F0 de la voz, plosivas, sibilancia = eses p95 contra las vocales p90, aspereza/barro/aire contra el LTASS,
+nivel desigual, clipping en muestras nativas, inteligibilidad 1–4 kHz, `noise_score`) · `director_sonido_musica` (música ya MEZCLADA: fondo cerca de la
+voz, tonal, graves que no bajan sin voz y pulso en la envolvente de graves; estados NO_MUSIC_REQUIRED / KEEP_EXISTING / ADJUST_EXISTING / ADD_NEW /
+REPLACE_ONLY_IF_ALLOWED sugeridos; Epidemic solo si existe `EPIDEMIC_API_KEY`, nunca leída para guardarla) · `director_sonido_ambiente` (por escena
+entre los cortes que ya busca GO: metadata del proyecto → palabras → género PRO → audio del fondo; nunca añade sin coherencia) ·
+`director_sonido_identidad` (perfil por tema DERIVADO de su configuración real + paleta del proyecto, cada rasgo con su porqué; las transiciones e
+intro salen del plan de Efectos real: desde la 5.21 Efectos no aplica las de `recomendaciones`) · `director_sonido_eventos` (captions, motions con su
+metadata real, narrativa HOOK…CTA) · `director_sonido_estado` (`sound_design_project` por huella del video, con `archivos_seguros`).
+
+**Fuentes de audio (decisión del usuario):** la biblioteca local (`2_recursos/sfx_library`, la música vieja) NO alimenta los diseños nuevos:
+`legacy_local_assets` = DISABLED_FOR_NEW_DESIGN (se conserva por los proyectos antiguos). Prioridad: procedural a la medida → Epidemic autorizado →
+caché profesional aprobada (con metadata) → biblioteca curada → legacy solo tras el Quality Gate → silencio. Hoy (fases 0–2) solo afecta a la
+música sugerida: sin proveedor autorizado, NO_MUSIC_REQUIRED con el aviso (`director_sonido_musica.LEGACY_LOCAL`, `proveedores`, `sugerir`).
+
+**Fase 2 — voz:** `director_sonido_voz.restaurar` elige el backend (VoiceRestorationBackend: nivel 0 nada · 1 PyAV + `director_sonido_nr` · 2 RNNoise
+solo con modelo validado en `RNNOISE_MODELOS` (hoy ninguno) · 3 externo registrado con `registrar_backend` (hoy ninguno)), prueba la cadena en
+extractos (≤ 6 × 10 s; un video corto entero) con fuerza 1 → 0,6 → 0,3 y las GUARDAS antes/después con los MISMOS marcos (ruido musical = picos
+espectrales sueltos que aparecen y desaparecen en el fondo, `UMBRAL_EFIMEROS` 3/marco: reducción del director +0,0–0,1, agresiva +4…+12; huecos
+espectrales solo en bandas donde manda la voz; pérdida de agudos; inteligibilidad; envolvente de la voz r ≥ 0,9; sobrecompresión). Si DESPUÉS es
+peor → menos proceso; si sigue peor → la original. Pasada A (mide), pasada B (copia con ganancia + limitador −2 dBFS; true peak ≤ −1 dBTP, si no se
+recorta), comprobación final y misma duración exacta. Nivel = el del original dentro de −18…−12 LUFS (los SFX de siempre se nivelan con la voz
+original). Audio con música mezclada: paso alto solo subsónico (35 Hz), sin reducción de ruido ni compresor; si no queda nada que se oiga → nivel 0.
+El ambiente que se CONSERVA (calle, gente, naturaleza) limita la reducción a 6 dB; REDUCE, a 10. Copia: `~/DaVinciSubtitles/sound_director/<huella>/
+AI_VOICE_<clave>.wav` (caché por huella + recorte + versión). Solo en timelines que armó GO con el video soltado (`_go_tl_listo`); con el audio del
+timeline (la mezcla de sus pistas) la voz original se queda.
+
+**`afftdn` NO sirve aquí:** en PyAV baja < 1 dB el ruido rosa a −38 dBFS (ni con perfil `bn` ni muestreando con `sn`/`asendcmd`). La reducción va en
+`director_sonido_nr.ReductorEspectral` (numpy: STFT 1024/512 raíz de Hann, ruido por MÍNIMOS ~1,5 s ×2,5 —calibrado con ruido rosa—, Wiener con SNR a
+priori «decision-directed», suavizado en frecuencia y caída lenta, TOPE de reducción 6–15 dB). Reconstrucción perfecta (error 0) y sin desfase.
+
+**Resolve (gemelos `colocar_efectos.py` ↔ `CineCaptions_Efectos.lua`):** `_poner_voz_ai` / `poner_voz_ai`: pista «AI VOICE» (mono/stereo como el
+original) con UN clip; A1 se apaga (`SetTrackEnable`) SOLO después de comprobar que el clip quedó entero y en su sitio; si algo falla (no entra, no
+cuadra con A1, A1 no se deja apagar, hay otras pistas de audio del usuario con clips) la copia se quita y A1 queda encendida. Sin evento: AI VOICE fuera y
+A1 vuelve. Pistas `AI MUSIC / AI AMBIENCE / AI SFX MOTION / AI SFX UI / AI SFX IMPACTS / AI SFX TONAL / AI SFX TEXTURE` por NOMBRE (eventos con
+`pista`; vacías se quitan). `solo_ai` = solo lo del director. Re-aplicar no apila. `resolve_mcp._ASEGURAR_AUDIO` (final de GO en Studio) ya no
+reactiva A1 si AI VOICE tiene su clip (sonarían las dos voces). La pequeña diferencia de fase (≤ 0,2 ms) es la del paso alto IIR, no un retraso.
+
+**Epidemic Sound (`director_sonido_epidemic.py`, solo backend):** clave SOLO de `EPIDEMIC_API_KEY` (o del `.env` de la raíz en desarrollo; Git
+ignora `.env`/`.env.*`, la plantilla es `.env.example`); al leerla —también al arrancar la app (`main`)— sale del entorno del proceso para que Resolve,
+la IA local y node no la hereden; nunca se imprime, se anota, se guarda ni va a la interfaz (`_sin_clave` limpia cualquier eco del servidor).
+API v0 (spec 0.1.17, base `https://api.epidemicsound.com`, `Authorization: Bearer`, `x-partner-user-id` = hash anónimo del equipo):
+`/v0/collections`, `/v0/sound-effects/search` (term obligatorio), `/v0/sound-effects/{id}/preview` y `/download`, `/v0/tracks/search`,
+`/v0/tracks/{id}/stream` (HLS) y `/download` (mp3 normal 128 kbps 24 h / high 320 kbps 1 h), `/v0/usage` (informar exportaciones de música: fase 4).
+Plan gratuito: catálogo completo pero 50 descargas y 100 streams DE POR VIDA y sin licencia comercial. Errores: 401 no se reintenta, 403 = fuera del
+plan (la función queda no disponible en la sesión), 406 del CDN ≥ 2 s, 429/502/503 con `Retry-After`, 500 una vez. `acceso()` = prueba segura del
+nivel real (sin preview ni descarga salvo que se pidan). `materializar()` = UNA descarga del asset elegido a `sound_director/cache/epidemic/{music,
+sfx,ambience}/` + `indice.json` (provider, asset_id, title, category, query, download_quality, local_path, file_hash, project_usage, date_downloaded);
+copia válida → sin volver a llamar a la API (sirve sin conexión); duplicados por asset_id + file_hash; lo procesado va a `processed/` (el original
+no se toca) y Resolve usa siempre el archivo LOCAL. Pruebas: `herramientas_dev/probar_epidemic.py` (servidor falso, 31) y `--real [--preview]
+[--descarga]` contra la cuenta. Si la API falla: procedural, caché o silencio; nunca los legacy.
+
+**Fase 3 — AI SFX (en GO; el director es el ÚNICO dueño del sound design):**
+- `director_sonido_diseno.disenar(analisis, ctx)` lee la metadata REAL y decide evento a evento (casi todo LEAVE_SILENT). **Captions**: el instante que
+  manda según el estilo (Kinetic: el héroe «pop» 10 f easeOutBack —el golpe cae en p≈0,37, cuando llega a su tamaño— + anillo que se dibuja + cinta que
+  gira, `ANIM_KINETIC`; VIRAL: el clip de la palabra clave —shatter = golpe brillante, drag = whoosh corto, select = tic, negrita = pop—; «guion»
+  (Temas 2, 4, 5, 6): la palabra clave con su zoom). CAPTION_SOUND_SCORE 0–1 (papel narrativo, importancia, tamaño/zoom/clip, cifra, anillo, distancia
+  al último acento; nunca dos a < 2 s salvo una cifra; nada encima de la intro de Efectos) contra el umbral de la paleta (0,55 + 0,3·(0,4 − densidad)).
+  El ACENTO de cada tema sale de su carácter (`caracter`): impacto ≥ 0,6 → golpe diseñado · PRO sobria / interfaz → tic · PRO editorial → trazo de pluma ·
+  medio → pop (hoy: T1 golpe, T2 tic —su toque por palabra—, T3 por clip, T4 tic, T5 tic, T6 trazo). **Motions**: el MISMO «cuándo» que la PRO
+  (`edicion_pro_sonido.momentos`, separado de `disenar` sin cambiar lo que hace: probado igual que HEAD) + eventos visuales de Efectos (corte, énfasis,
+  B-roll, icono, pegatina, número); lo que ENTRA pesa más que lo que sale; un motion no suena a < 0,15 s de un acento de caption. **Encima**: riser en
+  el gancho (una vez, no con intro de Efectos ni en temas sobrios), risers de la PRO como mucho uno cada 20 s y nunca a < 2,5 s de un golpe, MOTIVO
+  tonal (la misma nota) en los datos y en el cierre (CTA), whoosh en cortes secos SOLO en temas enérgicos (transitorios ≥ 0,6: un corte seco en un tema
+  sobrio no tiene movimiento que suene). **Densidad**: 2 + 4·densidad sonidos por ventana de 10 s compitiendo por importancia (solo gancho y cierre
+  fijos); si un caption pierde su acento, se va entero (anillo, cinta, nota). Cada «Hit» de Simple → REPLACE / REMOVE con su porqué.
+- `director_sonido_sfx.fabricar` (modo **híbrido**, el que eligió el usuario en la demo): el mejor archivo de la biblioteca curada que pasa el Quality
+  Gate + ajuste semántico y una capa procedural a la medida (sub y clic bajo el golpe, aire bajo el whoosh); si nada pasa, procedural
+  (`director_sonido_sintesis`); nunca la `sfx_library` legacy. Alineado al ANCLA (el pico en el fotograma que manda; el riser acaba 30 ms antes), nivel
+  RELATIVO a la voz dentro del archivo (golpe −9 dB, whoosh −15, tic −22…; −2 dB más si cae sobre una palabra; la voz prevista = la medida + la
+  ganancia de la fase 2; si queda > 1 dB distinta, se rehacen), pico ≤ −1 dBFS, microvariación (tono ±3 %, ±0,7 dB) cuando un archivo se repite (el
+  motivo, no: es identidad), WAV 48 kHz/24 bits con nombre por contenido en `sound_director/<huella>/sfx/`. Quality Gate con caché en disco
+  (`sound_director/cache/quality_gate.json`). PRUEBA ESPAÑOL (62 s): 16–25 sonidos según el tema en ~1 s (hoy GO pone ~75: 32 «Hit» + 43 de la PRO).
+- `al_colocar`: en una COPIA del plan de Efectos, los sonidos de Efectos reciben `decidir_efectos` (los «extra» de la biblioteca de siempre → REPLACE;
+  intro / outro / de un efecto visual → KEEP: van con su animación), los del director van con `pista` AI SFX …, `apagar_sfx` = pistas «SFX…» de Simple
+  y la PRO queda marcada (`_ai_sound`) → `sonidos_pro` (final de `edicion_pro.aplicar`, tras el rectificador) quita los de los gráficos y deja los de
+  «Motions completo» (`origen: motions`, solo marcados con el director al mando). La música sigue igual hasta la fase 4. Lo visual, idéntico.
+- Resolve (gemelos): `_apagar_sfx` / `apagar_sfx` APAGAN (no borran: `SetClipEnabled(False)`) los clips de las pistas «SFX…» SOLO si los sonidos del
+  director quedaron puestos (o su diseño era silencio a propósito); un GO con el director apagado los vuelve a poner.
+- `herramientas_dev/demo_director_sonido.py` renderiza (render de «GO sin Resolve») el Tema 1 en A actual / B procedural / C biblioteca del autor /
+  D híbrido / **E fase 3 tal cual la pone GO**, con LEEME de decisiones.
+`director_sonido_fuentes` = Quality Gate técnico (clipping, ruido, muestreo, equilibrio, graves, transitorio, fase, bitrate, cresta) **+ ajuste
+semántico por el nombre** (palabras ENTERAS; núcleo obligatorio por tipo; objetos concretos —plástico, acero, bate, mesa…— y tonos oscuros en un
+video luminoso penalizan; nunca memes/fart/voces/música) + duration/spectral/energy fit + anti-repetición por familia. Lección: sin la parte
+semántica la «calidad» técnica aprobaba «…Farts…» como golpe.
+
+**Fase 4 — música y ambiente (`director_sonido_capas`):** `musica`: «Sin música» (control) → NO_MUSIC_REQUIRED · el video ya la trae → KEEP_EXISTING
+(no se separa ni se pone otra encima) · hace falta y hay proveedor AUTORIZADO → ADD_NEW: consulta según energía/tono/paleta, VARIAS candidatas con
+`music_fit` (BPM contra la energía, duración, mood; fuera solo-preview, explícitas y con voces), UNA descarga (`materializar`), copia procesada en
+streaming: bucle con fundido cruzado, fundidos, hueco de EQ 2,5 kHz/350 Hz, nivel bajo la voz medido TRAS el EQ (Media −15 dB) y ducking por frases
+(−6 dB al hablar, ataque 0,12 s, suelta 0,45 s) → pista «AI MUSIC» · sin proveedor → NO_MUSIC_REQUIRED + aviso. `ambiente`: lo del original ya lo
+trató la voz; lo que se AÑADE (ADD_SUBTLE_AMBIENCE, o el control «Sutil/Inmersivo» con entorno claro) solo de grabaciones autorizadas: escenas seguidas
+= un tramo, paso alto 120 Hz, −6 dB a 2,2 kHz, ~−28 dB bajo la voz y −4 dB al hablar → «AI AMBIENCE»; sin proveedor → LEAVE_SILENT. La música de
+Efectos (si la hubiera) sale cuando el director pone la suya.
+
+**Fase 5 — mezcla, QC y Sound Score (`director_sonido_mezcla`, `director_sonido.mezclar`):** tras la voz, la mezcla COMPLETA offline (la voz que va a
+sonar —AI VOICE o el audio del timeline con Quitar pausas— + cada WAV en su sitio, a 0 dB como Resolve) medida en streaming (`Tira` = WAV por acceso
+directo): LUFS/LRA/true peak, recortes, cada evento contra la voz mientras habla (umbral −40 dB bajo SU pico, invariante a su ganancia) y la música
+contra la voz. Autocorrección: primero baja SOLO lo que queda a menos de 8 dB de la voz (hasta 2 vueltas), vuelve a medir y solo entonces, si los del
+director empujan el true peak por encima de −1 dBTP, baja su bus (nunca la voz). Las bajadas quedan en `estado['mezcla_ajustes']` (como un fader: los
+retoques de la página las conservan; cada GO empieza de cero). En los golpes el ancla se fija sobre el pico del sonido FINAL (archivo + capas).
+SOUND SCORE = 25 voz + 15 ruido + 15 sincronía + 10 música + 10 consistencia + 15 protección de la voz + 10 mezcla, cada parte de su medida
+(`FORMULA`). PRUEBA ESPAÑOL (Tema 1): 89/100, −14,1 LUFS, −3,7 dBTP, sincronía 3 ms.
+
+**Fase 6 — la página SONIDO = AI Sound Director (`director_sonido_ui.PaginaDirector`, motor `director_sonido_sesion`):** `SubtitleApp._asegurar_sfx`
+arma esta página (el SFX Lab de antes solo si la nueva no se pudiera construir: red técnica, no una página a elegir). Cabecera (interruptor, Tema, AI
+Sonic Style, video, Sound Score en un anillo: un clic da el desglose), estado con ✓ (voz, ruido —«es música, no ruido» si la trae—, música, ambiente,
+sonido de motions, mezcla, master), acciones (▶ Original / ▶ AI Sound = mezclas reales de 15 s desde el instante elegido, Deshacer todo, Aplicar a
+Resolve —solo tras un GO con el director; plan `solo_ai` por `efectos_visuales.aplicar`—, Rediseñar sonido), controles (Estilo + intensidad,
+densidad, prioridad de voz, música, ambiente; AUTO = sin clave en `ai_sound_controles`), la línea (VIDEO · VOZ · MÚSICA · AMBIENTE · SONIDOS IA; clic =
+el sonido más cercano, otro clic en el mismo sitio pasa al siguiente solapado), el inspector (diseño IA, por qué, importancia; Oír, Menos…/Más… con
+sus opciones, Regenerar, Silenciar, Bloquear) y «Dile a AI Sound Director…» (reglas en español: menos/más sonidos, la voz más clara, estilos, sin
+música/ambiente, «quita el sonido de X», «rediseña el inicio/el final», «como estaba»). Los retoques van a `estado['ajustes']` por la `clave` del
+evento (origen|caption|tipo|instante) y SOLO ese evento se rehace (los demás reutilizan su WAV: el nombre es su contenido); «Rediseñar» sube la ronda
+(otras variaciones, lo bloqueado se queda). Si el video de Inicio no pasó por GO con el director, la página enseña el último que sí (lo dice). Sin
+globos: todo en una línea de estado. Textos traducidos (5 idiomas).
+
+**v5.37 — el director se encarga de TODO (el usuario: «en el Tema 1 aún suenan las reglas viejas y la página no hace nada»):** tres fallos
+encontrados con el Registro, `contexto.json` y una lectura del timeline: (1) `efectos_visuales.aplicar` no pasaba `apagar_sfx` al plan de Resolve,
+así que las pistas SFX/SFX 2 de las reglas quedaban encendidas — ahora va en `datos`; (2) `_preparar_sfx` mandaba los sonidos de `sfx_rules` a
+Resolve aunque el director estuviera encendido — ahora devuelve `{}` (los `sfx_eventos` se quedan en los bloques para las decisiones del director);
+(3) el Tema 1 neón llega sin los `runs` del tema (los arma el kit en la PRO): `director_sonido_diseno._momento_caption` usa la línea `main` (la
+palabra principal entra con el «pop»). Los sonidos que la PRO arma AL APLICAR (kit neón, gráficos, Motions completo) ya no se borran sin más:
+`director_sonido.sonidos_pro` → `redisenar_pro` los REHACE en su mismo instante (pico del WAV original + `ini`), tipo por pista (PRO-WHOOSH/RISER/HIT)
+o por lo que describen (pop/tic), nada a < 0,15 s de un acento de caption ni encima de un motion que el director ya sonorizó, densidad por ventanas
+de 10 s con lo del director, `fabricar` híbrido; quedan en `pro_sound_events`/`pro_sfx_plan` (si falla: fuera, salvo Motions completo). El
+director viene ENCENDIDO por defecto (`activo`: sin preferencia = sí; «apagado» sigue siendo GO como antes).
+**Biblioteca del autor entera (`director_sonido_biblioteca`):** índice de TODO su material (EFECTOS SONIDO + BODAS & XV SONIDOS + «Mis sonidos» =
+`sound_director/biblioteca`, para lo que añada o descargue con licencia) por CARPETAS (IMPACTOS, Pads_Drones, Chord Hits, AMBIENTE…) y, si no,
+por las palabras núcleo del nombre; fuera canciones, memes, gritos, aplausos, animales, melodías, bucles a tempo y el obturador de cámara.
+3 105 archivos: 1 081 whooshes · 187 golpes · 634 risers · 392 tonales · 53 clics · 5 trazos · 676 camas de score · 77 ambientes. A disco
+(`cache/indice_biblioteca.json`, se rehace si cambia una carpeta de primer nivel o a los 7 días). `director_sonido_fuentes.candidatos` añade 60 por
+tipo (semántica primero, repartidos por packs) y `_palabras` lee también la carpeta (+ palabras en español: SELECCION, POSITIVO, risex, chord…).
+**Música sin Epidemic:** `director_sonido_capas._musica_del_autor` = cama de score de sus colecciones de Film Score (modo mayor si el video es
+luminoso, menor si es sobrio; nada oscuro en un video luminoso), Quality Gate, una por video (hash), mismo proceso (bucle, EQ, ducking por
+frases) y 2 dB más baja (−17 bajo la voz, −23 cuando habla). También si nada de Epidemic encaja. **Ambiente:** `_ambiente_del_autor` = la
+grabación del autor de ESE entorno (`AMBIENTE_DE`: calle, naturaleza, agua, gente, café, viento…; lluvia solo donde llueve); un entorno sin
+grabación (interior) → silencio.
+**La página hace de verdad:** cada cambio (control, retoque, Rediseñar, Deshacer, «Dile…») va SOLO a Resolve en el mismo hilo
+(`director_sonido_sesion.aplicar_al_momento`: si el último GO fue con el director y Resolve está abierto; si no, queda pendiente). Cabecera con
+«En Resolve y al día · hh:mm» o «Hay cambios que aún no están en Resolve» (y «Aplicar a Resolve» pasa a botón principal); secciones con título;
+fila «Material» (cuánto material de las bibliotecas); carril MOTIONS PRO (los rehechos y los callados); el inspector dice qué archivo de la
+biblioteca eligió o si se sintetizó; anillo del Sound Score más grande. Descargas CC0 (Kenney) o Sonniss: solo con el permiso del usuario, a «Mis
+sonidos».
+
+**Probar (sin el Resolve del usuario):** `python 1_codigo/herramientas_dev/probar_pagina_director.py` (la página: motor + Qt sin pantalla, capturas
+PNG; 43) y `python 1_codigo/herramientas_dev/probar_director_sonido.py --fase 0|1|2|3|4|5|todo [--salida X] [--muestras Y]` (322; fase 4 con el
+Epidemic FALSO de `probar_epidemic.py` sirviendo audio de verdad; fase 5 compara la mezcla medida con una suma independiente). También con Python 3.15.1
+(`6_compilacion/venv315`).
+(fase 3: los 6 temas con PRUEBA ESPAÑOL —silencio mayoritario, WAV, densidad, anti-repetición, golpe ±1 fotograma, identidad, «Hit» viejos—,
+`al_colocar`/`sonidos_pro`, fallback, `colocar_efectos.py` y el `.lua` (con y sin io) apagando Simple, GO de punta a punta; 290 en total)
+(Registro a una lista, prefs en memoria, estado en la salida; Resolve falso `herramientas_dev/resolve_falso.py` para el `.py`, LuaJIT/lupa para el
+`.lua`, con y sin io; voz limpia de referencia con SAPI por COM `herramientas_dev/_voz_sapi.py` + fondos: ruido + hum, música sintética, ambientes de
+`sfx_library/Ambientes`, aire acondicionado; regresión «apagado = HEAD» con `git show`; de punta a punta GO → `efectos_visuales.aplicar` → Resolve
+falso). Deja VOICE_ORIGINAL_* / VOICE_AI_* para escuchar.

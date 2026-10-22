@@ -26,7 +26,7 @@ $version = ([regex]::Match((Get-Content '1_codigo\version.py' -Raw), "APP_VERSIO
 if (-not $version) { throw 'No pude leer APP_VERSION de 1_codigo\version.py' }
 $etiqueta = "v$version"
 if ([string]::IsNullOrWhiteSpace($Notas)) {
-    $vpy = Join-Path (Get-Location) '6_compilacion/venv314/Scripts/python.exe'
+    $vpy = Join-Path (Get-Location) '6_compilacion/venv315/Scripts/python.exe'
     $tmpNotas = Join-Path ([IO.Path]::GetTempPath()) 'cc_notas_version.txt'
     Remove-Item -LiteralPath $tmpNotas -ErrorAction SilentlyContinue
     # por archivo UTF-8: la consola de Windows PowerShell rompe las tildes de lo que imprime Python

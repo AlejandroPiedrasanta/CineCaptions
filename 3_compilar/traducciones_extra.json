@@ -7733,5 +7733,1272 @@
   "fr": "Page Projet : le nom du thème et ses boutons, un peu plus petits. « Sous-titres derrière vous » garde les styles les plus nets.",
   "de": "Seite Projekt: der Themenname und seine Buttons, etwas kleiner. «Untertitel hinter dir» behält die saubersten Stile.",
   "it": "Pagina Progetto: il nome del tema e i suoi pulsanti, un po’ più piccoli. In «Sottotitoli dietro di te» restano gli stili più puliti."
+ },
+ "(elegido por ti)": {
+  "en": "(chosen by you)",
+  "pt": "(escolhido por você)",
+  "fr": "(choisi par vous)",
+  "de": "(von dir gewählt)",
+  "it": "(scelto da te)"
+ },
+ "AI Sonic Style: {s}": {
+  "en": "AI Sonic Style: {s}",
+  "pt": "AI Sonic Style: {s}",
+  "fr": "AI Sonic Style : {s}",
+  "de": "AI Sonic Style: {s}",
+  "it": "AI Sonic Style: {s}"
+ },
+ "AI Sound": {
+  "en": "AI Sound",
+  "pt": "AI Sound",
+  "fr": "AI Sound",
+  "de": "AI Sound",
+  "it": "AI Sound"
+ },
+ "AI Sound Director": {
+  "en": "AI Sound Director",
+  "pt": "AI Sound Director",
+  "fr": "AI Sound Director",
+  "de": "AI Sound Director",
+  "it": "AI Sound Director"
+ },
+ "Activado": {
+  "en": "On",
+  "pt": "Ativado",
+  "fr": "Activé",
+  "de": "An",
+  "it": "Attivo"
+ },
+ "Apagado: GO pone los sonidos de siempre. Enciéndelo para que AI Sound Director diseñe el sonido en el próximo GO.": {
+  "en": "Off: GO adds the usual sounds. Turn it on so AI Sound Director designs the sound on the next GO.",
+  "pt": "Desligado: o GO coloca os sons de sempre. Ligue-o para que o AI Sound Director crie o som no próximo GO.",
+  "fr": "Désactivé : GO met les sons habituels. Activez-le pour que AI Sound Director conçoive le son au prochain GO.",
+  "de": "Aus: GO setzt die üblichen Sounds. Schalte es ein, damit AI Sound Director beim nächsten GO den Sound gestaltet.",
+  "it": "Spento: GO mette i soliti suoni. Accendilo perché AI Sound Director progetti il suono al prossimo GO."
+ },
+ "Aplicar a Resolve": {
+  "en": "Apply to Resolve",
+  "pt": "Aplicar no Resolve",
+  "fr": "Appliquer dans Resolve",
+  "de": "In Resolve anwenden",
+  "it": "Applica in Resolve"
+ },
+ "Auto": {
+  "en": "Auto",
+  "pt": "Auto",
+  "fr": "Auto",
+  "de": "Auto",
+  "it": "Auto"
+ },
+ "Bloqueado": {
+  "en": "Locked",
+  "pt": "Bloqueado",
+  "fr": "Verrouillé",
+  "de": "Gesperrt",
+  "it": "Bloccato"
+ },
+ "Bloquear": {
+  "en": "Lock",
+  "pt": "Bloquear",
+  "fr": "Verrouiller",
+  "de": "Sperren",
+  "it": "Blocca"
+ },
+ "Desbloquear": {
+  "en": "Unlock",
+  "pt": "Desbloquear",
+  "fr": "Déverrouiller",
+  "de": "Entsperren",
+  "it": "Sblocca"
+ },
+ "Deshacer todo": {
+  "en": "Undo everything",
+  "pt": "Desfazer tudo",
+  "fr": "Tout annuler",
+  "de": "Alles zurücksetzen",
+  "it": "Annulla tutto"
+ },
+ "Dile a AI Sound Director qué quieres cambiar…  («menos sonidos», «la voz más clara», «rediseña el final»)": {
+  "en": "Tell AI Sound Director what you want to change…  (\"fewer sounds\", \"clear voice\", \"redesign the ending\")",
+  "pt": "Diga ao AI Sound Director o que quer mudar…  («menos sons», «voz mais clara», «redesenhe o final»)",
+  "fr": "Dites à AI Sound Director ce que vous voulez changer…  (« moins de sons », « voix plus claire », « refais la fin »)",
+  "de": "Sag AI Sound Director, was du ändern willst…  („weniger Sounds“, „klarere Stimme“, „das Ende neu gestalten“)",
+  "it": "Di’ ad AI Sound Director cosa vuoi cambiare…  («meno suoni», «voce più chiara», «riprogetta il finale»)"
+ },
+ "Dirige el sonido (todo en Auto: decide la IA)": {
+  "en": "Direct the sound (all on Auto: the AI decides)",
+  "pt": "Dirija o som (tudo em Auto: a IA decide)",
+  "fr": "Dirigez le son (tout sur Auto : l’IA décide)",
+  "de": "Lenke den Sound (alles auf Auto: die KI entscheidet)",
+  "it": "Dirigi il suono (tutto su Auto: decide l’IA)"
+ },
+ "Diseño IA: {d}": {
+  "en": "AI design: {d}",
+  "pt": "Design da IA: {d}",
+  "fr": "Conception IA : {d}",
+  "de": "KI-Design: {d}",
+  "it": "Design IA: {d}"
+ },
+ "El sound designer de GO: escucha el video y decide qué suena, qué no y por qué.": {
+  "en": "GO’s sound designer: it listens to the video and decides what sounds, what doesn’t, and why.",
+  "pt": "O sound designer do GO: escuta o vídeo e decide o que soa, o que não soa e por quê.",
+  "fr": "Le sound designer de GO : il écoute la vidéo et décide ce qui sonne, ce qui ne sonne pas et pourquoi.",
+  "de": "Der Sounddesigner von GO: Er hört das Video und entscheidet, was klingt, was nicht und warum.",
+  "it": "Il sound designer di GO: ascolta il video e decide cosa suona, cosa no e perché."
+ },
+ "Encendido: en cada GO decide el sonido (voz, sonidos, música y ambiente). Lo de abajo es lo que decidió para este video.": {
+  "en": "On: on every GO it decides the sound (voice, sounds, music and ambience). Below is what it decided for this video.",
+  "pt": "Ligado: em cada GO decide o som (voz, sons, música e ambiente). Abaixo está o que decidiu para este vídeo.",
+  "fr": "Activé : à chaque GO il décide le son (voix, sons, musique et ambiance). Ci-dessous, ce qu’il a décidé pour cette vidéo.",
+  "de": "An: Bei jedem GO entscheidet er den Sound (Stimme, Sounds, Musik und Atmo). Unten steht, was er für dieses Video entschieden hat.",
+  "it": "Attivo: a ogni GO decide il suono (voce, suoni, musica e ambiente). Qui sotto c’è cosa ha deciso per questo video."
+ },
+ "Entendido: {q}…": {
+  "en": "Got it: {q}…",
+  "pt": "Entendido: {q}…",
+  "fr": "Compris : {q}…",
+  "de": "Verstanden: {q}…",
+  "it": "Capito: {q}…"
+ },
+ "Enviar": {
+  "en": "Send",
+  "pt": "Enviar",
+  "fr": "Envoyer",
+  "de": "Senden",
+  "it": "Invia"
+ },
+ "Hecho: {c} en «{v}».": {
+  "en": "Done: {c} set to \"{v}\".",
+  "pt": "Feito: {c} em «{v}».",
+  "fr": "Fait : {c} sur « {v} ».",
+  "de": "Erledigt: {c} auf „{v}“.",
+  "it": "Fatto: {c} su «{v}»."
+ },
+ "Hecho: {q}.": {
+  "en": "Done: {q}.",
+  "pt": "Feito: {q}.",
+  "fr": "Fait : {q}.",
+  "de": "Erledigt: {q}.",
+  "it": "Fatto: {q}."
+ },
+ "Importancia: {n} %": {
+  "en": "Importance: {n}%",
+  "pt": "Importância: {n} %",
+  "fr": "Importance : {n} %",
+  "de": "Wichtigkeit: {n} %",
+  "it": "Importanza: {n} %"
+ },
+ "La IA diseña el sonido de cada video; tú lo diriges · se aplica al generar con GO": {
+  "en": "The AI designs each video’s sound; you direct it · applied when you generate with GO",
+  "pt": "A IA cria o som de cada vídeo; você o dirige · aplica-se ao gerar com o GO",
+  "fr": "L’IA conçoit le son de chaque vidéo ; vous le dirigez · s’applique en générant avec GO",
+  "de": "Die KI gestaltet den Sound jedes Videos; du lenkst ihn · wird beim Erzeugen mit GO angewendet",
+  "it": "L’IA progetta il suono di ogni video; tu lo dirigi · si applica generando con GO"
+ },
+ "Menos…": {
+  "en": "Less…",
+  "pt": "Menos…",
+  "fr": "Moins…",
+  "de": "Weniger…",
+  "it": "Meno…"
+ },
+ "Más…": {
+  "en": "More…",
+  "pt": "Mais…",
+  "fr": "Plus…",
+  "de": "Mehr…",
+  "it": "Più…"
+ },
+ "No lo entendí. Prueba con: «menos sonidos», «la voz más clara», «más cinematográfico», «quita el sonido de …», «rediseña el final».": {
+  "en": "I didn’t understand. Try: \"fewer sounds\", \"clear voice\", \"more cinematic\", \"remove the sound of …\", \"redesign the ending\".",
+  "pt": "Não entendi. Tente: «menos sons», «voz mais clara», «mais cinematográfico», «tire o som de …», «redesenhe o final».",
+  "fr": "Je n’ai pas compris. Essayez : « moins de sons », « voix plus claire », « plus cinématographique », « enlève le son de … », « refais la fin ».",
+  "de": "Nicht verstanden. Versuch: „weniger Sounds“, „klarere Stimme“, „cinematischer“, „entferne den Sound von …“, „das Ende neu gestalten“.",
+  "it": "Non ho capito. Prova: «meno suoni», «voce più chiara», «più cinematografico», «togli il suono di …», «riprogetta il finale»."
+ },
+ "No pude leer el diseño de sonido: {e}": {
+  "en": "I couldn’t read the sound design: {e}",
+  "pt": "Não consegui ler o design de som: {e}",
+  "fr": "Impossible de lire la conception sonore : {e}",
+  "de": "Das Sounddesign konnte nicht gelesen werden: {e}",
+  "it": "Non ho potuto leggere il sound design: {e}"
+ },
+ "No se pudo poner en Resolve: {m}": {
+  "en": "Couldn’t place it in Resolve: {m}",
+  "pt": "Não foi possível colocar no Resolve: {m}",
+  "fr": "Impossible de le placer dans Resolve : {m}",
+  "de": "Konnte nicht in Resolve platziert werden: {m}",
+  "it": "Non è stato possibile metterlo in Resolve: {m}"
+ },
+ "No se pudo: {e}": {
+  "en": "It couldn’t be done: {e}",
+  "pt": "Não foi possível: {e}",
+  "fr": "Impossible : {e}",
+  "de": "Ging nicht: {e}",
+  "it": "Non è stato possibile: {e}"
+ },
+ "Parado.": {
+  "en": "Stopped.",
+  "pt": "Parado.",
+  "fr": "Arrêté.",
+  "de": "Gestoppt.",
+  "it": "Fermato."
+ },
+ "Poniendo el sonido en Resolve…": {
+  "en": "Placing the sound in Resolve…",
+  "pt": "Colocando o som no Resolve…",
+  "fr": "Placement du son dans Resolve…",
+  "de": "Sound wird in Resolve gesetzt…",
+  "it": "Metto il suono in Resolve…"
+ },
+ "Por qué: {p}": {
+  "en": "Why: {p}",
+  "pt": "Por quê: {p}",
+  "fr": "Pourquoi : {p}",
+  "de": "Warum: {p}",
+  "it": "Perché: {p}"
+ },
+ "Preparando este momento…": {
+  "en": "Preparing this moment…",
+  "pt": "Preparando este momento…",
+  "fr": "Préparation de ce moment…",
+  "de": "Dieser Moment wird vorbereitet…",
+  "it": "Preparo questo momento…"
+ },
+ "Preparando «{c}»…": {
+  "en": "Preparing \"{c}\"…",
+  "pt": "Preparando «{c}»…",
+  "fr": "Préparation de « {c} »…",
+  "de": "„{c}“ wird vorbereitet…",
+  "it": "Preparo «{c}»…"
+ },
+ "Puesto en Resolve (pistas AI SFX).": {
+  "en": "Placed in Resolve (AI SFX tracks).",
+  "pt": "Colocado no Resolve (faixas AI SFX).",
+  "fr": "Placé dans Resolve (pistes AI SFX).",
+  "de": "In Resolve gesetzt (Spuren AI SFX).",
+  "it": "Messo in Resolve (tracce AI SFX)."
+ },
+ "Que suene": {
+  "en": "Let it play",
+  "pt": "Que soe",
+  "fr": "Le faire sonner",
+  "de": "Wieder abspielen",
+  "it": "Fallo suonare"
+ },
+ "Rediseñado: otras variaciones, mismas decisiones de fondo.": {
+  "en": "Redesigned: new variations, same underlying decisions.",
+  "pt": "Redesenhado: outras variações, mesmas decisões de fundo.",
+  "fr": "Reconçu : d’autres variations, mêmes décisions de fond.",
+  "de": "Neu gestaltet: andere Variationen, gleiche Grundentscheidungen.",
+  "it": "Riprogettato: altre variazioni, stesse decisioni di fondo."
+ },
+ "Rediseñando con «{c}: {v}»…": {
+  "en": "Redesigning with \"{c}: {v}\"…",
+  "pt": "Redesenhando com «{c}: {v}»…",
+  "fr": "Reconception avec « {c} : {v} »…",
+  "de": "Neugestaltung mit „{c}: {v}“…",
+  "it": "Riprogetto con «{c}: {v}»…"
+ },
+ "Rediseñando el sonido (lo bloqueado se queda)…": {
+  "en": "Redesigning the sound (locked sounds stay)…",
+  "pt": "Redesenhando o som (o bloqueado fica)…",
+  "fr": "Reconception du son (le verrouillé reste)…",
+  "de": "Sound wird neu gestaltet (Gesperrtes bleibt)…",
+  "it": "Riprogetto il suono (il bloccato resta)…"
+ },
+ "Rediseñar sonido": {
+  "en": "Redesign sound",
+  "pt": "Redesenhar som",
+  "fr": "Reconcevoir le son",
+  "de": "Sound neu gestalten",
+  "it": "Riprogetta il suono"
+ },
+ "Regenerar": {
+  "en": "Regenerate",
+  "pt": "Regenerar",
+  "fr": "Régénérer",
+  "de": "Neu erzeugen",
+  "it": "Rigenera"
+ },
+ "Rehaciendo solo este sonido…": {
+  "en": "Remaking only this sound…",
+  "pt": "Refazendo só este som…",
+  "fr": "Je refais seulement ce son…",
+  "de": "Nur dieser Sound wird neu gemacht…",
+  "it": "Rifaccio solo questo suono…"
+ },
+ "Silenciado por ti": {
+  "en": "Muted by you",
+  "pt": "Silenciado por você",
+  "fr": "Coupé par vous",
+  "de": "Von dir stummgeschaltet",
+  "it": "Silenziato da te"
+ },
+ "Silenciar": {
+  "en": "Mute",
+  "pt": "Silenciar",
+  "fr": "Couper",
+  "de": "Stummschalten",
+  "it": "Silenzia"
+ },
+ "Sonando este momento con AI Sound.": {
+  "en": "Playing this moment with AI Sound.",
+  "pt": "Tocando este momento com AI Sound.",
+  "fr": "Lecture de ce moment avec AI Sound.",
+  "de": "Dieser Moment läuft mit AI Sound.",
+  "it": "Suona questo momento con AI Sound."
+ },
+ "Sonando «{c}» desde {t} (15 s).": {
+  "en": "Playing \"{c}\" from {t} (15 s).",
+  "pt": "Tocando «{c}» desde {t} (15 s).",
+  "fr": "Lecture de « {c} » depuis {t} (15 s).",
+  "de": "„{c}“ läuft ab {t} (15 s).",
+  "it": "Suona «{c}» da {t} (15 s)."
+ },
+ "Sound Score": {
+  "en": "Sound Score",
+  "pt": "Sound Score",
+  "fr": "Sound Score",
+  "de": "Sound Score",
+  "it": "Sound Score"
+ },
+ "Tema: {t}": {
+  "en": "Theme: {t}",
+  "pt": "Tema: {t}",
+  "fr": "Thème : {t}",
+  "de": "Thema: {t}",
+  "it": "Tema: {t}"
+ },
+ "Toca un sonido en la línea de tiempo": {
+  "en": "Tap a sound on the timeline",
+  "pt": "Toque um som na linha do tempo",
+  "fr": "Touchez un son sur la timeline",
+  "de": "Tippe auf einen Sound in der Zeitleiste",
+  "it": "Tocca un suono sulla timeline"
+ },
+ "Todo como lo decidió la IA (controles en Auto, sin retoques).": {
+  "en": "Everything as the AI decided (controls on Auto, no tweaks).",
+  "pt": "Tudo como a IA decidiu (controles em Auto, sem retoques).",
+  "fr": "Tout comme l’IA l’a décidé (réglages sur Auto, sans retouches).",
+  "de": "Alles wie von der KI entschieden (Regler auf Auto, keine Anpassungen).",
+  "it": "Tutto come ha deciso l’IA (controlli su Auto, senza ritocchi)."
+ },
+ "Verás qué hizo la IA, por qué, y podrás oírlo, pedir menos o más, regenerarlo, silenciarlo o bloquearlo.": {
+  "en": "You’ll see what the AI did and why, and you can play it, ask for less or more, regenerate, mute or lock it.",
+  "pt": "Você verá o que a IA fez e por quê, e poderá ouvir, pedir menos ou mais, regenerar, silenciar ou bloquear.",
+  "fr": "Vous verrez ce que l’IA a fait et pourquoi, et pourrez l’écouter, demander moins ou plus, le régénérer, le couper ou le verrouiller.",
+  "de": "Du siehst, was die KI gemacht hat und warum, und kannst es anhören, weniger oder mehr verlangen, neu erzeugen, stummschalten oder sperren.",
+  "it": "Vedrai cosa ha fatto l’IA e perché, e potrai ascoltarlo, chiedere meno o più, rigenerarlo, silenziarlo o bloccarlo."
+ },
+ "Volviendo a lo que decidió la IA…": {
+  "en": "Going back to what the AI decided…",
+  "pt": "Voltando ao que a IA decidiu…",
+  "fr": "Retour à ce que l’IA a décidé…",
+  "de": "Zurück zu dem, was die KI entschieden hat…",
+  "it": "Torno a quello che ha deciso l’IA…"
+ },
+ "sin música": {
+  "en": "no music",
+  "pt": "sem música",
+  "fr": "sans musique",
+  "de": "keine Musik",
+  "it": "senza musica"
+ },
+ "{v} (el último que pasó por GO)": {
+  "en": "{v} (the last one through GO)",
+  "pt": "{v} (o último que passou pelo GO)",
+  "fr": "{v} (le dernier passé par GO)",
+  "de": "{v} (das letzte, das durch GO lief)",
+  "it": "{v} (l’ultimo passato da GO)"
+ },
+ "■": {
+  "en": "■",
+  "pt": "■",
+  "fr": "■",
+  "de": "■",
+  "it": "■"
+ },
+ "▶  AI Sound": {
+  "en": "▶  AI Sound",
+  "pt": "▶  AI Sound",
+  "fr": "▶  AI Sound",
+  "de": "▶  AI Sound",
+  "it": "▶  AI Sound"
+ },
+ "▶  Original": {
+  "en": "▶  Original",
+  "pt": "▶  Original",
+  "fr": "▶  Original",
+  "de": "▶  Original",
+  "it": "▶  Originale"
+ },
+ "▶  Oír": {
+  "en": "▶  Play",
+  "pt": "▶  Ouvir",
+  "fr": "▶  Écouter",
+  "de": "▶  Anhören",
+  "it": "▶  Ascolta"
+ },
+ " + capa a la medida": {
+  "en": " + tailored layer",
+  "pt": " + camada sob medida",
+  "fr": " + couche sur mesure",
+  "de": " + maßgeschneiderte Ebene",
+  "it": " + strato su misura"
+ },
+ " + clic": {
+  "en": " + click",
+  "pt": " + clique",
+  "fr": " + clic",
+  "de": " + Klick",
+  "it": " + clic"
+ },
+ "Elige un video en Inicio y haz GO: AI Sound Director lo escucha y diseña su sonido.": {
+  "en": "Pick a video in Home and press GO: AI Sound Director listens to it and designs its sound.",
+  "pt": "Escolha um vídeo no Início e faça GO: o AI Sound Director o escuta e cria o som.",
+  "fr": "Choisissez une vidéo dans Accueil et lancez GO : AI Sound Director l’écoute et conçoit son son.",
+  "de": "Wähle ein Video in Start und drücke GO: AI Sound Director hört es und gestaltet seinen Sound.",
+  "it": "Scegli un video in Home e premi GO: AI Sound Director lo ascolta e ne progetta il suono."
+ },
+ "Haz GO con este video (con AI Sound Director encendido) y aquí verás cómo lo diseñó.": {
+  "en": "Run GO with this video (with AI Sound Director on) and you’ll see here how it designed it.",
+  "pt": "Faça GO com este vídeo (com o AI Sound Director ligado) e verá aqui como ele o criou.",
+  "fr": "Lancez GO avec cette vidéo (AI Sound Director activé) et vous verrez ici comment il l’a conçue.",
+  "de": "Starte GO mit diesem Video (AI Sound Director an) und du siehst hier, wie er es gestaltet hat.",
+  "it": "Fai GO con questo video (con AI Sound Director acceso) e qui vedrai come l’ha progettato."
+ },
+ "Limpio": {
+  "en": "Clean",
+  "pt": "Limpo",
+  "fr": "Épuré",
+  "de": "Clean",
+  "it": "Pulito"
+ },
+ "Cinemático": {
+  "en": "Cinematic",
+  "pt": "Cinematográfico",
+  "fr": "Cinématique",
+  "de": "Cinematisch",
+  "it": "Cinematografico"
+ },
+ "Enérgico": {
+  "en": "Energetic",
+  "pt": "Enérgico",
+  "fr": "Énergique",
+  "de": "Energisch",
+  "it": "Energico"
+ },
+ "Mínimo": {
+  "en": "Minimal",
+  "pt": "Mínimo",
+  "fr": "Minimal",
+  "de": "Minimal",
+  "it": "Minimo"
+ },
+ "Potente": {
+  "en": "Powerful",
+  "pt": "Potente",
+  "fr": "Puissante",
+  "de": "Kräftig",
+  "it": "Potente"
+ },
+ "Mínima": {
+  "en": "Minimal",
+  "pt": "Mínima",
+  "fr": "Minimale",
+  "de": "Minimal",
+  "it": "Minima"
+ },
+ "Rica": {
+  "en": "Rich",
+  "pt": "Rica",
+  "fr": "Riche",
+  "de": "Reich",
+  "it": "Ricca"
+ },
+ "Equilibrio": {
+  "en": "Balanced",
+  "pt": "Equilíbrio",
+  "fr": "Équilibre",
+  "de": "Ausgewogen",
+  "it": "Equilibrio"
+ },
+ "Máxima": {
+  "en": "Maximum",
+  "pt": "Máxima",
+  "fr": "Maximale",
+  "de": "Maximal",
+  "it": "Massima"
+ },
+ "Sin": {
+  "en": "None",
+  "pt": "Sem",
+  "fr": "Aucune",
+  "de": "Keine",
+  "it": "Nessuna"
+ },
+ "Enérgica": {
+  "en": "Energetic",
+  "pt": "Enérgica",
+  "fr": "Énergique",
+  "de": "Energisch",
+  "it": "Energica"
+ },
+ "Sutil": {
+  "en": "Subtle",
+  "pt": "Sutil",
+  "fr": "Subtile",
+  "de": "Dezent",
+  "it": "Sottile"
+ },
+ "Inmersivo": {
+  "en": "Immersive",
+  "pt": "Imersivo",
+  "fr": "Immersive",
+  "de": "Immersiv",
+  "it": "Immersivo"
+ },
+ "Estilo": {
+  "en": "Style",
+  "pt": "Estilo",
+  "fr": "Style",
+  "de": "Stil",
+  "it": "Stile"
+ },
+ "Densidad de sonidos": {
+  "en": "Sound density",
+  "pt": "Densidade de sons",
+  "fr": "Densité de sons",
+  "de": "Sound-Dichte",
+  "it": "Densità di suoni"
+ },
+ "Prioridad de la voz": {
+  "en": "Voice priority",
+  "pt": "Prioridade da voz",
+  "fr": "Priorité de la voix",
+  "de": "Stimm-Priorität",
+  "it": "Priorità della voce"
+ },
+ "Música": {
+  "en": "Music",
+  "pt": "Música",
+  "fr": "Musique",
+  "de": "Musik",
+  "it": "Musica"
+ },
+ "VIDEO": {
+  "en": "VIDEO",
+  "pt": "VÍDEO",
+  "fr": "VIDÉO",
+  "de": "VIDEO",
+  "it": "VIDEO"
+ },
+ "VOZ": {
+  "en": "VOICE",
+  "pt": "VOZ",
+  "fr": "VOIX",
+  "de": "STIMME",
+  "it": "VOCE"
+ },
+ "MÚSICA": {
+  "en": "MUSIC",
+  "pt": "MÚSICA",
+  "fr": "MUSIQUE",
+  "de": "MUSIK",
+  "it": "MUSICA"
+ },
+ "AMBIENTE": {
+  "en": "AMBIENCE",
+  "pt": "AMBIENTE",
+  "fr": "AMBIANCE",
+  "de": "ATMO",
+  "it": "AMBIENTE"
+ },
+ "SONIDOS IA": {
+  "en": "AI SOUNDS",
+  "pt": "SONS IA",
+  "fr": "SONS IA",
+  "de": "KI-SOUNDS",
+  "it": "SUONI IA"
+ },
+ "Voz": {
+  "en": "Voice",
+  "pt": "Voz",
+  "fr": "Voix",
+  "de": "Stimme",
+  "it": "Voce"
+ },
+ "Ruido": {
+  "en": "Noise",
+  "pt": "Ruído",
+  "fr": "Bruit",
+  "de": "Rauschen",
+  "it": "Rumore"
+ },
+ "Sonido de motions": {
+  "en": "Motion sound",
+  "pt": "Som dos motions",
+  "fr": "Son des motions",
+  "de": "Motion-Sound",
+  "it": "Suono dei motion"
+ },
+ "Master": {
+  "en": "Master",
+  "pt": "Master",
+  "fr": "Master",
+  "de": "Master",
+  "it": "Master"
+ },
+ "Excelente": {
+  "en": "Excellent",
+  "pt": "Excelente",
+  "fr": "Excellente",
+  "de": "Ausgezeichnet",
+  "it": "Eccellente"
+ },
+ "Buena": {
+  "en": "Good",
+  "pt": "Boa",
+  "fr": "Bonne",
+  "de": "Gut",
+  "it": "Buona"
+ },
+ "Necesita atención": {
+  "en": "Needs attention",
+  "pt": "Precisa de atenção",
+  "fr": "À surveiller",
+  "de": "Braucht Aufmerksamkeit",
+  "it": "Da sistemare"
+ },
+ "Es música, no ruido": {
+  "en": "It’s music, not noise",
+  "pt": "É música, não ruído",
+  "fr": "C’est de la musique, pas du bruit",
+  "de": "Das ist Musik, kein Rauschen",
+  "it": "È musica, non rumore"
+ },
+ "No hace falta": {
+  "en": "Not needed",
+  "pt": "Não precisa",
+  "fr": "Pas nécessaire",
+  "de": "Nicht nötig",
+  "it": "Non serve"
+ },
+ "La del video se queda": {
+  "en": "The video’s own stays",
+  "pt": "A do vídeo fica",
+  "fr": "Celle de la vidéo reste",
+  "de": "Die des Videos bleibt",
+  "it": "Resta quella del video"
+ },
+ "La del video, ajustada": {
+  "en": "The video’s own, adjusted",
+  "pt": "A do vídeo, ajustada",
+  "fr": "Celle de la vidéo, ajustée",
+  "de": "Die des Videos, angepasst",
+  "it": "Quella del video, regolata"
+ },
+ "Añadida": {
+  "en": "Added",
+  "pt": "Adicionada",
+  "fr": "Ajoutée",
+  "de": "Hinzugefügt",
+  "it": "Aggiunta"
+ },
+ "Se cambiaría solo con permiso": {
+  "en": "Would change only with permission",
+  "pt": "Só mudaria com permissão",
+  "fr": "Ne changerait qu’avec permission",
+  "de": "Würde nur mit Erlaubnis geändert",
+  "it": "Cambierebbe solo con permesso"
+ },
+ "Sin música (falta un proveedor autorizado)": {
+  "en": "No music (an authorized provider is missing)",
+  "pt": "Sem música (falta um provedor autorizado)",
+  "fr": "Sans musique (il manque un fournisseur autorisé)",
+  "de": "Keine Musik (es fehlt ein autorisierter Anbieter)",
+  "it": "Senza musica (manca un fornitore autorizzato)"
+ },
+ "Preservado": {
+  "en": "Preserved",
+  "pt": "Preservado",
+  "fr": "Préservée",
+  "de": "Erhalten",
+  "it": "Preservato"
+ },
+ "Diseñado": {
+  "en": "Designed",
+  "pt": "Criado",
+  "fr": "Conçue",
+  "de": "Gestaltet",
+  "it": "Progettato"
+ },
+ "Bajo la voz": {
+  "en": "Under the voice",
+  "pt": "Abaixo da voz",
+  "fr": "Sous la voix",
+  "de": "Unter der Stimme",
+  "it": "Sotto la voce"
+ },
+ "Golpe diseñado": {
+  "en": "Designed hit",
+  "pt": "Impacto criado",
+  "fr": "Impact conçu",
+  "de": "Gestalteter Hit",
+  "it": "Colpo progettato"
+ },
+ "Whoosh": {
+  "en": "Whoosh",
+  "pt": "Whoosh",
+  "fr": "Whoosh",
+  "de": "Whoosh",
+  "it": "Whoosh"
+ },
+ "Giro con slap": {
+  "en": "Spin with slap",
+  "pt": "Giro com slap",
+  "fr": "Rotation avec slap",
+  "de": "Dreh mit Slap",
+  "it": "Giro con slap"
+ },
+ "Riser": {
+  "en": "Riser",
+  "pt": "Riser",
+  "fr": "Riser",
+  "de": "Riser",
+  "it": "Riser"
+ },
+ "Trazo de rotulador": {
+  "en": "Marker stroke",
+  "pt": "Traço de marcador",
+  "fr": "Trait de feutre",
+  "de": "Markerstrich",
+  "it": "Tratto di pennarello"
+ },
+ "Acento tonal (el motivo del video)": {
+  "en": "Tonal accent (the video’s motif)",
+  "pt": "Acento tonal (o motivo do vídeo)",
+  "fr": "Accent tonal (le motif de la vidéo)",
+  "de": "Tonaler Akzent (das Motiv des Videos)",
+  "it": "Accento tonale (il motivo del video)"
+ },
+ "Toque de interfaz": {
+  "en": "UI tick",
+  "pt": "Toque de interface",
+  "fr": "Clic d’interface",
+  "de": "UI-Tick",
+  "it": "Tocco d’interfaccia"
+ },
+ "Pop": {
+  "en": "Pop",
+  "pt": "Pop",
+  "fr": "Pop",
+  "de": "Pop",
+  "it": "Pop"
+ },
+ "Quitar una capa": {
+  "en": "Remove a layer",
+  "pt": "Tirar uma camada",
+  "fr": "Retirer une couche",
+  "de": "Eine Ebene entfernen",
+  "it": "Togli uno strato"
+ },
+ "Otro sonido": {
+  "en": "Another sound",
+  "pt": "Outro som",
+  "fr": "Un autre son",
+  "de": "Anderer Sound",
+  "it": "Un altro suono"
+ },
+ "Más corto": {
+  "en": "Shorter",
+  "pt": "Mais curto",
+  "fr": "Plus court",
+  "de": "Kürzer",
+  "it": "Più corto"
+ },
+ "Más limpio": {
+  "en": "Cleaner",
+  "pt": "Mais limpo",
+  "fr": "Plus propre",
+  "de": "Sauberer",
+  "it": "Più pulito"
+ },
+ "Menos graves": {
+  "en": "Less bass",
+  "pt": "Menos graves",
+  "fr": "Moins de basses",
+  "de": "Weniger Bass",
+  "it": "Meno bassi"
+ },
+ "Menos ataque": {
+  "en": "Softer attack",
+  "pt": "Menos ataque",
+  "fr": "Attaque plus douce",
+  "de": "Weicherer Anschlag",
+  "it": "Attacco più morbido"
+ },
+ "Más simple": {
+  "en": "Simpler",
+  "pt": "Mais simples",
+  "fr": "Plus simple",
+  "de": "Einfacher",
+  "it": "Più semplice"
+ },
+ "Más bajo": {
+  "en": "Quieter",
+  "pt": "Mais baixo",
+  "fr": "Plus bas",
+  "de": "Leiser",
+  "it": "Più basso"
+ },
+ "Otra capa": {
+  "en": "Another layer",
+  "pt": "Outra camada",
+  "fr": "Une autre couche",
+  "de": "Weitere Ebene",
+  "it": "Un altro strato"
+ },
+ "Más profundidad": {
+  "en": "More depth",
+  "pt": "Mais profundidade",
+  "fr": "Plus de profondeur",
+  "de": "Mehr Tiefe",
+  "it": "Più profondità"
+ },
+ "Mejor ataque": {
+  "en": "Better attack",
+  "pt": "Ataque melhor",
+  "fr": "Meilleure attaque",
+  "de": "Besserer Anschlag",
+  "it": "Attacco migliore"
+ },
+ "Otra textura": {
+  "en": "Another texture",
+  "pt": "Outra textura",
+  "fr": "Une autre texture",
+  "de": "Andere Textur",
+  "it": "Un’altra texture"
+ },
+ "Más impacto": {
+  "en": "More impact",
+  "pt": "Mais impacto",
+  "fr": "Plus d’impact",
+  "de": "Mehr Wucht",
+  "it": "Più impatto"
+ },
+ "Más movimiento": {
+  "en": "More movement",
+  "pt": "Mais movimento",
+  "fr": "Plus de mouvement",
+  "de": "Mehr Bewegung",
+  "it": "Più movimento"
+ },
+ "Más alto": {
+  "en": "Louder",
+  "pt": "Mais alto",
+  "fr": "Plus fort",
+  "de": "Lauter",
+  "it": "Più forte"
+ },
+ "Interior": {
+  "en": "Indoors",
+  "pt": "Interior",
+  "fr": "Intérieur",
+  "de": "Innen",
+  "it": "Interno"
+ },
+ "Interior tranquilo": {
+  "en": "Quiet indoors",
+  "pt": "Interior tranquilo",
+  "fr": "Intérieur calme",
+  "de": "Ruhig innen",
+  "it": "Interno tranquillo"
+ },
+ "Habitación": {
+  "en": "Room",
+  "pt": "Quarto",
+  "fr": "Pièce",
+  "de": "Raum",
+  "it": "Stanza"
+ },
+ "Oficina": {
+  "en": "Office",
+  "pt": "Escritório",
+  "fr": "Bureau",
+  "de": "Büro",
+  "it": "Ufficio"
+ },
+ "Estudio": {
+  "en": "Studio",
+  "pt": "Estúdio",
+  "fr": "Studio",
+  "de": "Studio",
+  "it": "Studio"
+ },
+ "Calle": {
+  "en": "Street",
+  "pt": "Rua",
+  "fr": "Rue",
+  "de": "Straße",
+  "it": "Strada"
+ },
+ "Ciudad": {
+  "en": "City",
+  "pt": "Cidade",
+  "fr": "Ville",
+  "de": "Stadt",
+  "it": "Città"
+ },
+ "Exterior": {
+  "en": "Outdoors",
+  "pt": "Exterior",
+  "fr": "Extérieur",
+  "de": "Draußen",
+  "it": "Esterno"
+ },
+ "Naturaleza": {
+  "en": "Nature",
+  "pt": "Natureza",
+  "fr": "Nature",
+  "de": "Natur",
+  "it": "Natura"
+ },
+ "Bosque": {
+  "en": "Forest",
+  "pt": "Floresta",
+  "fr": "Forêt",
+  "de": "Wald",
+  "it": "Bosco"
+ },
+ "Parque": {
+  "en": "Park",
+  "pt": "Parque",
+  "fr": "Parc",
+  "de": "Park",
+  "it": "Parco"
+ },
+ "Gente": {
+  "en": "Crowd",
+  "pt": "Gente",
+  "fr": "Foule",
+  "de": "Menschen",
+  "it": "Gente"
+ },
+ "Café": {
+  "en": "Café",
+  "pt": "Café",
+  "fr": "Café",
+  "de": "Café",
+  "it": "Caffè"
+ },
+ "Evento": {
+  "en": "Event",
+  "pt": "Evento",
+  "fr": "Événement",
+  "de": "Event",
+  "it": "Evento"
+ },
+ "Viento": {
+  "en": "Wind",
+  "pt": "Vento",
+  "fr": "Vent",
+  "de": "Wind",
+  "it": "Vento"
+ },
+ "Agua": {
+  "en": "Water",
+  "pt": "Água",
+  "fr": "Eau",
+  "de": "Wasser",
+  "it": "Acqua"
+ },
+ "Tráfico": {
+  "en": "Traffic",
+  "pt": "Trânsito",
+  "fr": "Circulation",
+  "de": "Verkehr",
+  "it": "Traffico"
+ },
+ "Música de fondo": {
+  "en": "Background music",
+  "pt": "Música de fundo",
+  "fr": "Musique de fond",
+  "de": "Hintergrundmusik",
+  "it": "Musica di sottofondo"
+ },
+ "El Sound Score se mide con la mezcla completa en el próximo GO.": {
+  "en": "The Sound Score is measured on the full mix at the next GO.",
+  "pt": "O Sound Score é medido com a mixagem completa no próximo GO.",
+  "fr": "Le Sound Score se mesure sur le mixage complet au prochain GO.",
+  "de": "Der Sound Score wird beim nächsten GO am kompletten Mix gemessen.",
+  "it": "Il Sound Score si misura sul mix completo al prossimo GO."
+ },
+ "Sound Score {s}: ": {
+  "en": "Sound Score {s}: ",
+  "pt": "Sound Score {s}: ",
+  "fr": "Sound Score {s} : ",
+  "de": "Sound Score {s}: ",
+  "it": "Sound Score {s}: "
+ },
+ "voz": {
+  "en": "voice",
+  "pt": "voz",
+  "fr": "voix",
+  "de": "Stimme",
+  "it": "voce"
+ },
+ "ruido": {
+  "en": "noise",
+  "pt": "ruído",
+  "fr": "bruit",
+  "de": "Rauschen",
+  "it": "rumore"
+ },
+ "sincronía": {
+  "en": "sync",
+  "pt": "sincronia",
+  "fr": "synchro",
+  "de": "Synchronität",
+  "it": "sincronia"
+ },
+ "música": {
+  "en": "music",
+  "pt": "música",
+  "fr": "musique",
+  "de": "Musik",
+  "it": "musica"
+ },
+ "consistencia": {
+  "en": "consistency",
+  "pt": "consistência",
+  "fr": "cohérence",
+  "de": "Konsistenz",
+  "it": "coerenza"
+ },
+ "protección de la voz": {
+  "en": "voice protection",
+  "pt": "proteção da voz",
+  "fr": "protection de la voix",
+  "de": "Stimmschutz",
+  "it": "protezione della voce"
+ },
+ "mezcla final": {
+  "en": "final mix",
+  "pt": "mixagem final",
+  "fr": "mixage final",
+  "de": "finaler Mix",
+  "it": "mix finale"
+ },
+ "La voz manda": {
+  "en": "Voice first",
+  "pt": "A voz manda",
+  "fr": "La voix d’abord",
+  "de": "Die Stimme führt",
+  "it": "La voce comanda"
+ },
+ "Revisada": {
+  "en": "Checked",
+  "pt": "Revisada",
+  "fr": "Vérifiée",
+  "de": "Geprüft",
+  "it": "Verificata"
+ },
+ "Nueva página SONIDO = AI Sound Director: la IA diseña el sonido de cada video (voz, sonidos, música y ambiente) y tú lo diriges. Viene apagada: enciéndela arriba de la página.": {
+  "en": "New SOUND page = AI Sound Director: the AI designs each video’s sound (voice, sounds, music and ambience) and you direct it. It starts off: turn it on at the top of the page.",
+  "pt": "Nova página SOM = AI Sound Director: a IA cria o som de cada vídeo (voz, sons, música e ambiente) e você o dirige. Vem desligada: ligue-a no topo da página.",
+  "fr": "Nouvelle page SON = AI Sound Director : l’IA conçoit le son de chaque vidéo (voix, sons, musique et ambiance) et vous le dirigez. Elle est désactivée : activez-la en haut de la page.",
+  "de": "Neue Seite SOUND = AI Sound Director: Die KI gestaltet den Sound jedes Videos (Stimme, Sounds, Musik und Atmo) und du lenkst ihn. Sie ist aus: Schalte sie oben auf der Seite ein.",
+  "it": "Nuova pagina SUONO = AI Sound Director: l’IA progetta il suono di ogni video (voce, suoni, musica e ambiente) e tu lo dirigi. È spenta: accendila in cima alla pagina."
+ },
+ "Decide caption a caption qué suena y qué se queda en silencio, y hace cada sonido a la medida de su animación. Los sonidos de antes se apagan, no se borran.": {
+  "en": "It decides caption by caption what sounds and what stays silent, and makes each sound to fit its animation. The old sounds are turned off, not deleted.",
+  "pt": "Decide legenda a legenda o que soa e o que fica em silêncio, e faz cada som sob medida para a sua animação. Os sons de antes são desligados, não apagados.",
+  "fr": "Il décide sous-titre par sous-titre ce qui sonne et ce qui reste silencieux, et crée chaque son sur mesure pour son animation. Les anciens sons sont désactivés, pas supprimés.",
+  "de": "Er entscheidet Untertitel für Untertitel, was klingt und was still bleibt, und macht jeden Sound passend zu seiner Animation. Die alten Sounds werden ausgeschaltet, nicht gelöscht.",
+  "it": "Decide sottotitolo per sottotitolo cosa suona e cosa resta in silenzio, e crea ogni suono su misura per la sua animazione. I suoni di prima si spengono, non si cancellano."
+ },
+ "Escucha el antes y el después (Original / AI Sound) y toca un sonido para oírlo, pedir menos o más, regenerarlo, silenciarlo o bloquearlo; o díselo con una frase.": {
+  "en": "Hear the before and after (Original / AI Sound) and tap a sound to play it, ask for less or more, regenerate, mute or lock it; or tell it in a sentence.",
+  "pt": "Ouça o antes e o depois (Original / AI Sound) e toque um som para ouvi-lo, pedir menos ou mais, regenerar, silenciar ou bloquear; ou diga numa frase.",
+  "fr": "Écoutez l’avant et l’après (Original / AI Sound) et touchez un son pour l’écouter, demander moins ou plus, le régénérer, le couper ou le verrouiller ; ou dites-le en une phrase.",
+  "de": "Hör das Vorher und Nachher (Original / AI Sound) und tippe auf einen Sound, um ihn anzuhören, weniger oder mehr zu verlangen, ihn neu zu erzeugen, stummzuschalten oder zu sperren; oder sag es in einem Satz.",
+  "it": "Ascolta il prima e il dopo (Original / AI Sound) e tocca un suono per ascoltarlo, chiedere meno o più, rigenerarlo, silenziarlo o bloccarlo; oppure diglielo con una frase."
+ },
+ "La voz limpia va en su propia pista (AI VOICE) y la original se apaga solo cuando la copia quedó bien puesta. El Sound Score te dice cómo quedó la mezcla.": {
+  "en": "The cleaned voice goes on its own track (AI VOICE) and the original is turned off only once the copy is properly in place. The Sound Score tells you how the mix turned out.",
+  "pt": "A voz limpa vai na sua própria faixa (AI VOICE) e a original só é desligada quando a cópia ficou bem colocada. O Sound Score diz como ficou a mixagem.",
+  "fr": "La voix nettoyée va sur sa propre piste (AI VOICE) et l’originale n’est coupée qu’une fois la copie bien placée. Le Sound Score vous dit comment est le mixage.",
+  "de": "Die gereinigte Stimme kommt auf ihre eigene Spur (AI VOICE), und das Original wird erst ausgeschaltet, wenn die Kopie richtig sitzt. Der Sound Score zeigt dir, wie der Mix geworden ist.",
+  "it": "La voce pulita va sulla sua traccia (AI VOICE) e l’originale si spegne solo quando la copia è ben posizionata. Il Sound Score ti dice com’è venuto il mix."
+ },
+ "El programa funciona ahora con Python 3.15.1 y PySide6 6.12.0, con las librerías al día.": {
+  "en": "The program now runs on Python 3.15.1 and PySide6 6.12.0, with up-to-date libraries.",
+  "pt": "O programa agora funciona com Python 3.15.1 e PySide6 6.12.0, com as bibliotecas em dia.",
+  "fr": "Le programme fonctionne désormais avec Python 3.15.1 et PySide6 6.12.0, avec des bibliothèques à jour.",
+  "de": "Das Programm läuft jetzt mit Python 3.15.1 und PySide6 6.12.0, mit aktuellen Bibliotheken.",
+  "it": "Il programma ora funziona con Python 3.15.1 e PySide6 6.12.0, con le librerie aggiornate."
+ },
+ "SOUND SCORE": {
+  "en": "SOUND SCORE",
+  "pt": "SOUND SCORE",
+  "fr": "SOUND SCORE",
+  "de": "SOUND SCORE",
+  "it": "SOUND SCORE"
+ },
+ "MOTIONS PRO": {
+  "en": "PRO MOTIONS",
+  "pt": "MOTIONS PRO",
+  "fr": "MOTIONS PRO",
+  "de": "PRO-MOTIONS",
+  "it": "MOTION PRO"
+ },
+ "sin motions de la PRO en este GO": {
+  "en": "no PRO motions in this GO",
+  "pt": "sem motions da PRO neste GO",
+  "fr": "pas de motions PRO dans ce GO",
+  "de": "keine PRO-Motions in diesem GO",
+  "it": "nessun motion PRO in questo GO"
+ },
+ "Lo que decidió para este video": {
+  "en": "What it decided for this video",
+  "pt": "O que decidiu para este vídeo",
+  "fr": "Ce qu’il a décidé pour cette vidéo",
+  "de": "Was er für dieses Video entschieden hat",
+  "it": "Cosa ha deciso per questo video"
+ },
+ "Línea de sonido · toca un sonido para verlo, oírlo o cambiarlo": {
+  "en": "Sound timeline · tap a sound to see, hear or change it",
+  "pt": "Linha de som · toque num som para vê-lo, ouvi-lo ou mudá-lo",
+  "fr": "Ligne sonore · touchez un son pour le voir, l’écouter ou le changer",
+  "de": "Sound-Zeitleiste · tippe auf einen Sound, um ihn zu sehen, zu hören oder zu ändern",
+  "it": "Linea del suono · tocca un suono per vederlo, ascoltarlo o cambiarlo"
+ },
+ "Hay cambios que aún no están en Resolve": {
+  "en": "There are changes not in Resolve yet",
+  "pt": "Há mudanças que ainda não estão no Resolve",
+  "fr": "Des changements ne sont pas encore dans Resolve",
+  "de": "Es gibt Änderungen, die noch nicht in Resolve sind",
+  "it": "Ci sono modifiche non ancora in Resolve"
+ },
+ "En Resolve y al día": {
+  "en": "In Resolve and up to date",
+  "pt": "No Resolve e em dia",
+  "fr": "Dans Resolve et à jour",
+  "de": "In Resolve und aktuell",
+  "it": "In Resolve e aggiornato"
+ },
+ "Haz GO con AI Sound Director encendido para ponerlo en Resolve": {
+  "en": "Run GO with AI Sound Director on to put it in Resolve",
+  "pt": "Faça GO com o AI Sound Director ligado para colocá-lo no Resolve",
+  "fr": "Lancez GO avec AI Sound Director activé pour le mettre dans Resolve",
+  "de": "Starte GO mit eingeschaltetem AI Sound Director, um es in Resolve zu setzen",
+  "it": "Fai GO con AI Sound Director attivo per metterlo in Resolve"
+ },
+ "Material: «{m}» de tu biblioteca (pasó el Quality Gate)": {
+  "en": "Material: “{m}” from your library (passed the Quality Gate)",
+  "pt": "Material: «{m}» da sua biblioteca (passou no Quality Gate)",
+  "fr": "Matériau : « {m} » de votre bibliothèque (Quality Gate réussi)",
+  "de": "Material: „{m}“ aus deiner Bibliothek (Quality Gate bestanden)",
+  "it": "Materiale: «{m}» dalla tua libreria (ha superato il Quality Gate)"
+ },
+ "Material: sintetizado a la medida de este movimiento": {
+  "en": "Material: synthesized to fit this movement",
+  "pt": "Material: sintetizado sob medida para este movimento",
+  "fr": "Matériau : synthétisé sur mesure pour ce mouvement",
+  "de": "Material: passend zu dieser Bewegung synthetisiert",
+  "it": "Materiale: sintetizzato su misura per questo movimento"
+ },
+ "Material: {f}": {
+  "en": "Material: {f}",
+  "pt": "Material: {f}",
+  "fr": "Matériau : {f}",
+  "de": "Material: {f}",
+  "it": "Materiale: {f}"
+ },
+ "Material": {
+  "en": "Material",
+  "pt": "Material",
+  "fr": "Matériau",
+  "de": "Material",
+  "it": "Materiale"
+ },
+ "Hecho a la medida": {
+  "en": "Made to measure",
+  "pt": "Feito sob medida",
+  "fr": "Sur mesure",
+  "de": "Maßgeschneidert",
+  "it": "Su misura"
+ },
+ "Ya está en Resolve.": {
+  "en": "It’s in Resolve now.",
+  "pt": "Já está no Resolve.",
+  "fr": "C’est dans Resolve.",
+  "de": "Ist jetzt in Resolve.",
+  "it": "È già in Resolve."
+ },
+ "Puesto en Resolve: sonidos, música, ambiente y voz del director; los de siempre, apagados.": {
+  "en": "Placed in Resolve: the director’s sounds, music, ambience and voice; the old ones, off.",
+  "pt": "Colocado no Resolve: sons, música, ambiente e voz do diretor; os de sempre, desligados.",
+  "fr": "Placé dans Resolve : sons, musique, ambiance et voix du directeur ; les anciens, coupés.",
+  "de": "In Resolve gesetzt: Sounds, Musik, Atmo und Stimme des Directors; die alten aus.",
+  "it": "Messo in Resolve: suoni, musica, ambiente e voce del director; quelli di sempre, spenti."
+ },
+ "Listo para el próximo GO.": {
+  "en": "Ready for the next GO.",
+  "pt": "Pronto para o próximo GO.",
+  "fr": "Prêt pour le prochain GO.",
+  "de": "Bereit für das nächste GO.",
+  "it": "Pronto per il prossimo GO."
+ },
+ "Resolve está cerrado: se pondrá con «Aplicar a Resolve» o en el próximo GO.": {
+  "en": "Resolve is closed: it will go in with “Apply to Resolve” or at the next GO.",
+  "pt": "O Resolve está fechado: será colocado com «Aplicar ao Resolve» ou no próximo GO.",
+  "fr": "Resolve est fermé : ce sera placé avec « Appliquer à Resolve » ou au prochain GO.",
+  "de": "Resolve ist geschlossen: kommt mit „Auf Resolve anwenden“ oder beim nächsten GO.",
+  "it": "Resolve è chiuso: verrà messo con «Applica a Resolve» o al prossimo GO."
+ },
+ "tu biblioteca (Film Score: cama tonal)": {
+  "en": "your library (Film Score: tonal bed)",
+  "pt": "sua biblioteca (Film Score: cama tonal)",
+  "fr": "votre bibliothèque (Film Score : nappe tonale)",
+  "de": "deine Bibliothek (Film Score: tonales Bett)",
+  "it": "la tua libreria (Film Score: tappeto tonale)"
+ },
+ "tu biblioteca (grabación de ambiente)": {
+  "en": "your library (ambience recording)",
+  "pt": "sua biblioteca (gravação de ambiente)",
+  "fr": "votre bibliothèque (enregistrement d’ambiance)",
+  "de": "deine Bibliothek (Atmo-Aufnahme)",
+  "it": "la tua libreria (registrazione d’ambiente)"
+ },
+ "AI Sound Director se encarga de todo el sonido: los sonidos de las reglas de antes ya no suenan, y los de los motions (también los del Tema 1) los rehace a la medida.": {
+  "en": "AI Sound Director now handles all the sound: the old rule sounds no longer play, and motion sounds (Theme 1 too) are rebuilt to fit.",
+  "pt": "O AI Sound Director cuida de todo o som: os sons das regras antigas já não tocam, e os dos motions (também os do Tema 1) são refeitos sob medida.",
+  "fr": "AI Sound Director gère tout le son : les sons des anciennes règles ne jouent plus, et ceux des motions (le Thème 1 aussi) sont refaits sur mesure.",
+  "de": "AI Sound Director übernimmt den ganzen Sound: die Sounds der alten Regeln laufen nicht mehr, und die der Motions (auch Thema 1) werden passend neu gebaut.",
+  "it": "AI Sound Director si occupa di tutto il suono: i suoni delle vecchie regole non suonano più e quelli dei motion (anche del Tema 1) vengono rifatti su misura."
+ },
+ "Usa todas tus bibliotecas de sonido: miles de whooshes, golpes, risers y tonos, camas de música de score y ambientes reales, cada uno revisado antes de usarlo.": {
+  "en": "It uses all your sound libraries: thousands of whooshes, hits, risers and tones, score music beds and real ambiences, each checked before use.",
+  "pt": "Usa todas as suas bibliotecas de som: milhares de whooshes, impactos, risers e tons, camas de trilha e ambientes reais, cada um revisado antes de usar.",
+  "fr": "Il utilise toutes vos bibliothèques sonores : des milliers de whooshes, impacts, risers et tons, des nappes de musique de film et de vraies ambiances, chacun vérifié avant usage.",
+  "de": "Er nutzt alle deine Sound-Bibliotheken: Tausende Whooshes, Hits, Riser und Töne, Score-Musikbetten und echte Atmos, jeder vor dem Einsatz geprüft.",
+  "it": "Usa tutte le tue librerie di suoni: migliaia di whoosh, colpi, riser e toni, tappeti di musica da film e ambienti reali, ognuno verificato prima di usarlo."
+ },
+ "Si no hay música de Epidemic, pone una cama de score de tus colecciones, siempre por debajo de la voz; el ambiente sale de tus grabaciones del mismo entorno.": {
+  "en": "Without Epidemic music, it lays a score bed from your collections, always under the voice; ambience comes from your recordings of the same setting.",
+  "pt": "Sem música do Epidemic, coloca uma cama de trilha das suas coleções, sempre abaixo da voz; o ambiente vem das suas gravações do mesmo lugar.",
+  "fr": "Sans musique Epidemic, il pose une nappe de musique de film de vos collections, toujours sous la voix ; l’ambiance vient de vos enregistrements du même lieu.",
+  "de": "Ohne Epidemic-Musik legt er ein Score-Bett aus deinen Sammlungen, immer unter der Stimme; die Atmo stammt aus deinen Aufnahmen derselben Umgebung.",
+  "it": "Senza musica Epidemic mette un tappeto da film dalle tue collezioni, sempre sotto la voce; l’ambiente viene dalle tue registrazioni dello stesso luogo."
+ },
+ "La página SONIDO aplica sola cada cambio en Resolve y te dice si todo está al día. Viene encendida.": {
+  "en": "The SOUND page applies every change in Resolve by itself and tells you whether everything is up to date. It comes switched on.",
+  "pt": "A página SOM aplica sozinha cada mudança no Resolve e diz se está tudo em dia. Vem ligada.",
+  "fr": "La page SON applique seule chaque changement dans Resolve et vous dit si tout est à jour. Elle est activée.",
+  "de": "Die Seite SOUND überträgt jede Änderung selbst nach Resolve und zeigt, ob alles aktuell ist. Sie ist eingeschaltet.",
+  "it": "La pagina SUONO applica da sola ogni modifica in Resolve e ti dice se è tutto aggiornato. È attiva."
  }
 }
