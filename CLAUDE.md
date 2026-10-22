@@ -46,8 +46,14 @@ Python con dependencias (`$PY`): `6_compilacion/venv315/Scripts/python.exe`.
 - Packs: texto = solo macros Luxe reales (`MediaOut`, no `Saver`); al cambiar un pack subir `plantillas.REVISION_BIN`; Amro solo como principal; nunca `InsertFusionTitleIntoTimeline` con nombres dudosos (tumbó Resolve).
 - Scripts de Resolve: `CineCaptions.py` y `.lua` son gemelos. Versión única en `version.py` (`3_compilar/sincronizar_version.py` la copia).
 - Rutas de recursos con `base_recursos()` (en el .exe no están junto al .py).
+- Python 3.15: nada de `from concurrent.futures import ThreadPoolExecutor` (el paquete la expone «lazy» y en el .exe salió `'lazy_import' object is not callable`, Tema 1 placa): `from concurrent.futures.thread import ThreadPoolExecutor`.
 - Estilo «guion»: la palabra grande cabe SIN zoom; las grandes van en pistas inferiores.
 - Interfaz simple: sin toasts ni tooltips (avisos al Registro); en la UI solo «Tema N».
+
+## Ejemplos visuales («dame ejemplos de cómo queda»)
+- Son SOLO propuestas: no se toca el código hasta que el usuario elige una.
+- Siempre REALISTAS: HTML a tamaño real con los recursos de verdad (banner, logo, capas, colores y fuentes del programa o instalador), capturado a PNG con `2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/chrome-headless-shell.exe --headless --force-device-scale-factor=1.5 --window-size=W,H --screenshot=…` y enviado con SendUserFile. Nada de esquemas genéricos.
+- Normalmente 3 (A, B, C); se mantiene el estilo actual salvo que pida otro. Todo en el scratchpad, nunca en el proyecto.
 
 ## Probar (detalle: `mapa(id="pruebas-sin-pantalla")`)
 - **Nada de pruebas dentro de esta carpeta.** Scripts, videos, renders, logs y salidas de prueba van al scratchpad de la sesión (o una carpeta temporal fuera del proyecto). Si algo de prueba tiene que crearse aquí, se BORRA al terminar y se comprueba con `git status --short` que no queda nada suelto.
