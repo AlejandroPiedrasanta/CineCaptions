@@ -3461,6 +3461,9 @@ def icono_linea(nombre, color=None, color_activo=None):
             # sistema: se cargan solo en la aplicacion, desde su propia carpeta.
             _icf.IconicFont._get_fonts_directory = lambda self: os.path.join(
                 os.path.dirname(os.path.realpath(_icf.__file__)), 'fonts')
+            # v5.39: el programa solo usa Phosphor («ph.»): cargar (y comprobar con MD5) las ~10 familias costaba ~0,1 s al arrancar
+            _QTA['todas'] = qtawesome._BUNDLED_FONTS
+            qtawesome._BUNDLED_FONTS = tuple(f for f in _QTA['todas'] if f[0] == 'ph') or _QTA['todas']
             _QTA['mod'] = qtawesome
         except Exception:
             _QTA['mod'] = None
@@ -3469,6 +3472,9 @@ def icono_linea(nombre, color=None, color_activo=None):
         return None
     try:
         c = tc(color or '#C9D6EC')
+        if not str(nombre).startswith('ph.') and qta._BUNDLED_FONTS != _QTA.get('todas', qta._BUNDLED_FONTS):
+            qta._BUNDLED_FONTS = _QTA['todas']                   # otra familia: se cargan todas (una vez)
+            qta._resource['iconic'] = None
         if color_activo:
             return qta.icon(nombre, color=c, color_active=tc(color_activo))
         return qta.icon(nombre, color=c)

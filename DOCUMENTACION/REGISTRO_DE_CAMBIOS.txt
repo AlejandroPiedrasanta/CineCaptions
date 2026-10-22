@@ -12,6 +12,11 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-22 13:15  ·  v5.38  ·  cambio explicado
+    Iconos: qtawesome carga solo la familia Phosphor que usa el programa (con respaldo a todas). Medido: las páginas pesadas ya eran perezosas; solo «nuevo» se construye al abrir y no se aplaza (la necesitan las preferencias).
+    modificados (1):
+      ~ 1_codigo/qt_kit.py
+
 2026-10-22 13:12  ·  v5.38  ·  cambio explicado
     Arranque ~40% más rápido (ventana 1,3 s -> 0,8 s): perfil del equipo e idiomas instalados en hilos, caché en disco de los .drb. Animaciones: BarraProgreso y tarjetas de Ajustes ya no siguen repintando ocultas. Quitada 3_compilar/partido_listo (partición vieja nunca aplicada que duplicaba los símbolos). Revisión con ruff y compilación 3.15.1: sin errores reales ni APIs obsoletas.
     modificados (5):
