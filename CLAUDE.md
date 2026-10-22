@@ -1,18 +1,25 @@
 # CineCaptions — leer SOLO esto; lo demás se consulta por demanda
 
-App PySide6 (v5.38) que subtitula vídeos con IA local y coloca los subtítulos en DaVinci Resolve. Carpetas: `1_codigo` programa · `2_recursos` · `3_compilar` · `4_diseno` · `6_compilacion` (temporal, no tocar) · `7_mac` · `INSTALADORES/{Windows,Mac}` · `DOCUMENTACION`.
-«Tema N» de la interfaz → `id` del mapa: 1 `kinetic-planificador` · 2 `guion-planificador` · 3 `viral-planificador` · 4 `tema4` · 5 `tema5` · 6 `tema6`.
+App PySide6 (v5.38, Python 3.15.1) que subtitula vídeos con IA local y los coloca en DaVinci Resolve (Free y Studio, Windows y Mac).
+Carpetas: `1_codigo` programa · `2_recursos` lo que viaja en el .exe · `3_compilar` · `4_diseno` · `6_compilacion` (temporal, no tocar) · `7_mac` · `INSTALADORES/{Windows,Mac}` · `DOCUMENTACION`.
+«Tema N» de la interfaz → `id`: 1 `kinetic-planificador` · 2 `guion-planificador` · 3 `viral-planificador` · 4 `tema4` · 5 `tema5` · 6 `tema6`.
+Python con dependencias (`$PY`): `6_compilacion/venv315/Scripts/python.exe`.
 
-## Consultar SIN leer archivos (en este orden; ahorra tokens)
-1. **MCP `cinecaptions`**: `mapa("palabras")` → temas con archivos y símbolos · `mapa(id="…")` → detalle del tema (si es largo, un índice: luego `parte="N"` o `parte="palabras"`) · `simbolo("nombre")` → solo esa función/clase/método · `modulo("archivo")` → qué es · `cambios(n)` · `resumen()`.
-   Sin MCP: `6_compilacion/venv315/Scripts/python.exe 1_codigo/mapa_codigo.py mapa|tema|simbolo|modulo|cambios <x>`.
-2. Si hace falta más: Grep del nombre + Read con `offset`/`limit` (~60 líneas).
-3. **NUNCA leer enteros**: `CineCaptions (script principal).py` (13 600 líneas; usa `simbolo`), `DOCUMENTACION/{LEEME.txt,REGISTRO_DE_CAMBIOS.txt,historial/}`, `6_compilacion/`, `2_recursos/`, `*.drb/.drt`, `.json` de packs, `__pycache__`. Primera vez en el proyecto: `DOCUMENTACION/RESUMEN.md` (una página).
-4. Antes de cambios grandes, avisa qué archivos tocarás.
-5. Al añadir o cambiar un tema: sección en `DOCUMENTACION/temas/<grupo>.md` (párrafos cortos que empiecen con `**Rótulo:**`, así salen en el índice) + entrada en `DOCUMENTACION/mapa.json`, y `python 1_codigo/mapa_codigo.py generar` (reescribe el mapa de abajo; avisa de lo que ya no existe y de código sin tema).
-6. **Antes de dar un cambio por terminado**: `mapa(id="acoplamientos")` = qué más hay que cambiar (gemelos `.lua`/`.py`, `REVISION_BIN`, versión, huella, mapa). Estado de versiones y pendientes: memoria `estado-y-pendientes` (solo lo ACTUAL; lo viejo a `DOCUMENTACION/historial/`). Arneses de prueba con Resolve: `mapa(id="herramientas-dev")`.
+## Encontrar algo sin leer archivos (en este orden)
+1. MCP `cinecaptions`: `mapa("palabras")` → temas, archivos y símbolos · `mapa(id="…")` → detalle (si es largo, índice; luego `parte="N"`/`"palabras"`) · `simbolo("nombre")` → solo esa función · `modulo("archivo")` · `cambios(n)` · `resumen()`.
+   Sin MCP: `$PY 1_codigo/mapa_codigo.py mapa|tema|simbolo|modulo|cambios <x>` (`tema <id> <parte>`).
+2. Si falta: Grep del nombre + Read con `offset`/`limit` (~60 líneas).
+3. NUNCA leer enteros: `CineCaptions (script principal).py` (13 600 líneas), `DOCUMENTACION/{LEEME.txt,REGISTRO_DE_CAMBIOS.txt,historial/}`, `6_compilacion/`, `2_recursos/`, `*.drb/.drt`, `.json` de packs, `__pycache__`. Primera vez: `DOCUMENTACION/RESUMEN.md`.
 
-## Mapa de temas — `id` [archivos]; detalle con `mapa(id=…)`
+## Al cambiar algo
+- Cambio grande: avisa antes qué archivos tocarás.
+- Antes de darlo por terminado: `mapa(id="acoplamientos")` (gemelos `.lua`/`.py`, `REVISION_BIN`, versión, huella, mapa).
+- Tema nuevo o cambiado: sección en `DOCUMENTACION/temas/<grupo>.md` (párrafos cortos que empiecen con `**Rótulo:**`) + entrada en `DOCUMENTACION/mapa.json` + `$PY 1_codigo/mapa_codigo.py generar`.
+- Anota el porqué: `$PY 3_compilar/documentar.py --nota "…"`.
+- Compilar (`Actualizar_Windows.ps1`; `-Comprobar` dice si está al día) y Mac (`Actualizar_Mac.ps1`, GitHub Actions ~15 min): SOLO cuando el usuario lo pida. Entregables en `INSTALADORES/`.
+- Estado y pendientes: memoria `estado-y-pendientes` (solo lo actual; lo viejo a `DOCUMENTACION/historial/`).
+
+## Mapa de temas — `id` [archivo principal]
 <!-- MAPA:INICIO (lo escribe 1_codigo/mapa_codigo.py generar; no lo edites a mano) -->
 - **general** (Visión general del programa): `documentacion` [mapa_codigo] · `acoplamientos` [version]
 - **ui** (Interfaz Qt: ventana, diseño, rendimiento, ajustes): `ventana-paginas` [ir_a] · `fondo-animado` [efectos_ui] · `liquid-glass` [qt_kit] · `ritmo-fps` [ritmo_ui] · `qt-kit` [qt_kit] · `ajustes-tema` [ajustes_ui] · `isla-nav` [isla_ui] · `aurora` [qt_kit] · `recorrido` [recorrido_ui] · `reglas-rendimiento` [qt_kit] · `rendimiento-base` [cache_voz] · `ui-menores` [brillo_ui]
@@ -35,13 +42,13 @@ App PySide6 (v5.38) que subtitula vídeos con IA local y coloca los subtítulos 
 
 ## Reglas que no se rompen (detalle: `mapa(id="reglas-rendimiento")`)
 - Estado del usuario (prefs, marcas, proyectos, manifiestos) SOLO con `archivos_seguros.escribir_json/mezclar_json`; nunca `write_text`.
-- Hilo de la interfaz: sin red, `subprocess`, `sleep`, lectura masiva ni llamadas a `resolve_mcp/resolve_bridge`: `correr_en_hilo`. Sin `QEasingCurve.setCustomType`, sin efectos Qt sobre páginas; el vidrio de las tarjetas es FALSO a propósito.
+- Hilo de la interfaz: sin red, `subprocess`, `sleep`, lectura masiva ni `resolve_mcp/resolve_bridge` → `correr_en_hilo`. Sin `QEasingCurve.setCustomType` ni efectos Qt sobre páginas; el vidrio de las tarjetas es FALSO a propósito.
 - Packs: texto = solo macros Luxe reales (`MediaOut`, no `Saver`); al cambiar un pack subir `plantillas.REVISION_BIN`; Amro solo como principal; nunca `InsertFusionTitleIntoTimeline` con nombres dudosos (tumbó Resolve).
-- Scripts de Resolve: `CineCaptions.py` y `.lua` son gemelos (mantenerlos iguales). Versión única: `version.py` (`3_compilar/sincronizar_version.py` la copia a los scripts).
-- Estilo «guion»: la palabra grande debe caber SIN zoom; las grandes van en pistas inferiores.
-
-## Después de CUALQUIER mejora del programa
-`powershell -ExecutionPolicy Bypass -File Actualizar_Windows.ps1` (sube la versión si el código cambió; `-Comprobar` dice si está al día) y `…Actualizar_Mac.ps1` (GitHub Actions, ~15 min, en segundo plano). Entregables en `INSTALADORES/`. Anota el porqué con `python 3_compilar/documentar.py --nota "…"`.
+- Scripts de Resolve: `CineCaptions.py` y `.lua` son gemelos. Versión única en `version.py` (`3_compilar/sincronizar_version.py` la copia).
+- Rutas de recursos con `base_recursos()` (en el .exe no están junto al .py).
+- Estilo «guion»: la palabra grande cabe SIN zoom; las grandes van en pistas inferiores.
+- Interfaz simple: sin toasts ni tooltips (avisos al Registro); en la UI solo «Tema N».
 
 ## Probar (detalle: `mapa(id="pruebas-sin-pantalla")`)
-Python con dependencias: `6_compilacion/venv315/Scripts/python.exe`; `QT_QPA_PLATFORM=offscreen`; los arneses escriben las prefs REALES del usuario: parchear `ajustes_ui.guardar_prefs`. MCP de pruebas con Resolve: `go_real`, `probar_video`, `probar_referencia`, `arrastrar_video`, `evaluar` (tras tocar `mcp_cinecaptions.py` hay que reconectar el MCP).
+- Sin pantalla: `QT_QPA_PLATFORM=offscreen` y parchear `ajustes_ui.guardar_prefs` (los arneses escriben las prefs REALES).
+- El usuario usa Resolve a la vez: NO `go_real` ni lanzar el Puente en Studio; probar efectos con Resolve simulado. MCP: `probar_video`, `probar_referencia`, `arrastrar_video`, `evaluar` (tras tocar `mcp_cinecaptions.py`, reconectar el MCP).
