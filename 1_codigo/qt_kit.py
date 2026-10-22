@@ -1945,6 +1945,18 @@ class BarraProgreso(QWidget):
         self._fase = (self._fase + 0.012) % 1.6
         self.update()
 
+    # v5.39: oculta (otra página) no repinta a 60 fps; al volver a verse sigue donde iba
+    def hideEvent(self, e):
+        self._pausada = self._reloj.isActive()
+        self._reloj.stop()
+        super().hideEvent(e)
+
+    def showEvent(self, e):
+        if getattr(self, '_pausada', False):
+            self._pausada = False
+            self._reloj.start()
+        super().showEvent(e)
+
     def set(self, valor):
         try:
             v = max(0.0, min(1.0, float(valor)))

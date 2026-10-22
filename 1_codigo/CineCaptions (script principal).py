@@ -10880,16 +10880,20 @@ class SubtitleApp(QWidget):
                         ingles if ingles in nombres else nombres[0])
             except Exception:
                 pass
-        try:
-            instalados = lang_packs.paquetes_instalados()
-        except Exception:
-            instalados = []
-        _poner(_nombres_de({p['to'] for p in instalados
-                            if origen in ('auto', '') or p['from'] == origen}))
         if getattr(self, '_catalogo_argos', None) is not None:
             self._aplicar_catalogo_destinos(origen)
             return
         def _bajar():
+            # v5.39: lo instalado también se pregunta aquí (motor auxiliar = otro proceso, 0,2-0,5 s): antes congelaba la ventana al abrir
+            try:
+                instalados = lang_packs.paquetes_instalados()
+            except Exception:
+                instalados = []
+            def _instalados_en_ui():
+                if vivo(self) and getattr(self, '_catalogo_argos', None) is None:
+                    _poner(_nombres_de({p['to'] for p in instalados
+                                        if origen in ('auto', '') or p['from'] == origen}))
+            ejecutar_en_ui(_instalados_en_ui)
             try:
                 catalogo = lang_packs.paquetes_disponibles(refrescar=True)
             except Exception:

@@ -12,6 +12,26 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-22 13:12  ·  v5.38  ·  cambio explicado
+    Arranque ~40% más rápido (ventana 1,3 s -> 0,8 s): perfil del equipo e idiomas instalados en hilos, caché en disco de los .drb. Animaciones: BarraProgreso y tarjetas de Ajustes ya no siguen repintando ocultas. Quitada 3_compilar/partido_listo (partición vieja nunca aplicada que duplicaba los símbolos). Revisión con ruff y compilación 3.15.1: sin errores reales ni APIs obsoletas.
+    modificados (5):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/packs_drt.py
+      ~ 1_codigo/qt_kit.py
+      ~ 1_codigo/un_clic_ui.py
+    quitados (10):
+      - 3_compilar/partido_listo/CineCaptions (script principal).py
+      - 3_compilar/partido_listo/aplicar.ps1
+      - 3_compilar/partido_listo/desktop.ini
+      - 3_compilar/partido_listo/editor_palabras.py
+      - 3_compilar/partido_listo/partir_principal.py.txt
+      - 3_compilar/partido_listo/selector_emojis.py
+      - 3_compilar/partido_listo/ui_comun.py
+      - 3_compilar/partido_listo/ventana_composicion.py
+      - 3_compilar/partido_listo/ventana_plantillas.py
+      - 3_compilar/partido_listo/ventanas_idioma.py
+
 2026-10-22 13:00  ·  v5.38  ·  cambio explicado
     El Administrador de Licencias (antes 5_licencias) pasa a su propia carpeta y repositorio: ..\Administrador de Licencias. No era parte de CineCaptions y gastaba búsquedas.
     nuevos (108):
