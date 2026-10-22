@@ -1,0 +1,59 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="base.css"><script src="wave.js"></script><script src="topbar.js"></script><style>
+body{gap:10px;padding:20px 24px}
+.ln{height:34px}.clip{top:8px}.chipv{top:7px}
+.thumbs{position:absolute;inset:3px 0;display:flex;gap:2px}.thumbs i{flex:1;border-radius:3px;background:linear-gradient(160deg,#1E3050,#101A2C)}.thumbs i:nth-child(3n){background:linear-gradient(160deg,#2C2140,#141022)}
+.scan{position:absolute;top:0;bottom:0;border-radius:8px;background:linear-gradient(90deg,#F5B84B00,#F5B84B22 70%,#F5B84B55);border-right:2px solid var(--ambar)}
+.th{padding:10px 14px;border-radius:12px;background:#F5B84B0a;border:1px solid #F5B84B44;font-size:12.5px;line-height:1.5;color:#E9DCC0}
+.stp{display:flex;gap:10px;align-items:flex-start;padding:6px 0;font-size:12px}.stp .n{width:20px;height:20px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:10px;background:#24D18F22;color:var(--verde)}
+.stp.run .n{background:var(--ambar);color:#1a1205}.stp.w .n{background:#111D33;color:var(--mut)}.stp small{display:block;color:var(--mut);font-size:10.5px;margin-top:1px}
+table{width:100%;border-collapse:collapse;font-size:11.5px}td{padding:5px 4px;border-bottom:1px solid #1E2A4288;white-space:nowrap}td.r{text-align:right}tr.run td{color:var(--ambar)}
+.mb{height:5px;border-radius:5px;background:#1E2A42;width:70px;overflow:hidden;display:inline-block;vertical-align:middle}.mb i{display:block;height:100%}
+.ck{white-space:nowrap;display:flex;align-items:center;gap:10px;font-size:12px;padding:5px 0}.ck .mb{width:80px}.ck b{width:40px;text-align:right;font-weight:600}
+.fx div{font-size:11.5px;padding:4px 0;color:#C9D3E5}.fx span{color:var(--verde)}
+</style></head><body onload="topbar()">
+<div class="card topb" id="tb"></div>
+<div class="card" style="padding:12px 16px 10px">
+ <div class="row" style="align-items:center;gap:8px"><h2>Línea de sonido</h2>&nbsp;<span class="pill a">◌ Pensando · Máximo</span><span class="s mut">rehaciendo 0:10–0:20 · lo bloqueado no se toca</span><div class="sp"></div><span class="btn t" style="height:28px">Detener</span></div>
+ <div class="ruler" style="margin-top:8px"><span style="left:0;transform:none">0:00</span><span style="left:16.6%">0:10</span><span style="left:33.3%">0:20</span><span style="left:50%">0:30</span><span style="left:66.6%">0:40</span><span style="left:83.3%">0:50</span><span style="right:0;transform:none">1:00</span></div>
+ <div style="position:relative">
+  <div style="position:absolute;left:92px;right:0;top:0;bottom:0"><div class="scan" style="left:16.6%;width:16%"></div></div>
+  <div class="ln"><div class="k">VIDEO</div><div class="l"><div class="thumbs"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div></div>
+  <div class="ln"><div class="k">EN PANTALLA</div><div class="l"><span class="chipv" style="left:0">T Título</span><span class="chipv" style="left:10%">⏱ Contador</span><span class="chipv" style="left:20.5%;border-color:var(--ambar);color:var(--ambar)">➜ Flecha</span><span class="chipv" style="left:26%;border-color:var(--ambar);color:var(--ambar)">✦ Brillo nuevo</span><span class="chipv" style="left:37%">🔥 Emoji</span><span class="chipv" style="left:44%">⤢ Zoom</span><span class="chipv" style="left:60%">≋ Tiembla</span><span class="chipv" style="left:72%">▭ Barra</span><span class="chipv" style="left:88%">◎ Logo</span></div></div>
+  <div class="ln"><div class="k">VOZ</div><div class="l" style="color:#1A8FB5"><div class="wave" data-wave="310" style="padding:3px 0"></div></div></div>
+  <div class="ln"><div class="k">SONIDOS</div><div class="l"><span class="clip" style="left:0;width:4%;background:#4E9A45">Pop</span><span class="clip" style="left:10%;width:6%;background:#4E9A45">Tick ×12</span><span class="clip" style="left:20.5%;width:4%;background:#F5B84B33;border:1px dashed var(--ambar);color:var(--ambar)">?</span><span class="clip" style="left:26%;width:4%;background:#F5B84B33;border:1px dashed var(--ambar);color:var(--ambar)">?</span><span class="clip" style="left:37%;width:4%;background:#B5552F">Fuego</span><span class="clip" style="left:44%;width:5%;background:#1A86B5">Zoom</span><span class="clip" style="left:50%;width:6%;background:#7A5BC4">Bass Drop</span><span class="clip" style="left:60%;width:4.5%;background:#7A5BC4">Glitch</span><span class="clip" style="left:72%;width:8%;background:#4E9A45">Carga ↑</span><span class="clip" style="left:88%;width:4.5%;background:#A9803C">Ding</span></div></div>
+  <div class="ln"><div class="k">MÚSICA</div><div class="l"><span class="clip" style="left:0;width:16.4%;background:#3E3470">Night Drive</span><span class="clip" style="left:16.6%;width:16%;background:#F5B84B22;border:1px dashed var(--ambar);color:var(--ambar)">buscando música más oscura…</span><span class="clip" style="left:33%;width:67%;background:#5B4B9E">Night Drive · drop en 0:30</span></div></div>
+  <div class="ln"><div class="k">COHERENCIA</div><div class="l"><span class="coh" style="position:absolute;top:10px;height:9px;border-radius:3px;left:0;width:16.4%;background:#24D18F99"></span><span style="position:absolute;top:10px;height:9px;border-radius:3px;left:16.6%;width:16%;background:repeating-linear-gradient(90deg,#F5B84B66 0 6px,transparent 6px 10px)"></span><span style="position:absolute;top:10px;height:9px;border-radius:3px;left:33%;width:67%;background:#24D18F99"></span></div></div>
+ </div></div>
+<div class="card th">✦ <b style="color:var(--ambar)">Pensando:</b> «En 0:12,3 la flecha entra y en 0:13,1 aparece un brillo que antes no había detectado; los trato como dos golpes distintos, pero el segundo más suave para no amontonar. La música en esta parte es demasiado alegre para “nadie te dice esto”: busco algo en tono menor, 110–120 BPM, con bajo sostenido y sin voz cantada, que pueda entrar al drop de 0:30 sin cortar el compás.»</div>
+<div class="row" style="flex:1;min-height:0">
+ <div class="card col" style="width:300px;gap:0"><span class="mut" style="margin-bottom:6px">Cómo está pensando</span>
+  <div class="stp"><span class="n">✓</span><div>Ver el video cuadro a cuadro<small>9 cortes · 15 motions y textos · 1 cara · colores</small></div></div>
+  <div class="stp"><span class="n">✓</span><div>Escuchar<small>voz, palabras clave, tono, ritmo 118 BPM, ruido</small></div></div>
+  <div class="stp"><span class="n">✓</span><div>Plan: qué necesita cada momento<small>31 necesidades · 2 nuevas en 0:10–0:20</small></div></div>
+  <div class="stp run"><span class="n">4</span><div>Buscar en todas las librerías<small>2 840 candidatos encontrados…</small></div></div>
+  <div class="stp w"><span class="n">5</span><div>Escuchar candidatos vs. el video<small>ataque, duración, tono, espacio de la voz</small></div></div>
+  <div class="stp w"><span class="n">6</span><div>Mezclar y nivelar<small>ducking, −14 LUFS, picos</small></div></div>
+  <div class="stp w"><span class="n">7</span><div>Revisión final<small>coherencia, repetición, licencias</small></div></div></div>
+ <div class="card col" style="flex:1;gap:6px"><div class="row" style="align-items:center"><span class="mut">Buscando en todas las librerías</span><div class="sp"></div><span class="s mut">«swoosh corto ascendente, sin cola, 250–350 ms»</span></div>
+  <table><tr class="mut"><td>Librería</td><td>Tipo</td><td class="r">Tamaño</td><td class="r">Encontró</td><td>Licencia</td></tr>
+   <tr><td>Tu biblioteca</td><td class="mut">efectos + música</td><td class="r">3 420</td><td class="r">38</td><td class="g">✓ tuya</td></tr>
+   <tr><td>Packs CineCaptions</td><td class="mut">efectos + música</td><td class="r">12 800</td><td class="r">112</td><td class="g">✓ incluida</td></tr>
+   <tr class="run"><td>Freesound</td><td>efectos</td><td class="r">600 k</td><td class="r">1 204 ◌</td><td>CC0 / CC-BY</td></tr>
+   <tr><td>Pixabay</td><td class="mut">efectos + música</td><td class="r">200 k</td><td class="r">301</td><td class="g">✓ libre</td></tr>
+   <tr><td>Free Music Archive</td><td class="mut">música</td><td class="r">150 k</td><td class="r">18</td><td>CC (revisa cada una)</td></tr>
+   <tr><td>Sonniss GDC</td><td class="mut">efectos cine</td><td class="r">40 k</td><td class="r">96</td><td class="g">✓ libre</td></tr>
+   <tr><td>BBC Sound Effects</td><td class="mut">efectos</td><td class="r">33 k</td><td class="r">57</td><td style="color:var(--ambar)">⚠ solo uso personal</td></tr>
+   <tr><td>Epidemic / Artlist</td><td class="mut">tu cuenta</td><td class="r">—</td><td class="r">—</td><td><span class="pill">Conectar</span></td></tr>
+   <tr><td>Crear con IA</td><td class="mut">si nada encaja</td><td class="r">∞</td><td class="r">2</td><td class="g">✓ tuya</td></tr></table></div>
+ <div class="card col" style="width:330px;gap:2px"><span class="mut" style="margin-bottom:4px">¿Suena de acuerdo al video?</span>
+  <div class="ck">Sincronía con motions<div class="sp"></div><span class="mb"><i style="width:98%;background:var(--verde)"></i></span><b class="g">98</b></div>
+  <div class="ck">Música vs. emoción<div class="sp"></div><span class="mb"><i style="width:81%;background:var(--ambar)"></i></span><b style="color:var(--ambar)">81</b></div>
+  <div class="ck">La voz siempre clara<div class="sp"></div><span class="mb"><i style="width:96%;background:var(--verde)"></i></span><b class="g">96</b></div>
+  <div class="ck">Variedad (sin repetir)<div class="sp"></div><span class="mb"><i style="width:100%;background:var(--verde)"></i></span><b class="g">100</b></div>
+  <div class="ck">Volumen final −14 LUFS<div class="sp"></div><span class="mb"><i style="width:94%;background:var(--verde)"></i></span><b class="g">94</b></div>
+  <div class="ck">Licencias libres<div class="sp"></div><span class="mb"><i style="width:96%;background:var(--verde)"></i></span><b class="g">22/23</b></div>
+  <span class="s mut" style="margin:6px 0 2px">Lo que encontró y arregló</span>
+  <div class="fx"><div><span>✓</span> Sonido de BBC → cambiado por uno libre</div><div><span>✓</span> 2 whoosh iguales seguidos → uno distinto</div><div><span>✓</span> Golpe 2 cuadros tarde → corregido</div><div style="color:var(--ambar)">◌ Música de 0:10–0:20 → buscando…</div></div></div>
+</div>
+<div class="card chat"><span style="color:var(--ambar)">⚡</span><div class="in">Exígele más… («escucha 1 000 opciones por momento», «solo música con cuerdas»)</div><span class="s mut">Opciones por momento</span><div class="seg" style="height:30px"><span>50</span><span>200</span><span class="on">1 000</span></div><span class="btn">Enviar</span></div>
+</body></html>
