@@ -1,5 +1,5 @@
 "use strict";
-(self["webpackChunkcinecaptions_pro_remotion"] = self["webpackChunkcinecaptions_pro_remotion"] || []).push([[945],{
+(self["webpackChunkcinecaptions_pro_remotion"] = self["webpackChunkcinecaptions_pro_remotion"] || []).push([[995],{
 
 /***/ 8033
 (__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
@@ -503,7 +503,7 @@ var __require = /* @__PURE__ */ (/* unused pure expression or super */ null && (
 
 /***/ },
 
-/***/ 4945
+/***/ 3995
 (__webpack_module__, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
@@ -16865,7 +16865,6 @@ var recast7 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ 
 var recast6 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ .f1)(require_main2(), 1);
 var recast5 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ .f1)(require_main2(), 1);
 var recast4 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ .f1)(require_main2(), 1);
-
 var recast12 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ .f1)(require_main2(), 1);
 var recast8 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ .f1)(require_main2(), 1);
 var recast9 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ .f1)(require_main2(), 1);
@@ -16881,34 +16880,36 @@ var recast17 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */
 
 
 
+
 var recast19 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ .f1)(require_main2(), 1);
 var recast21 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ .f1)(require_main2(), 1);
-var recast23 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ .f1)(require_main2(), 1);
 var recast22 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ .f1)(require_main2(), 1);
 var recast24 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ .f1)(require_main2(), 1);
+var recast23 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ .f1)(require_main2(), 1);
 var recast25 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ .f1)(require_main2(), 1);
-
 var recast26 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ .f1)(require_main2(), 1);
+
 var recast27 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ .f1)(require_main2(), 1);
 var recast28 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ .f1)(require_main2(), 1);
 var recast29 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ .f1)(require_main2(), 1);
-var recast32 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ .f1)(require_main2(), 1);
-
-var recast31 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ .f1)(require_main2(), 1);
 var recast30 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ .f1)(require_main2(), 1);
 var recast33 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ .f1)(require_main2(), 1);
+
+var recast32 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ .f1)(require_main2(), 1);
+var recast31 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ .f1)(require_main2(), 1);
 var recast34 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ .f1)(require_main2(), 1);
 var recast35 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ .f1)(require_main2(), 1);
 var recast36 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ .f1)(require_main2(), 1);
 var recast37 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ .f1)(require_main2(), 1);
 var recast38 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ .f1)(require_main2(), 1);
-var recast41 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ .f1)(require_main2(), 1);
 var recast39 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ .f1)(require_main2(), 1);
-var recast40 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ .f1)(require_main2(), 1);
-
-
 var recast42 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ .f1)(require_main2(), 1);
+var recast40 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ .f1)(require_main2(), 1);
+var recast41 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ .f1)(require_main2(), 1);
+
+
 var recast43 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ .f1)(require_main2(), 1);
+var recast44 = (0,_index_ertrwccy_mjs__WEBPACK_IMPORTED_MODULE_0__/* .__toESM */ .f1)(require_main2(), 1);
 
 var __create = Object.create;
 var __getProtoOf = Object.getPrototypeOf;
@@ -32388,27 +32389,30 @@ function springCalculation({
     stiffness: config.stiffness ?? defaultSpringConfig.stiffness,
     overshootClamping: config.overshootClamping ?? defaultSpringConfig.overshootClamping
   };
-  const cacheKey = [
-    frame,
+  const configKey = [
     fps,
     resolvedConfig.damping,
     resolvedConfig.mass,
     resolvedConfig.overshootClamping,
     resolvedConfig.stiffness
   ].join("-");
+  const cacheKey = `${frame}-${configKey}`;
   if (calculationCache[cacheKey]) {
     return calculationCache[cacheKey];
   }
-  let animation = {
+  const frameClamped = Math.max(0, frame);
+  const previousFrame = Math.ceil(frameClamped) - 1;
+  const previousAnimation = previousFrame >= 0 ? calculationCache[`${previousFrame}-${configKey}`] : undefined;
+  let animation = previousAnimation ?? {
     lastTimestamp: 0,
     current: from,
     toValue: to,
     velocity: 0,
     prevPosition: 0
   };
-  const frameClamped = Math.max(0, frame);
   const unevenRest = frameClamped % 1;
-  for (let f = 0;f <= Math.floor(frameClamped); f++) {
+  const startFrame = previousAnimation ? previousFrame + 1 : 0;
+  for (let f = startFrame;f <= Math.floor(frameClamped); f++) {
     const time = f / fps * 1000;
     animation = advance({
       animation,
@@ -32542,6 +32546,7 @@ function spring({
 }
 var clampUnit = (t) => Math.min(1, Math.max(0, t));
 var springEasingDurationInFrames = 30;
+var easeBezier = null;
 
 class Easing {
   static step0(n) {
@@ -32554,7 +32559,8 @@ class Easing {
     return t;
   }
   static ease(t) {
-    return Easing.bezier(0.42, 0, 1, 1)(t);
+    easeBezier ??= Easing.bezier(0.42, 0, 1, 1);
+    return easeBezier(t);
   }
   static quad(t) {
     return t * t;
@@ -33952,23 +33958,23 @@ var MODERN_VALUE = "(?:none|[-+]?\\d*\\.?\\d+(?:%|deg|rad|grad|turn)?)";
 function modernColorCall(name) {
   return new RegExp(name + "\\(\\s*(" + MODERN_VALUE + ")\\s+(" + MODERN_VALUE + ")\\s+(" + MODERN_VALUE + ")(?:\\s*\\/\\s*(" + MODERN_VALUE + "))?\\s*\\)");
 }
+var cachedMatchers = {
+  rgb: undefined,
+  rgba: undefined,
+  hsl: undefined,
+  hsla: undefined,
+  hex3: undefined,
+  hex4: undefined,
+  hex5: undefined,
+  hex6: undefined,
+  hex8: undefined,
+  oklch: undefined,
+  oklab: undefined,
+  lab: undefined,
+  lch: undefined,
+  hwb: undefined
+};
 function getMatchers() {
-  const cachedMatchers = {
-    rgb: undefined,
-    rgba: undefined,
-    hsl: undefined,
-    hsla: undefined,
-    hex3: undefined,
-    hex4: undefined,
-    hex5: undefined,
-    hex6: undefined,
-    hex8: undefined,
-    oklch: undefined,
-    oklab: undefined,
-    lab: undefined,
-    lch: undefined,
-    hwb: undefined
-  };
   if (cachedMatchers.rgb === undefined) {
     cachedMatchers.rgb = new RegExp("rgb" + call(NUMBER, NUMBER, NUMBER));
     cachedMatchers.rgba = new RegExp("rgba" + call(NUMBER, NUMBER, NUMBER, NUMBER));
@@ -36069,9 +36075,16 @@ var getVideoConfigIdentifiers = ({
       this.traverse(path);
     }
   });
+  if (candidates.size === 0) {
+    return candidates;
+  }
+  const candidateNames = new Set([...candidates.keys()].map((identifier) => identifier.name));
   const bindings = new Map;
   recast9.types.visit(ast, {
     visitIdentifier(path) {
+      if (!candidateNames.has(path.node.name)) {
+        return this.traverse(path);
+      }
       const declarations = path.scope.lookup(path.node.name)?.getBindings()[path.node.name] ?? [];
       if (declarations.length === 1) {
         const binding = candidates.get(declarations[0].node);
@@ -36719,7 +36732,8 @@ var transformNodePathIndices = ({
       transformed.push(segment);
       continue;
     }
-    const mappedIndex = direction === "to-agnostic" ? getAgnosticIndex({
+    const canContainIgnoredNodes = arrayContext.property === "body" && (arrayContext.parent.type === "Program" || arrayContext.parent.type === "BlockStatement");
+    const mappedIndex = !canContainIgnoredNodes ? Number.isInteger(segment) && segment >= 0 && segment < current.length ? segment + 0 : null : direction === "to-agnostic" ? getAgnosticIndex({
       items: current,
       actualIndex: segment,
       shouldIgnore,
@@ -42082,16 +42096,19 @@ var makeComponentDragData = ({
   importPath,
   props
 }) => {
+  const component = {
+    componentName,
+    importName,
+    importPath,
+    props
+  };
+  if (dimensions) {
+    component.dimensions = dimensions;
+  }
   return {
     type: "remotion-component",
     version: 1,
-    component: {
-      componentName,
-      ...dimensions ? { dimensions } : {},
-      importName,
-      importPath,
-      props
-    }
+    component
   };
 };
 var parseComponentDragData = (value) => {
@@ -42127,7 +42144,8 @@ var assertDimensions = (metadata) => {
   if (!("width" in metadata) && !("height" in metadata)) {
     return;
   }
-  const { height, width } = metadata;
+  const width = "width" in metadata ? metadata.width : undefined;
+  const height = "height" in metadata ? metadata.height : undefined;
   if (width === undefined && height === undefined) {
     return;
   }
@@ -42186,7 +42204,7 @@ var parsePositiveNumber = (value, max) => {
   const parsed = Number(value);
   return Number.isFinite(parsed) && parsed > 0 && parsed <= max ? parsed : null;
 };
-var parseDragMimeType = (mimeType) => {
+var parseMimeParameters = (mimeType) => {
   if (mimeType.length > MAX_MIME_TYPE_LENGTH || !mimeType.startsWith(`${REMOTION_DRAG_MIME_TYPE};`)) {
     return null;
   }
@@ -42210,50 +42228,65 @@ var parseDragMimeType = (mimeType) => {
   if (values.get("v") !== String(DRAG_MIME_VERSION)) {
     return null;
   }
-  const type = values.get("type");
-  if (type !== "asset" && type !== "component" && type !== "effect" && type !== "element" && type !== "render-output" && type !== "sfx") {
-    return null;
-  }
+  return values;
+};
+var parseMimeDimensions = (values) => {
   const widthValue = values.get("width");
   const heightValue = values.get("height");
-  if (widthValue === undefined !== (heightValue === undefined)) {
+  if (widthValue === undefined && heightValue === undefined) {
+    return {};
+  }
+  if (widthValue === undefined || heightValue === undefined) {
     return null;
   }
-  if ((type === "effect" || type === "render-output" || type === "sfx") && (widthValue !== undefined || values.has("duration"))) {
-    return null;
-  }
-  const width = widthValue === undefined ? undefined : parsePositiveNumber(widthValue, MAX_DIMENSION);
-  const height = heightValue === undefined ? undefined : parsePositiveNumber(heightValue, MAX_DIMENSION);
+  const width = parsePositiveNumber(widthValue, MAX_DIMENSION);
+  const height = parsePositiveNumber(heightValue, MAX_DIMENSION);
   if (width === null || height === null) {
     return null;
   }
+  return { width, height };
+};
+var parseDragMimeType = (mimeType) => {
+  const values = parseMimeParameters(mimeType);
+  if (values === null) {
+    return null;
+  }
+  const dimensions = parseMimeDimensions(values);
+  if (dimensions === null) {
+    return null;
+  }
+  const type = values.get("type");
   const durationValue = values.get("duration");
-  if (durationValue !== undefined && type !== "asset" && type !== "element") {
-    return null;
-  }
-  const duration = durationValue === undefined ? undefined : type === "asset" ? parsePositiveNumber(durationValue, MAX_DURATION_IN_SECONDS) : parsePositiveInteger(durationValue, MAX_DURATION_IN_FRAMES);
-  if (duration === null) {
-    return null;
-  }
-  const dimensions = width === undefined ? {} : { width, height };
-  if (type === "asset") {
-    return {
-      type,
-      ...dimensions,
-      ...duration === undefined ? {} : { durationInSeconds: duration }
-    };
-  }
-  if (type === "element") {
-    if (duration === undefined) {
-      return null;
+  switch (type) {
+    case "asset": {
+      if (durationValue === undefined) {
+        return { type, ...dimensions };
+      }
+      const durationInSeconds = parsePositiveNumber(durationValue, MAX_DURATION_IN_SECONDS);
+      if (durationInSeconds === null) {
+        return null;
+      }
+      return { type, ...dimensions, durationInSeconds };
     }
-    return {
-      type,
-      ...dimensions,
-      durationInFrames: duration
-    };
+    case "element": {
+      if (durationValue === undefined) {
+        return null;
+      }
+      const durationInFrames = parsePositiveInteger(durationValue, MAX_DURATION_IN_FRAMES);
+      if (durationInFrames === null) {
+        return null;
+      }
+      return { type, ...dimensions, durationInFrames };
+    }
+    case "component":
+      return durationValue === undefined ? { type, ...dimensions } : null;
+    case "effect":
+    case "render-output":
+    case "sfx":
+      return dimensions.width === undefined && durationValue === undefined ? { type } : null;
+    default:
+      return null;
   }
-  return { type, ...dimensions };
 };
 var getDragPreviewMetadata = (mimeTypes) => {
   for (let index = 0;index < mimeTypes.length; index++) {
@@ -42265,7 +42298,8 @@ var getDragPreviewMetadata = (mimeTypes) => {
   }
   return null;
 };
-var effectConfigSchema = record(string2(), json());
+var jsonSchema = json();
+var effectConfigSchema = record(string2(), jsonSchema);
 var effectDragDataSchema = object({
   type: literal("remotion-effect"),
   version: literal(1),
@@ -42375,22 +42409,23 @@ var maxElementAssets = 100;
 var maxElementAssetBytes = 50 * 1024 * 1024;
 var lowercaseElementFileNameSchema = string2().check(refine((value) => value.length > 0 && value.length < 120 && value === value.toLowerCase() && value.endsWith(".tsx") && !value.includes("/") && !value.includes("\\") && !value.includes("\x00") && !value.includes("..") && /^[a-z0-9][a-z0-9.-]*\.tsx$/.test(value)));
 var slugSchema = string2().check(refine((value) => value.length > 0 && value.length < 120 && /^[a-z0-9][a-z0-9/-]*$/.test(value) && !value.includes("..") && !value.includes("//")));
-var isLowercaseElementFileName = (value) => safeParse(lowercaseElementFileNameSchema, value).success;
-var isSlug = (value) => safeParse(slugSchema, value).success;
 var makeElementFileNameFromSlug = (slug) => {
-  if (!isSlug(slug))
+  if (!safeParse(slugSchema, slug).success) {
     return null;
+  }
   const lastSegment = slug.split("/").at(-1);
-  if (!lastSegment)
+  if (!lastSegment) {
     return null;
+  }
   const fileName = `${lastSegment}.element.tsx`;
-  return isLowercaseElementFileName(fileName) ? fileName : null;
+  return safeParse(lowercaseElementFileNameSchema, fileName).success ? fileName : null;
 };
 var getElementComponentNameFromSourceCode = (sourceCode) => {
   const componentNames = Array.from(sourceCode.matchAll(/export\s+(?:const|function)\s+([A-Z_$][A-Za-z0-9_$]*)\b/g)).map((match) => match[1]);
   const uniqueComponentNames = Array.from(new Set(componentNames));
-  if (uniqueComponentNames.length !== 1)
+  if (uniqueComponentNames.length !== 1) {
     return null;
+  }
   return isComponentIdentifier(uniqueComponentNames[0]) ? uniqueComponentNames[0] : null;
 };
 var packagesProvidedByRemotionProjects = new Set([
@@ -42426,7 +42461,26 @@ function assertElementDependency(value) {
 var isElementDependency = (value) => safeParse(elementDependencySchema, value).success;
 var windowsReservedNames = /^(con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i;
 var strictBase64Regex = /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/;
-var isValidElementAssetPath = (assetPath) => assetPath.length > 0 && assetPath.length <= 1024 && !assetPath.startsWith("/") && !assetPath.includes("\\") && assetPath.split("/").every((segment) => segment !== "" && segment !== "." && segment !== ".." && !/[<>:"|?*]/.test(segment) && !Array.from(segment).some((character) => character.charCodeAt(0) <= 31) && !/[. ]$/.test(segment) && !windowsReservedNames.test(segment));
+var isValidElementAssetPath = (assetPath) => {
+  if (assetPath.length === 0 || assetPath.length > 1024) {
+    return false;
+  }
+  if (assetPath.startsWith("/") || assetPath.includes("\\")) {
+    return false;
+  }
+  return assetPath.split("/").every((segment) => {
+    if (segment === "" || segment === "." || segment === "..") {
+      return false;
+    }
+    if (/[<>:"|?*]/.test(segment) || /[. ]$/.test(segment)) {
+      return false;
+    }
+    if (Array.from(segment).some((character) => character.charCodeAt(0) <= 31)) {
+      return false;
+    }
+    return !windowsReservedNames.test(segment);
+  });
+};
 var isValidElementAssetUrl = (value) => {
   try {
     const url = new URL(value);
@@ -42462,7 +42516,12 @@ function assertElementAssets(value) {
     }
     paths.add(assetPath);
     if (asset.type === "base64") {
-      embeddedBytes += asset.data.length / 4 * 3 - (asset.data.endsWith("==") ? 2 : asset.data.endsWith("=") ? 1 : 0);
+      embeddedBytes += asset.data.length / 4 * 3;
+      if (asset.data.endsWith("==")) {
+        embeddedBytes -= 2;
+      } else if (asset.data.endsWith("=")) {
+        embeddedBytes -= 1;
+      }
     }
   }
   if (embeddedBytes > maxElementAssetBytes) {
@@ -42495,14 +42554,43 @@ var isJsonCompatibleValue = (value, seen) => {
   if (typeof value !== "object" || seen.has(value)) {
     return false;
   }
+  if (!Array.isArray(value)) {
+    const prototype = Object.getPrototypeOf(value);
+    if (prototype !== null && Object.getPrototypeOf(prototype) !== null) {
+      return false;
+    }
+  }
   seen.add(value);
-  const prototype = Object.getPrototypeOf(value);
-  const valid = Array.isArray(value) ? value.every((item) => isJsonCompatibleValue(item, seen)) : (prototype === null || Object.getPrototypeOf(prototype) === null) && Object.values(value).every((item) => isJsonCompatibleValue(item, seen));
+  const values = Array.isArray(value) ? value : Object.values(value);
+  const valid = values.every((item) => isJsonCompatibleValue(item, seen));
   seen.delete(value);
   return valid;
 };
-var isElementInitialProps = (value) => value === null || !Array.isArray(value) && typeof value === "object" && value !== null && Object.keys(value).every((key) => initialPropNameRegex.test(key)) && isJsonCompatibleValue(value, new Set);
-var isStaticFileRef = (value) => typeof value === "object" && value !== null && !Array.isArray(value) && Object.keys(value).length === 1 && Object.hasOwn(value, "__remotion_element_asset") && typeof value.__remotion_element_asset === "string" && isValidElementAssetPath(value.__remotion_element_asset);
+var isElementInitialProps = (value) => {
+  if (value === null) {
+    return true;
+  }
+  if (typeof value !== "object" || Array.isArray(value)) {
+    return false;
+  }
+  if (!Object.keys(value).every((key) => initialPropNameRegex.test(key))) {
+    return false;
+  }
+  return isJsonCompatibleValue(value, new Set);
+};
+var elementAssetPathSchema = string2().check(refine(isValidElementAssetPath));
+var isStaticFileRef = (value) => {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) {
+    return false;
+  }
+  if (Object.keys(value).length !== 1) {
+    return false;
+  }
+  if (!Object.hasOwn(value, "__remotion_element_asset") || !("__remotion_element_asset" in value)) {
+    return false;
+  }
+  return safeParse(elementAssetPathSchema, value.__remotion_element_asset).success;
+};
 function assertElementAssetReferences({
   assets,
   initialProps
@@ -42541,7 +42629,14 @@ var hasValidElementInitialPropsForInstallationMode = ({
   if (Object.keys(initialProps).some((name) => componentOwnedInstallationProps.has(name))) {
     return false;
   }
-  return initialProps.style === undefined || initialProps.style !== null && typeof initialProps.style === "object" && !Array.isArray(initialProps.style);
+  const { style } = initialProps;
+  if (style === undefined) {
+    return true;
+  }
+  if (style === null || Array.isArray(style)) {
+    return false;
+  }
+  return typeof style === "object";
 };
 var makeElementDragData = ({
   assets,
@@ -42560,21 +42655,29 @@ var makeElementDragData = ({
   for (const dependency of dependencies) {
     assertElementDependency(dependency);
   }
+  const uniqueDependencies = new Map(dependencies.map((dependency) => [dependency.name, dependency]));
+  const element = {
+    assets: [...assets],
+    dependencies: Array.from(uniqueDependencies.values()),
+    dimensions,
+    displayName,
+    initialProps,
+    slug,
+    sourceCode
+  };
+  if (durationInFrames !== undefined) {
+    element.durationInFrames = durationInFrames;
+  }
+  if (installationMode !== undefined) {
+    element.installationMode = installationMode;
+  }
+  if (isCaptionStyle !== undefined) {
+    element.isCaptionStyle = isCaptionStyle;
+  }
   return {
     type: "remotion-element",
     version: assets.length === 0 ? 1 : 2,
-    element: {
-      assets: [...assets],
-      dependencies: Array.from(new Map(dependencies.map((dependency) => [dependency.name, dependency])).values()),
-      dimensions,
-      displayName,
-      ...durationInFrames === undefined ? {} : { durationInFrames },
-      initialProps,
-      ...installationMode === undefined ? {} : { installationMode },
-      ...isCaptionStyle === undefined ? {} : { isCaptionStyle },
-      slug,
-      sourceCode
-    }
+    element
   };
 };
 var elementDragDataSchema = object({
@@ -42772,16 +42875,20 @@ var dimensionsMatch = (preview, dimensions) => {
   return preview.width === dimensions.width && preview.height === dimensions.height;
 };
 var parseDragData = (source) => {
-  const { mimeType, payload } = "types" in source ? (() => {
+  let serialized;
+  if ("types" in source) {
     const candidate = getDragPreviewMetadata(source.types);
     if (candidate === null) {
-      return { mimeType: "", payload: "" };
+      return null;
     }
-    return {
+    serialized = {
       mimeType: candidate.mimeType,
       payload: source.getData(candidate.mimeType)
     };
-  })() : source;
+  } else {
+    serialized = source;
+  }
+  const { mimeType, payload } = serialized;
   const preview = parseDragMimeType(mimeType);
   if (preview === null) {
     return null;
@@ -42829,6 +42936,10 @@ var studioElementPayloadEnvelopeSchema = object({
   durationInFrames: durationSchema2,
   element: unknown()
 });
+var displayNameSchema = string2().check(_minLength(1));
+var sourceCodeSchema = string2().check(refine((value) => value.trim().length > 0));
+var installationModeSchema = optional(_enum(["wrapped", "component-owned-sequence"]));
+var captionStyleSchema = optional(boolean2());
 var parseStudioElementPayload = (value) => {
   const parsed = safeParse(studioElementPayloadEnvelopeSchema, value);
   if (!parsed.success) {
@@ -42837,7 +42948,7 @@ var parseStudioElementPayload = (value) => {
   if (typeof parsed.data.element !== "object" || parsed.data.element === null || Array.isArray(parsed.data.element)) {
     return null;
   }
-  const rawInitialProps = Object.hasOwn(parsed.data.element, "initialProps") ? parsed.data.element.initialProps : null;
+  const rawInitialProps = Object.hasOwn(parsed.data.element, "initialProps") && "initialProps" in parsed.data.element ? parsed.data.element.initialProps : null;
   if (!isElementInitialProps(rawInitialProps)) {
     return null;
   }
@@ -42852,8 +42963,9 @@ var parseStudioElementPayload = (value) => {
     return null;
   }
   const element = parseElementDragData(serializedElement);
-  if (element === null)
+  if (element === null) {
     return null;
+  }
   const payload = {
     ...element,
     element: {
@@ -43021,7 +43133,7 @@ var discoverStudios = async (dependencies) => {
     foundInvalidResponse
   };
 };
-var isAbortError = (error) => error instanceof Error && error.name === "AbortError";
+var isAbortError = (cause) => cause instanceof Error && cause.name === "AbortError";
 var awaitingConfirmationResponseSchema = object({
   protocol: literal("remotion-studio-protocol"),
   protocolVersion: literal(1),
@@ -43105,70 +43217,36 @@ var isAllowedStudioProtocolPageOrigin = (origin) => {
     return false;
   }
 };
-var installInStudioWithDependencies = async (payload, dependencies, fallbackPayload = null) => {
-  if (!isAllowedStudioProtocolPageOrigin(dependencies.pageOrigin)) {
-    return failure("unsupported-origin", "Install in Studio is only supported on HTTPS websites and local development origins.");
+var isLoopbackPermissionDenied = async (permissionQueryFn) => {
+  if (permissionQueryFn === null) {
+    return false;
   }
-  const discovery = await discoverStudios(dependencies);
-  if (discovery.studios.length === 0) {
-    if (discovery.foundUnsupportedProtocol) {
-      return failure("unsupported-protocol", "The running Remotion Studio uses an unsupported Studio Protocol version.");
-    }
-    if (discovery.foundInvalidResponse) {
-      return failure("invalid-response", "Remotion Studio returned an invalid Studio Protocol response.");
-    }
-    if (dependencies.permissionQueryFn !== null) {
-      for (const name of [
-        "loopback-network",
-        "local-network-access"
-      ]) {
-        try {
-          const permission = await dependencies.permissionQueryFn({ name });
-          if (permission.state === "denied") {
-            return failure("loopback-network-permission-denied", "Access to localhost is blocked by your browser. Open the site settings, allow local network access for this site, then try again.");
-          }
-          break;
-        } catch {}
-      }
-    }
-    return failure("no-compatible-studio", "Start Remotion Studio, then try again.");
+  for (const name of ["loopback-network", "local-network-access"]) {
+    try {
+      const permission = await permissionQueryFn({ name });
+      return permission.state === "denied";
+    } catch {}
   }
-  const supportedStudios = discovery.studios.flatMap((studio) => {
-    const capability = getInstallCapability(studio.descriptor);
-    return capability?.payloadVersions.includes(payload.version) || fallbackPayload !== null && capability?.payloadVersions.includes(fallbackPayload.version) ? [{ ...studio, capability }] : [];
-  });
-  if (supportedStudios.length === 0) {
-    return failure(payload.version === 2 ? "studio-upgrade-required" : "unsupported-protocol", payload.version === 2 ? "Upgrade Remotion Studio to install Elements that include assets." : "The running Remotion Studio cannot install this Element payload version.");
-  }
-  const now = dependencies.now();
-  const installable = supportedStudios.filter(({ capability }) => {
-    const { target } = capability;
-    return target !== null && target.expiresAt > now;
-  }).sort((a, b) => {
-    const focusDifference = (b.capability.target.lastFocusedAt ?? 0) - (a.capability.target.lastFocusedAt ?? 0);
-    return focusDifference === 0 ? b.discoveredAt - a.discoveredAt : focusDifference;
-  });
-  const selected = installable[0];
-  const selectedTarget = selected?.capability.target;
-  if (!selected || selectedTarget === null || selectedTarget === undefined || selectedTarget.lastFocusedAt === null && installable.length > 1) {
-    return failure("no-installable-target", "Focus Remotion Studio, then try again.");
-  }
-  const selectedPayload = selected.capability.payloadVersions.includes(payload.version) ? payload : fallbackPayload;
-  if (selectedPayload === null) {
-    return failure("unsupported-protocol", "The running Remotion Studio cannot install this Element payload version.");
-  }
+  return false;
+};
+var requestElementInstallation = async ({
+  fetchFn,
+  studio,
+  target,
+  payload
+}) => {
   let response;
   try {
     const requestBody = {
       operation: "install-element",
       protocol: "remotion-studio-protocol",
       protocolVersion: 1,
-      targetId: selectedTarget.id,
-      payload: selectedPayload
+      targetId: target.id,
+      payload
     };
     response = await fetchWithTimeout({
-      fetchFn: dependencies.fetchFn,
-      url: `${selected.origin}/api/studio-protocol/install`,
+      fetchFn,
+      url: `${studio.origin}/api/studio-protocol/install`,
       options: {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -43176,7 +43254,8 @@ var installInStudioWithDependencies = async (payload, dependencies, fallbackPayl
       }
     });
   } catch (error) {
-    return failure(isAbortError(error) ? "request-timed-out" : "network-error", isAbortError(error) ? "The request to Remotion Studio timed out." : "Could not connect to Remotion Studio.");
+    const timedOut = isAbortError(error);
+    return failure(timedOut ? "request-timed-out" : "network-error", timedOut ? "The request to Remotion Studio timed out." : "Could not connect to Remotion Studio.");
   }
   let result;
   try {
@@ -43189,10 +43268,10 @@ var installInStudioWithDependencies = async (payload, dependencies, fallbackPayl
       success: true,
       status: "awaiting-confirmation",
       target: {
-        projectName: selected.descriptor.projectName,
-        compositionId: selectedTarget.compositionId,
-        studioOrigin: selected.origin,
-        studioVersion: selected.descriptor.studioVersion
+        projectName: studio.descriptor.projectName,
+        compositionId: target.compositionId,
+        studioOrigin: studio.origin,
+        studioVersion: studio.descriptor.studioVersion
       }
     };
   }
@@ -43201,6 +43280,64 @@ var installInStudioWithDependencies = async (payload, dependencies, fallbackPayl
     return failure(protocolError.code === "target-expired" ? "target-expired" : "request-rejected", protocolError.message);
   }
   return failure("invalid-response", "Remotion Studio returned an invalid installation response.");
+};
+var installInStudioWithDependencies = async (payload, dependencies, fallbackPayload = null) => {
+  if (!isAllowedStudioProtocolPageOrigin(dependencies.pageOrigin)) {
+    return failure("unsupported-origin", "Install in Studio is only supported on HTTPS websites and local development origins.");
+  }
+  const discovery = await discoverStudios(dependencies);
+  if (discovery.studios.length === 0) {
+    if (discovery.foundUnsupportedProtocol) {
+      return failure("unsupported-protocol", "The running Remotion Studio uses an unsupported Studio Protocol version.");
+    }
+    if (discovery.foundInvalidResponse) {
+      return failure("invalid-response", "Remotion Studio returned an invalid Studio Protocol response.");
+    }
+    if (await isLoopbackPermissionDenied(dependencies.permissionQueryFn)) {
+      return failure("loopback-network-permission-denied", "Access to localhost is blocked by your browser. Open the site settings, allow local network access for this site, then try again.");
+    }
+    return failure("no-compatible-studio", "Start Remotion Studio, then try again.");
+  }
+  const supportedStudios = discovery.studios.flatMap((studio) => {
+    const capability = getInstallCapability(studio.descriptor);
+    if (capability === null) {
+      return [];
+    }
+    const supportsPayload = capability.payloadVersions.includes(payload.version);
+    const supportsFallback = fallbackPayload !== null && capability.payloadVersions.includes(fallbackPayload.version);
+    if (!supportsPayload && !supportsFallback) {
+      return [];
+    }
+    return [{ ...studio, capability }];
+  });
+  if (supportedStudios.length === 0) {
+    return failure(payload.version === 2 ? "studio-upgrade-required" : "unsupported-protocol", payload.version === 2 ? "Upgrade Remotion Studio to install Elements that include assets." : "The running Remotion Studio cannot install this Element payload version.");
+  }
+  const now = dependencies.now();
+  const installable = supportedStudios.flatMap((studio) => {
+    const { target } = studio.capability;
+    if (target === null || target.expiresAt <= now) {
+      return [];
+    }
+    return [{ ...studio, target }];
+  }).sort((a, b) => {
+    const focusDifference = (b.target.lastFocusedAt ?? 0) - (a.target.lastFocusedAt ?? 0);
+    return focusDifference === 0 ? b.discoveredAt - a.discoveredAt : focusDifference;
+  });
+  const selected = installable[0];
+  if (!selected || selected.target.lastFocusedAt === null && installable.length > 1) {
+    return failure("no-installable-target", "Focus Remotion Studio, then try again.");
+  }
+  const selectedPayload = selected.capability.payloadVersions.includes(payload.version) ? payload : fallbackPayload;
+  if (selectedPayload === null) {
+    return failure("unsupported-protocol", "The running Remotion Studio cannot install this Element payload version.");
+  }
+  return requestElementInstallation({
+    fetchFn: dependencies.fetchFn,
+    studio: selected,
+    target: selected.target,
+    payload: selectedPayload
+  });
 };
 var studioProtocolAddElementLibraryRequestSchema = object({
   operation: literal("add-element-library"),
@@ -43257,16 +43394,17 @@ var parseStudioProtocolIframeAddElementLibraryRequest = (value) => {
   const parsed = safeParse(studioProtocolIframeAddElementLibraryRequestSchema, value);
   return parsed.success ? parsed.data : null;
 };
-var failure2 = (code, message) => ({ success: false, code, message });
-var addElementLibraryToStudioWithDependencies = async ({
-  captionStylesUrl,
+var failure2 = (code, message) => ({
+  success: false,
+  code,
+  message
+});
+var normalizeElementLibraryDetails = ({
+  url,
   displayName,
-  url
-}, dependencies) => {
-  if (!isAllowedStudioProtocolPageOrigin(dependencies.pageOrigin)) {
-    return failure2("unsupported-origin", "Adding an Element Library is only supported on HTTPS websites and local development origins.");
-  }
-  if (typeof url !== "string") {
+  captionStylesUrl
+}) => {
+  if (!safeParse(string2(), url).success) {
     return failure2("invalid-url", "The Element Library URL must be a string.");
   }
   let normalizedUrl;
@@ -43282,7 +43420,7 @@ var addElementLibraryToStudioWithDependencies = async ({
   let normalizedCaptionStylesUrl = null;
   if (captionStylesUrl !== null) {
     try {
-      if (typeof captionStylesUrl !== "string") {
+      if (!safeParse(string2(), captionStylesUrl).success) {
         throw new Error("Invalid URL");
       }
       const parsedUrl = new URL(captionStylesUrl);
@@ -43294,12 +43432,37 @@ var addElementLibraryToStudioWithDependencies = async ({
       return failure2("invalid-url", "The caption styles URL must be an absolute HTTP or HTTPS URL.");
     }
   }
-  if (displayName !== null && typeof displayName !== "string") {
+  if (!safeParse(nullable(string2()), displayName).success) {
     return failure2("invalid-display-name", "The Element Library display name must be a string.");
   }
   const normalizedDisplayName = displayName?.trim() ?? null;
   if (normalizedDisplayName === "") {
     return failure2("invalid-display-name", "The Element Library display name must not be empty.");
+  }
+  return {
+    success: true,
+    details: {
+      url: normalizedUrl,
+      displayName: normalizedDisplayName,
+      captionStylesUrl: normalizedCaptionStylesUrl
+    }
+  };
+};
+var addElementLibraryToStudioWithDependencies = async ({
+  captionStylesUrl,
+  displayName,
+  url
+}, dependencies) => {
+  if (!isAllowedStudioProtocolPageOrigin(dependencies.pageOrigin)) {
+    return failure2("unsupported-origin", "Adding an Element Library is only supported on HTTPS websites and local development origins.");
+  }
+  const normalized = normalizeElementLibraryDetails({
+    url,
+    displayName,
+    captionStylesUrl
+  });
+  if (!normalized.success) {
+    return normalized;
   }
   const discovery = await discoverStudios(dependencies);
   if (discovery.studios.length === 0) {
@@ -43319,16 +43482,18 @@ var addElementLibraryToStudioWithDependencies = async ({
     return failure2("studio-upgrade-required", "This Remotion Studio cannot add an Element Library through Studio Protocol. Upgrade Remotion to 4.0.518 or newer.");
   }
   const now = dependencies.now();
-  const configurable = supportedStudios.filter(({ capability }) => {
-    const { target } = capability;
-    return target !== null && target.expiresAt > now;
+  const configurable = supportedStudios.flatMap((studio) => {
+    const { target } = studio.capability;
+    if (target === null || target.expiresAt <= now) {
+      return [];
+    }
+    return [{ ...studio, target }];
   }).sort((a, b) => {
-    const focusDifference = b.capability.target.lastFocusedAt - a.capability.target.lastFocusedAt;
+    const focusDifference = b.target.lastFocusedAt - a.target.lastFocusedAt;
     return focusDifference === 0 ? b.discoveredAt - a.discoveredAt : focusDifference;
   });
   const selected = configurable[0];
-  const selectedTarget = selected?.capability.target;
-  if (!selected || selectedTarget === null || selectedTarget === undefined) {
+  if (!selected) {
     return failure2("no-configurable-target", "Focus a writable Remotion Studio tab, then try again.");
   }
   let response;
@@ -43337,10 +43502,8 @@ var addElementLibraryToStudioWithDependencies = async ({
       operation: "add-element-library",
       protocol: "remotion-studio-protocol",
       protocolVersion: 1,
-      targetId: selectedTarget.id,
-      url: normalizedUrl,
-      displayName: normalizedDisplayName,
-      captionStylesUrl: normalizedCaptionStylesUrl
+      targetId: selected.target.id,
+      ...normalized.details
     };
     response = await fetchWithTimeout({
       fetchFn: dependencies.fetchFn,
@@ -43374,7 +43537,11 @@ var addElementLibraryToStudioWithDependencies = async ({
   }
   const protocolError = parseStudioProtocolError(result);
   if (protocolError !== null) {
-    return failure2(protocolError.code === "target-expired" ? "target-expired" : protocolError.code === "no-config-file" ? "no-config-file" : "request-rejected", protocolError.message);
+    const { code, message } = protocolError;
+    if (code === "target-expired" || code === "no-config-file") {
+      return failure2(code, message);
+    }
+    return failure2("request-rejected", message);
   }
   return failure2("invalid-response", "Remotion Studio returned an invalid Element Library response.");
 };
@@ -43481,8 +43648,8 @@ var parseStudioProtocolCaptionStyleSelection = (value) => {
   const parsed = safeParse(captionStyleSelectionMessageSchema, value);
   return parsed.success ? parsed.data : null;
 };
-var publicLicenseKeyPattern = /^rm_pub_[a-zA-Z0-9]{48}$/;
-var isValidPublicLicenseKey = (licenseKey) => typeof licenseKey === "string" && publicLicenseKeyPattern.test(licenseKey);
+var publicLicenseKeySchema = string2().check(_regex(/^rm_pub_[a-zA-Z0-9]{48}$/));
+var isValidPublicLicenseKey = (licenseKey) => safeParse(publicLicenseKeySchema, licenseKey).success;
 var resolveElementAssets = async ({
   assets,
   downloadAsset
@@ -43555,16 +43722,18 @@ var setLicenseKeyInStudioWithDependencies = async (licenseKey, dependencies) => 
     };
   }
   const now = dependencies.now();
-  const configurable = supportedStudios.filter(({ capability }) => {
-    const { target } = capability;
-    return target !== null && target.expiresAt > now;
+  const configurable = supportedStudios.flatMap((studio) => {
+    const { target } = studio.capability;
+    if (target === null || target.expiresAt <= now) {
+      return [];
+    }
+    return [{ ...studio, target }];
   }).sort((a, b) => {
-    const focusDifference = b.capability.target.lastFocusedAt - a.capability.target.lastFocusedAt;
+    const focusDifference = b.target.lastFocusedAt - a.target.lastFocusedAt;
     return focusDifference === 0 ? b.discoveredAt - a.discoveredAt : focusDifference;
   });
   const selected = configurable[0];
-  const selectedTarget = selected?.capability.target;
-  if (!selected || selectedTarget === null || selectedTarget === undefined) {
+  if (!selected) {
     return {
       success: false,
       code: "no-configurable-target",
@@ -43577,7 +43746,7 @@ var setLicenseKeyInStudioWithDependencies = async (licenseKey, dependencies) => 
       operation: "set-license-key",
       protocol: "remotion-studio-protocol",
       protocolVersion: 1,
-      targetId: selectedTarget.id,
+      targetId: selected.target.id,
       licenseKey
     };
     response = await fetchWithTimeout({
@@ -46530,6 +46699,44 @@ var getCanUpdateDefaultPropsForProject = ({
   const filePath = findProjectFile({ filePath: compositionFile, project });
   return computeCanUpdateDefaultPropsFromContent(project.files[filePath], compositionId);
 };
+var resolveNodePathsFromLocations = ({
+  fileContents,
+  targets
+}) => {
+  const { ast } = getReadOnlySourceSnapshot(fileContents);
+  const matchesByLine = new Map;
+  for (const { line } of targets) {
+    if (!matchesByLine.has(line)) {
+      matchesByLine.set(line, { lastNodePath: null, byColumn: new Map });
+    }
+  }
+  const lineStarts = [0];
+  for (const match of fileContents.matchAll(/\r\n|[\r\n\u2028\u2029]/g)) {
+    lineStarts.push(match.index + match[0].length);
+  }
+  recast21.visit(ast, {
+    visitJSXOpeningElement(p) {
+      const location2 = p.node.loc?.start;
+      const matches = location2 ? matchesByLine.get(location2.line) : undefined;
+      if (location2 && matches) {
+        const nodePath = getNodePathForRecastPath(p, ast);
+        const column = recastLocToOffset(fileContents, location2) - lineStarts[location2.line - 1];
+        const previous = matches.byColumn.get(column);
+        matches.lastNodePath = nodePath;
+        matches.byColumn.set(column, {
+          nodePath,
+          count: (previous?.count ?? 0) + 1
+        });
+      }
+      return this.traverse(p);
+    }
+  });
+  return targets.map(({ line, column }) => {
+    const matches = matchesByLine.get(line);
+    const exact = matches.byColumn.get(column);
+    return exact?.count === 1 ? exact.nodePath : matches.lastNodePath;
+  });
+};
 var cache2 = new WeakMap;
 var functionTypes = new Set([
   "FunctionDeclaration",
@@ -46587,7 +46794,7 @@ var getDurationDependentKeyframes = ({
   if (cache2.has(scopeNode))
     return cache2.get(scopeNode);
   const inputRanges = [];
-  recast21.types.visit(scopePath, {
+  recast22.types.visit(scopePath, {
     visitCallExpression(path) {
       const { callee } = path.node;
       if (callee.type !== "Identifier" || !path.node.arguments[1] || getKeyframeInterpolationFunctionForCallee({
@@ -46604,7 +46811,7 @@ var getDurationDependentKeyframes = ({
         if (seen.has(rangePath.node))
           continue;
         seen.add(rangePath.node);
-        recast21.types.visit(rangePath, {
+        recast22.types.visit(rangePath, {
           visitIdentifier(identifierPath) {
             const binding = videoConfigIdentifierValues instanceof Map ? videoConfigIdentifierValues.get(identifierPath.node) : videoConfigIdentifierValues[identifierPath.node.name];
             if (binding?.type === "video-config" && binding.field === "durationInFrames") {
@@ -47057,7 +47264,7 @@ var getUnchangedStructureRemappings = ({
   }
   return before.flatMap((node, index) => {
     const next = after[index];
-    const unchanged = JSON.stringify(node.nodePath) === JSON.stringify(next.nodePath) && recast22.prettyPrint(node.node).code === recast22.prettyPrint(next.node).code;
+    const unchanged = JSON.stringify(node.nodePath) === JSON.stringify(next.nodePath) && recast23.prettyPrint(node.node).code === recast23.prettyPrint(next.node).code;
     return unchanged ? [] : [{ oldNodePath: node.nodePath, newNodePath: next.nodePath }];
   });
 };
@@ -47104,6 +47311,37 @@ var getUpdatedNodeReference = ({
   }
   return { filePath, nodePath: remapping?.newNodePath ?? node.nodePath };
 };
+var getUpdatedNodeReferences = ({
+  project,
+  nodes,
+  nodePathRemappings
+}) => {
+  if (nodes.length === 1) {
+    return [
+      getUpdatedNodeReference({ project, node: nodes[0], nodePathRemappings })
+    ];
+  }
+  const pathsByFile = new Map;
+  for (const { filePath, oldNodePath, newNodePath } of nodePathRemappings) {
+    if (oldNodePath === null) {
+      continue;
+    }
+    const paths = pathsByFile.get(filePath) ?? new Map;
+    const key = JSON.stringify(oldNodePath);
+    if (!paths.has(key)) {
+      paths.set(key, newNodePath);
+    }
+    pathsByFile.set(filePath, paths);
+  }
+  return nodes.map((node) => {
+    const filePath = findProjectFile({ project, filePath: node.filePath });
+    const nodePath = pathsByFile.get(filePath)?.get(JSON.stringify(node.nodePath));
+    if (nodePath === null) {
+      throw new Error("The JSX node was removed");
+    }
+    return { filePath, nodePath: nodePath ?? node.nodePath };
+  });
+};
 var groupNodeReferencesByFile = ({
   project,
   nodes
@@ -47112,17 +47350,22 @@ var groupNodeReferencesByFile = ({
     throw new Error("Expected at least one JSX node");
   }
   const groups = new Map;
+  const seenPathsByFile = new Map;
   for (const node of nodes) {
     const filePath = findProjectFile({ project, filePath: node.filePath });
     const paths = groups.get(filePath) ?? [];
-    if (!paths.some((path) => JSON.stringify(path) === JSON.stringify(node.nodePath))) {
+    const seenPaths = seenPathsByFile.get(filePath) ?? new Set;
+    const key = JSON.stringify(node.nodePath);
+    if (!seenPaths.has(key)) {
       paths.push(node.nodePath);
+      seenPaths.add(key);
     }
     groups.set(filePath, paths);
+    seenPathsByFile.set(filePath, seenPaths);
   }
   return groups;
 };
-var b10 = recast23.types.builders;
+var b10 = recast24.types.builders;
 var getCompositionRootSourceEdit = ({
   ast,
   exportName,
@@ -47323,16 +47566,20 @@ var getNodes2 = ({
   const { ast } = getReadOnlySourceSnapshot(input);
   const captured = getJsxNodesWithPaths(ast);
   const nodePathByNode = new Map(captured.map(({ node, nodePath }) => [node, nodePath]));
+  const lineStarts = [0];
+  for (const match of input.matchAll(/\r\n|[\r\n\u2028\u2029]/g)) {
+    lineStarts.push(match.index + match[0].length);
+  }
   return captured.map(({ node, nodePath, parentNode }) => {
     const offset = node.loc ? recastLocToOffset(input, node.loc.start) : null;
     return {
       filePath: resolvedFilePath,
       nodePath,
-      tagName: recast24.print(node.name).code,
+      tagName: recast25.print(node.name).code,
       componentIdentity: getJsxComponentIdentity({ ast, jsxElement: node }),
       location: node.loc && offset !== null ? {
         line: node.loc.start.line,
-        column: input.slice(0, offset).split(/\r\n|[\r\n\u2028\u2029]/).at(-1).length
+        column: offset - lineStarts[node.loc.start.line - 1]
       } : null,
       parentNodePath: parentNode === null ? null : nodePathByNode.get(parentNode) ?? null
     };
@@ -47372,7 +47619,7 @@ var getNodeProps = ({
   });
   return result;
 };
-var b11 = recast25.types.builders;
+var b11 = recast26.types.builders;
 var ensureImportsForUpdates = ({
   ast,
   updates
@@ -47408,7 +47655,7 @@ var snapshotTopLevelAttrs = (node) => {
   for (const a of node.attributes ?? []) {
     if (a.type === "JSXAttribute" && a.name.type === "JSXIdentifier") {
       const { name } = a.name;
-      const printed = recast25.print(a).code.replace(/\s+/g, " ").replace(/,(\s*[}\]])/g, "$1").trim();
+      const printed = recast26.print(a).code.replace(/\s+/g, " ").replace(/,(\s*[}\]])/g, "$1").trim();
       const prefix = `${name}=`;
       let valueOnly = printed.startsWith(prefix) ? printed.slice(prefix.length) : printed;
       if (valueOnly.startsWith("{") && valueOnly.endsWith("}")) {
@@ -47420,7 +47667,7 @@ var snapshotTopLevelAttrs = (node) => {
   return result;
 };
 var isFunctionNode3 = (value) => {
-  return recast25.types.namedTypes.FunctionDeclaration.check(value) || recast25.types.namedTypes.FunctionExpression.check(value) || recast25.types.namedTypes.ArrowFunctionExpression.check(value);
+  return recast26.types.namedTypes.FunctionDeclaration.check(value) || recast26.types.namedTypes.FunctionExpression.check(value) || recast26.types.namedTypes.ArrowFunctionExpression.check(value);
 };
 var ensureUseCurrentFrameHook2 = ({
   ast,
@@ -47428,7 +47675,7 @@ var ensureUseCurrentFrameHook2 = ({
   hookName
 }) => {
   let functionPath = null;
-  recast25.types.visit(ast, {
+  recast26.types.visit(ast, {
     visitJSXElement(path) {
       if (path.node !== jsxElement) {
         return this.traverse(path);
@@ -47449,7 +47696,7 @@ var ensureUseCurrentFrameHook2 = ({
     return;
   }
   const fn = enclosingFunctionPath.value;
-  if (!recast25.types.namedTypes.BlockStatement.check(fn.body)) {
+  if (!recast26.types.namedTypes.BlockStatement.check(fn.body)) {
     fn.body = b11.blockStatement([
       b11.returnStatement(fn.body)
     ]);
@@ -47532,7 +47779,7 @@ var updateJsxTextContent = ({
 };
 var collectTopLevelIdentifierNames = (ast) => {
   const names = new Set;
-  recast25.types.visit(ast, {
+  recast26.types.visit(ast, {
     visitIdentifier(path) {
       names.add(path.node.name);
       this.traverse(path);
@@ -47704,7 +47951,7 @@ var collectUsedFontFamilyNames = (ast) => {
       used.add(normalizeFontFamilyName(primary));
     }
   };
-  recast25.types.visit(ast, {
+  recast26.types.visit(ast, {
     visitObjectProperty(path) {
       const { node } = path;
       if (node.key.type === "Identifier" && node.key.name === "fontFamily") {
@@ -47738,7 +47985,7 @@ var hasNonImportIdentifierReference = ({
   name
 }) => {
   let hasReference = false;
-  recast25.types.visit(ast, {
+  recast26.types.visit(ast, {
     visitIdentifier(path) {
       if (path.node.name !== name) {
         this.traverse(path);
@@ -47953,7 +48200,7 @@ var updateSequencePropsNode = ({
       });
       const attr = attrIndex !== undefined && attrIndex !== -1 ? node.attributes?.[attrIndex] : undefined;
       if (attr && attr.type !== "JSXSpreadAttribute" && attr.value) {
-        const printed = recast25.print(attr.value).code;
+        const printed = recast26.print(attr.value).code;
         oldValueString = printed.startsWith("{") && printed.endsWith("}") ? printed.slice(1, -1) : printed;
       } else if (attr && attr.type !== "JSXSpreadAttribute" && !attr.value) {
         oldValueString = "true";
@@ -48117,7 +48364,7 @@ var updateMultipleSequenceProps = ({
     if (!updates.some((update) => update.retimeKeyframes)) {
       continue;
     }
-    recast25.types.visit(jsxElement, {
+    recast26.types.visit(jsxElement, {
       visitJSXElement(p) {
         elementsToPrint.add(p.node);
         return this.traverse(p);
@@ -48157,22 +48404,31 @@ var updateMultipleSequenceProps = ({
         jsxElement,
         updates,
         schema,
-        videoConfigValues: getVideoConfigIdentifierValues({
-          ast,
-          videoConfigValues
-        }),
+        videoConfigValues: updates.some(({ value, clipboardParam }) => typeof value === "number" && !clipboardParam) ? getVideoConfigIdentifierValues({ ast, videoConfigValues }) : new Map,
         clipboardParamLocalNames
       })
     };
   });
   ensureImportsForUpdates({ ast, updates: allUpdates });
   applyGoogleFontSourceEdits({ ast, updates: allUpdates });
+  const updatedOpeningElements = new Set(updateResults.map(({ jsxElement }) => jsxElement.openingElement));
+  const updatedNodePaths = new Map;
+  if (updatedOpeningElements.size > 0) {
+    recast26.types.visit(ast, {
+      visitJSXOpeningElement(path) {
+        if (updatedOpeningElements.has(path.node)) {
+          updatedNodePaths.set(path.node, getNodePathForRecastPath(path, ast));
+        }
+        return this.traverse(path);
+      }
+    });
+  }
   const results = updateResults.map(({ jsxElement, result }) => {
-    const newNodePath = findNodePathForJsxElement(ast, jsxElement.openingElement);
+    const newNodePath = updatedNodePaths.get(jsxElement.openingElement);
     if (!newNodePath) {
       throw new Error("Could not determine the updated JSX element path");
     }
-    return { ...result, newNodePath };
+    return { ...result, newNodePath: [...newNodePath] };
   });
   const { coveredRanges, edits: functionEdits } = getFunctionSourceEditsForPrependedStatements({
     indentationUnit: getIndentationUnit(input, prettierConfig),
@@ -48198,7 +48454,7 @@ var updateMultipleSequenceProps = ({
       continue;
     }
     const original = input.slice(start, end);
-    if (recast25.print(openingElement).code === original) {
+    if (recast26.print(openingElement).code === original) {
       continue;
     }
     elementEdits.push({
@@ -48227,7 +48483,7 @@ var updateMultipleSequenceProps = ({
       continue;
     }
     const original = input.slice(start, end);
-    if (recast25.print(element).code === original) {
+    if (recast26.print(element).code === original) {
       continue;
     }
     elementEdits.push({
@@ -48369,7 +48625,11 @@ var updateMultipleNodeProps = ({
     ...result,
     results,
     formatted: true,
-    updatedNodes: changes.map(({ node }) => getUpdatedNodeReference({ project, ...result, node }))
+    updatedNodes: getUpdatedNodeReferences({
+      project,
+      ...result,
+      nodes: changes.map(({ node }) => node)
+    })
   };
 };
 var updateNodeProps = ({
@@ -48395,7 +48655,7 @@ var makeFragment = (first, second) => ({
   children: [first, second]
 });
 var cloneJsxElement = (element) => {
-  const printed = recast26.print(element).code;
+  const printed = recast27.print(element).code;
   const file = parseAstForReadOnly(`<>${printed}</>;`);
   const statement = file.program.body[0];
   if (statement?.type !== "ExpressionStatement" || statement.expression.type !== "JSXFragment") {
@@ -48654,7 +48914,7 @@ var duplicateNodes2 = async ({
     insertedNodes: getInsertedNodeReferences(result.nodePathRemappings)
   };
 };
-var { namedTypes: namedTypes2 } = recast27.types;
+var { namedTypes: namedTypes2 } = recast28.types;
 var getJsxChildrenParent = (path) => {
   const parent = path.parentPath?.node;
   if (!parent) {
@@ -48776,10 +49036,10 @@ var reorderNodes = async ({
         logLine: edit.logLine
       }
     ],
-    updatedNodes: nodes.map((node) => getUpdatedNodeReference({ project, ...result, node }))
+    updatedNodes: getUpdatedNodeReferences({ project, ...result, nodes })
   };
 };
-var { builders: b12, namedTypes: namedTypes3 } = recast28.types;
+var { builders: b12, namedTypes: namedTypes3 } = recast29.types;
 var normalizeComputedTiming = (value) => {
   return Number.isInteger(value) ? value : Number(value.toPrecision(15));
 };
@@ -48942,7 +49202,7 @@ var getSplittableSequenceTagName = (element) => {
   return jsxNameToString(element.openingElement.name);
 };
 var cloneJsxElement2 = (element) => {
-  const printed = recast28.print(element).code;
+  const printed = recast29.print(element).code;
   const file = parseAstForReadOnly(`<>${printed}</>;`);
   const statement = file.program.body[0];
   if (statement?.type !== "ExpressionStatement" || statement.expression.type !== "JSXFragment") {
@@ -49300,7 +49560,7 @@ var splitSequences = async ({
     insertedNodes: edits.flatMap(({ filePath, insertedNodePaths }) => insertedNodePaths.map((nodePath) => ({ filePath, nodePath })))
   };
 };
-var { namedTypes: namedTypes4 } = recast29.types;
+var { namedTypes: namedTypes4 } = recast30.types;
 var audioProps = [
   "src",
   "from",
@@ -49589,7 +49849,7 @@ var splitVideoFromAudio = ({
         return name !== null && audioProps.includes(name);
       }).map((attribute) => {
         const clone = cloneAstValue2(attribute);
-        originalAttributeSources.set(clone, recast29.print(clone).code);
+        originalAttributeSources.set(clone, recast30.print(clone).code);
         return clone;
       }),
       selfClosing: true
@@ -49807,23 +50067,23 @@ var import_react73 = __toESM2(require_react(), 1);
 var import_react74 = __toESM2(require_react(), 1);
 var import_react75 = __toESM2(require_react(), 1);
 var import_react76 = __toESM2(require_react(), 1);
-var import_jsx_runtime26 = __toESM2(require_jsx_runtime(), 1);
 var import_react77 = __toESM2(require_react(), 1);
+var import_jsx_runtime26 = __toESM2(require_jsx_runtime(), 1);
 var import_react78 = __toESM2(require_react(), 1);
 var import_react79 = __toESM2(require_react(), 1);
 var import_react80 = __toESM2(require_react(), 1);
 var import_react81 = __toESM2(require_react(), 1);
-var import_jsx_runtime27 = __toESM2(require_jsx_runtime(), 1);
 var import_react82 = __toESM2(require_react(), 1);
+var import_jsx_runtime27 = __toESM2(require_jsx_runtime(), 1);
 var import_react83 = __toESM2(require_react(), 1);
+var import_react84 = __toESM2(require_react(), 1);
 var import_jsx_runtime28 = __toESM2(require_jsx_runtime(), 1);
 var import_jsx_runtime29 = __toESM2(require_jsx_runtime(), 1);
 var import_jsx_runtime30 = __toESM2(require_jsx_runtime(), 1);
-var import_react84 = __toESM2(require_react(), 1);
-var import_jsx_runtime31 = __toESM2(require_jsx_runtime(), 1);
 var import_react85 = __toESM2(require_react(), 1);
-var import_jsx_runtime32 = __toESM2(require_jsx_runtime(), 1);
+var import_jsx_runtime31 = __toESM2(require_jsx_runtime(), 1);
 var import_react86 = __toESM2(require_react(), 1);
+var import_jsx_runtime32 = __toESM2(require_jsx_runtime(), 1);
 var import_jsx_runtime33 = __toESM2(require_jsx_runtime(), 1);
 var import_react87 = __toESM2(require_react(), 1);
 var import_jsx_runtime34 = __toESM2(require_jsx_runtime(), 1);
@@ -49832,36 +50092,39 @@ var import_jsx_runtime35 = __toESM2(require_jsx_runtime(), 1);
 var import_react89 = __toESM2(require_react(), 1);
 var import_jsx_runtime36 = __toESM2(require_jsx_runtime(), 1);
 var import_react90 = __toESM2(require_react(), 1);
+var import_jsx_runtime37 = __toESM2(require_jsx_runtime(), 1);
 var import_react91 = __toESM2(require_react(), 1);
 var import_react92 = __toESM2(require_react(), 1);
 var import_react93 = __toESM2(require_react(), 1);
-var import_jsx_runtime37 = __toESM2(require_jsx_runtime(), 1);
-var import_jsx_runtime38 = __toESM2(require_jsx_runtime(), 1);
 var import_react94 = __toESM2(require_react(), 1);
-var import_react95 = __toESM2(require_react(), 1);
+var import_jsx_runtime38 = __toESM2(require_jsx_runtime(), 1);
 var import_jsx_runtime39 = __toESM2(require_jsx_runtime(), 1);
+var import_react95 = __toESM2(require_react(), 1);
 var import_react96 = __toESM2(require_react(), 1);
 var import_react97 = __toESM2(require_react(), 1);
-var import_react98 = __toESM2(require_react(), 1);
 var import_jsx_runtime40 = __toESM2(require_jsx_runtime(), 1);
+var import_react98 = __toESM2(require_react(), 1);
 var import_react99 = __toESM2(require_react(), 1);
 var import_react100 = __toESM2(require_react(), 1);
-var import_react101 = __toESM2(require_react(), 1);
 var import_jsx_runtime41 = __toESM2(require_jsx_runtime(), 1);
+var import_react101 = __toESM2(require_react(), 1);
 var import_react102 = __toESM2(require_react(), 1);
 var import_react103 = __toESM2(require_react(), 1);
 var import_jsx_runtime42 = __toESM2(require_jsx_runtime(), 1);
-var import_jsx_runtime43 = __toESM2(require_jsx_runtime(), 1);
 var import_react104 = __toESM2(require_react(), 1);
-var import_jsx_runtime44 = __toESM2(require_jsx_runtime(), 1);
 var import_react105 = __toESM2(require_react(), 1);
+var import_jsx_runtime43 = __toESM2(require_jsx_runtime(), 1);
+var import_jsx_runtime44 = __toESM2(require_jsx_runtime(), 1);
 var import_react106 = __toESM2(require_react(), 1);
 var import_jsx_runtime45 = __toESM2(require_jsx_runtime(), 1);
 var import_react107 = __toESM2(require_react(), 1);
 var import_react108 = __toESM2(require_react(), 1);
-var import_react109 = __toESM2(require_react(), 1);
 var import_jsx_runtime46 = __toESM2(require_jsx_runtime(), 1);
+var import_react109 = __toESM2(require_react(), 1);
+var import_react110 = __toESM2(require_react(), 1);
+var import_react111 = __toESM2(require_react(), 1);
 var import_jsx_runtime47 = __toESM2(require_jsx_runtime(), 1);
+var import_jsx_runtime48 = __toESM2(require_jsx_runtime(), 1);
 var __defProp2 = Object.defineProperty;
 var __returnValue = (v) => v;
 function __exportSetter(name, newValue) {
@@ -49992,6 +50255,15 @@ var getSingleChildComponent = (children) => {
 };
 var CompositionRegistryFallbackContext = import_react7.createContext(null);
 var useIsomorphicLayoutEffect = typeof window === "undefined" ? import_react7.useEffect : import_react7.useLayoutEffect;
+var createEntryCleanup = (registry, identity) => {
+  if (registry === null) {
+    return;
+  }
+  return () => {
+    registry.entries.delete(identity);
+    registry.notifyCommit();
+  };
+};
 var useCommittedCompositionEntry = (entry) => {
   const registry = import_react7.useContext(CompositionRegistryFallbackContext);
   const key = import_react7.useRef({});
@@ -50006,16 +50278,7 @@ var useCommittedCompositionEntry = (entry) => {
     }
     registry.notifyCommit();
   }, [entry, registry]);
-  useIsomorphicLayoutEffect(() => {
-    if (registry === null) {
-      return;
-    }
-    const identity = key.current;
-    return () => {
-      registry.entries.delete(identity);
-      registry.notifyCommit();
-    };
-  }, [registry]);
+  useIsomorphicLayoutEffect(createEntryCleanup.bind(null, registry, key.current), [registry]);
 };
 var CompositionRenderErrorContext = import_react8.createContext({
   setError: () => {},
@@ -50353,7 +50616,7 @@ var AbsoluteFillElementRefForwarding = (props, ref) => {
     ...other
   });
 };
-var AbsoluteFillElement = import_react13.forwardRef(AbsoluteFillElementRefForwarding);
+var AbsoluteFillElement = import_react13.default.memo(import_react13.forwardRef(AbsoluteFillElementRefForwarding));
 var _portalNode = null;
 var portalNodeCurrentScale = 1;
 var portalNodeCurrentScaleListeners = [];
@@ -50898,6 +51161,7 @@ function cancelRenderInternal(scope, err) {
     error = Error("Rendering was cancelled");
   }
   if (scope) {
+    scope.remotion_cancelledErrorObject = error;
     scope.remotion_cancelledError = getErrorStackWithMessage(error);
   }
   throw error;
@@ -50997,7 +51261,9 @@ var delayRenderInternal = ({
           called
         ].filter(truthy2).join(" ");
         if (environment.isClientSideRendering) {
-          scope.remotion_cancelledError = getErrorStackWithMessage(Error(message));
+          const error = Error(message);
+          scope.remotion_cancelledErrorObject = error;
+          scope.remotion_cancelledError = getErrorStackWithMessage(error);
         } else {
           cancelRenderInternal(scope, Error(message));
         }
@@ -51183,6 +51449,13 @@ var useSyncExternalStoreShimServer = (_subscribe, getSnapshot) => getSnapshot();
 var shim = typeof window === "undefined" || typeof window.document === "undefined" || typeof window.document.createElement === "undefined" ? useSyncExternalStoreShimServer : useSyncExternalStoreShimClient;
 var useSyncExternalStore2 = React12.useSyncExternalStore ?? shim;
 var useIsomorphicLayoutEffect2 = typeof window === "undefined" ? import_react24.useEffect : import_react24.useLayoutEffect;
+var createComponentWrapper = (componentStore) => {
+  const Wrapper = (props) => {
+    const Comp = useSyncExternalStore2(componentStore.subscribe, componentStore.getSnapshot, componentStore.getSnapshot);
+    return import_react24.default.createElement(Comp, props);
+  };
+  return Wrapper;
+};
 var useLazyComponent = ({
   compProps,
   componentName,
@@ -51199,15 +51472,15 @@ var useLazyComponent = ({
       componentStore.setSnapshot(() => componentFromProps);
     }
   }, [componentFromProps, componentStore]);
+  const createWrapper = createComponentWrapper;
+  const Wrapper = import_react24.useMemo(createWrapper.bind(null, componentStore), [
+    componentStore
+  ]);
   const lazy = import_react24.useMemo(() => {
     if ("component" in compProps) {
       if (typeof document === "undefined" || noSuspense) {
         return compProps.component;
       }
-      const Wrapper = (props) => {
-        const Comp = useSyncExternalStore2(componentStore.subscribe, componentStore.getSnapshot, componentStore.getSnapshot);
-        return import_react24.default.createElement(Comp, props);
-      };
       return Wrapper;
     }
     if ("lazyComponent" in compProps && typeof compProps.lazyComponent !== "undefined") {
@@ -51217,7 +51490,7 @@ var useLazyComponent = ({
       return import_react24.default.lazy(compProps.lazyComponent);
     }
     throw new Error("You must pass either 'component' or 'lazyComponent'");
-  }, [lazyComponentFromProps, componentStore]);
+  }, [lazyComponentFromProps, componentStore, Wrapper]);
   return lazy;
 };
 var getRegex2 = () => /^([a-zA-Z0-9-\u4E00-\u9FFF])+$/g;
@@ -51318,13 +51591,7 @@ var InnerComposition = ({
   const metadata = import_react2.useMemo(() => ({ type: "composition", id, value: registration }), [id, registration]);
   useCommittedCompositionEntry(metadata);
   const resolved = useResolvedVideoConfig(id);
-  const { setError, clearError } = import_react2.useContext(CompositionRenderErrorContext);
-  const onError = import_react2.useCallback((error) => {
-    setError(error);
-  }, [setError]);
-  const onClear = import_react2.useCallback(() => {
-    clearError();
-  }, [clearError]);
+  const { setError: onError, clearError: onClear } = import_react2.useContext(CompositionRenderErrorContext);
   const wrapRegistration = (content) => /* @__PURE__ */ import_jsx_runtime9.jsx(CommittedMetadataProvider, {
     value: null,
     _remotionCommitMetadata: metadata,
@@ -51419,7 +51686,7 @@ var setStackForControls = (controls, stack) => {
 var getStackForControls = (controls) => {
   return stacksByControls.get(controls) ?? null;
 };
-var VERSION = "4.0.537";
+var VERSION = "4.0.538";
 var checkMultipleRemotionVersions = () => {
   if (typeof globalThis === "undefined") {
     return;
@@ -52641,6 +52908,7 @@ var useIsomorphicLayoutEffect3 = typeof window === "undefined" ? import_react43.
 var SequenceManagerRefProvider = withCommittedMetadata(SequenceManagerRefContext.Provider);
 var SequenceRegistryProvider = ({ children }) => {
   const { isStudio } = useRemotionEnvironment();
+  const logLevel = useLogLevel();
   const sequenceRegistrationEnabled = import_react43.useContext(SequenceRegistrationContext);
   const shouldObserveCommits = isStudio || sequenceRegistrationEnabled;
   const [sequenceManagerId] = import_react43.useState(() => String(Math.random()));
@@ -52704,6 +52972,13 @@ var SequenceRegistryProvider = ({ children }) => {
       committedOrderIdsRef.current = ids;
       committedOrderRef.current = order;
       committedRegistrationIdsRef.current = nextIds;
+      if (isStudio && logLevel === "trace") {
+        for (const sequence of sequences) {
+          if (!previousIds.has(sequence.id)) {
+            Log.trace({ logLevel, tag: null }, `[Sequence registration] Registered "${sequence.displayName}" (${sequence.id}) after commit`, sequence);
+          }
+        }
+      }
       setSequences((current) => reconcileRegistryEntries({
         current,
         entries: sequences,
@@ -52715,7 +52990,7 @@ var SequenceRegistryProvider = ({ children }) => {
         orderProperty: "timelineOrder"
       }));
     });
-  }, [sequenceManagerId, setSequences]);
+  }, [isStudio, logLevel, sequenceManagerId, setSequences]);
   const onCommitRootSequences = import_react43.useCallback((sequences, sequenceIds) => {
     if (!rootObservationFailedRef.current) {
       observedCommitRef.current = true;
@@ -52812,6 +53087,9 @@ var SequenceRegistryProvider = ({ children }) => {
     onCommitSequences
   ]);
   const registerSequence = import_react43.useCallback((seq) => {
+    if (isStudio) {
+      Log.trace({ logLevel, tag: null }, `[Sequence registration] Registered "${seq.displayName}" (${seq.id}) after commit`, seq);
+    }
     setSequences((seqs) => {
       return [
         ...seqs,
@@ -52821,7 +53099,7 @@ var SequenceRegistryProvider = ({ children }) => {
         }
       ];
     });
-  }, [setSequences]);
+  }, [isStudio, logLevel, setSequences]);
   const updateSequence = import_react43.useCallback((seq) => {
     setSequences((seqs) => {
       const index = seqs.findIndex((item) => item.id === seq.id);
@@ -52916,6 +53194,12 @@ var VisualModePropStatusesContext = import_react40.default.createContext({
 var VisualModePropStatusesRefContext = import_react40.default.createContext({
   current: {}
 });
+var VisualModePropStatusesSubscriptionContext = import_react40.default.createContext({
+  subscribe: () => () => {
+    return;
+  },
+  getSnapshot: () => null
+});
 var defaultVisualModeDragOverrides = {
   getDragOverrides: () => {
     throw new Error("VisualModeDragOverridesContext not initialized");
@@ -52926,7 +53210,7 @@ var defaultVisualModeDragOverrides = {
 };
 var VisualModeDragOverridesContext = import_react40.default.createContext(defaultVisualModeDragOverrides);
 var VisualModeDragOverridesRefContext = import_react40.default.createContext({ current: defaultVisualModeDragOverrides });
-var useDragOverrideSnapshot = (subscribe, getSnapshot) => {
+var useVisualModeSnapshot = (subscribe, getSnapshot) => {
   const dormant = import_react40.useContext(SequenceActivityDormantContext);
   const [, forceUpdate] = import_react40.useState(0);
   const snapshot = useSyncExternalStore2(subscribe, getSnapshot, getSnapshot);
@@ -52947,7 +53231,14 @@ var useDragOverridesForNodePath = (nodePath) => {
     return;
   }), [key, scopedSubscription]);
   const getSnapshot = import_react40.useCallback(() => scopedSubscription?.getSnapshot(key) ?? emptyDragOverrides, [key, scopedSubscription]);
-  return useDragOverrideSnapshot(subscribe, getSnapshot);
+  return useVisualModeSnapshot(subscribe, getSnapshot);
+};
+var usePropStatusForNodePath = (nodePath) => {
+  const subscription = import_react40.useContext(VisualModePropStatusesSubscriptionContext);
+  const key = nodePath === null ? null : makeSequencePropsSubscriptionKey(nodePath);
+  const subscribe = import_react40.useCallback((listener) => subscription.subscribe(key, listener), [key, subscription]);
+  const getSnapshot = import_react40.useCallback(() => subscription.getSnapshot(key), [key, subscription]);
+  return useVisualModeSnapshot(subscribe, getSnapshot);
 };
 var useActiveFromDragOverrideKeys = () => {
   const snapshot = import_react40.useContext(ActiveFromDragOverrideKeysContext);
@@ -52963,7 +53254,7 @@ var useEffectDragOverridesForNodePath = (nodePath) => {
     return;
   }), [key, scopedSubscription]);
   const getSnapshot = import_react40.useCallback(() => scopedSubscription?.getEffectSnapshot(key) ?? emptyEffectDragOverrides, [key, scopedSubscription]);
-  return useDragOverrideSnapshot(subscribe, getSnapshot);
+  return useVisualModeSnapshot(subscribe, getSnapshot);
 };
 var VisualModeSettersContext = import_react40.default.createContext({
   setDragOverrides: () => {
@@ -53005,8 +53296,18 @@ var SequenceManagerProvider = ({ children }) => {
   });
   const [propStatuses, setPropStatusesMapState] = import_react40.useState({});
   const propStatusesRef = import_react40.useRef(propStatuses);
+  const requestedPropStatusesRef = import_react40.useRef(propStatuses);
+  const propStatusListeners = import_react40.useRef(new Map);
   useIsomorphicLayoutEffect4(() => {
+    const previous = propStatusesRef.current;
     propStatusesRef.current = propStatuses;
+    for (const [key, listeners] of propStatusListeners.current) {
+      if (previous[key] !== propStatuses[key]) {
+        for (const listener of listeners) {
+          listener();
+        }
+      }
+    }
   }, [propStatuses]);
   const setDragOverridesBatch = import_react40.useCallback((overrides) => {
     setDragOverrideState((prevState) => {
@@ -53180,8 +53481,17 @@ var SequenceManagerProvider = ({ children }) => {
       return next;
     });
   }, []);
+  const updatePropStatuses = import_react40.useCallback((update) => {
+    const previous = requestedPropStatusesRef.current;
+    const next = update(previous);
+    if (next === previous) {
+      return;
+    }
+    requestedPropStatusesRef.current = next;
+    setPropStatusesMapState(next);
+  }, []);
   const setPropStatuses = import_react40.useCallback((nodePath, values) => {
-    setPropStatusesMapState((prev) => {
+    updatePropStatuses((prev) => {
       const key = makeSequencePropsSubscriptionKey(nodePath);
       const prevKey = prev[key];
       const newKey = values(prevKey);
@@ -53190,9 +53500,9 @@ var SequenceManagerProvider = ({ children }) => {
       }
       return { ...prev, [key]: newKey };
     });
-  }, []);
+  }, [updatePropStatuses]);
   const remapPropStatuses = import_react40.useCallback((remappings) => {
-    setPropStatusesMapState((prev) => {
+    updatePropStatuses((prev) => {
       const next = { ...prev };
       for (const remapping of remappings) {
         delete next[makeSequencePropsSubscriptionKey(remapping.previousNodePath)];
@@ -53204,7 +53514,7 @@ var SequenceManagerProvider = ({ children }) => {
       }
       return next;
     });
-  }, []);
+  }, [updatePropStatuses]);
   const dragOverridesSubscription = import_react40.useMemo(() => ({
     subscribe: subscribeDragOverrides,
     getSnapshot: getDragOverridesSnapshot,
@@ -53227,6 +53537,28 @@ var SequenceManagerProvider = ({ children }) => {
       propStatuses
     };
   }, [propStatuses]);
+  const propStatusesSubscription = import_react40.useMemo(() => ({
+    subscribe: (key, listener) => {
+      if (key === null) {
+        return () => {
+          return;
+        };
+      }
+      let listeners = propStatusListeners.current.get(key);
+      if (!listeners) {
+        listeners = new Set;
+        propStatusListeners.current.set(key, listeners);
+      }
+      listeners.add(listener);
+      return () => {
+        listeners.delete(listener);
+        if (listeners.size === 0) {
+          propStatusListeners.current.delete(key);
+        }
+      };
+    },
+    getSnapshot: (key) => key === null ? null : requestedPropStatusesRef.current[key] ?? null
+  }), []);
   const dragOverridesContext = import_react40.useMemo(() => {
     return {
       getDragOverrides,
@@ -53258,20 +53590,23 @@ var SequenceManagerProvider = ({ children }) => {
   return /* @__PURE__ */ import_jsx_runtime16.jsx(SequenceRegistryProvider, {
     children: /* @__PURE__ */ import_jsx_runtime16.jsx(VisualModePropStatusesRefContext.Provider, {
       value: propStatusesRef,
-      children: /* @__PURE__ */ import_jsx_runtime16.jsx(VisualModePropStatusesContext.Provider, {
-        value: propStatusesContext,
-        children: /* @__PURE__ */ import_jsx_runtime16.jsx(SequenceManagerScopeProviders, {
-          dragOverridesSubscription,
-          fromKeys: dragOverrideState.fromKeys,
-          children: /* @__PURE__ */ import_jsx_runtime16.jsx(VisualModeDragOverridesContext.Provider, {
-            value: dragOverridesContext,
-            children: /* @__PURE__ */ import_jsx_runtime16.jsx(VisualModeDragOverridesRefContext.Provider, {
-              value: dragOverridesRef,
-              children: /* @__PURE__ */ import_jsx_runtime16.jsx(VisualModeSettersContext.Provider, {
-                value: settersContext,
-                children: /* @__PURE__ */ import_jsx_runtime16.jsx(VisualModeBatchSettersContext.Provider, {
-                  value: batchSettersContext,
-                  children
+      children: /* @__PURE__ */ import_jsx_runtime16.jsx(VisualModePropStatusesSubscriptionContext.Provider, {
+        value: propStatusesSubscription,
+        children: /* @__PURE__ */ import_jsx_runtime16.jsx(VisualModePropStatusesContext.Provider, {
+          value: propStatusesContext,
+          children: /* @__PURE__ */ import_jsx_runtime16.jsx(SequenceManagerScopeProviders, {
+            dragOverridesSubscription,
+            fromKeys: dragOverrideState.fromKeys,
+            children: /* @__PURE__ */ import_jsx_runtime16.jsx(VisualModeDragOverridesContext.Provider, {
+              value: dragOverridesContext,
+              children: /* @__PURE__ */ import_jsx_runtime16.jsx(VisualModeDragOverridesRefContext.Provider, {
+                value: dragOverridesRef,
+                children: /* @__PURE__ */ import_jsx_runtime16.jsx(VisualModeSettersContext.Provider, {
+                  value: settersContext,
+                  children: /* @__PURE__ */ import_jsx_runtime16.jsx(VisualModeBatchSettersContext.Provider, {
+                    value: batchSettersContext,
+                    children
+                  })
                 })
               })
             })
@@ -53296,16 +53631,17 @@ var usePremounting = ({
   hideWhilePremounted
 }) => {
   const parentPremountContext = import_react45.useContext(PremountContext);
-  const frame = useCurrentFrame() - parentPremountContext.premountFramesRemaining;
   const environment = useRemotionEnvironment();
   const { fps } = useVideoConfig();
   const defaultPremountInSeconds = import_react45.useContext(DefaultPremountContext);
   const effectivePremountFor = premountFor ?? Math.round(defaultPremountInSeconds * fps);
   const effectivePostmountFor = postmountFor ?? 0;
+  const needsFrame = !environment.isRendering && (effectivePremountFor !== 0 || effectivePostmountFor !== 0);
+  const frame = useCurrentFrameWithOptionalSubscription(needsFrame) - parentPremountContext.premountFramesRemaining;
   const endExclusive = from + durationInFrames;
   const sequenceContext = import_react45.useContext(SequenceContext);
   const boundaryTolerance = getSequenceBoundaryTolerance({
-    absoluteFrame: useTimelinePosition(),
+    absoluteFrame: useTimelinePositionWithOptionalSubscription(needsFrame),
     cumulatedFrom: sequenceContext ? sequenceContext.cumulatedFrom + sequenceContext.relativeFrom : 0,
     from,
     parentPlaybackRate: sequenceContext?.playbackRate ?? 1,
@@ -54552,27 +54888,30 @@ function springCalculation2({
     stiffness: config.stiffness ?? defaultSpringConfig2.stiffness,
     overshootClamping: config.overshootClamping ?? defaultSpringConfig2.overshootClamping
   };
-  const cacheKey = [
-    frame,
+  const configKey = [
     fps,
     resolvedConfig.damping,
     resolvedConfig.mass,
     resolvedConfig.overshootClamping,
     resolvedConfig.stiffness
   ].join("-");
+  const cacheKey = `${frame}-${configKey}`;
   if (calculationCache2[cacheKey]) {
     return calculationCache2[cacheKey];
   }
-  let animation = {
+  const frameClamped = Math.max(0, frame);
+  const previousFrame = Math.ceil(frameClamped) - 1;
+  const previousAnimation = previousFrame >= 0 ? calculationCache2[`${previousFrame}-${configKey}`] : undefined;
+  let animation = previousAnimation ?? {
     lastTimestamp: 0,
     current: from,
     toValue: to,
     velocity: 0,
     prevPosition: 0
   };
-  const frameClamped = Math.max(0, frame);
   const unevenRest = frameClamped % 1;
-  for (let f = 0;f <= Math.floor(frameClamped); f++) {
+  const startFrame = previousAnimation ? previousFrame + 1 : 0;
+  for (let f = startFrame;f <= Math.floor(frameClamped); f++) {
     const time = f / fps * 1000;
     animation = advance2({
       animation,
@@ -54706,6 +55045,7 @@ function spring2({
 }
 var clampUnit2 = (t) => Math.min(1, Math.max(0, t));
 var springEasingDurationInFrames2 = 30;
+var easeBezier2 = null;
 
 class Easing2 {
   static step0(n) {
@@ -54718,7 +55058,8 @@ class Easing2 {
     return t;
   }
   static ease(t) {
-    return Easing2.bezier(0.42, 0, 1, 1)(t);
+    easeBezier2 ??= Easing2.bezier(0.42, 0, 1, 1);
+    return easeBezier2(t);
   }
   static quad(t) {
     return t * t;
@@ -54824,39 +55165,39 @@ var MODERN_VALUE2 = "(?:none|[-+]?\\d*\\.?\\d+(?:%|deg|rad|grad|turn)?)";
 function modernColorCall2(name) {
   return new RegExp(name + "\\(\\s*(" + MODERN_VALUE2 + ")\\s+(" + MODERN_VALUE2 + ")\\s+(" + MODERN_VALUE2 + ")(?:\\s*\\/\\s*(" + MODERN_VALUE2 + "))?\\s*\\)");
 }
+var cachedMatchers2 = {
+  rgb: undefined,
+  rgba: undefined,
+  hsl: undefined,
+  hsla: undefined,
+  hex3: undefined,
+  hex4: undefined,
+  hex5: undefined,
+  hex6: undefined,
+  hex8: undefined,
+  oklch: undefined,
+  oklab: undefined,
+  lab: undefined,
+  lch: undefined,
+  hwb: undefined
+};
 function getMatchers2() {
-  const cachedMatchers = {
-    rgb: undefined,
-    rgba: undefined,
-    hsl: undefined,
-    hsla: undefined,
-    hex3: undefined,
-    hex4: undefined,
-    hex5: undefined,
-    hex6: undefined,
-    hex8: undefined,
-    oklch: undefined,
-    oklab: undefined,
-    lab: undefined,
-    lch: undefined,
-    hwb: undefined
-  };
-  if (cachedMatchers.rgb === undefined) {
-    cachedMatchers.rgb = new RegExp("rgb" + call2(NUMBER2, NUMBER2, NUMBER2));
-    cachedMatchers.rgba = new RegExp("rgba" + call2(NUMBER2, NUMBER2, NUMBER2, NUMBER2));
-    cachedMatchers.hsl = new RegExp("hsl" + call2(NUMBER2, PERCENTAGE2, PERCENTAGE2));
-    cachedMatchers.hsla = new RegExp("hsla" + call2(NUMBER2, PERCENTAGE2, PERCENTAGE2, NUMBER2));
-    cachedMatchers.hex3 = /^#([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/;
-    cachedMatchers.hex4 = /^#([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/;
-    cachedMatchers.hex6 = /^#([0-9a-fA-F]{6})$/;
-    cachedMatchers.hex8 = /^#([0-9a-fA-F]{8})$/;
-    cachedMatchers.oklch = modernColorCall2("oklch");
-    cachedMatchers.oklab = modernColorCall2("oklab");
-    cachedMatchers.lab = modernColorCall2("lab");
-    cachedMatchers.lch = modernColorCall2("lch");
-    cachedMatchers.hwb = modernColorCall2("hwb");
+  if (cachedMatchers2.rgb === undefined) {
+    cachedMatchers2.rgb = new RegExp("rgb" + call2(NUMBER2, NUMBER2, NUMBER2));
+    cachedMatchers2.rgba = new RegExp("rgba" + call2(NUMBER2, NUMBER2, NUMBER2, NUMBER2));
+    cachedMatchers2.hsl = new RegExp("hsl" + call2(NUMBER2, PERCENTAGE2, PERCENTAGE2));
+    cachedMatchers2.hsla = new RegExp("hsla" + call2(NUMBER2, PERCENTAGE2, PERCENTAGE2, NUMBER2));
+    cachedMatchers2.hex3 = /^#([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/;
+    cachedMatchers2.hex4 = /^#([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/;
+    cachedMatchers2.hex6 = /^#([0-9a-fA-F]{6})$/;
+    cachedMatchers2.hex8 = /^#([0-9a-fA-F]{8})$/;
+    cachedMatchers2.oklch = modernColorCall2("oklch");
+    cachedMatchers2.oklab = modernColorCall2("oklab");
+    cachedMatchers2.lab = modernColorCall2("lab");
+    cachedMatchers2.lch = modernColorCall2("lch");
+    cachedMatchers2.hwb = modernColorCall2("hwb");
   }
-  return cachedMatchers;
+  return cachedMatchers2;
 }
 function hue2rgb2(p, q, t) {
   if (t < 0) {
@@ -55622,12 +55963,11 @@ var useMemoizedEffectDefinitions = (effects) => {
   }, [controllers, effects, stableDefinitions]);
   return stableDefinitions;
 };
-var getEffectPropStatusesCtx = ({
-  propStatuses,
-  nodePath,
-  effectIndex
+var getEffectStatusForSequenceStatus = ({
+  status,
+  effectIndex,
+  videoConfigValues
 }) => {
-  const status = propStatuses[makeSequencePropsSubscriptionKey(nodePath)];
   if (!status) {
     return { type: "cannot-update-sequence", reason: "not-found" };
   }
@@ -55643,18 +55983,31 @@ var getEffectPropStatusesCtx = ({
   }
   return {
     type: "can-update-effect",
-    props: evaluateSourcePropStatuses2(effect.props, nodePath.videoConfigValues)
+    props: evaluateSourcePropStatuses2(effect.props, videoConfigValues)
   };
 };
-var getPropStatusesCtx = (propStatuses, nodePath) => {
-  const status = propStatuses[makeSequencePropsSubscriptionKey(nodePath)];
+var getEffectPropStatusesCtx = ({
+  propStatuses,
+  nodePath,
+  effectIndex
+}) => {
+  return getEffectStatusForSequenceStatus({
+    status: propStatuses[makeSequencePropsSubscriptionKey(nodePath)] ?? null,
+    effectIndex,
+    videoConfigValues: nodePath.videoConfigValues
+  });
+};
+var getPropStatusesForSequenceStatus = (status, videoConfigValues) => {
   if (!status) {
     return;
   }
   if (!status.canUpdate) {
     return;
   }
-  return evaluateSourcePropStatuses2(status.props, nodePath.videoConfigValues);
+  return evaluateSourcePropStatuses2(status.props, videoConfigValues);
+};
+var getPropStatusesCtx = (propStatuses, nodePath) => {
+  return getPropStatusesForSequenceStatus(propStatuses[makeSequencePropsSubscriptionKey(nodePath)] ?? null, nodePath.videoConfigValues);
 };
 var useMemoizedEffects = ({
   effects,
@@ -55662,22 +56015,22 @@ var useMemoizedEffects = ({
   videoConfigValues
 }) => {
   const previousRef = import_react49.useRef(null);
-  const { propStatuses } = import_react49.useContext(VisualModePropStatusesContext);
   const { overrideIdToNodePathMappings } = import_react49.useContext(OverrideIdsToNodePathsGettersContext);
   const previous = previousRef.current;
   const nodePath = overrideId ? overrideIdToNodePathMappings[overrideId] ?? null : null;
   const effectDragOverrides = useEffectDragOverridesForNodePath(nodePath);
+  const sequenceStatus = usePropStatusForNodePath(nodePath);
   const effectPropStatuses = import_react49.useMemo(() => Array.from({ length: effects.length }, (_, effectIndex) => {
     if (nodePath === null) {
       return null;
     }
-    const status = getEffectPropStatusesCtx({
-      propStatuses,
-      nodePath: { ...nodePath, videoConfigValues },
-      effectIndex
+    const status = getEffectStatusForSequenceStatus({
+      status: sequenceStatus,
+      effectIndex,
+      videoConfigValues
     });
     return status.type === "can-update-effect" ? status.props : null;
-  }), [effects.length, nodePath, propStatuses, videoConfigValues]);
+  }), [effects.length, nodePath, sequenceStatus, videoConfigValues]);
   const animatedEffects = import_react49.useMemo(() => effectPropStatuses.map((status, index) => Object.values(status ?? {}).some((prop) => prop.status === "keyframed") || Object.values(effectDragOverrides[index] ?? emptyDragOverrides2).some((override) => override.type === "keyframed")), [effectDragOverrides, effectPropStatuses]);
   const frame = useCurrentFrameWithOptionalSubscription(animatedEffects.some(Boolean));
   const prepared = effects.map((descriptor, index) => {
@@ -56142,7 +56495,6 @@ var withInteractivitySchema = ({
         ref
       });
     }
-    const { propStatuses } = import_react48.useContext(VisualModePropStatusesContext);
     const nodePathMapping = import_react48.useContext(OverrideIdsToNodePathsGettersContext);
     const videoConfig = useUnsafeVideoConfig();
     const durationInFrames = videoConfig?.durationInFrames;
@@ -56185,10 +56537,8 @@ var withInteractivitySchema = ({
     });
     const nodePath = env.isReadOnlyStudio ? null : nodePathMapping.overrideIdToNodePathMappings[overrideId] ?? null;
     const dragOverrides = useDragOverridesForNodePath(nodePath);
-    const propStatus = import_react48.useMemo(() => nodePath === null ? undefined : getPropStatusesCtx(propStatuses, {
-      ...nodePath,
-      videoConfigValues
-    }), [nodePath, propStatuses, videoConfigValues]);
+    const sequenceStatus = usePropStatusForNodePath(nodePath);
+    const propStatus = import_react48.useMemo(() => getPropStatusesForSequenceStatus(sequenceStatus, videoConfigValues), [sequenceStatus, videoConfigValues]);
     const needsFrame = flatKeys.some((key) => propStatus?.[key]?.status === "keyframed" || dragOverrides[key]?.type === "keyframed");
     const frame = useCurrentFrameWithOptionalSubscription(needsFrame);
     const runtimeValues = flatKeys.map((key) => getRuntimeValueForSchemaKey({
@@ -56256,6 +56606,23 @@ var withInteractivitySchema = ({
 var SeriesContentVisibilityContext = import_react25.createContext(true);
 var SequenceContextProvider = withCommittedMetadata(SequenceContext.Provider);
 var EMPTY_EFFECTS = [];
+var getSequenceRegistration = (sequence) => {
+  return sequence;
+};
+var getSequenceStack = (stack) => {
+  return stack;
+};
+var getSequenceCurrentFrame = (ref) => {
+  return ref.current;
+};
+var setSequenceWrapperRef = (ref, wrapperRef, node) => {
+  wrapperRef.current = node;
+  if (typeof ref === "function") {
+    ref(node);
+  } else if (ref) {
+    ref.current = node;
+  }
+};
 var RegularSequenceRefForwardingFunction = ({
   from = 0,
   trimBefore = 0,
@@ -56474,14 +56841,14 @@ var RegularSequenceRefForwardingFunction = ({
   const isInsideSeries = import_react25.useContext(IsInsideSeriesContext);
   const singleChildComponent = import_react25.useMemo(() => childComponentOverride === undefined ? getSingleChildComponent(children) : childComponentOverride, [children, childComponentOverride]);
   const registrationStack = controls ? getStackForControls(controls) ?? stack ?? null : stack ?? null;
-  const getStack = import_react25.useCallback(() => registrationStack, [registrationStack]);
+  const getStack = import_react25.useMemo(() => getSequenceStack.bind(null, registrationStack), [registrationStack]);
   const registeredFrozenFrame = typeof freeze === "number" ? freeze : null;
   const currentFrame = registeredFrozenFrame ?? (absoluteFrame - currentSequenceStart) * cumulativePlaybackRate;
   const currentFrameRef = import_react25.useRef(currentFrame);
   import_react25.useLayoutEffect(() => {
     currentFrameRef.current = currentFrame;
   }, [currentFrame]);
-  const getCurrentFrame = import_react25.useCallback(() => currentFrameRef.current, []);
+  const getCurrentFrame = import_react25.useMemo(() => getSequenceCurrentFrame.bind(null, currentFrameRef), [currentFrameRef]);
   const registeredTrimBefore = trimBefore === 0 ? null : trimBefore;
   const parentCumulatedNegativeFrom = parentSequence?.cumulatedNegativeFrom ?? 0;
   const startMediaFrom = isMedia && isMedia.type !== "image" ? isMedia.data.startMediaFrom + parentCumulatedNegativeFrom - cumulatedNegativeFrom : null;
@@ -56522,7 +56889,7 @@ var RegularSequenceRefForwardingFunction = ({
     controlsSchema,
     controlsSupportsEffects
   ]);
-  const getSequenceForRegistration = import_react25.useCallback(() => {
+  const sequenceForRegistration = import_react25.useMemo(() => {
     const trackRegistration = timelineTrack ? {
       timelineTrack: {
         ...timelineTrack,
@@ -56656,6 +57023,7 @@ var RegularSequenceRefForwardingFunction = ({
     frozenMediaFrame,
     singleChildComponent
   ]);
+  const getSequenceForRegistration = import_react25.useMemo(() => getSequenceRegistration.bind(null, sequenceForRegistration), [sequenceForRegistration]);
   const registration = useSequenceRegistration({
     getSequence: env.isStudio || sequenceRegistrationEnabled ? getSequenceForRegistration : null,
     id
@@ -56699,14 +57067,7 @@ var RegularSequenceRefForwardingFunction = ({
     bottom: resolvedCropBottom,
     style: styleIfThere
   });
-  const sequenceRef = import_react25.useCallback((node) => {
-    wrapperRefForOutline.current = node;
-    if (typeof ref === "function") {
-      ref(node);
-    } else if (ref) {
-      ref.current = node;
-    }
-  }, [ref]);
+  const sequenceRef = import_react25.useMemo(() => setSequenceWrapperRef.bind(null, ref, wrapperRefForOutline), [ref, wrapperRefForOutline]);
   const defaultStyle = import_react25.useMemo(() => {
     return {
       flexDirection: undefined,
@@ -58543,6 +58904,9 @@ var durationReducer = (state, action) => {
       return state;
   }
 };
+var onMediaDuration = (setDurations, src, durationInSeconds) => {
+  setDurations({ type: "got-duration", durationInSeconds, src });
+};
 var DurationsContext = import_react64.createContext({
   durations: {},
   setDurations: () => {
@@ -59306,6 +59670,11 @@ var SharedAudioTagsContextProvider = ({ children, numberOfAudioTags }) => {
     ]
   });
 };
+var unregisterSharedAudio = (tagsContext, id) => {
+  if (tagsContext && tagsContext.numberOfAudioTags > 0) {
+    tagsContext.unregisterAudio(id);
+  }
+};
 var useSharedAudio = ({
   aud,
   audioId,
@@ -59352,11 +59721,7 @@ var useSharedAudio = ({
       }
     }, [aud, tagsCtx, elem.id, audioId, premounting, postmounting]);
     effectToUse(() => {
-      return () => {
-        if (tagsCtx && tagsCtx.numberOfAudioTags > 0) {
-          tagsCtx.unregisterAudio(elem.id);
-        }
-      };
+      return unregisterSharedAudio.bind(null, tagsCtx, elem.id);
     }, [tagsCtx, elem.id]);
   }
   return elem;
@@ -59559,15 +59924,40 @@ var useVolume = ({
   }
   return audioStuffRef;
 };
-var Html5MediaTrimContext = import_react72.createContext(0);
+var subscribeToMediaDuration = (mediaRef, onDurationRef, src) => {
+  const { current } = mediaRef;
+  if (!current) {
+    return;
+  }
+  if (current.duration) {
+    onDurationRef.current?.(src ?? current.src, current.duration);
+    return;
+  }
+  const onLoadedMetadata = () => {
+    onDurationRef.current?.(src ?? current.src, current.duration);
+  };
+  current.addEventListener("loadedmetadata", onLoadedMetadata);
+  return () => {
+    current.removeEventListener("loadedmetadata", onLoadedMetadata);
+  };
+};
+var useMediaDuration = (mediaRef, onDuration, src, useCurrentSrc) => {
+  const onDurationRef = import_react71.useRef(onDuration);
+  onDurationRef.current = onDuration;
+  import_react71.useEffect(subscribeToMediaDuration.bind(null, mediaRef, onDurationRef, useCurrentSrc ? null : src), [mediaRef, src, useCurrentSrc]);
+};
+var scheduleMediaSourceCleanup = (cleanup) => {
+  requestAnimationFrame(() => cleanup?.());
+};
+var Html5MediaTrimContext = import_react73.createContext(0);
 var useMediaStartsAt = () => {
-  const parentSequence = import_react72.useContext(SequenceContext);
+  const parentSequence = import_react73.useContext(SequenceContext);
   return parentSequence?.cumulatedNegativeFrom ?? 0;
 };
 var useFrameForVolumeProp = (behavior) => {
   const loop = Loop.useLoop();
-  const loopTimeline = import_react72.useContext(LoopTimelineContext);
-  const sequenceContext = import_react72.useContext(SequenceContext);
+  const loopTimeline = import_react73.useContext(LoopTimelineContext);
+  const sequenceContext = import_react73.useContext(SequenceContext);
   const frame = useCurrentFrame();
   const startsAt = useMediaStartsAt();
   if (behavior === "repeat" || loop === null) {
@@ -59629,7 +60019,7 @@ var useBasicMediaInTimeline = ({
   if (!src) {
     throw new Error("No src passed");
   }
-  const parentSequence = import_react71.useContext(SequenceContext);
+  const parentSequence = import_react72.useContext(SequenceContext);
   const duration = getTimelineDuration({
     compositionDurationInFrames: sequenceDurationInFrames,
     playbackRate,
@@ -59639,7 +60029,7 @@ var useBasicMediaInTimeline = ({
     loop
   });
   const startMediaFrom = 0 - mediaStartsAt + (trimBefore ?? 0);
-  const memoizedResult = import_react71.useMemo(() => {
+  const memoizedResult = import_react72.useMemo(() => {
     return {
       duration,
       finalDisplayName: displayName ?? getAssetDisplayName(src),
@@ -59665,17 +60055,17 @@ var useMediaInTimelineRegistration = ({
   documentationLink,
   muted
 }) => {
-  const parentSequence = import_react71.useContext(SequenceContext);
-  const timelineTrack = import_react71.useContext(TimelineTrackContext);
-  const mediaTrimBefore = import_react71.useContext(Html5MediaTrimContext);
-  const sequenceRegistrationEnabled = import_react71.useContext(SequenceRegistrationContext);
+  const parentSequence = import_react72.useContext(SequenceContext);
+  const timelineTrack = import_react72.useContext(TimelineTrackContext);
+  const mediaTrimBefore = import_react72.useContext(Html5MediaTrimContext);
+  const sequenceRegistrationEnabled = import_react72.useContext(SequenceRegistrationContext);
   const { durationInFrames } = useVideoConfig();
   const mediaStartsAt = useMediaStartsAt();
-  const canvasOutlinesEnabled = import_react71.useContext(SequenceOutlineContext);
+  const canvasOutlinesEnabled = import_react72.useContext(SequenceOutlineContext);
   const { isStudio } = useRemotionEnvironment();
   const stack = getStack();
-  const getStackForRegistration = import_react71.useCallback(() => stack, [stack]);
-  const automaticOutlineRef = import_react71.useMemo(() => mediaType === "video" && (isStudio || canvasOutlinesEnabled) ? SequenceOutlineInternals.createRef() : null, [canvasOutlinesEnabled, isStudio, mediaType]);
+  const getStackForRegistration = import_react72.useCallback(() => stack, [stack]);
+  const automaticOutlineRef = import_react72.useMemo(() => mediaType === "video" && (isStudio || canvasOutlinesEnabled) ? SequenceOutlineInternals.createRef() : null, [canvasOutlinesEnabled, isStudio, mediaType]);
   const { duration, finalDisplayName } = useBasicMediaInTimeline({
     src,
     displayName,
@@ -59687,7 +60077,7 @@ var useMediaInTimelineRegistration = ({
     loop: false,
     muted
   });
-  const getSequenceForRegistration = import_react71.useCallback(() => {
+  const getSequenceForRegistration = import_react72.useCallback(() => {
     if (!src) {
       throw new Error("No src passed");
     }
@@ -59753,10 +60143,10 @@ var useMediaInTimelineRegistration = ({
   return { automaticOutlineRef, registration };
 };
 var useBufferManager = (logLevel, mountTime, setBuffering, isBuffering) => {
-  const [blockCount, setBlockCount] = import_react76.useState(0);
+  const [blockCount, setBlockCount] = import_react77.useState(0);
   const env = useRemotionEnvironment();
   const rendering = env.isRendering;
-  const addBlock = import_react76.useCallback(() => {
+  const addBlock = import_react77.useCallback(() => {
     if (rendering) {
       return {
         unblock: () => {
@@ -59776,7 +60166,7 @@ var useBufferManager = (logLevel, mountTime, setBuffering, isBuffering) => {
       }
     };
   }, [rendering]);
-  import_react76.useEffect(() => {
+  import_react77.useEffect(() => {
     if (rendering) {
       return;
     }
@@ -59791,7 +60181,7 @@ var useBufferManager = (logLevel, mountTime, setBuffering, isBuffering) => {
     }
   }, [blockCount]);
   if (typeof window !== "undefined") {
-    import_react76.useLayoutEffect(() => {
+    import_react77.useLayoutEffect(() => {
       if (rendering) {
         return;
       }
@@ -59806,12 +60196,12 @@ var useBufferManager = (logLevel, mountTime, setBuffering, isBuffering) => {
       }
     }, [blockCount]);
   }
-  return import_react76.useMemo(() => ({ addBlock }), [addBlock]);
+  return import_react77.useMemo(() => ({ addBlock }), [addBlock]);
 };
-var BufferingContextReact = import_react76.default.createContext(null);
+var BufferingContextReact = import_react77.default.createContext(null);
 var BufferingProvider = ({ children }) => {
-  const { logLevel, mountTime } = import_react76.useContext(LogLevelContext);
-  const { isBuffering, setBuffering } = import_react76.useContext(SetTimelineContext);
+  const { logLevel, mountTime } = import_react77.useContext(LogLevelContext);
+  const { isBuffering, setBuffering } = import_react77.useContext(SetTimelineContext);
   const bufferManager = useBufferManager(logLevel ?? "info", mountTime, setBuffering, isBuffering);
   return /* @__PURE__ */ import_jsx_runtime26.jsx(BufferingContextReact.Provider, {
     value: bufferManager,
@@ -59819,10 +60209,10 @@ var BufferingProvider = ({ children }) => {
   });
 };
 var useBufferState = () => {
-  const buffer = import_react75.useContext(BufferingContextReact);
+  const buffer = import_react76.useContext(BufferingContextReact);
   const logLevel = useLogLevel();
   const addBlock = buffer ? buffer.addBlock : null;
-  return import_react75.useMemo(() => ({
+  return import_react76.useMemo(() => ({
     delayPlayback: () => {
       if (!addBlock) {
         throw new Error("Tried to enable the buffering state, but a Remotion context was not found. This API can only be called in a component that was passed to the Remotion Player or a <Composition>. Or you might have experienced a version mismatch - run `npx remotion versions` and ensure all packages have the same version. This error is thrown by the buffer state https://remotion.dev/docs/player/buffer-state");
@@ -59855,9 +60245,9 @@ var useBufferUntilFirstFrame = ({
   logLevel,
   mountTime
 }) => {
-  const bufferingRef = import_react74.useRef(false);
+  const bufferingRef = import_react75.useRef(false);
   const { delayPlayback } = useBufferState();
-  const bufferUntilFirstFrame = import_react74.useCallback((requestedTime) => {
+  const bufferUntilFirstFrame = import_react75.useCallback((requestedTime) => {
     if (mediaType !== "video") {
       return;
     }
@@ -59928,7 +60318,7 @@ var useBufferUntilFirstFrame = ({
     onVariableFpsVideoDetected,
     pauseWhenBuffering
   ]);
-  return import_react74.useMemo(() => {
+  return import_react75.useMemo(() => {
     return {
       isBuffering: () => bufferingRef.current,
       bufferUntilFirstFrame
@@ -60002,7 +60392,7 @@ var getMediaSyncAction = (input) => {
   return { type: "none" };
 };
 var useCurrentTimeOfMediaTagWithUpdateTimeStamp = (mediaRef) => {
-  const lastUpdate = import_react77.default.useRef({
+  const lastUpdate = import_react78.default.useRef({
     time: mediaRef.current?.currentTime ?? 0,
     lastUpdate: performance.now()
   });
@@ -60042,8 +60432,8 @@ var useMediaBuffering = ({
   src
 }) => {
   const buffer = useBufferState();
-  const [isBuffering, setIsBuffering] = import_react78.useState(false);
-  import_react78.useEffect(() => {
+  const [isBuffering, setIsBuffering] = import_react79.useState(false);
+  import_react79.useEffect(() => {
     let cleanupFns = [];
     const { current } = element;
     if (!current) {
@@ -60175,8 +60565,8 @@ var useRequestVideoCallbackTime = ({
   lastSeek,
   onVariableFpsVideoDetected
 }) => {
-  const currentTime = import_react79.useRef(null);
-  import_react79.useEffect(() => {
+  const currentTime = import_react80.useRef(null);
+  import_react80.useEffect(() => {
     const { current } = mediaRef;
     if (current) {
       currentTime.current = {
@@ -60321,13 +60711,13 @@ var useMediaPlayback = ({
   const playing = usePlaying();
   const playerBuffering = useBuffering();
   const { fps } = useVideoConfig();
-  const mediaTrimBefore = import_react73.useContext(Html5MediaTrimContext);
-  const lastSeekDueToShift = import_react73.useRef(null);
-  const lastSeek = import_react73.useRef(null);
+  const mediaTrimBefore = import_react74.useContext(Html5MediaTrimContext);
+  const lastSeekDueToShift = import_react74.useRef(null);
+  const lastSeek = import_react74.useRef(null);
   const logLevel = useLogLevel();
   const mountTime = useMountTime();
-  const isVariableFpsVideoMap = import_react73.useRef({});
-  const onVariableFpsVideoDetected = import_react73.useCallback(() => {
+  const isVariableFpsVideoMap = import_react74.useRef({});
+  const onVariableFpsVideoDetected = import_react74.useCallback(() => {
     if (!src) {
       return;
     }
@@ -60367,7 +60757,7 @@ var useMediaPlayback = ({
     logLevel,
     mountTime
   });
-  const sequenceContext = import_react73.useContext(SequenceContext);
+  const sequenceContext = import_react74.useContext(SequenceContext);
   const playbackRate = localPlaybackRate * globalPlaybackRate * (sequenceContext?.playbackRate ?? 1);
   const acceptableTimeShiftButLessThanDuration = (() => {
     if (mediaRef.current?.duration) {
@@ -60376,7 +60766,7 @@ var useMediaPlayback = ({
     return acceptableTimeshift ?? DEFAULT_ACCEPTABLE_TIMESHIFT_WITH_AMPLIFICATION;
   })();
   const env = useRemotionEnvironment();
-  import_react73.useLayoutEffect(() => {
+  import_react74.useLayoutEffect(() => {
     const playbackRateToSet = Math.max(0, playbackRate);
     if (mediaRef.current && mediaRef.current.defaultPlaybackRate !== playbackRateToSet) {
       mediaRef.current.defaultPlaybackRate = playbackRateToSet;
@@ -60388,7 +60778,7 @@ var useMediaPlayback = ({
       mediaRef.current.preservesPitch = preservePitch;
     }
   }, [mediaRef, playbackRate, preservePitch]);
-  import_react73.useEffect(() => {
+  import_react74.useEffect(() => {
     const tagName = mediaType === "audio" ? "<Html5Audio>" : "<Html5Video>";
     if (!mediaRef.current) {
       throw new Error(`No ${mediaType} ref found`);
@@ -60538,13 +60928,13 @@ var useMediaTag = ({
   isPostmounting
 }) => {
   const { audioAndVideoTags, isPlaying } = useTimelineContext();
-  const { subscribePlaying } = import_react80.useContext(SetTimelineContext);
-  const isPlayingRef = import_react80.useRef(isPlaying);
+  const { subscribePlaying } = import_react81.useContext(SetTimelineContext);
+  const isPlayingRef = import_react81.useRef(isPlaying);
   isPlayingRef.current = isPlaying;
   const logLevel = useLogLevel();
   const mountTime = useMountTime();
   const env = useRemotionEnvironment();
-  import_react80.useEffect(() => {
+  import_react81.useEffect(() => {
     const tag = {
       id,
       play: (reason) => {
@@ -60600,11 +60990,11 @@ var useMediaTag = ({
     subscribePlaying
   ]);
 };
-var MediaVolumeContext = import_react81.createContext({
+var MediaVolumeContext = import_react82.createContext({
   playerMuted: false,
   mediaVolume: 1
 });
-var SetMediaVolumeContext = import_react81.createContext({
+var SetMediaVolumeContext = import_react82.createContext({
   setPlayerMuted: () => {
     throw new Error("default");
   },
@@ -60613,16 +61003,16 @@ var SetMediaVolumeContext = import_react81.createContext({
   }
 });
 var useMediaVolumeState = () => {
-  const { mediaVolume } = import_react81.useContext(MediaVolumeContext);
-  const { setMediaVolume } = import_react81.useContext(SetMediaVolumeContext);
-  return import_react81.useMemo(() => {
+  const { mediaVolume } = import_react82.useContext(MediaVolumeContext);
+  const { setMediaVolume } = import_react82.useContext(SetMediaVolumeContext);
+  return import_react82.useMemo(() => {
     return [mediaVolume, setMediaVolume];
   }, [mediaVolume, setMediaVolume]);
 };
 var usePlayerMutedState = () => {
-  const { playerMuted } = import_react81.useContext(MediaVolumeContext);
-  const { setPlayerMuted } = import_react81.useContext(SetMediaVolumeContext);
-  return import_react81.useMemo(() => {
+  const { playerMuted } = import_react82.useContext(MediaVolumeContext);
+  const { setPlayerMuted } = import_react82.useContext(SetMediaVolumeContext);
+  return import_react82.useMemo(() => {
     return [playerMuted, setPlayerMuted];
   }, [playerMuted, setPlayerMuted]);
 };
@@ -60798,34 +61188,12 @@ var AudioForDevelopmentForwardRefFunction = (props, ref) => {
   });
   const effectToUse = import_react66.default.useInsertionEffect ?? import_react66.default.useLayoutEffect;
   effectToUse(() => {
-    return () => {
-      requestAnimationFrame(() => {
-        cleanupOnMediaTagUnmount();
-      });
-    };
+    return scheduleMediaSourceCleanup.bind(null, cleanupOnMediaTagUnmount);
   }, [cleanupOnMediaTagUnmount]);
   import_react66.useImperativeHandle(ref, () => {
     return audioRef.current;
   }, [audioRef]);
-  const currentOnDurationCallback = import_react66.useRef(onDuration);
-  currentOnDurationCallback.current = onDuration;
-  import_react66.useEffect(() => {
-    const { current } = audioRef;
-    if (!current) {
-      return;
-    }
-    if (current.duration) {
-      currentOnDurationCallback.current?.(current.src, current.duration);
-      return;
-    }
-    const onLoadedMetadata = () => {
-      currentOnDurationCallback.current?.(current.src, current.duration);
-    };
-    current.addEventListener("loadedmetadata", onLoadedMetadata);
-    return () => {
-      current.removeEventListener("loadedmetadata", onLoadedMetadata);
-    };
-  }, [audioRef, src]);
+  useMediaDuration(audioRef, onDuration, src, true);
   if (initialShouldPreMountAudioElements) {
     return null;
   }
@@ -60902,9 +61270,9 @@ var AudioForPreviewRefForwardingFunction = (props, ref) => {
   });
 };
 var AudioForPreview = import_react66.forwardRef(AudioForPreviewRefForwardingFunction);
-var MediaEnabledContext = import_react83.createContext(null);
+var MediaEnabledContext = import_react84.createContext(null);
 var useVideoEnabled = () => {
-  const context = import_react83.useContext(MediaEnabledContext);
+  const context = import_react84.useContext(MediaEnabledContext);
   if (!context) {
     return window.remotion_videoEnabled;
   }
@@ -60914,7 +61282,7 @@ var useVideoEnabled = () => {
   return context.videoEnabled;
 };
 var useAudioEnabled = () => {
-  const context = import_react83.useContext(MediaEnabledContext);
+  const context = import_react84.useContext(MediaEnabledContext);
   if (!context) {
     return window.remotion_audioEnabled;
   }
@@ -60928,15 +61296,17 @@ var MediaEnabledProvider = ({
   videoEnabled,
   audioEnabled
 }) => {
-  const value = import_react83.useMemo(() => ({ videoEnabled, audioEnabled }), [videoEnabled, audioEnabled]);
+  const value = import_react84.useMemo(() => ({ videoEnabled, audioEnabled }), [videoEnabled, audioEnabled]);
   return /* @__PURE__ */ import_jsx_runtime28.jsx(MediaEnabledContext.Provider, {
     value,
     children
   });
 };
 var AudioForRenderingRefForwardingFunction = (props, ref) => {
-  const audioRef = import_react82.useRef(null);
+  const audioRef = import_react83.useRef(null);
   const {
+    registerRenderAsset,
+    unregisterRenderAsset,
     volume: volumeProp,
     playbackRate,
     allowAmplificationDuringRender,
@@ -60952,18 +61322,17 @@ var AudioForRenderingRefForwardingFunction = (props, ref) => {
     loopVolumeCurveBehavior,
     pauseWhenBuffering,
     audioStreamIndex,
-    preservePitch: _preservePitch,
+    preservePitch,
     ...nativeProps
   } = props;
   const absoluteFrame = useTimelinePosition();
   const volumePropFrame = useFrameForVolumeProp(loopVolumeCurveBehavior ?? "repeat");
   const frame = useCurrentFrame();
-  const sequenceContext = import_react82.useContext(SequenceContext);
+  const sequenceContext = import_react83.useContext(SequenceContext);
   const sequencePlaybackRate = sequenceContext?.playbackRate ?? 1;
-  const audioStartFrame = import_react82.useContext(Html5MediaTrimContext);
-  const { registerRenderAsset, unregisterRenderAsset } = import_react82.useContext(RenderAssetManager);
+  const audioStartFrame = import_react83.useContext(Html5MediaTrimContext);
   const { delayRender, continueRender } = useDelayRender();
-  const id = import_react82.useMemo(() => `audio-${random(props.src ?? "")}-${sequenceContext?.relativeFrom}-${sequenceContext?.cumulatedFrom}-${sequenceContext?.durationInFrames}`, [
+  const id = import_react83.useMemo(() => `audio-${random(props.src ?? "")}-${sequenceContext?.relativeFrom}-${sequenceContext?.cumulatedFrom}-${sequenceContext?.durationInFrames}`, [
     props.src,
     sequenceContext?.relativeFrom,
     sequenceContext?.cumulatedFrom,
@@ -60981,10 +61350,10 @@ var AudioForRenderingRefForwardingFunction = (props, ref) => {
     volume,
     audioEnabled
   });
-  import_react82.useImperativeHandle(ref, () => {
+  import_react83.useImperativeHandle(ref, () => {
     return audioRef.current;
   }, []);
-  import_react82.useEffect(() => {
+  import_react83.useEffect(() => {
     if (!props.src) {
       throw new Error("No src passed");
     }
@@ -61001,7 +61370,8 @@ var AudioForRenderingRefForwardingFunction = (props, ref) => {
       playbackRate: (props.playbackRate ?? 1) * sequencePlaybackRate,
       toneFrequency: toneFrequency ?? 1,
       audioStartFrame,
-      audioStreamIndex: audioStreamIndex ?? 0
+      audioStreamIndex: audioStreamIndex ?? 0,
+      preservePitch: preservePitch ?? true
     });
     return () => unregisterRenderAsset(id);
   }, [
@@ -61019,11 +61389,12 @@ var AudioForRenderingRefForwardingFunction = (props, ref) => {
     toneFrequency,
     audioStartFrame,
     sequencePlaybackRate,
-    audioStreamIndex
+    audioStreamIndex,
+    preservePitch
   ]);
   const { src } = props;
   const needsToRenderAudioTag = ref || _remotionInternalNeedsDurationCalculation;
-  import_react82.useLayoutEffect(() => {
+  import_react83.useLayoutEffect(() => {
     if (window.process?.env?.NODE_ENV === "test") {
       return;
     }
@@ -61069,7 +61440,16 @@ var AudioForRenderingRefForwardingFunction = (props, ref) => {
     onError: onNativeError
   });
 };
-var AudioForRendering = import_react82.forwardRef(AudioForRenderingRefForwardingFunction);
+var MemoAudioForRendering = import_react83.default.memo(import_react83.forwardRef(AudioForRenderingRefForwardingFunction));
+var AudioForRendering = import_react83.forwardRef((props, ref) => {
+  const { registerRenderAsset, unregisterRenderAsset } = import_react83.useContext(RenderAssetManager);
+  return /* @__PURE__ */ import_jsx_runtime29.jsx(MemoAudioForRendering, {
+    ...props,
+    ref,
+    registerRenderAsset,
+    unregisterRenderAsset
+  });
+});
 var AudioRefForwardingFunction = (props, ref) => {
   const audioTagsContext = import_react60.useContext(SharedAudioTagsContext);
   const propsWithFreeze = props;
@@ -61116,9 +61496,7 @@ var AudioRefForwardingFunction = (props, ref) => {
       console.warn(errMessage);
     }
   }, [loop, onRemotionError, preloadedSrc]);
-  const onDuration = import_react60.useCallback((src, durationInSeconds) => {
-    setDurations({ type: "got-duration", durationInSeconds, src });
-  }, [setDurations]);
+  const onDuration = import_react60.useMemo(() => onMediaDuration.bind(null, setDurations), [setDurations]);
   const durationFetched = durations[getAbsoluteSrc2(preloadedSrc)] ?? durations[getAbsoluteSrc2(props.src)];
   validateMediaTrimProps({ startFrom, endAt, trimBefore, trimAfter });
   if (durationInFrames !== undefined) {
@@ -61274,13 +61652,13 @@ var SolidInner = ({
   const resolvedPixelDensity = resolveSolidPixelDensity(pixelDensity);
   const canvasWidth = Math.ceil(width * resolvedPixelDensity);
   const canvasHeight = Math.ceil(height * resolvedPixelDensity);
-  const [outputCanvas, setOutputCanvas] = import_react84.useState(null);
+  const [outputCanvas, setOutputCanvas] = import_react85.useState(null);
   const memoizedEffects = useMemoizedEffects({
     effects,
     overrideId: overrideId ?? null,
     videoConfigValues
   });
-  const sourceCanvas = import_react84.useMemo(() => {
+  const sourceCanvas = import_react85.useMemo(() => {
     if (typeof document === "undefined") {
       return null;
     }
@@ -61290,7 +61668,7 @@ var SolidInner = ({
     return canvas;
   }, []);
   const chainState = useEffectChainState(effectsOutputSize);
-  const canvasRef = import_react84.useCallback((canvas) => {
+  const canvasRef = import_react85.useCallback((canvas) => {
     setOutputCanvas(canvas);
     if (typeof reference === "function") {
       reference(canvas);
@@ -61298,7 +61676,7 @@ var SolidInner = ({
       reference.current = canvas;
     }
   }, [reference]);
-  import_react84.useEffect(() => {
+  import_react85.useEffect(() => {
     if (!outputCanvas || !sourceCanvas) {
       return;
     }
@@ -61348,7 +61726,7 @@ var SolidInner = ({
     cancelRender,
     memoizedEffects
   ]);
-  const canvasStyle = import_react84.useMemo(() => {
+  const canvasStyle = import_react85.useMemo(() => {
     return {
       width,
       height,
@@ -61363,7 +61741,7 @@ var SolidInner = ({
     style: canvasStyle
   });
 };
-var SolidOuter = import_react84.forwardRef(({
+var SolidOuter = import_react85.forwardRef(({
   effects = [],
   effectsOutputSize = null,
   controls,
@@ -61393,8 +61771,8 @@ var SolidOuter = import_react84.forwardRef(({
   ...props
 }, ref) => {
   const memoizedEffectDefinitions = useMemoizedEffectDefinitions(effects);
-  const actualRef = import_react84.useRef(null);
-  import_react84.useImperativeHandle(ref, () => {
+  const actualRef = import_react85.useRef(null);
+  import_react85.useImperativeHandle(ref, () => {
     return actualRef.current;
   }, []);
   const {
@@ -61477,6 +61855,57 @@ var Solid = withInteractivitySchema({
 });
 Solid.displayName = "Solid";
 addSequenceStackTraces(Solid);
+var HtmlInCanvasFallback = ({ children, style, label }) => {
+  const currentScale = useCurrentScale({ dontThrowIfOutsideOfRemotion: true });
+  const scale = currentScale > 0 ? currentScale : 1;
+  return /* @__PURE__ */ import_jsx_runtime32.jsxs("div", {
+    style: { position: "relative", ...style },
+    children: [
+      children,
+      /* @__PURE__ */ import_jsx_runtime32.jsxs("div", {
+        className: "css-reset",
+        style: {
+          position: "absolute",
+          top: 8 / scale,
+          right: 8 / scale,
+          zIndex: 1000,
+          transform: `scale(${1 / scale})`,
+          transformOrigin: "top right",
+          maxWidth: `calc(${scale * 100}% - 16px)`,
+          padding: "8px 10px",
+          borderRadius: 6,
+          border: "1px solid #7f3540",
+          backgroundColor: "#2b171c",
+          boxShadow: "0 2px 8px #0003",
+          pointerEvents: "none",
+          textAlign: "left"
+        },
+        children: [
+          /* @__PURE__ */ import_jsx_runtime32.jsx("div", {
+            style: {
+              fontFamily: "Arial, Helvetica, sans-serif",
+              fontSize: 12,
+              fontWeight: 600,
+              lineHeight: 1.5,
+              color: "#ffabb5"
+            },
+            children: "HTML-in-canvas is not available"
+          }),
+          /* @__PURE__ */ import_jsx_runtime32.jsx("div", {
+            style: {
+              fontFamily: "Arial, Helvetica, sans-serif",
+              fontSize: 11,
+              fontWeight: 400,
+              lineHeight: 1.5,
+              color: "#e8bdc3"
+            },
+            children: label
+          })
+        ]
+      })
+    ]
+  });
+};
 var transferredOffscreenCanvases = new WeakMap;
 var getTransferredOffscreenCanvas = (canvas) => {
   const existing = transferredOffscreenCanvases.get(canvas);
@@ -61583,8 +62012,18 @@ var defaultOnPaint = ({
   ctx.reset();
   ctx.drawElementImage(elementImage, 0, 0);
 };
-var HtmlInCanvasAncestorContext = import_react85.createContext(null);
-var HtmlInCanvasContent = import_react85.forwardRef(({
+var HtmlInCanvasAncestorContext = import_react86.createContext(null);
+var useHtmlInCanvasUnsupportedMessage = () => {
+  const ancestorPaintState = import_react86.useContext(HtmlInCanvasAncestorContext);
+  if (!isHtmlInCanvasSupported()) {
+    return getHtmlInCanvasUnsupportedMessage();
+  }
+  if (ancestorPaintState && !isHtmlInCanvasNestingSupported()) {
+    return `Nested <HtmlInCanvas> components require Chrome ${MINIMUM_CHROME_VERSION_FOR_NESTED_HTML_IN_CANVAS} or newer with HTML-in-canvas enabled.`;
+  }
+  return null;
+};
+var HtmlInCanvasContent = import_react86.forwardRef(({
   width,
   height,
   effects,
@@ -61598,7 +62037,7 @@ var HtmlInCanvasContent = import_react85.forwardRef(({
   style,
   renderFrame
 }, ref) => {
-  const ancestorPaintState = import_react85.useContext(HtmlInCanvasAncestorContext);
+  const ancestorPaintState = import_react86.useContext(HtmlInCanvasAncestorContext);
   assertHtmlInCanvasDimensions(width, height);
   if (ancestorPaintState && !isHtmlInCanvasNestingSupported()) {
     throw new Error(`Nested <HtmlInCanvas> components require Chrome ${MINIMUM_CHROME_VERSION_FOR_NESTED_HTML_IN_CANVAS} or newer with HTML-in-canvas enabled.`);
@@ -61614,12 +62053,12 @@ var HtmlInCanvasContent = import_react85.forwardRef(({
   if (!isHtmlInCanvasSupported()) {
     cancelRender(new Error(getHtmlInCanvasUnsupportedMessage()));
   }
-  const canvas2dRef = import_react85.useRef(null);
-  const outputCanvasRef = import_react85.useRef(null);
-  const paintTargetRef = import_react85.useRef(null);
-  const divRef = import_react85.useRef(null);
+  const canvas2dRef = import_react86.useRef(null);
+  const outputCanvasRef = import_react86.useRef(null);
+  const paintTargetRef = import_react86.useRef(null);
+  const divRef = import_react86.useRef(null);
   const canvasSizeKey = `${width}x${height}@${resolvedPixelDensity}-${paintTargetMode}`;
-  const paintState = import_react85.useMemo(() => {
+  const paintState = import_react86.useMemo(() => {
     const state = {
       pendingChildren: 0,
       generation: 0,
@@ -61650,7 +62089,7 @@ var HtmlInCanvasContent = import_react85.forwardRef(({
     };
     return state;
   }, [continueRender, delayRender, ancestorPaintState]);
-  const setVisibleCanvasRef = import_react85.useCallback((node) => {
+  const setVisibleCanvasRef = import_react86.useCallback((node) => {
     if (paintTargetMode === "copied") {
       outputCanvasRef.current = node;
     } else {
@@ -61668,18 +62107,18 @@ var HtmlInCanvasContent = import_react85.forwardRef(({
     overrideId: controls?.overrideId ?? null,
     videoConfigValues: controls?.videoConfigValues ?? null
   });
-  const effectsRef = import_react85.useRef(memoizedEffects);
+  const effectsRef = import_react86.useRef(memoizedEffects);
   effectsRef.current = memoizedEffects;
-  const onPaintRef = import_react85.useRef(onPaint);
+  const onPaintRef = import_react86.useRef(onPaint);
   onPaintRef.current = onPaint;
-  const onInitRef = import_react85.useRef(onInit);
+  const onInitRef = import_react86.useRef(onInit);
   onInitRef.current = onInit;
-  const initializedRef = import_react85.useRef(false);
-  const onInitCleanupRef = import_react85.useRef(null);
-  const unmountedRef = import_react85.useRef(false);
-  const effectScratchCanvasesRef = import_react85.useRef(null);
-  const paintingTargets = import_react85.useRef(new WeakMap);
-  const onPaintCb = import_react85.useCallback(async () => {
+  const initializedRef = import_react86.useRef(false);
+  const onInitCleanupRef = import_react86.useRef(null);
+  const unmountedRef = import_react86.useRef(false);
+  const effectScratchCanvasesRef = import_react86.useRef(null);
+  const paintingTargets = import_react86.useRef(new WeakMap);
+  const onPaintCb = import_react86.useCallback(async () => {
     if (isRendering && paintState.pendingChildren > 0) {
       return;
     }
@@ -61884,13 +62323,13 @@ var HtmlInCanvasContent = import_react85.forwardRef(({
     paintState,
     ancestorPaintState
   ]);
-  import_react85.useLayoutEffect(() => {
+  import_react86.useLayoutEffect(() => {
     return () => {
       paintState.release?.();
       paintState.release = null;
     };
   }, [paintState]);
-  import_react85.useLayoutEffect(() => {
+  import_react86.useLayoutEffect(() => {
     const placeholder = canvas2dRef.current;
     if (!placeholder) {
       throw new Error("Canvas not found");
@@ -61917,8 +62356,8 @@ var HtmlInCanvasContent = import_react85.forwardRef(({
       onInitCleanupRef.current = null;
     };
   }, [onPaintCb, cancelRender, canvasWidth, canvasHeight, paintTargetMode]);
-  const onPaintChangedRef = import_react85.useRef(false);
-  import_react85.useLayoutEffect(() => {
+  const onPaintChangedRef = import_react86.useRef(false);
+  import_react86.useLayoutEffect(() => {
     if (!onPaintChangedRef.current) {
       onPaintChangedRef.current = true;
       return;
@@ -61929,7 +62368,7 @@ var HtmlInCanvasContent = import_react85.forwardRef(({
     }
     canvas.requestPaint?.();
   }, [onPaint, memoizedEffects]);
-  import_react85.useLayoutEffect(() => {
+  import_react86.useLayoutEffect(() => {
     const canvas = canvas2dRef.current;
     if (!canvas) {
       return;
@@ -61956,23 +62395,23 @@ var HtmlInCanvasContent = import_react85.forwardRef(({
     isRendering,
     ancestorPaintState
   ]);
-  const innerStyle = import_react85.useMemo(() => {
+  const innerStyle = import_react86.useMemo(() => {
     return {
       width,
       height
     };
   }, [width, height]);
-  const canvasStyle = import_react85.useMemo(() => {
+  const canvasStyle = import_react86.useMemo(() => {
     return {
       width,
       height,
       ...style ?? {}
     };
   }, [height, style, width]);
-  return /* @__PURE__ */ import_jsx_runtime32.jsxs(HtmlInCanvasAncestorContext.Provider, {
+  return /* @__PURE__ */ import_jsx_runtime33.jsxs(HtmlInCanvasAncestorContext.Provider, {
     value: paintState,
     children: [
-      /* @__PURE__ */ import_jsx_runtime32.jsx("canvas", {
+      /* @__PURE__ */ import_jsx_runtime33.jsx("canvas", {
         ref: paintTargetMode === "copied" ? canvas2dRef : setVisibleCanvasRef,
         width: canvasWidth,
         height: canvasHeight,
@@ -61982,10 +62421,10 @@ var HtmlInCanvasContent = import_react85.forwardRef(({
           visibility: "hidden",
           pointerEvents: "none"
         } : canvasStyle,
-        children: /* @__PURE__ */ import_jsx_runtime32.jsxs(DefaultPremountContext.Provider, {
+        children: /* @__PURE__ */ import_jsx_runtime33.jsxs(DefaultPremountContext.Provider, {
           value: 0,
           children: [
-            /* @__PURE__ */ import_jsx_runtime32.jsx("div", {
+            /* @__PURE__ */ import_jsx_runtime33.jsx("div", {
               ref: divRef,
               style: paintTargetMode === "copied" ? { ...innerStyle, visibility: "visible" } : innerStyle,
               children
@@ -61994,7 +62433,7 @@ var HtmlInCanvasContent = import_react85.forwardRef(({
           ]
         })
       }, canvasSizeKey),
-      paintTargetMode === "copied" ? /* @__PURE__ */ import_jsx_runtime32.jsx("canvas", {
+      paintTargetMode === "copied" ? /* @__PURE__ */ import_jsx_runtime33.jsx("canvas", {
         ref: setVisibleCanvasRef,
         width: canvasWidth,
         height: canvasHeight,
@@ -62004,16 +62443,16 @@ var HtmlInCanvasContent = import_react85.forwardRef(({
   });
 });
 HtmlInCanvasContent.displayName = "HtmlInCanvasContent";
-var HtmlInCanvasContentForRendering = import_react85.forwardRef((props, ref) => {
+var HtmlInCanvasContentForRendering = import_react86.forwardRef((props, ref) => {
   const frame = useCurrentFrame();
-  return /* @__PURE__ */ import_jsx_runtime32.jsx(HtmlInCanvasContent, {
+  return /* @__PURE__ */ import_jsx_runtime33.jsx(HtmlInCanvasContent, {
     ...props,
     ref,
     renderFrame: frame
   });
 });
 HtmlInCanvasContentForRendering.displayName = "HtmlInCanvasContentForRendering";
-var HtmlInCanvasInner = import_react85.forwardRef(({
+var HtmlInCanvasInner = import_react86.forwardRef(({
   width,
   height,
   effects = [],
@@ -62023,6 +62462,7 @@ var HtmlInCanvasInner = import_react85.forwardRef(({
   onInit,
   pixelDensity,
   _remotionInternalCanvasSiblings,
+  _remotionInternalFallbackLabel = "Effects are not visible",
   controls,
   style,
   cropLeft,
@@ -62038,10 +62478,13 @@ var HtmlInCanvasInner = import_react85.forwardRef(({
   ...sequenceProps
 }, ref) => {
   const { isRendering } = useRemotionEnvironment();
+  const unsupportedMessage = useHtmlInCanvasUnsupportedMessage();
+  assertHtmlInCanvasDimensions(width, height);
+  resolveHtmlInCanvasPixelDensity(pixelDensity);
   const Content = isRendering ? HtmlInCanvasContentForRendering : HtmlInCanvasContent;
   const memoizedEffectDefinitions = useMemoizedEffectDefinitions(effects);
-  const actualRef = import_react85.useRef(null);
-  const setCanvasRef = import_react85.useCallback((node) => {
+  const actualRef = import_react86.useRef(null);
+  const setCanvasRef = import_react86.useCallback((node) => {
     actualRef.current = node;
     if (typeof ref === "function") {
       ref(node);
@@ -62079,11 +62522,11 @@ var HtmlInCanvasInner = import_react85.forwardRef(({
     style: premountingStyle,
     componentName: "<HtmlInCanvas />"
   });
-  return /* @__PURE__ */ import_jsx_runtime32.jsx(Freeze, {
+  return /* @__PURE__ */ import_jsx_runtime33.jsx(Freeze, {
     frame: freezeFrame,
     active: isPremountingOrPostmounting,
     _remotionInternalIsPremounting: premountingActive,
-    children: /* @__PURE__ */ import_jsx_runtime32.jsx(Sequence, {
+    children: /* @__PURE__ */ import_jsx_runtime33.jsx(Sequence, {
       layout: "none",
       durationInFrames,
       name: name ?? "<HtmlInCanvas>",
@@ -62095,7 +62538,17 @@ var HtmlInCanvasInner = import_react85.forwardRef(({
       _remotionInternalPostmountDisplay: effectivePostmountFor || null,
       _remotionInternalIsPremounting: premountingActive,
       _remotionInternalIsPostmounting: postmountingActive,
-      children: /* @__PURE__ */ import_jsx_runtime32.jsx(Content, {
+      children: !isRendering && unsupportedMessage !== null ? /* @__PURE__ */ import_jsx_runtime33.jsx(HtmlInCanvasFallback, {
+        style: { width, height, ...croppedStyle },
+        label: _remotionInternalFallbackLabel,
+        children: /* @__PURE__ */ import_jsx_runtime33.jsx(DefaultPremountContext.Provider, {
+          value: 0,
+          children: /* @__PURE__ */ import_jsx_runtime33.jsx("div", {
+            style: { width, height },
+            children
+          })
+        })
+      }) : /* @__PURE__ */ import_jsx_runtime33.jsx(Content, {
         ref: setCanvasRef,
         renderFrame: null,
         width,
@@ -62180,6 +62633,26 @@ var canvasImageSchema = {
   ...borderSchema2,
   ...borderRadiusSchema2
 };
+var continueImageLoadDelay = (pendingLoadDelayRef, setIsLoadPending, continueRender, { markAsReady }) => {
+  const pending = pendingLoadDelayRef.current;
+  if (!pending || pending.continued) {
+    return;
+  }
+  pending.continued = true;
+  if (markAsReady) {
+    setIsLoadPending(false);
+  }
+  continueRender(pending.handle);
+  pendingLoadDelayRef.current = null;
+};
+var setCanvasRef = (setOutputCanvas, ref, canvas) => {
+  setOutputCanvas(canvas);
+  if (typeof ref === "function") {
+    ref(canvas);
+  } else if (ref) {
+    ref.current = canvas;
+  }
+};
 var makeAbortError = () => {
   if (typeof DOMException !== "undefined") {
     return new DOMException("Image loading was aborted", "AbortError");
@@ -62232,7 +62705,7 @@ var loadImage = ({
       onAbort();
       return;
     }
-    image.crossOrigin = crossOrigin ?? "anonymous";
+    image.crossOrigin = crossOrigin || "anonymous";
     image.src = src;
   });
 };
@@ -62251,7 +62724,7 @@ var waitForNextFrame = ({
   const frame = requestAnimationFrame(onFrame);
   return () => cancelAnimationFrame(frame);
 };
-var CanvasImageContent = import_react86.forwardRef(({
+var CanvasImageContent = import_react87.forwardRef(({
   src,
   crossOrigin,
   width,
@@ -62272,8 +62745,8 @@ var CanvasImageContent = import_react86.forwardRef(({
 }, ref) => {
   const { delayRender, continueRender, cancelRender } = useDelayRender();
   const { delayPlayback } = useBufferState();
-  const [outputCanvas, setOutputCanvas] = import_react86.useState(null);
-  const [loadedImage, setLoadedImage] = import_react86.useState(null);
+  const [outputCanvas, setOutputCanvas] = import_react87.useState(null);
+  const [loadedImage, setLoadedImage] = import_react87.useState(null);
   const actualSrc = usePreload(src);
   const chainState = useEffectChainState(effectsOutputSize);
   const memoizedEffects = useMemoizedEffects({
@@ -62281,38 +62754,20 @@ var CanvasImageContent = import_react86.forwardRef(({
     overrideId: controls?.overrideId ?? null,
     videoConfigValues: controls?.videoConfigValues ?? null
   });
-  const sequenceContext = import_react86.useContext(SequenceContext);
-  const pendingLoadDelayRef = import_react86.useRef(null);
-  const [isLoadPending, setIsLoadPending] = import_react86.useState(false);
+  const sequenceContext = import_react87.useContext(SequenceContext);
+  const pendingLoadDelayRef = import_react87.useRef(null);
+  const [isLoadPending, setIsLoadPending] = import_react87.useState(false);
   const isPremounting = Boolean(sequenceContext?.premounting);
   const isPostmounting = Boolean(sequenceContext?.postmounting);
-  const continuePendingLoadDelay = import_react86.useCallback(({ markAsReady }) => {
-    const pending = pendingLoadDelayRef.current;
-    if (!pending || pending.continued) {
-      return;
-    }
-    pending.continued = true;
-    if (markAsReady) {
-      setIsLoadPending(false);
-    }
-    continueRender(pending.handle);
-    pendingLoadDelayRef.current = null;
-  }, [continueRender]);
-  const sourceCanvas = import_react86.useMemo(() => {
+  const continuePendingLoadDelay = import_react87.useMemo(() => continueImageLoadDelay.bind(null, pendingLoadDelayRef, setIsLoadPending, continueRender), [continueRender]);
+  const sourceCanvas = import_react87.useMemo(() => {
     if (typeof document === "undefined") {
       return null;
     }
     return document.createElement("canvas");
   }, []);
-  const canvasRef = import_react86.useCallback((canvas) => {
-    setOutputCanvas(canvas);
-    if (typeof ref === "function") {
-      ref(canvas);
-    } else if (ref) {
-      ref.current = canvas;
-    }
-  }, [ref]);
-  import_react86.useLayoutEffect(() => {
+  const canvasRef = import_react87.useMemo(() => setCanvasRef.bind(null, setOutputCanvas, ref), [ref]);
+  import_react87.useLayoutEffect(() => {
     if (!pauseWhenLoading || !isLoadPending || isPremounting || isPostmounting) {
       return;
     }
@@ -62324,7 +62779,7 @@ var CanvasImageContent = import_react86.forwardRef(({
     isPremounting,
     pauseWhenLoading
   ]);
-  import_react86.useLayoutEffect(() => {
+  import_react87.useLayoutEffect(() => {
     const handle = delayRender(`Rendering <CanvasImage> with src="${truncateSrcForLabel(actualSrc)}"`, {
       retries: delayRenderRetries ?? undefined,
       timeoutInMilliseconds: delayRenderTimeoutInMilliseconds ?? undefined
@@ -62387,7 +62842,7 @@ var CanvasImageContent = import_react86.forwardRef(({
     maxRetries,
     onError
   ]);
-  import_react86.useLayoutEffect(() => {
+  import_react87.useLayoutEffect(() => {
     if (!loadedImage || !outputCanvas || !sourceCanvas) {
       return;
     }
@@ -62474,7 +62929,7 @@ var CanvasImageContent = import_react86.forwardRef(({
     sourceCanvas,
     width
   ]);
-  return /* @__PURE__ */ import_jsx_runtime33.jsx("canvas", {
+  return /* @__PURE__ */ import_jsx_runtime34.jsx("canvas", {
     ...canvasProps,
     ref: canvasRef,
     width,
@@ -62485,7 +62940,7 @@ var CanvasImageContent = import_react86.forwardRef(({
   });
 });
 CanvasImageContent.displayName = "CanvasImageContent";
-var CanvasImageInner = import_react86.forwardRef(({
+var CanvasImageInner = import_react87.forwardRef(({
   src,
   crossOrigin,
   width,
@@ -62525,13 +62980,13 @@ var CanvasImageInner = import_react86.forwardRef(({
   if (!src) {
     throw new Error('No "src" prop was passed to <CanvasImage>.');
   }
-  const isMedia = import_react86.useMemo(() => ({
+  const isMedia = import_react87.useMemo(() => ({
     type: "image",
     src
   }), [src]);
   const memoizedEffectDefinitions = useMemoizedEffectDefinitions(effects);
-  const actualRef = import_react86.useRef(null);
-  import_react86.useImperativeHandle(ref, () => {
+  const actualRef = import_react87.useRef(null);
+  import_react87.useImperativeHandle(ref, () => {
     return actualRef.current;
   }, []);
   const {
@@ -62564,11 +63019,11 @@ var CanvasImageInner = import_react86.forwardRef(({
     style: premountingStyle,
     componentName: _remotionInternalCropComponentName ?? "<CanvasImage />"
   });
-  return /* @__PURE__ */ import_jsx_runtime33.jsx(Freeze, {
+  return /* @__PURE__ */ import_jsx_runtime34.jsx(Freeze, {
     frame: freezeFrame,
     active: isPremountingOrPostmounting,
     _remotionInternalIsPremounting: premountingActive,
-    children: /* @__PURE__ */ import_jsx_runtime33.jsx(Sequence, {
+    children: /* @__PURE__ */ import_jsx_runtime34.jsx(Sequence, {
       layout: "none",
       from: from ?? 0,
       trimBefore,
@@ -62586,8 +63041,8 @@ var CanvasImageInner = import_react86.forwardRef(({
       _remotionInternalPostmountDisplay: effectivePostmountFor || null,
       _remotionInternalIsPremounting: premountingActive,
       _remotionInternalIsPostmounting: postmountingActive,
-      children: /* @__PURE__ */ import_jsx_runtime33.jsx(SequenceContent, {
-        children: /* @__PURE__ */ import_jsx_runtime33.jsx(CanvasImageContent, {
+      children: /* @__PURE__ */ import_jsx_runtime34.jsx(SequenceContent, {
+        children: /* @__PURE__ */ import_jsx_runtime34.jsx(CanvasImageContent, {
           ref: actualRef,
           src,
           crossOrigin,
@@ -62628,10 +63083,10 @@ var IFrameRefForwarding = ({
   ...props
 }, ref) => {
   const { delayRender, continueRender } = useDelayRender();
-  const handle = import_react87.useRef(null);
-  const loadedSource = import_react87.useRef(null);
+  const handle = import_react88.useRef(null);
+  const loadedSource = import_react88.useRef(null);
   const { src, srcDoc } = props;
-  import_react87.useLayoutEffect(() => {
+  import_react88.useLayoutEffect(() => {
     if (loadedSource.current?.src === src && loadedSource.current?.srcDoc === srcDoc && loadedSource.current !== null) {
       return;
     }
@@ -62653,7 +63108,7 @@ var IFrameRefForwarding = ({
     src,
     srcDoc
   ]);
-  const didLoad = import_react87.useCallback((e) => {
+  const didLoad = import_react88.useCallback((e) => {
     loadedSource.current = { src, srcDoc };
     if (handle.current !== null) {
       continueRender(handle.current);
@@ -62661,7 +63116,7 @@ var IFrameRefForwarding = ({
     }
     onLoad?.(e);
   }, [onLoad, continueRender, src, srcDoc]);
-  const didGetError = import_react87.useCallback((e) => {
+  const didGetError = import_react88.useCallback((e) => {
     loadedSource.current = { src, srcDoc };
     if (handle.current !== null) {
       continueRender(handle.current);
@@ -62673,7 +63128,7 @@ var IFrameRefForwarding = ({
       console.error("Error loading iframe:", e, "Handle the event using the onError() prop to make this message disappear.");
     }
   }, [onError, continueRender, src, srcDoc]);
-  return /* @__PURE__ */ import_jsx_runtime34.jsx("iframe", {
+  return /* @__PURE__ */ import_jsx_runtime35.jsx("iframe", {
     referrerPolicy: "strict-origin-when-cross-origin",
     ...props,
     ref,
@@ -62681,10 +63136,124 @@ var IFrameRefForwarding = ({
     onLoad: didLoad
   });
 };
-var IFrame = import_react87.forwardRef(IFrameRefForwarding);
+var IFrame = import_react88.forwardRef(IFrameRefForwarding);
 function exponentialBackoff2(errorCount) {
   return 1000 * 2 ** (errorCount - 1);
 }
+var setImageRef = (imageRef, ref, img) => {
+  imageRef.current = img;
+  if (typeof ref === "function") {
+    ref(img);
+  } else if (ref) {
+    ref.current = img;
+  }
+};
+var retryImage = (imageRef, timeout) => {
+  if (!imageRef.current) {
+    return;
+  }
+  const currentSrc = imageRef.current.src;
+  setTimeout(() => {
+    if (!imageRef.current) {
+      return;
+    }
+    const newSrc = imageRef.current?.src;
+    if (newSrc !== currentSrc) {
+      return;
+    }
+    imageRef.current.removeAttribute("src");
+    imageRef.current.setAttribute("src", newSrc);
+  }, timeout);
+};
+var handleImageError = ({
+  errors,
+  imageRef,
+  onError,
+  onImageError,
+  maxRetries,
+  cancelRender,
+  retryIn
+}, e) => {
+  if (!errors.current) {
+    return;
+  }
+  errors.current[imageRef.current?.src] = (errors.current[imageRef.current?.src] ?? 0) + 1;
+  if ((onError || onImageError) && (errors.current[imageRef.current?.src] ?? 0) > maxRetries) {
+    onError?.(e);
+    onImageError?.(new Error("Error loading image with src: " + truncateSrcForLabel(imageRef.current?.src)));
+    return;
+  }
+  if ((errors.current[imageRef.current?.src] ?? 0) <= maxRetries) {
+    const backoff = exponentialBackoff2(errors.current[imageRef.current?.src] ?? 0);
+    console.warn(`Could not load image with source ${truncateSrcForLabel(imageRef.current?.src)}, retrying again in ${backoff}ms`);
+    retryIn(backoff);
+    return;
+  }
+  try {
+    cancelRender("Error loading image with src: " + truncateSrcForLabel(imageRef.current?.src));
+  } catch {}
+};
+var loadImage2 = ({
+  imageRef,
+  errors,
+  actualSrc,
+  delayRenderRetries,
+  delayRenderTimeoutInMilliseconds,
+  onImageFrame,
+  delayRender,
+  continueRender,
+  setIsLoading
+}) => {
+  if (window.process?.env?.NODE_ENV === "test") {
+    if (imageRef.current) {
+      imageRef.current.src = actualSrc;
+    }
+    return;
+  }
+  const { current } = imageRef;
+  if (!current) {
+    return;
+  }
+  setIsLoading(true);
+  const newHandle = delayRender("Loading <Img> with src=" + truncateSrcForLabel(actualSrc), {
+    retries: delayRenderRetries ?? undefined,
+    timeoutInMilliseconds: delayRenderTimeoutInMilliseconds ?? undefined
+  });
+  let unmounted = false;
+  const onComplete = () => {
+    if (unmounted) {
+      continueRender(newHandle);
+      return;
+    }
+    if ((errors.current[imageRef.current?.src] ?? 0) > 0) {
+      delete errors.current[imageRef.current?.src];
+      console.info(`Retry successful - ${truncateSrcForLabel(imageRef.current?.src)} is now loaded`);
+    }
+    if (current) {
+      onImageFrame?.(current);
+    }
+    setIsLoading(false);
+    continueRender(newHandle);
+  };
+  if (!imageRef.current) {
+    onComplete();
+    return;
+  }
+  current.src = actualSrc;
+  current.decode().then(onComplete).catch((err) => {
+    console.warn(err);
+    if (current.complete && current.naturalWidth > 0 && current.naturalHeight > 0) {
+      onComplete();
+    } else {
+      current.addEventListener("load", onComplete);
+    }
+  });
+  return () => {
+    unmounted = true;
+    current.removeEventListener("load", onComplete);
+    continueRender(newHandle);
+  };
+};
 var ImgContent = ({
   onError,
   onImageError,
@@ -62699,66 +63268,32 @@ var ImgContent = ({
   ref,
   ...props
 }) => {
-  const imageRef = import_react88.useRef(null);
-  const errors = import_react88.useRef({});
+  const imageRef = import_react89.useRef(null);
+  const errors = import_react89.useRef({});
   const { delayPlayback } = useBufferState();
-  const sequenceContext = import_react88.useContext(SequenceContext);
-  const [isLoading, setIsLoading] = import_react88.useState(false);
+  const sequenceContext = import_react89.useContext(SequenceContext);
+  const [isLoading, setIsLoading] = import_react89.useState(false);
   const _propsValid = true;
   if (!_propsValid) {
     throw new Error("typecheck error");
   }
-  const imageCallbackRef = import_react88.useCallback((img) => {
-    imageRef.current = img;
-    if (typeof ref === "function") {
-      ref(img);
-    } else if (ref) {
-      ref.current = img;
-    }
-  }, [ref]);
+  const imageCallbackRef = import_react89.useMemo(() => setImageRef.bind(null, imageRef, ref ?? null), [ref]);
   const actualSrc = usePreload(src);
-  const retryIn = import_react88.useCallback((timeout) => {
-    if (!imageRef.current) {
-      return;
-    }
-    const currentSrc = imageRef.current.src;
-    setTimeout(() => {
-      if (!imageRef.current) {
-        return;
-      }
-      const newSrc = imageRef.current?.src;
-      if (newSrc !== currentSrc) {
-        return;
-      }
-      imageRef.current.removeAttribute("src");
-      imageRef.current.setAttribute("src", newSrc);
-    }, timeout);
-  }, []);
+  const retryIn = import_react89.useMemo(() => retryImage.bind(null, imageRef), []);
   const { delayRender, continueRender, cancelRender } = useDelayRender();
   const isPremounting = Boolean(sequenceContext?.premounting);
   const isPostmounting = Boolean(sequenceContext?.postmounting);
-  const didGetError = import_react88.useCallback((e) => {
-    if (!errors.current) {
-      return;
-    }
-    errors.current[imageRef.current?.src] = (errors.current[imageRef.current?.src] ?? 0) + 1;
-    if ((onError || onImageError) && (errors.current[imageRef.current?.src] ?? 0) > maxRetries) {
-      onError?.(e);
-      onImageError?.(new Error("Error loading image with src: " + truncateSrcForLabel(imageRef.current?.src)));
-      return;
-    }
-    if ((errors.current[imageRef.current?.src] ?? 0) <= maxRetries) {
-      const backoff = exponentialBackoff2(errors.current[imageRef.current?.src] ?? 0);
-      console.warn(`Could not load image with source ${truncateSrcForLabel(imageRef.current?.src)}, retrying again in ${backoff}ms`);
-      retryIn(backoff);
-      return;
-    }
-    try {
-      cancelRender("Error loading image with src: " + truncateSrcForLabel(imageRef.current?.src));
-    } catch {}
-  }, [cancelRender, maxRetries, onError, onImageError, retryIn]);
+  const didGetError = import_react89.useMemo(() => handleImageError.bind(null, {
+    errors,
+    imageRef,
+    onError: onError ?? null,
+    onImageError: onImageError ?? null,
+    maxRetries,
+    cancelRender,
+    retryIn
+  }), [cancelRender, maxRetries, onError, onImageError, retryIn]);
   if (typeof window !== "undefined") {
-    import_react88.useLayoutEffect(() => {
+    import_react89.useLayoutEffect(() => {
       if (!pauseWhenLoading || !isLoading || isPremounting || isPostmounting) {
         return;
       }
@@ -62770,57 +63305,17 @@ var ImgContent = ({
       isPremounting,
       pauseWhenLoading
     ]);
-    import_react88.useLayoutEffect(() => {
-      if (window.process?.env?.NODE_ENV === "test") {
-        if (imageRef.current) {
-          imageRef.current.src = actualSrc;
-        }
-        return;
-      }
-      const { current } = imageRef;
-      if (!current) {
-        return;
-      }
-      setIsLoading(true);
-      const newHandle = delayRender("Loading <Img> with src=" + truncateSrcForLabel(actualSrc), {
-        retries: delayRenderRetries ?? undefined,
-        timeoutInMilliseconds: delayRenderTimeoutInMilliseconds ?? undefined
-      });
-      let unmounted = false;
-      const onComplete = () => {
-        if (unmounted) {
-          continueRender(newHandle);
-          return;
-        }
-        if ((errors.current[imageRef.current?.src] ?? 0) > 0) {
-          delete errors.current[imageRef.current?.src];
-          console.info(`Retry successful - ${truncateSrcForLabel(imageRef.current?.src)} is now loaded`);
-        }
-        if (current) {
-          onImageFrame?.(current);
-        }
-        setIsLoading(false);
-        continueRender(newHandle);
-      };
-      if (!imageRef.current) {
-        onComplete();
-        return;
-      }
-      current.src = actualSrc;
-      current.decode().then(onComplete).catch((err) => {
-        console.warn(err);
-        if (current.complete && current.naturalWidth > 0 && current.naturalHeight > 0) {
-          onComplete();
-        } else {
-          current.addEventListener("load", onComplete);
-        }
-      });
-      return () => {
-        unmounted = true;
-        current.removeEventListener("load", onComplete);
-        continueRender(newHandle);
-      };
-    }, [
+    import_react89.useLayoutEffect(loadImage2.bind(null, {
+      imageRef,
+      errors,
+      actualSrc,
+      delayRenderRetries: delayRenderRetries ?? null,
+      delayRenderTimeoutInMilliseconds: delayRenderTimeoutInMilliseconds ?? null,
+      onImageFrame: onImageFrame ?? null,
+      delayRender,
+      continueRender,
+      setIsLoading
+    }), [
       actualSrc,
       delayRenderRetries,
       delayRenderTimeoutInMilliseconds,
@@ -62835,7 +63330,7 @@ var ImgContent = ({
     requestsVideoFrame: false,
     isClientSideRendering
   });
-  return /* @__PURE__ */ import_jsx_runtime35.jsx("img", {
+  return /* @__PURE__ */ import_jsx_runtime36.jsx("img", {
     ...props,
     ref: imageCallbackRef,
     crossOrigin: crossOriginValue,
@@ -62868,7 +63363,7 @@ var NativeImgInner = ({
   if (!src) {
     throw new Error('No "src" prop was passed to <Img>.');
   }
-  const isMedia = import_react88.useMemo(() => ({
+  const isMedia = import_react89.useMemo(() => ({
     type: "image",
     src
   }), [src]);
@@ -62902,11 +63397,11 @@ var NativeImgInner = ({
     style: premountingStyle,
     componentName: "<Img />"
   });
-  return /* @__PURE__ */ import_jsx_runtime35.jsx(Freeze, {
+  return /* @__PURE__ */ import_jsx_runtime36.jsx(Freeze, {
     frame: freezeFrame,
     active: isPremountingOrPostmounting,
     _remotionInternalIsPremounting: premountingActive,
-    children: /* @__PURE__ */ import_jsx_runtime35.jsx(Sequence, {
+    children: /* @__PURE__ */ import_jsx_runtime36.jsx(Sequence, {
       layout: "none",
       from: from ?? 0,
       trimBefore,
@@ -62923,8 +63418,8 @@ var NativeImgInner = ({
       controls,
       showInTimeline: showInTimeline ?? true,
       hidden,
-      children: /* @__PURE__ */ import_jsx_runtime35.jsx(SequenceContent, {
-        children: /* @__PURE__ */ import_jsx_runtime35.jsx(ImgContent, {
+      children: /* @__PURE__ */ import_jsx_runtime36.jsx(SequenceContent, {
+        children: /* @__PURE__ */ import_jsx_runtime36.jsx(ImgContent, {
           src,
           style: croppedStyle ?? undefined,
           ...props
@@ -63026,7 +63521,7 @@ var ImgInner = ({
 }) => {
   const shouldPauseWhenLoading = resolveV5Default(pauseWhenLoading);
   if (effects.length === 0) {
-    return /* @__PURE__ */ import_jsx_runtime35.jsx(NativeImgInner, {
+    return /* @__PURE__ */ import_jsx_runtime36.jsx(NativeImgInner, {
       ...props,
       ref,
       hidden,
@@ -63071,7 +63566,7 @@ var ImgInner = ({
   const canvasHeight = typeof height === "number" ? height : undefined;
   const canvasProps = props;
   const canvasFit = getFitFromObjectFit(style) ?? "fill";
-  return /* @__PURE__ */ import_jsx_runtime35.jsx(CanvasImageWithPrivateProps, {
+  return /* @__PURE__ */ import_jsx_runtime36.jsx(CanvasImageWithPrivateProps, {
     src,
     width: canvasWidth,
     height: canvasHeight,
@@ -63200,8 +63695,8 @@ var withSchema = (untypedOptions) => {
     layout = "none",
     ...rest
   } = options;
-  const ComponentWrappedInSequence = import_react89.forwardRef((props, ref) => {
-    const { canvasContent, compositions } = import_react89.useContext(CompositionManager);
+  const ComponentWrappedInSequence = import_react90.forwardRef((props, ref) => {
+    const { canvasContent, compositions } = import_react90.useContext(CompositionManager);
     const componentIdentity = resolveComponentIdentity(Wrapped);
     const isCurrentComposition = compositions.some((composition) => canvasContent?.type === "composition" && composition.id === canvasContent.compositionId && composition.componentFromProps === componentIdentity);
     const { width, height, ...propsWithoutDimensions } = props;
@@ -63260,10 +63755,10 @@ var withSchema = (untypedOptions) => {
       style: premountingStyle,
       componentName
     });
-    return /* @__PURE__ */ import_jsx_runtime36.jsx(Freeze, {
+    return /* @__PURE__ */ import_jsx_runtime37.jsx(Freeze, {
       frame: freezeFrame,
       active: isPremountingOrPostmounting,
-      children: /* @__PURE__ */ import_jsx_runtime36.jsx(SequenceWithoutSchema, {
+      children: /* @__PURE__ */ import_jsx_runtime37.jsx(SequenceWithoutSchema, {
         _remotionInternalSingleChildComponent: isCurrentComposition ? null : componentIdentity,
         layout,
         ...layout === "absolute-fill" ? {
@@ -63287,7 +63782,7 @@ var withSchema = (untypedOptions) => {
         _remotionInternalPostmountDisplay: effectivePostmountFor || null,
         _remotionInternalIsPremounting: premountingActive,
         _remotionInternalIsPostmounting: postmountingActive,
-        children: import_react89.default.createElement(Component, {
+        children: import_react90.default.createElement(Component, {
           ...componentPropsWithoutCropping,
           ...layout === "none" ? { style: croppedStyle ?? undefined, ref } : {}
         })
@@ -63320,7 +63815,7 @@ var create = (untypedOptions) => {
   });
 };
 var makeInteractiveElement = (tag, displayName, schema) => {
-  const Inner = import_react89.forwardRef((propsWithControls, ref) => {
+  const Inner = import_react90.forwardRef((propsWithControls, ref) => {
     const {
       durationInFrames,
       from,
@@ -63373,14 +63868,14 @@ var makeInteractiveElement = (tag, displayName, schema) => {
       style: premountingStyle,
       componentName: displayName
     });
-    const callbackRef = import_react89.useCallback((element) => {
+    const callbackRef = import_react90.useCallback((element) => {
       setRef2(ref, element);
     }, [ref]);
-    return /* @__PURE__ */ import_jsx_runtime36.jsx(Freeze, {
+    return /* @__PURE__ */ import_jsx_runtime37.jsx(Freeze, {
       frame: freezeFrame,
       active: isPremountingOrPostmounting,
       _remotionInternalIsPremounting: premountingActive,
-      children: /* @__PURE__ */ import_jsx_runtime36.jsx(Sequence, {
+      children: /* @__PURE__ */ import_jsx_runtime37.jsx(Sequence, {
         layout: "none",
         from: from ?? 0,
         trimBefore,
@@ -63397,7 +63892,7 @@ var makeInteractiveElement = (tag, displayName, schema) => {
         _remotionInternalPostmountDisplay: effectivePostmountFor || null,
         _remotionInternalIsPremounting: premountingActive,
         _remotionInternalIsPostmounting: postmountingActive,
-        children: import_react89.default.createElement(tag, {
+        children: import_react90.default.createElement(tag, {
           ...props,
           style: croppedStyle ?? undefined,
           ref: callbackRef
@@ -63487,20 +63982,20 @@ var getAudioSyncAnchorTolerance = (audioContext) => {
   const safeOutputLatency = outputLatency === 0 ? 0.3 : outputLatency;
   return ALLOWED_GLOBAL_TIME_ANCHOR_SHIFT + baseLatency + safeOutputLatency;
 };
-var compositionsRef = import_react91.default.createRef();
-var useIsomorphicLayoutEffect6 = typeof window === "undefined" ? import_react93.useEffect : import_react93.useLayoutEffect;
+var compositionsRef = import_react92.default.createRef();
+var useIsomorphicLayoutEffect6 = typeof window === "undefined" ? import_react94.useEffect : import_react94.useLayoutEffect;
 var CompositionRegistryFallbackProvider = withCommittedMetadata(CompositionRegistryFallbackContext.Provider);
-var CompositionRegistryProvider = import_react93.forwardRef(({ children, onSnapshot }, flushSnapshotRef) => {
+var CompositionRegistryProvider = import_react94.forwardRef(({ children, onSnapshot }, flushSnapshotRef) => {
   const { isStudio } = useRemotionEnvironment();
-  const [managerId] = import_react93.useState(() => String(Math.random()));
-  const [useCommitObserver, setUseCommitObserver] = import_react93.useState(() => isStudio && isCommitRegistrationObserverInstalled());
-  const observedCommitRef = import_react93.useRef(false);
-  const observerFailedRef = import_react93.useRef(false);
-  const unmountedRef = import_react93.useRef(false);
-  const onSnapshotRef = import_react93.useRef(onSnapshot);
-  const lastSnapshotRef = import_react93.useRef(null);
-  const pendingSnapshotRef = import_react93.useRef(null);
-  const flushSnapshot = import_react93.useCallback(() => {
+  const [managerId] = import_react94.useState(() => String(Math.random()));
+  const [useCommitObserver, setUseCommitObserver] = import_react94.useState(() => isStudio && isCommitRegistrationObserverInstalled());
+  const observedCommitRef = import_react94.useRef(false);
+  const observerFailedRef = import_react94.useRef(false);
+  const unmountedRef = import_react94.useRef(false);
+  const onSnapshotRef = import_react94.useRef(onSnapshot);
+  const lastSnapshotRef = import_react94.useRef(null);
+  const pendingSnapshotRef = import_react94.useRef(null);
+  const flushSnapshot = import_react94.useCallback(() => {
     const pending = pendingSnapshotRef.current;
     pendingSnapshotRef.current = null;
     if (pending === null || unmountedRef.current) {
@@ -63514,8 +64009,8 @@ var CompositionRegistryProvider = import_react93.forwardRef(({ children, onSnaps
     lastSnapshotRef.current = committed;
     onSnapshotRef.current(committed);
   }, []);
-  import_react93.useImperativeHandle(flushSnapshotRef, () => flushSnapshot, [flushSnapshot]);
-  const queueSnapshot = import_react93.useCallback((snapshot) => {
+  import_react94.useImperativeHandle(flushSnapshotRef, () => flushSnapshot, [flushSnapshot]);
+  const queueSnapshot = import_react94.useCallback((snapshot) => {
     const alreadyPending = pendingSnapshotRef.current !== null;
     pendingSnapshotRef.current = snapshot;
     if (alreadyPending) {
@@ -63523,14 +64018,14 @@ var CompositionRegistryProvider = import_react93.forwardRef(({ children, onSnaps
     }
     queueMicrotask(flushSnapshot);
   }, [flushSnapshot]);
-  const onObservedSnapshot = import_react93.useCallback((snapshot) => {
+  const onObservedSnapshot = import_react94.useCallback((snapshot) => {
     if (observerFailedRef.current) {
       return;
     }
     observedCommitRef.current = true;
     queueSnapshot(snapshot);
   }, [queueSnapshot]);
-  const fallbackRegistry = import_react93.useMemo(() => {
+  const fallbackRegistry = import_react94.useMemo(() => {
     const entries = new Map;
     const getSnapshot = () => {
       const compositions = [];
@@ -63601,12 +64096,12 @@ var CompositionRegistryProvider = import_react93.forwardRef(({ children, onSnaps
       }
     };
   }, [isStudio, useCommitObserver]);
-  const metadata = import_react93.useMemo(() => isStudio ? {
+  const metadata = import_react94.useMemo(() => isStudio ? {
     type: "composition-manager",
     id: managerId,
     onCommit: useCommitObserver ? onObservedSnapshot : null
   } : null, [isStudio, managerId, onObservedSnapshot, useCommitObserver]);
-  return /* @__PURE__ */ import_jsx_runtime37.jsx(CompositionRegistryFallbackProvider, {
+  return /* @__PURE__ */ import_jsx_runtime38.jsx(CompositionRegistryFallbackProvider, {
     value: useCommitObserver ? null : fallbackRegistry,
     _remotionCommitMetadata: metadata,
     children
@@ -63619,11 +64114,11 @@ var CompositionManagerProvider = ({
   initialCompositions,
   initialCanvasContent
 }) => {
-  const committedKeysRef = import_react92.useRef(new Set);
-  const flushSnapshotRef = import_react92.useRef(null);
-  const committedDescriptorsRef = import_react92.useRef(new Map);
-  const [registrationError, setRegistrationError] = import_react92.useState(null);
-  const [registry] = import_react92.useState(() => createRegistryStore({
+  const committedKeysRef = import_react93.useRef(new Set);
+  const flushSnapshotRef = import_react93.useRef(null);
+  const committedDescriptorsRef = import_react93.useRef(new Map);
+  const [registrationError, setRegistrationError] = import_react93.useState(null);
+  const [registry] = import_react93.useState(() => createRegistryStore({
     compositions: initialCompositions.map((composition, order) => ({
       ...composition,
       order
@@ -63631,9 +64126,9 @@ var CompositionManagerProvider = ({
     folders: []
   }));
   const { compositions, folders } = useSyncExternalStore2(registry.subscribe, registry.getSnapshot, registry.getSnapshot);
-  const [canvasContent, setCanvasContent] = import_react92.useState(initialCanvasContent);
-  const [currentAssetMetadata, setCurrentAssetMetadata] = import_react92.useState(null);
-  const onCommitRegistrations = import_react92.useCallback((pending) => {
+  const [canvasContent, setCanvasContent] = import_react93.useState(initialCanvasContent);
+  const [currentAssetMetadata, setCurrentAssetMetadata] = import_react93.useState(null);
+  const onCommitRegistrations = import_react93.useCallback((pending) => {
     const previousKeys = committedKeysRef.current;
     const previousDescriptors = committedDescriptorsRef.current;
     const existingIds = new Set(registry.getSnapshot().compositions.map((composition) => composition.id));
@@ -63677,7 +64172,7 @@ var CompositionManagerProvider = ({
       return nextCompositions === current.compositions && nextFolders === current.folders ? current : { compositions: nextCompositions, folders: nextFolders };
     });
   }, [registry]);
-  import_react92.useImperativeHandle(compositionsRef, () => {
+  import_react93.useImperativeHandle(compositionsRef, () => {
     return {
       getCompositions: () => {
         flushSnapshotRef.current?.();
@@ -63685,12 +64180,12 @@ var CompositionManagerProvider = ({
       }
     };
   }, [registry]);
-  const compositionManagerSetters = import_react92.useMemo(() => ({
+  const compositionManagerSetters = import_react93.useMemo(() => ({
     setCanvasContent,
     setCurrentAssetMetadata,
     onlyRenderComposition
   }), [onlyRenderComposition]);
-  const compositionManagerContextValue = import_react92.useMemo(() => {
+  const compositionManagerContextValue = import_react93.useMemo(() => {
     return {
       compositions,
       folders,
@@ -63705,19 +64200,19 @@ var CompositionManagerProvider = ({
     currentAssetMetadata,
     canvasContent
   ]);
-  const compositionManagerRef = import_react92.useRef(compositionManagerContextValue);
+  const compositionManagerRef = import_react93.useRef(compositionManagerContextValue);
   compositionManagerRef.current = compositionManagerContextValue;
   if (registrationError !== null) {
     throw registrationError;
   }
-  return /* @__PURE__ */ import_jsx_runtime38.jsx(CompositionRegistryProvider, {
+  return /* @__PURE__ */ import_jsx_runtime39.jsx(CompositionRegistryProvider, {
     ref: flushSnapshotRef,
     onSnapshot: onCommitRegistrations,
-    children: /* @__PURE__ */ import_jsx_runtime38.jsx(CompositionManager.Provider, {
+    children: /* @__PURE__ */ import_jsx_runtime39.jsx(CompositionManager.Provider, {
       value: compositionManagerContextValue,
-      children: /* @__PURE__ */ import_jsx_runtime38.jsx(CompositionManagerRefContext.Provider, {
+      children: /* @__PURE__ */ import_jsx_runtime39.jsx(CompositionManagerRefContext.Provider, {
         value: compositionManagerRef,
-        children: /* @__PURE__ */ import_jsx_runtime38.jsx(CompositionSetters.Provider, {
+        children: /* @__PURE__ */ import_jsx_runtime39.jsx(CompositionSetters.Provider, {
           value: compositionManagerSetters,
           children
         })
@@ -63736,11 +64231,41 @@ var createElementSourceProxy = (api, sourceArgumentIndex, getSourceFileName) => 
         const source = sourceArgumentIndex === null ? null : argArray[sourceArgumentIndex];
         const existingStack = props?.[internalStackProp];
         const controlsStack = !existingStack && component === getSequenceComponent() && props?.controls ? getStackForControls(props.controls) : null;
-        const stack = existingStack || (controlsStack ?? (source && typeof source.fileName === "string" && typeof source.lineNumber === "number" && typeof source.columnNumber === "number" ? makeOriginalSourceStack({
-          fileName: getSourceFileName(source.fileName),
-          lineNumber: source.lineNumber,
-          columnNumber: source.columnNumber - 1
-        }) : new Error().stack));
+        let stack = existingStack || controlsStack;
+        if (!stack) {
+          if (source && typeof source.fileName === "string" && typeof source.lineNumber === "number" && typeof source.columnNumber === "number") {
+            stack = makeOriginalSourceStack({
+              fileName: getSourceFileName(source.fileName),
+              lineNumber: source.lineNumber,
+              columnNumber: source.columnNumber - 1
+            });
+          } else {
+            const { stackTraceLimit } = Error;
+            const canLimitStack = typeof stackTraceLimit === "number" && stackTraceLimit > 2 && Object.getOwnPropertyDescriptor(Error, "stackTraceLimit")?.writable;
+            let capturedError;
+            try {
+              if (canLimitStack) {
+                Error.stackTraceLimit = 2;
+              }
+              capturedError = new Error;
+            } finally {
+              if (canLimitStack) {
+                Error.stackTraceLimit = stackTraceLimit;
+              }
+            }
+            const capturedStack = capturedError.stack;
+            if (capturedStack) {
+              const firstFrameEnd = capturedStack.indexOf(`
+`, capturedStack.startsWith(`Error
+`) ? 6 : 0);
+              const callerEnd = firstFrameEnd === -1 ? -1 : capturedStack.indexOf(`
+`, firstFrameEnd + 1);
+              stack = callerEnd === -1 ? capturedStack : capturedStack.slice(0, callerEnd);
+            } else {
+              stack = capturedStack;
+            }
+          }
+        }
         const newProps = existingStack ? { ...props } : {
           ...props ?? {},
           [internalStackProp]: stack
@@ -63807,7 +64332,7 @@ var REMOTION_STUDIO_CONTAINER_ELEMENT = "__remotion-studio-container";
 var getPreviewDomElement = () => {
   return document.getElementById(REMOTION_STUDIO_CONTAINER_ELEMENT);
 };
-var MaxMediaCacheSizeContext = import_react94.default.createContext(null);
+var MaxMediaCacheSizeContext = import_react95.default.createContext(null);
 var disposeResource = (resource) => {
   if (resource.disposed) {
     return;
@@ -63921,6 +64446,7 @@ var getMediabunnyInputResourceKey = ({
 ]);
 var MEDIABUNNY_DURATION_VALUE_KEY = "mediabunny-duration";
 var globalMediaResourceManager = makeMediaResourceManager();
+var PlaybackPitchContext = import_react96.createContext(false);
 var REACT_REFRESH_STARTED_EVENT = "remotion-react-refresh-started";
 var REACT_REFRESH_FINISHED_EVENT = "remotion-react-refresh-finished";
 var Root = null;
@@ -63951,29 +64477,29 @@ var RemotionRootContexts = ({
   frameState,
   _experimentalKeepAudioContextAlive
 }) => {
-  const logging = import_react95.useMemo(() => {
+  const logging = import_react97.useMemo(() => {
     return { logLevel, mountTime: Date.now() };
   }, [logLevel]);
-  return /* @__PURE__ */ import_jsx_runtime39.jsx(LogLevelContext.Provider, {
+  return /* @__PURE__ */ import_jsx_runtime40.jsx(LogLevelContext.Provider, {
     value: logging,
-    children: /* @__PURE__ */ import_jsx_runtime39.jsx(TimelineContextProvider, {
+    children: /* @__PURE__ */ import_jsx_runtime40.jsx(TimelineContextProvider, {
       frameState,
-      children: /* @__PURE__ */ import_jsx_runtime39.jsx(MediaEnabledProvider, {
+      children: /* @__PURE__ */ import_jsx_runtime40.jsx(MediaEnabledProvider, {
         videoEnabled,
         audioEnabled,
-        children: /* @__PURE__ */ import_jsx_runtime39.jsx(EditorPropsProvider, {
-          children: /* @__PURE__ */ import_jsx_runtime39.jsx(PrefetchProvider, {
-            children: /* @__PURE__ */ import_jsx_runtime39.jsx(SequenceManagerProvider, {
-              children: /* @__PURE__ */ import_jsx_runtime39.jsx(DurationsContextProvider, {
-                children: /* @__PURE__ */ import_jsx_runtime39.jsx(BufferingProvider, {
-                  children: /* @__PURE__ */ import_jsx_runtime39.jsx(SharedAudioContextProvider, {
+        children: /* @__PURE__ */ import_jsx_runtime40.jsx(EditorPropsProvider, {
+          children: /* @__PURE__ */ import_jsx_runtime40.jsx(PrefetchProvider, {
+            children: /* @__PURE__ */ import_jsx_runtime40.jsx(SequenceManagerProvider, {
+              children: /* @__PURE__ */ import_jsx_runtime40.jsx(DurationsContextProvider, {
+                children: /* @__PURE__ */ import_jsx_runtime40.jsx(BufferingProvider, {
+                  children: /* @__PURE__ */ import_jsx_runtime40.jsx(SharedAudioContextProvider, {
                     audioLatencyHint,
                     audioEnabled,
                     previewSampleRate,
                     _experimentalKeepAudioContextAlive,
-                    children: /* @__PURE__ */ import_jsx_runtime39.jsx(SharedAudioTagsContextProvider, {
+                    children: /* @__PURE__ */ import_jsx_runtime40.jsx(SharedAudioTagsContextProvider, {
                       numberOfAudioTags,
-                      children: /* @__PURE__ */ import_jsx_runtime39.jsx(VideoProvider, {
+                      children: /* @__PURE__ */ import_jsx_runtime40.jsx(VideoProvider, {
                         children
                       })
                     })
@@ -64027,7 +64553,7 @@ var makeRenderResourceManager = () => {
     }
   };
 };
-var RenderResourceManagerContext = import_react96.default.createContext(null);
+var RenderResourceManagerContext = import_react98.default.createContext(null);
 var validCodecs2 = [
   "h264",
   "h265",
@@ -64210,7 +64736,7 @@ var resolveVideoConfigOrCatch = (params) => {
     };
   }
 };
-var SequenceStackTracesUpdateContext = import_react97.default.createContext(() => {});
+var SequenceStackTracesUpdateContext = import_react99.default.createContext(() => {});
 var getEnvVariables = () => {
   if (getRemotionEnvironment().isRendering) {
     const param = window.remotion_envVariables;
@@ -64252,11 +64778,11 @@ var TrackWithoutSchema = ({
   layout = "none",
   ...props
 }) => {
-  const [id] = import_react98.useState(() => String(Math.random()));
-  const value = import_react98.useMemo(() => ({ id, name }), [id, name]);
-  return /* @__PURE__ */ import_jsx_runtime40.jsx(TimelineTrackContext.Provider, {
+  const [id] = import_react100.useState(() => String(Math.random()));
+  const value = import_react100.useMemo(() => ({ id, name }), [id, name]);
+  return /* @__PURE__ */ import_jsx_runtime41.jsx(TimelineTrackContext.Provider, {
     value,
-    children: /* @__PURE__ */ import_jsx_runtime40.jsx(SequenceWithoutSchema, {
+    children: /* @__PURE__ */ import_jsx_runtime41.jsx(SequenceWithoutSchema, {
       _remotionInternalDocumentationLink: "https://www.remotion.dev/docs/track",
       ...props,
       name,
@@ -64267,7 +64793,7 @@ var TrackWithoutSchema = ({
   });
 };
 var Track = withInteractivitySchema({
-  Component: (props) => /* @__PURE__ */ import_jsx_runtime40.jsx(TrackWithoutSchema, {
+  Component: (props) => /* @__PURE__ */ import_jsx_runtime41.jsx(TrackWithoutSchema, {
     ...props,
     layout: "none"
   }),
@@ -64277,7 +64803,7 @@ var Track = withInteractivitySchema({
   supportsEffects: false
 });
 addSequenceStackTraces(Track);
-var PixelDensityContext = import_react99.default.createContext(null);
+var PixelDensityContext = import_react101.default.createContext(null);
 var getOffthreadVideoSource2 = ({
   src,
   transparent,
@@ -64303,21 +64829,21 @@ var OffthreadVideoForRendering = ({
   onVideoFrame,
   crossOrigin,
   audioStreamIndex,
-  preservePitch: _preservePitch,
+  preservePitch,
   ...props
 }) => {
   const absoluteFrame = useTimelinePosition();
   const frame = useCurrentFrame();
   const volumePropsFrame = useFrameForVolumeProp(loopVolumeCurveBehavior);
   const videoConfig = useUnsafeVideoConfig();
-  const sequenceContext = import_react101.useContext(SequenceContext);
+  const sequenceContext = import_react103.useContext(SequenceContext);
   const sequencePlaybackRate = sequenceContext?.playbackRate ?? 1;
-  const audioStartFrame = import_react101.useContext(Html5MediaTrimContext);
-  const { registerRenderAsset, unregisterRenderAsset } = import_react101.useContext(RenderAssetManager);
+  const audioStartFrame = import_react103.useContext(Html5MediaTrimContext);
+  const { registerRenderAsset, unregisterRenderAsset } = import_react103.useContext(RenderAssetManager);
   if (!src) {
     throw new TypeError("No `src` was passed to <OffthreadVideo>.");
   }
-  const id = import_react101.useMemo(() => `offthreadvideo-${random(src)}-${sequenceContext?.cumulatedFrom}-${sequenceContext?.relativeFrom}-${sequenceContext?.durationInFrames}`, [
+  const id = import_react103.useMemo(() => `offthreadvideo-${random(src)}-${sequenceContext?.cumulatedFrom}-${sequenceContext?.relativeFrom}-${sequenceContext?.durationInFrames}`, [
     src,
     sequenceContext?.cumulatedFrom,
     sequenceContext?.relativeFrom,
@@ -64338,7 +64864,7 @@ var OffthreadVideoForRendering = ({
   if (!videoConfig) {
     throw new Error("No video config found");
   }
-  import_react101.useEffect(() => {
+  import_react103.useEffect(() => {
     if (!src) {
       throw new Error("No src passed");
     }
@@ -64355,7 +64881,8 @@ var OffthreadVideoForRendering = ({
       playbackRate: playbackRate * sequencePlaybackRate,
       toneFrequency,
       audioStartFrame,
-      audioStreamIndex
+      audioStreamIndex,
+      preservePitch: preservePitch ?? true
     });
     return () => unregisterRenderAsset(id);
   }, [
@@ -64371,16 +64898,17 @@ var OffthreadVideoForRendering = ({
     toneFrequency,
     audioStartFrame,
     sequencePlaybackRate,
-    audioStreamIndex
+    audioStreamIndex,
+    preservePitch
   ]);
-  const currentTime = import_react101.useMemo(() => {
+  const currentTime = import_react103.useMemo(() => {
     return getExpectedMediaFrameUncorrected2({
       frame,
       playbackRate: playbackRate || 1,
       startFrom: audioStartFrame
     }) / videoConfig.fps;
   }, [frame, audioStartFrame, playbackRate, videoConfig.fps]);
-  const actualSrc = import_react101.useMemo(() => {
+  const actualSrc = import_react103.useMemo(() => {
     return getOffthreadVideoSource2({
       src,
       currentTime,
@@ -64388,9 +64916,9 @@ var OffthreadVideoForRendering = ({
       toneMapped
     });
   }, [toneMapped, currentTime, src, transparent]);
-  const [imageSrc, setImageSrc] = import_react101.useState(null);
-  const { delayRender, continueRender } = useDelayRender();
-  import_react101.useLayoutEffect(() => {
+  const [imageSrc, setImageSrc] = import_react103.useState(null);
+  const { delayRender, continueRender, cancelRender } = useDelayRender();
+  import_react103.useLayoutEffect(() => {
     if (!window.remotion_videoEnabled) {
       return;
     }
@@ -64459,19 +64987,20 @@ var OffthreadVideoForRendering = ({
     delayRenderTimeoutInMilliseconds,
     onError,
     continueRender,
+    cancelRender,
     delayRender
   ]);
-  const onErr = import_react101.useCallback(() => {
+  const onErr = import_react103.useCallback(() => {
     if (onError) {
       onError?.(new Error("Failed to load image with src " + imageSrc));
     } else {
       cancelRender("Failed to load image with src " + imageSrc);
     }
-  }, [imageSrc, onError]);
-  const className = import_react101.useMemo(() => {
+  }, [imageSrc, onError, cancelRender]);
+  const className = import_react103.useMemo(() => {
     return [OBJECTFIT_CONTAIN_CLASS_NAME, props.className].filter(truthy2).join(" ");
   }, [props.className]);
-  const onImageFrame = import_react101.useCallback((img) => {
+  const onImageFrame = import_react103.useCallback((img) => {
     if (onVideoFrame) {
       onVideoFrame(img);
     }
@@ -64480,7 +65009,7 @@ var OffthreadVideoForRendering = ({
     return null;
   }
   continueRender(imageSrc.handle);
-  return /* @__PURE__ */ import_jsx_runtime41.jsx(Img, {
+  return /* @__PURE__ */ import_jsx_runtime42.jsx(Img, {
     src: imageSrc.src,
     delayRenderRetries,
     delayRenderTimeoutInMilliseconds,
@@ -64494,7 +65023,7 @@ var useEmitVideoFrame = ({
   ref,
   onVideoFrame
 }) => {
-  import_react103.useEffect(() => {
+  import_react105.useEffect(() => {
     const { current } = ref;
     if (!current) {
       return;
@@ -64532,12 +65061,12 @@ class MediaPlaybackError extends Error {
   }
 }
 var VideoForDevelopmentRefForwardingFunction = (props, ref) => {
-  const context = import_react102.useContext(SharedAudioContext);
+  const context = import_react104.useContext(SharedAudioContext);
   if (!context) {
     throw new Error("SharedAudioContext not found");
   }
-  const videoRef = import_react102.useRef(null);
-  const sharedSource = import_react102.useMemo(() => {
+  const videoRef = import_react104.useRef(null);
+  const sharedSource = import_react104.useMemo(() => {
     if (!context.audioContext) {
       return null;
     }
@@ -64546,13 +65075,9 @@ var VideoForDevelopmentRefForwardingFunction = (props, ref) => {
       ref: videoRef
     });
   }, [context.audioContext]);
-  const effectToUse = import_react102.default.useInsertionEffect ?? import_react102.default.useLayoutEffect;
+  const effectToUse = import_react104.default.useInsertionEffect ?? import_react104.default.useLayoutEffect;
   effectToUse(() => {
-    return () => {
-      requestAnimationFrame(() => {
-        sharedSource?.cleanup();
-      });
-    };
+    return scheduleMediaSourceCleanup.bind(null, sharedSource?.cleanup ?? null);
   }, [sharedSource]);
   const {
     timelineId,
@@ -64591,7 +65116,7 @@ var VideoForDevelopmentRefForwardingFunction = (props, ref) => {
     throw new Error("typecheck error");
   }
   const { fps, durationInFrames } = useVideoConfig();
-  const parentSequence = import_react102.useContext(SequenceContext);
+  const parentSequence = import_react104.useContext(SequenceContext);
   const logLevel = useLogLevel();
   const mountTime = useMountTime();
   if (typeof acceptableTimeShift !== "undefined") {
@@ -64635,16 +65160,16 @@ var VideoForDevelopmentRefForwardingFunction = (props, ref) => {
     duration,
     fps
   });
-  import_react102.useImperativeHandle(ref, () => {
+  import_react104.useImperativeHandle(ref, () => {
     return videoRef.current;
   }, []);
-  import_react102.useState(() => playbackLogging({
+  import_react104.useState(() => playbackLogging({
     logLevel,
     message: `Mounting video with source = ${actualSrc}, v=${VERSION}, user agent=${typeof navigator === "undefined" ? "server" : navigator.userAgent}`,
     tag: "video",
     mountTime
   }));
-  import_react102.useEffect(() => {
+  import_react104.useEffect(() => {
     const { current } = videoRef;
     if (!current) {
       return;
@@ -64684,27 +65209,9 @@ var VideoForDevelopmentRefForwardingFunction = (props, ref) => {
       current.removeEventListener("error", errorHandler);
     };
   }, [onError, src]);
-  const currentOnDurationCallback = import_react102.useRef(onDuration);
-  currentOnDurationCallback.current = onDuration;
   useEmitVideoFrame({ ref: videoRef, onVideoFrame });
-  import_react102.useEffect(() => {
-    const { current } = videoRef;
-    if (!current) {
-      return;
-    }
-    if (current.duration) {
-      currentOnDurationCallback.current?.(src, current.duration);
-      return;
-    }
-    const onLoadedMetadata = () => {
-      currentOnDurationCallback.current?.(src, current.duration);
-    };
-    current.addEventListener("loadedmetadata", onLoadedMetadata);
-    return () => {
-      current.removeEventListener("loadedmetadata", onLoadedMetadata);
-    };
-  }, [src]);
-  import_react102.useEffect(() => {
+  useMediaDuration(videoRef, onDuration, src, false);
+  import_react104.useEffect(() => {
     const { current } = videoRef;
     if (!current) {
       return;
@@ -64715,7 +65222,7 @@ var VideoForDevelopmentRefForwardingFunction = (props, ref) => {
       current.preload = "auto";
     }
   }, []);
-  const actualStyle = import_react102.useMemo(() => {
+  const actualStyle = import_react104.useMemo(() => {
     return {
       ...style
     };
@@ -64725,7 +65232,7 @@ var VideoForDevelopmentRefForwardingFunction = (props, ref) => {
     requestsVideoFrame: Boolean(onVideoFrame),
     isClientSideRendering: false
   });
-  const video = /* @__PURE__ */ import_jsx_runtime42.jsx("video", {
+  const video = /* @__PURE__ */ import_jsx_runtime43.jsx("video", {
     ...nativeProps,
     ref: videoRef,
     muted: isMutedForPlayback,
@@ -64739,7 +65246,7 @@ var VideoForDevelopmentRefForwardingFunction = (props, ref) => {
   });
   return video;
 };
-var VideoForPreviewContent = import_react102.forwardRef(VideoForDevelopmentRefForwardingFunction);
+var VideoForPreviewContent = import_react104.forwardRef(VideoForDevelopmentRefForwardingFunction);
 var VideoForPreviewRefForwardingFunction = (props, ref) => {
   const {
     volume,
@@ -64752,8 +65259,8 @@ var VideoForPreviewRefForwardingFunction = (props, ref) => {
     loopVolumeCurveBehavior,
     onlyWarnForMediaSeekingError
   } = props;
-  const [timelineId] = import_react102.useState(() => String(Math.random()));
-  const parentSequence = import_react102.useContext(SequenceContext);
+  const [timelineId] = import_react104.useState(() => String(Math.random()));
+  const parentSequence = import_react104.useContext(SequenceContext);
   const { isStudio } = useRemotionEnvironment();
   const [mediaVolume] = useMediaVolumeState();
   const volumePropFrame = useFrameForVolumeProp(loopVolumeCurveBehavior ?? "repeat");
@@ -64767,7 +65274,7 @@ var VideoForPreviewRefForwardingFunction = (props, ref) => {
     volume: userPreferredVolume,
     audioEnabled: true
   });
-  const getStack = import_react102.useCallback(() => {
+  const getStack = import_react104.useCallback(() => {
     return _remotionInternalStack ?? null;
   }, [_remotionInternalStack]);
   const { automaticOutlineRef, registration } = useMediaInTimelineRegistration({
@@ -64784,17 +65291,17 @@ var VideoForPreviewRefForwardingFunction = (props, ref) => {
     documentationLink: onlyWarnForMediaSeekingError ? "https://www.remotion.dev/docs/offthreadvideo" : "https://www.remotion.dev/docs/html5-video",
     muted: isMutedForTimeline
   });
-  const metadata = import_react102.useMemo(() => isStudio || automaticOutlineRef || registration !== null ? {
+  const metadata = import_react104.useMemo(() => isStudio || automaticOutlineRef || registration !== null ? {
     type: "sequence",
     id: timelineId,
     value: registration,
     outlineChildrenRef: automaticOutlineRef
   } : null, [automaticOutlineRef, isStudio, registration, timelineId]);
-  return /* @__PURE__ */ import_jsx_runtime42.jsx(CommittedMetadataProvider, {
+  return /* @__PURE__ */ import_jsx_runtime43.jsx(CommittedMetadataProvider, {
     value: null,
     _remotionCommitMetadata: metadata,
-    children: /* @__PURE__ */ import_jsx_runtime42.jsx(SequenceContent, {
-      children: /* @__PURE__ */ import_jsx_runtime42.jsx(VideoForPreviewContent, {
+    children: /* @__PURE__ */ import_jsx_runtime43.jsx(SequenceContent, {
+      children: /* @__PURE__ */ import_jsx_runtime43.jsx(VideoForPreviewContent, {
         ...props,
         ref,
         timelineId,
@@ -64804,7 +65311,7 @@ var VideoForPreviewRefForwardingFunction = (props, ref) => {
     })
   });
 };
-var VideoForPreview = import_react102.forwardRef(VideoForPreviewRefForwardingFunction);
+var VideoForPreview = import_react104.forwardRef(VideoForPreviewRefForwardingFunction);
 var InnerOffthreadVideo = (props) => {
   const {
     startFrom,
@@ -64823,7 +65330,7 @@ var InnerOffthreadVideo = (props) => {
   if (environment.isClientSideRendering) {
     throw new Error("<OffthreadVideo> is not supported in @remotion/web-renderer. Use <Video> from @remotion/media instead. See https://remotion.dev/docs/client-side-rendering/limitations");
   }
-  const onDuration = import_react100.useCallback(() => {
+  const onDuration = import_react102.useCallback(() => {
     return;
   }, []);
   if (typeof props.src !== "string") {
@@ -64848,15 +65355,15 @@ var InnerOffthreadVideo = (props) => {
     trimBefore: trimBeforeValue
   });
   if (typeof trimBeforeValue !== "undefined" || typeof effectiveTrimAfter !== "undefined") {
-    return /* @__PURE__ */ import_jsx_runtime43.jsx(Html5MediaTrimContext.Provider, {
+    return /* @__PURE__ */ import_jsx_runtime44.jsx(Html5MediaTrimContext.Provider, {
       value: trimBeforeValue ?? 0,
-      children: /* @__PURE__ */ import_jsx_runtime43.jsx(Sequence, {
+      children: /* @__PURE__ */ import_jsx_runtime44.jsx(Sequence, {
         layout: "none",
         from: 0 - (trimBeforeValue ?? 0),
         showInTimeline: false,
         durationInFrames: effectiveTrimAfter === undefined ? undefined : (trimBeforeValue ?? 0) + (effectiveTrimAfter - (trimBeforeValue ?? 0)) / (props.playbackRate ?? 1),
         name,
-        children: /* @__PURE__ */ import_jsx_runtime43.jsx(InnerOffthreadVideo, {
+        children: /* @__PURE__ */ import_jsx_runtime44.jsx(InnerOffthreadVideo, {
           pauseWhenBuffering: shouldPauseWhenBuffering,
           ...otherProps,
           trimAfter: undefined,
@@ -64873,7 +65380,7 @@ var InnerOffthreadVideo = (props) => {
   }
   validateMediaProps(props, "Video");
   if (environment.isRendering) {
-    return /* @__PURE__ */ import_jsx_runtime43.jsx(OffthreadVideoForRendering, {
+    return /* @__PURE__ */ import_jsx_runtime44.jsx(OffthreadVideoForRendering, {
       pauseWhenBuffering: shouldPauseWhenBuffering,
       ...otherProps,
       trimAfter: undefined,
@@ -64896,7 +65403,7 @@ var InnerOffthreadVideo = (props) => {
     delayRenderTimeoutInMilliseconds,
     ...propsForPreview
   } = otherProps;
-  return /* @__PURE__ */ import_jsx_runtime43.jsx(VideoForPreview, {
+  return /* @__PURE__ */ import_jsx_runtime44.jsx(VideoForPreview, {
     _remotionInternalStack: _remotionInternalStack ?? null,
     onDuration,
     onlyWarnForMediaSeekingError: true,
@@ -64946,7 +65453,7 @@ var OffthreadVideo = ({
   if (imageFormat) {
     throw new TypeError(`The \`<OffthreadVideo>\` tag does no longer accept \`imageFormat\`. Use the \`transparent\` prop if you want to render a transparent video.`);
   }
-  return /* @__PURE__ */ import_jsx_runtime43.jsx(InnerOffthreadVideo, {
+  return /* @__PURE__ */ import_jsx_runtime44.jsx(InnerOffthreadVideo, {
     acceptableTimeShiftInSeconds,
     allowAmplificationDuringRender: allowAmplificationDuringRender ?? true,
     audioStreamIndex: audioStreamIndex ?? 0,
@@ -64983,28 +65490,28 @@ var OffthreadVideo = ({
 addSequenceStackTraces(OffthreadVideo);
 var WATCH_REMOTION_STATIC_FILES = "remotion_staticFilesChanged";
 function useRemotionContexts() {
-  const compositionManagerCtx = import_react104.default.useContext(CompositionManager);
-  const videoContext = import_react104.default.useContext(VideoContext);
-  const timelineContext = import_react104.default.useContext(TimelineContext);
-  const setTimelineContext = import_react104.default.useContext(SetTimelineContext);
-  const sequenceContext = import_react104.default.useContext(SequenceContext);
-  const defaultPremountInSeconds = import_react104.default.useContext(DefaultPremountContext);
-  const timelineTrackContext = import_react104.default.useContext(TimelineTrackContext);
-  const canUseRemotionHooksContext = import_react104.default.useContext(CanUseRemotionHooks);
-  const preloadContext = import_react104.default.useContext(PreloadContext);
-  const resolveCompositionContext = import_react104.default.useContext(ResolveCompositionContext);
-  const renderAssetManagerContext = import_react104.default.useContext(RenderAssetManager);
-  const sequenceManagerActionsContext = import_react104.default.useContext(SequenceManagerActionsContext);
-  const sequenceManagerRefContext = import_react104.default.useContext(SequenceManagerRefContext);
-  const sequenceRegistryContext = import_react104.default.useContext(SequenceRegistryContext);
-  const sequenceRegistryScopeContext = import_react104.default.useContext(SequenceRegistryScopeContext);
-  const sequenceRegistrationContext = import_react104.default.useContext(SequenceRegistrationContext);
-  const disableSequenceRegistrationContext = import_react104.default.useContext(DisableSequenceRegistrationContext);
-  const remotionEnvironmentContext = import_react104.default.useContext(RemotionEnvironmentContext);
-  const visualModePropStatusesRefContext = import_react104.default.useContext(VisualModePropStatusesRefContext);
-  const bufferManagerContext = import_react104.default.useContext(BufferingContextReact);
-  const logLevelContext = import_react104.default.useContext(LogLevelContext);
-  return import_react104.useMemo(() => ({
+  const compositionManagerCtx = import_react106.default.useContext(CompositionManager);
+  const videoContext = import_react106.default.useContext(VideoContext);
+  const timelineContext = import_react106.default.useContext(TimelineContext);
+  const setTimelineContext = import_react106.default.useContext(SetTimelineContext);
+  const sequenceContext = import_react106.default.useContext(SequenceContext);
+  const defaultPremountInSeconds = import_react106.default.useContext(DefaultPremountContext);
+  const timelineTrackContext = import_react106.default.useContext(TimelineTrackContext);
+  const canUseRemotionHooksContext = import_react106.default.useContext(CanUseRemotionHooks);
+  const preloadContext = import_react106.default.useContext(PreloadContext);
+  const resolveCompositionContext = import_react106.default.useContext(ResolveCompositionContext);
+  const renderAssetManagerContext = import_react106.default.useContext(RenderAssetManager);
+  const sequenceManagerActionsContext = import_react106.default.useContext(SequenceManagerActionsContext);
+  const sequenceManagerRefContext = import_react106.default.useContext(SequenceManagerRefContext);
+  const sequenceRegistryContext = import_react106.default.useContext(SequenceRegistryContext);
+  const sequenceRegistryScopeContext = import_react106.default.useContext(SequenceRegistryScopeContext);
+  const sequenceRegistrationContext = import_react106.default.useContext(SequenceRegistrationContext);
+  const disableSequenceRegistrationContext = import_react106.default.useContext(DisableSequenceRegistrationContext);
+  const remotionEnvironmentContext = import_react106.default.useContext(RemotionEnvironmentContext);
+  const visualModePropStatusesRefContext = import_react106.default.useContext(VisualModePropStatusesRefContext);
+  const bufferManagerContext = import_react106.default.useContext(BufferingContextReact);
+  const logLevelContext = import_react106.default.useContext(LogLevelContext);
+  return import_react106.useMemo(() => ({
     compositionManagerCtx,
     videoContext,
     timelineContext,
@@ -65055,24 +65562,24 @@ var ForwardedSequenceRegistry = ({
   contexts,
   children
 }) => {
-  const [scopeId] = import_react104.useState(() => String(Math.random()));
-  const [observerAvailable, setObserverAvailable] = import_react104.useState(isCommitRegistrationObserverInstalled);
-  const observedCommitRef = import_react104.useRef(false);
-  const observerFailedRef = import_react104.useRef(false);
-  const unmountedRef = import_react104.useRef(false);
-  const lifetimeRef = import_react104.useRef(0);
+  const [scopeId] = import_react106.useState(() => String(Math.random()));
+  const [observerAvailable, setObserverAvailable] = import_react106.useState(isCommitRegistrationObserverInstalled);
+  const observedCommitRef = import_react106.useRef(false);
+  const observerFailedRef = import_react106.useRef(false);
+  const unmountedRef = import_react106.useRef(false);
+  const lifetimeRef = import_react106.useRef(0);
   const registry = contexts.sequenceRegistryContext;
   const scope = contexts.sequenceRegistryScopeContext;
-  const activeRegistryRef = import_react104.useRef(registry);
+  const activeRegistryRef = import_react106.useRef(registry);
   const commitRegistrationEnabled = scope?.commitRegistrationRequested === true && registry !== null && observerAvailable;
-  const onCommitSequences = import_react104.useCallback((sequences, sequenceIds) => {
+  const onCommitSequences = import_react106.useCallback((sequences, sequenceIds) => {
     if (observerFailedRef.current && sequenceIds.length > 0) {
       return;
     }
     observedCommitRef.current = true;
     scope?.onCommitSequences(scopeId, sequences, sequenceIds);
   }, [scope, scopeId]);
-  const useIsomorphicLayoutEffect = typeof window === "undefined" ? import_react104.default.useEffect : import_react104.default.useLayoutEffect;
+  const useIsomorphicLayoutEffect = typeof window === "undefined" ? import_react106.default.useEffect : import_react106.default.useLayoutEffect;
   useIsomorphicLayoutEffect(() => {
     if (scope === null || typeof window === "undefined") {
       return;
@@ -65111,19 +65618,19 @@ var ForwardedSequenceRegistry = ({
       });
     };
   }, [scope, scopeId, registry, commitRegistrationEnabled]);
-  const metadata = import_react104.useMemo(() => ({
+  const metadata = import_react106.useMemo(() => ({
     type: "sequence-manager",
     id: scopeId,
     onCommit: commitRegistrationEnabled ? onCommitSequences : null
   }), [commitRegistrationEnabled, onCommitSequences, scopeId]);
-  return /* @__PURE__ */ import_jsx_runtime44.jsx(SequenceRegistryScopeProvider, {
+  return /* @__PURE__ */ import_jsx_runtime45.jsx(SequenceRegistryScopeProvider, {
     value: scope,
     _remotionCommitMetadata: metadata,
-    children: /* @__PURE__ */ import_jsx_runtime44.jsx(SequenceManagerActionsContext.Provider, {
+    children: /* @__PURE__ */ import_jsx_runtime45.jsx(SequenceManagerActionsContext.Provider, {
       value: contexts.sequenceManagerActionsContext,
-      children: /* @__PURE__ */ import_jsx_runtime44.jsx(SequenceRegistryContext.Provider, {
+      children: /* @__PURE__ */ import_jsx_runtime45.jsx(SequenceRegistryContext.Provider, {
         value: registry,
-        children: /* @__PURE__ */ import_jsx_runtime44.jsx(SequenceCommitRegistrationContext.Provider, {
+        children: /* @__PURE__ */ import_jsx_runtime45.jsx(SequenceCommitRegistrationContext.Provider, {
           value: commitRegistrationEnabled,
           children
         })
@@ -65133,43 +65640,43 @@ var ForwardedSequenceRegistry = ({
 };
 var RemotionContextProvider = (props) => {
   const { children, contexts } = props;
-  return /* @__PURE__ */ import_jsx_runtime44.jsx(LogLevelContext.Provider, {
+  return /* @__PURE__ */ import_jsx_runtime45.jsx(LogLevelContext.Provider, {
     value: contexts.logLevelContext,
-    children: /* @__PURE__ */ import_jsx_runtime44.jsx(CanUseRemotionHooks.Provider, {
+    children: /* @__PURE__ */ import_jsx_runtime45.jsx(CanUseRemotionHooks.Provider, {
       value: contexts.canUseRemotionHooksContext,
-      children: /* @__PURE__ */ import_jsx_runtime44.jsx(PreloadContext.Provider, {
+      children: /* @__PURE__ */ import_jsx_runtime45.jsx(PreloadContext.Provider, {
         value: contexts.preloadContext,
-        children: /* @__PURE__ */ import_jsx_runtime44.jsx(CompositionManager.Provider, {
+        children: /* @__PURE__ */ import_jsx_runtime45.jsx(CompositionManager.Provider, {
           value: contexts.compositionManagerCtx,
-          children: /* @__PURE__ */ import_jsx_runtime44.jsx(SequenceManagerRefContext.Provider, {
+          children: /* @__PURE__ */ import_jsx_runtime45.jsx(SequenceManagerRefContext.Provider, {
             value: contexts.sequenceManagerRefContext,
-            children: /* @__PURE__ */ import_jsx_runtime44.jsx(RemotionEnvironmentContext.Provider, {
+            children: /* @__PURE__ */ import_jsx_runtime45.jsx(RemotionEnvironmentContext.Provider, {
               value: contexts.remotionEnvironmentContext,
-              children: /* @__PURE__ */ import_jsx_runtime44.jsx(SequenceRegistrationContext.Provider, {
+              children: /* @__PURE__ */ import_jsx_runtime45.jsx(SequenceRegistrationContext.Provider, {
                 value: contexts.sequenceRegistrationContext,
-                children: /* @__PURE__ */ import_jsx_runtime44.jsx(DisableSequenceRegistrationContext.Provider, {
+                children: /* @__PURE__ */ import_jsx_runtime45.jsx(DisableSequenceRegistrationContext.Provider, {
                   value: contexts.disableSequenceRegistrationContext,
-                  children: /* @__PURE__ */ import_jsx_runtime44.jsx(ForwardedSequenceRegistry, {
+                  children: /* @__PURE__ */ import_jsx_runtime45.jsx(ForwardedSequenceRegistry, {
                     contexts,
-                    children: /* @__PURE__ */ import_jsx_runtime44.jsx(VisualModePropStatusesRefContext.Provider, {
+                    children: /* @__PURE__ */ import_jsx_runtime45.jsx(VisualModePropStatusesRefContext.Provider, {
                       value: contexts.visualModePropStatusesRefContext,
-                      children: /* @__PURE__ */ import_jsx_runtime44.jsx(RenderAssetManager.Provider, {
+                      children: /* @__PURE__ */ import_jsx_runtime45.jsx(RenderAssetManager.Provider, {
                         value: contexts.renderAssetManagerContext,
-                        children: /* @__PURE__ */ import_jsx_runtime44.jsx(ResolveCompositionContext.Provider, {
+                        children: /* @__PURE__ */ import_jsx_runtime45.jsx(ResolveCompositionContext.Provider, {
                           value: contexts.resolveCompositionContext,
-                          children: /* @__PURE__ */ import_jsx_runtime44.jsx(TimelineContext.Provider, {
+                          children: /* @__PURE__ */ import_jsx_runtime45.jsx(TimelineContext.Provider, {
                             value: contexts.timelineContext,
-                            children: /* @__PURE__ */ import_jsx_runtime44.jsx(SetTimelineContext.Provider, {
+                            children: /* @__PURE__ */ import_jsx_runtime45.jsx(SetTimelineContext.Provider, {
                               value: contexts.setTimelineContext,
-                              children: /* @__PURE__ */ import_jsx_runtime44.jsx(SequenceContext.Provider, {
+                              children: /* @__PURE__ */ import_jsx_runtime45.jsx(SequenceContext.Provider, {
                                 value: contexts.sequenceContext,
-                                children: /* @__PURE__ */ import_jsx_runtime44.jsx(BufferingContextReact.Provider, {
+                                children: /* @__PURE__ */ import_jsx_runtime45.jsx(BufferingContextReact.Provider, {
                                   value: contexts.bufferManagerContext,
-                                  children: /* @__PURE__ */ import_jsx_runtime44.jsx(TimelineTrackContext.Provider, {
+                                  children: /* @__PURE__ */ import_jsx_runtime45.jsx(TimelineTrackContext.Provider, {
                                     value: contexts.timelineTrackContext,
-                                    children: /* @__PURE__ */ import_jsx_runtime44.jsx(DefaultPremountContext.Provider, {
+                                    children: /* @__PURE__ */ import_jsx_runtime45.jsx(DefaultPremountContext.Provider, {
                                       value: contexts.defaultPremountInSeconds,
-                                      children: /* @__PURE__ */ import_jsx_runtime44.jsx(VideoContext.Provider, {
+                                      children: /* @__PURE__ */ import_jsx_runtime45.jsx(VideoContext.Provider, {
                                         value: contexts.videoContext,
                                         children
                                       })
@@ -65192,8 +65699,10 @@ var RemotionContextProvider = (props) => {
     })
   });
 };
-var compositionSelectorRef = import_react90.createRef();
+var compositionSelectorRef = import_react91.createRef();
 var Internals2 = {
+  HtmlInCanvasFallback,
+  useHtmlInCanvasUnsupportedMessage,
   OptimisticSequenceDeletion,
   usePendingSequenceDeletions,
   createElementSourceProxy,
@@ -65232,6 +65741,7 @@ var Internals2 = {
   CompositionSetters,
   VisualModePropStatusesContext,
   VisualModePropStatusesRefContext,
+  VisualModePropStatusesSubscriptionContext,
   VisualModeBatchSettersContext,
   VisualModeDragOverridesContext,
   VisualModeDragOverridesRefContext,
@@ -65369,6 +65879,7 @@ var Internals2 = {
   DelayRenderContextType,
   TimelineContext,
   usePlaying,
+  PlaybackPitchContext,
   PlaybackRateContext,
   AbsoluteTimeContext,
   RenderAssetManagerProvider,
@@ -65408,9 +65919,9 @@ var Internals2 = {
 Object.assign(Internals2, { useSyncExternalStore: useSyncExternalStore2 });
 var fontDataByUrl2 = new Map;
 var flattenChildren = (children) => {
-  const childrenArray = import_react106.default.Children.toArray(children);
+  const childrenArray = import_react108.default.Children.toArray(children);
   return childrenArray.reduce((flatChildren, child) => {
-    if (child.type === import_react106.default.Fragment) {
+    if (child.type === import_react108.default.Fragment) {
       return flatChildren.concat(flattenChildren(child.props.children));
     }
     flatChildren.push(child);
@@ -65427,12 +65938,12 @@ var seriesSequenceSchema = {
   playbackRate: Interactive.sequenceSchema.playbackRate,
   layout: Interactive.sequenceSchema.layout
 };
-var SeriesSequenceInner = import_react105.forwardRef(({ offset = 0, className = "", _remotionInternalRender = null, ...props }, ref) => {
+var SeriesSequenceInner = import_react107.forwardRef(({ offset = 0, className = "", _remotionInternalRender = null, ...props }, ref) => {
   useRequireToBeInsideSeries();
   if (_remotionInternalRender) {
     return _remotionInternalRender({ ...props, offset, className: className || undefined }, ref);
   }
-  return /* @__PURE__ */ import_jsx_runtime45.jsx(IsNotInsideSeriesProvider, {
+  return /* @__PURE__ */ import_jsx_runtime46.jsx(IsNotInsideSeriesProvider, {
     children: props.children
   });
 });
@@ -65471,7 +65982,7 @@ var validateSeriesSequenceProps = ({
 };
 var SeriesInner = (props) => {
   const pendingDeletions = usePendingSequenceDeletions();
-  const childrenValue = import_react105.useMemo(() => {
+  const childrenValue = import_react107.useMemo(() => {
     const flattenedChildren = flattenChildren(props.children).filter((child) => !OptimisticSequenceDeletion.isElementDeleted(child, pendingDeletions));
     const renderChildren = (i, startFrame) => {
       if (i === flattenedChildren.length) {
@@ -65495,7 +66006,7 @@ var SeriesInner = (props) => {
         index: i,
         childrenLength: flattenedChildren.length
       });
-      return import_react105.default.cloneElement(castedElement, {
+      return import_react107.default.cloneElement(castedElement, {
         _remotionInternalRender: (resolvedProps, ref) => {
           const durationInFramesProp = resolvedProps.durationInFrames;
           const timelineDurationInFrames = durationInFramesProp / (resolvedProps.playbackRate ?? 1);
@@ -65519,9 +66030,9 @@ var SeriesInner = (props) => {
           });
           const currentStartFrame = startFrame + offset;
           const nextStartFrame = startFrame + timelineDurationInFrames + offset;
-          return /* @__PURE__ */ import_jsx_runtime45.jsxs(import_jsx_runtime45.Fragment, {
+          return /* @__PURE__ */ import_jsx_runtime46.jsxs(import_jsx_runtime46.Fragment, {
             children: [
-              /* @__PURE__ */ import_jsx_runtime45.jsx(SequenceWithoutSchemaWithRef, {
+              /* @__PURE__ */ import_jsx_runtime46.jsx(SequenceWithoutSchemaWithRef, {
                 ref,
                 name: name || "<Series.Sequence>",
                 _remotionInternalDocumentationLink: "https://www.remotion.dev/docs/series",
@@ -65533,7 +66044,7 @@ var SeriesInner = (props) => {
                   role: "clip",
                   seriesOffset: offset
                 },
-                children: /* @__PURE__ */ import_jsx_runtime45.jsx(IsNotInsideSeriesProvider, {
+                children: /* @__PURE__ */ import_jsx_runtime46.jsx(IsNotInsideSeriesProvider, {
                   children: sequenceChildren
                 })
               }),
@@ -65545,12 +66056,12 @@ var SeriesInner = (props) => {
     };
     return renderChildren(0, 0);
   }, [props.children, pendingDeletions]);
-  return /* @__PURE__ */ import_jsx_runtime45.jsx(TrackWithoutSchema, {
+  return /* @__PURE__ */ import_jsx_runtime46.jsx(TrackWithoutSchema, {
     layout: "none",
     _remotionInternalDocumentationLink: "https://www.remotion.dev/docs/series",
     ...props,
     name: props.name ?? "<Series>",
-    children: /* @__PURE__ */ import_jsx_runtime45.jsx(IsInsideSeriesContainer, {
+    children: /* @__PURE__ */ import_jsx_runtime46.jsx(IsInsideSeriesContainer, {
       children: childrenValue
     })
   });
@@ -65574,7 +66085,7 @@ var Still = (props) => {
     durationInFrames: 1,
     fps: 1
   };
-  return import_react107.default.createElement(Composition, newProps);
+  return import_react109.default.createElement(Composition, newProps);
 };
 addSequenceStackTraces(Still);
 var roundTo6Commas = (num) => {
@@ -65713,23 +66224,23 @@ var VideoForRenderingForwardFunction = ({
   loopVolumeCurveBehavior,
   audioStreamIndex,
   onVideoFrame,
-  preservePitch: _preservePitch,
+  preservePitch,
   ...props
 }, ref) => {
   const absoluteFrame = useTimelinePosition();
   const frame = useCurrentFrame();
   const volumePropsFrame = useFrameForVolumeProp(loopVolumeCurveBehavior ?? "repeat");
   const videoConfig = useUnsafeVideoConfig();
-  const videoRef = import_react109.useRef(null);
-  const sequenceContext = import_react109.useContext(SequenceContext);
+  const videoRef = import_react111.useRef(null);
+  const sequenceContext = import_react111.useContext(SequenceContext);
   const sequencePlaybackRate = sequenceContext?.playbackRate ?? 1;
-  const audioStartFrame = import_react109.useContext(Html5MediaTrimContext);
+  const audioStartFrame = import_react111.useContext(Html5MediaTrimContext);
   const environment = useRemotionEnvironment();
   const logLevel = useLogLevel();
   const mountTime = useMountTime();
   const { delayRender, continueRender } = useDelayRender();
-  const { registerRenderAsset, unregisterRenderAsset } = import_react109.useContext(RenderAssetManager);
-  const id = import_react109.useMemo(() => `video-${random(props.src ?? "")}-${sequenceContext?.cumulatedFrom}-${sequenceContext?.relativeFrom}-${sequenceContext?.durationInFrames}`, [
+  const { registerRenderAsset, unregisterRenderAsset } = import_react111.useContext(RenderAssetManager);
+  const id = import_react111.useMemo(() => `video-${random(props.src ?? "")}-${sequenceContext?.cumulatedFrom}-${sequenceContext?.relativeFrom}-${sequenceContext?.durationInFrames}`, [
     props.src,
     sequenceContext?.cumulatedFrom,
     sequenceContext?.relativeFrom,
@@ -65750,7 +66261,7 @@ var VideoForRenderingForwardFunction = ({
   if (!videoConfig) {
     throw new Error("No video config found");
   }
-  import_react109.useEffect(() => {
+  import_react111.useEffect(() => {
     if (!props.src) {
       throw new Error("No src passed");
     }
@@ -65767,7 +66278,8 @@ var VideoForRenderingForwardFunction = ({
       playbackRate: (playbackRate ?? 1) * sequencePlaybackRate,
       toneFrequency: toneFrequency ?? 1,
       audioStartFrame,
-      audioStreamIndex: audioStreamIndex ?? 0
+      audioStreamIndex: audioStreamIndex ?? 0,
+      preservePitch: preservePitch ?? true
     });
     return () => unregisterRenderAsset(id);
   }, [
@@ -65783,13 +66295,14 @@ var VideoForRenderingForwardFunction = ({
     toneFrequency,
     audioStartFrame,
     sequencePlaybackRate,
-    audioStreamIndex
+    audioStreamIndex,
+    preservePitch
   ]);
-  import_react109.useImperativeHandle(ref, () => {
+  import_react111.useImperativeHandle(ref, () => {
     return videoRef.current;
   }, []);
   useEmitVideoFrame({ ref: videoRef, onVideoFrame });
-  import_react109.useEffect(() => {
+  import_react111.useEffect(() => {
     if (!window.remotion_videoEnabled) {
       return;
     }
@@ -65879,7 +66392,7 @@ var VideoForRenderingForwardFunction = ({
   ]);
   const { src } = props;
   if (environment.isRendering) {
-    import_react109.useLayoutEffect(() => {
+    import_react111.useLayoutEffect(() => {
       if (window.process?.env?.NODE_ENV === "test") {
         return;
       }
@@ -65913,13 +66426,13 @@ var VideoForRenderingForwardFunction = ({
       delayRender
     ]);
   }
-  return /* @__PURE__ */ import_jsx_runtime46.jsx("video", {
+  return /* @__PURE__ */ import_jsx_runtime47.jsx("video", {
     ref: videoRef,
     disableRemotePlayback: true,
     ...props
   });
 };
-var VideoForRendering = import_react109.forwardRef(VideoForRenderingForwardFunction);
+var VideoForRendering = import_react111.forwardRef(VideoForRenderingForwardFunction);
 var VideoForwardingFunction = (props, ref) => {
   const {
     startFrom,
@@ -65943,7 +66456,7 @@ var VideoForwardingFunction = (props, ref) => {
   if (environment.isClientSideRendering) {
     throw new Error("<Html5Video> is not supported in @remotion/web-renderer. Use <Video> from @remotion/media instead. See https://remotion.dev/docs/client-side-rendering/limitations");
   }
-  const { durations, setDurations } = import_react108.useContext(DurationsContext);
+  const { durations, setDurations } = import_react110.useContext(DurationsContext);
   if (typeof ref === "string") {
     throw new Error("string refs are not supported");
   }
@@ -65951,9 +66464,7 @@ var VideoForwardingFunction = (props, ref) => {
     throw new TypeError(`The \`<Html5Video>\` tag requires a string for \`src\`, but got ${JSON.stringify(props.src)} instead.`);
   }
   const preloadedSrc = usePreload(props.src);
-  const onDuration = import_react108.useCallback((src, durationInSeconds) => {
-    setDurations({ type: "got-duration", durationInSeconds, src });
-  }, [setDurations]);
+  const onDuration = import_react110.useMemo(() => onMediaDuration.bind(null, setDurations), [setDurations]);
   const durationFetched = durations[getAbsoluteSrc2(preloadedSrc)] ?? durations[getAbsoluteSrc2(props.src)];
   validateMediaTrimProps({ startFrom, endAt, trimBefore, trimAfter });
   if (durationInFrames !== undefined) {
@@ -65976,14 +66487,14 @@ var VideoForwardingFunction = (props, ref) => {
   const loopDuration = effectiveTrimAfter ?? (durationFetched === undefined ? undefined : durationFetched * fps);
   if (loop && loopDuration !== undefined) {
     if (!Number.isFinite(loopDuration)) {
-      return /* @__PURE__ */ import_jsx_runtime47.jsx(Html5Video, {
+      return /* @__PURE__ */ import_jsx_runtime48.jsx(Html5Video, {
         ...propsOtherThanLoop,
         ref,
         _remotionInternalStack,
         _remotionInternalNativeLoopPassed: true
       });
     }
-    return /* @__PURE__ */ import_jsx_runtime47.jsx(Loop, {
+    return /* @__PURE__ */ import_jsx_runtime48.jsx(Loop, {
       durationInFrames: calculateMediaDuration({
         trimAfter: effectiveTrimAfter,
         mediaDurationInFrames: loopDuration,
@@ -65993,7 +66504,7 @@ var VideoForwardingFunction = (props, ref) => {
       layout: "none",
       name,
       showInTimeline: false,
-      children: /* @__PURE__ */ import_jsx_runtime47.jsx(Html5Video, {
+      children: /* @__PURE__ */ import_jsx_runtime48.jsx(Html5Video, {
         ...propsOtherThanLoop,
         ref,
         _remotionInternalStack,
@@ -66002,15 +66513,15 @@ var VideoForwardingFunction = (props, ref) => {
     });
   }
   if (typeof trimBeforeValue !== "undefined" || typeof effectiveTrimAfter !== "undefined") {
-    return /* @__PURE__ */ import_jsx_runtime47.jsx(Html5MediaTrimContext.Provider, {
+    return /* @__PURE__ */ import_jsx_runtime48.jsx(Html5MediaTrimContext.Provider, {
       value: trimBeforeValue ?? 0,
-      children: /* @__PURE__ */ import_jsx_runtime47.jsx(Sequence, {
+      children: /* @__PURE__ */ import_jsx_runtime48.jsx(Sequence, {
         layout: "none",
         from: 0 - (trimBeforeValue ?? 0),
         showInTimeline: false,
         durationInFrames: effectiveTrimAfter === undefined ? undefined : (trimBeforeValue ?? 0) + (effectiveTrimAfter - (trimBeforeValue ?? 0)) / (props.playbackRate ?? 1),
         name,
-        children: /* @__PURE__ */ import_jsx_runtime47.jsx(Html5Video, {
+        children: /* @__PURE__ */ import_jsx_runtime48.jsx(Html5Video, {
           pauseWhenBuffering: shouldPauseWhenBuffering,
           onVideoFrame,
           ...otherProps,
@@ -66027,14 +66538,14 @@ var VideoForwardingFunction = (props, ref) => {
     volume: props.volume
   }, "Html5Video");
   if (environment.isRendering) {
-    return /* @__PURE__ */ import_jsx_runtime47.jsx(VideoForRendering, {
+    return /* @__PURE__ */ import_jsx_runtime48.jsx(VideoForRendering, {
       onDuration,
       onVideoFrame: onVideoFrame ?? null,
       ...otherProps,
       ref
     });
   }
-  return /* @__PURE__ */ import_jsx_runtime47.jsx(VideoForPreview, {
+  return /* @__PURE__ */ import_jsx_runtime48.jsx(VideoForPreview, {
     onlyWarnForMediaSeekingError: false,
     ...otherProps,
     ref,
@@ -66047,7 +66558,7 @@ var VideoForwardingFunction = (props, ref) => {
     onAutoPlayError: onAutoPlayError ?? undefined
   });
 };
-var Html5Video = import_react108.forwardRef(VideoForwardingFunction);
+var Html5Video = import_react110.forwardRef(VideoForwardingFunction);
 addSequenceStackTraces(Html5Video);
 checkMultipleRemotionVersions();
 var proxyObj = {};
@@ -66339,7 +66850,7 @@ var findRegistrationRoot = ({
   if (folder) {
     const folders = [];
     const matches = [];
-    recast30.visit(ast, {
+    recast31.visit(ast, {
       visitJSXElement(path) {
         const element = path.node;
         const name = getFolderNameFromJSXElement(element, ast);
@@ -66362,13 +66873,13 @@ var findRegistrationRoot = ({
     root = matches[0];
   } else {
     const functions = new Map;
-    recast30.visit(ast, {
+    recast31.visit(ast, {
       visitNode(path) {
         const { node } = path;
         if (node.type === "JSXElement" || node.type === "JSXFragment") {
           let parent = path.parentPath;
           while (parent) {
-            if (recast30.types.namedTypes.Function.check(parent.node)) {
+            if (recast31.types.namedTypes.Function.check(parent.node)) {
               functions.set(parent.node, {
                 path: parent,
                 hasRegistration: functions.get(parent.node)?.hasRegistration === true || getRegistrationComponentType(node, ast) !== null
@@ -66402,10 +66913,10 @@ var findRegistrationRoot = ({
     }
     const target = candidates[0].path.node;
     const roots = [];
-    recast30.visit(target, {
+    recast31.visit(target, {
       visitNode(path) {
         const { node } = path;
-        if (recast30.types.namedTypes.Function.check(node) && node !== target) {
+        if (recast31.types.namedTypes.Function.check(node) && node !== target) {
           return false;
         }
         const returned = node.type === "ReturnStatement" ? node.argument : node.type === "ArrowFunctionExpression" ? node.body : null;
@@ -66448,7 +66959,7 @@ var getRegistrationInsertionSourceEdit = ({
 var getTreeEntries = ({ ast }) => {
   const entries = [];
   const folders = [];
-  recast31.visit(ast, {
+  recast32.visit(ast, {
     visitJSXElement(path) {
       const node = path.node;
       const name = getFolderNameFromJSXElement(node, ast);
@@ -66637,7 +67148,7 @@ var addComposition = ({
     sourcePath: component.importPath,
     localName: component.importName
   });
-  const b = recast32.types.builders;
+  const b = recast33.types.builders;
   const insertion = b.jsxElement(b.jsxOpeningElement(b.jsxIdentifier(tag), [
     b.jsxAttribute(b.jsxIdentifier("id"), b.stringLiteral(compositionId)),
     b.jsxAttribute(b.jsxIdentifier("component"), b.jsxExpressionContainer(b.identifier(componentName))),
@@ -66712,7 +67223,7 @@ var renameComposition = ({
     })
   };
 };
-var b14 = recast33.types.builders;
+var b14 = recast34.types.builders;
 var changeComposition = ({
   jsxElement,
   newId,
@@ -67044,11 +67555,11 @@ var formatSerializedValue = ({
     throw new Error("Could not parse the serialized value");
   }
   const expression = statement.expression.right;
-  recast34.types.visit(expression, {
+  recast35.types.visit(expression, {
     visitObjectProperty(path) {
       const { node } = path;
       if (!node.computed && node.key.type === "StringLiteral" && identifierRegex4.test(node.key.value)) {
-        node.key = recast34.types.builders.identifier(node.key.value);
+        node.key = recast35.types.builders.identifier(node.key.value);
       }
       this.traverse(path);
     }
@@ -67057,7 +67568,7 @@ var formatSerializedValue = ({
     trailingComma,
     wrapColumn
   }) => {
-    const printed = recast34.prettyPrint(expression, {
+    const printed = recast35.prettyPrint(expression, {
       objectCurlySpacing: formattingConfig.bracketSpacing,
       quote: formattingConfig.quote,
       tabWidth: formattingConfig.tabWidth,
@@ -67195,7 +67706,7 @@ var addFolder = ({
     sourcePath: "remotion",
     localName: "Folder"
   });
-  const b = recast35.types.builders;
+  const b = recast36.types.builders;
   const insertion = b.jsxElement(b.jsxOpeningElement(b.jsxIdentifier(localName), [b.jsxAttribute(b.jsxIdentifier("name"), b.stringLiteral(folder.name))], true), null, []);
   const parentParts = folder.parentName?.split("/") ?? [];
   const parentName = parentParts.pop();
@@ -67585,7 +68096,7 @@ var reorderEffect2 = async ({
     }
   };
 };
-var b15 = recast36.types.builders;
+var b15 = recast37.types.builders;
 var getOpeningElementSourceEdit = ({
   originalAttributeSources,
   input,
@@ -68857,7 +69368,7 @@ var updateSequenceKeyframesAst = ({
         })
       } : null
     });
-    oldValueStrings.push(recast36.print(prop.expression).code);
+    oldValueStrings.push(recast37.print(prop.expression).code);
     const { expression: nextExpression, introduced } = applyKeyframeOperation({
       ast,
       expression: prop.expression,
@@ -68866,7 +69377,7 @@ var updateSequenceKeyframesAst = ({
       schema: schema ?? null,
       videoConfigValues: videoConfigIdentifierValues
     });
-    newValueStrings.push(recast36.print(nextExpression).code);
+    newValueStrings.push(recast37.print(nextExpression).code);
     if (shouldRemovePropAfterKeyframeOperation({
       ast,
       expression: prop.expression,
@@ -69007,7 +69518,7 @@ var updateEffectKeyframesAst = ({
         })
       } : null
     });
-    oldValueStrings.push(recast36.print(prop.expression).code);
+    oldValueStrings.push(recast37.print(prop.expression).code);
     const { expression: nextExpression, introduced } = applyKeyframeOperation({
       ast,
       expression: prop.expression,
@@ -69016,7 +69527,7 @@ var updateEffectKeyframesAst = ({
       schema: schema ?? null,
       videoConfigValues: videoConfigIdentifierValues
     });
-    newValueStrings.push(recast36.print(nextExpression).code);
+    newValueStrings.push(recast37.print(nextExpression).code);
     if (shouldRemovePropAfterKeyframeOperation({
       ast,
       expression: prop.expression,
@@ -69239,7 +69750,7 @@ var unwrapNode = ({
   const closingStart = recastLocToOffset(input, element.closingElement.loc.start);
   let firstChild = null;
   for (const child of element.children) {
-    recast37.types.visit(child, {
+    recast38.types.visit(child, {
       visitJSXOpeningElement(childPath) {
         firstChild ??= childPath.node;
         return false;
@@ -69255,7 +69766,7 @@ var unwrapNode = ({
   const needsFragment = !isJsxChild && singleChild === null;
   let replacement = input.slice(openingEnd, closingStart);
   if (needsFragment) {
-    path.replace(recast37.types.builders.jsxFragment(recast37.types.builders.jsxOpeningFragment(), recast37.types.builders.jsxClosingFragment(), element.children));
+    path.replace(recast38.types.builders.jsxFragment(recast38.types.builders.jsxOpeningFragment(), recast38.types.builders.jsxClosingFragment(), element.children));
     replacement = `<>${replacement}</>`;
   } else {
     if (isJsxChild) {
@@ -69264,7 +69775,7 @@ var unwrapNode = ({
       path.replace(singleChild);
     }
     const preservedRanges = [];
-    recast37.types.visit(element, {
+    recast38.types.visit(element, {
       visitNode(literalPath) {
         const literal = literalPath.node;
         if (literal.loc && (literal.type === "TemplateLiteral" || literal.type === "StringLiteral" || literal.type === "JSXText" && literal.value.trim() !== "")) {
@@ -69349,7 +69860,7 @@ var canWrapNode = ({
     current = current.parentPath;
   }
   let containsHtmlInCanvas = false;
-  recast38.types.visit(path.node, {
+  recast39.types.visit(path.node, {
     visitJSXElement(elementPath) {
       if (isHtmlInCanvasElement(elementPath.node)) {
         containsHtmlInCanvas = true;
@@ -69404,7 +69915,7 @@ var wrapNode = ({
   const childIndent = `${indent}${unit}`;
   const source = input.slice(start, end);
   const preservedRanges = [];
-  recast38.types.visit(original, {
+  recast39.types.visit(original, {
     visitTemplateLiteral(templatePath) {
       if (templatePath.node.loc) {
         preservedRanges.push({
@@ -69453,11 +69964,11 @@ var wrapNode = ({
     }
     return `${childIndent}${line.startsWith(closingIndent) ? line.slice(closingIndent.length) : line.trimStart()}`;
   });
-  const b = recast38.types.builders;
+  const b = recast39.types.builders;
   const wrapperElement = buildJsxElement({ ast, element: wrapper });
   const opening = wrapperElement.openingElement;
   opening.selfClosing = false;
-  const localName = recast38.print(opening.name).code;
+  const localName = recast39.print(opening.name).code;
   const openingLines = printJsxOpeningElement({
     compactLiteralProps: true,
     openingElement: opening,
@@ -69642,7 +70153,7 @@ var getPureTopLevelFunctionAnalysis = ({
         break;
     }
   };
-  recast39.visit(ast, {
+  recast40.visit(ast, {
     visitAssignmentExpression(path) {
       collectAssignedNames(path.node.left);
       this.traverse(path);
@@ -69716,7 +70227,7 @@ var getPureTopLevelFunctionAnalysis = ({
     return remotionImports.get(objectName) === "Easing" && topLevelBindings.has(objectName) && !duplicateBindings.has(objectName) && easingMethods.has(propertyName);
   };
   function isPureExpression(node, params) {
-    if (!recast39.types.namedTypes.Expression.check(node)) {
+    if (!recast40.types.namedTypes.Expression.check(node)) {
       return false;
     }
     const expression = node;
@@ -69834,7 +70345,7 @@ var getPureTopLevelFunctionAnalysis = ({
     return primitive;
   };
   function isPrimitiveExpression(node, params) {
-    if (!recast39.types.namedTypes.Expression.check(node)) {
+    if (!recast40.types.namedTypes.Expression.check(node)) {
       return false;
     }
     switch (node.type) {
@@ -69921,7 +70432,7 @@ var getStyleablePrecompositionRoot = ({
     return null;
   }
   let isTopLevelBinding = false;
-  recast40.visit(ast, {
+  recast41.visit(ast, {
     visitJSXElement(path) {
       if (path.node === element) {
         isTopLevelBinding = path.scope.lookup(identifier.name)?.path.node === ast.program;
@@ -70266,7 +70777,7 @@ var getPrecompositionPlan = ({
   ]);
   const scanSafePath = (path) => {
     let containsUnsupportedSyntax = false;
-    recast41.visit(path, {
+    recast42.visit(path, {
       visitNode(p) {
         if (unsupportedSyntax.has(p.node.type)) {
           containsUnsupportedSyntax = true;
@@ -70282,7 +70793,7 @@ var getPrecompositionPlan = ({
       unsafeReason = "The selected JSX contains unsupported syntax";
       return;
     }
-    recast41.visit(path, {
+    recast42.visit(path, {
       visitIdentifier(p) {
         if (isReferenced(p.node, p.parentPath.node, p.parentPath.parentPath?.node)) {
           const binding = p.scope.lookup(p.node.name);
@@ -70802,7 +71313,7 @@ var precomposeJsxNodes = ({
   const registrationAst = registrationFile === filePath ? ast : parseAst(project.files[registrationFile]);
   const occupiedNames = new Set;
   for (const candidateAst of new Set([ast, registrationAst])) {
-    recast41.visit(candidateAst, {
+    recast42.visit(candidateAst, {
       visitIdentifier(path) {
         occupiedNames.add(path.node.name);
         this.traverse(path);
@@ -70902,7 +71413,7 @@ var precomposeJsxNodes = ({
   const contentReferences = new Set;
   if (styleRoot) {
     const collectReferences = (node) => {
-      recast41.visit(node, {
+      recast42.visit(node, {
         visitJSXAttribute(path) {
           if (rootTimingAttributes.includes(path.node)) {
             return false;
@@ -71024,7 +71535,7 @@ var precomposeJsxNodes = ({
   if (styleRoot) {
     const { openingElement } = styleRoot.element;
     const originalAttributeSources = captureJsxAttributeSources(openingElement);
-    const b = recast41.types.builders;
+    const b = recast42.types.builders;
     const originalStyle = styleAttribute?.type === "JSXAttribute" && styleAttribute.value?.type === "JSXExpressionContainer" ? styleAttribute.value.expression : null;
     const mergedStyle = b.objectExpression([
       ...originalStyle?.type === "ObjectExpression" ? originalStyle.properties : originalStyle && originalStyle.type !== "NullLiteral" ? [b.spreadElement(originalStyle)] : [],
@@ -71109,7 +71620,7 @@ var precomposeJsxNodes = ({
   if (functionBody?.type === "BlockStatement") {
     while (true) {
       const referencedNames = new Set;
-      recast41.visit(functionBody, {
+      recast42.visit(functionBody, {
         visitIdentifier(path) {
           if (isReferenced(path.node, path.parentPath.node, path.parentPath.parentPath?.node)) {
             referencedNames.add(path.node.name);
@@ -71331,7 +71842,7 @@ var getCursorName = (cursor) => {
 };
 var serialize = (value) => {
   if (typeof value === "string") {
-    return recast42.prettyPrint(recast42.types.builders.stringLiteral(value), {
+    return recast43.prettyPrint(recast43.types.builders.stringLiteral(value), {
       quote: "single"
     }).code;
   }
@@ -71572,7 +72083,7 @@ var updateVisualControls = ({
   const file = parseAst(input);
   const updatedControls = [];
   const edits = [];
-  recast43.types.visit(file.program, {
+  recast44.types.visit(file.program, {
     visitCallExpression(path) {
       const { node } = path;
       if (node.type !== "CallExpression") {
@@ -71682,6 +72193,7 @@ var CodemodsInternals = {
   pasteEffects,
   resolveCompositionComponent,
   resolveCompositionComponentWithFile,
+  resolveNodePathsFromLocations,
   updateInlineCaptionPatches
 };
 
@@ -71690,4 +72202,4 @@ var CodemodsInternals = {
 /***/ }
 
 }]);
-//# sourceMappingURL=945.bundle.js.map
+//# sourceMappingURL=995.bundle.js.map

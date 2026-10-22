@@ -12,7 +12,7 @@
 		<script>window.remotion_numberOfAudioTags = 0;</script>
 		<script>window.remotion_audioLatencyHint = "playback";</script>
 		<script>window.remotion_experimentalKeepAudioContextAlive = false;</script>
-		<script>window.remotion_sampleRate = 48000;</script>
+		<script>window.remotion_sampleRate = window.remotion_sampleRate ?? 48000;</script>
 		<script>window.remotion_previewSampleRate = 48000;</script>
 		
 		<script>window.remotion_staticBase = new URL("./public", window.location.href).pathname;</script>
@@ -22,7 +22,7 @@
 		<script>window.remotion_publicPath = "./";</script>
 		<script>window.remotion_audioEnabled = true;</script>
 		<script>window.remotion_videoEnabled = true;</script>
-		<script>window.remotion_studioConfig = {"showLayerFrameNumbers":false,"showPremounting":null,"defaultPremountInSeconds":null,"sequenceActivityLimit":null,"askAIEnabled":true,"bufferStateDelayInMilliseconds":null,"canvasTabsEnabled":true,"defaultCodingAgent":null,"defaultEditor":null,"interactivityEnabled":true,"keyboardShortcutsEnabled":true,"maxTimelineTracks":null,"publicLicenseKey":null,"configFileStudioSettings":null};</script>
+		<script>window.remotion_studioConfig = {"preservePitchOnPlayback":true,"showLayerFrameNumbers":false,"showPremounting":null,"defaultPremountInSeconds":null,"sequenceActivityLimit":null,"askAIEnabled":true,"bufferStateDelayInMilliseconds":null,"canvasTabsEnabled":true,"defaultCodingAgent":null,"defaultEditor":null,"interactivityEnabled":true,"keyboardShortcutsEnabled":true,"maxTimelineTracks":null,"publicLicenseKey":null,"configFileStudioSettings":null};</script>
 		<script>window.remotion_renderDefaults = undefined;</script>
 		<script>window.remotion_cwd = "E:\\VFX-EDICION VIDEOS\\DAVINCI RESOLVE\\RECURSOS PREMIUN\\CineCaptions\\1_codigo\\remotion";</script>
 		<script>window.remotion_fileSystemPlatform = null;</script>
@@ -44,7 +44,7 @@
 				// Keep it synchronized with requiredVersion in
 				// packages/renderer/src/set-props-and-env.ts by incrementing both values.
 				window.siteVersion = '11';
-				window.remotion_version = '4.0.537';
+				window.remotion_version = '4.0.538';
 		</script>
 		
 		<div id="video-container"></div>

@@ -12,6 +12,51 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-22 13:25  ·  v5.39  ·  cambio explicado
+    Remotion 4.0.537 -> 4.0.538 (mismas dependencias fijadas; overrides siguen valiendo) y pycparser 3.11 -> 3.12 en el motor Qwen (probado con cffi 2.1.1 y soundfile 0.14.0 en Python 3.14). Verificación con render real de Remotion: Todo funciona.
+    nuevos (54):
+      + 1_codigo/remotion/node_modules/@remotion/codemods/dist/resolve-node-paths-from-locations.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/renderer/dist/options/preserve-pitch-on-playback.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/renderer/dist/options/preserve-pitch-on-playback.js
+      + 1_codigo/remotion/node_modules/@remotion/studio-server/dist/helpers/read-source-file.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/studio-server/dist/helpers/read-source-file.js
+      + 1_codigo/remotion/node_modules/@remotion/studio/dist/components/PlaybackPitchSettingsProvider.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/studio/dist/components/PlaybackPitchSettingsProvider.js
+      + 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/CaptionQueueProcessor-hcbpmydg.mjs
+      + 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/LazyModels-5wq5p7fh.mjs
+      + 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/LazyModels-qjnzf2tt.mjs
+      + 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/TranscriptionModal-q7g2m5ge.mjs
+      + 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/VideoMattingModal-hdxbe1vq.mjs
+      … y 42 más
+    modificados (2140):
+      ~ 1_codigo/remotion/node_modules/.package-lock.json
+      ~ 1_codigo/remotion/node_modules/@mediabunny/aac-encoder/dist/modules/tsconfig.tsbuildinfo
+      ~ 1_codigo/remotion/node_modules/@mediabunny/aac-encoder/package.json
+      ~ 1_codigo/remotion/node_modules/@mediabunny/flac-encoder/dist/modules/tsconfig.tsbuildinfo
+      ~ 1_codigo/remotion/node_modules/@mediabunny/flac-encoder/package.json
+      ~ 1_codigo/remotion/node_modules/@mediabunny/mp3-encoder/dist/modules/tsconfig.tsbuildinfo
+      ~ 1_codigo/remotion/node_modules/@mediabunny/mp3-encoder/package.json
+      ~ 1_codigo/remotion/node_modules/@remotion/bundler/dist/bundle.js
+      ~ 1_codigo/remotion/node_modules/@remotion/bundler/dist/case-sensitive-paths.js
+      ~ 1_codigo/remotion/node_modules/@remotion/bundler/dist/copy-dir.d.ts
+      ~ 1_codigo/remotion/node_modules/@remotion/bundler/dist/esbuild-loader/index.js
+      ~ 1_codigo/remotion/node_modules/@remotion/bundler/dist/index-html.js
+      … y 2128 más
+    quitados (42):
+      - 1_codigo/remotion/node_modules/@remotion/renderer/dist/options/experimental-sequence-activity-limit.d.ts
+      - 1_codigo/remotion/node_modules/@remotion/renderer/dist/options/experimental-sequence-activity-limit.js
+      - 1_codigo/remotion/node_modules/@remotion/renderer/dist/options/experimental-sequence-activity.d.ts
+      - 1_codigo/remotion/node_modules/@remotion/renderer/dist/options/experimental-sequence-activity.js
+      - 1_codigo/remotion/node_modules/@remotion/renderer/dist/options/experimental-tracks.d.ts
+      - 1_codigo/remotion/node_modules/@remotion/renderer/dist/options/experimental-tracks.js
+      - 1_codigo/remotion/node_modules/@remotion/sdk/dist/get-timeline-nestedness.d.ts
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/CaptionQueueProcessor-c6ksy867.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/LazyModels-113nmznw.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/LazyModels-h13g63dr.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/TranscriptionModal-15ysynhy.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/VideoMattingModal-56hfba2y.mjs
+      … y 30 más
+
 2026-10-22 13:17  ·  v5.39  ·  (automático)
     modificados (41):
       ~ 1_codigo/remotion/public/fuentes/desktop.ini

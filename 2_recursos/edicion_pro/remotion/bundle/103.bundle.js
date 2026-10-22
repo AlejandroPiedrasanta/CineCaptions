@@ -1,7 +1,7 @@
 "use strict";
-(self["webpackChunkcinecaptions_pro_remotion"] = self["webpackChunkcinecaptions_pro_remotion"] || []).push([[541],{
+(self["webpackChunkcinecaptions_pro_remotion"] = self["webpackChunkcinecaptions_pro_remotion"] || []).push([[103],{
 
-/***/ 4541
+/***/ 9103
 (__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 
@@ -10,18 +10,18 @@ __webpack_require__.d(__webpack_exports__, {
   CaptionQueueProcessor: () => (/* binding */ CaptionQueueProcessor)
 });
 
-// EXTERNAL MODULE: ./node_modules/@remotion/studio/dist/esm/index-fp21v3v3.mjs
-var index_fp21v3v3 = __webpack_require__(8614);
+// EXTERNAL MODULE: ./node_modules/@remotion/studio/dist/esm/index-gjr0ae8m.mjs
+var index_gjr0ae8m = __webpack_require__(5293);
 // EXTERNAL MODULE: ./node_modules/@remotion/studio/dist/esm/index-ts7drhwc.mjs
 var index_ts7drhwc = __webpack_require__(7449);
-// EXTERNAL MODULE: ./node_modules/@remotion/studio/dist/esm/index-w5yee38t.mjs
-var index_w5yee38t = __webpack_require__(8557);
+// EXTERNAL MODULE: ./node_modules/@remotion/studio/dist/esm/index-kwxewaaz.mjs
+var index_kwxewaaz = __webpack_require__(6929);
 // EXTERNAL MODULE: ./node_modules/@remotion/studio/dist/esm/index-7shemw90.mjs
 var index_7shemw90 = __webpack_require__(8335);
-// EXTERNAL MODULE: ./node_modules/@remotion/studio/dist/esm/index-j19a8yz6.mjs + 7 modules
-var index_j19a8yz6 = __webpack_require__(17);
-// EXTERNAL MODULE: ./node_modules/@remotion/studio/dist/esm/index-r4fxez7r.mjs
-var index_r4fxez7r = __webpack_require__(7529);
+// EXTERNAL MODULE: ./node_modules/@remotion/studio/dist/esm/index-394460kk.mjs + 7 modules
+var index_394460kk = __webpack_require__(1045);
+// EXTERNAL MODULE: ./node_modules/@remotion/studio/dist/esm/index-fa0wsc5r.mjs
+var index_fa0wsc5r = __webpack_require__(5576);
 // EXTERNAL MODULE: ./node_modules/react/index.js
 var react = __webpack_require__(6540);
 // EXTERNAL MODULE: ./node_modules/mediabunny/dist/modules/src/input.js
@@ -1809,7 +1809,7 @@ class TrackSynchronizer {
     }
 }
 
-;// ./node_modules/@remotion/studio/dist/esm/CaptionQueueProcessor-c6ksy867.mjs
+;// ./node_modules/@remotion/studio/dist/esm/CaptionQueueProcessor-hcbpmydg.mjs
 Object(function webpackMissingModule() { const e = new Error("Cannot find module '@remotion/whisper-webgpu'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
 
 
@@ -1932,7 +1932,7 @@ var CaptionQueueProcessor = () => {
     markCaptionJobSaving,
     getAbortController,
     setProcessCaptionJobCallback
-  } = (0,react.useContext)(index_w5yee38t/* RenderQueueContext */.x7);
+  } = (0,react.useContext)(index_kwxewaaz/* RenderQueueContext */.x7);
   const processJob = (0,react.useCallback)(async (job) => {
     const { signal } = getAbortController(job.id);
     let captionCount = null;
@@ -2015,7 +2015,7 @@ var CaptionQueueProcessor = () => {
           message: `Saving ${job.outName}...`,
           value: 0.95
         });
-        await (0,index_r4fxez7r/* writeStaticFile2 */.g4)({
+        await (0,index_fa0wsc5r/* writeStaticFile2 */.g4)({
           contents: JSON.stringify(captions, null, 2),
           filePath: job.outName
         });
@@ -2032,7 +2032,7 @@ var CaptionQueueProcessor = () => {
         for (let index = 0;index < 1000; index++) {
           signal.throwIfAborted();
           const installationName = `${baseName}${index === 0 ? "" : `-copy${index === 1 ? "" : `-${index}`}`}`;
-          const preflight = await (0,index_j19a8yz6/* prepareElementInstall */.Rl)({
+          const preflight = await (0,index_394460kk/* prepareElementInstall */.Rl)({
             installationName,
             destination: {
               type: "selected-media",
@@ -2047,11 +2047,11 @@ var CaptionQueueProcessor = () => {
           if (expectedFileState.exists && expectedFileState.sourceHash !== sourceHash) {
             continue;
           }
-          if ((0,index_fp21v3v3/* getBrowserStudioOperations */.P3)() === null) {
-            await (0,index_fp21v3v3/* installRequiredPackages */.oX)(element.dependencies);
+          if ((0,index_gjr0ae8m/* getBrowserStudioOperations */.P3)() === null) {
+            await (0,index_gjr0ae8m/* installRequiredPackages */.oX)(element.dependencies);
           }
           signal.throwIfAborted();
-          const response = await (0,index_j19a8yz6/* installElement */.iW)({
+          const response = await (0,index_394460kk/* installElement */.iW)({
             installationName,
             compositionFile: null,
             compositionId: null,
@@ -2083,7 +2083,7 @@ var CaptionQueueProcessor = () => {
           message: "Adding Basic captions...",
           value: 0.95
         });
-        await (0,index_fp21v3v3/* installRequiredPackages */.oX)([
+        await (0,index_gjr0ae8m/* installRequiredPackages */.oX)([
           { name: "@remotion/captions", version: null }
         ]);
         const request = {
@@ -2092,8 +2092,8 @@ var CaptionQueueProcessor = () => {
           durationInFrames: job.target.durationInFrames,
           captions
         };
-        const browserStudioOperations = (0,index_fp21v3v3/* getBrowserStudioOperations */.P3)();
-        const response = browserStudioOperations ? await browserStudioOperations.insertBasicCaptions(request) : await (0,index_fp21v3v3/* callApi */.px)("/api/insert-basic-captions", request);
+        const browserStudioOperations = (0,index_gjr0ae8m/* getBrowserStudioOperations */.P3)();
+        const response = browserStudioOperations ? await browserStudioOperations.insertBasicCaptions(request) : await (0,index_gjr0ae8m/* callApi */.px)("/api/insert-basic-captions", request);
         if (!response.success) {
           throw new Error(response.reason);
         }
@@ -2167,4 +2167,4 @@ var loadModelForJob = async ({
 /***/ }
 
 }]);
-//# sourceMappingURL=541.bundle.js.map
+//# sourceMappingURL=103.bundle.js.map
