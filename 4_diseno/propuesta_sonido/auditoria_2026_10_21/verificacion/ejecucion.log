@@ -1,0 +1,250 @@
+== motor de la página (director_sonido_sesion) ==
+  PASA  resumen: hay diseño, 8 notas de estado (con «Material»), eventos con su clave  (18 suenan de 35)
+  PASA  resumen: carriles (voz, cortes, captions)
+  PASA  resumen: «Aplicar» permitido tras un GO con el director
+  PASA  SILENCIAR: ese evento deja de sonar  (Silenciado: este momento queda sin sonido.)
+  PASA  SILENCIAR: los demás, idénticos (mismos WAV)
+  PASA  volver a sonar
+  PASA  MENOS › más corto: dura menos y es otro archivo  (0.6 → 0.42)
+  PASA  MÁS › mejor ataque: un clic más en el golpe  (biblioteca curada + capa procedural + clic)
+  PASA  REGENERAR: otra variación de ese golpe
+  PASA  BLOQUEAR + Rediseñar: lo bloqueado se queda igual; lo demás cambia  (15 cambiaron)
+  PASA  lo bloqueado no se retoca (pide desbloquear)
+  PASA  Rediseñar una sección (el final): fuera de ella, nada cambia
+  PASA  Densidad «Mínima»: menos sonidos  (18 → 12)
+  PASA  Auto quita el control
+  PASA  Prioridad de voz «Máxima»: los sonidos bajan  (17 sonidos)
+  PASA  Deshacer todo: controles en Auto, sin retoques, ronda 0
+  PASA  «menos sonidos por favor» → control densidad  (['menos sonidos'])
+  PASA  «que se oiga mejor la voz» → control voz  (['la voz por encima de todo'])
+  PASA  «hazlo más cinematográfico» → control estilo  (['estilo cinematográfico'])
+  PASA  «sin música» → control musica  (['sin música'])
+  PASA  «rediseña el final» → seccion  (['rediseñar el final'])
+  PASA  «quita el sonido de xela» → silenciar_texto  (['silenciar el sonido de «xela»'])
+  PASA  «como estaba» → reset  (['todo como lo decidió la IA'])
+  PASA  una frase que no se entiende no hace nada
+  PASA  «quita el sonido de xela»: sus sonidos, silenciados  (2 eventos)
+  PASA  A/B: dos WAV del mismo largo (6 s)  ((2, 288001))
+  PASA  A/B: AI SOUND suena distinto del original donde hay un sonido
+  PASA  plan para Resolve: solo_ai, sus pistas AI SFX y Simple apagado
+  PASA  «Aplicar» se niega sin un GO con el director (la PRO y Simple tendrían sus sonidos)
+== la página (Qt sin pantalla) ==
+  PASA  la página lee el diseño (en un hilo) y lo pinta  (Tema: Tema 1   ·   AI Sonic Style: Cinemático · transitorios duros · reverb corta   ·   PR)
+  PASA  cuerpo visible, aviso de vacío oculto
+  PASA  estado: voz, música y sonido de motions con su texto  (Buena · La del video se queda · 18 sonidos diseñados)
+  PASA  el anillo enseña el Sound Score medido  (82)
+  PASA  tocar el anillo: el desglose parte por parte en la línea de estado  (Sound Score 82: voz 70 · ruido 85 · sincronía 49 · música 95 · consistencia 100 · protección de la voz 100 · mezcla final 100)
+  PASA  clic repetido en el mismo sitio recorre los sonidos solapados  (['trazo-02', 'golpe-01'])
+  PASA  clic en la línea: el inspector enseña ese sonido  («XELA»  ·  0:01,8 · elegido golpe-01 / esperado golpe-01 · en el mismo sitio: [('riser-20', 0.173, 1.773, 1.6), ('golpe-01', 1.683, 1.773, 0.6), ('trazo-02', 1.83, 1.83, 0.5)])
+  PASA  inspector: diseño, porqué e importancia; botones activos
+  PASA  SILENCIAR desde el inspector  (Silenciado: este momento queda sin sonido.  Ya está en Resolve.)
+  PASA  SILENCIAR va solo a Resolve (abierto, último GO con el director) y la página dice que está al día  (Silenciado: este momento queda sin sonido.  Ya está en Resolve.)
+  PASA  y vuelve a sonar
+  PASA  con Resolve cerrado no se intenta: queda «cambios sin poner» y «Aplicar a Resolve» pasa a principal  (Hay cambios que aún no están en Resolve)
+  PASA  «Aplicar a Resolve» lo pone y la cabecera vuelve a «al día»  (Puesto en Resolve: sonidos, música, ambiente y voz del director; los de siempre, apagados.)
+  PASA  fila «Material»: de dónde saca el sonido el director  (3 105 sonidos de tus bibliotecas)
+  PASA  la línea de tiempo enseña el carril MOTIONS PRO
+  PASA  un control (Densidad «Mínima») rediseña y la página se repinta
+  PASA  «dile…»: «como estaba» deja todo en Auto  (Hecho: todo como lo decidió la IA.  Ya está en Resolve.)
+  PASA  sin diseño: la página lo dice (y no enseña controles)  (Elige un video en Inicio y haz GO: AI Sound Director lo escucha y diseña su sonido.)
+  PASA  SONIDO abre AI Sound Director (la página vieja no se arma)
+
+48/48 pruebas pasan · 62.5 s · capturas en E:\VFX-EDICION VIDEOS\DAVINCI RESOLVE\RECURSOS PREMIUN\CineCaptions\4_diseno\propuesta_sonido\auditoria_2026_10_21\verificacion
+{
+  "harness_exit": 0,
+  "passed": 48,
+  "total": 48,
+  "failed": [],
+  "sample_video": "C:\\Users\\CINEMA PRODUCTIONS\\Desktop\\VIDEOS EN ESPAÑOL\\PRUEBA ESPAÑOL.mp4",
+  "cached_transcript_word_count": 182,
+  "resolve_attempts": [],
+  "isolated_home": "E:\\VFX-EDICION VIDEOS\\DAVINCI RESOLVE\\RECURSOS PREMIUN\\CineCaptions\\4_diseno\\propuesta_sonido\\auditoria_2026_10_21\\verificacion\\home_aislado",
+  "isolated_director_state": "E:\\VFX-EDICION VIDEOS\\DAVINCI RESOLVE\\RECURSOS PREMIUN\\CineCaptions\\4_diseno\\propuesta_sonido\\auditoria_2026_10_21\\verificacion\\sound_director",
+  "isolated_effects_cache": "E:\\VFX-EDICION VIDEOS\\DAVINCI RESOLVE\\RECURSOS PREMIUN\\CineCaptions\\4_diseno\\propuesta_sonido\\auditoria_2026_10_21\\verificacion\\home_aislado\\DaVinciSubtitles\\efectos_cache",
+  "captures": [
+    {
+      "requested": [
+        1240,
+        900
+      ],
+      "actual": [
+        1240,
+        900
+      ],
+      "page_size": [
+        1150,
+        1299
+      ],
+      "page_minimum_hint": [
+        778,
+        1299
+      ],
+      "scroll_viewport": [
+        1162,
+        792
+      ],
+      "vertical_scroll_max": 519,
+      "horizontal_scroll_max": 0,
+      "screenshot_top": "E:\\VFX-EDICION VIDEOS\\DAVINCI RESOLVE\\RECURSOS PREMIUN\\CineCaptions\\4_diseno\\propuesta_sonido\\auditoria_2026_10_21\\verificacion\\pagina_actual_1240x900_arriba.png",
+      "widgets": {
+        "timeline": {
+          "rect_in_viewport": [
+            18,
+            789,
+            1114,
+            216
+          ],
+          "fully_visible": false,
+          "intersects": true
+        },
+        "selected_event": {
+          "rect_in_viewport": [
+            22,
+            1051,
+            1106,
+            21
+          ],
+          "fully_visible": false,
+          "intersects": false
+        },
+        "phrase_entry": {
+          "rect_in_viewport": [
+            22,
+            1251,
+            1024,
+            38
+          ],
+          "fully_visible": false,
+          "intersects": false
+        },
+        "apply": {
+          "rect_in_viewport": [
+            861,
+            387,
+            140,
+            36
+          ],
+          "fully_visible": true,
+          "intersects": true
+        },
+        "redesign": {
+          "rect_in_viewport": [
+            1011,
+            387,
+            139,
+            36
+          ],
+          "fully_visible": true,
+          "intersects": true
+        },
+        "preview": {
+          "rect_in_viewport": [
+            108,
+            387,
+            108,
+            36
+          ],
+          "fully_visible": true,
+          "intersects": true
+        }
+      },
+      "screenshot_bottom": "E:\\VFX-EDICION VIDEOS\\DAVINCI RESOLVE\\RECURSOS PREMIUN\\CineCaptions\\4_diseno\\propuesta_sonido\\auditoria_2026_10_21\\verificacion\\pagina_actual_1240x900_abajo.png",
+      "screenshot_full_page": "E:\\VFX-EDICION VIDEOS\\DAVINCI RESOLVE\\RECURSOS PREMIUN\\CineCaptions\\4_diseno\\propuesta_sonido\\auditoria_2026_10_21\\verificacion\\pagina_actual_contenido_1240.png"
+    },
+    {
+      "requested": [
+        1000,
+        720
+      ],
+      "actual": [
+        1000,
+        720
+      ],
+      "page_size": [
+        910,
+        1314
+      ],
+      "page_minimum_hint": [
+        778,
+        1299
+      ],
+      "scroll_viewport": [
+        922,
+        612
+      ],
+      "vertical_scroll_max": 714,
+      "horizontal_scroll_max": 0,
+      "screenshot_top": "E:\\VFX-EDICION VIDEOS\\DAVINCI RESOLVE\\RECURSOS PREMIUN\\CineCaptions\\4_diseno\\propuesta_sonido\\auditoria_2026_10_21\\verificacion\\pagina_actual_1000x720_arriba.png",
+      "widgets": {
+        "timeline": {
+          "rect_in_viewport": [
+            18,
+            789,
+            874,
+            216
+          ],
+          "fully_visible": false,
+          "intersects": false
+        },
+        "selected_event": {
+          "rect_in_viewport": [
+            22,
+            1051,
+            866,
+            21
+          ],
+          "fully_visible": false,
+          "intersects": false
+        },
+        "phrase_entry": {
+          "rect_in_viewport": [
+            22,
+            1266,
+            784,
+            38
+          ],
+          "fully_visible": false,
+          "intersects": false
+        },
+        "apply": {
+          "rect_in_viewport": [
+            621,
+            387,
+            140,
+            36
+          ],
+          "fully_visible": true,
+          "intersects": true
+        },
+        "redesign": {
+          "rect_in_viewport": [
+            771,
+            387,
+            139,
+            36
+          ],
+          "fully_visible": true,
+          "intersects": true
+        },
+        "preview": {
+          "rect_in_viewport": [
+            108,
+            387,
+            108,
+            36
+          ],
+          "fully_visible": true,
+          "intersects": true
+        }
+      },
+      "screenshot_bottom": "E:\\VFX-EDICION VIDEOS\\DAVINCI RESOLVE\\RECURSOS PREMIUN\\CineCaptions\\4_diseno\\propuesta_sonido\\auditoria_2026_10_21\\verificacion\\pagina_actual_1000x720_abajo.png",
+      "screenshot_full_page": "E:\\VFX-EDICION VIDEOS\\DAVINCI RESOLVE\\RECURSOS PREMIUN\\CineCaptions\\4_diseno\\propuesta_sonido\\auditoria_2026_10_21\\verificacion\\pagina_actual_contenido_1000.png"
+    }
+  ],
+  "limits": [
+    "Offscreen Qt page and production scroll container; no complete application shell.",
+    "Uses existing cached transcription of the real local sample video.",
+    "Resolve is mocked; no live timeline or audible playback tested.",
+    "Only this sample and these two viewport sizes were checked."
+  ]
+}

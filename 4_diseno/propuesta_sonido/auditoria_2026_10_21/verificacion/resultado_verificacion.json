@@ -1,0 +1,198 @@
+{
+  "harness_exit": 0,
+  "passed": 48,
+  "total": 48,
+  "failed": [],
+  "sample_video": "C:\\Users\\CINEMA PRODUCTIONS\\Desktop\\VIDEOS EN ESPAÑOL\\PRUEBA ESPAÑOL.mp4",
+  "cached_transcript_word_count": 182,
+  "resolve_attempts": [],
+  "isolated_home": "E:\\VFX-EDICION VIDEOS\\DAVINCI RESOLVE\\RECURSOS PREMIUN\\CineCaptions\\4_diseno\\propuesta_sonido\\auditoria_2026_10_21\\verificacion\\home_aislado",
+  "isolated_director_state": "E:\\VFX-EDICION VIDEOS\\DAVINCI RESOLVE\\RECURSOS PREMIUN\\CineCaptions\\4_diseno\\propuesta_sonido\\auditoria_2026_10_21\\verificacion\\sound_director",
+  "isolated_effects_cache": "E:\\VFX-EDICION VIDEOS\\DAVINCI RESOLVE\\RECURSOS PREMIUN\\CineCaptions\\4_diseno\\propuesta_sonido\\auditoria_2026_10_21\\verificacion\\home_aislado\\DaVinciSubtitles\\efectos_cache",
+  "captures": [
+    {
+      "requested": [
+        1240,
+        900
+      ],
+      "actual": [
+        1240,
+        900
+      ],
+      "page_size": [
+        1150,
+        1299
+      ],
+      "page_minimum_hint": [
+        778,
+        1299
+      ],
+      "scroll_viewport": [
+        1162,
+        792
+      ],
+      "vertical_scroll_max": 519,
+      "horizontal_scroll_max": 0,
+      "screenshot_top": "E:\\VFX-EDICION VIDEOS\\DAVINCI RESOLVE\\RECURSOS PREMIUN\\CineCaptions\\4_diseno\\propuesta_sonido\\auditoria_2026_10_21\\verificacion\\pagina_actual_1240x900_arriba.png",
+      "widgets": {
+        "timeline": {
+          "rect_in_viewport": [
+            18,
+            789,
+            1114,
+            216
+          ],
+          "fully_visible": false,
+          "intersects": true
+        },
+        "selected_event": {
+          "rect_in_viewport": [
+            22,
+            1051,
+            1106,
+            21
+          ],
+          "fully_visible": false,
+          "intersects": false
+        },
+        "phrase_entry": {
+          "rect_in_viewport": [
+            22,
+            1251,
+            1024,
+            38
+          ],
+          "fully_visible": false,
+          "intersects": false
+        },
+        "apply": {
+          "rect_in_viewport": [
+            861,
+            387,
+            140,
+            36
+          ],
+          "fully_visible": true,
+          "intersects": true
+        },
+        "redesign": {
+          "rect_in_viewport": [
+            1011,
+            387,
+            139,
+            36
+          ],
+          "fully_visible": true,
+          "intersects": true
+        },
+        "preview": {
+          "rect_in_viewport": [
+            108,
+            387,
+            108,
+            36
+          ],
+          "fully_visible": true,
+          "intersects": true
+        }
+      },
+      "screenshot_bottom": "E:\\VFX-EDICION VIDEOS\\DAVINCI RESOLVE\\RECURSOS PREMIUN\\CineCaptions\\4_diseno\\propuesta_sonido\\auditoria_2026_10_21\\verificacion\\pagina_actual_1240x900_abajo.png",
+      "screenshot_full_page": "E:\\VFX-EDICION VIDEOS\\DAVINCI RESOLVE\\RECURSOS PREMIUN\\CineCaptions\\4_diseno\\propuesta_sonido\\auditoria_2026_10_21\\verificacion\\pagina_actual_contenido_1240.png"
+    },
+    {
+      "requested": [
+        1000,
+        720
+      ],
+      "actual": [
+        1000,
+        720
+      ],
+      "page_size": [
+        910,
+        1314
+      ],
+      "page_minimum_hint": [
+        778,
+        1299
+      ],
+      "scroll_viewport": [
+        922,
+        612
+      ],
+      "vertical_scroll_max": 714,
+      "horizontal_scroll_max": 0,
+      "screenshot_top": "E:\\VFX-EDICION VIDEOS\\DAVINCI RESOLVE\\RECURSOS PREMIUN\\CineCaptions\\4_diseno\\propuesta_sonido\\auditoria_2026_10_21\\verificacion\\pagina_actual_1000x720_arriba.png",
+      "widgets": {
+        "timeline": {
+          "rect_in_viewport": [
+            18,
+            789,
+            874,
+            216
+          ],
+          "fully_visible": false,
+          "intersects": false
+        },
+        "selected_event": {
+          "rect_in_viewport": [
+            22,
+            1051,
+            866,
+            21
+          ],
+          "fully_visible": false,
+          "intersects": false
+        },
+        "phrase_entry": {
+          "rect_in_viewport": [
+            22,
+            1266,
+            784,
+            38
+          ],
+          "fully_visible": false,
+          "intersects": false
+        },
+        "apply": {
+          "rect_in_viewport": [
+            621,
+            387,
+            140,
+            36
+          ],
+          "fully_visible": true,
+          "intersects": true
+        },
+        "redesign": {
+          "rect_in_viewport": [
+            771,
+            387,
+            139,
+            36
+          ],
+          "fully_visible": true,
+          "intersects": true
+        },
+        "preview": {
+          "rect_in_viewport": [
+            108,
+            387,
+            108,
+            36
+          ],
+          "fully_visible": true,
+          "intersects": true
+        }
+      },
+      "screenshot_bottom": "E:\\VFX-EDICION VIDEOS\\DAVINCI RESOLVE\\RECURSOS PREMIUN\\CineCaptions\\4_diseno\\propuesta_sonido\\auditoria_2026_10_21\\verificacion\\pagina_actual_1000x720_abajo.png",
+      "screenshot_full_page": "E:\\VFX-EDICION VIDEOS\\DAVINCI RESOLVE\\RECURSOS PREMIUN\\CineCaptions\\4_diseno\\propuesta_sonido\\auditoria_2026_10_21\\verificacion\\pagina_actual_contenido_1000.png"
+    }
+  ],
+  "limits": [
+    "Offscreen Qt page and production scroll container; no complete application shell.",
+    "Uses existing cached transcription of the real local sample video.",
+    "Resolve is mocked; no live timeline or audible playback tested.",
+    "Only this sample and these two viewport sizes were checked."
+  ]
+}

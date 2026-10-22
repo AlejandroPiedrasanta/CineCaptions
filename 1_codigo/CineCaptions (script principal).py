@@ -11925,11 +11925,12 @@ class SubtitleApp(QWidget):
             res = getattr(self, '_director_res', None)
             if hilo is not None:
                 hilo.join(300)
-                if hilo.is_alive():                                     # v5.34: los sonidos ya están; la voz no llegó: la original se queda
-                    director_sonido.log('la voz no terminó a tiempo: la original se queda' + (' (los sonidos sí van)' if (res or {}).get('sfx') else ''), 'aviso')
-                    res = {k: v for k, v in (res or {}).items() if k not in ('evento_voz', 'voz')}
+                if hilo.is_alive():
+                    director_sonido.log('límite de espera: uso lo que ya terminó; el trabajo tardío no cambiará el diseño colocado', 'aviso')
+                res = director_sonido.cerrar_preparacion(res)
+            destino = director_sonido.destino_actual_resolve() if res else None
             self._efectos_plan = director_sonido.al_colocar(getattr(self, '_efectos_plan', None), res, self.video_var.get().strip().strip('"'),
-                                                            plan_pro=getattr(self, '_pro_plan', None))
+                                                            plan_pro=getattr(self, '_pro_plan', None), destino=destino)
         except Exception:
             registro.excepcion(origen='AI Sound Director')
     def _colocar_efectos(self):
@@ -11953,6 +11954,9 @@ class SubtitleApp(QWidget):
             except Exception:
                 pass
             ok, mensaje = efectos_visuales.aplicar(plan, al_estado=lambda t: self.msg_queue.put(('status', str(t))), offset_frames=self._offset_frames())
+            if plan.get('_ai_sound_sesion'):
+                import director_sonido
+                director_sonido.confirmar_colocacion(plan, ok, mensaje)
             if not ok:
                 registro.aviso(f'Efectos visuales: {mensaje}', 'efectos')
                 try:
@@ -12202,6 +12206,10 @@ class SubtitleApp(QWidget):
             if ok and getattr(self, '_efectos_atascado', False) and getattr(self, '_go_corriendo', False):          # v5.4.40: Resolve se colgó con los efectos: se rehace todo
                 self._efectos_atascado = False
                 if self._go_rearmar_en_resolve('efectos visuales'):
+                    plan_sonido = getattr(self, '_efectos_plan', None)
+                    if isinstance(plan_sonido, dict) and plan_sonido.get('_ai_sound_sesion'):
+                        import director_sonido
+                        director_sonido.revincular_colocacion(plan_sonido, director_sonido.destino_actual_resolve())
                     self.msg_queue.put(('status', tr('Vuelvo a colocar los subtítulos en Resolve…')))
                     empezo = time.time()
                     try:

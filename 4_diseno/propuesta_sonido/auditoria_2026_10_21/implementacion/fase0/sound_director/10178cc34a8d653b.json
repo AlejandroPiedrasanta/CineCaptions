@@ -1,0 +1,42 @@
+{
+ "version": 1,
+ "video": "v.mp4",
+ "huella": "10178cc34a8d653b",
+ "actualizado": "2026-10-21 21:01:41",
+ "tema": null,
+ "perfil": null,
+ "paleta": null,
+ "analisis": {},
+ "voice_backend": null,
+ "voice_quality_before": null,
+ "voice_quality_after": null,
+ "voz": null,
+ "ambience_analysis": null,
+ "ambience_events": [],
+ "music_decision_state": null,
+ "eventos": [],
+ "locks": {},
+ "overrides": {},
+ "metricas": {},
+ "sound_score": null,
+ "score_components": {},
+ "pendiente_resolve": true,
+ "en_resolve": null,
+ "ultimo_go": {
+  "con_director": true,
+  "fecha": "2026-10-21 21:01:41",
+  "voz": true,
+  "apagar_sfx": [],
+  "evento_voz": {
+   "tipo": "voz_ai",
+   "ini": 0.0,
+   "archivo": "voz.wav",
+   "dur": 30.0,
+   "asset": "AI VOICE"
+  },
+  "pro": false,
+  "destino": {},
+  "sesion": "7abdb58713ab4c208e170083908a4b28"
+ },
+ "error_resolve": ""
+}

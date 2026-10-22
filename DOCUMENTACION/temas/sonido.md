@@ -351,3 +351,19 @@ Epidemic FALSO de `probar_epidemic.py` sirviendo audio de verdad; fase 5 compara
 `.lua`, con y sin io; voz limpia de referencia con SAPI por COM `herramientas_dev/_voz_sapi.py` + fondos: ruido + hum, música sintética, ambientes de
 `sfx_library/Ambientes`, aire acondicionado; regresión «apagado = HEAD» con `git show`; de punta a punta GO → `efectos_visuales.aplicar` → Resolve
 falso). Deja VOICE_ORIGINAL_* / VOICE_AI_* para escuchar.
+
+### Revisión de la página Sonido — 21 de octubre de 2026
+
+Cambio limitado al contenido de Sonido y su lógica. La navegación, `isla_ui`, `qt_kit`, Inicio, los estilos globales y la versión quedan intactos.
+
+`PaginaDirector` conserva los componentes Qt existentes. La línea, el tramo A/B, Aplicar y la lista de eventos aparecen antes de los controles y del diagnóstico. El inspector se coloca al lado a partir de 1000 px de ancho útil y debajo en ventanas menores. Los seis controles usan los Combo existentes; sus preferencias siguen siendo globales y se indica que también afectan a próximos GO. El diagnóstico conserva sus ocho estados, plegado de inicio. Las acciones se llaman «Crear otra versión» y «Restaurar diseño IA».
+
+Los cambios de la página se guardan localmente y quedan pendientes: solo «Aplicar a Resolve» envía. La página bloquea los controles afectados durante un trabajo, conserva la frase si se rechaza o falla, mantiene los errores visibles y muestra «Medición pendiente» cuando el score quedó desactualizado. La lista permite elegir con las flechas y escuchar con Enter. La selección también mueve el tramo A/B.
+
+`director_sonido_sesion.resumen` respeta el video elegido; no lo sustituye por el último diseñado. Los pedidos con negación no pueden caer en su regla positiva; los controles por tramo no compatibles piden aclaración sin ejecutar. Una orden combinada de capas y sección recalcula ambas partes.
+
+El último GO guarda destino (proyecto, timeline e ID cuando existe) y sesión. Preparar el plan deja pendiente; `confirmar_colocacion` confirma solo tras éxito real y si la sesión sigue vigente. `Aplicar` compara el destino antes y después del envío. Los gemelos `colocar_efectos.py` y `CineCaptions_Efectos.lua` comprueban `destino_ai` antes de tocar bins o pistas; sin ese campo conservan el comportamiento previo. En Free, la comprobación autoritativa ocurre dentro del script. Un GO antiguo sin destino pide repetir GO para vincularlo.
+
+`cerrar_preparacion` congela el resultado compartido mediante un candado: después del límite de espera, el trabajador puede terminar su cálculo pero no publicar ni sobrescribir el diseño colocado. Si GO reconstruye automáticamente un timeline tras un fallo, `revincular_colocacion` renueva solo su sesión/destino antes de repetir, conservando el audio. No se revincula ante un cambio manual de destino.
+
+Pruebas aisladas: página/motor 48; fase 0, 32; sesión segura, 17; guardia Python/Lua con y sin io, 32; ciclo y resultados tardíos, 7. Todas pasan. Sin Resolve real ni preferencias del usuario. Capturas y mediciones en `4_diseno/propuesta_sonido/auditoria_2026_10_21/implementacion/`: a 1240×900 la línea empieza en y=298 del área útil (antes y=789), con inspector y acciones visibles.

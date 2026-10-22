@@ -12,6 +12,54 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-21 21:25  ·  v5.38  ·  (automático)
+    nuevos (4):
+      + 1_codigo/director_sonido_recursos_libres.py
+      + 1_codigo/director_sonido_vista.py
+      + 1_codigo/herramientas_dev/preparar_biblioteca_sonido_libre.py
+      + 4_diseno/propuesta_sonido/auditoria_2026_10_21/implementacion/LEEME_CAMBIO.md
+    modificados (30):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/director_sonido.py
+      ~ 1_codigo/director_sonido_sesion.py
+      ~ 1_codigo/director_sonido_ui.py
+      ~ 1_codigo/herramientas_dev/probar_ciclo_sonido.py
+      ~ 1_codigo/herramientas_dev/probar_destino_sonido.py
+      ~ 1_codigo/herramientas_dev/probar_director_sonido.py
+      ~ 1_codigo/herramientas_dev/probar_pagina_director.py
+      ~ 1_codigo/herramientas_dev/probar_sesion_sonido_segura.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      … y 18 más
+
+2026-10-21 21:06  ·  v5.37  ·  cambio explicado
+    Sonido: linea e inspector juntos con componentes actuales; edicion local, Aplicar explicito con destino validado y errores persistentes. Menu, navegacion y estilos globales intactos. Indice de diseno conservado: archivo protegido contra escritura.
+    nuevos (201):
+      + 1_codigo/herramientas_dev/probar_ciclo_sonido.py
+      + 1_codigo/herramientas_dev/probar_destino_sonido.py
+      + 1_codigo/herramientas_dev/probar_sesion_sonido_segura.py
+      + 4_diseno/propuesta_sonido/auditoria_2026_10_21/AUDITORIA.md
+      + 4_diseno/propuesta_sonido/auditoria_2026_10_21/auditoria-motor.md
+      + 4_diseno/propuesta_sonido/auditoria_2026_10_21/direccion-diseno.md
+      + 4_diseno/propuesta_sonido/auditoria_2026_10_21/implementacion/documentacion.log
+      + 4_diseno/propuesta_sonido/auditoria_2026_10_21/implementacion/fase0/aislamiento.json
+      + 4_diseno/propuesta_sonido/auditoria_2026_10_21/implementacion/fase0/informe.json
+      + 4_diseno/propuesta_sonido/auditoria_2026_10_21/implementacion/fase0/sound_director/10178cc34a8d653b.json
+      + 4_diseno/propuesta_sonido/auditoria_2026_10_21/implementacion/fase0/sound_director/general.json
+      + 4_diseno/propuesta_sonido/auditoria_2026_10_21/implementacion/home_aislado/DaVinciSubtitles/cache_fuentes.json
+      … y 189 más
+    modificados (9):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/director_sonido.py
+      ~ 1_codigo/director_sonido_sesion.py
+      ~ 1_codigo/director_sonido_ui.py
+      ~ 1_codigo/efectos_visuales.py
+      ~ 1_codigo/herramientas_dev/probar_director_sonido.py
+      ~ 1_codigo/herramientas_dev/probar_pagina_director.py
+      ~ 2_recursos/efectos/colocar_efectos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+
 2026-10-21 18:43  ·  v5.37  ·  (automático)
     modificados (20):
       ~ 1_codigo/version.py

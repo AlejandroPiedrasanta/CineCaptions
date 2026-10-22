@@ -1,0 +1,53 @@
+[
+  {
+    "size": [
+      1240,
+      900
+    ],
+    "page": [
+      1150,
+      1042
+    ],
+    "minimum": [
+      580,
+      1042
+    ],
+    "horizontal_scroll": 0,
+    "inspector_lateral": true,
+    "events": 5
+  },
+  {
+    "size": [
+      1000,
+      720
+    ],
+    "page": [
+      910,
+      1343
+    ],
+    "minimum": [
+      436,
+      1343
+    ],
+    "horizontal_scroll": 0,
+    "inspector_lateral": false,
+    "events": 5
+  },
+  {
+    "size": [
+      760,
+      720
+    ],
+    "page": [
+      670,
+      1404
+    ],
+    "minimum": [
+      412,
+      1404
+    ],
+    "horizontal_scroll": 0,
+    "inspector_lateral": false,
+    "events": 5
+  }
+]

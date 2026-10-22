@@ -1,0 +1,63 @@
+const {chromium} = require('C:/Users/CINEMA PRODUCTIONS/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const {pathToFileURL} = require('node:url');
+const fs = require('node:fs');
+const path = require('node:path');
+let browser;
+(async()=>{
+  const base=__dirname;
+  browser=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true});
+  const page=await browser.newPage({viewport:{width:1280,height:1000},colorScheme:'dark'});
+  const errors=[];
+  page.on('pageerror',e=>errors.push(e.message));
+  await page.goto(pathToFileURL(path.join(base,'propuesta-sonido-preview.html')).href);
+  const frame=page.frames().find(f=>f!==page.mainFrame());
+  if(!frame)throw new Error('No se encontró iframe de preview');
+  await frame.waitForSelector('#cc-sonido-propuesta [data-event-track] button');
+  const results={checks:[],viewports:[],errors};
+  async function check(name,fn){let passed=false;for(let n=0;n<20;n++){passed=await fn();if(passed)break;await page.waitForTimeout(50);}results.checks.push({name,passed});if(!passed)throw new Error(name+'; inspector='+await frame.locator('[data-name]').textContent()+'; JS='+JSON.stringify(errors));}
+  await check('Lista empieza oculta',async()=>!await frame.locator('[data-event-list]').isVisible());
+  await frame.locator('[data-event-track] button').nth(2).click();
+  await check('Clic en marcador selecciona sonido',async()=>(await frame.locator('[data-name]').textContent())==='Dale forma');
+  await frame.locator('[data-list-toggle]').click();
+  await check('Lista muestra cinco eventos',async()=>await frame.locator('[data-event-list] button').count()===5 && await frame.locator('[data-event-list]').isVisible());
+  await page.waitForTimeout(250);
+  await frame.locator('[data-event-list] button').nth(2).focus();
+  await frame.locator('[data-event-list] button').nth(2).press('Enter');
+  await check('Selección actualiza inspector',async()=>(await frame.locator('[data-name]').textContent())==='Dale forma');
+  await check('Selección conserva foco de teclado',async()=>await frame.evaluate(()=>document.activeElement?.dataset.eventId==='cut'));
+  await frame.locator('[data-mute]').click();
+  await check('Silenciar actualiza evento y pendientes',async()=>(await frame.locator('[data-event-status]').textContent()).includes('Silenciado') && await frame.locator('[data-apply]').isEnabled());
+  await frame.locator('[data-mute]').click();
+  await frame.locator('[data-lock]').click();
+  await check('Bloqueo deshabilita variación',async()=>await frame.locator('[data-vary]').isDisabled());
+  await frame.locator('[data-prompt="musica"]').click();
+  await check('Pedido cambia música',async()=>(await frame.locator('[data-control="musica"]').inputValue())==='Sin'&&(await frame.locator('.cc-music').textContent()).includes('Sin música'));
+  await frame.locator('[data-apply]').click();
+  await check('Aplicación es explícitamente simulada',async()=>await frame.locator('[data-apply]').isDisabled()&&(await frame.locator('[data-message]').textContent()).includes('simulada'));
+  await frame.locator('[data-restore]').click();
+  await check('Restaurar reinicia controles',async()=>(await frame.locator('[data-control]').evaluateAll(els=>els.every(el=>el.value==='auto'))));
+  await frame.locator('[data-apply]').click();
+  await frame.locator('[data-list-toggle]').click();
+  await frame.locator('[data-event-track] button').nth(1).click();
+  for(const width of [1440,1240,1024,736,390,320]){
+    await page.setViewportSize({width,height:1100});
+    await page.waitForTimeout(100);
+    const metrics=await frame.evaluate(()=>{
+      const r=document.getElementById('cc-sonido-propuesta'),rect=r.getBoundingClientRect();
+      const overflow=[...r.querySelectorAll('button,select,.cc-inspector,.cc-editor,.cc-controls')].filter(el=>el.getClientRects().length).filter(el=>{const b=el.getBoundingClientRect();return b.right>rect.right+1||b.left<rect.left-1;}).map(el=>el.outerHTML.slice(0,110));
+      return {width:rect.width,height:rect.height,overflow,bodyWidth:document.documentElement.scrollWidth,innerWidth:innerWidth,inspectorTop:r.querySelector('.cc-inspector').getBoundingClientRect().top-rect.top,timelineTop:r.querySelector('.cc-timeline').getBoundingClientRect().top-rect.top};
+    });
+    results.viewports.push({viewport:width,...metrics});
+    if(metrics.overflow.length)throw new Error('Overflow at '+width+': '+JSON.stringify(metrics.overflow));
+    await page.locator('iframe').evaluate((el,height)=>el.style.height=(height+40)+'px',metrics.height);
+    if([1240,1024,390].includes(width))await frame.locator('#cc-sonido-propuesta').screenshot({path:path.join(base,`propuesta_sonido_${width}.png`)});
+  }
+  await page.setViewportSize({width:1024,height:1100});
+  await page.emulateMedia({colorScheme:'light'});
+  await page.waitForTimeout(250);
+  await frame.locator('#cc-sonido-propuesta').screenshot({path:path.join(base,'propuesta_sonido_1024_claro.png')});
+  await check('Sin errores JavaScript',async()=>errors.length===0);
+  fs.writeFileSync(path.join(base,'resultado_propuesta.json'),JSON.stringify(results,null,2));
+  console.log(JSON.stringify(results,null,2));
+  await browser.close();
+})().catch(async e=>{console.error(e);if(browser)await browser.close();process.exitCode=1;});
