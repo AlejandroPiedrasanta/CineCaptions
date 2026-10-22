@@ -78,7 +78,8 @@ def _nuevo(eventos, car, ctx, tipo, t, ancla, d, motivo, imp, origen, ref=None, 
 
 
 def _sonido_de_caption(eventos, car, ctx, info, fps):
-    """El acento de un caption que se quedó justo bajo el umbral: el mismo momento y tipo que le daría disenar."""
+    """El sonido de un caption que se quedó justo bajo el umbral: el mismo momento que le daría disenar, pero ligero (pop, o el tic / trazo de un
+    tema sobrio): es una palabra de menos peso y un golpe en ella pisaría a los acentos de verdad."""
     bloques = ctx.get('bloques') or []
     cue = info.get('cue')
     if not isinstance(cue, int) or cue >= len(bloques) or not isinstance(bloques[cue], dict):
@@ -86,7 +87,8 @@ def _sonido_de_caption(eventos, car, ctx, info, fps):
     m = D3._momento_caption(bloques[cue], car, fps)
     if m is None:
         return None
-    a, tipo = float(m['ancla']), m['tipo'] if m['tipo'] in EV.NIVEL_REL_VOZ else 'pop'
+    a = float(m['ancla'])
+    tipo = 'pop' if m['tipo'] in ('golpe', 'whoosh') or m['tipo'] not in EV.NIVEL_REL_VOZ else m['tipo']   # lo rescatado ACOMPAÑA: nunca un golpe
     motivo = f"«{m['texto']}»: se veía sin sonido; la revisión lo acompaña ({info.get('rol', '').lower()}, score {info.get('caption_sound_score')})"
     imp = float(info.get('caption_sound_score') or 0.5)
     if tipo == 'golpe':

@@ -376,8 +376,8 @@ tenga un diseño sonoro», y «solo los botones útiles».
 **`director_sonido_revision.py` (solo datos, nunca toca lo visual):** `revisar(diseno, ctx, analisis, p, externos)` sobre una COPIA del diseño, en
 rondas hasta que una no cambia nada: (1) inventario de cada cosa que se ve (captions, motions de la PRO y de Efectos, cortes, sonidos de la PRO ya
 puestos) → `suena` / `silencio` (decidido, con motivo) / `rescatado` / `corregido`; (2) RESCATE de lo importante que quedó sin sonido y sin motivo de
-peso (quitado por densidad con importancia ≥ umbral, caption a poco del umbral y solo —sin sonido a < 1,2 s— con el mismo momento y acento que le daría
-`disenar`; en Máximo, cortes de escena que respiran a 0,6× su espaciado) si cabe en su ventana de 10 s; (3) COHERENCIA: choques (< `CHOQUE_S`; un
+peso (quitado por densidad con importancia ≥ umbral, caption a poco del umbral y solo —sin sonido a < 1,2 s— en el mismo momento que le daría `disenar` pero
+LIGERO: un pop, o el tic / trazo de un tema sobrio, nunca un golpe; en Máximo, cortes de escena que respiran a 0,6× su espaciado) si cabe en su ventana de 10 s; (3) COHERENCIA: choques (< `CHOQUE_S`; un
 riser o nota larga no chocan), ráfagas (> 3 sonidos cortos en 1,5 s) y densidad por ventana contando lo de fuera; siempre sale el que menos pesa. Lo
 bloqueado, lo retocado o silenciado por el usuario, el gancho y el cierre nunca se tocan. Si algo falla: el diseño de entrada (fallback).
 `PROFUNDIDAD`: rápido 1 ronda (rescate ≥ 0,75, sin margen, +0 por ventana) · profundo = Auto 2 rondas (≥ 0,6, margen 0,05, +1) · máximo 4 rondas

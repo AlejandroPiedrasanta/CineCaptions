@@ -62,12 +62,12 @@ comprobar('profundo no rescata lo de poca importancia (0,55 < 0,6)', decision(r,
 r, _ = REV.revisar(bajo, ctx(), ANALISIS, 'maximo')
 comprobar('máximo sí (0,55 ≥ 0,5)', decision(r, 'whoosh-04') == 'GENERATE')
 
-# 2. caption justo bajo el umbral y solo: profundo le da su acento (el del tema), con el momento de disenar
+# 2. caption justo bajo el umbral y solo: profundo le da un sonido ligero en el momento de disenar
 bloques = [{'start': 4.0, 'runs': [{'rol': 'main', 't': 4.0, 'zoom': 1.3, 'texto': 'DINERO'}]}]
 caps = [{'cue': 0, 't': 4.0, 'texto': 'DINERO', 'rol': 'DATA', 'caption_sound_score': 0.57, 'decision': 'LEAVE_SILENT', 'por_que': 'score 0.57 < 0.60'}]
 r, inf = REV.revisar(diseno([ev(1, 'tick', 12.0)], caps), ctx(bloques), ANALISIS, 'profundo')
 nuevo = [e for e in r['eventos'] if e.get('origen') == 'caption' and e.get('ref') == 0]
-comprobar('caption bajo el umbral → suena con el acento del tema', len(nuevo) == 1 and nuevo[0]['tipo'] == CAR['acento']
+comprobar('caption bajo el umbral → suena, ligero (pop, no el golpe del tema)', len(nuevo) == 1 and CAR['acento'] == 'golpe' and nuevo[0]['tipo'] == 'pop'
           and abs(nuevo[0]['ancla'] - 4.05) < 1e-6 and r['captions'][0]['decision'] == 'GENERATE', str(nuevo))
 comprobar('el nuevo evento sale con pista, nivel y clave', bool(nuevo and nuevo[0]['pista'] and nuevo[0]['clave'] and 'nivel_rel_voz_db' in nuevo[0]))
 r, _ = REV.revisar(diseno([ev(1, 'tick', 12.0)], caps), ctx(bloques), ANALISIS, 'rapido')
