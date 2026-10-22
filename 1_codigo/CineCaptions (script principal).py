@@ -11933,6 +11933,21 @@ class SubtitleApp(QWidget):
                                                             plan_pro=getattr(self, '_pro_plan', None), destino=destino)
         except Exception:
             registro.excepcion(origen='AI Sound Director')
+    def _director_sonido_revision_final(self):
+        """v5.39: la 2.ª revisión del AI Sound Director, con TODO ya en Resolve (captions, Efectos y los motions de la PRO que rehizo): mira lo que de
+        verdad quedó y, si cambia algo, lo pone en sus pistas en el acto. Solo si este GO fue con el director. Nunca lanza."""
+        try:
+            plan = getattr(self, '_efectos_plan', None)
+            if not (isinstance(plan, dict) and plan.get('_ai_sound_sesion') and plan.get('_ai_sound_video')):
+                return
+            import director_sonido_sesion
+            video = plan['_ai_sound_video']
+            estado = lambda t: self.msg_queue.put(('status', tr(str(t))))
+            if director_sonido_sesion.revision_final(video, plan['_ai_sound_sesion'], estado):
+                ok, msg = director_sonido_sesion.aplicar_al_momento(video, self._offset_frames() or 0, estado)
+                (registro.aviso if ok is False else registro.info)(f'AI Sound Director · revisión final: {msg}', 'sonido')
+        except Exception:
+            registro.excepcion(origen='AI Sound Director · revisión final')
     def _colocar_efectos(self):
         """Pone el plan de efectos en el timeline de Resolve (tras los captions). Devuelve un texto corto para el estado, o ''."""
         plan = getattr(self, '_efectos_plan', None)
@@ -12220,6 +12235,8 @@ class SubtitleApp(QWidget):
                     ok, err = resolve_bridge.ejecutar('subtitulos')
                     nota_fx = self._colocar_efectos() if ok else ''
                     nota_fx = ', '.join(x for x in (nota_fx, self._colocar_pro() if ok else '') if x)
+            if ok and not getattr(self, '_efectos_atascado', False):
+                self._director_sonido_revision_final()                   # v5.39: con captions, Efectos y PRO ya puestos, el director lo revisa todo otra vez
             if not ok and veredicto is None:
                 try:
                     if resolve_bridge.modo_actual() == 'manual':

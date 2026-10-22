@@ -367,3 +367,38 @@ El último GO guarda destino (proyecto, timeline e ID cuando existe) y sesión. 
 `cerrar_preparacion` congela el resultado compartido mediante un candado: después del límite de espera, el trabajador puede terminar su cálculo pero no publicar ni sobrescribir el diseño colocado. Si GO reconstruye automáticamente un timeline tras un fallo, `revincular_colocacion` renueva solo su sesión/destino antes de repetir, conservando el audio. No se revincula ante un cambio manual de destino.
 
 Pruebas aisladas: página/motor 48; fase 0, 32; sesión segura, 17; guardia Python/Lua con y sin io, 32; ciclo y resultados tardíos, 7. Todas pasan. Sin Resolve real ni preferencias del usuario. Capturas y mediciones en `4_diseno/propuesta_sonido/auditoria_2026_10_21/implementacion/`: a 1240×900 la línea empieza en y=298 del área útil (antes y=789), con inspector y acciones visibles.
+
+### v5.39 — Revisión en rondas, revisión final con todo colocado y la página con solo lo útil (22 de octubre de 2026)
+
+Pedido del usuario: «que la IA analice por completo al aplicar un tema y, después de los efectos con captions, vuelva a analizar para que todo
+tenga un diseño sonoro», y «solo los botones útiles».
+
+**`director_sonido_revision.py` (solo datos, nunca toca lo visual):** `revisar(diseno, ctx, analisis, p, externos)` sobre una COPIA del diseño, en
+rondas hasta que una no cambia nada: (1) inventario de cada cosa que se ve (captions, motions de la PRO y de Efectos, cortes, sonidos de la PRO ya
+puestos) → `suena` / `silencio` (decidido, con motivo) / `rescatado` / `corregido`; (2) RESCATE de lo importante que quedó sin sonido y sin motivo de
+peso (quitado por densidad con importancia ≥ umbral, caption a poco del umbral y solo —sin sonido a < 1,2 s— con el mismo momento y acento que le daría
+`disenar`; en Máximo, cortes de escena que respiran a 0,6× su espaciado) si cabe en su ventana de 10 s; (3) COHERENCIA: choques (< `CHOQUE_S`; un
+riser o nota larga no chocan), ráfagas (> 3 sonidos cortos en 1,5 s) y densidad por ventana contando lo de fuera; siempre sale el que menos pesa. Lo
+bloqueado, lo retocado o silenciado por el usuario, el gancho y el cierre nunca se tocan. Si algo falla: el diseño de entrada (fallback).
+`PROFUNDIDAD`: rápido 1 ronda (rescate ≥ 0,75, sin margen, +0 por ventana) · profundo = Auto 2 rondas (≥ 0,6, margen 0,05, +1) · máximo 4 rondas
+(≥ 0,5, margen 0,12, +2, cortes). Informe en `estado['revision']` (`rondas`, `rescatados`, `corregidos`, `cuentas`, `notas`, `marcas`).
+
+**Cuándo corre:** `director_sonido.preparar_sfx` revisa cada diseño nuevo (GO al aplicar el tema y cada rediseño de la página; con `externos` = los
+motions de la PRO rehechos, `_externos(estado)`). **Revisión final:** `SubtitleApp._director_sonido_revision_final`, en el hilo de GO tras
+`_colocar_efectos` + `_colocar_pro` (captions, Efectos y PRO ya en Resolve), llama a `director_sonido_sesion.revision_final(video, sesion)`: repite la
+revisión con los sonidos de la PRO como fijos; si cambia lo que suena, `_guardar_rehecho` (los WAV nuevos, mezcla y Sound Score) y
+`aplicar_al_momento` lo pone en las pistas AI del mismo destino. Solo para la sesión de ese GO; sin cambios, solo guarda el informe.
+
+**Razonamiento:** control `razonamiento` en `ai_sound_controles` (Auto = profundo; «Restaurar diseño IA» lo conserva). En la página, un `Segmentado`
+Rápido / Profundo / Máximo en la cabecera (rehace con `_rehacer`). «Exígele más» (`interpretar`): «piensa más», «revisa todo», «a fondo», «razona»,
+«que todo tenga sonido», «máximo» → máximo; «más rápido» → rápido.
+
+**La página, solo lo útil:** cabecera (Razonamiento, Activado, Sound Score) · Línea de sonido con «Otra versión» y «Aplicar a Resolve», ▶ Original /
+▶ AI Sound / ■, la frase de la revisión y el carril nuevo **REVISIÓN** (verde suena, gris silencio a propósito, ámbar rescatado, rosa corregido) ·
+inspector con ▶ Oír / Otro sonido / Silenciar / Bloquear · «Exígele más…» · «Más ajustes y diagnóstico» pliega los seis controles, Restaurar y las
+ocho notas. Ocultos (siguen vivos para el motor y las pruebas): destino (va en la ayuda de Aplicar), tramo A/B (ayuda), la lista de eventos (la línea
+se maneja con ← → y Enter/espacio = oír), material, importancia y Menos…/Más…. `_cuerpo` y la zona con alto `Maximum`: el sobrante va abajo.
+
+**Probar:** `python 1_codigo/herramientas_dev/probar_revision_sonido.py` (24 casos sin video: rescates por profundidad, silencios del usuario,
+choques con lo fijo, ráfagas, la PRO como externa, cortes en Máximo, estabilidad, nunca lanza, «Exígele más»). Siguen pasando sesión segura (17),
+ciclo (7) y destino Python/Lua (32).

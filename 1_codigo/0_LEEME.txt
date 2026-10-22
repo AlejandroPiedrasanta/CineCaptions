@@ -12,8 +12,8 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
 ------------------------------------------------------------------------------
     .cf\   (1 archivos)
         icono.ico
-    herramientas_dev\   (40 archivos)
-    remotion\   (16059 archivos)
+    herramientas_dev\   (41 archivos)
+    remotion\   (31 archivos)
     actualizaciones.py
         actualizaciones automáticas: lee un version.json publicado, descarga el instalador, comprueba su huella SHA-256 y lo lanza.
     ajustes_ui.py
@@ -83,6 +83,8 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
     director_sonido_nr.py
         «AI Sound Director»: reducción de ruido de la voz (numpy, sin dependencias nuevas), natural antes que cero ruido.
     director_sonido_recursos_libres.py
+    director_sonido_revision.py
+        la REVISIÓN del AI Sound Director: que todo lo que se ve tenga su decisión sonora.
     director_sonido_sesion.py
         «AI Sound Director», FASE 6: lo que la página necesita (leer el diseño de un video, controles, retocar, oír, aplicar).
     director_sonido_sfx.py

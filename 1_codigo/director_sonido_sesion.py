@@ -28,7 +28,7 @@ import director_sonido as D
 import director_sonido_estado as E
 
 SR = 48000
-CONTROLES = ('estilo', 'intensidad', 'densidad', 'voz', 'musica', 'ambiente')
+CONTROLES = ('estilo', 'intensidad', 'densidad', 'voz', 'musica', 'ambiente', 'razonamiento')
 NIVELES = ('auto', 'poco', 'medio', 'mucho')                             # (música y ambiente: también 'nada')
 ESTILOS = ('auto', 'limpio', 'cinematico', 'energico', 'minimo')
 DISENO = {'golpe': 'Golpe diseñado', 'whoosh': 'Whoosh', 'giro': 'Giro con slap', 'riser': 'Riser', 'trazo': 'Trazo de rotulador',
@@ -214,12 +214,16 @@ def resumen(video):
         for m in (estado.get('music_decision') or {}).get('tramos') or []:
             musica_tramos.append((float(m[0]), float(m[1]), 'IA'))
     ultimo = estado.get('ultimo_go') or {}
+    import director_sonido_revision as REV
+    rev = estado.get('revision') or {}
     return dict(base, hay=True, tema=estado.get('tema') or a.get('tema'), sonic_style=sonic, estilo_usuario=estilo_usuario,
                 sound_score=estado.get('sound_score'), sound_score_viejo=bool(estado.get('sound_score_viejo')),
                 score_partes=deepcopy(estado.get('score_components') or {}), notas=notas, eventos=eventos, duracion=round(dur, 2),
                 carriles={'voz': _palabras_a_tramos(ctx.get('palabras')), 'cortes': [round(float(t), 2) for t in ctx.get('cortes') or []],
                           'captions': [(c.get('t'), c.get('decision'), c.get('texto')) for c in captions],
-                          'musica': musica_tramos, 'ambiente': [(a_, b_, CONTEXTO.get(c_, str(c_ or '').title()), d_) for a_, b_, c_, d_ in _escenas_juntas(amb)]},
+                          'musica': musica_tramos, 'ambiente': [(a_, b_, CONTEXTO.get(c_, str(c_ or '').title()), d_) for a_, b_, c_, d_ in _escenas_juntas(amb)],
+                          'revision': [tuple(m) for m in rev.get('marcas') or []]},
+                revision_frase=REV.frase(rev), revision_notas=list(rev.get('notas') or [])[:12],
                 pro_eventos=[(e.get('t'), e.get('dur'), e.get('tipo'), e.get('decision')) for e in pro],
                 puede_aplicar=bool(ultimo.get('con_director')) and _destino_valido(ultimo.get('destino')),
                 destino=deepcopy(ultimo.get('destino') or {}), ultimo_go=ultimo.get('fecha'), actualizado=estado.get('actualizado'),
@@ -280,8 +284,21 @@ def _rehacer(video, al_estado=None, capas=False):
         al_estado('AI Sound Director: rediseñando…')
     nivel = (estado.get('sfx_summary') or {}).get('nivel_voz_db')
     previas = estado.get('mezcla_ajustes') or None                    # (las bajadas del QC se quedan, como un fader)
-    sfx = D.preparar_sfx(ctx, estado['analisis'], nivel, mezcla=previas)
+    sfx = D.preparar_sfx(ctx, estado['analisis'], nivel, mezcla=previas, externos=_externos(estado))
     c = D.preparar_capas(ctx, estado['analisis'], float(nivel) + float((previas or {}).get('bus') or 0.0) if nivel is not None else None) if capas else None
+    _guardar_rehecho(video, ctx, sfx, c, previas, al_estado)
+    return resumen(video)
+
+
+def _externos(estado):
+    """Lo que ya suena fuera del director (los motions de la PRO que rehizo al colocarlos), para que la revisión lo cuente; None sin PRO."""
+    if estado.get('pro_sound_events') is None:
+        return None
+    return [{'ancla': e['ancla'], 'tipo': e.get('tipo')} for e in estado['pro_sound_events'] if e.get('decision') == 'GENERATE' and e.get('ancla') is not None]
+
+
+def _guardar_rehecho(video, ctx, sfx, c, previas, al_estado=None):
+    """Guarda un diseño rehecho, con la mezcla y el Sound Score al día (en un video largo, en el próximo GO), y lo deja pendiente para Resolve."""
     estado = E.cargar(video)
     D._guardar_sfx(estado, sfx)
     if c is not None:
@@ -304,7 +321,36 @@ def _rehacer(video, al_estado=None, capas=False):
         estado['sound_score_viejo'] = True
     estado['pendiente_resolve'] = True                                # (lo cambiado aún no está en el timeline: aplicar_al_momento / Aplicar)
     E.guardar(video, estado)
-    return resumen(video)
+
+
+def revision_final(video, sesion=None, al_estado=None):
+    """GO, con captions, Efectos y PRO ya en Resolve: la REVISIÓN otra vez sobre lo que de verdad quedó, con los sonidos de la PRO rehechos como
+    `externos` (fijos: van pegados a su animación). Si cambia lo que suena, lo rehace (solo los WAV nuevos), mezcla y lo deja pendiente para
+    aplicar_al_momento. Solo para la sesión de ese GO. True = hubo cambios. Nunca lanza."""
+    try:
+        estado = E.cargar(video)
+        ultimo = estado.get('ultimo_go') or {}
+        if not ultimo.get('con_director') or (sesion and ultimo.get('sesion') != sesion):
+            return False
+        ctx = D.cargar_contexto(video)
+        if not ctx or not estado.get('analisis') or estado.get('sound_events') is None:
+            return False
+        if al_estado:
+            al_estado('AI Sound Director: revisando el sonido con todo ya colocado…')
+        externos = _externos(estado) or []
+        previas = estado.get('mezcla_ajustes') or None
+        sfx = D.preparar_sfx(ctx, estado['analisis'], (estado.get('sfx_summary') or {}).get('nivel_voz_db'), mezcla=previas, externos=externos)
+        antes = {e.get('clave'): e.get('decision') for e in estado.get('sound_events') or []}
+        if antes == {e.get('clave'): e.get('decision') for e in sfx['diseno']['eventos']}:
+            estado = E.cargar(video)
+            estado['revision'] = sfx.get('revision') or estado.get('revision')
+            E.guardar(video, estado)
+            return False
+        _guardar_rehecho(video, ctx, sfx, None, previas, al_estado)
+        return True
+    except Exception:
+        D.fallback('revisión final')
+        return False
 
 
 def _evento(estado, clave):
@@ -415,7 +461,7 @@ def redisenar(video, desde=None, hasta=None, al_estado=None, capas=False):
 def deshacer_todo(video, al_estado=None):
     """Todo como lo decidió la IA: sin ajustes, ronda 0 y controles en AUTO."""
     import ajustes_ui
-    ajustes_ui.guardar_prefs({D.PREF_CONTROLES: {}})
+    ajustes_ui.guardar_prefs({D.PREF_CONTROLES: {k: v for k, v in D.controles().items() if k == 'razonamiento'}})   # (lo que le exiges se queda)
     estado = E.cargar(video)
     estado['ajustes'], estado['ronda'] = {}, 0
     E.guardar(video, estado)
@@ -630,6 +676,9 @@ _REGLAS = [   # (patrón, acción, lo que se entendió) — en orden: lo más co
     (r'\b(mas ambiente|ambiente inmersivo|mas inmersivo)\b', ('control', 'ambiente', 'mucho'), 'ambiente más inmersivo'),
     (r'\b(voz (mas )?clara|que se (oiga|entienda) (la|mejor la) voz|se entienda|voz primero|proteg\w* la voz|clear voice)\b', ('control', 'voz', 'mucho'),
      'la voz por encima de todo'),
+    (r'\b(piensa mas|exig\w*|razona\w*|a fondo|analiza\w* (todo|otra vez|de nuevo|mejor)|revisa\w* (todo|otra vez|de nuevo|mejor)|todo con sonido|'
+     r'que todo (suene|tenga sonido)|mas completo|diseno completo|maximo)\b', ('control', 'razonamiento', 'maximo'), 'pensar al máximo y revisarlo todo'),
+    (r'\b(mas rapido|rapido|sin pensar tanto)\b', ('control', 'razonamiento', 'rapido'), 'revisión rápida'),
     (r'\b(menos (sonidos|efectos|golpes|sfx)|mas silencio|fewer|less sounds?)\b', ('control', 'densidad', 'poco'), 'menos sonidos'),
     (r'\b(mas (sonidos|efectos|sfx)|more sounds?)\b', ('control', 'densidad', 'mucho'), 'más sonidos'),
     (r'\b(mas (fuerte|potente|impacto|pegada)|louder|more impact)\b', ('control', 'intensidad', 'mucho'), 'más intensidad'),

@@ -4,11 +4,12 @@
 Al pulsar SONIDO se abre esta página directamente (la de antes —Simple / Emojis / Edición PRO— ya no se ve; su código sigue como motor interno).
 Nada técnico a la vista (ni EQ, ni compresores, ni dB): lo que la IA hizo, por qué, y pocas maneras de pedirle otra cosa.
 
-    cabecera     AI Sound Director, video visible, interruptor y Sound Score secundario
-    trabajo      A/B del tramo elegido, línea y lista de eventos; inspector al lado o debajo según el ancho
+    cabecera     AI Sound Director, video visible, Razonamiento (Rápido / Profundo / Máximo), interruptor y Sound Score secundario
+    trabajo      la línea (con el carril REVISIÓN: cada cosa que se ve y qué decidió la IA), A/B, Otra versión y Aplicar; el inspector con
+                 Oír / Otro sonido / Silenciar / Bloquear, al lado o debajo según el ancho (la línea se maneja con ← → y Enter)
     cambios      Se guardan en el diseño; solo «Aplicar a Resolve» modifica el timeline
-    dirección    Una frase, seis controles compactos y creación/restauración de versiones
-    diagnóstico Voz, ruido, música, ambiente, motions, mezcla, master y material, plegados de inicio
+    exígele más  Una frase («piensa más y revisa todo», «menos sonidos»…)
+    plegado      «Más ajustes y diagnóstico»: los seis controles, Restaurar y las ocho notas (a la vista solo lo útil)
 
 Todo lo que cuesta (leer el estado, rediseñar, mezclas A/B, Resolve) va por correr_en_hilo; sin globos ni avisos flotantes: una línea de estado.
 El motor: director_sonido_sesion.
@@ -18,7 +19,7 @@ from PySide6.QtGui import QFontMetricsF, QPainter, QPainterPath, QPen
 from PySide6.QtWidgets import QGridLayout, QHBoxLayout, QListWidget, QListWidgetItem, QSizePolicy, QVBoxLayout, QWidget
 
 import qt_kit as ui
-from qt_kit import Boton, Combo, Entrada, Etiqueta, IconoEstado, Interruptor, Menu, StringVar, Tarjeta, caja_h
+from qt_kit import Boton, Combo, Entrada, Etiqueta, IconoEstado, Interruptor, Menu, Segmentado, StringVar, Tarjeta, caja_h
 from qt_kit import QColor
 from i18n import tr
 
@@ -32,9 +33,11 @@ OPCIONES = {   # control → [(valor, etiqueta)]
     'voz': [('auto', 'Auto'), ('poco', 'Equilibrio'), ('medio', 'Alta'), ('mucho', 'Máxima')],
     'musica': [('auto', 'Auto'), ('nada', 'Sin'), ('poco', 'Suave'), ('medio', 'Media'), ('mucho', 'Enérgica')],
     'ambiente': [('auto', 'Auto'), ('nada', 'Sin'), ('poco', 'Mínimo'), ('medio', 'Sutil'), ('mucho', 'Inmersivo')],
+    'razonamiento': [('rapido', 'Rápido'), ('auto', 'Profundo'), ('maximo', 'Máximo')],      # (en la cabecera: cuánto revisa la IA)
 }
 TITULO_CONTROL = {'estilo': 'Estilo', 'intensidad': 'Intensidad', 'densidad': 'Densidad de sonidos', 'voz': 'Prioridad de la voz', 'musica': 'Música',
-                  'ambiente': 'Ambiente'}
+                  'ambiente': 'Ambiente', 'razonamiento': 'Razonamiento'}
+COLOR_REVISION = {'suena': ui.VERDE, 'rescatado': ui.AMBAR, 'corregido': '#FF8FB1', 'silencio': '#55617A'}
 
 
 def _tiempo(t):
@@ -122,10 +125,12 @@ class FilaEstado(QWidget):
 
 class LineaSonido(QWidget):
     """La línea de tiempo simple: VIDEO · VOZ · MÚSICA · AMBIENTE · SONIDOS IA · MOTIONS PRO (los sonidos de los motions de la PRO, rehechos por el
-    director al colocarlos: se ven, no se eligen). Clic = elegir el evento más cercano (y el instante del A/B)."""
+    director al colocarlos: se ven, no se eligen) · REVISIÓN (cada cosa que se ve: con sonido, en silencio a propósito, rescatada o corregida).
+    Clic = elegir el evento más cercano (y el instante del A/B); ← → = el anterior / siguiente; Enter o espacio = oírlo."""
     elegido = Signal(object)                 # el evento (dict) o None
+    oir = Signal()
     IZQ, DER, ARRIBA, CARRIL, HUECO = 104, 14, 22, 24, 7
-    CARRILES = ('VIDEO', 'VOZ', 'MÚSICA', 'AMBIENTE', 'SONIDOS IA', 'MOTIONS PRO')
+    CARRILES = ('VIDEO', 'VOZ', 'MÚSICA', 'AMBIENTE', 'SONIDOS IA', 'MOTIONS PRO', 'REVISIÓN')
 
     def __init__(self, padre=None):
         super().__init__(padre)
@@ -135,6 +140,7 @@ class LineaSonido(QWidget):
         self._cursor = 0.0
         self.setMouseTracking(True)
         self.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
         self.setMinimumHeight(self.ARRIBA + len(self.CARRILES) * (self.CARRIL + self.HUECO) + 8)
 
     def poner(self, res, seleccion=None):
@@ -198,6 +204,23 @@ class LineaSonido(QWidget):
         self._sel = (ev or {}).get('clave')
         self.update()
         self.elegido.emit(ev)
+
+    def keyPressEvent(self, e):
+        visibles = sorted((x for x in self._d.get('eventos') or [] if x.get('suena') or x.get('silenciado')), key=lambda x: float(x.get('ancla') or 0))
+        k = e.key()
+        if visibles and k in (Qt.Key.Key_Left, Qt.Key.Key_Right):
+            claves = [x.get('clave') for x in visibles]
+            paso = 1 if k == Qt.Key.Key_Right else -1
+            i = claves.index(self._sel) + paso if self._sel in claves else (0 if paso > 0 else len(claves) - 1)
+            ev = visibles[max(0, min(len(visibles) - 1, i))]
+            self._sel, self._cursor = ev.get('clave'), max(0.0, float(ev.get('ancla') or 0.0))
+            self.update()
+            self.elegido.emit(ev)
+            return
+        if k in (Qt.Key.Key_Return, Qt.Key.Key_Enter, Qt.Key.Key_Space) and self._sel:
+            self.oir.emit()
+            return
+        super().keyPressEvent(e)
 
     def paintEvent(self, _e):
         p = QPainter(self)
@@ -298,9 +321,19 @@ class LineaSonido(QWidget):
         if not pro:
             p.setPen(QColor('#4A5A78'))
             p.drawText(QRectF(self.IZQ + 10, y5, 400, self.CARRIL), int(Qt.AlignmentFlag.AlignVCenter), tr('sin motions de la PRO en este GO'))
+        y6 = self._y(6)                                                  # REVISIÓN: cada cosa que se ve y qué decidió la IA
+        marcas = car.get('revision') or []
+        for t_r, est_r, _q in marcas:
+            r = 2.2 if est_r == 'silencio' else 3.4
+            p.setPen(Qt.PenStyle.NoPen)
+            p.setBrush(QColor(COLOR_REVISION.get(est_r, '#55617A')))
+            p.drawEllipse(QRectF(self._x(t_r) - r, y6 + self.CARRIL / 2 - r, 2 * r, 2 * r))
+        if not marcas:
+            p.setPen(QColor('#4A5A78'))
+            p.drawText(QRectF(self.IZQ + 10, y6, 400, self.CARRIL), int(Qt.AlignmentFlag.AlignVCenter), tr('la revisión aparece tras el próximo GO'))
         xc = self._x(self._cursor)                                       # el instante del A/B
         p.setPen(QPen(QColor(255, 255, 255, 150), 1))
-        p.drawLine(int(xc), int(self.ARRIBA - 4), int(xc), int(self._y(5) + self.CARRIL))
+        p.drawLine(int(xc), int(self.ARRIBA - 4), int(xc), int(self._y(len(self.CARRILES) - 1) + self.CARRIL))
         p.end()
 
 
@@ -329,6 +362,13 @@ class PaginaDirector(QWidget):
         fila, cf = caja_h(espacio=14)
         cf.addWidget(Etiqueta(tr('AI Sound Director'), 20, peso='negrita', color='#FFFFFF'))
         cf.addStretch(1)
+        cf.addWidget(Etiqueta(tr('Razonamiento'), 12, color=TEXT_MUTED))
+        self._var_razon = StringVar(tr('Profundo'))
+        self._seg_razon = Segmentado([tr(t) for _v, t in OPCIONES['razonamiento']], self._var_razon,
+                                     lambda etiqueta: self._cambio_control('razonamiento', etiqueta), alto=32, tam=12)
+        self._seg_razon.setToolTip(tr('Cuánto piensa la IA: Máximo revisa más rondas y deja menos cosas sin sonido.'))
+        self._seg_razon.setAccessibleName(tr('Razonamiento'))
+        cf.addWidget(self._seg_razon)
         self._var_on = ui.BooleanVar(False)
         self._sw = Interruptor(tr('Activado'), self._var_on, self._cambio_on, tam=13, color='#E0EBFB')
         cf.addWidget(self._sw)
@@ -358,17 +398,22 @@ class PaginaDirector(QWidget):
         capa.addWidget(self._vacio)
         # ---- el resto (solo con diseño)
         self._cuerpo = QWidget()
+        self._cuerpo.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Maximum)   # (el sobrante, abajo: nunca entre tarjetas)
         cc = QVBoxLayout(self._cuerpo)
         cc.setContentsMargins(0, 0, 0, 0)
         cc.setSpacing(12)
         # ---- el trabajo principal aparece antes de los controles y del diagnóstico
         zona = QWidget()
+        zona.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Maximum)     # (con menos a la vista, el sobrante va abajo, no entre filas)
         self._zona_layout = QGridLayout(zona)
         self._zona_layout.setContentsMargins(0, 0, 0, 0)
         self._zona_layout.setSpacing(12)
         self._tarjeta_linea = lt = Tarjeta(espacio=8, margenes=(18, 14, 18, 14))
         fila, cf = caja_h(espacio=10)
         cf.addWidget(Etiqueta(tr('Línea de sonido'), 15, peso='medio', color='#FFFFFF'), 1)
+        self._b_redisenar = Boton(tr('Otra versión'), self._redisenar, tipo='fantasma', alto=36, tam=13)
+        self._b_redisenar.setToolTip(tr('Crea otras variaciones y conserva los sonidos bloqueados.'))
+        cf.addWidget(self._b_redisenar)
         self._b_aplicar = Boton(tr('Aplicar a Resolve'), self._aplicar, alto=36, tam=13)
         self._b_aplicar.setToolTip(tr('Envía a Resolve los cambios pendientes de este diseño.'))
         cf.addWidget(self._b_aplicar)
@@ -381,6 +426,7 @@ class PaginaDirector(QWidget):
         lt.capa.addWidget(self._fila_resolve)
         self._lbl_destino = ui.Elidida('', 11, color=TEXT_MUTED)
         lt.capa.addWidget(self._lbl_destino)
+        self._lbl_destino.hide()
         acc, ca = caja_h(espacio=8)
         self._b_orig = Boton(tr('▶  Original'), lambda: self._oir('original'), tipo='fantasma', alto=32, tam=12)
         self._b_ai = Boton(tr('▶  AI Sound'), lambda: self._oir('ai'), alto=32, tam=12)
@@ -388,13 +434,17 @@ class PaginaDirector(QWidget):
         self._b_parar.setAccessibleName(tr('Detener previa'))
         for b in (self._b_orig, self._b_ai, self._b_parar):
             ca.addWidget(b)
-        ca.addStretch(1)
+        ca.addSpacing(8)
+        self._lbl_revision = ui.Elidida('', 11, color=TEXT_MUTED)
+        ca.addWidget(self._lbl_revision, 1)
         lt.capa.addWidget(acc)
         self._lbl_tramo = Etiqueta('', 11, color=TEXT_MUTED)
         lt.capa.addWidget(self._lbl_tramo)
+        self._lbl_tramo.hide()
         self._linea = LineaSonido()
         self._linea.elegido.connect(self._elegir)
-        self._linea.setAccessibleName(tr('Línea de sonido. Usa la lista de eventos para seleccionar con el teclado.'))
+        self._linea.oir.connect(self._oir_evento)
+        self._linea.setAccessibleName(tr('Línea de sonido. Flechas para elegir un sonido y Enter para oírlo.'))
         lt.capa.addWidget(self._linea)
         self._lbl_eventos = Etiqueta('', 12, peso='medio', color='#B4C0D6')
         lt.capa.addWidget(self._lbl_eventos)
@@ -408,6 +458,8 @@ class PaginaDirector(QWidget):
         self._lista_eventos.currentItemChanged.connect(self._evento_de_lista)
         self._lista_eventos.itemActivated.connect(lambda _item: self._oir_evento())
         lt.capa.addWidget(self._lista_eventos)
+        self._lbl_eventos.hide()                                     # (la línea ya se maneja con el teclado: a la vista solo lo útil)
+        self._lista_eventos.hide()
         self._tarjeta_inspector = ins = Tarjeta(espacio=8, margenes=(18, 16, 18, 16))
         ins.capa.addWidget(Etiqueta(tr('Inspector de sonido'), 13, peso='medio', color=TEXT_MUTED))
         self._lbl_ev = Etiqueta('', 16, peso='medio', color='#FFFFFF', envolver=True)
@@ -419,16 +471,20 @@ class PaginaDirector(QWidget):
             w.setMinimumWidth(0)
             w.setSizePolicy(QSizePolicy.Policy.Ignored, QSizePolicy.Policy.Preferred)
             ins.capa.addWidget(w)
+        self._lbl_material.hide()
+        self._lbl_imp.hide()
         cb = QGridLayout()
         cb.setSpacing(8)
         self._b_oir_ev = Boton(tr('▶  Oír'), self._oir_evento, tipo='fantasma', alto=32, tam=12)
         self._b_menos = Boton(tr('Menos…'), lambda: self._menu('menos'), alto=32, tam=12)
         self._b_mas = Boton(tr('Más…'), lambda: self._menu('mas'), alto=32, tam=12)
-        self._b_regen = Boton(tr('Regenerar'), lambda: self._retocar('regenerar'), alto=32, tam=12)
+        self._b_regen = Boton(tr('Otro sonido'), lambda: self._retocar('regenerar'), alto=32, tam=12)
         self._b_silencio = Boton(tr('Silenciar'), lambda: self._retocar('silenciar'), tipo='fantasma', alto=32, tam=12)
         self._b_bloq = Boton(tr('Bloquear'), lambda: self._retocar('bloquear'), tipo='fantasma', alto=32, tam=12)
-        for i, b in enumerate((self._b_menos, self._b_mas, self._b_regen, self._b_oir_ev, self._b_silencio, self._b_bloq)):
+        for i, b in enumerate((self._b_oir_ev, self._b_regen, self._b_silencio, self._b_bloq, self._b_menos, self._b_mas)):
             cb.addWidget(b, i // 2, i % 2)
+        self._b_menos.hide()                                         # (Menos… / Más… quedan para «Exígele más»: a la vista, lo útil)
+        self._b_mas.hide()
         ins.capa.addLayout(cb)
         ins.capa.addStretch(1)
         self._botones_ev = (self._b_oir_ev, self._b_menos, self._b_mas, self._b_regen, self._b_silencio, self._b_bloq)
@@ -439,7 +495,7 @@ class PaginaDirector(QWidget):
         dile = Tarjeta(espacio=8, margenes=(18, 12, 18, 12))
         fd, cdl = caja_h(espacio=10)
         self._var_frase = StringVar('')
-        self._entrada = Entrada(self._var_frase, placeholder=tr('Dile a AI Sound Director qué quieres cambiar…  («menos sonidos», «la voz más clara», «rediseña el final»)'),
+        self._entrada = Entrada(self._var_frase, placeholder=tr('Exígele más…  («piensa más y revisa todo», «menos sonidos», «la voz más clara», «rediseña el final»)'),
                                 alto=38, tam=13)
         self._entrada.returnPressed.connect(self._frase)
         cdl.addWidget(self._entrada, 1)
@@ -454,8 +510,8 @@ class PaginaDirector(QWidget):
         self._controles_layout = QGridLayout()
         self._controles_layout.setHorizontalSpacing(16)
         self._controles_layout.setVerticalSpacing(10)
-        self._vars, self._controles, self._grupos_control = {}, {}, []
-        for k in OPCIONES:
+        self._vars, self._controles, self._grupos_control = {'razonamiento': self._var_razon}, {'razonamiento': self._seg_razon}, []
+        for k in (k for k in OPCIONES if k != 'razonamiento'):
             grupo = QWidget()
             g = QVBoxLayout(grupo)
             g.setContentsMargins(0, 0, 0, 0)
@@ -469,18 +525,16 @@ class PaginaDirector(QWidget):
             self._grupos_control.append(grupo)
         ctl.capa.addLayout(self._controles_layout)
         acciones, ca = caja_h(espacio=8)
-        self._b_redisenar = Boton(tr('Crear otra versión'), self._redisenar, alto=34, tam=12)
-        self._b_redisenar.setToolTip(tr('Crea otras variaciones y conserva los sonidos bloqueados.'))
         self._b_deshacer = Boton(tr('Restaurar diseño IA'), self._deshacer, tipo='fantasma', alto=34, tam=12)
         self._b_deshacer.setToolTip(tr('Quita los retoques y devuelve los controles a Auto, también para próximos GO.'))
-        ca.addWidget(self._b_redisenar)
         ca.addWidget(self._b_deshacer)
         ca.addStretch(1)
         ctl.capa.addWidget(acciones)
-        cc.addWidget(ctl)
-        # El diagnóstico conserva las ocho notas originales, sin desplazar el trabajo.
+        self._tarjeta_ajustes = ctl
+        ctl.hide()
+        # Plegado: los controles y las ocho notas del diagnóstico, sin desplazar el trabajo.
         est = Tarjeta(espacio=10, margenes=(18, 10, 18, 10))
-        self._b_diagnostico = Boton(tr('Ver diagnóstico de la IA'), self._alternar_diagnostico, tipo='fantasma', alto=32, tam=13)
+        self._b_diagnostico = Boton(tr('Más ajustes y diagnóstico'), self._alternar_diagnostico, tipo='fantasma', alto=32, tam=13)
         self._b_diagnostico.setCheckable(True)
         est.capa.addWidget(self._b_diagnostico)
         self._diagnostico = QWidget()
@@ -495,6 +549,7 @@ class PaginaDirector(QWidget):
         est.capa.addWidget(self._diagnostico)
         self._diagnostico.hide()
         cc.addWidget(est)
+        cc.addWidget(ctl)
         capa.addWidget(self._cuerpo)
         capa.addStretch(1)                                           # (el sobrante, abajo: las tarjetas con su alto natural)
         self._acciones = (self._b_orig, self._b_ai, self._b_parar, self._b_redisenar, self._b_aplicar, self._b_deshacer) + self._botones_ev
@@ -535,7 +590,8 @@ class PaginaDirector(QWidget):
     def _alternar_diagnostico(self):
         abierto = self._b_diagnostico.isChecked()
         self._diagnostico.setVisible(abierto)
-        self._b_diagnostico.setText(tr('Ocultar diagnóstico de la IA') if abierto else tr('Ver diagnóstico de la IA'))
+        self._tarjeta_ajustes.setVisible(abierto)
+        self._b_diagnostico.setText(tr('Ocultar ajustes y diagnóstico') if abierto else tr('Más ajustes y diagnóstico'))
 
     # ---------------------------------------------------------------- datos
     def video(self):
@@ -616,6 +672,8 @@ class PaginaDirector(QWidget):
         for n in self._res.get('notas') or []:
             if n.get('clave') in self._filas:
                 self._filas[n['clave']].poner(n)
+        self._lbl_revision.setText(tr(self._res.get('revision_frase') or ''))
+        self._lbl_revision.setToolTip('\n'.join(tr(n) for n in self._res.get('revision_notas') or []))
         self._pintar_resolve()
         sel = (self._ev or {}).get('clave')
         self._ev = next((e for e in self._res.get('eventos') or [] if e.get('clave') == sel), None)
@@ -649,7 +707,8 @@ class PaginaDirector(QWidget):
         if isinstance(destino, dict):
             destino = ' · '.join(str(destino[k]) for k in ('proyecto', 'timeline') if destino.get(k))
         self._lbl_destino.setText(tr('Destino: {d}', d=destino) if destino else '')
-        self._lbl_destino.setVisible(bool(destino))
+        self._lbl_destino.setVisible(False)                          # (el destino, en la ayuda de Aplicar: a la vista solo lo útil)
+        self._b_aplicar.setToolTip(tr('Envía a Resolve los cambios pendientes de este diseño.') + ('\n' + tr('Destino: {d}', d=destino) if destino else ''))
         for b, t in ((self._b_aplicar, 'primario' if pendiente else 'secundario'),):
             if b.property('tipo') != t:
                 b.setProperty('tipo', t)

@@ -12,6 +12,51 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-22 04:21  ·  v5.38  ·  cambio explicado
+    AI Sound Director: revisión en rondas (rescate de lo importante sin sonido, choques, ráfagas, densidad con la PRO) al aplicar el tema y otra revisión final con captions, Efectos y PRO ya colocados; control Razonamiento (Rápido/Profundo/Máximo) y «Exígele más»; la página Sonido con solo los botones útiles y el carril REVISIÓN
+    nuevos (17):
+      + 1_codigo/director_sonido_revision.py
+      + 1_codigo/herramientas_dev/probar_revision_sonido.py
+      + 4_diseno/propuestas_sonido/A_linea_multipista.html
+      + 4_diseno/propuestas_sonido/A_linea_multipista.png
+      + 4_diseno/propuestas_sonido/B_por_escenas.html
+      + 4_diseno/propuestas_sonido/B_por_escenas.png
+      + 4_diseno/propuestas_sonido/C_momentos.html
+      + 4_diseno/propuestas_sonido/C_momentos.png
+      + 4_diseno/propuestas_sonido/D_timeline_pro.html
+      + 4_diseno/propuestas_sonido/D_timeline_pro.png
+      + 4_diseno/propuestas_sonido/E_ia_pensando.html
+      + 4_diseno/propuestas_sonido/E_ia_pensando.png
+      … y 5 más
+    modificados (313):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/actualizaciones.py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/banco_pruebas.py
+      ~ 1_codigo/bpm.py
+      ~ 1_codigo/brillo_ui.py
+      ~ 1_codigo/broll.py
+      ~ 1_codigo/cache_voz.py
+      ~ 1_codigo/compat_av.py
+      ~ 1_codigo/crea_estilo_ui.py
+      ~ 1_codigo/director_sonido.py
+      ~ 1_codigo/director_sonido_sesion.py
+      … y 301 más
+    quitados (17752):
+      - 1_codigo/remotion/node_modules/.bin/acorn
+      - 1_codigo/remotion/node_modules/.bin/acorn.cmd
+      - 1_codigo/remotion/node_modules/.bin/acorn.ps1
+      - 1_codigo/remotion/node_modules/.bin/baseline-browser-mapping
+      - 1_codigo/remotion/node_modules/.bin/baseline-browser-mapping.cmd
+      - 1_codigo/remotion/node_modules/.bin/baseline-browser-mapping.ps1
+      - 1_codigo/remotion/node_modules/.bin/browserslist
+      - 1_codigo/remotion/node_modules/.bin/browserslist.cmd
+      - 1_codigo/remotion/node_modules/.bin/browserslist.ps1
+      - 1_codigo/remotion/node_modules/.bin/cssesc
+      - 1_codigo/remotion/node_modules/.bin/cssesc.cmd
+      - 1_codigo/remotion/node_modules/.bin/cssesc.ps1
+      … y 17740 más
+
 2026-10-21 21:25  ·  v5.38  ·  (automático)
     nuevos (4):
       + 1_codigo/director_sonido_recursos_libres.py

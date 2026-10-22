@@ -327,7 +327,7 @@ def _nivel_voz_previsto(ctx, analisis):
     return round(nivel, 1)
 
 
-PREF_CONTROLES = 'ai_sound_controles'          # los 5 controles + el estilo de la página (AUTO = sin clave)
+PREF_CONTROLES = 'ai_sound_controles'          # los 5 controles + el estilo y el razonamiento de la página (AUTO = sin clave)
 
 
 def controles(prefs=None):
@@ -413,18 +413,24 @@ def _guardar_qc(estado, qc):
                    'qc': {k: qc[k] for k in ('medidas', 'correcciones', 'formula')}, 'sound_score_viejo': False})
 
 
-def preparar_sfx(ctx, analisis, nivel_voz_db=None, diseno=None, ctrl=None, ajustes=None, ronda=None, mezcla=None):
-    """FASE 3: el diseño (qué suena, qué no y por qué) y cada sonido hecho a la medida en su WAV (director_sonido_diseno / director_sonido_sfx).
-    `ctrl` (None = los guardados de la página), `ajustes` y `ronda` (None = los del estado del video). Devuelve {'diseno', 'eventos' (para el plan
-    de Efectos, pistas AI SFX …), 'puestos', 'nivel_voz_db', 'modo', 'segundos'}."""
+def preparar_sfx(ctx, analisis, nivel_voz_db=None, diseno=None, ctrl=None, ajustes=None, ronda=None, mezcla=None, externos=None):
+    """FASE 3: el diseño (qué suena, qué no y por qué), su REVISIÓN (director_sonido_revision: que todo lo que se ve tenga su decisión, en rondas)
+    y cada sonido hecho a la medida en su WAV (director_sonido_diseno / director_sonido_sfx). `ctrl` (None = los guardados de la página), `ajustes`
+    y `ronda` (None = los del estado del video); `externos` = lo que ya suena fuera (la PRO, en la revisión final). Devuelve {'diseno', 'eventos'
+    (para el plan de Efectos, pistas AI SFX …), 'puestos', 'nivel_voz_db', 'modo', 'segundos', 'revision'}."""
     import director_sonido_diseno as D3
+    import director_sonido_revision as REV
     import director_sonido_sfx as SFX
     fps = float((ctx.get('plan_efectos') or {}).get('fps') or 30.0)
     if ajustes is None or ronda is None:
         previo = E.cargar(ctx['video'])
         ajustes = (previo.get('ajustes') or {}) if ajustes is None else ajustes
         ronda = int(previo.get('ronda') or 0) if ronda is None else ronda
-    diseno = diseno or D3.disenar(analisis, ctx, fps, controles=controles() if ctrl is None else ctrl, ajustes=ajustes, ronda=ronda)
+    if not diseno:
+        c = controles() if ctrl is None else ctrl
+        diseno = D3.disenar(analisis, ctx, fps, controles=c, ajustes=ajustes, ronda=ronda)
+        diseno, informe = REV.revisar(diseno, ctx, analisis, REV.profundidad(c), externos=externos, fps=fps, fase='diseno' if externos is None else 'final')
+        log(REV.frase(informe) + (' · ' + ' · '.join(informe['notas'][:6]) if informe['notas'] else ''))
     if mezcla and (mezcla.get('eventos') or mezcla.get('bus')):          # FASE 5: lo que el QC baja (solo esos eventos; el bus, todos)
         diseno = copy.deepcopy(diseno)
         for e in diseno['eventos']:
@@ -433,7 +439,7 @@ def preparar_sfx(ctx, analisis, nivel_voz_db=None, diseno=None, ctrl=None, ajust
     nivel = _nivel_voz_previsto(ctx, analisis) if nivel_voz_db is None else round(float(nivel_voz_db), 1)
     hecho = SFX.fabricar(diseno, E.carpeta_de(ctx['video']) / 'sfx', nivel)
     sfx = {'diseno': diseno, 'eventos': hecho['eventos'], 'puestos': hecho['puestos'], 'nivel_voz_db': nivel, 'modo': hecho['modo'],
-           'segundos': hecho['segundos']}
+           'segundos': hecho['segundos'], 'revision': diseno.get('revision')}
     _log_sfx(sfx)
     return sfx
 
@@ -480,7 +486,8 @@ def _guardar_sfx(estado, sfx):
                                                             'ref', 'params', 'bloqueado', 'ajustado')}
                                     for e in d['eventos']],
                    'sound_events_placed': sfx['puestos'], 'sfx_plan': sfx['eventos'], 'caption_decisions': d['captions'], 'motion_decisions': d['motions'],
-                   'old_sfx_decisions': d['viejos'], 'sfx_summary': dict(d['resumen'], modo=sfx['modo'], nivel_voz_db=sfx['nivel_voz_db'])})
+                   'old_sfx_decisions': d['viejos'], 'sfx_summary': dict(d['resumen'], modo=sfx['modo'], nivel_voz_db=sfx['nivel_voz_db']),
+                   'revision': d.get('revision')})
 
 
 VERSION_VOZ = 1                                                       # súbela si cambia la restauración: las copias viejas se rehacen

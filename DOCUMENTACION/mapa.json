@@ -4120,7 +4120,11 @@
         "motions pro",
         "redisenar pro",
         "kenney",
-        "sonniss"
+        "sonniss",
+        "revisión",
+        "razonamiento",
+        "exígele más",
+        "cobertura"
       ],
       "archivos": [
         "director_sonido.py",
@@ -4156,7 +4160,9 @@
         "herramientas_dev/probar_epidemic.py",
         "director_sonido_sintesis.py",
         "director_sonido_fuentes.py",
-        "herramientas_dev/demo_director_sonido.py"
+        "herramientas_dev/demo_director_sonido.py",
+        "director_sonido_revision.py",
+        "herramientas_dev/probar_revision_sonido.py"
       ],
       "simbolos": [
         "activo",
@@ -4227,7 +4233,12 @@
         "mezclar",
         "puntuar",
         "music_fit",
-        "con_controles"
+        "con_controles",
+        "revisar",
+        "revision_final",
+        "profundidad",
+        "_director_sonido_revision_final",
+        "_guardar_rehecho"
       ],
       "resumen": "apagado = GO de siempre; encendido analiza tema/voz/ruido/música/ambiente/captions/motions/narrativa, pone la voz restaurada (copia) en AI VOICE apagando A1 solo tras verificarla y es el ÚNICO dueño del sonido: decide caption a caption y motion a motion (la mayoría en silencio), hace cada sonido a la medida (híbrido) en las pistas AI SFX, apaga los de Simple y toma los de la PRO; fallback al motor original"
     }
