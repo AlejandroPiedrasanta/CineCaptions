@@ -41,7 +41,7 @@ function frames_de_audio(item, fps)
     return 0
 end
 
-local VERSION = "5.38 (sfx reemplazar)"
+local VERSION = "5.39 (sfx reemplazar)"
 
 -- La ENTREGA del Puente (v1.0.43): ver CineCaptions_InsertarSFX.lua.
 local ENTREGA_PUENTE = ({...})[1]

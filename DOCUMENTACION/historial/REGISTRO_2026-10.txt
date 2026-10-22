@@ -1,5 +1,234 @@
 REGISTRO DE CAMBIOS ARCHIVADO · 2026-10 (la entrada más nueva arriba)
 
+2026-10-20 21:55  ·  v5.32  ·  cambio explicado
+    Gancho del inicio: fila única «Personaliza» (luz, segundo color, sonido y zoom; una tira abierta a la vez) y elección de zoom (pro_estilos['gancho']['z']: el de la intro, otro de los 8 o ninguno; sin zoom no hay comp en V1). El usuario: «hazlo más intuitivo, compacto, y te faltó el botón de efecto de zoom».
+    modificados (5):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/efectos_visuales.py
+      ~ 1_codigo/estilos_pro.py
+      ~ 1_codigo/intros_gancho.py
+
+2026-10-20 21:48  ·  v5.32  ·  cambio explicado
+    Gancho del inicio: fila «Sonido» en Efectos (el de la intro, el de otra, sin sonido o uno propio alineado a su golpe); pref pro_estilos['gancho']['s']. El usuario: «te faltó la sección de sonido por si el sonido por default no me gusta».
+    modificados (15):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/estilos_pro.py
+      ~ 1_codigo/herramientas_dev/hacer_intros.py
+      ~ 1_codigo/intros_gancho.py
+      ~ 2_recursos/edicion_pro/ejemplos_pro/gancho.jpg
+      ~ 2_recursos/edicion_pro/estilos_pro/gancho_atardecer.jpg
+      ~ 2_recursos/edicion_pro/estilos_pro/gancho_auto.jpg
+      ~ 2_recursos/edicion_pro/estilos_pro/gancho_blanco.jpg
+      ~ 2_recursos/edicion_pro/estilos_pro/gancho_fuego.jpg
+      ~ 2_recursos/edicion_pro/estilos_pro/gancho_hielo.jpg
+      ~ 2_recursos/edicion_pro/estilos_pro/gancho_lima.jpg
+      … y 3 más
+
+2026-10-20 21:39  ·  v5.32  ·  cambio explicado
+    Sonidos de las 8 intros rehechos como diseño de 6-8 capas (hacer_intros.py: FUENTES_SONIDO, C/R, máster ffmpeg): graves con caída propia + armónicos saturados para el móvil + cuerpo + chasquido + aire + adorno + Viral Hooks Riser al revés; con los 4 sonidos que pasó el usuario y su biblioteca UTILES. El usuario: «los sonidos están muy básicos, arma y combina para crear algo que impacte».
+    modificados (20):
+      ~ 1_codigo/herramientas_dev/hacer_intros.py
+      ~ 1_codigo/intros_gancho.py
+      ~ 2_recursos/edicion_pro/ejemplos_pro/gancho.mp4
+      ~ 2_recursos/edicion_pro/estilos_pro/gancho_atardecer.mp4
+      ~ 2_recursos/edicion_pro/estilos_pro/gancho_auto.mp4
+      ~ 2_recursos/edicion_pro/estilos_pro/gancho_blanco.mp4
+      ~ 2_recursos/edicion_pro/estilos_pro/gancho_fuego.mp4
+      ~ 2_recursos/edicion_pro/estilos_pro/gancho_hielo.mp4
+      ~ 2_recursos/edicion_pro/estilos_pro/gancho_lima.mp4
+      ~ 2_recursos/edicion_pro/estilos_pro/gancho_neon.mp4
+      ~ 2_recursos/edicion_pro/estilos_pro/gancho_rosa.mp4
+      ~ 2_recursos/edicion_pro/estilos_pro/gancho_violeta.mp4
+      … y 8 más
+
+2026-10-20 21:28  ·  v5.32  ·  cambio explicado
+    Gancho del inicio = 8 intros de 0-1 s (intros_gancho.py): overlays de luz del pack del usuario coloreados (FX-INTRO en Pantalla), zoom hacia fuera en V1 (comp «CineCaptions Intro», no «CineCaptions FX», para que colocar_pro siga recortando a la persona) y mezcla de sonido bajo la voz (FX-SONIDO). Va también con la PRO y los Temas 5/6. Órbita y sticker del gancho retirados (motions_catalogo.RETIRADOS); titular a Gráficos. El usuario: «intros de overlays con zoom para fuera y su sonido en el primer segundo, solo 8 opciones».
+    nuevos (29):
+      + 1_codigo/herramientas_dev/hacer_intros.py
+      + 1_codigo/intros_gancho.py
+      + 2_recursos/edicion_pro/estilos_pro/gancho_atardecer.jpg
+      + 2_recursos/edicion_pro/estilos_pro/gancho_atardecer.mp4
+      + 2_recursos/edicion_pro/estilos_pro/gancho_blanco.jpg
+      + 2_recursos/edicion_pro/estilos_pro/gancho_blanco.mp4
+      + 2_recursos/edicion_pro/estilos_pro/gancho_fuego.jpg
+      + 2_recursos/edicion_pro/estilos_pro/gancho_fuego.mp4
+      + 2_recursos/edicion_pro/estilos_pro/gancho_hielo.jpg
+      + 2_recursos/edicion_pro/estilos_pro/gancho_hielo.mp4
+      + 2_recursos/edicion_pro/estilos_pro/gancho_lima.jpg
+      + 2_recursos/edicion_pro/estilos_pro/gancho_lima.mp4
+      … y 17 más
+    modificados (20):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_planificador.py
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/efectos_visuales.py
+      ~ 1_codigo/estilos_pro.py
+      ~ 1_codigo/fusion_v1.py
+      ~ 1_codigo/herramientas_dev/hacer_estilos_pro.py
+      ~ 1_codigo/herramientas_dev/probar_edicion_pro.py
+      ~ 1_codigo/motions_catalogo.py
+      ~ 1_codigo/pro_lateral_ui.py
+      … y 8 más
+    quitados (24):
+      - 2_recursos/edicion_pro/estilos_pro/detras_doble.jpg
+      - 2_recursos/edicion_pro/estilos_pro/detras_doble.mp4
+      - 2_recursos/edicion_pro/estilos_pro/detras_orilla_color.jpg
+      - 2_recursos/edicion_pro/estilos_pro/detras_orilla_color.mp4
+      - 2_recursos/edicion_pro/estilos_pro/detras_resplandor.jpg
+      - 2_recursos/edicion_pro/estilos_pro/detras_resplandor.mp4
+      - 2_recursos/edicion_pro/estilos_pro/gancho_anillo.jpg
+      - 2_recursos/edicion_pro/estilos_pro/gancho_anillo.mp4
+      - 2_recursos/edicion_pro/estilos_pro/gancho_chips.jpg
+      - 2_recursos/edicion_pro/estilos_pro/gancho_chips.mp4
+      - 2_recursos/edicion_pro/estilos_pro/gancho_cinta.jpg
+      - 2_recursos/edicion_pro/estilos_pro/gancho_cinta.mp4
+      … y 12 más
+
+2026-10-20 20:32  ·  v5.32  ·  cambio explicado
+    Proyecto: nombre del tema (64→54, alto 100→86) y botones «En uso»/«Edición PRO» (80→68 de alto, texto 22→19, círculo 46→39) ~15 % más pequeños; el usuario: «ponlo un poco más pequeño».
+    modificados (8):
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/herramientas_dev/probar_detras_timeline.py
+      ~ 1_codigo/posiciones_detras_ui.py
+      ~ 1_codigo/posiciones_pro.py
+      ~ 1_codigo/proyecto_ui.py
+      ~ 1_codigo/resolve_mcp.py
+      ~ 1_codigo/un_clic_ui.py
+      ~ 2_recursos/edicion_pro/colocar_pro.py
+
+2026-10-20 19:30  ·  v5.32  ·  (automático)
+    modificados (27):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      … y 15 más
+
+2026-10-20 19:26  ·  v5.31  ·  cambio explicado
+    5.32 (Proyecto): el usuario pidió quitar la píldora «TEMA ACTIVO» para que el slider sea más grande, que cuadren fondo y animaciones y botones algo más pequeños, proporcionales y simétricos: sin píldora; título 64 px; BotonEstado de 80 px emparejados al mismo ancho (respiran a la vez y el destello cruza los dos seguidos); FondoTema mide el texto del nombre (el halo tomaba el ancho de la fila y se veía una franja) y los botones: arcos en espejo de los botones al nombre con los puntos en espejo.
+    modificados (3):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/proyecto_ui.py
+      ~ 1_codigo/un_clic_ui.py
+
+2026-10-20 19:18  ·  v5.31  ·  cambio explicado
+    5.32: el usuario: «No se pudo poner en tu timeline: Resolve se cerró… se congela el programa igual con DaVinci Resolve; más intuitivo y fluido». Medido en su registro y en el volcado de Resolve (18:14:31): (1) la app se congelaba 53–57 s porque, con el MCP sin contestar, asegurar_conexion caía a la API directa (fusionscript retiene el GIL dentro de un Resolve ocupado): con ResolveMCP instalado ya no se usa (_api_directa_permitida); (2) Resolve se cayó (std::out_of_range en su hilo de interfaz) al cambiar de página y tocar el timeline con la reproducción de GO en marcha: «Listo» la detiene, solo cambia a Edit si hace falta y espera; la caída se ve al momento (resolve_se_cayo) con un mensaje que dice qué hacer; (3) la tira valida con el timeline del último GO (0:58.8 salía verde y «Listo» la rechazaba). Además, con sus maquetas: Posición de «detrás de ti» rediseñada (posiciones_detras_ui: visor con reproducción, panel Ajustes/Marcas/Sugerencias, tira compacta), posición del caption (vertical = arriba; horizontal = arriba/izquierda/derecha con Pan en colocar_pro) y la página Proyecto (proyecto_ui: franja del audio, «Tema activo», «En uso», «Edición PRO activada», animados con un solo reloj). Probado sin Resolve: probar_detras_vista 20 OK, probar_detras_timeline 40 OK, tira = «Listo» con su video; NO probado en Resolve real.
+    nuevos (4):
+      + 1_codigo/herramientas_dev/captura_proyecto.py
+      + 1_codigo/herramientas_dev/probar_detras_vista.py
+      + 1_codigo/posiciones_detras_ui.py
+      + 1_codigo/proyecto_ui.py
+    modificados (17):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/colocacion.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/herramientas_dev/probar_detras_timeline.py
+      ~ 1_codigo/posiciones_pro.py
+      ~ 1_codigo/registro_ayuda.py
+      ~ 1_codigo/resolve_bridge.py
+      ~ 1_codigo/resolve_mcp.py
+      ~ 1_codigo/un_clic_ui.py
+      ~ 2_recursos/edicion_pro/colocar_pro.py
+      ~ 2_recursos/locales/de.json
+      … y 5 más
+
+2026-10-20 17:30  ·  v5.31  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-10-20 17:29  ·  v5.30  ·  cambio explicado
+    5.31: Posición de «detrás de ti» como editor (resaltado de lo aplicado/nuevo/quitado, barra de «Listo» sin cerrar la vista), máscara fina a 1024 guardada en mascaras_persona, sugerencias y marcas comprobadas con la regla de GO (reglas_go/valida_go/sugerir_go) en los Temas 1–6, umbral de cabeza 0,12, lectura tolerante a paquetes dañados (TIPS_ES dejaba el Tema 1 sin placa). Probado con probar_detras_temas.py: 8+4 videos × 6 temas sin fallos.
+    nuevos (1):
+      + 1_codigo/herramientas_dev/probar_detras_temas.py
+    modificados (16):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_persona.py
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/efectos_visuales.py
+      ~ 1_codigo/herramientas_dev/probar_detras_posiciones.py
+      ~ 1_codigo/herramientas_dev/probar_detras_timeline.py
+      ~ 1_codigo/kit_neon_placa.py
+      ~ 1_codigo/posiciones_pro.py
+      ~ 1_codigo/rotacion_video.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      … y 4 más
+
+2026-10-20 15:58  ·  v5.30  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-10-20 15:55  ·  v5.29  ·  cambio explicado
+    Posición de «detrás de ti» como editor de lo que hay en el timeline (el usuario: deben estar donde se aplicó y donde me sugiere; si quito o agrego y doy Listo, que lo ponga en Resolve sin renderizar todo): GO y cada Listo apuntan los tramos puestos; la tira los enseña como marcas si son más nuevos que lo guardado; Listo manda exactamente la tira (vacía = quitar; igual = no tocar Resolve).
+    modificados (11):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/herramientas_dev/probar_detras_timeline.py
+      ~ 1_codigo/posiciones_pro.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 3_compilar/traducciones_extra.json
+
+2026-10-20 15:35  ·  v5.29  ·  (automático)
+    modificados (22):
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/herramientas_dev/probar_detras_posiciones.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      … y 10 más
+
+
+(Lo anterior está archivado por mes en DOCUMENTACION/historial/REGISTRO_<aaaa-mm>.txt)
 2026-10-20 14:12  ·  v5.28  ·  cambio explicado
     «Detrás de ti»: el usuario seguía sin verlo aplicado. Causa: su video trae HE-AAC y GO lleva a Resolve una copia con audio compatible; con el audio del timeline las marcas (del original) no se encontraban: ahora la copia apunta a su original (origen.json) y se buscan también por nombre. Pidió una máscara que detecte humanos y quede en el render: la persona va como matte ProRes 4444 con alfa de la IA (no Magic Mask). Y que Listo lo ponga directo en el timeline: aplicar_detras con el contexto del último GO y colocar_pro en modo solo_encima.
     nuevos (1):
