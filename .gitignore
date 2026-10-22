@@ -5,8 +5,9 @@ __pycache__/
 *.exe
 *.dmg
 *.pkg
-4_diseno/
-5_licencias/
+# 4_diseno y 5_licencias van al repositorio (con sus .exe, todos < 100 MB)
+!4_diseno/**/*.exe
+!5_licencias/**/*.exe
 .mcp.json
 .claude/
 1_codigo/remotion/node_modules/

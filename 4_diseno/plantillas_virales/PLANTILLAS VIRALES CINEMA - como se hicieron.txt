@@ -1,0 +1,117 @@
+CineCaptions · By Cinema Productions
+4_diseno/plantillas_virales/PLANTILLAS VIRALES CINEMA - como se hicieron.txt — el documento de cómo se crearon los packs «Plantillas virales cinema».
+
+================================================================================
+PLANTILLAS VIRALES CINEMA  —  qué son y cómo se hicieron
+================================================================================
+
+QUÉ SE ENTREGA
+--------------
+6 packs (2 familias × 3 posiciones), cada uno en VERTICAL (1080×1920) y HORIZONTAL (1920×1080):
+12 archivos .drb (el bin de Text+ para el Media Pool) y 12 archivos .drt (el mismo diseño como timeline).
+Viven en  2_recursos/plantillas_incluidas/  y CineCaptions los lista solo (cada carpeta lleva su pack.json):
+
+  Plantillas virales cinema Luxe superior / centro / inferior
+  Plantillas virales cinema Amro superior / centro / inferior
+
+  cada carpeta:
+    Plantillas virales cinema <Familia> <posición> vertical.drb | .drt | .posiciones.json
+    Plantillas virales cinema <Familia> <posición> horizontal.drb | .drt | .posiciones.json
+    pack.json                      (nombre en la app: «Plantillas virales cinema · Luxe · superior», etc.)
+
+POSICIONES (zonas del cuadro, medidas desde el centro, Y positiva = arriba)
+  vertical    superior +520 px · centro 0 · inferior −360 px
+  horizontal  superior +250 px · centro 0 · inferior −250 px
+
+LA LÓGICA (copiada de «Base titulos dinamicos vertical» y «Vertical superior 2.drb»)
+-------------------------------------------------------------------------------------
+El programa NO lee el diseño de los Text+: lee sus NOMBRES. Cada bin trae 19 Text+:
+
+  contexto · principal · complemento              (set 1)
+  contexto 2 · principal 2 · complemento 2        (set 2)
+  ...  hasta el set 6
+  base                                            (una sola línea)
+
+CineCaptions rota los 6 sets bloque a bloque; escribe el texto en el PRIMER TextPlus de cada clip
+(en todos los presets usados es «Text1») y no toca nada más: tipografía, color, brillo y animación son
+los del Text+. La posición de cada clip va en  <archivo>.posiciones.json  ({nombre: [x, y, zoomX, zoomY]},
+x = Pan/ancho, y = Tilt/alto con Y arriba) y dentro del .drb (un bloque por clip en project.xml).
+Cada set apila contexto (arriba), principal (en la posición del pack) y complemento (abajo) con el aire
+justo para que no se pisen; la altura de cada línea sale de una CALIBRACIÓN medida en Resolve (ver cal_v.json
+y cal_h.json), no a ojo.
+
+LAS DOS FAMILIAS Y SUS REGLAS
+-----------------------------
+LUXE (VBF - Luxe Title Pack) — SOLO dos presets:
+  · «luxe shine»  → todos los Text+ llamados  principal   (DM Serif Text Italic, brillo dorado/blanco)
+  · «luxe slide»  → contexto, complemento y base          (Poppins Bold)
+  Los 6 sets cambian el color del principal (y en el 6 el contexto/complemento):
+    1 Blanco y brillo · 2 Oro · 3 Champán · 4 Rosa oro · 5 Hielo · 6 Grande dorado (principal más grande,
+    contexto y complemento dorados)
+
+AMRO (Amro.Films Captions) — SOLO cuatro presets (se ignoró el resto del pack):
+  Highlight_Captions · Strike_Captions · Underline_Captions · Fire_Captions
+  · principal                → el preset del set (Inter Black)
+  · contexto / complemento / base → Underline_Captions SIN su barra (texto limpio Inter Black)
+  Sets: 1 Highlight naranja · 2 Highlight rosa · 3 Underline verde · 4 Underline amarillo ·
+        5 Fire · 6 Strike (tachado rojo)
+
+DE DÓNDE SALEN LOS PRESETS
+  GANCHOS PACK\(NO TOCAR)\TITULOS PRO  (solo lectura: se leyeron sus .setting, nunca se modificaron).
+  Los presets se insertan en Resolve con InsertFusionTitleIntoTimeline y se configuran por su API.
+
+CÓMO SE HIZO (paso a paso)
+--------------------------
+ 1. LEER los presets: se extrajeron los .setting de los 6 presets permitidos y se vio qué controla cada tamaño:
+      Luxe        → sizeCtrl.RestingSize (tamaño en reposo) y Text1 Red1/Green1/Blue1 (color)
+      Highlight, Strike → Text1 Size
+      Underline   → Text1 Size es una EXPRESIÓN FIJA ("0.126") que pisa SetInput: hay que quitarla
+                    (Size.SetExpression(None)) antes de poner el tamaño. La barra es la capa «Line»
+                    (Enabled8 = 0 la oculta); el tono de la barra, ColorCorrector1.Hue1.
+      Fire        → su Text Size NO cuenta (se ajusta al ancho solo); el tamaño real es Transform1.Size.
+ 2. CALIBRAR: se midió en Resolve cuánto ocupa cada preset a un tamaño conocido, en vertical y horizontal
+    (el Text+ horizontal mide ≈1,77× el vertical porque se escala con el ancho del cuadro).
+ 3. DISEÑAR (diseno.py → diseno.json): para cada pack y formato, tamaño, color, tono y posición de los 19 clips.
+    Horizontal: Luxe ×0,75 y Amro ×0,5 del tamaño vertical; aire extra entre el principal y sus vecinos
+    (la barra, el fuego o el tachado se salen del texto).
+ 4. CONSTRUIR en Resolve (resolve_taller.construir_disenos): timeline por pack con los 19 títulos, nombrados,
+    configurados y colocados (Pan/Tilt) → export nativo .drt hecho por Resolve.
+ 5. HACER EL .drb (sintetizar_drb.py): la API de Resolve no crea elementos de Media Pool desde un .drt en
+    esta versión (Studio 21.1.1), así que cada clip del .drt pasa a ser un generador (Sm2MpGenerator) del bin,
+    con su composición de Fusion tal cual, la estructura del .drb de referencia «Vertical superior 2.drb»
+    y un bloque de posición por clip (Tilt) como los del original.
+ 6. VERIFICAR EN RESOLVE (resolve_taller.verificar_packs): importar cada .drb, poner los clips en un timeline,
+    comprobar que el Tilt de los 19 clips llega bien, que hay un Text+ escribible en cada uno y sacar un
+    fotograma por set (vistas/*.png). Los 12 packs: 19 clips, 0 errores.
+ 7. VERIFICAR CON EL PROGRAMA: plantillas.cargar + packs_drt.leer_drb → 6 sets + base y 19 posiciones por
+    formato, tipografías: Luxe «DM Serif Text Italic» + «Poppins Bold»; Amro «Inter Black».
+ 8. INSTALAR (instalar.py): copia a plantillas_incluidas con pack.json y .posiciones.json.
+
+PREVISUALIZACIONES
+  4_diseno/plantillas_virales/vistas/   una hoja por pack (sets 1..6 y base), hechas con Resolve.
+
+TIPOGRAFÍAS
+-----------
+Se añadieron a 2_recursos/fonts (licencia SIL OFL, ver LICENCIAS.txt):
+  Poppins-Bold.ttf · DMSerifText-Italic.ttf · Inter-Black.ttf
+Inter-Black.ttf es Inter_28pt-Black con la tabla de nombres reescrita a familia «Inter» / estilo «Black»,
+el nombre exacto que piden los Text+ de Amro. Si el equipo no las tiene, el botón de instalar tipografías
+de CineCaptions las instala.
+
+PARA VOLVER A GENERARLOS (si cambias el diseño)
+-----------------------------------------------
+  1. Edita diseno.py (tamaños, colores, EXTRA, ZONAS, FACTOR_H) y corre  python diseno.py  → diseno.json.
+  2. En Resolve (proyecto de pruebas, NUNCA el de un cliente), con el MCP o la consola de scripts:
+     resolve_taller.lanzar(resolve, resolve_taller.construir_disenos, diseno=..., carpeta=...)  → .drt en disenos/
+  3. python generar_prov.py  → .drb en provisionales_pos/
+  4. resolve_taller.lanzar(resolve, resolve_taller.verificar_packs, ...)  → fotogramas + informe (0 errores)
+  5. python instalar.py  → copia todo a 2_recursos/plantillas_incluidas/
+  Las llamadas largas se lanzan en un hilo y avanzan en estado.json (así Resolve no se cuelga).
+
+LÍMITES CONOCIDOS
+-----------------
+ · Los .drb están sintetizados y comprobados importándolos en Resolve Studio 21.1.1 (no exportados por
+   Folder.Export: esa función exporta TODO el Media Pool, no solo el bin).
+ · Los .drt son exportaciones nativas de Resolve.
+ · Los colores y tonos de Amro (naranja, rosa, verde, amarillo) son decisión de diseño: se cambian en
+   diseno.py (campo «tono») y se regenera.

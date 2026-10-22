@@ -1,0 +1,72 @@
+{
+ "cal_v_00.png": {
+  "w": 1080,
+  "h": 1920,
+  "ancho": 180,
+  "alto": 87,
+  "arriba": 51,
+  "abajo": 35,
+  "izq": 88,
+  "der": 91
+ },
+ "cal_v_01.png": {
+  "w": 1080,
+  "h": 1920,
+  "ancho": 339,
+  "alto": 99,
+  "arriba": 44,
+  "abajo": 54,
+  "izq": 169,
+  "der": 169
+ },
+ "cal_v_02.png": {
+  "w": 1080,
+  "h": 1920,
+  "ancho": 563,
+  "alto": 161,
+  "arriba": 74,
+  "abajo": 86,
+  "izq": 284,
+  "der": 278
+ },
+ "cal_v_03.png": {
+  "w": 1080,
+  "h": 1920,
+  "ancho": 568,
+  "alto": 108,
+  "arriba": 54,
+  "abajo": 53,
+  "izq": 284,
+  "der": 283
+ },
+ "cal_v_04.png": {
+  "w": 1080,
+  "h": 1920,
+  "ancho": 604,
+  "alto": 150,
+  "arriba": 56,
+  "abajo": 93,
+  "izq": 302,
+  "der": 301
+ },
+ "cal_v_05.png": {
+  "w": 1080,
+  "h": 1920,
+  "ancho": 580,
+  "alto": 147,
+  "arriba": 62,
+  "abajo": 84,
+  "izq": 289,
+  "der": 290
+ },
+ "cal_v_06.png": {
+  "w": 1080,
+  "h": 1920,
+  "ancho": 1029,
+  "alto": 245,
+  "arriba": 121,
+  "abajo": 123,
+  "izq": 515,
+  "der": 513
+ }
+}

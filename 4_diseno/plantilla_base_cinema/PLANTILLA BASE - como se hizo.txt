@@ -1,0 +1,68 @@
+CineCaptions · By Cinema Productions
+4_diseno/plantilla_base_cinema/PLANTILLA BASE - como se hizo.txt — cómo se hizo la plantilla base nueva (v5.3) y cómo regenerarla.
+
+================================================================================
+PLANTILLA BASE NUEVA  —  estructura, reglas y cómo se hizo
+================================================================================
+
+QUÉ ES
+------
+El pack incluido «Diseño automático» (Base títulos dinámicos): 2 formatos (vertical 1080x1920 y horizontal 1920x1080),
+cada uno con 13 clips. Vive en 2_recursos/plantillas_incluidas/ como
+    Base titulos dinamicos vertical.drb | .drt | .posiciones.json
+    Base titulos dinamicos Horizontal.drb | .drt | .posiciones.json
+Los .drb/.drt anteriores (la «guía» vieja con contexto/complemento y 10 sets) quedaron en anteriores/.
+
+LA ESTRUCTURA (la que lee CineCaptions: SOLO lee los NOMBRES de los clips)
+-------------------------------------------------------------------------
+    principal · arriba · abajo · imagen          cuatro bloques, uno encima del otro
+    simple                                       una sola línea, para las palabras sueltas (opcional)
+    variantes: la misma lógica con 2 o 3 al final del nombre (la 1 va sin número). MÁXIMO 3.
+        principal, principal 2, principal 3 · arriba, arriba 2, arriba 3 · abajo ... · imagen ...
+    Un set necesita arriba + principal + abajo; «imagen» es opcional.
+    Los nombres de antes (contexto / complemento / base, hasta 10 sets) siguen funcionando.
+    En el timeline (.drt) van apilados:  V1 principal · V2 arriba · V3 abajo · V4 imagen  (una variante tras otra).
+
+EL BLOQUE «IMAGEN»
+------------------
+Es el espacio del icono o la imagen. Su Pan / Tilt / Zoom en el .drb dice DÓNDE va el emoji que el usuario elige en
+Creativo y de qué tamaño (zoom 1 = tamaño normal del emoji). La app lo lee del propio .drb (packs_drt.posiciones_de_drb)
+y lo manda en el manifiesto como transformaciones['image|N']. Si el pack no lo trae, el emoji va DEBAJO del texto.
+Aquí es un Luxe Slide con un círculo (●) de muestra, de otro color en cada variante.
+
+REGLA DE DISEÑO (pedido del usuario)
+------------------------------------
+SOLO los efectos de texto de Joel Van Beek (VBF · Luxe Title Pack): «Luxe Slide» y «Luxe Shine». Nada de Text+ sueltos ni
+composiciones de Fusion propias: se inserta el efecto con InsertFusionTitleIntoTimeline y solo se le cambia lo que ofrece
+(texto, tamaño en reposo, color, tipografía).
+    arriba, abajo, simple, imagen → Luxe Slide  (Poppins Regular; Poppins Bold para resaltar con negrita)
+    principal                      → Luxe Shine  (la palabra clave: grande, con brillo, de color)
+Variantes: 1 cian · 2 rosa (abajo en Bold) · 3 fuego (arriba en Bold). Estilo sacado del video de referencia.
+
+CÓMO SE HIZO (paso a paso; corre en Resolve por el MCP, SIEMPRE en un proyecto de pruebas)
+-----------------------------------------------------------------------------------------
+ 1. python diseno_base.py          → diseno.json (tamaños, colores y posiciones; alturas de la calibración de las
+                                      plantillas virales: ../plantillas_virales/cal_v.json)
+ 2. En Resolve (run_script_unsafe, en un hilo con TB.T.lanzar y el avance en ../plantillas_virales/estado.json):
+        taller_base.construir      → un timeline por formato con los 13 efectos configurados y nombrados → disenos/*.drt
+ 3. python generar.py drb           → .drb provisional con el Pan/Tilt/Zoom de cada clip (sintetizar_drb.py) → provisionales/
+ 4. En Resolve: taller_base.verificar   → importa cada .drb, lo coloca en un timeline y comprueba Pan/Tilt/Zoom (0 errores)
+        (con_fotos=True saca un fotograma por variante; el visor va con retraso: se pasa por otro cuadro antes de exportar)
+ 5. En Resolve: taller_base.apilar_todo → el .drt APILADO (V1 principal · V2 arriba · V3 abajo · V4 imagen) → apilados/
+ 6. python generar.py instalar      → copia .drb + .drt apilado + .posiciones.json a plantillas_incluidas (guarda lo anterior)
+ 7. python hoja.py                  → hojas de contacto de ver/ (vertical y horizontal)
+
+LA GUÍA «CREA TU ESTILO»
+------------------------
+guia.py (construir_guia) arma en Resolve el timeline de 6 pantallas (también solo Luxe Slide) y lo exporta a
+2_recursos/guia_estilo/Guia crea tu estilo.drt. El botón «Crea tu estilo» (Proyecto > Pack de estilos) lo importa y lo abre
+por MCP (resolve_mcp.abrir_guia). La pantalla 6 trae los 4 bloques YA nombrados y colocados para editarlos y exportar el bin.
+
+CUIDADOS APRENDIDOS
+-------------------
+ · Resolve se cuelga (y acaba cerrándose solo) si se le piden muchas capturas seguidas o varias llamadas a la vez: una
+   llamada a la vez, esperando a que el hilo del taller termine (estado.json: "listo").
+ · Las capturas (ExportCurrentFrameAsStill) salen con 1-2 cuadros de retraso; los Luxe entran y salen con fundido, así que
+   el fotograma bueno está a mitad del clip (~ +75 fotogramas).
+ · Poppins no trae la flecha «→»: en los textos usar «>».
+ · Las tipografías de la plantilla: Poppins Regular/Bold y DM Serif Text Italic (todas en 2_recursos/fonts).

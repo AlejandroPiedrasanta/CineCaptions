@@ -1,0 +1,8 @@
+{
+  "version": 2,
+  "nombre": "Subtítulos básicos",
+  "formatos": {
+    "h": {"drb": "Subtitulos basicos horizontal.drb"},
+    "v": {"drb": "Subtitulos basicos vertical.drb"}
+  }
+}

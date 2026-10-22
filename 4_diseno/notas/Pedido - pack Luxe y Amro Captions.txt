@@ -1,0 +1,9 @@
+Actúa como un experto en DaVinci Resolve para crear estilos visuales de Text + . Tu tarea es crear una nueva plantilla y generar un archivo .drb y .DRT (DaVinci Resolve Bin) con diferentes distribusiones y formatos optimizados para presentar textos en videos virales.
+Para la estructura y funcionamiento del bin, debes replicar exactamente la misma lógica utilizada en los ejemplos de las carpetas 'Base titulos dinamicos vertical.drt' y 'Vertical superior 2.drb'.
+Además, debes aplicar estrictamente las siguientes reglas de diseño para los paquetes de texto:
+VBF - Luxe Title Pack:
+Utiliza únicamente el preset luxe shine para todos los textos con nombre principal.
+Utiliza únicamente el preset luxe slide para los textos con nombre de archivo  contexto , complemento .
+Amro.Films Captions:
+Ignora los demás archivos y utiliza exclusivamente los siguientes presets: Highlight_Captions, Strike_Captions, Underline_Captions y Fire_Captions.
+El .drb y .drt final debe incluir configuraciones con posiciones dinámicas (ej. superior, central, inferior) y formatos adaptados para maximizar la retención en formatos verticales (Reels/TikToks/Shorts).   no utilizar los paquetes de textos o text plus de los archivos de ejemplo  Vertical superior 2.drb y Base titulos dinamicos vertical.drt    para eso te envie los paquetes de textos  nuevo

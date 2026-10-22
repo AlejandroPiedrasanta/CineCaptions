@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "nombre": "Plantillas virales cinema · Luxe · inferior",
+  "formatos": {
+    "h": {
+      "drb": "Plantillas virales cinema Luxe inferior horizontal.drb"
+    },
+    "v": {
+      "drb": "Plantillas virales cinema Luxe inferior vertical.drb"
+    }
+  }
+}

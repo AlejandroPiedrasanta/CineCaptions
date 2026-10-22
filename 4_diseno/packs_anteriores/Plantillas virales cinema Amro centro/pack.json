@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "nombre": "Plantillas virales cinema · Amro · centro",
+  "formatos": {
+    "h": {
+      "drb": "Plantillas virales cinema Amro centro horizontal.drb"
+    },
+    "v": {
+      "drb": "Plantillas virales cinema Amro centro vertical.drb"
+    }
+  }
+}

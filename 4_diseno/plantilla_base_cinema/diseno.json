@@ -1,0 +1,628 @@
+[
+ {
+  "archivo": "Base titulos dinamicos Horizontal",
+  "formato": "h",
+  "pack": "Base títulos dinámicos",
+  "clips": [
+   {
+    "nombre": "arriba",
+    "set": 1,
+    "cfg": {
+     "preset": "Luxe Slide",
+     "size": 0.09,
+     "color": [
+      1.0,
+      1.0,
+      1.0
+     ],
+     "barra": null,
+     "tono": null,
+     "texto": "Esto es",
+     "font": "Poppins",
+     "style": "Regular"
+    },
+    "pos": [
+     0.0,
+     0.1524,
+     1.0,
+     1.0
+    ]
+   },
+   {
+    "nombre": "principal",
+    "set": 1,
+    "cfg": {
+     "preset": "Luxe Shine",
+     "size": 0.225,
+     "color": [
+      0.3,
+      0.86,
+      1.0
+     ],
+     "barra": null,
+     "tono": null,
+     "texto": "Increíble"
+    },
+    "pos": [
+     0.0,
+     0.0,
+     1.0,
+     1.0
+    ]
+   },
+   {
+    "nombre": "abajo",
+    "set": 1,
+    "cfg": {
+     "preset": "Luxe Slide",
+     "size": 0.09,
+     "color": [
+      1.0,
+      1.0,
+      1.0
+     ],
+     "barra": null,
+     "tono": null,
+     "texto": "de verdad",
+     "font": "Poppins",
+     "style": "Regular"
+    },
+    "pos": [
+     0.0,
+     -0.1303,
+     1.0,
+     1.0
+    ]
+   },
+   {
+    "nombre": "imagen",
+    "set": 1,
+    "cfg": {
+     "preset": "Luxe Slide",
+     "size": 0.32,
+     "color": [
+      0.3,
+      0.86,
+      1.0
+     ],
+     "barra": null,
+     "tono": null,
+     "texto": "●",
+     "font": "Arial",
+     "style": "Regular"
+    },
+    "pos": [
+     0.0,
+     -0.2444,
+     1.0,
+     1.0
+    ]
+   },
+   {
+    "nombre": "arriba 2",
+    "set": 2,
+    "cfg": {
+     "preset": "Luxe Slide",
+     "size": 0.09,
+     "color": [
+      1.0,
+      1.0,
+      1.0
+     ],
+     "barra": null,
+     "tono": null,
+     "texto": "Esto es",
+     "font": "Poppins",
+     "style": "Regular"
+    },
+    "pos": [
+     0.0,
+     0.1524,
+     1.0,
+     1.0
+    ]
+   },
+   {
+    "nombre": "principal 2",
+    "set": 2,
+    "cfg": {
+     "preset": "Luxe Shine",
+     "size": 0.225,
+     "color": [
+      1.0,
+      0.45,
+      0.72
+     ],
+     "barra": null,
+     "tono": null,
+     "texto": "Increíble"
+    },
+    "pos": [
+     0.0,
+     0.0,
+     1.0,
+     1.0
+    ]
+   },
+   {
+    "nombre": "abajo 2",
+    "set": 2,
+    "cfg": {
+     "preset": "Luxe Slide",
+     "size": 0.09,
+     "color": [
+      1.0,
+      1.0,
+      1.0
+     ],
+     "barra": null,
+     "tono": null,
+     "texto": "de verdad",
+     "font": "Poppins",
+     "style": "Bold"
+    },
+    "pos": [
+     0.0,
+     -0.1303,
+     1.0,
+     1.0
+    ]
+   },
+   {
+    "nombre": "imagen 2",
+    "set": 2,
+    "cfg": {
+     "preset": "Luxe Slide",
+     "size": 0.32,
+     "color": [
+      1.0,
+      0.45,
+      0.72
+     ],
+     "barra": null,
+     "tono": null,
+     "texto": "●",
+     "font": "Arial",
+     "style": "Regular"
+    },
+    "pos": [
+     0.0,
+     -0.2606,
+     1.25,
+     1.25
+    ]
+   },
+   {
+    "nombre": "arriba 3",
+    "set": 3,
+    "cfg": {
+     "preset": "Luxe Slide",
+     "size": 0.09,
+     "color": [
+      1.0,
+      1.0,
+      1.0
+     ],
+     "barra": null,
+     "tono": null,
+     "texto": "Esto es",
+     "font": "Poppins",
+     "style": "Bold"
+    },
+    "pos": [
+     0.0,
+     0.1524,
+     1.0,
+     1.0
+    ]
+   },
+   {
+    "nombre": "principal 3",
+    "set": 3,
+    "cfg": {
+     "preset": "Luxe Shine",
+     "size": 0.225,
+     "color": [
+      1.0,
+      0.27,
+      0.1
+     ],
+     "barra": null,
+     "tono": null,
+     "texto": "Increíble"
+    },
+    "pos": [
+     0.0,
+     0.0,
+     1.0,
+     1.0
+    ]
+   },
+   {
+    "nombre": "abajo 3",
+    "set": 3,
+    "cfg": {
+     "preset": "Luxe Slide",
+     "size": 0.09,
+     "color": [
+      1.0,
+      1.0,
+      1.0
+     ],
+     "barra": null,
+     "tono": null,
+     "texto": "de verdad",
+     "font": "Poppins",
+     "style": "Regular"
+    },
+    "pos": [
+     0.0,
+     -0.1303,
+     1.0,
+     1.0
+    ]
+   },
+   {
+    "nombre": "imagen 3",
+    "set": 3,
+    "cfg": {
+     "preset": "Luxe Slide",
+     "size": 0.32,
+     "color": [
+      1.0,
+      0.27,
+      0.1
+     ],
+     "barra": null,
+     "tono": null,
+     "texto": "●",
+     "font": "Arial",
+     "style": "Regular"
+    },
+    "pos": [
+     0.0,
+     -0.2346,
+     0.85,
+     0.85
+    ]
+   },
+   {
+    "nombre": "simple",
+    "set": 0,
+    "cfg": {
+     "preset": "Luxe Slide",
+     "size": 0.105,
+     "color": [
+      1.0,
+      1.0,
+      1.0
+     ],
+     "barra": null,
+     "tono": null,
+     "texto": "Palabras sueltas",
+     "font": "Poppins",
+     "style": "Bold"
+    },
+    "pos": [
+     0.0,
+     0.0,
+     1.0,
+     1.0
+    ]
+   }
+  ]
+ },
+ {
+  "archivo": "Base titulos dinamicos vertical",
+  "formato": "v",
+  "pack": "Base títulos dinámicos",
+  "clips": [
+   {
+    "nombre": "arriba",
+    "set": 1,
+    "cfg": {
+     "preset": "Luxe Slide",
+     "size": 0.12,
+     "color": [
+      1.0,
+      1.0,
+      1.0
+     ],
+     "barra": null,
+     "tono": null,
+     "texto": "Esto es",
+     "font": "Poppins",
+     "style": "Regular"
+    },
+    "pos": [
+     0.0,
+     0.0131,
+     1.0,
+     1.0
+    ]
+   },
+   {
+    "nombre": "principal",
+    "set": 1,
+    "cfg": {
+     "preset": "Luxe Shine",
+     "size": 0.3,
+     "color": [
+      0.3,
+      0.86,
+      1.0
+     ],
+     "barra": null,
+     "tono": null,
+     "texto": "Increíble"
+    },
+    "pos": [
+     0.0,
+     -0.0781,
+     1.0,
+     1.0
+    ]
+   },
+   {
+    "nombre": "abajo",
+    "set": 1,
+    "cfg": {
+     "preset": "Luxe Slide",
+     "size": 0.12,
+     "color": [
+      1.0,
+      1.0,
+      1.0
+     ],
+     "barra": null,
+     "tono": null,
+     "texto": "de verdad",
+     "font": "Poppins",
+     "style": "Regular"
+    },
+    "pos": [
+     0.0,
+     -0.161,
+     1.0,
+     1.0
+    ]
+   },
+   {
+    "nombre": "imagen",
+    "set": 1,
+    "cfg": {
+     "preset": "Luxe Slide",
+     "size": 0.5,
+     "color": [
+      0.3,
+      0.86,
+      1.0
+     ],
+     "barra": null,
+     "tono": null,
+     "texto": "●",
+     "font": "Arial",
+     "style": "Regular"
+    },
+    "pos": [
+     0.0,
+     -0.2344,
+     1.0,
+     1.0
+    ]
+   },
+   {
+    "nombre": "arriba 2",
+    "set": 2,
+    "cfg": {
+     "preset": "Luxe Slide",
+     "size": 0.12,
+     "color": [
+      1.0,
+      1.0,
+      1.0
+     ],
+     "barra": null,
+     "tono": null,
+     "texto": "Esto es",
+     "font": "Poppins",
+     "style": "Regular"
+    },
+    "pos": [
+     0.0,
+     0.0131,
+     1.0,
+     1.0
+    ]
+   },
+   {
+    "nombre": "principal 2",
+    "set": 2,
+    "cfg": {
+     "preset": "Luxe Shine",
+     "size": 0.3,
+     "color": [
+      1.0,
+      0.45,
+      0.72
+     ],
+     "barra": null,
+     "tono": null,
+     "texto": "Increíble"
+    },
+    "pos": [
+     0.0,
+     -0.0781,
+     1.0,
+     1.0
+    ]
+   },
+   {
+    "nombre": "abajo 2",
+    "set": 2,
+    "cfg": {
+     "preset": "Luxe Slide",
+     "size": 0.12,
+     "color": [
+      1.0,
+      1.0,
+      1.0
+     ],
+     "barra": null,
+     "tono": null,
+     "texto": "de verdad",
+     "font": "Poppins",
+     "style": "Bold"
+    },
+    "pos": [
+     0.0,
+     -0.161,
+     1.0,
+     1.0
+    ]
+   },
+   {
+    "nombre": "imagen 2",
+    "set": 2,
+    "cfg": {
+     "preset": "Luxe Slide",
+     "size": 0.5,
+     "color": [
+      1.0,
+      0.45,
+      0.72
+     ],
+     "barra": null,
+     "tono": null,
+     "texto": "●",
+     "font": "Arial",
+     "style": "Regular"
+    },
+    "pos": [
+     0.0,
+     -0.245,
+     1.25,
+     1.25
+    ]
+   },
+   {
+    "nombre": "arriba 3",
+    "set": 3,
+    "cfg": {
+     "preset": "Luxe Slide",
+     "size": 0.12,
+     "color": [
+      1.0,
+      1.0,
+      1.0
+     ],
+     "barra": null,
+     "tono": null,
+     "texto": "Esto es",
+     "font": "Poppins",
+     "style": "Bold"
+    },
+    "pos": [
+     0.0,
+     0.0131,
+     1.0,
+     1.0
+    ]
+   },
+   {
+    "nombre": "principal 3",
+    "set": 3,
+    "cfg": {
+     "preset": "Luxe Shine",
+     "size": 0.3,
+     "color": [
+      1.0,
+      0.27,
+      0.1
+     ],
+     "barra": null,
+     "tono": null,
+     "texto": "Increíble"
+    },
+    "pos": [
+     0.0,
+     -0.0781,
+     1.0,
+     1.0
+    ]
+   },
+   {
+    "nombre": "abajo 3",
+    "set": 3,
+    "cfg": {
+     "preset": "Luxe Slide",
+     "size": 0.12,
+     "color": [
+      1.0,
+      1.0,
+      1.0
+     ],
+     "barra": null,
+     "tono": null,
+     "texto": "de verdad",
+     "font": "Poppins",
+     "style": "Regular"
+    },
+    "pos": [
+     0.0,
+     -0.161,
+     1.0,
+     1.0
+    ]
+   },
+   {
+    "nombre": "imagen 3",
+    "set": 3,
+    "cfg": {
+     "preset": "Luxe Slide",
+     "size": 0.5,
+     "color": [
+      1.0,
+      0.27,
+      0.1
+     ],
+     "barra": null,
+     "tono": null,
+     "texto": "●",
+     "font": "Arial",
+     "style": "Regular"
+    },
+    "pos": [
+     0.0,
+     -0.228,
+     0.85,
+     0.85
+    ]
+   },
+   {
+    "nombre": "simple",
+    "set": 0,
+    "cfg": {
+     "preset": "Luxe Slide",
+     "size": 0.14,
+     "color": [
+      1.0,
+      1.0,
+      1.0
+     ],
+     "barra": null,
+     "tono": null,
+     "texto": "Palabras sueltas",
+     "font": "Poppins",
+     "style": "Bold"
+    },
+    "pos": [
+     0.0,
+     -0.0781,
+     1.0,
+     1.0
+    ]
+   }
+  ]
+ }
+]

@@ -1,0 +1,79 @@
+==============================================================================
+ 4_diseno\  —  DISEÑO
+ CineCaptions · By Cinema Productions
+==============================================================================
+
+Lo que dibuja el banner y el icono del instalador, y notas sueltas. Nada de aquí va dentro
+del .exe: los scripts escriben su resultado en 3_compilar y 2_recursos.
+
+QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
+------------------------------------------------------------------------------
+    .cf\   (1 archivos)
+        icono.ico
+    banner\   (3 archivos)  — crear_banner.py: dibuja 3_compilar/banner.jpg
+        .cf\   (1 archivos)
+        crear_banner.py
+            dibuja 3_compilar/banner.jpg, el banner del instalador.
+        desktop.ini
+    icono\   (5 archivos)  — crear_icono.py + logo_original.jpg: crean 2_recursos/logo_cinecaptions.png y .ico
+        .cf\   (1 archivos)
+        crear_icono.py
+            crea el icono del programa (2_recursos/logo_cinecaptions.png y .ico) desde el logo.
+        desktop.ini
+        logo_original.jpg
+            el logo original del que sale el icono
+        muestra_iconos.png
+    notas\   (3 archivos)  — notas y pedidos sueltos (no van al programa)
+        .cf\   (1 archivos)
+        desktop.ini
+        Pedido - pack Luxe y Amro Captions.txt
+    packs_anteriores\   (64 archivos)
+    packs_nuevos\   (3 archivos)
+        .cf\   (1 archivos)
+        desktop.ini
+        LEEME.txt
+    plantilla_base_cinema\   (37 archivos)
+    plantillas_virales\   (27 archivos)  — cómo y con qué se hicieron los packs «Plantillas virales cinema» (scripts, calibración, vistas)
+        .cf\   (1 archivos)
+        vistas\   (14 archivos)  — una hoja por pack con los sets 1..6 y la base, renderizada en Resolve
+        cal_h.json
+            calibración horizontal (la misma medida a 1920×1080)
+        cal_v.json
+            calibración vertical: cuánto mide cada preset a un tamaño conocido
+        desktop.ini
+        diseno.json
+            el diseño resuelto de los 12 packs (tamaños y posiciones de los 19 clips de cada uno)
+        diseno.py
+            el diseño de «Plantillas virales cinema»: tamaños, colores, posiciones y sets de los 6 packs → diseno.json.
+        generar_prov.py
+            regenera los 12 .drb de «Plantillas virales cinema» desde sus .drt.
+        hoja.py
+            hoja de contacto (sets 1..6 y base) de un pack verificado en Resolve.
+        instalar.py
+            copia los .drb/.drt de «Plantillas virales cinema» a plantillas_incluidas con su pack.json y posiciones.
+        medir.py
+            mide la caja de texto de las fotos de calibración (cal_v.json / cal_h.json).
+        PLANTILLAS VIRALES CINEMA - como se hicieron.txt
+            el documento de cómo se crearon los packs «Plantillas virales cinema»
+        resolve_taller.py
+            funciones que corren DENTRO de Resolve: construir los timelines, importar y verificar los .drb de los packs.
+        sintetizar_drb.py
+            arma un .drb (bin de Text+) a partir de un .drt, con la posición de cada clip.
+    promo\   (18 archivos)
+        .cf\   (1 archivos)
+        banners\   (12 archivos)
+        banners_10.py
+            10 banners promocionales de 1280×720 (todos con los iconos de Windows y Mac en una esquina).
+        CineCaptions_banner_1280x720.png
+        crear_banner_promo.py
+            el banner promocional 1280×720 (con los iconos de Windows y Mac en la esquina).
+        desktop.ini
+        hoja_banners.png
+    propuesta_sonido\   (6 archivos)  — imagenes de la nueva pantalla Sonido (sin pad XY) y 100 mejoras de rendimiento e interfaz
+        .cf\   (1 archivos)
+        100 MEJORAS - rendimiento e interfaz.md
+        A_sonido_nuevo_modo_simple.png
+        B_sonido_nuevo_modo_avanzado.png
+        C_sonido_nuevo_pantalla_pequena_1600.png
+        desktop.ini
+    desktop.ini

@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "nombre": "Plantillas virales cinema · Amro · superior",
+  "formatos": {
+    "h": {
+      "drb": "Plantillas virales cinema Amro superior horizontal.drb"
+    },
+    "v": {
+      "drb": "Plantillas virales cinema Amro superior vertical.drb"
+    }
+  }
+}

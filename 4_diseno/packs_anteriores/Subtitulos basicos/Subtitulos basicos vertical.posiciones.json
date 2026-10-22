@@ -1,0 +1,17 @@
+{
+ "origen": "Subtitulos basicos vertical.drb",
+ "clips": {
+  "basico inferior 1": [0.0, -0.172396, 1.0, 1.0],
+  "basico inferior 2": [0.0, -0.168229, 0.73, 0.73],
+  "basico inferior 3": [0.0, -0.169271, 1.0, 1.0],
+  "basico superior 1": [0.0, 0.302083, 1.0, 1.0],
+  "basico superior 2": [0.0, 0.286979, 0.73, 0.73],
+  "basico superior 3": [0.0, 0.307292, 1.0, 1.0],
+  "traducion  inferior 1": [0.0, -0.193229, 1.0, 1.0],
+  "traducion  inferior 2": [0.0, -0.188021, 1.0, 1.0],
+  "traducion  inferior 3": [0.0, -0.191146, 1.0, 1.0],
+  "traducion  superior 1": [0.0, 0.282292, 1.0, 1.0],
+  "traducion  superior 2": [0.0, 0.267708, 1.0, 1.0],
+  "traducion  superior 3": [0.0, 0.289063, 1.0, 1.0]
+ }
+}

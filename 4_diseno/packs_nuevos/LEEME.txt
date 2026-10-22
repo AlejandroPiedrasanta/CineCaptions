@@ -1,0 +1,3 @@
+Los generadores de packs viven ahora en 2_recursos/generador_packs/ (viajan con el programa: «Estilo desde una imagen» los usa).
+  python 2_recursos/generador_packs/construir_pack.py <plantilla.drb> <salida.drb> "<nombre del bin>" --pack superior|inferior|guia [--combs 1,2,3]
+Plantillas contenedoras: las de 2_recursos/plantillas_incluidas/Viral Superior|Inferior.

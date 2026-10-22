@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "nombre": "Plantillas virales cinema · Luxe · centro",
+  "formatos": {
+    "h": {
+      "drb": "Plantillas virales cinema Luxe centro horizontal.drb"
+    },
+    "v": {
+      "drb": "Plantillas virales cinema Luxe centro vertical.drb"
+    }
+  }
+}
