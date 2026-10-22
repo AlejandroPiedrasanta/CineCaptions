@@ -1,6 +1,6 @@
 # CineCaptions — leer SOLO esto; lo demás se consulta por demanda
 
-App PySide6 (v5.38) que subtitula vídeos con IA local y coloca los subtítulos en DaVinci Resolve. Carpetas: `1_codigo` programa · `2_recursos` · `3_compilar` · `4_diseno` · `5_licencias` (otro producto) · `6_compilacion` (temporal, no tocar) · `7_mac` · `INSTALADORES/{Windows,Mac}` · `DOCUMENTACION`.
+App PySide6 (v5.38) que subtitula vídeos con IA local y coloca los subtítulos en DaVinci Resolve. Carpetas: `1_codigo` programa · `2_recursos` · `3_compilar` · `4_diseno` · `6_compilacion` (temporal, no tocar) · `7_mac` · `INSTALADORES/{Windows,Mac}` · `DOCUMENTACION`.
 «Tema N» de la interfaz → `id` del mapa: 1 `kinetic-planificador` · 2 `guion-planificador` · 3 `viral-planificador` · 4 `tema4` · 5 `tema5` · 6 `tema6`.
 
 ## Consultar SIN leer archivos (en este orden; ahorra tokens)

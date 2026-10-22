@@ -69,5 +69,12 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
             el banner promocional 1280×720 (con los iconos de Windows y Mac en la esquina).
         desktop.ini
         hoja_banners.png
-    propuesta_sonido\   (206 archivos)  — imagenes de la nueva pantalla Sonido (sin pad XY) y 100 mejoras de rendimiento e interfaz
+    propuesta_sonido\   (27 archivos)  — imagenes de la nueva pantalla Sonido (sin pad XY) y 100 mejoras de rendimiento e interfaz
+        .cf\   (1 archivos)
+        implementacion\   (21 archivos)
+        100 MEJORAS - rendimiento e interfaz.md
+        A_sonido_nuevo_modo_simple.png
+        B_sonido_nuevo_modo_avanzado.png
+        C_sonido_nuevo_pantalla_pequena_1600.png
+        desktop.ini
     desktop.ini

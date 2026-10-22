@@ -18,9 +18,10 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         astro_nucleo.png
         astro_runas.png
         desktop.ini
-    partido_listo\   (9 archivos)
+    partido_listo\   (10 archivos)
         aplicar.ps1
         CineCaptions (script principal).py
+        desktop.ini
         editor_palabras.py
         partir_principal.py.txt
         selector_emojis.py

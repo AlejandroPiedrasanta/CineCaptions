@@ -2,7 +2,7 @@
  CINECAPTIONS 5.38  ·  By Cinema Productions  —  LEEME
  Subtítulos automáticos y virales para DaVinci Resolve
  Python 3.15.1 + PySide6 (Qt) · motor auxiliar 3.14.9 · Windows 10/11
- Documentación al día el 2026-10-21 (la rehace 3_compilar\documentar.py)
+ Documentación al día el 2026-10-22 (la rehace 3_compilar\documentar.py)
 ================================================================================
 
 LEEME.txt es para PERSONAS (~30 KB). Un asistente NO debe leerlo entero: DOCUMENTACION/RESUMEN.md + mapa()/simbolo() del MCP.
@@ -108,8 +108,6 @@ CineCaptions\
                     huellas.json (documentación y registro automáticos).
   4_diseno\         DISEÑO: banner\ (dibuja 3_compilar\banner.jpg), icono\ (crea el icono
                     en 2_recursos\), notas\ (pedidos y notas sueltas). Nada va al .exe.
-  5_licencias\      TU ADMINISTRADOR DE LICENCIAS y el kit cinema_licencias (no va dentro
-                    del .exe; instrucciones en su LEEME.md).
   6_compilacion\    TEMPORAL: lo crea la compilación (Python 3.14, venv314, PyInstaller).
                     Se puede borrar entero: se rehace solo.
   7_mac\            INSTALADORES DE MAC: receta del .app / .pkg / .dmg (PyInstaller en una Mac o
@@ -453,7 +451,7 @@ Desinstalar NO libera la licencia (tus datos se conservan).
 REGISTRO_DE_CAMBIOS.txt guarda TODO, lo más nuevo arriba:
   · Automático: cada compilación (y cada vez que corres 3_compilar\documentar.py)
     compara la huella SHA-256 de cada archivo de 1_codigo\, 2_recursos\,
-    3_compilar\, 4_diseno\ y 5_licencias\ con la vez anterior
+    3_compilar\ y 4_diseno\ con la vez anterior
     (3_compilar\huellas.json) y anota la fecha, la versión y qué archivos son
     nuevos (+), cambiaron (~) o se quitaron (-). Nadie tiene que acordarse.
   · Explicado: al cambiar algo, deja también el POR QUÉ:

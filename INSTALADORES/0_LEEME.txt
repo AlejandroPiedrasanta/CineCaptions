@@ -22,4 +22,4 @@ CÓMO SE ACTUALIZAN (después de CUALQUIER mejora del programa; salen del mismo 
                                                                                 (genera version.json con huellas SHA-256 y sube a GitHub Releases; -SinSubir solo lo genera)
 
 Se corren desde la raíz del proyecto. Los .exe / .dmg no se suben a git (.gitignore).
-El instalador del ADMINISTRADOR de licencias es otro producto y vive en 5_licencias\.
+El instalador del ADMINISTRADOR de licencias es otro producto y vive en su propia carpeta: ..\Administrador de Licencias\.

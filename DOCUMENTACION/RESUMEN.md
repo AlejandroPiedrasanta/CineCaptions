@@ -17,7 +17,7 @@ Inicio (GO + chips Estilo/Emojis/Efectos/Formato/Proyecto) · Estilos (packs, «
 Pack: pref `go_pack` ⇄ `plantilla_sel` (Estilos y chip de GO son lo mismo) · Efectos: pref `go_sfx` (+ `sfx_var`) · Emojis: pref `go_emojis` · Posición/estilo fijo: solo en packs de 3 líneas · Sonido: modo en `sfx_rules` (Simple/Avanzado) · Estilo de cada bloque: `estilos_bloque.asignar` (el usuario lo cambia en Creativo).
 
 ## Estructura del proyecto
-`1_codigo/` programa · `2_recursos/` lo que viaja en el .exe (scripts de Resolve, packs, fuentes, sfx, locales) · `3_compilar/` armar el instalador · `4_diseno/` banner e icono · `5_licencias/` Administrador de Licencias (otro producto) · `6_compilacion/` temporal (se rehace) · `7_mac/` instalador Mac · `INSTALADORES/` Windows y Mac listos · `DOCUMENTACION/` esta carpeta.
+`1_codigo/` programa · `2_recursos/` lo que viaja en el .exe (scripts de Resolve, packs, fuentes, sfx, locales) · `3_compilar/` armar el instalador · `4_diseno/` banner e icono · `6_compilacion/` temporal (se rehace) · `7_mac/` instalador Mac · `INSTALADORES/` Windows y Mac listos · `DOCUMENTACION/` esta carpeta.
 Datos del usuario (fuera del programa): `~/DaVinciSubtitles/` (ajustes, marcas, proyectos, registro, caches).
 
 ## Reglas que no se rompen

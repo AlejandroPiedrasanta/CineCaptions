@@ -12,6 +12,42 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-22 13:00  ·  v5.38  ·  cambio explicado
+    El Administrador de Licencias (antes 5_licencias) pasa a su propia carpeta y repositorio: ..\Administrador de Licencias. No era parte de CineCaptions y gastaba búsquedas.
+    nuevos (108):
+      + 1_codigo/herramientas_dev/banco_voz/desktop.ini
+      + 1_codigo/herramientas_dev/desktop.ini
+      + 1_codigo/remotion/desktop.ini
+      + 1_codigo/remotion/public/desktop.ini
+      + 1_codigo/remotion/public/fluent/desktop.ini
+      + 1_codigo/remotion/public/fuentes/desktop.ini
+      + 1_codigo/remotion/public/fuentes/kit/desktop.ini
+      + 1_codigo/remotion/public/iconos3d/desktop.ini
+      + 1_codigo/remotion/public/lottie/desktop.ini
+      + 1_codigo/remotion/public/mapa/banderas/desktop.ini
+      + 1_codigo/remotion/public/mapa/desktop.ini
+      + 1_codigo/remotion/public/recortes/color/desktop.ini
+      … y 96 más
+    modificados (4):
+      ~ 1_codigo/mapa_codigo.py
+      ~ 1_codigo/mcp_cinecaptions.py
+      ~ 3_compilar/documentar.py
+      ~ 3_compilar/encabezados.py
+    quitados (344):
+      - 4_diseno/propuesta_sonido/auditoria_2026_10_21/AUDITORIA.md
+      - 4_diseno/propuesta_sonido/auditoria_2026_10_21/auditoria-motor.md
+      - 4_diseno/propuesta_sonido/auditoria_2026_10_21/direccion-diseno.md
+      - 4_diseno/propuesta_sonido/auditoria_2026_10_21/implementacion/LEEME_CAMBIO.md
+      - 4_diseno/propuesta_sonido/auditoria_2026_10_21/implementacion/documentacion.log
+      - 4_diseno/propuesta_sonido/auditoria_2026_10_21/implementacion/fase0/aislamiento.json
+      - 4_diseno/propuesta_sonido/auditoria_2026_10_21/implementacion/fase0/informe.json
+      - 4_diseno/propuesta_sonido/auditoria_2026_10_21/implementacion/fase0/sound_director/10178cc34a8d653b.json
+      - 4_diseno/propuesta_sonido/auditoria_2026_10_21/implementacion/fase0/sound_director/general.json
+      - 4_diseno/propuesta_sonido/auditoria_2026_10_21/implementacion/home_aislado/DaVinciSubtitles/cache_fuentes.json
+      - 4_diseno/propuesta_sonido/auditoria_2026_10_21/implementacion/home_aislado/DaVinciSubtitles/kit7_historial.json
+      - 4_diseno/propuesta_sonido/auditoria_2026_10_21/implementacion/home_aislado/DaVinciSubtitles/kit7_paletas.json
+      … y 332 más
+
 2026-10-21 21:25  ·  v5.38  ·  (automático)
     nuevos (4):
       + 1_codigo/director_sonido_recursos_libres.py
