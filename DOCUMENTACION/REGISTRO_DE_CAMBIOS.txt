@@ -12,6 +12,22 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-22 13:45  ·  v5.41  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
 2026-10-22 13:44  ·  v5.40  ·  cambio explicado
     Arreglado el error del Tema 1 neón (placa) en el .exe: TypeError 'lazy_import' object is not callable. Python 3.15 expone ThreadPoolExecutor como import «lazy» en concurrent.futures; se importa desde concurrent.futures.thread (6 sitios). Instalador: diseño A elegido por el usuario (% total grande, MB sin coma inglesa + tiempo restante, nombre corto del archivo, nota de datos, botón pequeño mientras instala, sin globos de ayuda en el desinstalador).
     modificados (7):
