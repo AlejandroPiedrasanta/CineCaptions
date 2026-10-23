@@ -1,32 +1,32 @@
 # CineCaptions · By Cinema Productions
-# 1_codigo/sonido_skill_ui.py — la página SONIDO (v5.43) tipo LÍNEA DE TIEMPO: lo que decidió sonido_skill, carril por carril, y retoques a mano.
+# 1_codigo/sonido_skill_ui.py — la página SONIDO (v5.43, diseño A+B elegido por el usuario): editor visual de lo que decidió sonido_skill.
 """
-Reemplaza a la página del «AI Sound Director» (ya no se muestra). Arriba a abajo:
+Reemplaza a la página del «AI Sound Director» (ya no se muestra). De arriba a abajo (todo dentro de un desplazable vertical):
 
-    cabecera     «Sonido», el video y una línea de estado (al día en Resolve / cambios sin aplicar)
-    controles    estilo (Automático según el tema · Elegante · Dinámico · Lista · Tipografía cinética), gancho al inicio, video de fiesta o mar,
-                 carpeta de la biblioteca, «Rehacer el sonido» y «Aplicar a Resolve»
-    línea        LineaTiempo: regla de segundos, carriles guía (palabras clave de los captions, cortes) y un carril por pista de Resolve
-                 (AI SFX MOTION / IMPACTS / TONAL / UI / TEXTURE) con cada sonido como bloque (largo real, línea en su PICO = el frame del evento);
-                 zoom − / +, desplazamiento horizontal; clic en un bloque → inspector
-    inspector    qué es, en qué segundo, qué archivo y POR QUÉ; ▶ Escuchar, Otra variante, ◀ / ▶ un fotograma, Quitar (sonido_skill.editar)
-    revisión     la crítica de siempre (repetidos, amontonados, impactos de más) y el interruptor para los próximos GO
+    cabecera     logo, «Sonido», video · tema · cuántos sonidos, pastilla de estado, «Rehacer» y «Aplicar a Resolve»
+    estilos (B)  cinco tarjetas (Automático · Elegante · Dinámico · Lista · Cinética), el aro de tipos (cuántos de cada pista) y los
+                 interruptores Gancho al inicio / Fiesta o mar
+    editor (A)   el cuadro del video en el momento elegido (con su etiqueta) | el inspector: ícono, tipo y segundo, la onda del sonido,
+                 POR QUÉ suena ahí y ▶ Escuchar · Otra variante · ◀/▶ un fotograma · Quitar
+    línea (A)    tira de fotogramas, onda de la voz y un carril por pista (bloques de color con su ícono y su onda; línea en el PICO), cabezal
+                 rojo en el momento elegido, zoom − / +
+    momentos (B) una tarjeta por sonido con su fotograma, segundo, ícono, nombre, onda y porqué; tocar = elegir (y mover el editor ahí)
 
-Todo lo que cuesta va por correr_en_hilo; sin globos: una línea de estado.
+Datos: sonido_skill.resumen (diseño) + sonido_skill.visual (miniaturas, voz, ondas; en caché). Todo lo que cuesta va por correr_en_hilo.
 """
 from pathlib import Path
 
-from PySide6.QtCore import QRectF, Qt, Signal
-from PySide6.QtGui import QColor, QPainter, QPen
-from PySide6.QtWidgets import QScrollArea, QSizePolicy, QVBoxLayout, QWidget
+from PySide6.QtCore import QPointF, QRectF, Qt, Signal
+from PySide6.QtGui import QColor, QPainter, QPainterPath, QPen, QPixmap
+from PySide6.QtWidgets import QHBoxLayout, QScrollArea, QSizePolicy, QVBoxLayout, QWidget
 
 import qt_kit as ui
 from i18n import tr
-from qt_kit import Boton, Combo, Etiqueta, Interruptor, StringVar, Tarjeta, caja_h
+from qt_kit import Boton, Etiqueta, Interruptor, Tarjeta, caja_h
 
-TEXT_MUTED = ui.TEXT_MUTED
-ESTILOS = (('auto', 'Automático (según el tema)'), ('elegante', 'Elegante'), ('dinamico', 'Dinámico'), ('lista', 'Lista / top'),
-           ('cinetica', 'Tipografía cinética'))
+MUT = ui.TEXT_MUTED
+ESTILOS = (('auto', 'Automático', 'según el tema'), ('elegante', 'Elegante', 'pocos y suaves'), ('dinamico', 'Dinámico', 'pop en cada clave'),
+           ('lista', 'Lista', 'mismo sonido por ítem'), ('cinetica', 'Cinética', 'palabra por palabra'))
 NOMBRE_TIPO = {'gancho': 'Gancho', 'acento': 'Acento', 'texto_grande': 'Palabra clave', 'texto_chico': 'Subtítulo', 'aro': 'Aro',
                'corte': 'Corte', 'corte_fuerte': 'Cambio de escena', 'transicion': 'Transición', 'flash': 'Flash', 'logo': 'Logo',
                'barrido_luz': 'Brillo', 'neon': 'Neón', 'icono': 'Ícono', 'tarjeta': 'Tarjeta', 'foto': 'Foto', 'numero_precio': 'Dinero',
@@ -35,6 +35,7 @@ NOMBRE_TIPO = {'gancho': 'Gancho', 'acento': 'Acento', 'texto_grande': 'Palabra 
                'negativo': 'Negativo', 'grafica': 'Gráfica'}
 CARRILES = (('AI SFX MOTION', 'Movimiento', '#4589FF'), ('AI SFX IMPACTS', 'Impactos', '#FF5D73'), ('AI SFX TONAL', 'Acentos', '#F5C451'),
             ('AI SFX UI', 'Interfaz', '#2BD4A4'), ('AI SFX TEXTURE', 'Textura', '#B07CFF'))
+COLOR = {p: c for p, _, c in CARRILES}
 FPS = 30.0
 
 
@@ -43,109 +44,434 @@ def _mmss(t):
     return f'{int(t // 60)}:{t % 60:05.2f}'
 
 
-class LineaTiempo(QWidget):
-    """La línea de tiempo del sonido: guía + un carril por pista; clic en un bloque = seleccionado(índice en filas)."""
-    seleccionado = Signal(int)
-    IZQ, REGLA, GUIA, ALTO = 112, 26, 24, 34
+def color_de(f):
+    return QColor(COLOR.get((f or {}).get('pista'), '#2BD4A4'))
+
+
+def pintar_icono(p, tipo, r, color, grosor=2.0):
+    """Íconos de línea simples, dibujados (sin archivos): uno por tipo de evento."""
+    p.save()
+    p.setPen(QPen(color, grosor, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap, Qt.PenJoinStyle.RoundJoin))
+    p.setBrush(Qt.BrushStyle.NoBrush)
+    cx, cy, s = r.center().x(), r.center().y(), min(r.width(), r.height()) / 2
+    if tipo == 'gancho':
+        p.drawLine(QPointF(cx, cy + s * .7), QPointF(cx, cy - s * .7))
+        p.drawLine(QPointF(cx - s * .55, cy - s * .15), QPointF(cx, cy - s * .7))
+        p.drawLine(QPointF(cx + s * .55, cy - s * .15), QPointF(cx, cy - s * .7))
+    elif tipo in ('acento', 'positivo'):
+        import math
+        path = QPainterPath()
+        for k in range(10):
+            a = -math.pi / 2 + k * math.pi / 5
+            rr = s * (.8 if k % 2 == 0 else .35)
+            pt = QPointF(cx + rr * math.cos(a), cy + rr * math.sin(a))
+            path.moveTo(pt) if k == 0 else path.lineTo(pt)
+        path.closeSubpath()
+        p.drawPath(path)
+    elif tipo == 'aro':
+        p.drawEllipse(QPointF(cx, cy), s * .8, s * .5)
+        p.drawLine(QPointF(cx - s * .35, cy), QPointF(cx + s * .35, cy))
+    elif tipo in ('corte', 'corte_fuerte', 'transicion'):
+        p.drawEllipse(QPointF(cx - s * .45, cy - s * .45), s * .25, s * .25)
+        p.drawEllipse(QPointF(cx - s * .45, cy + s * .45), s * .25, s * .25)
+        p.drawLine(QPointF(cx - s * .25, cy - s * .3), QPointF(cx + s * .75, cy + s * .55))
+        p.drawLine(QPointF(cx - s * .25, cy + s * .3), QPointF(cx + s * .75, cy - s * .55))
+    elif tipo in ('tarjeta', 'foto', 'pagina'):
+        p.drawRoundedRect(QRectF(cx - s * .75, cy - s * .5, s * 1.5, s), 3, 3)
+        p.drawLine(QPointF(cx - s * .75, cy - s * .15), QPointF(cx + s * .75, cy - s * .15))
+    elif tipo == 'numero_precio':
+        f = p.font()
+        f.setPixelSize(max(8, int(s * 1.5)))
+        f.setBold(True)
+        p.setFont(f)
+        p.drawText(r, Qt.AlignmentFlag.AlignCenter, '$')
+    elif tipo in ('barra_carga',):
+        p.drawRoundedRect(QRectF(cx - s * .8, cy - s * .3, s * 1.6, s * .6), s * .3, s * .3)
+        p.drawLine(QPointF(cx - s * .5, cy), QPointF(cx + s * .1, cy))
+    elif tipo in ('icono', 'check', 'boton_on', 'boton_off', 'cursor_click', 'notificacion'):
+        p.drawRoundedRect(QRectF(cx - s * .65, cy - s * .65, s * 1.3, s * 1.3), s * .35, s * .35)
+    else:                                                       # palabra clave: un destello
+        p.drawEllipse(QPointF(cx, cy), s * .28, s * .28)
+        for dx, dy in ((0, -1), (0, 1), (-1, 0), (1, 0), (.7, .7), (-.7, -.7), (.7, -.7), (-.7, .7)):
+            p.drawLine(QPointF(cx + dx * s * .5, cy + dy * s * .5), QPointF(cx + dx * s * .85, cy + dy * s * .85))
+    p.restore()
+
+
+def pintar_onda(p, r, barras, color):
+    if not barras:
+        return
+    n = len(barras)
+    w = r.width() / n
+    p.save()
+    p.setPen(Qt.PenStyle.NoPen)
+    p.setBrush(color)
+    for i, v in enumerate(barras):
+        h = max(1.5, float(v) * r.height())
+        p.drawRoundedRect(QRectF(r.left() + i * w, r.center().y() - h / 2, max(1.0, w - 1), h), 1, 1)
+    p.restore()
+
+
+def pixmap(ruta, cache={}):          # noqa: B006 — caché de QPixmap por ruta (hilo de la interfaz)
+    if not ruta:
+        return None
+    pm = cache.get(ruta)
+    if pm is None:
+        pm = QPixmap(str(ruta))
+        cache[ruta] = pm
+    return pm if not pm.isNull() else None
+
+
+def miniatura(vis, t):
+    m = (vis or {}).get('miniaturas') or []
+    return m[max(0, min(len(m) - 1, int(round(float(t or 0)))))] if m else None
+
+
+# ====================================================================================== piezas
+class TarjetaEstilo(QWidget):
+    clic = Signal(str)
+
+    def __init__(self, clave, nombre, desc, padre=None):
+        super().__init__(padre)
+        self.clave, self.nombre, self.desc, self.activa = clave, nombre, desc, False
+        self.setFixedHeight(64)
+        self.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+
+    def paintEvent(self, _e):
+        p = QPainter(self)
+        p.setRenderHint(QPainter.RenderHint.Antialiasing)
+        r = QRectF(self.rect()).adjusted(1, 1, -1, -1)
+        p.setPen(QPen(QColor('#4589FF' if self.activa else '#22324F'), 1.4))
+        p.setBrush(QColor('#16305E' if self.activa else '#0F1A2F'))
+        p.drawRoundedRect(r, 14, 14)
+        p.setPen(QColor('#FFFFFF'))
+        p.setFont(ui.fuente(14, peso='negrita'))
+        p.drawText(r.adjusted(16, 10, -8, -30), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, tr(self.nombre))
+        p.setPen(QColor(MUT))
+        p.setFont(ui.fuente(12))
+        p.drawText(r.adjusted(16, 32, -8, -8), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, tr(self.desc))
+        p.end()
+
+    def mousePressEvent(self, _e):
+        self.clic.emit(self.clave)
+
+
+class AroTipos(QWidget):
+    """El aro con cuántos sonidos hay de cada pista, y su leyenda."""
 
     def __init__(self, padre=None):
         super().__init__(padre)
-        self.filas, self.guia, self.sel, self.pps = [], {}, -1, 60.0
+        self.cuenta = {}
+        self.setFixedSize(190, 70)
+
+    def poner(self, filas):
+        self.cuenta = {}
+        for f in filas:
+            self.cuenta[f.get('pista')] = self.cuenta.get(f.get('pista'), 0) + 1
+        self.update()
+
+    def paintEvent(self, _e):
+        p = QPainter(self)
+        p.setRenderHint(QPainter.RenderHint.Antialiasing)
+        total = sum(self.cuenta.values()) or 1
+        r = QRectF(6, 8, 54, 54)
+        ang = 90 * 16
+        for pista, _n, col in CARRILES:
+            n = self.cuenta.get(pista, 0)
+            if not n:
+                continue
+            tramo = -int(n / total * 360 * 16)
+            p.setPen(QPen(QColor(col), 9, Qt.PenStyle.SolidLine, Qt.PenCapStyle.FlatCap))
+            p.drawArc(r, ang, tramo)
+            ang += tramo
+        p.setFont(ui.fuente(11))
+        y = 8
+        for pista, nombre, col in CARRILES:
+            n = self.cuenta.get(pista, 0)
+            if n:
+                p.setPen(QColor(col))
+                p.drawText(QRectF(74, y, 120, 14), Qt.AlignmentFlag.AlignLeft, f'● {n} {tr(nombre).lower()}')
+                y += 14
+        p.end()
+
+
+class CuadroVideo(QWidget):
+    """El cuadro del video en el momento elegido, redondeado, con la etiqueta del sonido."""
+    clic = Signal()
+
+    def __init__(self, padre=None):
+        super().__init__(padre)
+        self.pm, self.etiqueta, self.col = None, '', QColor('#4589FF')
+        self.setFixedSize(220, 380)
+        self.setCursor(Qt.CursorShape.PointingHandCursor)
+
+    def poner(self, pm, etiqueta, col):
+        self.pm, self.etiqueta, self.col = pm, etiqueta, col
+        self.update()
+
+    def paintEvent(self, _e):
+        p = QPainter(self)
+        p.setRenderHint(QPainter.RenderHint.Antialiasing)
+        p.setRenderHint(QPainter.RenderHint.SmoothPixmapTransform)
+        r = QRectF(self.rect())
+        camino = QPainterPath()
+        camino.addRoundedRect(r, 16, 16)
+        p.setClipPath(camino)
+        p.fillRect(r, QColor('#000000'))
+        if self.pm:
+            esc = self.pm.scaled(int(r.width()), int(r.height()), Qt.AspectRatioMode.KeepAspectRatioByExpanding,
+                                 Qt.TransformationMode.SmoothTransformation)
+            p.drawPixmap(int((r.width() - esc.width()) / 2), int((r.height() - esc.height()) / 2), esc)
+        if self.etiqueta:
+            p.setFont(ui.fuente(12, peso='negrita'))
+            w = p.fontMetrics().horizontalAdvance(self.etiqueta) + 18
+            caja = QRectF(10, r.height() - 38, w, 26)
+            p.setPen(Qt.PenStyle.NoPen)
+            p.setBrush(self.col)
+            p.drawRoundedRect(caja, 7, 7)
+            p.setPen(QColor('#0B1220'))
+            p.drawText(caja, Qt.AlignmentFlag.AlignCenter, self.etiqueta)
+        p.setPen(Qt.PenStyle.NoPen)                             # ▶ en el centro: escuchar
+        p.setBrush(QColor(255, 255, 255, 60))
+        p.drawEllipse(r.center(), 26, 26)
+        p.setBrush(QColor('#FFFFFF'))
+        c = r.center()
+        tri = QPainterPath()
+        tri.moveTo(c.x() - 8, c.y() - 12)
+        tri.lineTo(c.x() + 13, c.y())
+        tri.lineTo(c.x() - 8, c.y() + 12)
+        tri.closeSubpath()
+        p.drawPath(tri)
+        p.end()
+
+    def mousePressEvent(self, _e):
+        self.clic.emit()
+
+
+class IconoGrande(QWidget):
+    def __init__(self, padre=None):
+        super().__init__(padre)
+        self.tipo, self.col = '', QColor('#4589FF')
+        self.setFixedSize(58, 58)
+
+    def poner(self, tipo, col):
+        self.tipo, self.col = tipo, col
+        self.update()
+
+    def paintEvent(self, _e):
+        p = QPainter(self)
+        p.setRenderHint(QPainter.RenderHint.Antialiasing)
+        fondo = QColor(self.col)
+        fondo.setAlpha(40)
+        borde = QColor(self.col)
+        borde.setAlpha(120)
+        p.setPen(QPen(borde, 1))
+        p.setBrush(fondo)
+        p.drawRoundedRect(QRectF(self.rect()).adjusted(1, 1, -1, -1), 16, 16)
+        pintar_icono(p, self.tipo, QRectF(14, 14, 30, 30), self.col, 2.4)
+        p.end()
+
+
+class Onda(QWidget):
+    def __init__(self, alto=70, padre=None):
+        super().__init__(padre)
+        self.barras, self.col = [], QColor('#4589FF')
+        self.setFixedHeight(alto)
+        self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+
+    def poner(self, barras, col):
+        self.barras, self.col = barras or [], col
+        self.update()
+
+    def paintEvent(self, _e):
+        p = QPainter(self)
+        p.setRenderHint(QPainter.RenderHint.Antialiasing)
+        r = QRectF(self.rect())
+        p.setPen(Qt.PenStyle.NoPen)
+        p.setBrush(QColor('#0B1424'))
+        p.drawRoundedRect(r, 14, 14)
+        pintar_onda(p, r.adjusted(16, 10, -16, -10), self.barras, self.col)
+        p.end()
+
+
+class LineaTiempo(QWidget):
+    """Editor (A): tira de fotogramas, voz y un carril por pista; clic en un bloque = seleccionado(índice en filas)."""
+    seleccionado = Signal(int)
+    IZQ, TIRA, VOZ, ALTO, REGLA = 108, 56, 38, 34, 22
+
+    def __init__(self, padre=None):
+        super().__init__(padre)
+        self.filas, self.vis, self.sel, self.pps, self.dur = [], {}, -1, 70.0, 5.0
         self._cajas = []
         self.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
-        self.setMouseTracking(True)
 
-    def poner(self, filas, guia):
-        self.filas, self.guia = filas or [], guia or {}
-        self.sel = min(self.sel, len(self.filas) - 1)
+    def poner(self, filas, vis, duracion):
+        self.filas, self.vis = filas or [], vis or {}
+        self.dur = max([float(duracion or 0)] + [float(f.get('segundo') or 0) + 1.5 for f in self.filas] + [5.0])
         self._medir()
-
-    def duracion(self):
-        return max([float(self.guia.get('duracion') or 0)] + [float(f.get('segundo') or 0) + 1.5 for f in self.filas] + [5.0])
 
     def zoom(self, factor):
         self.pps = max(20.0, min(320.0, self.pps * factor))
         self._medir()
 
     def _medir(self):
-        ancho = int(self.IZQ + self.duracion() * self.pps + 40)
-        alto = int(self.REGLA + 2 * self.GUIA + len(CARRILES) * self.ALTO + 10)
-        self.setFixedSize(ancho, alto)
+        self.setFixedSize(int(self.IZQ + self.dur * self.pps + 30), int(self.TIRA + self.VOZ + len(CARRILES) * self.ALTO + self.REGLA + 24))
         self.update()
 
     def x_de(self, t):
         return self.IZQ + float(t) * self.pps
 
-    def paintEvent(self, _ev):
+    def paintEvent(self, _e):
         p = QPainter(self)
         p.setRenderHint(QPainter.RenderHint.Antialiasing)
-        f = ui.fuente(10)
-        p.setFont(f)
+        p.setRenderHint(QPainter.RenderHint.SmoothPixmapTransform)
         w, h = self.width(), self.height()
         p.fillRect(QRectF(0, 0, w, h), QColor('#0B1424'))
-        dur = self.duracion()
-        # regla
-        paso = 1 if self.pps >= 45 else 2 if self.pps >= 25 else 5
-        p.setPen(QPen(QColor('#3A4A66'), 1))
-        for s in range(0, int(dur) + 1, paso):
-            x = self.x_de(s)
-            p.drawLine(int(x), self.REGLA - 6, int(x), h)
-            p.setPen(QColor('#8D9BB5'))
-            p.drawText(int(x) + 3, 16, _mmss(s)[:-3])
-            p.setPen(QPen(QColor(255, 255, 255, 18), 1))
-        y = self.REGLA
-        # carriles guía: palabras clave y cortes
-        for nombre, items, color in (('Palabras clave', [(c['t'], c['texto']) for c in self.guia.get('captions') or []], '#E0EBFB'),
-                                     ('Cortes', [(t, '') for t in self.guia.get('cortes') or []], '#8D9BB5')):
-            p.fillRect(QRectF(0, y, w, self.GUIA - 2), QColor(255, 255, 255, 6))
-            p.setPen(QColor('#8D9BB5'))
-            p.drawText(QRectF(10, y, self.IZQ - 14, self.GUIA - 2), Qt.AlignmentFlag.AlignVCenter, tr(nombre))
-            for t, texto in items:
-                x = self.x_de(t)
-                p.setPen(QPen(QColor(color), 2))
-                p.drawLine(int(x), int(y + 4), int(x), int(y + self.GUIA - 6))
-                if texto and self.pps >= 45:
-                    p.setPen(QColor(color))
-                    p.drawText(int(x) + 4, int(y + self.GUIA - 8), texto.replace('caption ', '').split(' (')[0][:16])
-            y += self.GUIA
+        p.setFont(ui.fuente(12))
+        # tira de fotogramas: uno por segundo (o cada 2 / 5 si el zoom es chico)
+        y = 6
+        p.setPen(QColor(MUT))
+        p.drawText(QRectF(12, y, self.IZQ - 16, self.TIRA - 8), Qt.AlignmentFlag.AlignVCenter, tr('Video'))
+        paso = 1 if self.pps >= 50 else 2 if self.pps >= 28 else 5
+        clip = QPainterPath()
+        clip.addRoundedRect(QRectF(self.IZQ, y, self.dur * self.pps, self.TIRA - 8), 8, 8)
+        p.save()
+        p.setClipPath(clip)
+        for s in range(0, int(self.dur) + 1, paso):
+            pm = pixmap(miniatura(self.vis, s))
+            if pm:
+                ancho = self.pps * paso - 2
+                esc = pm.scaled(int(ancho), int(self.TIRA - 8), Qt.AspectRatioMode.KeepAspectRatioByExpanding, Qt.TransformationMode.SmoothTransformation)
+                p.setOpacity(.85)
+                p.drawPixmap(QRectF(self.x_de(s), y, ancho, self.TIRA - 8), esc,
+                             QRectF((esc.width() - ancho) / 2, (esc.height() - (self.TIRA - 8)) / 2, ancho, self.TIRA - 8))
+        p.restore()
+        # voz
+        y = self.TIRA + 2
+        p.setPen(QColor(MUT))
+        p.drawText(QRectF(12, y, self.IZQ - 16, self.VOZ), Qt.AlignmentFlag.AlignVCenter, tr('Voz'))
+        voz = self.vis.get('voz') or []
+        dv = float(self.vis.get('duracion') or self.dur) or self.dur
+        pintar_onda(p, QRectF(self.IZQ, y + 4, dv * self.pps, self.VOZ - 8), voz, QColor('#2F4A72'))
         # carriles de sonido
-        self._cajas = []
+        y0 = self.TIRA + self.VOZ + 6
         fila_de = {c[0]: k for k, c in enumerate(CARRILES)}
-        for k, (_pista, nombre, color) in enumerate(CARRILES):
-            yy = y + k * self.ALTO
-            p.fillRect(QRectF(0, yy, w, self.ALTO - 4), QColor(255, 255, 255, 10 if k % 2 == 0 else 5))
-            p.setPen(QColor(color))
-            p.drawText(QRectF(10, yy, self.IZQ - 14, self.ALTO - 4), Qt.AlignmentFlag.AlignVCenter, tr(nombre))
-        for i, f_ in enumerate(self.filas):
-            k = fila_de.get(f_.get('pista'), 3)
-            color = QColor(CARRILES[k][2])
-            ini = float(f_.get('ini') if f_.get('ini') is not None else f_.get('segundo') or 0)
-            dur_ = max(0.08, float(f_.get('dur') or 0.3))
-            caja = QRectF(self.x_de(ini), y + k * self.ALTO + 4, max(6.0, dur_ * self.pps), self.ALTO - 12)
+        for k, (_pista, nombre, col) in enumerate(CARRILES):
+            yy = y0 + k * self.ALTO
+            p.setPen(Qt.PenStyle.NoPen)
+            p.setBrush(QColor(255, 255, 255, 8))
+            p.drawRoundedRect(QRectF(self.IZQ, yy, w - self.IZQ - 14, self.ALTO - 6), 8, 8)
+            p.setPen(QColor(col))
+            p.drawText(QRectF(12, yy, self.IZQ - 16, self.ALTO - 6), Qt.AlignmentFlag.AlignVCenter, tr(nombre))
+        self._cajas = []
+        ondas = self.vis.get('ondas') or {}
+        for i, f in enumerate(self.filas):
+            k = fila_de.get(f.get('pista'), 3)
+            col = color_de(f)
+            ini = float(f.get('ini') if f.get('ini') is not None else f.get('segundo') or 0)
+            caja = QRectF(self.x_de(ini), y0 + k * self.ALTO + 3, max(22.0, float(f.get('dur') or 0.3) * self.pps), self.ALTO - 12)
             self._cajas.append((caja, i))
-            relleno = QColor(color)
-            relleno.setAlpha(230 if i == self.sel else 120)
-            p.setPen(QPen(QColor('#FFFFFF') if i == self.sel else color, 2 if i == self.sel else 1))
+            sel = i == self.sel
+            relleno = QColor(col)
+            relleno.setAlpha(255 if sel else 165)
+            p.setPen(QPen(QColor('#FFFFFF'), 2) if sel else Qt.PenStyle.NoPen)
             p.setBrush(relleno)
-            p.drawRoundedRect(caja, 6, 6)
-            xp = self.x_de(f_.get('segundo') or 0)          # el PICO = el frame del evento
-            p.setPen(QPen(QColor('#FFFFFF'), 2))
-            p.drawLine(int(xp), int(caja.top() + 2), int(xp), int(caja.bottom() - 2))
-            if caja.width() > 48:
-                p.setPen(QColor('#0B1220'))
-                p.drawText(caja.adjusted(6, 0, -4, 0), Qt.AlignmentFlag.AlignVCenter, NOMBRE_TIPO.get(f_.get('tipo'), '')[:10])
+            p.drawRoundedRect(caja, 7, 7)
+            pintar_icono(p, f.get('tipo'), QRectF(caja.left() + 4, caja.top() + 3, caja.height() - 6, caja.height() - 6), QColor('#0B1220'), 1.6)
+            if caja.width() > 30:
+                pintar_onda(p, QRectF(caja.left() + caja.height(), caja.top() + 5, caja.width() - caja.height() - 4, caja.height() - 10),
+                            ondas.get(f.get('wav')) or [], QColor(11, 18, 32, 140))
+        # regla y cabezal
+        p.setPen(QColor(MUT))
+        p.setFont(ui.fuente(11))
+        yr = y0 + len(CARRILES) * self.ALTO + 4
+        for s in range(0, int(self.dur) + 1, 2 if self.pps >= 40 else 5):
+            p.drawText(QRectF(self.x_de(s) - 20, yr, 40, 16), Qt.AlignmentFlag.AlignCenter, _mmss(s)[:-3])
+        if 0 <= self.sel < len(self.filas):
+            x = self.x_de(self.filas[self.sel].get('segundo') or 0)
+            p.setPen(QPen(QColor('#FF4D5E'), 2))
+            p.drawLine(QPointF(x, 0), QPointF(x, yr))
+            p.setPen(Qt.PenStyle.NoPen)
+            p.setBrush(QColor('#FF4D5E'))
+            tri = QPainterPath()
+            tri.moveTo(x - 7, 0)
+            tri.lineTo(x + 7, 0)
+            tri.lineTo(x, 9)
+            tri.closeSubpath()
+            p.drawPath(tri)
         p.end()
 
     def mousePressEvent(self, ev):
         pos = ev.position()
         for caja, i in reversed(self._cajas):
             if caja.contains(pos):
-                self.sel = i
-                self.update()
                 self.seleccionado.emit(i)
                 return
 
 
+class TarjetaMomento(QWidget):
+    """Momentos (B): fotograma, segundo, ícono, nombre, onda y porqué. Tocar = elegir."""
+    clic = Signal(int)
+    ANCHO, FOTO = 196, 230
+
+    def __init__(self, i, f, pm, onda, padre=None):
+        super().__init__(padre)
+        self.i, self.f, self.pm, self.onda, self.activa = i, f, pm, onda or [], False
+        self.setFixedSize(self.ANCHO, self.FOTO + 100)
+        self.setCursor(Qt.CursorShape.PointingHandCursor)
+
+    def paintEvent(self, _e):
+        p = QPainter(self)
+        p.setRenderHint(QPainter.RenderHint.Antialiasing)
+        p.setRenderHint(QPainter.RenderHint.SmoothPixmapTransform)
+        r = QRectF(self.rect()).adjusted(1, 1, -1, -1)
+        col = color_de(self.f)
+        camino = QPainterPath()
+        camino.addRoundedRect(r, 16, 16)
+        p.setPen(QPen(col, 2) if self.activa else QPen(QColor('#1C2A45'), 1))
+        p.setBrush(QColor('#0F1A2F'))
+        p.drawPath(camino)
+        p.save()
+        p.setClipPath(camino)
+        foto = QRectF(r.left(), r.top(), r.width(), self.FOTO)
+        if self.pm:
+            esc = self.pm.scaled(int(foto.width()), int(foto.height()), Qt.AspectRatioMode.KeepAspectRatioByExpanding, Qt.TransformationMode.SmoothTransformation)
+            p.drawPixmap(foto, esc, QRectF((esc.width() - foto.width()) / 2, (esc.height() - foto.height()) / 2, foto.width(), foto.height()))
+        p.restore()
+        p.setFont(ui.fuente(11, peso='medio'))                  # segundo
+        caja = QRectF(10, 10, 58, 22)
+        p.setPen(Qt.PenStyle.NoPen)
+        p.setBrush(QColor(0, 0, 0, 150))
+        p.drawRoundedRect(caja, 8, 8)
+        p.setPen(QColor('#FFFFFF'))
+        p.drawText(caja, Qt.AlignmentFlag.AlignCenter, _mmss(self.f.get('segundo'))[:-1])
+        circ = QRectF(r.right() - 42, 10, 32, 32)               # ícono
+        p.setPen(Qt.PenStyle.NoPen)
+        p.setBrush(col)
+        p.drawEllipse(circ)
+        pintar_icono(p, self.f.get('tipo'), circ.adjusted(7, 7, -7, -7), QColor('#0B1220'), 1.8)
+        y = self.FOTO + 8
+        p.setPen(col)
+        p.setFont(ui.fuente(13, peso='negrita'))
+        p.drawText(QRectF(12, y, r.width() - 20, 18), Qt.AlignmentFlag.AlignLeft, tr(NOMBRE_TIPO.get(self.f.get('tipo'), self.f.get('tipo') or '')))
+        p.setPen(QColor('#E8F1FF'))
+        p.setFont(ui.fuente(12))
+        nombre = Path(self.f.get('archivo') or '').stem.split(' - ', 1)[-1]
+        p.drawText(QRectF(12, y + 20, r.width() - 20, 16), Qt.AlignmentFlag.AlignLeft, p.fontMetrics().elidedText(nombre, Qt.TextElideMode.ElideRight, int(r.width() - 24)))
+        sombra = QColor(col)
+        sombra.setAlpha(170)
+        pintar_onda(p, QRectF(12, y + 42, r.width() - 24, 20), self.onda, sombra)
+        p.setPen(QColor(MUT))
+        p.setFont(ui.fuente(11))
+        porque = (self.f.get('por_que') or '').replace('caption ', '')
+        p.drawText(QRectF(12, y + 68, r.width() - 20, 16), Qt.AlignmentFlag.AlignLeft, p.fontMetrics().elidedText(porque, Qt.TextElideMode.ElideRight, int(r.width() - 24)))
+        p.end()
+
+    def mousePressEvent(self, _e):
+        self.clic.emit(self.i)
+
+
+# ====================================================================================== la página
 class PaginaSonido(QWidget):
     """La página SONIDO. `video` = función que da el video de Inicio; `offset` = desplazamiento de GO en el timeline (Aplicar)."""
 
@@ -155,55 +481,125 @@ class PaginaSonido(QWidget):
         self._video_fn = video or (lambda: '')
         self._offset_fn = offset or (lambda: 0)
         self._ocupado = False
-        self._res = {}
+        self._res, self._vis, self._sel = {}, {}, -1
+        self._momentos = []
         prefs = S._prefs()
-        capa = QVBoxLayout(self)
-        capa.setContentsMargins(0, 0, 0, 0)
-        capa.setSpacing(12)
+        externa = QVBoxLayout(self)
+        externa.setContentsMargins(0, 0, 0, 0)
+        desp = QScrollArea()
+        desp.setWidgetResizable(True)
+        desp.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        desp.setStyleSheet('QScrollArea{background:transparent;border:none}')
+        cuerpo = QWidget()
+        cuerpo.setObjectName('cuerpoSonido')
+        cuerpo.setStyleSheet('#cuerpoSonido{background:transparent}')
+        desp.setWidget(cuerpo)
+        externa.addWidget(desp)
+        capa = QVBoxLayout(cuerpo)
+        capa.setContentsMargins(0, 0, 8, 0)
+        capa.setSpacing(14)
+
+        # ---- cabecera
         cab, cc = caja_h(espacio=14)
+        logo = Etiqueta('')
+        try:
+            import sfx_rules
+            pm = ui.pixmap_de_archivo(sfx_rules.base_recursos() / 'logo_cinecaptions.png', 36)
+            if pm is not None:
+                logo.setPixmap(pm)
+        except Exception:
+            pass
+        cc.addWidget(logo)
         col = QVBoxLayout()
-        col.setSpacing(2)
+        col.setSpacing(0)
         col.addWidget(Etiqueta(tr('Sonido'), 24, peso='extra', color='#FFFFFF'))
-        self._lbl_video = ui.Elidida('', 13, color=TEXT_MUTED)
+        self._lbl_video = ui.Elidida('', 13, color=MUT)
         col.addWidget(self._lbl_video)
         cc.addLayout(col, 1)
-        self._lbl_cuenta = Etiqueta('', 13, color='#E0EBFB')
-        cc.addWidget(self._lbl_cuenta, 0, Qt.AlignmentFlag.AlignBottom)
+        self._lbl_pend = Etiqueta('', 12, color='#F5C451')
+        cc.addWidget(self._lbl_pend)
+        self._b_rehacer = Boton(tr('Rehacer'), self._rehacer, alto=40, tam=13)
+        cc.addWidget(self._b_rehacer)
+        self._b_aplicar = Boton(tr('Aplicar a Resolve'), self._aplicar, tipo='primario', alto=40, tam=13, negrita=True)
+        cc.addWidget(self._b_aplicar)
         capa.addWidget(cab)
-        self._lbl_estado = Etiqueta(tr('Haz GO con un video: aquí ves qué sonido va en cada momento y por qué.'), 12, color=TEXT_MUTED, envolver=True)
+        self._lbl_estado = Etiqueta(tr('Haz GO con un video: aquí ves qué sonido va en cada momento y por qué.'), 12, color=MUT, envolver=True)
         capa.addWidget(self._lbl_estado)
 
-        # ---- controles
-        t = Tarjeta(espacio=10, margenes=(20, 14, 20, 14))
-        fila, cf = caja_h(espacio=12)
-        cf.addWidget(Etiqueta(tr('Estilo'), 13, color='#E0EBFB'))
-        actual = dict(ESTILOS).get(prefs.get(S.PREF_ESTILO) or 'auto', ESTILOS[0][1])
-        self._var_estilo = StringVar(tr(actual))
-        cf.addWidget(Combo([tr(n) for _, n in ESTILOS], self._var_estilo, self._cambio_estilo, alto=34, tam=13), 1)
+        # ---- (B) estilos + aro de tipos + interruptores
+        fila, cf = caja_h(espacio=10)
+        self._estilos = {}
+        actual = prefs.get(S.PREF_ESTILO) or 'auto'
+        for clave, nombre, desc in ESTILOS:
+            t = TarjetaEstilo(clave, nombre, desc)
+            t.activa = clave == actual
+            t.clic.connect(self._cambio_estilo)
+            self._estilos[clave] = t
+            cf.addWidget(t, 1)
+        capa.addWidget(fila)
+        fila, cf = caja_h(espacio=16)
+        self._aro = AroTipos()
+        cf.addWidget(self._aro)
         self._var_gancho = ui.BooleanVar(prefs.get(S.PREF_GANCHO, True) is not False)
         cf.addWidget(Interruptor(tr('Gancho al inicio'), self._var_gancho, lambda: self._pref(S.PREF_GANCHO, bool(self._var_gancho.get())),
                                  tam=13, color='#E0EBFB'))
         self._var_fiesta = ui.BooleanVar(prefs.get(S.PREF_FIESTA, False) is True)
         cf.addWidget(Interruptor(tr('Fiesta o mar'), self._var_fiesta, lambda: self._pref(S.PREF_FIESTA, bool(self._var_fiesta.get())),
                                  tam=13, color='#E0EBFB'))
-        t.capa.addWidget(fila)
-        fila, cf = caja_h(espacio=12)
-        self._lbl_lib = ui.Elidida('', 12, color=TEXT_MUTED)
+        cf.addStretch(1)
+        self._lbl_lib = ui.Elidida('', 12, color=MUT)
         cf.addWidget(self._lbl_lib, 1)
-        cf.addWidget(Boton(tr('Cambiar carpeta…'), self._elegir_carpeta, alto=34, tam=12))
-        self._b_rehacer = Boton(tr('Rehacer el sonido'), self._rehacer, alto=40, tam=13)
-        cf.addWidget(self._b_rehacer)
-        self._b_aplicar = Boton(tr('Aplicar a Resolve'), self._aplicar, tipo='primario', alto=40, tam=13, negrita=True)
-        cf.addWidget(self._b_aplicar)
-        t.capa.addWidget(fila)
-        capa.addWidget(t)
+        cf.addWidget(Boton(tr('Cambiar carpeta…'), self._elegir_carpeta, alto=32, tam=12))
+        capa.addWidget(fila)
 
-        # ---- línea de tiempo
-        lt = Tarjeta(espacio=8, margenes=(16, 12, 16, 12))
-        fila, cf = caja_h(espacio=8)
-        cf.addWidget(Etiqueta(tr('Línea de tiempo del sonido'), 15, peso='medio', color='#FFFFFF'), 1)
-        cf.addWidget(Boton('−', lambda: self._zoom(1 / 1.4), alto=30, ancho=36, tam=14))
-        cf.addWidget(Boton('+', lambda: self._zoom(1.4), alto=30, ancho=36, tam=14))
+        # ---- (A) cuadro del video + inspector
+        fila = QWidget()
+        cf = QHBoxLayout(fila)
+        cf.setContentsMargins(0, 0, 0, 0)
+        cf.setSpacing(14)
+        tv = Tarjeta(espacio=8, margenes=(14, 14, 14, 14))
+        self._cuadro = CuadroVideo()
+        self._cuadro.clic.connect(self._oir)
+        tv.capa.addWidget(self._cuadro, 0, Qt.AlignmentFlag.AlignHCenter)
+        cf.addWidget(tv)
+        ins = Tarjeta(espacio=12, margenes=(22, 20, 22, 20))
+        top, ct = caja_h(espacio=14)
+        self._ico = IconoGrande()
+        ct.addWidget(self._ico)
+        tt = QVBoxLayout()
+        tt.setSpacing(2)
+        self._lbl_sel = Etiqueta(tr('Elige un sonido'), 22, peso='extra', color='#FFFFFF')
+        tt.addWidget(self._lbl_sel)
+        self._lbl_archivo = Etiqueta('', 13, color=MUT)
+        tt.addWidget(self._lbl_archivo)
+        ct.addLayout(tt, 1)
+        ins.capa.addWidget(top)
+        self._onda = Onda(78)
+        ins.capa.addWidget(self._onda)
+        self._lbl_porque = Etiqueta(tr('Toca un momento o un bloque de la línea para ver por qué suena ahí.'), 15, color='#E8F1FF', envolver=True)
+        ins.capa.addWidget(self._lbl_porque)
+        bot, cb = caja_h(espacio=10)
+        self._b_oir = Boton(tr('▶ Escuchar'), self._oir, alto=40, tam=13)
+        self._b_var = Boton(tr('⇄ Otra variante'), lambda: self._editar('variante'), alto=40, tam=13)
+        self._b_izq = Boton(tr('◀ 1 fotograma'), lambda: self._editar('mover', -1 / FPS), alto=40, tam=13)
+        self._b_der = Boton(tr('1 fotograma ▶'), lambda: self._editar('mover', 1 / FPS), alto=40, tam=13)
+        self._b_quitar = Boton(tr('Quitar'), lambda: self._editar('quitar'), alto=40, tam=13)
+        for b in (self._b_oir, self._b_var, self._b_izq, self._b_der, self._b_quitar):
+            cb.addWidget(b)
+        cb.addStretch(1)
+        ins.capa.addWidget(bot)
+        self._lbl_revision = Etiqueta('', 12, color=MUT, envolver=True)
+        ins.capa.addWidget(self._lbl_revision)
+        ins.capa.addStretch(1)
+        cf.addWidget(ins, 1)
+        capa.addWidget(fila)
+
+        # ---- (A) línea de tiempo tipo editor
+        lt = Tarjeta(espacio=8, margenes=(14, 12, 14, 12))
+        fila, cfz = caja_h(espacio=8)
+        cfz.addWidget(Etiqueta(tr('Línea de tiempo'), 15, peso='medio', color='#FFFFFF'), 1)
+        cfz.addWidget(Boton('−', lambda: self._linea.zoom(1 / 1.4), alto=30, ancho=36, tam=14))
+        cfz.addWidget(Boton('+', lambda: self._linea.zoom(1.4), alto=30, ancho=36, tam=14))
         lt.capa.addWidget(fila)
         self._linea = LineaTiempo()
         self._linea.seleccionado.connect(self._elegir)
@@ -211,37 +607,34 @@ class PaginaSonido(QWidget):
         self._scroll.setWidget(self._linea)
         self._scroll.setWidgetResizable(False)
         self._scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-        self._scroll.setStyleSheet('QScrollArea{background:#0B1424;border:none;border-radius:8px}')
+        self._scroll.setStyleSheet('QScrollArea{background:#0B1424;border:none;border-radius:10px}')
         self._scroll.viewport().setStyleSheet('background:#0B1424')
-        self._scroll.setFixedHeight(self._linea.REGLA + 2 * self._linea.GUIA + len(CARRILES) * self._linea.ALTO + 30)
+        self._scroll.setFixedHeight(self._linea.TIRA + self._linea.VOZ + len(CARRILES) * self._linea.ALTO + self._linea.REGLA + 40)
         lt.capa.addWidget(self._scroll)
         capa.addWidget(lt)
 
-        # ---- inspector
-        ins = Tarjeta(espacio=8, margenes=(20, 14, 20, 14))
-        self._lbl_sel = Etiqueta(tr('Toca un sonido de la línea para ver por qué está ahí.'), 15, peso='medio', color='#FFFFFF', envolver=True)
-        ins.capa.addWidget(self._lbl_sel)
-        self._lbl_porque = Etiqueta('', 13, color='#C9D6EA', envolver=True)
-        ins.capa.addWidget(self._lbl_porque)
-        fila, cf = caja_h(espacio=10)
-        self._b_oir = Boton(tr('▶ Escuchar'), self._oir, alto=36, tam=13)
-        self._b_var = Boton(tr('Otra variante'), lambda: self._editar('variante'), alto=36, tam=13)
-        self._b_izq = Boton(tr('◀ 1 fotograma'), lambda: self._editar('mover', -1 / FPS), alto=36, tam=13)
-        self._b_der = Boton(tr('1 fotograma ▶'), lambda: self._editar('mover', 1 / FPS), alto=36, tam=13)
-        self._b_quitar = Boton(tr('Quitar'), lambda: self._editar('quitar'), alto=36, tam=13)
-        for b in (self._b_oir, self._b_var, self._b_izq, self._b_der, self._b_quitar):
-            cf.addWidget(b)
-        cf.addStretch(1)
-        ins.capa.addWidget(fila)
-        self._lbl_revision = Etiqueta('', 12, color=TEXT_MUTED, envolver=True)
-        ins.capa.addWidget(self._lbl_revision)
-        capa.addWidget(ins)
+        # ---- (B) momentos
+        capa.addWidget(Etiqueta(tr('Momentos con sonido · toca uno para verlo, escucharlo o cambiarlo'), 15, peso='medio', color='#FFFFFF'))
+        self._tira = QWidget()
+        self._tira_capa = QHBoxLayout(self._tira)
+        self._tira_capa.setContentsMargins(0, 0, 0, 0)
+        self._tira_capa.setSpacing(12)
+        self._tira_capa.addStretch(1)
+        tm = QScrollArea()
+        tm.setWidget(self._tira)
+        tm.setWidgetResizable(True)
+        tm.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        tm.setFixedHeight(TarjetaMomento.FOTO + 100 + 18)
+        tm.setStyleSheet('QScrollArea{background:transparent;border:none}')
+        tm.viewport().setStyleSheet('background:transparent')
+        self._tira.setStyleSheet('background:transparent')
+        self._scroll_momentos = tm
+        capa.addWidget(tm)
 
         on = Tarjeta(espacio=12, margenes=(20, 10, 20, 10), horizontal=True)
         on.capa.addWidget(Etiqueta(tr('Poner el sonido con la biblioteca en los próximos GO'), 13, peso='medio', color='#E0EBFB'), 1)
         self._var_on = ui.BooleanVar(S.activo(prefs))
-        on.capa.addWidget(Interruptor(tr('Activado'), self._var_on, lambda: self._pref(S.PREF_ON, bool(self._var_on.get())),
-                                      tam=13, color='#E0EBFB'))
+        on.capa.addWidget(Interruptor(tr('Activado'), self._var_on, lambda: self._pref(S.PREF_ON, bool(self._var_on.get())), tam=13, color='#E0EBFB'))
         capa.addWidget(on)
         capa.addStretch(1)
         self._botones_sel(False)
@@ -263,10 +656,12 @@ class PaginaSonido(QWidget):
         except Exception:
             pass
 
-    def _cambio_estilo(self, *_):
-        elegido = self._var_estilo.get()
-        self._pref('sonido_estilo', next((k for k, n in ESTILOS if tr(n) == elegido), 'auto'))
-        self._estado(tr('Estilo guardado. Pulsa «Rehacer el sonido» para oírlo en este video.'))
+    def _cambio_estilo(self, clave):
+        for k, t in self._estilos.items():
+            t.activa = k == clave
+            t.update()
+        self._pref('sonido_estilo', clave)
+        self._estado(tr('Estilo guardado. Pulsa «Rehacer» para oírlo en este video.'))
 
     def _elegir_carpeta(self):
         import sonido_skill as S
@@ -274,10 +669,7 @@ class PaginaSonido(QWidget):
         if ruta:
             self._pref(S.PREF_LIB, str(ruta))
             self._lbl_lib.setText(tr('Biblioteca: {r}', r=ruta))
-            self._estado(tr('Biblioteca cambiada. Pulsa «Rehacer el sonido».'))
-
-    def _zoom(self, factor):
-        self._linea.zoom(factor)
+            self._estado(tr('Biblioteca cambiada. Pulsa «Rehacer».'))
 
     def refrescar(self):
         if self._ocupado:
@@ -285,30 +677,54 @@ class PaginaSonido(QWidget):
         import sonido_skill as S
         v = self.video()
         self._lbl_video.setText(Path(v).name if v else tr('Sin video'))
-        ui.correr_en_hilo(self, lambda: S.resumen(v), self._pintar)
 
-    def _pintar(self, res, err=None):
-        import sonido_skill as S
-        if err is not None or not isinstance(res, dict):
+        def trabajo():
+            res = S.resumen(v)
+            vis = S.visual(v, res['filas']) if v and res['filas'] else {}
+            return res, vis
+        ui.correr_en_hilo(self, trabajo, self._al_datos)
+
+    def _al_datos(self, r, err=None):
+        if err is not None or not r:
             self._estado(tr('No pude leer el sonido del video: {e}', e=err))
             return
-        self._res = res
-        self._lbl_lib.setText(tr('Biblioteca: {r}', r=res.get('biblioteca') or ''))
-        if res.get('video'):
-            self._lbl_video.setText(Path(res['video']).name)
-        filas = res.get('filas') or []
-        self._linea.poner(filas, res.get('guia'))
-        estilo = S.NOMBRE_ESTILO.get(res.get('estilo') or '', '')
-        self._lbl_cuenta.setText(tr('{n} sonidos · {e}', n=len(filas), e=estilo) if filas else '')
+        self._pintar(*r)
+
+    def _pintar(self, res, vis=None):
+        import sonido_skill as S
+        self._res = res or {}
+        if vis is not None:
+            self._vis = vis
+        filas = self._res.get('filas') or []
+        if self._res.get('video'):
+            estilo = S.NOMBRE_ESTILO.get(self._res.get('estilo') or '', '')
+            self._lbl_video.setText(f"{Path(self._res['video']).name}  ·  {len(filas)} {tr('sonidos')}" + (f'  ·  {estilo}' if estilo else ''))
+        self._lbl_lib.setText(tr('Biblioteca: {r}', r=self._res.get('biblioteca') or ''))
+        self._lbl_pend.setText(tr('● cambios sin aplicar') if self._res.get('pendiente') and filas else '')
+        self._aro.poner(filas)
+        self._linea.poner(filas, self._vis, (self._res.get('guia') or {}).get('duracion'))
+        self._llenar_momentos(filas)
         avisos = S.revisar(filas) if filas else []
-        self._lbl_revision.setText(tr('Revisión: todo en orden.') if filas and not avisos else ('Revisión: ' + ' · '.join(avisos[:4]) if avisos else ''))
-        self._elegir(self._linea.sel) if 0 <= self._linea.sel < len(filas) else self._botones_sel(False)
+        self._lbl_revision.setText(tr('Revisión: todo en orden.') if filas and not avisos else ('Revisión: ' + ' · '.join(avisos[:3]) if avisos else ''))
         if not filas:
             self._estado(tr('Haz GO con este video: el sonido sale de tu biblioteca y aquí ves cada decisión.'))
-        elif res.get('pendiente'):
+        elif self._res.get('pendiente'):
             self._estado(tr('Hay cambios sin poner en Resolve: pulsa «Aplicar a Resolve».'))
         else:
-            self._estado(tr('Al día en Resolve ({f}).', f=res.get('en_resolve') or res.get('fecha') or ''))
+            self._estado(tr('Al día en Resolve ({f}).', f=self._res.get('en_resolve') or self._res.get('fecha') or ''))
+        self._elegir(self._sel if 0 <= self._sel < len(filas) else (0 if filas else -1))
+
+    def _llenar_momentos(self, filas):
+        for m in self._momentos:
+            m.setParent(None)
+            m.deleteLater()
+        self._momentos = []
+        ondas = (self._vis or {}).get('ondas') or {}
+        for i, f in enumerate(filas):
+            m = TarjetaMomento(i, f, pixmap(miniatura(self._vis, f.get('segundo'))), ondas.get(f.get('wav')))
+            m.clic.connect(self._elegir)
+            self._tira_capa.insertWidget(self._tira_capa.count() - 1, m)
+            self._momentos.append(m)
 
     def _botones_sel(self, si):
         for b in (self._b_oir, self._b_var, self._b_izq, self._b_der, self._b_quitar):
@@ -316,13 +732,31 @@ class PaginaSonido(QWidget):
 
     def _elegir(self, i):
         filas = self._res.get('filas') or []
+        self._sel = i
+        self._linea.sel = i
+        self._linea.update()
+        for m in self._momentos:
+            m.activa = m.i == i
+            m.update()
         if not 0 <= i < len(filas):
             self._botones_sel(False)
+            self._cuadro.poner(None, '', QColor('#4589FF'))
             return
         f = filas[i]
-        self._lbl_sel.setText(f"{_mmss(f.get('segundo'))}  ·  {NOMBRE_TIPO.get(f.get('tipo'), f.get('tipo'))}  ·  {Path(f['archivo']).stem}")
-        self._lbl_porque.setText(tr('Por qué: {p}', p=f.get('por_que') or '—') + '   ·   ' + str(f.get('pista') or ''))
+        col = color_de(f)
+        tipo = NOMBRE_TIPO.get(f.get('tipo'), f.get('tipo') or '')
+        nombre = Path(f.get('archivo') or '').stem.split(' - ', 1)[-1]
+        self._ico.poner(f.get('tipo'), col)
+        self._lbl_sel.setText(f"{tr(tipo)}  ·  {_mmss(f.get('segundo'))}")
+        self._lbl_archivo.setText(f"{nombre}  ·  {next((n for p, n, _ in CARRILES if p == f.get('pista')), '')}")
+        self._onda.poner(((self._vis or {}).get('ondas') or {}).get(f.get('wav')) or [], col)
+        self._lbl_porque.setText(tr('Por qué: {p}', p=(f.get('por_que') or '—').replace('caption ', '')))
+        self._cuadro.poner(pixmap(miniatura(self._vis, f.get('segundo'))), f"{tr(tipo).upper()} · {nombre.upper().split()[0][:12]}", col)
         self._botones_sel(True)
+        x = int(self._linea.x_de(f.get('segundo') or 0) - self._scroll.viewport().width() / 2)   # el editor se va a ese momento
+        self._scroll.horizontalScrollBar().setValue(max(0, x))
+        if 0 <= i < len(self._momentos):
+            self._scroll_momentos.ensureWidgetVisible(self._momentos[i], 40, 0)
 
     # ------------------------------------------------------------------ acciones
     def _trabajar(self, texto, trabajo, fin):
@@ -346,26 +780,26 @@ class PaginaSonido(QWidget):
     def _oir(self):
         import director_sonido_sesion as DS
         filas = self._res.get('filas') or []
-        i = self._linea.sel
-        if 0 <= i < len(filas) and filas[i].get('wav'):
+        if 0 <= self._sel < len(filas) and filas[self._sel].get('wav'):
             try:
-                DS.reproducir(filas[i]['wav'])
+                DS.reproducir(filas[self._sel]['wav'])
             except Exception as e:
                 self._estado(tr('No pude reproducirlo: {e}', e=e))
 
     def _editar(self, accion, valor=None):
         import sonido_skill as S
-        v, i = self.video(), self._linea.sel
+        v, i = self.video(), self._sel
 
         def trabajo():
             ok, msg = S.editar(v, i, accion, valor)
-            return ok, msg, S.resumen(v)
+            res = S.resumen(v)
+            return ok, msg, res, S.visual(v, res['filas'])
 
         def fin(r):
-            ok, msg, res = r
+            ok, msg, res, vis = r
             if accion == 'quitar':
-                self._linea.sel = -1
-            self._pintar(res)
+                self._sel = min(i, len(res.get('filas') or []) - 1)
+            self._pintar(res, vis)
             self._estado(msg)
         self._trabajar(tr('Cambiando el sonido…'), trabajo, fin)
 
@@ -378,12 +812,13 @@ class PaginaSonido(QWidget):
 
         def trabajo():
             ok, msg = S.rehacer(v)
-            return ok, msg, S.resumen(v)
+            res = S.resumen(v)
+            return ok, msg, res, S.visual(v, res['filas'])
 
         def fin(r):
-            ok, msg, res = r
-            self._linea.sel = -1
-            self._pintar(res)
+            ok, msg, res, vis = r
+            self._sel = 0
+            self._pintar(res, vis)
             self._estado(msg)
         self._trabajar(tr('Rehaciendo el sonido con tu biblioteca…'), trabajo, fin)
 

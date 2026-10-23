@@ -363,7 +363,7 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
     sonido_skill.py
         SONIDO con la biblioteca del autor y las reglas de MAPA_SFX.md (reemplaza el diseño de SFX del «AI Sound Director»).
     sonido_skill_ui.py
-        la página SONIDO (v5.43) tipo LÍNEA DE TIEMPO: lo que decidió sonido_skill, carril por carril, y retoques a mano.
+        la página SONIDO (v5.43, diseño A+B elegido por el usuario): editor visual de lo que decidió sonido_skill.
     sonidos_extra.py
         los sonidos extra de GO (v5.4.8): música de fondo, sonidos de transición en los cortes, riser + golpe + silencio en el gancho.
     subtitle_transcriber.py

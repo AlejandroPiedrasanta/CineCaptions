@@ -449,6 +449,70 @@ def resumen(video):
             'en_resolve': estado.get('en_resolve'), 'con_go': bool((estado.get('ultimo_go') or {}).get('con_director'))}
 
 
+def _envolvente(x, n):
+    """n barras 0–1 (pico por tramo) de una señal (2, m) o (m,)."""
+    m = np.abs(x).max(axis=0) if x.ndim > 1 else np.abs(x)
+    if not m.size:
+        return []
+    paso = max(1, m.size // n)
+    v = m[:paso * (m.size // paso)].reshape(-1, paso).max(axis=1)[:n]
+    tope = float(v.max()) or 1.0
+    return [round(float(a) / tope, 3) for a in v]
+
+
+def visual(video, filas=None, ancho=120):
+    """(En un hilo) lo que la página dibuja: {'miniaturas': [ruta por segundo], 'voz': [barras], 'ondas': {wav: [barras]}}.
+    Miniaturas y voz quedan en caché en la carpeta del video (miniaturas/ y visual.json); las ondas de los SFX se leen de sus WAV."""
+    import archivos_seguros
+    import director_sonido_estado as E
+    carpeta = E.carpeta_de(video) / 'miniaturas'
+    cache = E.carpeta_de(video) / 'visual.json'
+    d = archivos_seguros.leer_json(cache, None)
+    if not (isinstance(d, dict) and d.get('v') == 1 and d.get('miniaturas') and all(Path(m).is_file() for m in d['miniaturas'][:3])):
+        import av
+        carpeta.mkdir(parents=True, exist_ok=True)
+        tomas = {}
+        with av.open(str(video)) as c:
+            vs = c.streams.video[0]
+            vs.codec_context.skip_frame = 'NONKEY'                # solo los fotogramas clave: rápido aun en HEVC 4K
+            dur = float(c.duration or 0) / 1e6
+            for f in c.decode(video=0):
+                if f.time is None:
+                    continue
+                s = int(round(float(f.time)))
+                if s in tomas:
+                    continue
+                img = f.to_image().convert('RGB')
+                try:
+                    rot = int(round(float(f.rotation or 0))) % 360
+                except Exception:
+                    rot = 0
+                if rot:
+                    img = img.rotate(rot, expand=True)
+                img = img.resize((ancho, max(1, round(img.height * ancho / img.width))))
+                ruta = carpeta / f's_{s:04d}.jpg'
+                img.save(ruta, quality=82)
+                tomas[s] = str(ruta)
+        n = max(1, int(math.ceil(dur or max(tomas or [1]))))
+        claves = sorted(tomas)
+        mini = [tomas[min(claves, key=lambda k: abs(k - s))] for s in range(n)] if claves else []
+        try:
+            voz = _envolvente(leer_audio(video, 8000), 1200)
+        except Exception:
+            voz = []
+        d = {'v': 1, 'miniaturas': mini, 'voz': voz, 'duracion': dur}
+        archivos_seguros.escribir_json(cache, d)
+    ondas = {}
+    for f in filas or []:
+        w = f.get('wav')
+        if w and w not in ondas and Path(w).is_file():
+            try:
+                ondas[w] = _envolvente(leer_audio(w, 8000), 48)
+            except Exception:
+                ondas[w] = []
+    return dict(d, ondas=ondas)
+
+
 def editar(video, i, accion, valor=None):
     """Un cambio a mano desde la línea de tiempo: 'quitar', 'variante' (el siguiente archivo de su familia) o 'mover' (valor en segundos).
     Rehornea (es rápido), deja el diseño pendiente de «Aplicar a Resolve». (ok, texto)."""

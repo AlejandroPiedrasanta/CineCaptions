@@ -12,6 +12,12 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-23 08:02  ·  v5.41  ·  cambio explicado
+    Página SONIDO: diseño A+B elegido por el usuario (editor tipo DaVinci con cuadro del video, inspector con onda, línea con fotogramas/voz/pistas + tarjetas de estilo y momentos con fotograma). Por qué: la línea de tiempo simple no le gustó; pidió algo más visual y combinó las propuestas A y B. sonido_skill.visual da miniaturas (solo fotogramas clave, en caché) y ondas.
+    modificados (2):
+      ~ 1_codigo/sonido_skill.py
+      ~ 1_codigo/sonido_skill_ui.py
+
 2026-10-23 01:38  ·  v5.41  ·  cambio explicado
     v5.43: el sonido de GO y la página SONIDO pasan a sonido_skill (biblioteca del autor Desktop\SFX + reglas de MAPA_SFX.md, el mismo motor que la skill sonorizar-sfx). Por qué: el usuario decidió reemplazar al AI Sound Director por esta lógica (eventos de la metadata real de GO, pico de cada SFX en su frame) y quitar su página; la nueva es una línea de tiempo con el porqué de cada sonido y retoques a mano. La colocación en Resolve (pistas AI SFX, apagar Simple, confirmar) es la de siempre.
     modificados (3):
