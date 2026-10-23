@@ -12,6 +12,20 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-23 01:38  ·  v5.41  ·  cambio explicado
+    v5.43: el sonido de GO y la página SONIDO pasan a sonido_skill (biblioteca del autor Desktop\SFX + reglas de MAPA_SFX.md, el mismo motor que la skill sonorizar-sfx). Por qué: el usuario decidió reemplazar al AI Sound Director por esta lógica (eventos de la metadata real de GO, pico de cada SFX en su frame) y quitar su página; la nueva es una línea de tiempo con el porqué de cada sonido y retoques a mano. La colocación en Resolve (pistas AI SFX, apagar Simple, confirmar) es la de siempre.
+    modificados (3):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/sonido_skill.py
+      ~ 1_codigo/sonido_skill_ui.py
+
+2026-10-23 01:30  ·  v5.41  ·  (automático)
+    nuevos (2):
+      + 1_codigo/sonido_skill.py
+      + 1_codigo/sonido_skill_ui.py
+    modificados (1):
+      ~ 1_codigo/CineCaptions (script principal).py
+
 2026-10-22 13:45  ·  v5.41  ·  (automático)
     modificados (20):
       ~ 1_codigo/version.py

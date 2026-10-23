@@ -10641,16 +10641,16 @@ class SubtitleApp(QWidget):
             pag.refrescar()
             return True
         if self._estudio_ventana is None:
-            try:
-                import director_sonido_ui
-                self._director_pagina = director_sonido_ui.PaginaDirector(
-                    self, video=lambda: getattr(self, '_go_archivo', None) or self.video_var.get().strip().strip('"'), offset=self._offset_frames)
+            video_fn = lambda: getattr(self, '_go_archivo', None) or self.video_var.get().strip().strip('"')  # noqa: E731
+            try:                                   # v5.43: la página Sonido = la biblioteca del autor + MAPA_SFX.md (sonido_skill_ui)
+                import sonido_skill_ui
+                self._director_pagina = sonido_skill_ui.PaginaSonido(self, video=video_fn, offset=self._offset_frames)
                 self._sfx_capa.addWidget(self._director_pagina, 1)
                 self._director_pagina.refrescar()
                 return True
-            except Exception:
+            except Exception:                      # (la página del AI Sound Director ya no se usa: el usuario la quitó en la v5.43)
                 self._director_pagina = None
-                registro.excepcion(origen='página AI Sound Director')
+                registro.excepcion(origen='página Sonido (biblioteca)')
         if self._estudio_ventana is not None:
             try:
                 self._estudio_ventana.poner_video(self.video_var.get().strip().strip('"') or None)
@@ -11894,7 +11894,11 @@ class SubtitleApp(QWidget):
         self._director_hilo, self._director_res = None, None
         try:
             import director_sonido
-            if not director_sonido.activo():
+            import sonido_skill                          # v5.43: el sonido lo diseña la biblioteca del autor con las reglas de MAPA_SFX.md
+            usar_skill = sonido_skill.activo()
+            if usar_skill and not director_sonido.activo():
+                sonido_skill.poner_pref(ai_sound_director=True)      # la tubería de colocación (pistas AI SFX, apagar Simple) es la del director
+            if not (usar_skill or director_sonido.activo()):
                 return
             ancho, alto = getattr(self, '_ancho_timeline', None) or 0, getattr(self, '_alto_timeline', None) or 0
             ctx = director_sonido.contexto(media_path, words, self._plantilla_un_clic(), formato='h' if ancho and alto and ancho > alto * 1.2 else 'v',
@@ -11913,7 +11917,10 @@ class SubtitleApp(QWidget):
                     ctx['cortes'] = [float(t) for t in cortes]
                 except Exception:
                     ctx['cortes'] = []
-                director_sonido.preparar(ctx, res=res)               # (lo va rellenando: GO recoge lo que ya esté hecho)
+                if usar_skill:
+                    sonido_skill.preparar(ctx, res=res)              # v5.43: los SFX de la biblioteca (Desktop\SFX + MAPA_SFX.md)
+                else:
+                    director_sonido.preparar(ctx, res=res)           # (lo va rellenando: GO recoge lo que ya esté hecho)
             res = {}
             self._director_res = res
             self._director_hilo = threading.Thread(target=trabajo, daemon=True, name='ai-sound-director')

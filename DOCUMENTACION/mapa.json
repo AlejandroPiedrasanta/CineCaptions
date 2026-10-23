@@ -4087,6 +4087,57 @@
       "resumen": "Opción «Emojis animados» del menú de la PRO (píldora Suave/Media/Fuerte) y sección de Efectos con Automático + 5 estilos 2D Lottie (Google Noto, CC BY 4.0) y 5 3D (PNG Fluent movidos en 3D), «Dónde» (auto/lado/encima/cabeza) e «Intensidad»; edicion_pro._emojis_pro saca el emoji de la palabra dicha, lo pone junto al caption sin tapar caras ni otros gráficos y apaga el emoji del tema ahí; render con Remotion EmojiPro (alfa) en la pista de iconos."
     },
     {
+      "id": "sonido-biblioteca",
+      "grupo": "sonido",
+      "tema": "Sonido con la biblioteca del autor (v5.43): reemplaza el diseño de SFX del AI Sound Director y su página; reglas de MAPA_SFX.md, eventos de la metadata real de GO, misma colocación en Resolve",
+      "resumen": "sonido_skill: preparar, disenar, etiquetas_de_go, hornear; página timeline sonido_skill_ui.PaginaSonido",
+      "claves": [
+        "sonido",
+        "biblioteca",
+        "mapa sfx",
+        "skill",
+        "sonorizar",
+        "sfx",
+        "pagina sonido",
+        "estilo",
+        "gancho",
+        "aro",
+        "kinetic",
+        "pop",
+        "acento",
+        "swoosh",
+        "catalogo",
+        "pico",
+        "hornear",
+        "desktop sfx",
+        "reemplaza director"
+      ],
+      "archivos": [
+        "sonido_skill.py",
+        "sonido_skill_ui.py",
+        "director_sonido.py",
+        "director_sonido_eventos.py",
+        "director_sonido_sesion.py",
+        "director_sonido_estado.py"
+      ],
+      "simbolos": [
+        "activo",
+        "preparar",
+        "rehacer",
+        "disenar",
+        "etiquetas_de_go",
+        "elegir",
+        "asignar",
+        "hornear",
+        "catalogo",
+        "resumen",
+        "revisar",
+        "PaginaSonido",
+        "_director_sonido_arrancar",
+        "_asegurar_sfx"
+      ]
+    },
+    {
       "id": "ai-sound-director",
       "grupo": "sonido",
       "tema": "AI Sound Director: el sound designer de GO y la página SONIDO (análisis, voz, AI SFX, música/ambiente, mezcla/QC/Sound Score; edición local, Aplicar explícito al destino validado, línea e inspector juntos; menú y estética global intactos)",

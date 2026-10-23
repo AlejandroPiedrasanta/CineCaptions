@@ -360,6 +360,10 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         la pantalla SFX Lab (biblioteca, pad XY, marcadores por color, reemplazar).
     sidecar_lua.py
         escribe <archivo>.lua junto a cada .json (canal de lectura para Resolve Free 21.1).
+    sonido_skill.py
+        SONIDO con la biblioteca del autor y las reglas de MAPA_SFX.md (reemplaza el diseño de SFX del «AI Sound Director»).
+    sonido_skill_ui.py
+        la página SONIDO (v5.43) tipo LÍNEA DE TIEMPO: lo que decidió sonido_skill, carril por carril, y retoques a mano.
     sonidos_extra.py
         los sonidos extra de GO (v5.4.8): música de fondo, sonidos de transición en los cortes, riser + golpe + silencio en el gancho.
     subtitle_transcriber.py
