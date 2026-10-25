@@ -1,5 +1,221 @@
 REGISTRO DE CAMBIOS ARCHIVADO · 2026-10 (la entrada más nueva arriba)
 
+2026-10-21 16:16  ·  v5.34  ·  cambio explicado
+    Dependencias: webpack 5.112.0 y seis dependencias transitivas de Remotion actualizadas; bundle de producción recompilado. Python: filelock 4.2.4 y pins del motor Qwen revisados. npm audit y pip-audit sin vulnerabilidades; no quedan actualizaciones dentro de los rangos compatibles.
+    nuevos (104):
+      + 1_codigo/remotion/node_modules/@babel/code-frame/node_modules/@babel/helper-validator-identifier/LICENSE
+      + 1_codigo/remotion/node_modules/@babel/code-frame/node_modules/@babel/helper-validator-identifier/README.md
+      + 1_codigo/remotion/node_modules/@babel/code-frame/node_modules/@babel/helper-validator-identifier/lib/identifier.js
+      + 1_codigo/remotion/node_modules/@babel/code-frame/node_modules/@babel/helper-validator-identifier/lib/identifier.js.map
+      + 1_codigo/remotion/node_modules/@babel/code-frame/node_modules/@babel/helper-validator-identifier/lib/index.js
+      + 1_codigo/remotion/node_modules/@babel/code-frame/node_modules/@babel/helper-validator-identifier/lib/index.js.map
+      + 1_codigo/remotion/node_modules/@babel/code-frame/node_modules/@babel/helper-validator-identifier/lib/keyword.js
+      + 1_codigo/remotion/node_modules/@babel/code-frame/node_modules/@babel/helper-validator-identifier/lib/keyword.js.map
+      + 1_codigo/remotion/node_modules/@babel/code-frame/node_modules/@babel/helper-validator-identifier/package.json
+      + 1_codigo/remotion/node_modules/@babel/helper-module-transforms/node_modules/@babel/helper-validator-identifier/LICENSE
+      + 1_codigo/remotion/node_modules/@babel/helper-module-transforms/node_modules/@babel/helper-validator-identifier/README.md
+      + 1_codigo/remotion/node_modules/@babel/helper-module-transforms/node_modules/@babel/helper-validator-identifier/lib/identifier.js
+      … y 92 más
+    modificados (409):
+      ~ 1_codigo/remotion/node_modules/.package-lock.json
+      ~ 1_codigo/remotion/node_modules/@babel/helper-string-parser/lib/index.js
+      ~ 1_codigo/remotion/node_modules/@babel/helper-string-parser/package.json
+      ~ 1_codigo/remotion/node_modules/@babel/helper-validator-identifier/lib/identifier.js
+      ~ 1_codigo/remotion/node_modules/@babel/helper-validator-identifier/lib/index.js
+      ~ 1_codigo/remotion/node_modules/@babel/helper-validator-identifier/package.json
+      ~ 1_codigo/remotion/node_modules/@babel/types/lib/index-legacy.d.ts
+      ~ 1_codigo/remotion/node_modules/@babel/types/lib/index.d.ts
+      ~ 1_codigo/remotion/node_modules/@babel/types/lib/index.js
+      ~ 1_codigo/remotion/node_modules/@babel/types/lib/index.js.flow
+      ~ 1_codigo/remotion/node_modules/@babel/types/package.json
+      ~ 1_codigo/remotion/node_modules/@rspack/binding-win32-x64-msvc/package.json
+      … y 397 más
+    quitados (1458):
+      - 1_codigo/remotion/node_modules/@babel/core/node_modules/@babel/types/LICENSE
+      - 1_codigo/remotion/node_modules/@babel/core/node_modules/@babel/types/README.md
+      - 1_codigo/remotion/node_modules/@babel/core/node_modules/@babel/types/lib/asserts/assertNode.js
+      - 1_codigo/remotion/node_modules/@babel/core/node_modules/@babel/types/lib/asserts/assertNode.js.map
+      - 1_codigo/remotion/node_modules/@babel/core/node_modules/@babel/types/lib/asserts/generated/index.js
+      - 1_codigo/remotion/node_modules/@babel/core/node_modules/@babel/types/lib/asserts/generated/index.js.map
+      - 1_codigo/remotion/node_modules/@babel/core/node_modules/@babel/types/lib/ast-types/generated/index.js
+      - 1_codigo/remotion/node_modules/@babel/core/node_modules/@babel/types/lib/ast-types/generated/index.js.map
+      - 1_codigo/remotion/node_modules/@babel/core/node_modules/@babel/types/lib/builders/flow/createFlowUnionType.js
+      - 1_codigo/remotion/node_modules/@babel/core/node_modules/@babel/types/lib/builders/flow/createFlowUnionType.js.map
+      - 1_codigo/remotion/node_modules/@babel/core/node_modules/@babel/types/lib/builders/flow/createTypeAnnotationBasedOnTypeof.js
+      - 1_codigo/remotion/node_modules/@babel/core/node_modules/@babel/types/lib/builders/flow/createTypeAnnotationBasedOnTypeof.js.map
+      … y 1446 más
+
+2026-10-21 16:00  ·  v5.34  ·  cambio explicado
+    Dependencias: webpack 5.112.0 aplicado a Remotion; filelock 4.2.4; motor Qwen con httpcore2/httpx2 2.16.0 y setuptools 84.2.1. Seguridad: npm audit y pip-audit no detectan vulnerabilidades conocidas.
+    nuevos (551):
+      + 1_codigo/director_sonido_sesion.py
+      + 1_codigo/director_sonido_ui.py
+      + 1_codigo/herramientas_dev/probar_pagina_director.py
+      + 1_codigo/remotion/node_modules/.bin/schema-utils
+      + 1_codigo/remotion/node_modules/.bin/schema-utils.cmd
+      + 1_codigo/remotion/node_modules/.bin/schema-utils.ps1
+      + 1_codigo/remotion/node_modules/@types/react-reconciler/LICENSE
+      + 1_codigo/remotion/node_modules/@types/react-reconciler/README.md
+      + 1_codigo/remotion/node_modules/@types/react-reconciler/constants.d.ts
+      + 1_codigo/remotion/node_modules/@types/react-reconciler/index.d.ts
+      + 1_codigo/remotion/node_modules/@types/react-reconciler/package.json
+      + 1_codigo/remotion/node_modules/minimizer-webpack-plugin/LICENSE
+      … y 539 más
+    modificados (363):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/director_sonido.py
+      ~ 1_codigo/director_sonido_diseno.py
+      ~ 1_codigo/director_sonido_sfx.py
+      ~ 1_codigo/remotion/node_modules/.bin/webpack
+      ~ 1_codigo/remotion/node_modules/.bin/webpack.cmd
+      ~ 1_codigo/remotion/node_modules/.package-lock.json
+      ~ 1_codigo/remotion/node_modules/mime-db/HISTORY.md
+      ~ 1_codigo/remotion/node_modules/mime-db/README.md
+      ~ 1_codigo/remotion/node_modules/mime-db/db.json
+      ~ 1_codigo/remotion/node_modules/mime-db/package.json
+      ~ 1_codigo/remotion/node_modules/schema-utils/README.md
+      … y 351 más
+    quitados (539):
+      - 1_codigo/remotion/node_modules/@types/eslint-scope/LICENSE
+      - 1_codigo/remotion/node_modules/@types/eslint-scope/README.md
+      - 1_codigo/remotion/node_modules/@types/eslint-scope/index.d.ts
+      - 1_codigo/remotion/node_modules/@types/eslint-scope/package.json
+      - 1_codigo/remotion/node_modules/@types/eslint/LICENSE
+      - 1_codigo/remotion/node_modules/@types/eslint/README.md
+      - 1_codigo/remotion/node_modules/@types/eslint/index.d.ts
+      - 1_codigo/remotion/node_modules/@types/eslint/package.json
+      - 1_codigo/remotion/node_modules/@types/eslint/rules/best-practices.d.ts
+      - 1_codigo/remotion/node_modules/@types/eslint/rules/deprecated.d.ts
+      - 1_codigo/remotion/node_modules/@types/eslint/rules/ecmascript-6.d.ts
+      - 1_codigo/remotion/node_modules/@types/eslint/rules/index.d.ts
+      … y 527 más
+
+2026-10-21 13:02  ·  v5.34  ·  cambio explicado
+    AI Sound Director fase 3 (AI SFX): con el interruptor encendido el director es el ÚNICO dueño del sound design. director_sonido_diseno decide caption a caption y motion a motion con la metadata real (CAPTION_SOUND_SCORE, acento por carácter del tema, el mismo cuándo de la PRO via edicion_pro_sonido.momentos, densidad por ventanas, gancho/motivo/cierre) y deja la mayoría en silencio; director_sonido_sfx hace cada sonido a la medida (híbrido: biblioteca curada con Quality Gate + capa procedural; si no, procedural; nunca sfx_library) en WAV con el nivel relativo a la voz dentro. al_colocar: Efectos extra REPLACE / intro-outro KEEP, sonidos del director en pistas AI SFX, Simple APAGADO (no borrado, solo si lo del director quedó puesto) y la PRO deja los suyos (sonidos_pro; Motions completo KEEP). Apagado = HEAD. Pruebas 290/290 + probar_pro_lateral 236/236. Sin compilar.
+    nuevos (2):
+      + 1_codigo/director_sonido_diseno.py
+      + 1_codigo/director_sonido_sfx.py
+    modificados (10):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/director_sonido.py
+      ~ 1_codigo/director_sonido_fuentes.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/herramientas_dev/demo_director_sonido.py
+      ~ 1_codigo/herramientas_dev/probar_director_sonido.py
+      ~ 1_codigo/herramientas_dev/resolve_falso.py
+      ~ 2_recursos/efectos/colocar_efectos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      ~ 3_compilar/encabezados.py
+
+2026-10-21 12:42  ·  v5.34  ·  (automático)
+    modificados (1):
+      ~ 1_codigo/edicion_pro_sonido.py
+
+2026-10-21 12:38  ·  v5.34  ·  cambio explicado
+    Instalador.cs: 3 fallos vistos al probar la 5.34. (1) Opciones.ComoArgumentos reenvía TODAS las opciones de Leer (/sinmodelo /sinescritorio /noabrir /sinlimpiar se perdían al reubicar el desinstalador). (2) Modo prueba (CINECAPTIONS_PRUEBA_RAIZ): las tareas del programa corren con USERPROFILE/APPDATA/LOCALAPPDATA/PROGRAMDATA de la carpeta de prueba (EntornoDePrueba): scripts y quitar_scripts ya no tocan los scripts REALES de Resolve, ni verificar el ~ real; quitar_scripts vuelve a correr en la prueba. (3) Rutas largas: AppContext UseLegacyPathHandling/BlockLongPaths=false al empezar y copia con \?\ (Borrado.Largo); si Windows no tiene LongPathsEnabled y carpeta+ruta más larga del paquete pasa de 259, error claro ANTES de copiar con la carpeta máxima que cabe. Probado con csc + paquete falso en E:\cc5n (ruta de 291 caracteres OK) y la 5.34 instalada con el entorno redirigido.
+    modificados (1):
+      ~ 3_compilar/Instalador.cs
+
+2026-10-21 12:21  ·  v5.34  ·  cambio explicado
+    5.34 dependencias: av 19.0.1 -> 19.0.2 y pyinstaller-hooks-contrib 2026.8 -> 2026.9 (requirements.txt + salud.LIBRERIAS). compat_av sigue haciendo falta (19.0.2 tampoco acepta metadata_errors) y se aplica antes de cada uso de faster-whisper. Remotion: lockfile con 9 transitivas al dia dentro de rango (baseline-browser-mapping, browserslist, caniuse-lite, electron-to-chromium, fast-uri, node-releases, postcss, postcss-selector-parser, watchpack). NO se suben @rspack/core, react-refresh, webpack, mediabunny, @types/dom-webcodecs, ast-types ni @babel/types: Remotion 4.0.537 las fija exactas (haria falta overrides). schema-utils se queda en 4.5.0: 4.8.x pide peer webpack ^5.112 y npm metia un segundo webpack junto al 5.105.0 que fija el bundler.
+
+2026-10-21 12:17  ·  v5.34  ·  (automático)
+    nuevos (3):
+      + 1_codigo/remotion/node_modules/fast-uri/.github/workflows/release.yml
+      + 1_codigo/remotion/node_modules/fast-uri/test/host-delimiter-security.test.js
+      + 1_codigo/remotion/node_modules/fast-uri/test/relative-normalization-security.test.js
+    modificados (653):
+      ~ 1_codigo/remotion/node_modules/.bin/baseline-browser-mapping
+      ~ 1_codigo/remotion/node_modules/.bin/baseline-browser-mapping.cmd
+      ~ 1_codigo/remotion/node_modules/.bin/browserslist
+      ~ 1_codigo/remotion/node_modules/.bin/browserslist.cmd
+      ~ 1_codigo/remotion/node_modules/.bin/webpack
+      ~ 1_codigo/remotion/node_modules/.bin/webpack.cmd
+      ~ 1_codigo/remotion/node_modules/.package-lock.json
+      ~ 1_codigo/remotion/node_modules/baseline-browser-mapping/dist/index.cjs
+      ~ 1_codigo/remotion/node_modules/baseline-browser-mapping/dist/index.js
+      ~ 1_codigo/remotion/node_modules/baseline-browser-mapping/package.json
+      ~ 1_codigo/remotion/node_modules/browserslist/index.js
+      ~ 1_codigo/remotion/node_modules/browserslist/package.json
+      … y 641 más
+
+2026-10-21 09:02  ·  v5.33  ·  cambio explicado
+    AI Sound Director: demostración del Tema 1 sin Resolve con 4 bandas sonoras (actual / procedural / biblioteca del autor con Quality Gate semántico / híbrido): disenar_kinetic con la animación real del pack, motor procedural (director_sonido_sintesis) y fuentes con Quality Gate (director_sonido_fuentes). Aún no se usa en GO.
+    nuevos (3):
+      + 1_codigo/director_sonido_fuentes.py
+      + 1_codigo/director_sonido_sintesis.py
+      + 1_codigo/herramientas_dev/demo_director_sonido.py
+    modificados (2):
+      ~ 1_codigo/director_sonido_eventos.py
+      ~ 3_compilar/encabezados.py
+
+2026-10-21 08:38  ·  v5.33  ·  cambio explicado
+    AI Sound Director: estrategia de fuentes del usuario (la biblioteca local pasa a legacy, DISABLED_FOR_NEW_DESIGN; sin proveedor autorizado no se añade música) y cliente de Epidemic Sound solo de backend (clave solo del entorno, retirada del entorno al arrancar, nunca en logs/archivos/Git; prueba segura de acceso; 401/403/406/429; descarga única a la caché con metadata y duplicados por hash).
+    nuevos (2):
+      + 1_codigo/director_sonido_epidemic.py
+      + 1_codigo/herramientas_dev/probar_epidemic.py
+    modificados (6):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/director_sonido.py
+      ~ 1_codigo/director_sonido_musica.py
+      ~ 1_codigo/director_sonido_voz.py
+      ~ 1_codigo/herramientas_dev/probar_director_sonido.py
+      ~ 3_compilar/encabezados.py
+
+2026-10-21 08:18  ·  v5.33  ·  cambio explicado
+    AI Sound Director, fases 0-2 (interruptor ai_sound_director apagado por defecto): análisis de tema, identidad sonora, voz, ruido, música, ambiente, captions, motions y narrativa; voz restaurada como COPIA en la pista AI VOICE (A1 se apaga solo tras verificarla; reversible). Apagado = GO de siempre (probado contra HEAD). afftdn de PyAV casi no reduce ruido real: reducción propia en numpy (director_sonido_nr) con tope y guardas antes/después.
+    nuevos (12):
+      + 1_codigo/director_sonido.py
+      + 1_codigo/director_sonido_ambiente.py
+      + 1_codigo/director_sonido_estado.py
+      + 1_codigo/director_sonido_eventos.py
+      + 1_codigo/director_sonido_identidad.py
+      + 1_codigo/director_sonido_medir.py
+      + 1_codigo/director_sonido_musica.py
+      + 1_codigo/director_sonido_nr.py
+      + 1_codigo/director_sonido_voz.py
+      + 1_codigo/herramientas_dev/_voz_sapi.py
+      + 1_codigo/herramientas_dev/probar_director_sonido.py
+      + 1_codigo/herramientas_dev/resolve_falso.py
+    modificados (5):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/efectos_visuales.py
+      ~ 1_codigo/resolve_mcp.py
+      ~ 2_recursos/efectos/colocar_efectos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+
+2026-10-20 22:12  ·  v5.33  ·  (automático)
+    modificados (26):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      … y 14 más
+
+2026-10-20 22:08  ·  v5.32  ·  cambio explicado
+    Gancho del inicio encendido por defecto también en el Tema 1 (pro_gancho_intro en todos los temas; 'gancho' fuera de NEON_EXTRAS para no cambiar la densidad de su PRO). El usuario: «que el gancho venga encendido por defecto también en el Tema 1».
+    modificados (4):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/herramientas_dev/probar_pro_lateral.py
+      ~ 1_codigo/pro_lateral_ui.py
+
+2026-10-20 22:03  ·  v5.32  ·  cambio explicado
+    Intro del gancho probada en los 6 temas (camino real de GO + Resolve simulado; gemelo .lua en LuaJIT con y sin io). Arreglos: el rectificador quitaba el zoom de la intro con la PRO completa (todos los temas); en el Tema 1 + PRO el zoom va también dentro de la placa (kit_neon_placa), que tapa V1. El usuario: «testea que se aplique a todos los temas».
+    modificados (2):
+      ~ 1_codigo/kit_neon_placa.py
+      ~ 1_codigo/rectificador.py
+
+
+(Lo anterior está archivado por mes en DOCUMENTACION/historial/REGISTRO_<aaaa-mm>.txt)
 2026-10-20 21:55  ·  v5.32  ·  cambio explicado
     Gancho del inicio: fila única «Personaliza» (luz, segundo color, sonido y zoom; una tira abierta a la vez) y elección de zoom (pro_estilos['gancho']['z']: el de la intro, otro de los 8 o ninguno; sin zoom no hay comp en V1). El usuario: «hazlo más intuitivo, compacto, y te faltó el botón de efecto de zoom».
     modificados (5):

@@ -1984,7 +1984,10 @@
         "motions completo",
         "rendimiento",
         "sin resolve",
-        "detras de ti"
+        "detras de ti",
+        "text+",
+        "editables",
+        "editar texto"
       ],
       "archivos": [
         "kit_neon.py",
@@ -1998,10 +2001,12 @@
         "herramientas_dev/vista_kitneon.py",
         "herramientas_dev/comparar_ref_neon.py",
         "kit_neon_completo.py",
-        "edicion_pro_remotion.py"
+        "edicion_pro_remotion.py",
+        "edicion_pro.py"
       ],
       "simbolos": [
         "escena_captions",
+        "_ajustes_texto_neon",
         "bloque_hook",
         "piezas",
         "escena_motions",

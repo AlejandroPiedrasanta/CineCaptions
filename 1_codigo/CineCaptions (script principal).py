@@ -12098,7 +12098,9 @@ class SubtitleApp(QWidget):
         neon = getattr(self, '_kitneon', None)          # v5.5.13: los captions del Tema 1 neón (los armó _generar_con_kinetic para ESTE video)
         if plan and plan.get('tema') == 'neon' and neon and neon.get('escena'):
             plan['kitneon'] = neon['escena']
-        if not plan or not (plan.get('piezas') or plan.get('tema5') or plan.get('ligero') or solo_motions or plan.get('kitneon')):   # (v5.5.9: «Motions completo» también)
+            plan['kitneon_texto'] = bool(neon.get('texto'))     # v5.43: los captions ya son los Text+ de GO (editables): la PRO no pone clips neón
+        neon_pro = bool(plan and plan.get('kitneon') and not (plan.get('kitneon_texto') and plan.get('kitneon_motions') is None))   # (Text+ sin la PRO: nada que poner)
+        if not plan or not (plan.get('piezas') or plan.get('tema5') or plan.get('ligero') or solo_motions or neon_pro):   # (v5.5.9: «Motions completo» también)
             return ''
         try:                                   # el plan es de un video: si ahora hay otro cargado (regenerar), no se aplica el de antes
             actual = self.video_var.get().strip().strip('"')
@@ -13688,7 +13690,14 @@ class SubtitleApp(QWidget):
                  'offset_frames': self._offset_frames(), **pista_plantilla, **pista_sfx, **pista_emojis}
         if es_viral:
             track['clip_prueba'] = 'v fina'                       # el clip que prueba que el bin del pack VIRAL está completo (el de Kinetic es «k hero blanco»)
-        if self._kitneon and not es_viral and not sin_resolve:
+        try:                                                     # v5.43 (el usuario: «el Tema 1 en Resolve no tiene el formato Text+ para poder
+            import edicion_pro as _ep                            # trabajar»): por defecto sus captions son estos Text+ neón, EDITABLES; la PRO
+            editables = _ep.opciones_guardadas().get('pro_captions_editables', True) is not False   # pone motions y placa y los ajusta (sin clips neón)
+        except Exception:
+            editables = True
+        if self._kitneon and not es_viral and not sin_resolve and editables:
+            self._kitneon['texto'] = True
+        elif self._kitneon and not es_viral and not sin_resolve:
             # v5.24 (el usuario: «quita lo que pone y al final desactiva; quédate con lo que importa, así es más rápido»): con el Tema 1 neón la
             # Edición PRO pone los captions (clips KitNeon); el script de Resolve ya no importa el pack ni coloca los Text+ que luego se apagaban:
             # solo los sonidos. Si la PRO no pudiera ponerlos, _respaldo_tema1 coloca estos Text+ (sin repetir los sonidos).
