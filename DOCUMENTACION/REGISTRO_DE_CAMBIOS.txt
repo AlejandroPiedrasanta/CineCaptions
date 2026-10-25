@@ -12,6 +12,46 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-25 11:52  ·  v5.42  ·  (automático)
+    modificados (23):
+      ~ 1_codigo/director_sonido_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/debug.log
+      ~ 2_recursos/edicion_pro/remotion/runtime/version.json
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      … y 11 más
+
+2026-10-25 10:42  ·  v5.41  ·  cambio explicado
+    Librerías al día (2026-10-25): certifi 2026.10.23 (seguridad: retira raíces emSign C1/C3) en los 3 requirements y venv315; huggingface_hub 2.3.0 en motor_compat y motor_qwen (probado en los dos motores reales sin instalar: Whisper, Argos, config/tokenizer de Qwen, descarga); overrides webpack 5.112.2 y @babel/types 8.0.8, bundle de Remotion rehecho y 51 composiciones idénticas píxel a píxel; mediabunny sigue 1.62.0 porque Remotion 4.0.538 la fija exacta. Node 24.22.1 (seguridad) pendiente: hay que actualizar el Node del sistema, que es el que copia preparar_remotion. Revisión de modelos en temas/voz-ia.md.
+    nuevos (6):
+      + 1_codigo/remotion/node_modules/webpack/lib/dependencies/esm/ESMLiveExportDependency.js
+      + 1_codigo/remotion/node_modules/webpack/lib/dependencies/esm/ESMLiveExportParserPlugin.js
+      + 1_codigo/remotion/node_modules/webpack/schemas/plugins/define/DotenvPluginOptions.check.js
+      + 1_codigo/remotion/node_modules/webpack/schemas/plugins/define/DotenvPluginOptions.json
+      + 1_codigo/remotion/node_modules/webpack/schemas/plugins/output/CleanOptions.check.js
+      + 1_codigo/remotion/node_modules/webpack/schemas/plugins/output/CleanOptions.json
+    modificados (270):
+      ~ 1_codigo/remotion/node_modules/.bin/webpack
+      ~ 1_codigo/remotion/node_modules/.bin/webpack.cmd
+      ~ 1_codigo/remotion/node_modules/.package-lock.json
+      ~ 1_codigo/remotion/node_modules/@babel/helper-string-parser/lib/index.js
+      ~ 1_codigo/remotion/node_modules/@babel/helper-string-parser/package.json
+      ~ 1_codigo/remotion/node_modules/@babel/types/lib/index.js
+      ~ 1_codigo/remotion/node_modules/@babel/types/package.json
+      ~ 1_codigo/remotion/node_modules/webpack/bin/webpack.js
+      ~ 1_codigo/remotion/node_modules/webpack/lib/Compilation.js
+      ~ 1_codigo/remotion/node_modules/webpack/lib/Compiler.js
+      ~ 1_codigo/remotion/node_modules/webpack/lib/asset/AssetBytesGenerator.js
+      ~ 1_codigo/remotion/node_modules/webpack/lib/asset/AssetBytesParser.js
+      … y 258 más
+
 2026-10-23 08:02  ·  v5.41  ·  cambio explicado
     Página SONIDO: diseño A+B elegido por el usuario (editor tipo DaVinci con cuadro del video, inspector con onda, línea con fotogramas/voz/pistas + tarjetas de estilo y momentos con fotograma). Por qué: la línea de tiempo simple no le gustó; pidió algo más visual y combinó las propuestas A y B. sonido_skill.visual da miniaturas (solo fotogramas clave, en caché) y ondas.
     modificados (2):
@@ -31,6 +71,22 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
       + 1_codigo/sonido_skill_ui.py
     modificados (1):
       ~ 1_codigo/CineCaptions (script principal).py
+
+2026-10-22 14:46  ·  v5.41  ·  cambio explicado
+    Página SONIDO rehecha con el diseño C que eligió el usuario («me estresa»): tres versiones (Suave / Cinemática = la de la IA / Con energía) que son juegos de los controles de siempre; ▶ las prepara y suenan; cuadro del video con Antes/Con sonido; línea, inspector y controles plegados en «Ajustar a mano»; fuera Sound Score, «Dile…» y diagnóstico de la vista.
+    modificados (2):
+      ~ 1_codigo/director_sonido_ui.py
+      ~ 1_codigo/herramientas_dev/probar_pagina_director.py
+
+2026-10-22 14:27  ·  v5.41  ·  cambio explicado
+    Título «Tema N» (TituloGo): las letras suben desde detrás de la raya (antes la cruzaban y el borde las cortaba); cada letra en su sitio exacto con interletraje (al acabar la entrada el título saltaba ~1 px); relleno winding (la «e» de Inter salía con huecos); halo único del título que se enciende al aterrizar; el punto de luz entra suave.
+    modificados (1):
+      ~ 1_codigo/un_clic_ui.py
+
+2026-10-22 14:19  ·  v5.41  ·  cambio explicado
+    MCP cinecaptions: cada llamada en su hilo (las de Resolve en fila), cancelar mata el proceso, go_real exige confirmar=true (el usuario usa Resolve a la vez), anotaciones readOnly/destructive, versión desde version.py, recarga también plantillas y kinetic_captions.
+    modificados (1):
+      ~ 1_codigo/mcp_cinecaptions.py
 
 2026-10-22 13:45  ·  v5.41  ·  (automático)
     modificados (20):
