@@ -1,8 +1,8 @@
-# Librerias del programa principal (Python 3.15.1). Versiones FIJAS a proposito:
+# Librerias del programa principal (Python 3.15.2). Versiones FIJAS a proposito:
 # PyAV 19 es el ultimo soporte de Python y quitó metadata_errors de av.open;
 # el worker 3.14 aplica el puente compat_av antes de cargar faster-whisper 1.2.1.
 # Antes de subir una version: compilar, instalar y correr --tarea verificar.
-# El motor auxiliar Python 3.14.9 instala Whisper, Argos y ONNX Runtime desde
+# El motor auxiliar Python 3.14.10 instala Whisper, Argos y ONNX Runtime desde
 # 2_recursos/motor_compat/requirements.txt: varias extensiones aún no tienen ruedas cp315.
 # Interfaz: PySide6 (Qt 6). Solo los modulos esenciales (QtCore/QtGui/QtWidgets).
 PySide6-Essentials==6.12.0

@@ -46,7 +46,7 @@ TEMPLATE_CLIP_NAME = "Subtitle Template"
 # coincide con la del programa (ver version.py). Se estampa en
 # ultimo_resultado.json: hasta la v1.0.28 este archivo no tenia version
 # ninguna y no habia forma de saber que build habia colocado los subtitulos.
-VERSION = "5.43 (subtitulos)"
+VERSION = "5.46 (subtitulos)"
 
 # Donde se escribe el resultado para que la app lo lea. Hasta la v1.0.26 este
 # script no escribia nada aca -a diferencia del de Importar Estilos, que si
@@ -828,7 +828,6 @@ def get_text_plus_tool(timeline_item):
     comp = timeline_item.GetFusionCompByIndex(1)
     if not comp:
         return None
-    herramientas = comp.GetToolList()
     # los packs viralized llevan varios Text+ de apoyo: el que recibe el texto se llama «Template»
     plantilla = comp.FindTool("Template")
     if plantilla:
@@ -837,6 +836,8 @@ def get_text_plus_tool(timeline_item):
                 return plantilla
         except Exception:
             pass
+    # v5.47: la lista entera de nodos solo si no hay «Template» (antes se pedía siempre: cara por la API en comps con muchos nodos)
+    herramientas = comp.GetToolList() or {}
     for name, tool in herramientas.items():
         try:
             if tool.ID == "TextPlus":
@@ -934,11 +935,19 @@ def _duracion_de(item):
         return 0
 
 
+_NOMBRES_CLIP = {}     # v5.47: id(plantilla) -> (plantilla, nombre): el nombre de cada plantilla se pide a Resolve una vez, no dos por clip
+
+
 def _nombre_clip(plantilla):
+    ya = _NOMBRES_CLIP.get(id(plantilla))
+    if ya is not None and ya[0] is plantilla:
+        return ya[1]
     try:
-        return str(plantilla.GetName() or "")
+        nombre = str(plantilla.GetName() or "")
     except Exception:
         return ""
+    _NOMBRES_CLIP[id(plantilla)] = (plantilla, nombre)
+    return nombre
 
 
 def _factor_de(plantilla, fps):

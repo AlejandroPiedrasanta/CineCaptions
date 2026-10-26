@@ -52,11 +52,20 @@ TRAZO_GROSOR = 0.0065            # grosor del trazo (× ancho) ≈ 7 px
 SUBRAYADO_NOMINAL = 0.34         # ancho del subrayado a zoom 1 (× ancho)
 
 
-def puntos_circulo(lazo=False, n=64):
+ASPECTOS_TRAZO = (0.20, 0.25, 0.30, 0.36, 0.42, 0.50, 0.60, 0.72, 0.86, 1.0)   # v5.45: alto/ancho de las variantes del círculo y el lazo
+TRAZO_VARIANTE_ANCHO = 0.84      # v5.45: ancho de esas variantes a zoom 1 (× ancho): el tamaño real de un aro, así el zoom queda cerca de 1 y el trazo en ~7 px
+
+
+def puntos_circulo(lazo=False, n=64, aspecto=None):
     """La elipse dibujada a mano del kit (motor.js: 1,1 vueltas, radio que ondula un 3,5 % y un giro de −4° o −8° el lazo), en fracciones del ANCHO, centro
-    (0, 0), y hacia ABAJO. Empieza arriba a la izquierda y se pasa un poco de la vuelta, como un trazo de rotulador."""
+    (0, 0), y hacia ABAJO. Empieza arriba a la izquierda y se pasa un poco de la vuelta, como un trazo de rotulador.
+    v5.45: con `aspecto` (alto/ancho) la elipse ya tiene su forma y su tamaño real (TRAZO_VARIANTE_ANCHO): se escala por igual y el trazo no se deforma
+    (estirada con ZoomX ≠ ZoomY salía gruesa a los lados y fina arriba y abajo)."""
     import math
     rx, ry = TRAZO_NOMINAL[0] / 2.0, TRAZO_NOMINAL[1] / 2.0
+    if aspecto:
+        rx = TRAZO_VARIANTE_ANCHO / 2.0
+        ry = rx * float(aspecto)
     giro = math.radians(-8.0 if lazo else -4.0)
     pts = []
     for k in range(n + 1):

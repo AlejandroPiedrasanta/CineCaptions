@@ -55,6 +55,56 @@ def _rebote(p):
 SALIDA = 'math.min(1, math.max(0, (comp.RenderEnd - time) / 5))'      # 1 durante el clip y baja a 0 en los 5 últimos fotogramas
 
 
+FPS = '(comp:GetPrefs("Comp.FrameFormat.Rate") or 30)'
+ASP_EXPR = '((comp:GetPrefs("Comp.FrameFormat.Width") or 1080) / (comp:GetPrefs("Comp.FrameFormat.Height") or 1920))'
+EM_ALTO = f'(Template.Size * 0.592593 * {ASP_EXPR})'      # el em del Text+ (Size × 640 px a 1080 de ancho) en fracción del ALTO del cuadro
+
+
+def _muelle(p, z=0.72, w=7.6):
+    """spring() del kit (motor.ts) sobre el progreso p ya acotado a [0, 1]: 0 → 1 con su pequeño rebote."""
+    wd = w * (1 - z * z) ** 0.5
+    return f'(({p}) >= 1 and 1 or (1 - math.exp(-{n(z * w)}*({p})) * (math.cos({n(wd)}*({p})) + {n(z * w / wd)}*math.sin({n(wd)}*({p})))))'
+
+
+def _sale(q):
+    """sale() del kit (easeInOutCubic) sobre q ya acotado."""
+    return f'(({q}) < 0.5 and 4*({q})^3 or 1 - (-2*({q})+2)^3/2)'
+
+
+def _ent(retardo, seg):
+    return f'math.min(1, math.max(0, (time - {retardo}) / ({n(seg)} * {FPS})))'
+
+
+def _fuera(seg):
+    """Progreso de la salida del kit: 0 hasta los últimos `seg` s del clip y 1 al final (todo el bloque sale a la vez: los clips acaban juntos)."""
+    return f'math.min(1, math.max(0, 1 - (comp.RenderEnd - time) / ({n(seg)} * {FPS})))'
+
+
+def animacion_kit(tipo, retardo=0, direccion=1, giro=0.0):
+    """v5.44 — las entradas/salidas del motor del kit «TEMA 1» (motor.ts), para que los Text+ se muevan como los clips neón:
+    'revela' (revela2: la línea entra por su MÁSCARA desde abajo —direccion 1— o desde arriba —−1— con muelle de 0,55 s y sale hacia arriba por la
+    máscara en 0,32 s: nada se queda medio transparente), 'pega' (pegatina: cae 70 px girando 18° y se asienta; sale desvaneciéndose en 0,3 s) y
+    'pluma' (la palabra a mano se escribe de izquierda a derecha en 0,5 s y sale borrándose y subiendo). Devuelve las expresiones de _cadena."""
+    if tipo == 'revela':
+        p, q = _ent(retardo, 0.55), _fuera(0.32)
+        s = _muelle(p)
+        h = f'(1.12 * {EM_ALTO})'
+        return dict(size='1', dy=f'(-({direccion}) * {h} * (1 - {s}) + 1.08 * {h} * {_sale(q)})', ang=f'(-({n(giro)}) * (1 - {s}))',
+                    blend=f'math.min(1, (time - {retardo}) / (0.06 * {FPS}))', mascara=f'(1.6 * {EM_ALTO})', desenfoque=True)
+    if tipo == 'pega':
+        p, q = _ent(retardo, 0.55), _fuera(0.30)
+        s = _muelle(p, 0.62, 8)
+        return dict(size='1', dy=f'(0.036458 * (1 - {s}))', ang=f'(18 * (1 - {s}))',
+                    blend=f'math.min(1, math.max(0, (time - {retardo}) / (0.07 * {FPS}))) * (1 - {_sale(q)})', desenfoque=True)
+    # 'pluma'
+    p, q = _ent(retardo, 0.55), _fuera(0.30)
+    s = _muelle(p)
+    po = _sale(q)
+    return dict(size='1', dy=f'(-0.008333 * (1 - {s}) + 0.036458 * {po})', ang='0',
+                blend=f'math.min(1, math.max(0, (time - {retardo}) / (0.06 * {FPS}))) * (1 - ({po})^2)',
+                pluma=(f'(1 - (1 - math.min(1, math.max(0, (time - {retardo}) / (0.5 * {FPS}))))^2.2)', po), desenfoque=True)
+
+
 def animacion(tipo, retardo=0):
     """Expresiones (Size del Transform, desplazamiento y de la Y, Angle, Blend) de la entrada `tipo` + la salida común."""
     if tipo == 'sube':           # línea pequeña: sube un poco y aparece
@@ -88,13 +138,31 @@ def _cadena(origen, anim, x0=140, y0=40):
         f'Center = Input {{ Value = {{ 0.5, 0.5 }}, Expression = "Point(0.5, 0.5 + {K.lua(anim["dy"])})", }},',
         f'Size = Input {{ Value = 1, Expression = "{K.lua(anim["size"])}", }},',
         f'Angle = Input {{ Value = 0, Expression = "{K.lua(anim["ang"])}", }},',
-    ])
+    ] + (['MotionBlur = Input { Value = 1, },', 'Quality = Input { Value = 3, },', 'ShutterAngle = Input { Value = 180, },']
+         if anim.get('desenfoque') else []))      # v5.45: el kit se mueve con desenfoque de movimiento (KitNeon: 5 muestras; aquí 3: con 5 el render tardaba 3,6× y la reproducción en Resolve se resiente)
     t += _vacio(x0 + 160, y0 + 90)
+    mascara = []
+    if anim.get('mascara'):      # v5.44 (kit: cada línea entra y sale por su caja, overflow hidden): una franja fija a lo ancho, centrada en el texto
+        t += K._mascara('RectangleMask', 'Caja', x0 + 160, y0 - 80, [
+            'Center = Input { Value = { 0.5, 0.5 }, },', 'Width = Input { Value = 1.4, },',
+            f'Height = Input {{ Value = 0.2, Expression = "{K.lua(anim["mascara"])}", }},'])
+        mascara = ['EffectMask = Input { SourceOp = "Caja", Source = "Mask", },']
+    elif anim.get('pluma'):      # v5.44 (kit: la palabra a mano se escribe de izquierda a derecha y se borra al salir): ventana sobre la tinta del Text+
+        pw, po = anim['pluma']
+        dw = 'Template.Output.DataWindow'
+        ancho_cuadro = '(comp:GetPrefs("Comp.FrameFormat.Width") or ' + str(K.ANCHO) + ')'
+        izq, der = f'({dw} and {dw}[1] / {ancho_cuadro} or 0.2)', f'({dw} and {dw}[3] / {ancho_cuadro} or 0.8)'
+        xa = f'({izq} + (-0.15 + 1.3 * {po}) * ({der} - {izq}))'
+        xb = f'({der} - (1 - {pw}) * ({der} - {izq}))'
+        t += K._mascara('RectangleMask', 'Caja', x0 + 160, y0 - 80, [
+            f'Center = Input {{ Value = {{ 0.5, 0.5 }}, Expression = "Point(({K.lua(xa)} + {K.lua(xb)}) / 2, 0.5)", }},',
+            f'Width = Input {{ Value = 0.5, Expression = "math.max(0.0001, {K.lua(xb)} - {K.lua(xa)})", }},', 'Height = Input { Value = 1.2, },'])
+        mascara = ['EffectMask = Input { SourceOp = "Caja", Source = "Mask", },']
     t += herramienta('Merge', 'Salida', x0 + 160, y0, [
         enlace('Background', 'Vacio'),
         enlace('Foreground', 'Anim'),
         f'Blend = Input {{ Value = 1, Expression = "{K.lua(anim["blend"])}", }},',
-    ])
+    ] + mascara)
     t += media_out('Salida', x0 + 320, y0)
     return t
 
@@ -129,8 +197,9 @@ def _contorno(num, grosor, opacidad=0.9):
     ]
 
 
-def comp_texto(nombre, texto, fuente, tam, relleno, esp=1.0, entrada='pop', retardo=0, sombra=True, interlineado=None, contorno=0.0):
-    """Un Text+ con relleno (color liso o degradado), sombra y la entrada animada. relleno = (r,g,b) o [(pos, (r,g,b))…]."""
+def comp_texto(nombre, texto, fuente, tam, relleno, esp=1.0, entrada='pop', retardo=0, sombra=True, interlineado=None, contorno=0.0, kit=None, trama=False):
+    """Un Text+ con relleno (color liso o degradado), sombra y la entrada animada. relleno = (r,g,b) o [(pos, (r,g,b))…].
+    v5.44: `kit` = las expresiones de animacion_kit (la entrada/salida del motor del kit en vez de `entrada`)."""
     extra = []
     color = (1, 1, 1)
     if isinstance(relleno, (list, tuple)) and relleno and isinstance(relleno[0], (list, tuple)) and len(relleno[0]) == 2 and isinstance(relleno[0][1], (list, tuple)):
@@ -144,8 +213,32 @@ def comp_texto(nombre, texto, fuente, tam, relleno, esp=1.0, entrada='pop', reta
         else:
             extra += _sombra(3, 0.55, -0.002, 34)            # (los héroes llevan un halo ancho)
     t = texto_plus('Template', -220, 40, texto, fuente[0], fuente[1], tam, color=color, esp=esp, extra=extra)
-    t += _cadena('Template', animacion(entrada, retardo))
+    origen = 'Template'
+    if trama:
+        t += _trama('Template')
+        origen = 'ConTrama'
+    t += _cadena(origen, kit or animacion(entrada, retardo))
     return K.armar_comp(t, f'CineCaptions Kinetic - {nombre}')
+
+
+def _trama(origen, x=-60, y=-60):
+    """v5.44 (el usuario: «faltan los halftone»): la trama del blanco del kit (.f-blanco: puntos rgba(30,14,60,.24) de ~1,6 px en una rejilla de 8 px a
+    1080 de ancho) con un Custom Tool: solo donde la letra es CLARA (r1 > 0,5: no sobre la sombra morada) y escalada con el ancho del cuadro."""
+    celda = '(8 * w / 1080)'
+    fx = f'(x * w - floor(x * w / {celda}) * {celda} - {celda} / 2)'
+    fy = f'(y * h - floor(y * h / {celda}) * {celda} - {celda} / 2)'
+    radio = '(1.65 * w / 1080)'
+    punto = f'max(0, min(1, ({radio} - sqrt({fx}*{fx} + {fy}*{fy})) / (0.5 * w / 1080 + 0.0001)))'
+    alfa = f'{punto} * 0.24 * max(0, min(1, (r1 - 0.5) * 4)) * a1'
+    t = (f'\t\tTrama = Custom {{\n\t\t\tCtrlWZoom = false,\n\t\t\tInputs = {{\n'
+         f'\t\t\t\tRedExpression = Input {{ Value = "{K.lua(alfa)} * 0.1176", }},\n'
+         f'\t\t\t\tGreenExpression = Input {{ Value = "{K.lua(alfa)} * 0.0549", }},\n'
+         f'\t\t\t\tBlueExpression = Input {{ Value = "{K.lua(alfa)} * 0.2353", }},\n'
+         f'\t\t\t\tAlphaExpression = Input {{ Value = "{K.lua(alfa)}", }},\n'
+         f'\t\t\t\tImage1 = Input {{ SourceOp = "{origen}", Source = "Output", }},\n'
+         f'\t\t\t}},\n\t\t\tViewInfo = OperatorInfo {{ Pos = {{ {x}, {y} }} }},\n\t\t}},\n')
+    t += herramienta('Merge', 'ConTrama', x + 100, y, [enlace('Background', origen), enlace('Foreground', 'Trama')])
+    return t
 
 
 CAP = {'Owners Narrow': 0.700, 'DM Serif Text': 0.661, 'Antagon': 0.854, 'Montserrat': 0.700, 'Yellowtail': 0.729}     # altura de las mayúsculas / em (Pillow)
@@ -153,7 +246,8 @@ ASPECTO = 1080.0 / 1920.0                                                       
 EM = 640.0 / 1080.0                                                                              # el em de «Size = 1» en fracciones del ancho del cuadro
 
 
-def comp_cinta(nombre, texto, fuente, tam, caja, color_texto, entrada='giro', retardo=0, esp=1.0, alto_k=1.55, pad_k=0.5, dy_k=0.03, sombra_caja=0.5, radio=0.15):
+def comp_cinta(nombre, texto, fuente, tam, caja, color_texto, entrada='giro', retardo=0, esp=1.0, alto_k=1.55, pad_k=0.5, dy_k=0.03, sombra_caja=0.5, radio=0.15,
+               kit=None):
     """Texto sobre una caja de color que SE AJUSTA AL TEXTO: un RectangleMask cuyo ancho sale del DataWindow del Text+ «Template» más el relleno y cuyo alto
     sale de su Size (alto_k × la altura de las mayúsculas; pad_k × esa altura a cada lado). Así la caja sigue al texto aunque la app cambie el Size o el
     texto, y una cinta de varias palabras es UNA sola caja (la forma «caja por carácter» de Text+ dejaba un hueco en cada espacio)."""
@@ -177,7 +271,7 @@ def comp_cinta(nombre, texto, fuente, tam, caja, color_texto, entrada='giro', re
     t += herramienta('Blur', 'Difumina', 40, 200, [enlace('Input', 'Negro'), 'XBlurSize = Input { Value = 6, },', 'Filter = Input { Value = FuID { "Gaussian" }, },'])
     t += herramienta('Transform', 'Baja', 40, 240, [enlace('Input', 'Difumina'), 'Center = Input { Value = { 0.5, 0.4965 }, },'])
     t += herramienta('Merge', 'ConSombra', 40, 280, [enlace('Background', 'Baja'), enlace('Foreground', 'Juntas')])
-    t += _cadena('ConSombra', animacion(entrada, retardo))
+    t += _cadena('ConSombra', kit or animacion(entrada, retardo))
     return K.armar_comp(t, f'CineCaptions Kinetic - {nombre}')
 
 
@@ -224,12 +318,16 @@ def _polilinea_abierta(nombre, puntos, grosor, x=-220, y=40, dur=13):
         bx, by = pm[min(k - 1, i + 1)]
         filas.append(f'\t\t\t\t\t\t{{ Linear = true, X = {n(px)}, Y = {n(py)}, LX = {n((ax - px) / 3)}, LY = {n((ay - py) / 3)}, RX = {n((bx - px) / 3)}, RY = {n((by - py) / 3)} }}')
     pts = ',\n'.join(filas)
-    avance = f'1 - (1 - math.min(1, math.max(0, time / {dur})))^2.4'
+    avance = f'1 - (1 - math.min(1, math.max(0, time / (0.45 * {FPS}))))^2.4'      # (v5.45: 0,45 s como el kit a cualquier fps; antes `dur` fotogramas)
     return (f'\t\t{nombre} = PolylineMask {{\n\t\t\tDrawMode = "InsertAndModify",\n\t\t\tDrawMode2 = "InsertAndModify",\n\t\t\tCtrlWShown = false,\n\t\t\tInputs = {{\n'
             f'\t\t\t\tFilter = Input {{ Value = FuID {{ "Fast Gaussian" }}, }},\n\t\t\t\tMaskWidth = Input {{ Value = {K.ANCHO}, }},\n\t\t\t\tMaskHeight = Input {{ Value = {K.ALTO}, }},\n'
             f'\t\t\t\tPixelAspect = Input {{ Value = {{ 1, 1 }}, }},\n\t\t\t\tUseFrameFormatSettings = Input {{ Value = 1, }},\n\t\t\t\tClippingMode = Input {{ Value = FuID {{ "None" }}, }},\n'
             f'\t\t\t\tSolid = Input {{ Value = 0, }},\n\t\t\t\tBorderWidth = Input {{ Value = {n(grosor)}, }},\n'
-            f'\t\t\t\tWriteOnEnd = Input {{ Value = 1, Expression = "{K.lua(avance)}", }},\n'
+            # v5.45: Resolve 21 dibuja el trazo con WriteLength (cuánto) y WritePosition (el centro de lo escrito); WriteOnEnd ya no hace nada
+            # (medido: GetInput devolvía None y el aro salía entero de golpe). WritePosition es el INICIO del tramo (con p/2 el subrayado arrancaba a
+            # mitad de camino, medido en la ronda 10): inicio 0 y largo p.
+            f'\t\t\t\tWriteLength = Input {{ Value = 1, Expression = "{K.lua(avance)}", }},\n'
+            f'\t\t\t\tWritePosition = Input {{ Value = 0, }},\n'
             f'\t\t\t\tPolyline = Input {{ SourceOp = "{nombre}Poly", Source = "Value", }},\n\t\t\t\tPolyline2 = Input {{ Value = Polyline {{ }}, Disabled = true, }},\n\t\t\t}},\n'
             f'\t\t\tViewInfo = OperatorInfo {{ Pos = {{ {x}, {y} }} }},\n\t\t}},\n'
             f'\t\t{nombre}Poly = BezierSpline {{\n\t\t\tSplineColor = {{ Red = 160, Green = 252, Blue = 4 }},\n\t\t\tCtrlWZoom = false,\n\t\t\tNameSet = true,\n\t\t\tKeyFrames = {{\n'
@@ -244,7 +342,8 @@ def comp_trazo(nombre, color, puntos, grosor=PAL.TRAZO_GROSOR):
     t += texto_plus('Template', -220, 200, ' ', HEROE[0], HEROE[1], 0.05)       # sin conectar: solo para que la app reconozca el clip como suyo
     t += K._fondo('Tinta', -60, 40, color, 'Trazo')
     t += _vacio(140, 130)
-    t += herramienta('Merge', 'Salida', 140, 40, [enlace('Background', 'Vacio'), enlace('Foreground', 'Tinta'), f'Blend = Input {{ Value = 1, Expression = "{K.lua(SALIDA)}", }},'])
+    salida = f'1 - {_sale(_fuera(0.30))}'           # v5.44 (kit: el trazo se va con la pila en 0,3 s, no de golpe en 5 fotogramas)
+    t += herramienta('Merge', 'Salida', 140, 40, [enlace('Background', 'Vacio'), enlace('Foreground', 'Tinta'), f'Blend = Input {{ Value = 1, Expression = "{K.lua(salida)}", }},'])
     t += media_out('Salida', 300, 40)
     return K.armar_comp(t, f'CineCaptions Kinetic - {nombre}')
 
@@ -253,20 +352,24 @@ def comp_trazo(nombre, color, puntos, grosor=PAL.TRAZO_GROSOR):
 def todos():
     """{nombre del clip: texto de la comp}. Los tamaños (Size) son los de partida: la app fija el real por clip."""
     c = {}
+    # v5.44: las entradas y salidas del kit (animacion_kit): grande desde arriba girada −4°, versalitas desde abajo, serif desde abajo +4°,
+    # pegatinas que caen y se asientan, la palabra a mano que se escribe
+    grande, chica, serif = animacion_kit('revela', direccion=-1, giro=-4), animacion_kit('revela'), animacion_kit('revela', giro=4)
     for var in ('blanco', 'lima', 'amarillo', 'magenta', 'rojo'):
-        c[f'k hero {var}'] = comp_texto(f'héroe {var}', 'HERO', HEROE, 0.30, GRADIENTES[var], esp=1.0, entrada='pop', contorno=(0.007 if var == 'blanco' else 0.0))
-    c['k sup'] = comp_texto('sup', 'SUP', HEROE, 0.12, (1.0, 1.0, 1.0), esp=1.04, entrada='sube', sombra=True, contorno=0.010)
-    c['k serif blanco'] = comp_texto('serif', 'Serif', SERIF, 0.20, GRADIENTES['serif'], esp=1.0, entrada='abre', contorno=0.012)
+        c[f'k hero {var}'] = comp_texto(f'héroe {var}', 'HERO', HEROE, 0.30, GRADIENTES[var], esp=1.0, contorno=(0.007 if var == 'blanco' else 0.0), kit=grande,
+                                        trama=(var == 'blanco'))
+    c['k sup'] = comp_texto('sup', 'SUP', HEROE, 0.12, (1.0, 1.0, 1.0), esp=1.04, sombra=True, contorno=0.010, kit=chica)
+    c['k serif blanco'] = comp_texto('serif', 'Serif', SERIF, 0.20, GRADIENTES['serif'], esp=1.0, contorno=0.012, kit=serif)
     for var, grad in COLOR_GUION.items():
-        c[f'k script {var}'] = comp_texto(f'guion {var}', 'script', GUION, 0.22, grad, esp=1.0, entrada='giro', contorno=0.012)
+        c[f'k script {var}'] = comp_texto(f'guion {var}', 'script', GUION, 0.22, grad, esp=1.0, contorno=0.012, kit=animacion_kit('pluma'))
     for var in ('lima', 'magenta'):                     # v5.5.13 (neón): la palabra a mano del kit, en Yellowtail y color liso
-        c[f'k script yt {var}'] = comp_texto(f'pluma {var}', 'script', PLUMA, 0.22, COLOR_GUION[var], esp=1.0, entrada='giro', contorno=0.0)
-    c['k label'] = comp_texto('etiqueta', 'LABEL', ETIQUETA, 0.07, (1.0, 1.0, 1.0), esp=1.42, entrada='sube', sombra=True, contorno=0.008)   # versalitas espaciadas (kit: .42em)
+        c[f'k script yt {var}'] = comp_texto(f'pluma {var}', 'script', PLUMA, 0.22, COLOR_GUION[var], esp=1.0, contorno=0.0, kit=animacion_kit('pluma'))
+    c['k label'] = comp_texto('etiqueta', 'LABEL', ETIQUETA, 0.07, (1.0, 1.0, 1.0), esp=1.218, sombra=True, contorno=0.008, kit=chica)   # versalitas espaciadas (kit: .42em = 1 + 0,42/1,93 en Text+, v5.45)
     for var, (caja, texto) in COLOR_CINTA.items():
-        c[f'k tape {var}'] = comp_cinta(f'cinta {var}', 'TAPE', HEROE, 0.10, caja, texto, entrada='giro')
+        c[f'k tape {var}'] = comp_cinta(f'cinta {var}', 'TAPE', HEROE, 0.10, caja, texto, kit=animacion_kit('pega'))
     for var in ('amarillo', 'magenta', 'blanco'):
         caja, texto = COLOR_CINTA[var]
-        c[f'k tapes {var}'] = comp_cinta(f'cinta serif {var}', 'Tape', SERIF, 0.16, caja, texto, entrada='giro', alto_k=1.6, pad_k=0.4)
+        c[f'k tapes {var}'] = comp_cinta(f'cinta serif {var}', 'Tape', SERIF, 0.16, caja, texto, alto_k=1.6, pad_k=0.4, kit=animacion_kit('pega'))
     for var, col in COLOR_ANILLO.items():
         c[f'k ring {var}'] = comp_anillo(f'anillo {var}', col)
     for var, col in COLOR_LINEA.items():
@@ -274,6 +377,9 @@ def todos():
     for var in ('lima', 'magenta'):                     # v5.5.13 (neón): los trazos a mano que se dibujan («k ring …» / «k line …»: misma capa en Resolve)
         c[f'k ring trazo {var}'] = comp_trazo(f'círculo {var}', PAL.ANILLO[var], PAL.puntos_circulo())
         c[f'k ring lazo {var}'] = comp_trazo(f'lazo {var}', PAL.ANILLO[var], PAL.puntos_circulo(lazo=True))
+        for a in PAL.ASPECTOS_TRAZO:                    # v5.45: con su forma ya hecha (zoom igual en x e y: el trazo no se deforma)
+            c[f'k ring trazo {var} {int(round(a * 100))}'] = comp_trazo(f'círculo {var} {int(round(a * 100))}', PAL.ANILLO[var], PAL.puntos_circulo(aspecto=a))
+            c[f'k ring lazo {var} {int(round(a * 100))}'] = comp_trazo(f'lazo {var} {int(round(a * 100))}', PAL.ANILLO[var], PAL.puntos_circulo(lazo=True, aspecto=a))
         c[f'k line trazo {var}'] = comp_trazo(f'subrayado {var}', PAL.LINEA[var], PAL.puntos_subrayado())
     return c
 

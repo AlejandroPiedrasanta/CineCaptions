@@ -4,6 +4,8 @@
 
 Página **Efectos** (barra de navegación, nº 04) + interruptor **«Visuales»** en Inicio (pref `go_efectos_visuales`, apagado por defecto). Acompañan a captions, sonido y emojis; se colocan en pistas propias `FX-INTRO`, `FX-CORTES` y `FX-ICONOS` (V1/A1 y los captions no se tocan).
 
+**Colocar rápido (v5.47):** `colocar_efectos.py` y su gemelo `CineCaptions_Efectos.lua` leen el Media Pool UNA vez por corrida (índice ruta → clip; antes cada evento lo recorría entero pidiendo `File Path` de cada clip), importan los audios que faltan en un solo `ImportMedia` (solo audio: imágenes numeradas se juntarían en secuencia) y ponen los sonidos de cada pista con un solo `AppendToTimeline` (si no devuelve nada, uno por uno). Medido con los 53 sonidos del último GO del Tema 1 en zz_PRUEBAS_CC: 18 s → 4,1 s, mismo resultado clip a clip; el .lua con LuaJIT y un pool falso de 300 clips: 16 847 → 421 llamadas.
+
 **Qué hace cada uno**
 * **Intro** — clip sobre negro (`2_recursos/efectos/intro/<id>_v|h.mp4`: «fuga de luz» = el .mov de `Desktop/PARA PRUEBAS/OVERLAYS`, «destello») en el segundo 0, modo compuesto **Screen** (`item.SetProperty('CompositeMode', resolve.COMPOSITE_SCREEN)`).
 * **Transición en los cortes** — mismo tipo de clip (`corte/…`: «fuga de luz» = el .mov invertido + normal ×2,2, el punto más luminoso a la mitad; «destello» = fogonazo blanco) centrado en cada corte. `detectar_cortes` (PyAV, fotogramas 48×86 en gris, salto > 20 y > 3,2× el movimiento reciente) corre **en paralelo a la transcripción**; `elegir_cortes` deja los más fuertes separados según «Cuántos cortes» (`pocos` 9 s/6, `normal` 5 s/12, `todos` 1,6 s/60) y lejos de la intro y del final.

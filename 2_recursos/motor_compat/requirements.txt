@@ -1,4 +1,4 @@
-# Dependencias nativas que corre el servicio auxiliar Python 3.14.9.
+# Dependencias nativas que corre el servicio auxiliar Python 3.14.10.
 # Mantener sincronizado con 3_compilar/requirements.txt y probar en Windows.
 av==19.0.2
 certifi==2026.10.23
@@ -6,7 +6,7 @@ anyio==4.15.1
 click==8.5.0
 cloudpickle==3.1.2
 colorama==0.4.6
-ctranslate2==4.8.3
+ctranslate2==4.8.4
 filelock==4.2.4
 flatbuffers==25.12.19
 fsspec==2026.9.0
