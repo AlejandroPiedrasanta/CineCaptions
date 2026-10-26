@@ -40,8 +40,8 @@ S = {
     'sc_a': dict(k='k script amarillo', cap=0.050, max=2, rot=-5.0, solape=0.08),
     'sc_c': dict(k='k script cian', cap=0.046, max=2, rot=-6.0, solape=0.15),
     'sc_r': dict(k='k script rosa', cap=0.048, max=2, rot=-4.0, solape=0.15),
-    'sc_l': dict(k='k script yt lima', cap=0.048, max=3, rot=-7.0, solape=0.10),       # v5.5.13 (neón): la palabra a mano (Yellowtail)
-    'sc_m': dict(k='k script yt magenta', cap=0.048, max=3, rot=-6.0, solape=0.10),
+    'sc_l': dict(k='k script yt lima', cap=0.048, max=3, rot=0.0, solape=0.10),        # v5.5.13 (neón): la palabra a mano (Yellowtail); v5.47 recta (el usuario: «está torcido»; era −7°)
+    'sc_m': dict(k='k script yt magenta', cap=0.048, max=3, rot=0.0, solape=0.10),       # v5.47 recta (era −6°)
 }
 # prioridad al QUITAR huecos cuando hay menos palabras que huecos (lo primero que se va es lo menos importante)
 PRIORIDAD_QUITAR = ('lab', 'sup', 'sup2', 'ser', 'tp_b', 'tp_l', 'tp_m', 'ts_m', 'tp_a', 'ts_a', 'tp_r', 'sc_c', 'sc_r', 'sc_a', 'sc_m', 'sc_l')
@@ -75,6 +75,15 @@ RECETAS = [
          antes={1: ['lab'], 2: ['lab'], 3: ['lab'], 4: ['lab', 'sup']},
          despues={1: ['sc_l'], 2: ['sc_l'], 3: ['sc_l', 'sup'], 4: ['sc_l', 'sup']}),
 ]
+
+
+def _color_contrario(k_trazo, k_texto):
+    """v5.47 (el usuario: «los rings de otro color, no el mismo que el texto»): un aro, lazo o subrayado nunca del color de lo que marca:
+    lima sobre lima pasa a magenta y magenta sobre magenta a lima (la receta «lima» ponía un aro lima alrededor de la palabra lima)."""
+    for a, b in (('lima', 'magenta'), ('magenta', 'lima')):
+        if str(k_trazo).endswith(' ' + a) and str(k_texto).endswith(' ' + a):
+            return str(k_trazo)[:-len(a)] + b
+    return k_trazo
 
 
 def _patron(tabla, n):
@@ -267,7 +276,7 @@ def armar_bloque(pal, bloque, k_receta, forzados=None, ancla=0.64):
             textos[i]['anillo'] = True                      # la pila le deja sitio al anillo (si no, pisaba a la línea de al lado)
             lineas.append(dict(k=a[0], texto='', t=textos[i]['t'] + 0.1, cap=0.0, sobre=i, nombre='anillo'))
     # v5.5.13 (neón): los trazos a mano del kit; entran cuando ya está escrito lo que rodean o subrayan (kit: +0,18 s el círculo, +0,3 s el lazo)
-    lazo = receta.get('lazo')
+    lazo = receta.get('lazo') and _color_contrario(receta['lazo'], clave_h)
     if lazo:
         sig = next((i for i in range(indice_h + 1, len(textos)) if textos[i]['nombre'].startswith('tp_')), None)
         if sig is not None and sig == indice_h + 1:
@@ -275,12 +284,12 @@ def armar_bloque(pal, bloque, k_receta, forzados=None, ancla=0.64):
         else:
             lineas.append(dict(k=lazo.replace('lazo', 'trazo'), texto='', t=lh['t'] + 0.18, cap=0.0, sobre=indice_h, nombre='trazo'))
     if receta.get('circulo'):
-        lineas.append(dict(k=receta['circulo'], texto='', t=lh['t'] + 0.18, cap=0.0, sobre=indice_h, nombre='trazo'))
+        lineas.append(dict(k=_color_contrario(receta['circulo'], clave_h), texto='', t=lh['t'] + 0.18, cap=0.0, sobre=indice_h, nombre='trazo'))
     sub = receta.get('subraya')
     if sub:
         i = indice_h if sub[1] == 'heroe' else next((j for j, l in enumerate(textos) if l['nombre'] == sub[1]), None)
         if i is not None:
-            lineas.append(dict(k=sub[0], texto='', t=textos[i]['t'] + 0.20, cap=0.0, sobre=i, rel_w=0.9, sep=0.014, nombre='deco'))
+            lineas.append(dict(k=_color_contrario(sub[0], textos[i]['k']), texto='', t=textos[i]['t'] + 0.20, cap=0.0, sobre=i, rel_w=0.9, sep=0.014, nombre='deco'))
     return dict(lineas=lineas, receta=receta['nombre'], heroe=h, palabras=bloque, ancla=ancla)
 
 

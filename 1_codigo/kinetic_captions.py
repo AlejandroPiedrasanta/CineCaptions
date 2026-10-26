@@ -314,6 +314,12 @@ def variantes_trazo(cues):
     for cue in cues or []:
         for r in cue.get('runs') or []:
             k = str(r.get('k') or '')
+            if k.startswith('k line trazo') and len(k.split()) == 4:        # v5.47: el subrayado igual: su variante de ancho y zoom igual en x e y
+                ancho = float(r.get('zx') or 1.0) * AFINADO['nominal_linea'][0]
+                v = min(PAL.SUBRAYADO_ANCHOS, key=lambda a: abs(a - ancho))
+                z = round(ancho / v, 3)
+                r.update(k=f'{k} {int(round(v * 100))}', zx=z, zy=z)
+                continue
             if not (k.startswith('k ring trazo') or k.startswith('k ring lazo')) or len(k.split()) > 4:
                 continue
             zx, zy = float(r.get('zx') or 1.0), float(r.get('zy') or 1.0)

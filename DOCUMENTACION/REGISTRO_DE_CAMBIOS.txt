@@ -12,6 +12,41 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-26 16:04  ·  v5.47  ·  (automático)
+    modificados (21):
+      ~ 1_codigo/kinetic_planificador.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      … y 9 más
+
+2026-10-26 14:51  ·  v5.46  ·  cambio explicado
+    Tema 1 v5.47 (Kin 16): relleno vivo detrás del Transform con desenfoque (delante, render 3x sin caché y atascado); enlazar expresiones a otra herramienta (Anim.Center) tumbó Resolve 21.1.1: se repiten las expresiones. Probado en Resolve real: 21,5 s en 117 s.
+    modificados (3):
+      ~ 1_codigo/plantillas.py
+      ~ 2_recursos/generador_packs/kinetic_elementos.py
+      ~ 2_recursos/plantillas_incluidas/Kinetic/Kinetic vertical.drb
+
+2026-10-26 14:32  ·  v5.46  ·  cambio explicado
+    Tema 1 (v5.47): aros del color contrario a la palabra con halo, salida que se desdibuja antes que el texto (nunca un aro vacío), subrayado pincelada con remate a su ancho real (variantes 30-90) y relleno vivo (franja de tono + brillo cada 3 s, halftone que se desliza) recortado con una copia del Text+ sin sombras. Custom Tool de Fusion no se anima con time en Resolve 21.1.1; comillas sin escapar en una expresión dejan la comp negra. Pack Kin 14.
+    modificados (8):
+      ~ 1_codigo/kinetic_captions.py
+      ~ 1_codigo/kinetic_paleta.py
+      ~ 1_codigo/kinetic_planificador.py
+      ~ 1_codigo/kinetic_vista.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/render_temas.py
+      ~ 2_recursos/generador_packs/kinetic_elementos.py
+      ~ 2_recursos/plantillas_incluidas/Kinetic/Kinetic vertical.drb
+
 2026-10-26 09:57  ·  v5.46  ·  cambio explicado
     Tema 1 más rápido (medido en zz_PRUEBAS_CC): colocar los 53 sonidos/efectos 18 s -> 4,1 s (Media Pool leído una vez, ImportMedia y AppendToTimeline en bloque; gemelo .lua igual, 16847 -> 421 llamadas). MCP: ejecutar_py mira su resultado cada 50/150 ms (antes 500: +0,5 s por script) y con Resolve cerrado script/estado/resolve_abierto contestan al momento (estado 8,5 s -> 15 ms). Los Text+ del Tema 1: el coste es de Resolve por clip; colocar en bloque no ahorra (descartado).
     modificados (4):
