@@ -1,24 +1,29 @@
 {
-    "estable":  {
-                    "version":  "5.51.0",
-                    "notas":  "• Tema 2: las palabras entran y salen con más calma, como en tus referencias, y los bloques van seguidos, sin parpadeos en negro.\r\n• Tema 2: el subrayado verde queda pegado a la palabra y de su mismo ancho, y la palabra grande azul lleva una trama de puntos sutil.\r\n• Tema 2: los emojis salen solo con la Edición PRO y su opción «Emojis animados».\r\n• Inicio más fluido, a 60 fps, con tres estilos para elegir: Astrolabio, Nebulosa y Proceso.\r\n• Sonido: cada efecto empieza con su animación, el Tema 1 suena con reglas fijas y nunca se usan sonidos hechos por IA.\r\n• Nueva ventana de actualización con el progreso, los pasos y lo que trae cada versión; motores de voz y animaciones al día.",
-                    "fecha":  "2026-10-27",
-                    "archivos":  {
-                                     "windows":  {
-                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.51/Instalar_CineCaptions_5.51.exe",
-                                                     "sha256":  "31813b31fa74a9458e039bd5572a36cdf67452024341cc9351cfa9889655b012",
-                                                     "tam":  555218658
-                                                 },
-                                     "mac_arm64":  {
-                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.51/CineCaptions_Mac_AppleSilicon_5.51.dmg",
-                                                       "sha256":  "8d1b57b438de2d5b659ed34d45703a0b4080e721922d8289985706439b973cf4",
-                                                       "tam":  575136973
-                                                   },
-                                     "mac_x86_64":  {
-                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.51/CineCaptions_Mac_Intel_5.51.dmg",
-                                                        "sha256":  "50985460458e3484a94d63034b4df64c3a652066b50b4c329e0210ccb09ecb57",
-                                                        "tam":  509073930
-                                                    }
-                                 }
-                }
+  "estable": {
+    "version": "5.52.0",
+    "notas": "• Más seguridad: las actualizaciones llegan firmadas y CineCaptions solo instala las versiones auténticas de Cinema Productions.\r\n• Licencias de cinecaptions.shop: pega tu clave CC- y se activa al momento, en hasta 2 computadoras. Desactivar este equipo lo libera enseguida para usarla en otra.\r\n• Ajustes más simples: GO siempre arma el timeline en vertical, reproduce al terminar y deja Resolve con tu vista.",
+    "fecha": "2026-10-27",
+    "archivos": {
+      "windows": {
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.52/Instalar_CineCaptions_5.52.exe",
+        "sha256": "027fefa0059db1dd030ca016cf08291fe78687ecb48ccf15886e5fc7bce72910",
+        "tam": 555216281
+      },
+      "mac_arm64": {
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.52/CineCaptions_Mac_AppleSilicon_5.52.dmg",
+        "sha256": "0cf0748ed069f5a0ffd1719de717066375fe62a25354062943338befcc79b94f",
+        "tam": 575208361
+      },
+      "mac_x86_64": {
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.52/CineCaptions_Mac_Intel_5.52.dmg",
+        "sha256": "421e0a2f3f18388be3b0cb5b06bcbb209eaaae3a396595cf0493ba5857eb79ca",
+        "tam": 509074813
+      }
+    }
+  },
+  "firma": {
+    "alg": "ed25519",
+    "clave": "7a4e413e",
+    "valor": "P1Q+82/R/DefVN90g2GYwb3Y8otfpYmNdPYZ/dd5vFiuU2lhmBOkk/ySh6LaFSibYmCqLacjiqzDuqitOFp0BQ=="
+  }
 }
