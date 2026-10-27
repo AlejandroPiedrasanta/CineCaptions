@@ -13604,8 +13604,16 @@ class SubtitleApp(QWidget):
                 self.msg_queue.put(('status', tr('Eligiendo los efectos de sonido...')))
                 pista_sfx = self._preparar_sfx(bloques, self._instantes_main(bloques, cues))
             self.msg_queue.put(('gen_fase', 'emojis'))
-            pista_emojis = self._preparar_emojis(bloques, palabras_finales, roles_finales)
-            self._emojis_con_la_palabra_grande(bloques)
+            import edicion_pro
+            if edicion_pro.emojis_del_tema(pack.nombre):
+                pista_emojis = self._preparar_emojis(bloques, palabras_finales, roles_finales)
+                self._emojis_con_la_palabra_grande(bloques)
+            else:
+                # v5.49 (pedido): el Tema 2 solo pone emojis con la Edición PRO encendida y su opción «Emojis animados»
+                for b_e in list(bloques) + list(cues):       # (el planificador ya deja el emoji en cada bloque: fuera también de ahí)
+                    for k_e in ('emoji', 'emoji_ini', 'emoji_fin', 'emoji_linea'):
+                        b_e.pop(k_e, None)
+                registro.info(tr('Tema 2: sin emojis (salen con la Edición PRO y su opción «Emojis animados»).'), 'GO')
             if con_sfx:
                 pista_sfx = self._sfx_de_emojis(bloques, pista_sfx)
         except Exception:
