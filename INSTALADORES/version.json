@@ -1,23 +1,23 @@
 {
     "estable":  {
-                    "version":  "5.49.0",
-                    "notas":  "Tema 2 renovado con el Luxe Title Pack 1.09: palabras con más calma, líneas al ras, bloques de tres líneas con la palabra grande en medio y números que suben contando con su moneda. Página Sonido con música de tu biblioteca.",
+                    "version":  "5.51.0",
+                    "notas":  "• Tema 2: las palabras entran y salen con más calma, como en tus referencias, y los bloques van seguidos, sin parpadeos en negro.\r\n• Tema 2: el subrayado verde queda pegado a la palabra y de su mismo ancho, y la palabra grande azul lleva una trama de puntos sutil.\r\n• Tema 2: los emojis salen solo con la Edición PRO y su opción «Emojis animados».\r\n• Inicio más fluido, a 60 fps, con tres estilos para elegir: Astrolabio, Nebulosa y Proceso.\r\n• Sonido: cada efecto empieza con su animación, el Tema 1 suena con reglas fijas y nunca se usan sonidos hechos por IA.\r\n• Nueva ventana de actualización con el progreso, los pasos y lo que trae cada versión; motores de voz y animaciones al día.",
                     "fecha":  "2026-10-27",
                     "archivos":  {
                                      "windows":  {
-                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.49/Instalar_CineCaptions_5.49.exe",
-                                                     "sha256":  "4f28646e56fe4be4fe7a54af07d0e57e8cde56e16da8dfdeadd29bc58d75bbd7",
-                                                     "tam":  555126912
+                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.51/Instalar_CineCaptions_5.51.exe",
+                                                     "sha256":  "31813b31fa74a9458e039bd5572a36cdf67452024341cc9351cfa9889655b012",
+                                                     "tam":  555218658
                                                  },
                                      "mac_arm64":  {
-                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.49/CineCaptions_Mac_AppleSilicon_5.49.dmg",
-                                                       "sha256":  "bb07d727d9fcd12caaab5f665eb722ac3552242aeb88460ac9287094a38841f6",
-                                                       "tam":  574889790
+                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.51/CineCaptions_Mac_AppleSilicon_5.51.dmg",
+                                                       "sha256":  "8d1b57b438de2d5b659ed34d45703a0b4080e721922d8289985706439b973cf4",
+                                                       "tam":  575136973
                                                    },
                                      "mac_x86_64":  {
-                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.49/CineCaptions_Mac_Intel_5.49.dmg",
-                                                        "sha256":  "fb2cfa9c7d7607b6b9eb54a107ac924c9724e2da81fac1727d4c02e8a98a8f3b",
-                                                        "tam":  508943035
+                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.51/CineCaptions_Mac_Intel_5.51.dmg",
+                                                        "sha256":  "50985460458e3484a94d63034b4df64c3a652066b50b4c329e0210ccb09ecb57",
+                                                        "tam":  509073930
                                                     }
                                  }
                 }
