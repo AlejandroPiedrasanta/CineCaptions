@@ -12,6 +12,12 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-27 15:47  ·  v5.52  ·  cambio explicado
+    mapa_codigo: el índice y el grafo de llamadas entran en los if/try/with de nivel de módulo (las clases de «if _QT:» de posiciones_pro no se veían). Comparado con codebase-memory-mcp con las mismas preguntas (mismos llamadores; el nuestro da la línea y menos texto); codebase-memory desinstalado a petición del usuario (1 GB, hooks en cada búsqueda).
+    modificados (2):
+      ~ 1_codigo/mapa_codigo.py
+      ~ 3_compilar/encabezados.py
+
 2026-10-27 15:28  ·  v5.52  ·  cambio explicado
     MCP y mapa_codigo: grafo de llamadas (llamadas: quién usa una función, a qué llama, qué se rompe con niveles; ruta: cadena de A a B). Idea de Graphify copiada en vez de instalarlo: el mapa por temas ya existía, y así no hay dependencias ni avisos automáticos que gasten tokens. .py por ast, .lua por regex; lo dudoso sale con «?».
 

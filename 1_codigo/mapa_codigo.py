@@ -80,6 +80,17 @@ def _archivos_de_codigo():
         yield p
 
 
+def _bloques(n):
+    """Las sentencias de dentro de un if/try/with de nivel de módulo o de clase («if _QT:», «try: from qt_kit import …»): ahí también se definen clases y funciones."""
+    if isinstance(n, ast.If):
+        return n.body + n.orelse
+    if isinstance(n, (ast.Try, getattr(ast, 'TryStar', ast.Try))):
+        return n.body + [s for h in n.handlers for s in h.body] + n.orelse + n.finalbody
+    if isinstance(n, (ast.With, ast.AsyncWith)):
+        return n.body
+    return None
+
+
 def _entradas_py(ruta):
     try:
         arbol = ast.parse(ruta.read_text(encoding='utf-8', errors='replace'))
@@ -94,6 +105,8 @@ def _entradas_py(ruta):
             elif isinstance(n, ast.ClassDef):
                 salida.append({'nombre': n.name, 'qual': prefijo + n.name, 'tipo': 'class', 'ini': n.lineno, 'fin': n.end_lineno, 'doc': (ast.get_docstring(n) or '').split('\n')[0][:100]})
                 recorrer(n.body, prefijo + n.name + '.', nivel + 1)
+            elif _bloques(n) is not None:
+                recorrer(_bloques(n), prefijo, nivel)
             elif isinstance(n, ast.Assign) and nivel == 0:
                 for t in n.targets:
                     if isinstance(t, ast.Name) and t.id.isupper() and len(t.id) > 3:
@@ -323,6 +336,11 @@ def _llamadas_py(ruta):
                 anotar(n, prefijo + n.name)
             elif isinstance(n, ast.ClassDef):
                 recorrer(n.body, prefijo + n.name + '.', prefijo + n.name)
+            elif _bloques(n) is not None:
+                cabeza = [n.test] if isinstance(n, ast.If) else [i.context_expr for i in getattr(n, 'items', ())]
+                for c in cabeza:
+                    anotar(c, contenedor)
+                recorrer(_bloques(n), prefijo, contenedor)
             else:
                 anotar(n, contenedor)
     recorrer(arbol.body, '', _MODULO)
