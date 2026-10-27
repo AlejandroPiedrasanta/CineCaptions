@@ -12,9 +12,26 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-27 01:41  ·  v5.49  ·  (automático)
+    modificados (21):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      … y 9 más
+
 2026-10-27 01:29  ·  v5.48  ·  cambio explicado
     Página Sonido pulida (el usuario eligió A + C entre 3 propuestas renderizadas): carril de Música en la línea de tiempo, solo los carriles que suenan, inspector con Anterior / Siguiente, textos más claros y momentos compactos (~250 px menos)
-    modificados (1):
+    modificados (2):
+      ~ 1_codigo/guion_planificador.py
       ~ 1_codigo/sonido_skill_ui.py
 
 2026-10-27 01:15  ·  v5.48  ·  cambio explicado
