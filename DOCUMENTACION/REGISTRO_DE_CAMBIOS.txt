@@ -12,6 +12,11 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-27 01:29  ·  v5.48  ·  cambio explicado
+    Página Sonido pulida (el usuario eligió A + C entre 3 propuestas renderizadas): carril de Música en la línea de tiempo, solo los carriles que suenan, inspector con Anterior / Siguiente, textos más claros y momentos compactos (~250 px menos)
+    modificados (1):
+      ~ 1_codigo/sonido_skill_ui.py
+
 2026-10-27 01:15  ·  v5.48  ·  cambio explicado
     Página Sonido con lo aprendido de 70 videos de creadores (pedido del usuario): solo sonidos curados, 4 por tipo con tope 40 %, lo aprobado primero (aprobados.json ×5), densidad de los creadores por estilo; y MÚSICA de 02_MUSICA (sonido_musica: 3 opciones por ánimo y compás, −6 dB bajo la voz, crédito CC BY)
 

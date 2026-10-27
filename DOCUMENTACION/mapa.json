@@ -4160,7 +4160,10 @@
         "carpetas_para",
         "puntuar",
         "credito",
-        "_pintar_musica"
+        "_pintar_musica",
+        "_musica_linea",
+        "TarjetaMomento",
+        "LineaTiempo"
       ]
     },
     {
