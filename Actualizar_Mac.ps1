@@ -5,9 +5,11 @@
 #   powershell -ExecutionPolicy Bypass -File Actualizar_Mac.ps1 -SoloDescargar  solo baja los .dmg de la ultima compilacion buena
 # Deja en INSTALADORES\Mac: CineCaptions_Mac_AppleSilicon_<version>.dmg y CineCaptions_Mac_Intel_<version>.dmg (los viejos se borran).
 # Requiere: git y gh (GitHub CLI) con sesion iniciada.
-# v5.4.14: los minutos de macOS de un repositorio PRIVADO se pagan (en el plan gratis no alcanzan ni para una compilacion); en uno PUBLICO son gratis. Por eso la compilacion corre
-# en un repositorio publico APARTE (AlejandroPiedrasanta/CineCaptions-mac-build), un ESPEJO del codigo necesario para compilar (1_codigo, 2_recursos, 3_compilar, 7_mac, .github):
-# sin DOCUMENTACION, notas internas, licencias ni historial. El repositorio privado sigue siendo la copia de seguridad del codigo.
+# v5.4.14: la compilacion corre en un repositorio APARTE (AlejandroPiedrasanta/CineCaptions-mac-build), un ESPEJO del codigo necesario para compilar (1_codigo, 2_recursos,
+# 3_compilar, 7_mac, .github): sin DOCUMENTACION, notas internas, licencias ni historial. El repositorio privado sigue siendo la copia de seguridad del codigo.
+# v5.52 (seguridad): el espejo es PRIVADO (siendo publico, cualquiera leia todo el codigo). Los minutos de macOS de un repositorio privado cuentan x10 contra el cupo
+# gratis (2000/mes: unas 14 compilaciones de ~14 min); pasado el cupo GitHub no arranca la compilacion ("spending limit") hasta el mes siguiente o hasta poner un pago.
+# El espejo sube SOLO lo que el repositorio privado no ignora (firma.json, .env, certificados .pfx/.p12/.pem/.key nunca salen).
 # Correrlo despues de CUALQUIER mejora del programa (el .exe y el de Mac salen del mismo codigo).
 # ============================================================================
 param([switch]$SoloDescargar, [string]$Mensaje = 'Actualizacion de CineCaptions')
@@ -16,7 +18,7 @@ Set-Location (Split-Path -Parent $MyInvocation.MyCommand.Path)
 function Paso($t) { Write-Host ''; Write-Host "== $t" -ForegroundColor Cyan }
 function Nativo($bloque) { & $bloque; if ($LASTEXITCODE -ne 0) { throw "Fallo: $bloque" } }
 $flujo = 'mac.yml'
-$repoMac = 'AlejandroPiedrasanta/CineCaptions-mac-build'                 # PUBLICO (Actions gratis en macOS); espejo del codigo necesario para compilar
+$repoMac = 'AlejandroPiedrasanta/CineCaptions-mac-build'                 # PRIVADO desde la 5.52; espejo del codigo necesario para compilar
 $espejo = Join-Path $env:USERPROFILE 'CineCaptions-mac-espejo'
 $raiz = (Get-Location).Path
 
@@ -32,13 +34,13 @@ if (-not $SoloDescargar) {
     } else { Write-Host '    (sin cambios nuevos)' }
     $ErrorActionPreference = $ea
 
-    Paso "Preparando el espejo publico de compilacion ($repoMac)"
+    Paso "Preparando el espejo privado de compilacion ($repoMac)"
     $ea = $ErrorActionPreference; $ErrorActionPreference = 'Continue'
     gh repo view $repoMac --json name 2>&1 | Out-Null
     $existe = ($LASTEXITCODE -eq 0)
     $ErrorActionPreference = $ea
     if (-not $existe) {
-        Nativo { gh repo create $repoMac --public --description 'Compilacion de los instaladores de Mac de CineCaptions (By Cinema Productions)' }
+        Nativo { gh repo create $repoMac --private --description 'Compilacion de los instaladores de Mac de CineCaptions (By Cinema Productions)' }
     }
     if (-not (Test-Path (Join-Path $espejo '.git'))) {
         if (Test-Path $espejo) { Remove-Item -Recurse -Force $espejo }
@@ -50,14 +52,17 @@ if (-not $SoloDescargar) {
     }
     foreach ($d in '1_codigo', '2_recursos', '3_compilar', '7_mac', '.github') {
         # (sin el runtime de Remotion de Windows ni las dependencias de desarrollo: la Mac arma los suyos con preparar_remotion.py)
-        robocopy (Join-Path $raiz $d) (Join-Path $espejo $d) /MIR /XD __pycache__ node_modules (Join-Path $raiz '2_recursos\edicion_pro\remotion\runtime') (Join-Path $raiz '1_codigo\remotion\out') (Join-Path $raiz '1_codigo\remotion\public') /XF *.pyc *.exe *.dmg *.pkg /NFL /NDL /NJH /NJS /NP | Out-Null
+        robocopy (Join-Path $raiz $d) (Join-Path $espejo $d) /MIR /XD __pycache__ node_modules (Join-Path $raiz '2_recursos\edicion_pro\remotion\runtime') (Join-Path $raiz '1_codigo\remotion\out') (Join-Path $raiz '1_codigo\remotion\public') /XF *.pyc *.exe *.dmg *.pkg *.pfx *.p12 *.pem *.key firma.json .env .env.* /NFL /NDL /NJH /NJS /NP | Out-Null
         if ($LASTEXITCODE -ge 8) { throw "robocopy fallo copiando $d ($LASTEXITCODE)" }
     }
     $global:LASTEXITCODE = 0
-    Set-Content -Path (Join-Path $espejo '.gitignore') -Value "__pycache__/`n*.pyc`n*.exe`n*.dmg`n*.pkg`n6_compilacion_mac/" -Encoding ASCII
+    # v5.52: robocopy copia la CARPETA, no lo de git: el espejo ignora lo mismo que el repositorio privado (sus reglas, sin comentarios) mas cualquier certificado o clave
+    $reglas = @(Get-Content (Join-Path $raiz '.gitignore') -Encoding UTF8 | Where-Object { $_.Trim() -and -not $_.StartsWith('#') })
+    Set-Content -Path (Join-Path $espejo '.gitignore') -Value ((@('__pycache__/', '*.pyc', '*.exe', '*.dmg', '*.pkg', '6_compilacion_mac/', '*.pfx', '*.p12', '*.pem', '*.key', 'firma.json', '.env', '.env.*') + $reglas) -join "`n") -Encoding ASCII
     Set-Content -Path (Join-Path $espejo 'LEEME.md') -Encoding UTF8 -Value "# CineCaptions - compilacion de Mac`n`nEste repositorio solo compila los instaladores de macOS de CineCaptions (By Cinema Productions) en GitHub Actions. Los instaladores se publican en https://github.com/AlejandroPiedrasanta/CineCaptions-releases"
     New-Item -ItemType Directory -Force -Path (Join-Path $espejo 'INSTALADORES\Mac') | Out-Null
     Set-Content -Path (Join-Path $espejo 'INSTALADORES\Mac\.gitkeep') -Value '' -Encoding ASCII
+    git -C $espejo rm -r -q --cached . | Out-Null          # lo que ya estaba subido y ahora se ignora (desktop.ini) sale del espejo
     git -C $espejo add -A
     git -C $espejo diff --cached --quiet
     if ($LASTEXITCODE -ne 0) {

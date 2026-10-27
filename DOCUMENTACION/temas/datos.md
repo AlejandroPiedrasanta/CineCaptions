@@ -6,7 +6,10 @@
 
 **Dónde:** `licencia.py`, `ventana_licencia.py`
 
-- Lemon Squeezy (el mismo sistema que CineSlide); la licencia de ESTE equipo va firmada en `~/DaVinciSubtitles/licencia/licencia.dat`. Sin licencia no se abre. `CineCaptions.exe --licencia-liberar` libera la activación del equipo (lo usa el desinstalador con «Borrar mis datos»).
+- v5.52: solo claves `CC-XXXX-XXXX-XXXX-XXXX` de cinecaptions.shop (se pagan con Recurrente; regex `_RX_CC`, sin distinguir mayúsculas ni espacios). Gumroad, Hotmart y Lemon Squeezy se quitaron (pedido de la dueña): sus licencias guardadas ya no valen. El botón de compra va a `LIC_URL_COMPRA` (`https://cinecaptions.shop/#precio`).
+- Servidor `LIC_API` = `POST https://cinecaptions.shop/pagos/licencia.php` (form: `accion`=activar|verificar|desactivar, `clave`, `equipo`=`id_equipo()`, `nombre_equipo`); el código está en la carpeta WEB (`pagos/licencia.php`). `codigo` → motivo en `_motivo()`: `activa` · `invalida` (404) · `bloqueada` (403, reembolso/contracargo) · `en_uso` (409, límite de 2 equipos) · `desactivada` (este equipo ya no está). 5xx, 429 o sin red = `SinConexion`: vale `LIC_DIAS_SIN_INTERNET` (7) días desde la última verificación. `desactivar()` libera el equipo en el servidor al momento; sin internet NO quita la licencia (el equipo seguiría ocupado).
+- La licencia de ESTE equipo va firmada en `~/DaVinciSubtitles/licencia/licencia.dat` (`plataforma: 'cinecaptions'`). Sin licencia no se abre. `CineCaptions.exe --licencia-liberar` libera la activación del equipo (lo usa el desinstalador con «Borrar mis datos»).
+- Límite conocido: el HMAC de `licencia.dat` usa `_SAL` + ID del equipo, ambos dentro del programa; quien tenga el código puede fabricarlo (por eso el espejo de Mac pasó a privado). La cura de fondo sería una firma del servidor (clave privada fuera del programa).
 
 ## archivos-seguros — Guardar JSON/estado del usuario
 

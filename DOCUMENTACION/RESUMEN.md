@@ -1,6 +1,6 @@
 # CineCaptions 5.3.2 — qué es y cómo está hecho (una página)
 
-Programa de escritorio (Python 3.14 + PySide6/Qt; Windows y Mac) que **subtitula vídeos con IA local** y coloca los subtítulos ya diseñados (macros Luxe del pack de títulos) en el timeline de **DaVinci Resolve**. Todo corre sin internet salvo la licencia (Lemon Squeezy).
+Programa de escritorio (Python 3.14 + PySide6/Qt; Windows y Mac) que **subtitula vídeos con IA local** y coloca los subtítulos ya diseñados (macros Luxe del pack de títulos) en el timeline de **DaVinci Resolve**. Todo corre sin internet salvo la licencia (claves CC- de cinecaptions.shop).
 
 ## Flujo (botón GO, o soltar un vídeo en Inicio)
 1. **Audio**: lo trae Resolve por MCP (`resolve_mcp`), o un vídeo soltado (se le arma un timeline nuevo en el proyecto «CineCaptions»).

@@ -560,8 +560,9 @@
       "claves": [
         "licencia",
         "activar",
-        "lemon",
-        "squeezy"
+        "clave",
+        "recurrente",
+        "cinecaptions.shop"
       ],
       "archivos": [
         "licencia.py",
@@ -1515,13 +1516,18 @@
         "releases",
         "publicar",
         "beta",
-        "chip"
+        "chip",
+        "firma",
+        "ed25519",
+        "seguridad"
       ],
       "archivos": [
         "1_codigo/actualizaciones.py",
         "1_codigo/actualizar_ui.py",
         "Publicar_Version.ps1",
-        "1_codigo/ajustes_ui.py"
+        "1_codigo/ajustes_ui.py",
+        "1_codigo/firma_ed25519.py",
+        "3_compilar/firmar_manifiesto.py"
       ],
       "simbolos": [
         "comprobar",
@@ -1709,7 +1715,9 @@
         "dmg",
         "github",
         "actions",
-        "solodescargar"
+        "solodescargar",
+        "espejo",
+        "privado"
       ],
       "archivos": [
         "Actualizar_Mac.ps1"

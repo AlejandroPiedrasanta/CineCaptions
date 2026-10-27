@@ -1,5 +1,202 @@
 REGISTRO DE CAMBIOS ARCHIVADO · 2026-10 (la entrada más nueva arriba)
 
+2026-10-25 15:33  ·  v5.43  ·  cambio explicado
+    Tema 1 tras la 5.43 (el usuario: «le falta pulir… textos que se salen, efecto fantasma, faltan los halftone… no lo arruines»): GO vuelve a los clips neón exactos (kit_neon.CAPTIONS_TEXTO=False) mientras los Text+ no igualen. Causa de los textos fuera de pantalla: la tipografía principal elegida en Crea tu estilo (Arial Black) se aplicaba con el tamaño calculado para la fuente del tema; fuente_usuario._encajar reduce el Size para que ocupe lo mismo (todos los temas con runs kinetic). Comparación cuadro a cuadro Text+ vs neón en el scratchpad.
+    modificados (3):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/fuente_usuario.py
+      ~ 1_codigo/kit_neon.py
+
+2026-10-25 15:12  ·  v5.43  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-10-25 15:11  ·  v5.42  ·  cambio explicado
+    Tema 1 con captions Text+ editables (el usuario: «el Tema 1 en Resolve no tiene el formato Text+ para poder trabajar»; eligió Text+ editable): por defecto GO pone los Text+ neón del pack Kinetic con sus sonidos y la PRO solo motions y placa (sin clips KitNeon). Los ajustes del kit pasan a los Text+: apagar el bloque que ya dice un motion (sin_captions, gemelos colocar_pro.py/EdicionPro.lua) y bajar los de órbita/pantalla dividida/cierre (mover). Opción interna pro_captions_editables=False vuelve a los clips neón. Probado sin Resolve.
+    modificados (4):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/edicion_pro.py
+      ~ 2_recursos/edicion_pro/colocar_pro.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+
+2026-10-25 11:52  ·  v5.42  ·  (automático)
+    modificados (23):
+      ~ 1_codigo/director_sonido_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/debug.log
+      ~ 2_recursos/edicion_pro/remotion/runtime/version.json
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      … y 11 más
+
+2026-10-25 10:42  ·  v5.41  ·  cambio explicado
+    Librerías al día (2026-10-25): certifi 2026.10.23 (seguridad: retira raíces emSign C1/C3) en los 3 requirements y venv315; huggingface_hub 2.3.0 en motor_compat y motor_qwen (probado en los dos motores reales sin instalar: Whisper, Argos, config/tokenizer de Qwen, descarga); overrides webpack 5.112.2 y @babel/types 8.0.8, bundle de Remotion rehecho y 51 composiciones idénticas píxel a píxel; mediabunny sigue 1.62.0 porque Remotion 4.0.538 la fija exacta. Node 24.22.1 (seguridad) pendiente: hay que actualizar el Node del sistema, que es el que copia preparar_remotion. Revisión de modelos en temas/voz-ia.md.
+    nuevos (6):
+      + 1_codigo/remotion/node_modules/webpack/lib/dependencies/esm/ESMLiveExportDependency.js
+      + 1_codigo/remotion/node_modules/webpack/lib/dependencies/esm/ESMLiveExportParserPlugin.js
+      + 1_codigo/remotion/node_modules/webpack/schemas/plugins/define/DotenvPluginOptions.check.js
+      + 1_codigo/remotion/node_modules/webpack/schemas/plugins/define/DotenvPluginOptions.json
+      + 1_codigo/remotion/node_modules/webpack/schemas/plugins/output/CleanOptions.check.js
+      + 1_codigo/remotion/node_modules/webpack/schemas/plugins/output/CleanOptions.json
+    modificados (270):
+      ~ 1_codigo/remotion/node_modules/.bin/webpack
+      ~ 1_codigo/remotion/node_modules/.bin/webpack.cmd
+      ~ 1_codigo/remotion/node_modules/.package-lock.json
+      ~ 1_codigo/remotion/node_modules/@babel/helper-string-parser/lib/index.js
+      ~ 1_codigo/remotion/node_modules/@babel/helper-string-parser/package.json
+      ~ 1_codigo/remotion/node_modules/@babel/types/lib/index.js
+      ~ 1_codigo/remotion/node_modules/@babel/types/package.json
+      ~ 1_codigo/remotion/node_modules/webpack/bin/webpack.js
+      ~ 1_codigo/remotion/node_modules/webpack/lib/Compilation.js
+      ~ 1_codigo/remotion/node_modules/webpack/lib/Compiler.js
+      ~ 1_codigo/remotion/node_modules/webpack/lib/asset/AssetBytesGenerator.js
+      ~ 1_codigo/remotion/node_modules/webpack/lib/asset/AssetBytesParser.js
+      … y 258 más
+
+2026-10-23 08:02  ·  v5.41  ·  cambio explicado
+    Página SONIDO: diseño A+B elegido por el usuario (editor tipo DaVinci con cuadro del video, inspector con onda, línea con fotogramas/voz/pistas + tarjetas de estilo y momentos con fotograma). Por qué: la línea de tiempo simple no le gustó; pidió algo más visual y combinó las propuestas A y B. sonido_skill.visual da miniaturas (solo fotogramas clave, en caché) y ondas.
+    modificados (2):
+      ~ 1_codigo/sonido_skill.py
+      ~ 1_codigo/sonido_skill_ui.py
+
+2026-10-23 01:38  ·  v5.41  ·  cambio explicado
+    v5.43: el sonido de GO y la página SONIDO pasan a sonido_skill (biblioteca del autor Desktop\SFX + reglas de MAPA_SFX.md, el mismo motor que la skill sonorizar-sfx). Por qué: el usuario decidió reemplazar al AI Sound Director por esta lógica (eventos de la metadata real de GO, pico de cada SFX en su frame) y quitar su página; la nueva es una línea de tiempo con el porqué de cada sonido y retoques a mano. La colocación en Resolve (pistas AI SFX, apagar Simple, confirmar) es la de siempre.
+    modificados (3):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/sonido_skill.py
+      ~ 1_codigo/sonido_skill_ui.py
+
+2026-10-23 01:30  ·  v5.41  ·  (automático)
+    nuevos (2):
+      + 1_codigo/sonido_skill.py
+      + 1_codigo/sonido_skill_ui.py
+    modificados (1):
+      ~ 1_codigo/CineCaptions (script principal).py
+
+2026-10-22 14:46  ·  v5.41  ·  cambio explicado
+    Página SONIDO rehecha con el diseño C que eligió el usuario («me estresa»): tres versiones (Suave / Cinemática = la de la IA / Con energía) que son juegos de los controles de siempre; ▶ las prepara y suenan; cuadro del video con Antes/Con sonido; línea, inspector y controles plegados en «Ajustar a mano»; fuera Sound Score, «Dile…» y diagnóstico de la vista.
+    modificados (2):
+      ~ 1_codigo/director_sonido_ui.py
+      ~ 1_codigo/herramientas_dev/probar_pagina_director.py
+
+2026-10-22 14:27  ·  v5.41  ·  cambio explicado
+    Título «Tema N» (TituloGo): las letras suben desde detrás de la raya (antes la cruzaban y el borde las cortaba); cada letra en su sitio exacto con interletraje (al acabar la entrada el título saltaba ~1 px); relleno winding (la «e» de Inter salía con huecos); halo único del título que se enciende al aterrizar; el punto de luz entra suave.
+    modificados (1):
+      ~ 1_codigo/un_clic_ui.py
+
+2026-10-22 14:19  ·  v5.41  ·  cambio explicado
+    MCP cinecaptions: cada llamada en su hilo (las de Resolve en fila), cancelar mata el proceso, go_real exige confirmar=true (el usuario usa Resolve a la vez), anotaciones readOnly/destructive, versión desde version.py, recarga también plantillas y kinetic_captions.
+    modificados (1):
+      ~ 1_codigo/mcp_cinecaptions.py
+
+2026-10-22 13:45  ·  v5.41  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-10-22 13:44  ·  v5.40  ·  cambio explicado
+    Arreglado el error del Tema 1 neón (placa) en el .exe: TypeError 'lazy_import' object is not callable. Python 3.15 expone ThreadPoolExecutor como import «lazy» en concurrent.futures; se importa desde concurrent.futures.thread (6 sitios). Instalador: diseño A elegido por el usuario (% total grande, MB sin coma inglesa + tiempo restante, nombre corto del archivo, nota de datos, botón pequeño mientras instala, sin globos de ayuda en el desinstalador).
+    modificados (7):
+      ~ 1_codigo/edicion_pro_escenas.py
+      ~ 1_codigo/emojis_sets.py
+      ~ 1_codigo/fuentes_web.py
+      ~ 1_codigo/herramientas_dev/importar_sonidos.py
+      ~ 1_codigo/kit_neon_mp4.py
+      ~ 1_codigo/kit_neon_placa.py
+      ~ 3_compilar/Instalador.cs
+
+2026-10-22 13:26  ·  v5.40  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-10-22 13:25  ·  v5.39  ·  cambio explicado
+    Remotion 4.0.537 -> 4.0.538 (mismas dependencias fijadas; overrides siguen valiendo) y pycparser 3.11 -> 3.12 en el motor Qwen (probado con cffi 2.1.1 y soundfile 0.14.0 en Python 3.14). Verificación con render real de Remotion: Todo funciona.
+    nuevos (54):
+      + 1_codigo/remotion/node_modules/@remotion/codemods/dist/resolve-node-paths-from-locations.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/renderer/dist/options/preserve-pitch-on-playback.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/renderer/dist/options/preserve-pitch-on-playback.js
+      + 1_codigo/remotion/node_modules/@remotion/studio-server/dist/helpers/read-source-file.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/studio-server/dist/helpers/read-source-file.js
+      + 1_codigo/remotion/node_modules/@remotion/studio/dist/components/PlaybackPitchSettingsProvider.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/studio/dist/components/PlaybackPitchSettingsProvider.js
+      + 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/CaptionQueueProcessor-hcbpmydg.mjs
+      + 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/LazyModels-5wq5p7fh.mjs
+      + 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/LazyModels-qjnzf2tt.mjs
+      + 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/TranscriptionModal-q7g2m5ge.mjs
+      + 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/VideoMattingModal-hdxbe1vq.mjs
+      … y 42 más
+    modificados (2140):
+      ~ 1_codigo/remotion/node_modules/.package-lock.json
+      ~ 1_codigo/remotion/node_modules/@mediabunny/aac-encoder/dist/modules/tsconfig.tsbuildinfo
+      ~ 1_codigo/remotion/node_modules/@mediabunny/aac-encoder/package.json
+      ~ 1_codigo/remotion/node_modules/@mediabunny/flac-encoder/dist/modules/tsconfig.tsbuildinfo
+      ~ 1_codigo/remotion/node_modules/@mediabunny/flac-encoder/package.json
+      ~ 1_codigo/remotion/node_modules/@mediabunny/mp3-encoder/dist/modules/tsconfig.tsbuildinfo
+      ~ 1_codigo/remotion/node_modules/@mediabunny/mp3-encoder/package.json
+      ~ 1_codigo/remotion/node_modules/@remotion/bundler/dist/bundle.js
+      ~ 1_codigo/remotion/node_modules/@remotion/bundler/dist/case-sensitive-paths.js
+      ~ 1_codigo/remotion/node_modules/@remotion/bundler/dist/copy-dir.d.ts
+      ~ 1_codigo/remotion/node_modules/@remotion/bundler/dist/esbuild-loader/index.js
+      ~ 1_codigo/remotion/node_modules/@remotion/bundler/dist/index-html.js
+      … y 2128 más
+    quitados (42):
+      - 1_codigo/remotion/node_modules/@remotion/renderer/dist/options/experimental-sequence-activity-limit.d.ts
+      - 1_codigo/remotion/node_modules/@remotion/renderer/dist/options/experimental-sequence-activity-limit.js
+      - 1_codigo/remotion/node_modules/@remotion/renderer/dist/options/experimental-sequence-activity.d.ts
+      - 1_codigo/remotion/node_modules/@remotion/renderer/dist/options/experimental-sequence-activity.js
+      - 1_codigo/remotion/node_modules/@remotion/renderer/dist/options/experimental-tracks.d.ts
+      - 1_codigo/remotion/node_modules/@remotion/renderer/dist/options/experimental-tracks.js
+      - 1_codigo/remotion/node_modules/@remotion/sdk/dist/get-timeline-nestedness.d.ts
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/CaptionQueueProcessor-c6ksy867.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/LazyModels-113nmznw.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/LazyModels-h13g63dr.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/TranscriptionModal-15ysynhy.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/VideoMattingModal-56hfba2y.mjs
+      … y 30 más
+
+
+(Lo anterior está archivado por mes en DOCUMENTACION/historial/REGISTRO_<aaaa-mm>.txt)
 2026-10-22 13:17  ·  v5.39  ·  (automático)
     modificados (41):
       ~ 1_codigo/remotion/public/fuentes/desktop.ini

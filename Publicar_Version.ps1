@@ -7,7 +7,7 @@
 #   powershell -ExecutionPolicy Bypass -File Publicar_Version.ps1 -Canal beta -Notas "..."                    publica como beta (solo la ven quienes activaron 'Recibir versiones beta')
 # Antes: Actualizar_Windows.ps1 y Actualizar_Mac.ps1 (los instaladores de la version actual tienen que estar en INSTALADORES\).
 # El repositorio de instaladores es PUBLICO y solo trae los .exe/.dmg y version.json; el codigo sigue en el repositorio privado.
-# Cada instalador va con su SHA-256: el programa NO instala nada cuya huella no coincida.
+# Cada instalador va con su SHA-256: el programa NO instala nada cuya huella no coincida. Y el manifiesto va FIRMADO (v5.52, firmar_manifiesto.py).
 # ============================================================================
 param(
     [string]$Notas = '',          # vacío = las mejoras de esta versión tal como están en ajustes_ui.NOTAS_VERSION (una por línea): es lo que enseña el aviso de actualización
@@ -72,6 +72,10 @@ $manifiesto[$Canal] = [ordered]@{ version = $versionManifiesto; notas = $Notas; 
 $json = $manifiesto | ConvertTo-Json -Depth 8
 $salida = Join-Path (Get-Location) 'INSTALADORES\version.json'
 [IO.File]::WriteAllText($salida, $json, (New-Object Text.UTF8Encoding $false))       # UTF-8 SIN BOM (el programa lo lee con json.loads)
+# v5.52: FIRMADO (Ed25519) con la clave privada de ~/CineCaptions_claves (fuera del repositorio): los programas desde la 5.52 rechazan
+# un version.json sin firma, asi que sin la clave no se publica
+$vpy = Join-Path (Get-Location) '6_compilacion/venv315/Scripts/python.exe'
+Nativo { & $vpy -X utf8 '3_compilar/firmar_manifiesto.py' $salida }
 Write-Host "    manifiesto: $salida"
 if ($SinSubir) { Write-Host ''; Write-Host 'Listo (sin subir). Revisa INSTALADORES\version.json.' -ForegroundColor Green; return }
 
