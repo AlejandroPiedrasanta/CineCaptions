@@ -22,6 +22,7 @@
 - `DOCUMENTACION/historial/`: auditorías y contexto viejos (solo con Grep).
 - Al añadir un tema: sección en `temas/<grupo>.md` + entrada en `mapa.json` (id, grupo, claves, archivos, símbolos, resumen) y correr `mapa_codigo.py generar` (avisa de archivos/símbolos que ya no existen).
 - Código: `simbolo(nombre)` devuelve solo esa función/clase (ast); `modulo(nombre)` qué hay en un archivo.
+- Llamadas: `llamadas(nombre)` dice quién la usa, con la línea de cada llamada; con `sentido="sale"`, a qué llama ella; con `niveles=3`, la cadena entera (lo que se puede romper al cambiarla). `ruta(A, B)` da la cadena más corta de A a B. Es un grafo de `.py` (ast) y `.lua` (regex), sin dependencias; se rehace solo con los archivos que cambian (~5 s la primera vez, 0,2 s después). Cuenta como uso pasar la función sin llamarla (connect, hilos, tablas): sale como «(callback)». `obj.metodo()` sin saber qué es `obj` se une por el nombre solo si hay ≤3 candidatos (prefiere los módulos que importa el archivo) y sale con «?». No ve señales Qt por nombre, `getattr` ni lo que pasa entre procesos o de Python a Lua. La idea viene de Graphify: se copió en lugar de instalarlo porque el mapa por temas ya existía y así no hay dependencias ni avisos que gasten tokens.
 
 ## acoplamientos — Si cambias X, cambia también Y (acoplamientos)
 

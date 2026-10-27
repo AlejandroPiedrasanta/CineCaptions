@@ -12,6 +12,30 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-27 15:28  ·  v5.52  ·  cambio explicado
+    MCP y mapa_codigo: grafo de llamadas (llamadas: quién usa una función, a qué llama, qué se rompe con niveles; ruta: cadena de A a B). Idea de Graphify copiada en vez de instalarlo: el mapa por temas ya existía, y así no hay dependencias ni avisos automáticos que gasten tokens. .py por ast, .lua por regex; lo dudoso sale con «?».
+
+2026-10-27 15:27  ·  v5.52  ·  (automático)
+    modificados (2):
+      ~ 1_codigo/mapa_codigo.py
+      ~ 1_codigo/mcp_cinecaptions.py
+
+2026-10-27 15:19  ·  v5.52  ·  (automático)
+    modificados (28):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/colocacion.py
+      ~ 1_codigo/firma_ed25519.py
+      ~ 1_codigo/licencia.py
+      ~ 1_codigo/tareas_instalador.py
+      ~ 1_codigo/ventana_licencia.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      … y 16 más
+
 2026-10-27 15:12  ·  v5.51  ·  cambio explicado
     5.52 licencias: solo claves CC- de cinecaptions.shop (pago con Recurrente) contra POST /pagos/licencia.php (activar/verificar/desactivar); desactivar libera el equipo en el servidor al momento; 7 días sin internet igual. Quitadas Gumroad, Hotmart y Lemon Squeezy (lo pidió la dueña) de licencia.py, ventana de licencia, Ajustes y locales; comprar va a cinecaptions.shop/#precio. Probado contra el servidor real con una clave inexistente (invalida).
     modificados (10):

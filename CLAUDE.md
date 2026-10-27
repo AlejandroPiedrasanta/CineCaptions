@@ -6,8 +6,8 @@ Carpetas: `1_codigo` programa · `2_recursos` lo que viaja en el .exe · `3_comp
 Python con dependencias (`$PY`): `6_compilacion/venv315/Scripts/python.exe`.
 
 ## Encontrar algo sin leer archivos (en este orden)
-1. MCP `cinecaptions`: `mapa("palabras")` → temas, archivos y símbolos · `mapa(id="…")` → detalle (si es largo, índice; luego `parte="N"`/`"palabras"`) · `simbolo("nombre")` → solo esa función · `modulo("archivo")` · `cambios(n)` · `resumen()`.
-   Sin MCP: `$PY 1_codigo/mapa_codigo.py mapa|tema|simbolo|modulo|cambios <x>` (`tema <id> <parte>`).
+1. MCP `cinecaptions`: `mapa("palabras")` → temas, archivos y símbolos · `mapa(id="…")` → detalle (si es largo, índice; luego `parte="N"`/`"palabras"`) · `simbolo("nombre")` → solo esa función · `modulo("archivo")` · `llamadas("nombre")` → quién la usa (`sentido="sale"`: a qué llama; `niveles=3`: qué se rompe si la cambias) · `ruta("A","B")` · `cambios(n)` · `resumen()`.
+   Sin MCP: `$PY 1_codigo/mapa_codigo.py mapa|tema|simbolo|modulo|llamadas|ruta|cambios <x>` (`tema <id> <parte>`).
 2. Si falta: Grep del nombre + Read con `offset`/`limit` (~60 líneas).
 3. NUNCA leer enteros: `CineCaptions (script principal).py` (13 600 líneas), `DOCUMENTACION/{LEEME.txt,REGISTRO_DE_CAMBIOS.txt,historial/}`, `6_compilacion/`, `2_recursos/`, `5_SFX/` (salvo su `MAPA_SFX.md`), `*.drb/.drt`, `.json` de packs, `__pycache__`. Primera vez: `DOCUMENTACION/RESUMEN.md`.
 
