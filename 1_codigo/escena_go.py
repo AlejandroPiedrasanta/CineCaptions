@@ -849,28 +849,36 @@ class EscenaGo(QWidget):
     def _medir(self, t0):
         pass
 
+    @staticmethod
+    def _leer_prefs_escena():
+        """(en un hilo) El modo de Inicio elegido en Ajustes, el estilo y «Reducir animaciones»."""
+        import ajustes_ui
+        import efectos_ui
+        import estilos_inicio
+        modo = str(ajustes_ui.leer_prefs().get('go_animaciones') or 'completo')
+        return modo, estilos_inicio.clave_guardada(), bool(efectos_ui.reducir_animaciones())
+
+    def _aplicar_prefs_escena(self, r, error):
+        self._leyendo_prefs = False
+        if error is not None or not r:
+            return
+        modo, clave, reducir = r
+        self.modo = modo if modo in ('completo', 'suave', 'minimo') else 'completo'
+        if clave != self.estilo_clave:
+            self.poner_estilo(clave)
+        self._quieto = reducir or self.modo == 'minimo'
+
     def _politica(self):
         """Cada ~1 s: el modo elegido en Ajustes (completo / suave / mínimo), la ventana inactiva y la calidad adaptativa deciden la
         frecuencia del reloj (60 o 30 fps) y cuántas partículas hay."""
         import time as _tm
         ahora = _tm.perf_counter()
-        if ahora - self._t_prefs > 2.0:
+        if ahora - self._t_prefs > 2.0 and not getattr(self, '_leyendo_prefs', False):
+            # v5.49 (el usuario: «que no haya tirones jamás»): las preferencias se miran en un hilo. os.stat de preferencias.json se quedó
+            # ~400 ms esperando (recién reescrito, con el antivirus mirándolo) y esto corría en el hilo de la interfaz cada 2 s
             self._t_prefs = ahora
-            try:
-                import ajustes_ui
-                modo = str(ajustes_ui.leer_prefs().get('go_animaciones') or 'completo')
-            except Exception:
-                modo = 'completo'
-            self.modo = modo if modo in ('completo', 'suave', 'minimo') else 'completo'
-            import estilos_inicio
-            clave = estilos_inicio.clave_guardada()
-            if clave != self.estilo_clave:
-                self.poner_estilo(clave)
-            try:
-                import efectos_ui
-                self._quieto = bool(efectos_ui.reducir_animaciones()) or self.modo == 'minimo'
-            except Exception:
-                pass
+            self._leyendo_prefs = True
+            ui.correr_en_hilo(self, self._leer_prefs_escena, self._aplicar_prefs_escena)
         try:
             self._inactiva = not self.window().isActiveWindow()
         except Exception:

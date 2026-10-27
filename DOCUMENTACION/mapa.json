@@ -198,7 +198,9 @@
         "_calma",
         "_preparar_cuadro",
         "_dibujar_cuadro",
-        "_prearmar_paginas"
+        "_prearmar_paginas",
+        "_leer_prefs_escena",
+        "_pintar_recientes"
       ],
       "resumen": "un_clic_ui (panel/botón), escena_go (3D), mograf_ui (HUD)"
     },
@@ -1608,13 +1610,26 @@
         "efecto",
         "cache",
         "freeze",
-        "lento"
+        "lento",
+        "tirones",
+        "gil",
+        "json",
+        "fondo"
       ],
       "archivos": [
-        "qt_kit.py"
+        "qt_kit.py",
+        "archivos_seguros.py",
+        "mantenimiento.py",
+        "sfx_rules.py"
       ],
-      "simbolos": [],
-      "resumen": "No QEasingCurve.setCustomType con función Python; vidrio FALSO; nada de red/subprocess/sleep en el hilo UI; sin QGraphicsOpacityEffect sobre páginas"
+      "simbolos": [
+        "leer_json_cediendo",
+        "congelar_gc",
+        "_medir_entrada",
+        "_leer_json",
+        "fuentes_del_usuario"
+      ],
+      "resumen": "No QEasingCurve.setCustomType con función Python; vidrio FALSO; nada de red/subprocess/sleep en el hilo UI; sin QGraphicsOpacityEffect sobre páginas; hilos de fondo sin llamadas largas en C que retengan el GIL"
     },
     {
       "id": "pruebas-sin-pantalla",

@@ -12,6 +12,18 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-27 11:13  ·  v5.49  ·  cambio explicado
+    Inicio sin tirones de fondo (el usuario: «que no haya tirones jamás»): hilos de fondo retenían el GIL y congelaban la animación 50-190 ms. Los JSON grandes (emojis 10 MB, picos de SFX 3 MB) se leen por partes cediendo (archivos_seguros.leer_json_cediendo); sfx_rules cachea sus JSON por fecha + tamaño y fuentes_del_usuario 3 s; congelar_gc ya no hace gc.collect; el precalentado de ondas SFX (PyAV) espera a que la ventana no tenga el foco; la escena lee las preferencias en un hilo; mantenimiento recorre las cachés en una pasada con os.scandir (1 s -> 0,14 s, mismo resultado); «Proyectos recientes» crea una fila por vuelta; el chequeo de librerías escribe el Registro en su hilo. Medido 60 s desde que se abre: cuadros > 25 ms 250 -> 26, peor 186 -> 82 ms, 54,9 -> 59,8 fps; desde los 4 s ninguno > 22 ms.
+    modificados (8):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/archivos_seguros.py
+      ~ 1_codigo/emojis.py
+      ~ 1_codigo/escena_go.py
+      ~ 1_codigo/mantenimiento.py
+      ~ 1_codigo/qt_kit.py
+      ~ 1_codigo/sfx_rules.py
+      ~ 1_codigo/sfx_studio.py
+
 2026-10-27 08:14  ·  v5.49  ·  cambio explicado
     Ventana de actualización nueva (5.49, propuesta A + B): actualizar_ui.PanelActualizacion con anillo y %, versión vieja → nueva, MB/velocidad/tiempo que falta, pasos con su tiempo, novedades del manifiesto y Cancelar.
     nuevos (1):

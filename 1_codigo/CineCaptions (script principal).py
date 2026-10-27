@@ -6477,7 +6477,13 @@ class SubtitleApp(QWidget):
     def _precalentar_ondas_sfx(self):
         """v5.5: la onda de los primeros sonidos de cada categoria de la biblioteca, en un hilo: al abrir Sonido ya estan.
         v5.5.8: tambien la LISTA de sonidos va en el hilo (leia las reglas y miraba cientos de archivos en el de la interfaz: Inicio se
-        congelaba ~250 ms a los 12 s de abrir)."""
+        congelaba ~250 ms a los 12 s de abrir).
+        v5.49 (el usuario: «que no haya tirones jamás»): aun en un hilo, importar sfx_studio carga PyAV (las DLL de FFmpeg) sin soltar el
+        GIL: ~50 ms de Inicio parado. Espera, como _prearmar_paginas, a que la ventana no tenga el foco (o esté minimizada) y no haya GO;
+        si el usuario abre Sonido antes, las ondas se calculan allí como siempre."""
+        if getattr(self, '_go_corriendo', False) or (self.isActiveWindow() and not self.isMinimized()):
+            despues(5000, self._precalentar_ondas_sfx, self)
+            return
         def trabajo():
             import sfx_rules
             import sfx_studio
@@ -6556,13 +6562,21 @@ class SubtitleApp(QWidget):
                 registro.info(f'Emojis animados: {total - fallos} listos de {total} ({fallos} sin versión animada)', 'emojis')
     def _chequear_librerias(self):
         def trabajo():
+            # v5.49 (el usuario: «que no haya tirones jamás»): el resumen, el informe y el aviso al Registro (que se escribe a disco) van
+            # aquí; en el hilo de la interfaz eran ~8 ms con la animación de Inicio corriendo
             import salud
-            return salud.comprobar()
-        def fin(filas, _error):
-            if not filas or not vivo(self):
-                return
-            import salud
+            filas = salud.comprobar()
+            if not filas:
+                return None
             texto, ok = salud.resumen(filas)
+            informe = salud.informe(filas)
+            if ok is False:                       # v5.5.8: al Registro (ya no hay «Detalles y estado del sistema» en Inicio, ni globos)
+                registro.aviso(f'Chequeo de librerías: {texto}.\n{informe}', 'salud')
+            return texto, ok, informe
+        def fin(r, _error):
+            if not r or not vivo(self):
+                return
+            texto, ok, informe = r
             fila = getattr(self, '_filas_sistema', {}).get('librerias')
             if fila:
                 icono, valor, _w = fila
@@ -6571,9 +6585,7 @@ class SubtitleApp(QWidget):
                 except Exception:
                     pass
                 valor.configure(text=texto)
-                Tooltip(valor, salud.informe(filas))
-            if ok is False:                       # v5.5.8: al Registro (ya no hay «Detalles y estado del sistema» en Inicio, ni globos)
-                registro.aviso(f'Chequeo de librerías: {texto}.\n{salud.informe(filas)}', 'salud')
+                Tooltip(valor, informe)
         _correr_en_hilo(self, trabajo, fin)
     def _colocar_ventana(self):
         """1440 x 900 si cabe; minimo 1100 x 700 (o lo que deje la pantalla)."""
@@ -9409,6 +9421,7 @@ class SubtitleApp(QWidget):
             return
         self._recientes_firma = firma
         limpiar_capa(capa)
+        self._recientes_gen = gen = getattr(self, '_recientes_gen', 0) + 1
         if not lista:
             vacio = Etiqueta(tr('Aún no hay proyectos. Genera los subtítulos de un video y aparecerá aquí.'), 13, color=TEXT_MUTED, envolver=True)
             vacio.setContentsMargins(4, 16, 4, 16)
@@ -9416,7 +9429,14 @@ class SubtitleApp(QWidget):
             return
         modos = {'normal': tr('Normales'), 'dinamico': tr('Dinámicos')}
         looks = {'hormozi': tr('Hormozi'), 'gadzhi': tr('Gadzhi'), 'acumulativo': tr('Acumulativo'), 'pintado': tr('Pintado')}
-        for k, proy in enumerate(lista):
+        pendientes = list(enumerate(lista))
+
+        def una_fila():
+            # v5.49 (el usuario: «que no haya tirones jamás»): una fila por vuelta del bucle. Las cinco juntas eran ~20 ms seguidos en el
+            # hilo de la interfaz justo al abrir y la animación de Inicio perdía un cuadro
+            if gen != self._recientes_gen or not pendientes or not vivo(capa):
+                return
+            k, proy = pendientes.pop(0)
             nombre = proyectos.nombre_display(proy)
             langs = str(proy.get('ultima_gen_langs') or '')
             codigos = [c.strip() for c in langs.split(',') if c.strip()]
@@ -9438,6 +9458,9 @@ class SubtitleApp(QWidget):
                                  comando=lambda p=proy: (self._cargar_proyecto(p), self.ir_a('nuevo')),
                                  ultima=k == len(lista) - 1)
             capa.addWidget(fila)
+            if pendientes:
+                despues(0, una_fila, self)
+        una_fila()
     def _ejecutar_diagnostico(self):
         """«Ejecutar diagnóstico»: el informe de siempre (diagnostico.txt) y
         el del Puente al portapapeles."""
