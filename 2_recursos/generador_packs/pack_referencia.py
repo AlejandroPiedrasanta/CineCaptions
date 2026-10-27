@@ -82,8 +82,9 @@ def _combo(nombre, main, amro=None, entrada='pop', barrido=None):
 
 # v5.50 (pedido: «la barra debe quedar al ras de la palabra»): la barra del Underline de Amro es el Text+ «Line» (su recuadro, encogido y bajado
 # con Offset8, en fracción del alto). MEDIDO en Resolve: quedaba 12 px (a zoom 1) bajo la tinta de las letras; con -0,032 ya las tapaba 7 px.
-# v5.50 (pedido: «1-9-13 agregas halftone», propuesta A elegida): puntos azul oscuro (#16357A) en la mitad baja de las letras, creciendo hacia la base
-TRAMA_IMPACTO = {'color': (0.086, 0.208, 0.478), 'celda': 11, 'radio': 4.8}
+# v5.50 (pedido: «1-9-13 agregas halftone»; luego «están feos: debe ser todo, sutil y difuminado»): puntos azul oscuro (#16357A) por TODA la letra,
+# de bordes suaves y poca opacidad (40 % en la base que se desvanece a 12 % arriba)
+TRAMA_IMPACTO = {'color': (0.086, 0.208, 0.478), 'celda': 9, 'radio': 2.4, 'suave': 1.6, 'opacidad': (0.4, 0.12)}
 # A lo ancho, la barra es la caja del MISMO texto en «Line»: su fuente, peso y espaciado siguen a los de la palabra (Text1) por expresión (la fuente de
 # «Crea tu estilo» la cambia el script solo en Text1: con Arial Black la barra salía más ancha) y ExtendHorizontal8 recorta el margen de la caja
 # (MEDIDO: -0,1 recorta 22 px por lado a zoom 1; con las fuentes enlazadas sobraban 13 px -> -0,16).

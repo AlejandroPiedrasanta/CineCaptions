@@ -12,6 +12,15 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-27 12:34  ·  v5.49  ·  cambio explicado
+    Tema 2: halftone de 1, 9 y 13 rehecho (el usuario: «están feos, debe ser todo, sutil y difuminado»): puntos por toda la letra, de borde suave y opacidad 40 % abajo a 12 % arriba. REVISION_BIN Ref 18.
+    modificados (5):
+      ~ 1_codigo/escena_go.py
+      ~ 1_codigo/plantillas.py
+      ~ 2_recursos/generador_packs/luxe_macro.py
+      ~ 2_recursos/generador_packs/pack_referencia.py
+      ~ 2_recursos/plantillas_incluidas/Referencia/Referencia vertical.drb
+
 2026-10-27 12:02  ·  v5.49  ·  cambio explicado
     Inicio, los 3 estilos pulidos (el usuario: «Astrolabio, ¿puedes pulirlo más? y también Nebulosa y Proceso»). Común: ondas de choque nítidas (filo + resplandor, ~1,7 ms por aro; antes un anillo escalado y borroso que lavaba el título), destello plano en la lista solo si el estilo la enseña, choques de cometa solo con cometas, explosión con floración corta y destello anamórfico. Astrolabio: velos de nebulosa, estrellas con destello, anillo horario grabado con brillo que lo recorre, la araña del astrolabio girando, aros de metal con luz y filo, sin cometas, constelación más legible. Nebulosa: velo violeta, polvo oscuro, núcleo, disco de gas en espiral que se tiñe en GO, estrellas nítidas, bokeh suave, penumbra bajo el texto. Proceso: espectro de voz de 120 barras, palabras en dos corrientes, tarjetas más grandes con riel, timeline con clips y cabezal. Reposo: los tres a 60 fps (tic +0,3-0,7 ms); GO: escena 7,2-9,1 ms a 30 fps.
     modificados (2):

@@ -119,20 +119,23 @@ def comp_luxe_shine(familia, estilo, tam, color, y, texto='Texto', mayus=True, e
 
 
 def _trama(texto, tam, y, trama):
-    """v5.50 (pedido: «agrega halftone», propuesta A): la mitad baja de cada letra se vuelve una trama de puntos de color `trama['color']` que crecen
-    hacia la base (de nada a casi tocarse), como en el cómic. Entre la salida del macro y MediaOut1: «TramaPuntos» (Custom sobre un Background) dibuja
-    la rejilla de `celda` px (a 1080 de ancho) solo en la banda, sin depender del fotograma (Fusion no la rehace en cada uno); «Trama» (Custom simple)
-    la pinta sobre la letra solo donde es casi opaca (ni el halo ni la sombra del macro se puntean). La banda va de la mitad de las mayúsculas a su
-    base: centradas en `y` (Text+ centra la caja ascent/descent y, en Poppins, eso deja las mayúsculas a ±0,35 em), con el em de Size 1 = 640/1080 del ancho."""
+    """v5.50 (pedido: «agrega halftone»; luego «están feos: debe ser todo, sutil y difuminado»): toda la letra lleva una trama de puntos de color
+    `trama['color']` de bordes suaves (`suave` px de degradado) y poca opacidad: `opacidad` = (abajo, arriba), un poco más marcada en la base que se
+    desvanece hacia arriba. Entre la salida del macro y MediaOut1: «TramaPuntos» (Custom sobre un Background) dibuja la rejilla de `celda` px (a 1080
+    de ancho) sin depender del fotograma (Fusion no la rehace en cada uno); «Trama» (Custom simple) la pinta sobre la letra solo donde es casi opaca
+    (ni el halo ni la sombra del macro se puntean). El degradado va de la base a la parte alta de las mayúsculas: centradas en `y` (Text+ centra la
+    caja ascent/descent y, en Poppins, eso deja las mayúsculas a ±0,35 em), con el em de Size 1 = 640/1080 del ancho."""
     mitad = 0.35 * tam * 640.0 / 1920.0                                    # media altura de las mayúsculas, en fracción del alto
-    arriba, abajo = y + 0.1 * mitad, y - mitad                              # (y de Fusion: 0 abajo)
+    arriba, abajo = y + mitad, y - mitad                                    # (y de Fusion: 0 abajo)
     px = '(w / 1080)'
-    celda = f'({_n(trama.get("celda", 11))} * {px})'
+    celda = f'({_n(trama.get("celda", 9))} * {px})'
     fx = f'(x * w - floor(x * w / {celda}) * {celda} - {celda} / 2)'
     fy = f'(y * h - floor(y * h / {celda}) * {celda} - {celda} / 2)'
-    t = f'max(0, min(1, ({_n(arriba)} - y) / {_n(arriba - abajo)})) * max(0, min(1, (y - {_n(abajo - 0.15 * mitad)}) * 100000))'
-    radio = f'({_n(trama.get("radio", 4.8))} * {px} * {t})'
-    punto = f'max(0, min(1, ({radio} - sqrt({fx} * {fx} + {fy} * {fy})) / {px}))'
+    op_abajo, op_arriba = trama.get('opacidad', (0.4, 0.12))
+    t = f'max(0, min(1, ({_n(arriba)} - y) / {_n(arriba - abajo)}))'
+    opacidad = f'({_n(op_arriba)} + {_n(op_abajo - op_arriba)} * {t})'
+    radio = f'({_n(trama.get("radio", 2.4))} * {px})'
+    punto = f'max(0, min(1, ({radio} - sqrt({fx} * {fx} + {fy} * {fy})) / ({_n(trama.get("suave", 1.6))} * {px}))) * {opacidad}'
     k = 'a2 * max(0, min(1, (a1 - 0.6) * 3.3))'
     cr, cg, cb = trama['color']
     nodo = (f'TramaLienzo = Background {{ Inputs = {{ UseFrameFormatSettings = Input {{ Value = 1, }}, TopLeftAlpha = Input {{ Value = 1, }}, }}, '
