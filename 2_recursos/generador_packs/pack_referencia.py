@@ -14,7 +14,8 @@ El pack «Referencia» es el estilo de los captions virales de la referencia del
         9-12  «Screen»: una banda de luz de color que se suma al texto (se ve claramente)
         13-16 «Sólido»: una banda opaca de color que tapa las letras a su paso
     El planificador (guion_planificador.py) las va alternando, así cada palabra grande no repite barrido ni color.
-    v5.48 — Shine y Slide salen del Luxe Title Pack v1.09; sin las variantes de QUITAR (4, 11, 15) ni la 17 (Luxe Count).
+    v5.48 — Shine y Slide salen del Luxe Title Pack v1.09; sin las variantes de QUITAR (4, 11, 15). 17 «Count naranja»: macro Luxe Count para los
+    números (cuenta de 0 a la cifra; prefijo de moneda, «%» y decimales salen del texto del clip).
 
 Todos los clips van CENTRADOS en el cuadro (Tilt 0): la posición de cada palabra la pone el script (Pan/Tilt por línea, estilo «guion»).
 Uso:  python pack_referencia.py [<carpeta de salida>]
@@ -53,7 +54,9 @@ AMRO = 'Amro principales.drb'
 # riesgo de que una palabra corta no se vea: luxe_macro limita la entrada y la salida al 30 % de lo que dura cada clip)
 ANIM = (0.28, 0.22)
 # v5.48 (pedido del usuario): variantes que ya no van en el pack; las demás conservan su número (los proyectos guardados no cambian de estilo).
-QUITAR = (4, 11, 15)          # «Moderno blanco» y sus dos barridos (el 17, Luxe Count de los números, también se quitó)
+QUITAR = (4, 11, 15)          # «Moderno blanco» y sus dos barridos
+NARANJA = (1.0, 0.62, 0.20)
+VARIANTE_COUNT = 17           # los números: macro Luxe Count (el planificador la elige para las cifras; no entra en la rotación)
 # el barrido de fábrica tarda 1,75 s en acabar y las palabras grandes se ven ~0,55 s: aquí empieza enseguida y dura 0,40 s (el script de Resolve lo ajusta a cada palabra)
 BARRIDO_BRILLO = {'modo': 'brillo', 'inicio': 0.06, 'largo': 0.40}
 # (estilo base, color de la banda 'screen', color de la banda 'sólido'): cada variante lleva un color DISTINTO al del texto para que el barrido se note
@@ -92,7 +95,8 @@ def combinaciones(ruta_amro):
         b = base[n - 1]
         for lista, modo, color, etiqueta in ((screen, 'screen', c_screen, 'Screen'), (solido, 'solido', c_solido, 'Sólido')):
             lista.append(dict(b, nombre=f"{b['nombre']} · {etiqueta}", barrido={'modo': modo, 'inicio': 0.06, 'largo': 0.40, 'ancho': 0.09, 'color': color, 'mezcla': 1.0}))
-    return base + screen + solido
+    count = dict(_combo('Count naranja', _rol(('Poppins', 'ExtraBold'), 0.257, NARANJA, esp=ESPACIADO)), count=True)
+    return base + screen + solido + [count]          # (el Count es la 17)
 
 
 def construir(carpeta_salida, nombre='Referencia', contenedor=None, ruta_amro=None):

@@ -56,7 +56,9 @@ pisaban la línea de al lado en el render real: llevan `AIRE_EDITORIAL` (0,012 d
 
 **Espaciado:** `guion_captions.AFINADO['espacio']` 0,55 → 0,2 (las referencias del usuario van con las palabras juntas).
 
-**Estilos quitados (pedido):** el pack ya no trae 4, 11, 15 («Moderno blanco» y sus barridos) ni 17 (Luxe Count de los números, que se llegó a probar: cuenta de 0 a la cifra). Los demás conservan su número (`pack_referencia.QUITAR`); `_estilo_para` solo elige variantes que el pack trae. Con el subrayado (8) la línea de debajo va CENTRADA bajo la grande (`ESTILOS_LINEA3_CENTRADA`).
+**Estilos quitados (pedido):** el pack ya no trae 4, 11, 15 («Moderno blanco» y sus barridos).
+
+**Números con Luxe Count (17)** (pedido: «usa Luxe Count para números y si habla de dinero pon el signo de la moneda»): `cifras(pal)` → {índice: (texto, [índices])}: cifras («430,000», «9.99», «50%», «$1,200»), números escritos («tres» → 3), «mil»/«millones» juntos con su número, «1.500» → «1,500»; si la sigue una moneda («dólares/pesos» $, «quetzales» Q, «euros» €, «libras» £) lleva el signo y la palabra de la moneda va DENTRO de la cifra (no se repite). Los años (1900-2099) no cuentan. La cifra va grande con la 17 (zoom ≤ `zoom_max_cifra` 1,7). El macro (`luxe_macro`, tipo count) saca del texto del clip el prefijo («$»), el sufijo («%») y los decimales; cuenta de 0 en ≤0,9 s. Los demás conservan su número (`pack_referencia.QUITAR`); `_estilo_para` solo elige variantes que el pack trae. Con el subrayado (8) la línea de debajo va CENTRADA bajo la grande (`ESTILOS_LINEA3_CENTRADA`).
 
 **Tachado:** el 7 (Strike) y el 6 (Fire) solo los pide el significado; ya no son el último recurso cuando ninguna otra cabe (salía «Quetzaltenango» tachado).
 

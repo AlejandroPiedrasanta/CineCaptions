@@ -596,5 +596,51 @@
    }
   },
   "amro": false
+ },
+ "17": {
+  "nombre": "Count naranja",
+  "color": "#FF9E33",
+  "roles": {
+   "context": {
+    "f1": [
+     "Poppins",
+     "Light"
+    ],
+    "f2": [
+     "Poppins",
+     "Light"
+    ],
+    "tam": 0.118,
+    "color": "#FFFFFF",
+    "mayus": false
+   },
+   "main": {
+    "f1": [
+     "Poppins",
+     "ExtraBold"
+    ],
+    "f2": [
+     "Poppins",
+     "ExtraBold"
+    ],
+    "tam": 0.257,
+    "color": "#FF9E33",
+    "mayus": false
+   },
+   "complement": {
+    "f1": [
+     "Poppins",
+     "Bold"
+    ],
+    "f2": [
+     "Poppins",
+     "Bold"
+    ],
+    "tam": 0.118,
+    "color": "#FFFFFF",
+    "mayus": false
+   }
+  },
+  "amro": false
  }
 }

@@ -251,13 +251,20 @@ def comp_luxe(tipo, familia, estilo, tam, color, y, texto='Texto', mayus=True, e
         tools = re.sub(r'CountStart = Input \{ Value = "[^"]*", \}', 'CountStart = Input { Value = "0", }', tools, count=1)
         if not n:
             raise SystemExit('el macro Luxe Count no trae CountEnd con la forma esperada')
-        # de fábrica: prefijo «$», 2 decimales y 1,5 s de cuenta. Aquí sin prefijo, enteros y la cuenta dura como mucho 0,9 s (la mitad del clip si es corto)
+        # de fábrica: prefijo «$», 2 decimales y 1,5 s de cuenta. Aquí todo sale del TEXTO del clip (lo escribe el planificador): el prefijo es lo que
+        # va antes de la cifra («$», «Q», «€»), el sufijo lo que va detrás («%») y los decimales, los que trae («9.99» -> 2; «430,000» -> 0).
+        # La cuenta dura como mucho 0,9 s (la mitad del clip si es corto).
         dur = '((comp.RenderEnd - comp.RenderStart + 1)/comp:GetPrefs(\\"Comp.FrameFormat.Rate\\"))'
+        txt = 'tostring(Template.StyledText.Value)'
+        prefijo = f'(string.match({txt}, \\"^[^%d%-]*\\") or \\"\\")'
+        sufijo = f'(string.match({txt}, \\"[^%d]*$\\") or \\"\\")'
+        decimales = f'(string.match({txt}, \\"%.(%d%d?)[^%d]*$\\") or \\"\\"):len()'
         marca = 'countCtrl = AlphaDivide { CtrlWShown = false, NameSet = true, Inputs = { '
         if marca not in tools or 'Prefix = Input { Value = "$", }' not in tools:
             raise SystemExit('el macro Luxe Count no trae countCtrl con la forma esperada')
-        tools = tools.replace('Prefix = Input { Value = "$", }', 'Prefix = Input { Value = "", }', 1)
-        tools = tools.replace(marca, marca + 'Precision = Input { Value = 0, }, ', 1)
+        tools = tools.replace('Prefix = Input { Value = "$", }', f'Prefix = Input {{ Value = "", Expression = "{prefijo}", }}', 1)
+        tools = tools.replace(marca, marca + f'Precision = Input {{ Value = 0, Expression = "{decimales}", }}, '
+                                             f'Append = Input {{ Value = "", Expression = "{sufijo}", }}, ', 1)
         tools = re.sub(r'(countCtrl = AlphaDivide \{.*?)Length = Input \{ Value = [0-9.eE+-]+, \}',
                        lambda m: m.group(1) + f'Length = Input {{ Value = 0.9, Expression = "min(0.9, {dur}*0.5)", }}', tools, count=1, flags=re.S)
     if brillo:

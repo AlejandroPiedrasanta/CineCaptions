@@ -35,6 +35,15 @@ ESTILOS_FUEGO = (6,)
 # {estilo base: (original, screen, sólido)}; las palabras grandes los van alternando para que el barrido (y su color) no se repita. Sólo cuando el pack trae esas variantes (9-16).
 BARRIDOS = {1: (1, 9, 13), 2: (2, 10, 14), 5: (5, 12, 16)}            # (v5.48: «Moderno blanco» 4/11/15 eliminado del pack)
 ESTILOS_NEGACION = (7,)
+# v5.48 (pedido: «usa Luxe Count para números y si habla de dinero pon el signo de la moneda»): las cifras van GRANDES con la variante 17
+# (macro Luxe Count: cuenta de 0 a la cifra; el prefijo de moneda, el «%» y los decimales salen del texto que le escribe el planificador)
+VARIANTE_COUNT = 17
+_NUMEROS = {'dos': '2', 'tres': '3', 'cuatro': '4', 'cinco': '5', 'seis': '6', 'siete': '7', 'ocho': '8', 'nueve': '9', 'diez': '10', 'once': '11',
+            'doce': '12', 'quince': '15', 'veinte': '20', 'treinta': '30', 'cuarenta': '40', 'cincuenta': '50', 'cien': '100', 'mil': '1000',
+            'two': '2', 'three': '3', 'four': '4', 'five': '5', 'six': '6', 'seven': '7', 'eight': '8', 'nine': '9', 'ten': '10', 'twenty': '20',
+            'hundred': '100', 'thousand': '1000'}
+_MONEDAS = {'dolar': '$', 'dolares': '$', 'peso': '$', 'pesos': '$', 'quetzal': 'Q', 'quetzales': 'Q', 'euro': '€', 'euros': '€', 'libra': '£', 'libras': '£',
+            'dollar': '$', 'dollars': '$', 'bucks': '$'}
 ESTILOS_LINEA3_CENTRADA = (8,)               # v5.48 (pedido): con el subrayado (8) la línea de debajo va centrada bajo la grande, no a la derecha
 # v5.5.8: con las líneas juntas (hueco 0,004) las palabras grandes en letra editorial / de pincel (2 rosa, 5 azul y sus barridos) pisaban la
 # línea de al lado: sus trazos suben y bajan más que la caja medida. Llevan un poco de aire arriba y abajo.
@@ -43,7 +52,7 @@ AIRE_EDITORIAL = 0.012
 # v5.48 (el usuario: «muy rápido y no están fluidos»; medido contra REFERENCIA.mp4 / ref_exacta): cada palabra entra cuando se dice (la referencia
 # va ~0,08 s DETRÁS de la voz), la última de cada bloque se ve al menos 'respiro' s (el siguiente espera hasta 'espera_max' s; ver _respiro) y entre
 # bloque y bloque queda un instante vacío ('gap_minimo'; en la referencia 0,15-0,25 s). Las grandes no pasan de 'zoom_max' (la referencia: 0,9-1,3).
-AFINADO = {'adelanto': 0.0, 'respiro': 0.55, 'espera_max': 0.35, 'zoom_max': 1.3, 'cortos_entre': 2, 'complejo_max': 4, 'complejo_s': 3.2, 'max_linea': 4,
+AFINADO = {'adelanto': 0.0, 'respiro': 0.55, 'espera_max': 0.35, 'zoom_max': 1.3, 'cortos_entre': 2, 'complejo_max': 4, 'complejo_s': 3.2, 'max_linea': 4, 'zoom_max_cifra': 1.7,
            # v5.48 (pedido: «más junto en general y el principal un poco más grande»): la grande = 1,1 × el ancho de su línea pequeña (y ≥1,1 × su
            # tamaño natural); alturas estimadas más ceñidas a la tinta ('k_alto' 1,45 -> 1,3; 'alto_linea' 0,036 -> 0,031)
            'grande_linea': 1.1, 'grande_min': 1.1, 'k_alto': 1.35, 'k_alto_sans': 1.7, 'hold': 0.22, 'min_bloque': 0.7, 'gap_minimo': 0.15, 'puntaje_min': 8.0, 'puntaje_2': 9.0, 'dist_mains': 4,
@@ -495,6 +504,48 @@ def _intencion(texto):
     return ()
 
 
+def cifras(pal):
+    """{índice: (texto para el Luxe Count, [índices de la cantidad])} de las palabras que son una cantidad: '430,000' · '$430,000' · '50%' · '9.99'
+    · 'tres' -> '3'. «mil» / «millones» detrás van con su número («430 mil» -> '430,000', «dos millones» -> '2,000,000'). Si va pegada a una moneda
+    («430 mil dólares», «500 quetzales») o ya la trae, lleva su signo delante. «1.500» (punto de miles) -> «1,500». («uno/una» no: casi siempre
+    son artículos.)"""
+    salida, k = {}, 0
+    while k < len(pal):
+        t = pal[k]['texto'].strip().strip(',;:!?¡¿').rstrip('.')
+        signo = t[0] if t[:1] in '$€£' else ''
+        cuerpo = t[len(signo):]
+        pct = cuerpo.endswith('%')
+        cuerpo = cuerpo.rstrip('%')
+        if re.fullmatch(r'\d{1,3}(\.\d{3})+', cuerpo):
+            cuerpo = cuerpo.replace('.', ',')
+        if not signo and not pct and re.fullmatch(r'(19|20)\d\d', cuerpo):
+            k += 1                                        # un año («en 2026») no es una cantidad: no cuenta ni lleva comas
+            continue
+        if re.fullmatch(r'\d[\d,]*(\.\d{1,2})?', cuerpo):
+            valor = float(cuerpo.replace(',', ''))
+        elif not signo and not pct and pal[k]['plano'] in _NUMEROS:
+            valor = float(_NUMEROS[pal[k]['plano']].replace(',', ''))
+        else:
+            k += 1
+            continue
+        grupo = [k]
+        if not pct and k + 1 < len(pal) and pal[k + 1]['plano'] in ('mil', 'millones', 'millon', 'thousand', 'million', 'millions'):
+            valor *= 1000 if pal[k + 1]['plano'] in ('mil', 'thousand') else 1000000
+            grupo.append(k + 1)
+        if not signo:
+            for j in (grupo[-1] + 1, grupo[-1] + 2):          # «430 dólares», «500 millones de pesos»
+                if j < len(pal) and pal[j]['plano'] in _MONEDAS:
+                    signo = _MONEDAS[pal[j]['plano']]
+                    grupo += list(range(grupo[-1] + 1, j + 1))   # la palabra de la moneda (y el «de») ya la dice el signo: va dentro de la cifra
+                    break
+                if j < len(pal) and pal[j]['plano'] != 'de':
+                    break
+        decimales = len(cuerpo.split('.')[1]) if '.' in cuerpo and valor == float(cuerpo.replace(',', '')) else 0
+        salida[k] = (signo + f'{valor:,.{decimales}f}' + ('%' if pct else ''), grupo)
+        k = grupo[-1] + 1
+    return salida
+
+
 def _estilo_para(pack, texto, previo, forzar=None, ancho_tl=1080, rotacion=None):
     """Estilo (variante del pack) de una palabra grande: el que pide su significado, o el siguiente de la rotación (`rotacion`: los de base o los
     acentos), siempre uno donde quepa."""
@@ -571,8 +622,14 @@ def planificar(palabras, idioma='es', pack='Referencia', ancho_tl=1080, ancla='m
         con_variantes = set(G.datos_variantes(pack).keys())
     except Exception:
         con_variantes = set()
+    numeros = cifras(pal) if VARIANTE_COUNT in con_variantes else {}
     for n_frase, frase in enumerate(frases(pal, A)):
         ms = elegir_mains(pal, frase, primera=(n_frase == 0), forzados=forzados, A=A)
+        if forzados is None and numeros:
+            # las cifras van grandes (Luxe Count); la grande que tuviera pegada deja de serlo (formarían un grupo que ya no es una cifra)
+            nums = [x for k in frase if k in numeros for x in numeros[k][1]]
+            if nums:
+                ms = sorted(set(k for k in ms if all(abs(k - x) > 1 for x in nums)) | set(nums))
         cabezas, grupos = _agrupar(ms)
         miembros = {k for g in grupos.values() for k in g[1:]}
         trozos = []
@@ -634,6 +691,8 @@ def planificar(palabras, idioma='es', pack='Referencia', ancho_tl=1080, ancla='m
         segs = _lineas_pequenas(pal, segs, A)
 
         def texto_de(ks):
+            if ks and ks[0] in numeros and list(ks) == numeros[ks[0]][1]:
+                return numeros[ks[0]][0]       # (el texto que lee el Luxe Count: «$430,000», «50%»)
             t = ' '.join(pal[m]['texto'] for m in ks)
             return t[:1].upper() + t[1:]
         # estilo de cada palabra grande. Como en la referencia, los bloques de una misma ORACIÓN comparten estilo (5·5·5, 2·2) y cada oración
@@ -653,6 +712,8 @@ def planificar(palabras, idioma='es', pack='Referencia', ancho_tl=1080, ancla='m
             remate = (oraciones[n] > 0 and n == ultimo_con_main[oraciones[n]] and len(est) == n_m - 1 and mains_de_oracion[oraciones[n]] >= 2)
             if forzado:
                 e = forzado
+            elif ks and ks[0] in numeros and list(ks) == numeros[ks[0]][1]:
+                e = VARIANTE_COUNT                                 # una cantidad: cuenta hasta la cifra
             elif _intencion(texto):
                 e = _estilo_para(pack, texto, ult_base, None, ancho_tl, ESTILOS_BASE)          # el significado manda (fuego, negación)
             elif remate:
@@ -682,7 +743,8 @@ def planificar(palabras, idioma='es', pack='Referencia', ancho_tl=1080, ancla='m
                         # sobre ella, casi al ras, y la de debajo nunca se sale de ella. Nunca más pequeña que su tamaño natural, ni más del 92 % del cuadro.
                         w_linea = max(_ancho_linea(pal, v[1], A, forzar_peso, ancho_tl) for v in vecinas)
                         minimo = natural / float(ancho_tl) if natural else 0.0
-                        anchos[j] = min(0.92, max(A['grande_linea'] * w_linea, A['grande_min'] * minimo), 2.4 * natural / float(ancho_tl) if natural else 0.92)
+                        tope = (A['zoom_max_cifra'] if est[m_a] == VARIANTE_COUNT else 2.4) * natural / float(ancho_tl) if natural else 0.92
+                        anchos[j] = min(0.92, max(A['grande_linea'] * w_linea, A['grande_min'] * minimo), tope)     # (una cifra corta no crece tanto)
                     elif natural:                                               # sola (sin línea pequeña): no se infla (la referencia: zoom 0,9-1,3)
                         anchos[j] = min(anchos[j], A['zoom_max'] * natural / float(ancho_tl))
                 aire = 2 * AIRE_EDITORIAL if (m_a < len(est) and est[m_a] in ESTILOS_EDITORIAL) else 0.0
