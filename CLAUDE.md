@@ -1,7 +1,7 @@
 # CineCaptions — leer SOLO esto; lo demás se consulta por demanda
 
 App PySide6 (v5.38, Python 3.15.2) que subtitula vídeos con IA local y los coloca en DaVinci Resolve (Free y Studio, Windows y Mac).
-Carpetas: `1_codigo` programa · `2_recursos` lo que viaja en el .exe · `3_compilar` · `4_diseno` · `6_compilacion` (temporal, no tocar) · `7_mac` · `INSTALADORES/{Windows,Mac}` · `DOCUMENTACION`.
+Carpetas: `1_codigo` programa · `2_recursos` lo que viaja en el .exe · `3_compilar` · `4_diseno` · `5_SFX` (biblioteca de sonido del autor, 8 GB, fuera de Git; `Desktop\SFX` es un enlace a ella; reglas en su `MAPA_SFX.md`: nunca borrar, mover ni renombrar sonidos) · `6_compilacion` (temporal, no tocar) · `7_mac` · `INSTALADORES/{Windows,Mac}` · `DOCUMENTACION`.
 «Tema N» de la interfaz → `id`: 1 `kinetic-planificador` · 2 `guion-planificador` · 3 `viral-planificador` · 4 `tema4` · 5 `tema5` · 6 `tema6`.
 Python con dependencias (`$PY`): `6_compilacion/venv315/Scripts/python.exe`.
 
@@ -9,7 +9,7 @@ Python con dependencias (`$PY`): `6_compilacion/venv315/Scripts/python.exe`.
 1. MCP `cinecaptions`: `mapa("palabras")` → temas, archivos y símbolos · `mapa(id="…")` → detalle (si es largo, índice; luego `parte="N"`/`"palabras"`) · `simbolo("nombre")` → solo esa función · `modulo("archivo")` · `cambios(n)` · `resumen()`.
    Sin MCP: `$PY 1_codigo/mapa_codigo.py mapa|tema|simbolo|modulo|cambios <x>` (`tema <id> <parte>`).
 2. Si falta: Grep del nombre + Read con `offset`/`limit` (~60 líneas).
-3. NUNCA leer enteros: `CineCaptions (script principal).py` (13 600 líneas), `DOCUMENTACION/{LEEME.txt,REGISTRO_DE_CAMBIOS.txt,historial/}`, `6_compilacion/`, `2_recursos/`, `*.drb/.drt`, `.json` de packs, `__pycache__`. Primera vez: `DOCUMENTACION/RESUMEN.md`.
+3. NUNCA leer enteros: `CineCaptions (script principal).py` (13 600 líneas), `DOCUMENTACION/{LEEME.txt,REGISTRO_DE_CAMBIOS.txt,historial/}`, `6_compilacion/`, `2_recursos/`, `5_SFX/` (salvo su `MAPA_SFX.md`), `*.drb/.drt`, `.json` de packs, `__pycache__`. Primera vez: `DOCUMENTACION/RESUMEN.md`.
 
 ## Al cambiar algo
 - Cambio grande: avisa antes qué archivos tocarás.

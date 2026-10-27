@@ -18,7 +18,8 @@ API para GO (la misma forma que director_sonido; el resto de la tubería —al_c
 Elección (v5.48, lo aprendido de 70 videos de creadores): solo sonidos curados, 1 principal + 3 variantes por tipo con tope del 40 %, nunca la
 misma familia seguida, lo APROBADO por el usuario primero y la densidad de los creadores por estilo (max10).
     rehacer(video, …)   la página Sonido rediseña con la foto guardada de GO (estilo, gancho, fiesta) sin volver a hacer GO
-Biblioteca: preferencia 'sonido_biblioteca' (por defecto Desktop\\SFX del autor si existe; si no, «Mis sonidos» del director). Si la carpeta trae
+Biblioteca: preferencia 'sonido_biblioteca'; si no, 5_SFX de la carpeta de CineCaptions (v5.48, fuera de Git), luego Desktop\\SFX (enlace a
+5_SFX; lo usan el .exe y la skill) y por último «Mis sonidos» del director. Si la carpeta trae
 catalogo_sfx.json (lo escribe la skill) se usa; si no, se mide aquí con PyAV y se guarda en caché.
 """
 import json
@@ -33,7 +34,8 @@ import numpy as np
 PREF_ON, PREF_LIB, PREF_ESTILO, PREF_GANCHO, PREF_FIESTA = 'sonido_skill', 'sonido_biblioteca', 'sonido_estilo', 'sonido_gancho', 'sonido_fiesta'
 ORIGEN = 'Sonido (biblioteca)'
 SR = 48000
-LIB_AUTOR = Path.home() / 'Desktop' / 'SFX'
+LIB_PROPIA = Path(__file__).resolve().parent.parent / '5_SFX'   # v5.48: la biblioteca vive en la carpeta de CineCaptions (fuera de Git)
+LIB_AUTOR = Path.home() / 'Desktop' / 'SFX'                     # enlace a 5_SFX (el .exe y la skill la encuentran aquí)
 AUDIO_EXT = ('.wav', '.mp3', '.aif', '.aiff', '.flac', '.ogg', '.m4a')
 VERSION = 1
 
@@ -113,8 +115,9 @@ def biblioteca(prefs=None):
     p = (prefs if prefs is not None else _prefs()).get(PREF_LIB)
     if p and Path(p).is_dir():
         return Path(p)
-    if LIB_AUTOR.is_dir():
-        return LIB_AUTOR
+    for lib in (LIB_PROPIA, LIB_AUTOR):
+        if (lib / '01_SFX').is_dir():
+            return lib
     import director_sonido_estado as E
     return E.CARPETA / 'biblioteca'
 

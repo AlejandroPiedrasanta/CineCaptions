@@ -27,3 +27,7 @@ skill videos/3 things from beginner to pro.mp4
 
 # Iconos de carpeta de Windows
 desktop.ini
+
+# v5.48: la biblioteca de sonido del autor (antes Desktop\SFX; 8 GB de SFX, música y videos de creadores): vive aquí pero NO va a Git
+# (GitHub no admite > 100 MB por archivo y parte de la música no se puede redistribuir). Desktop\SFX queda como enlace a esta carpeta.
+5_SFX/
