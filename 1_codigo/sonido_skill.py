@@ -417,9 +417,19 @@ def intro_con_sonido(ctx):
 
 
 # ---------------------------------------------------------------------------------------------------- el motor (igual a la skill)
+HECHO_POR_IA = ('/_VARIANTES/', '/_SINTETIZADOS/')   # además del campo 'generado' del catálogo (variante | sintetizado | tema)
+
+
+def hecho_por_ia(rel, info=None):
+    """Sonido que hizo una máquina y no es una grabación real: variantes de tono, sintetizados y los de temas armados por la skill.
+    El usuario (2026-10-27): «NO USES SONIDOS CREADOS POR IA»."""
+    return bool((info or {}).get('generado')) or any(m in '/' + rel.replace('\\', '/') for m in HECHO_POR_IA)
+
+
 def curado(rel, info=None):
-    """¿Sirve para un video nuevo? Nunca los extraídos de los videos de creadores ni los crudos de ejercicio."""
-    return '17_EXTRAIDOS_REFERENCIAS' not in rel and '_DE_REFERENCIAS' not in rel and not (info or {}).get('solo_ejercicio')
+    """¿Sirve para un video nuevo? Nunca los extraídos de los videos de creadores, los crudos de ejercicio ni los hechos por IA."""
+    return ('17_EXTRAIDOS_REFERENCIAS' not in rel and '_DE_REFERENCIAS' not in rel and not (info or {}).get('solo_ejercicio')
+            and not hecho_por_ia(rel, info))
 
 
 def densidad_creadores(ruta=None):
