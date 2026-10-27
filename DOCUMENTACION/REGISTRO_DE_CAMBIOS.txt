@@ -12,6 +12,10 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-27 13:44  ·  v5.51  ·  (automático)
+    modificados (1):
+      ~ 1_codigo/ajustes_ui.py
+
 2026-10-27 13:32  ·  v5.51  ·  (automático)
     modificados (20):
       ~ 1_codigo/version.py
