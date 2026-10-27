@@ -240,7 +240,11 @@
         "constelacion",
         "tarjetas",
         "aurora",
-        "go_estilo"
+        "go_estilo",
+        "pulido",
+        "ondas",
+        "arana",
+        "disco"
       ],
       "archivos": [
         "estilos_inicio.py",
@@ -259,7 +263,13 @@
         "_EscenaMini",
         "posiciones_motas",
         "poner_estilo",
-        "_poner_estilo"
+        "_poner_estilo",
+        "_onda_suave",
+        "_aro_luz",
+        "_destello_anamorfico",
+        "_arana",
+        "_textura_disco",
+        "_tenir"
       ],
       "resumen": "estilos_inicio.ESTILOS (nebulosa, astrolabio de fábrica, proceso): el astrolabio + su escena y su proceso de GO; pref go_estilo; Ajustes > Interfaz"
     },

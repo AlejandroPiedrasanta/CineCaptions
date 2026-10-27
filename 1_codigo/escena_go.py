@@ -724,7 +724,8 @@ class EscenaGo(QWidget):
         x0, y0 = rect.center().x() - 120, rect.top() + self.ALTO_FILA * i + self.ALTO_FILA / 2
         self._chispas_paso.append((self._t, x0, y0, COLORES[i % len(COLORES)]))
 
-    def _dibujar_chispas_paso(self, p, c):
+    def _dibujar_chispas_paso(self, p, c, dibujar=True):
+        """(v5.49 pulido: sin la lista de pasos no se dibuja —salía de donde estaría la lista—, pero sigue avisando al orbe al llegar)"""
         vivas = []
         for t0, x0, y0, col in self._chispas_paso:
             u = (self._t - t0) / 0.7
@@ -737,6 +738,8 @@ class EscenaGo(QWidget):
                 self.meta = min(1.0, self.meta + 0.01)
                 continue
             vivas.append((t0, x0, y0, col))
+            if not dibujar:
+                continue
             for k in range(7):                                  # la estela: la misma curva, un poco antes
                 uu = max(0.0, u - k * 0.035)
                 e = uu * uu * (3 - 2 * uu)
@@ -1358,7 +1361,7 @@ class EscenaGo(QWidget):
                     registro.aviso(f'Escena de Inicio ({self.estilo_clave}): {type(ex).__name__}: {ex}', 'escena_go')
                 except Exception:
                     pass
-        self._dibujar_chispas_paso(p, c)
+        self._dibujar_chispas_paso(p, c, est.pasos_lista)
         self._dibujar_chispas(p)
         for onda in self._ondas:
             est.onda(self, p, onda, W, H)
@@ -1366,7 +1369,7 @@ class EscenaGo(QWidget):
             self._dibujar_pasos(p, rect)
         for k_ in (self._cometas if est.cometas else ()):
             self._dibujar_cometa(p, k_)
-        for im in self._impactos:
+        for im in (self._impactos if est.cometas else ()):          # (sin cometas no hay choque: en Proceso era un destello sobre los botones)
             self._dibujar_impacto(p, im)
         if self._barra_d is not None and self._barra_a > 0.01:
             self._dibujar_barra(p, W, H, rect.bottom())
