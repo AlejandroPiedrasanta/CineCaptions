@@ -1477,6 +1477,7 @@
       ],
       "archivos": [
         "1_codigo/actualizaciones.py",
+        "1_codigo/actualizar_ui.py",
         "Publicar_Version.ps1",
         "1_codigo/ajustes_ui.py"
       ],

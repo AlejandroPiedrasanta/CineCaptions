@@ -1,7 +1,8 @@
 {
 "1_codigo/.cf/icono.ico": "eee3e8d8d5d22a10ca38181d34d33d81da2b98c9c5f9253db7ea3925770394da",
-"1_codigo/CineCaptions (script principal).py": "125f30e016f9085bdcfb3661df90e7a59b1b261e8bf027e41f75c24c42de8d2b",
+"1_codigo/CineCaptions (script principal).py": "0c503c1a025c67e198743d9c6d579a3cb8fba59bcb8ade99f572dd423fd6a2c6",
 "1_codigo/actualizaciones.py": "b9874012b6191eb52c0fa79e3a3fbad7e63cd561cc726dbbe0e1d7f4065490df",
+"1_codigo/actualizar_ui.py": "914977ac72b98e22f90e515b766b07c52e79a8256d6f763996025e781aa2800f",
 "1_codigo/ajustes_ui.py": "e1275205a05e4cb1d2d7b11e435a1f0eb4daf75ba4fa7fe839c4b156bc9a9691",
 "1_codigo/archivos_seguros.py": "515cfc6b7bfba1a840052e73ca9c5ae2f33c6727e19b77966d84869f7b53da91",
 "1_codigo/audio_compatible.py": "46cde3ace43dee5c71f6a323b2efc5b69473b4ed3caef76e90b4539215b5c768",

@@ -12,6 +12,13 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-27 08:14  ·  v5.49  ·  cambio explicado
+    Ventana de actualización nueva (5.49, propuesta A + B): actualizar_ui.PanelActualizacion con anillo y %, versión vieja → nueva, MB/velocidad/tiempo que falta, pasos con su tiempo, novedades del manifiesto y Cancelar.
+    nuevos (1):
+      + 1_codigo/actualizar_ui.py
+    modificados (1):
+      ~ 1_codigo/CineCaptions (script principal).py
+
 2026-10-27 01:41  ·  v5.49  ·  (automático)
     modificados (21):
       ~ 1_codigo/ajustes_ui.py

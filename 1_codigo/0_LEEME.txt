@@ -16,6 +16,8 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
     remotion\   (16088 archivos)
     actualizaciones.py
         actualizaciones automáticas: lee un version.json publicado, descarga el instalador, comprueba su huella SHA-256 y lo lanza.
+    actualizar_ui.py
+        la ventana «Actualizando CineCaptions» (v5.49, propuesta A + B elegida por el usuario): anillo con el %, versión
     ajustes_ui.py
         Ajustes: panel rápido y ventana completa (General, Interfaz, Atajos, Acerca de, Ayuda) + notas de la versión.
     archivos_seguros.py

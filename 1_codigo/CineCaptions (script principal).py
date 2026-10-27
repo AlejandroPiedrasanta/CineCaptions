@@ -7897,25 +7897,28 @@ class SubtitleApp(QWidget):
         self._descargar_actualizacion(r)
     def _descargar_actualizacion(self, r):
         import actualizaciones
-        import editor_ui
+        import actualizar_ui
         if getattr(self, '_descargando_actualizacion', False):          # v5.4.41: un segundo clic (o dos avisos a la vez) no arranca otra descarga encima de la primera
             return
         archivo = r['archivo']
         try:
-            dlg = Dialogo(self, tr('Actualizando CineCaptions'), 500, 430, redimensionable=False)
+            # v5.49 (propuesta A + B elegida por el usuario): anillo con el %, 5.48 → 5.49, MB / velocidad / tiempo que falta, los pasos,
+            # las novedades de la versión y «Cancelar» (actualizar_ui.PanelActualizacion)
+            dlg = Dialogo(self, tr('Actualizando CineCaptions'), 520, 560, redimensionable=False)
+            # sin la barra de título de Windows (pedido: «quítale eso, deja metida la X»): el panel pinta el fondo redondeado y lleva la ✕
+            dlg.setWindowFlags(Qt.WindowType.Dialog | Qt.WindowType.FramelessWindowHint)
+            dlg.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground, True)
             capa = _capa_dialogo(dlg, (0, 0, 0, 0), 0)
-            panel = editor_ui.PanelAsistencia(tr('Actualizando CineCaptions'), tr('Listo'), tr('Descargando…'),
-                                              [tr('Descargar la versión nueva'), tr('Comprobar que es auténtica'), tr('Instalarla')], f"v{r['version']}",
-                                              tr('CineCaptions se cierra y se vuelve a abrir solo'))
+            panel = actualizar_ui.PanelActualizacion(APP_VERSION, r['version'], r.get('notas') or '', al_cancelar=lambda: dlg.cerrar(), sin_marco=True)
             capa.addWidget(panel, 1)
             dlg.show()
         except Exception:
             registro.excepcion(origen='actualizar · ventana')
             return
-        est = {'texto': '', 'fase': 0, 'ruta': None, 'error': None, 'cancelado': False, 'lanzado': False}
+        est = {'fase': 0, 'ruta': None, 'error': None, 'cancelado': False, 'lanzado': False, 'hechos': 0, 'total': 0}
         dlg.finished.connect(lambda _r: est.__setitem__('cancelado', True))
         def progreso(h, t):
-            est['texto'] = tr('{h} de {t} MB', h=f'{h / 1048576:.0f}', t=f'{(t or h) / 1048576:.0f}')
+            est['hechos'], est['total'] = h, (t or h)
             if t and h >= t:
                 est['fase'] = 1
         def trabajo():
@@ -7927,7 +7930,7 @@ class SubtitleApp(QWidget):
             if est['ruta'] and not est['cancelado']:
                 # v5.4.45: el instalador se lanza AQUI, en el hilo de la descarga: lanzar un .exe de 230 MB (Windows lo
                 # escanea antes de abrirlo) desde el hilo de la interfaz la dejaba 3 s congelada (registro del 11-10)
-                est['fase'], est['texto'] = 2, tr('Lanzando el instalador…')
+                est['fase'] = 2
                 est['lanzado'] = actualizaciones.instalar(est['ruta'])
         self._descargando_actualizacion = True
         def trabajo_y_liberar():
@@ -7941,8 +7944,7 @@ class SubtitleApp(QWidget):
             if hilo.is_alive():
                 if vivo(dlg):
                     panel.poner_fase(est['fase'])
-                    if est['texto']:
-                        panel.poner_detalle(est['texto'])
+                    panel.poner_descarga(est['hechos'], est['total'])
                     despues(150, revisar, self)
                 return
             if est['cancelado'] and not est['lanzado']:
