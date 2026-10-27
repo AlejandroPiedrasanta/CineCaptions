@@ -66,6 +66,10 @@ sesión) = `hacer_vista_slider.generar` dos veces por tema (`CINECAPTIONS_PRO` 0
 
 **Dónde:** `2_recursos/generador_packs/luxe_macro.py` (`comp_luxe`, bases `luxe_shine_*`/`luxe_slide_*`), `construir_pack.py`; pack con contenido nuevo = subir su `REVISION_BIN` en `plantillas.py` (si no, Resolve reutiliza el bin viejo del proyecto)
 
+**v1.09 y Count (v5.48):** las bases `luxe_shine/slide/count_base.lua` salen del `.drfx` v1.09 (`luxe_macro.extraer_de_setting(drfx, tipo)`: todo el `Tools = ordered()` del `.setting`, macro + sus LUTLookup, y se le AÑADE un `MediaOut1` conectado al `MainOutput1` del macro: el `.setting` no lo trae y sin él cada clip sale como un recuadro NEGRO). `comp_luxe_count` = números (su `CountEnd` lee el texto del clip; sin prefijo «$», enteros) y `construir_pack` lo usa para el principal de una combinación con `count=True`: queda disponible, pero el pack «Referencia» ya no lo lleva (pedido).
+
+**Anim Engine automático:** el macro esconde el texto si entrada + salida no caben en el clip («Error! Animation too long!»; su «Fix Animations» solo reparte el clip entero). `_anim_auto` pone en `InLength`/`OutLength` la expresión `min(valor, 30 % del clip)`: nunca falla y el texto siempre se queda quieto un rato. Solo usa `comp.RenderStart/End` y `comp:GetPrefs` (como el propio macro), nada de otras herramientas. Los packs que no se regeneren siguen con su valor fijo.
+
 ## nota — PACKS
 
 2) PACKS (.drb / .drt) — LA ESTRUCTURA MANDA, EL NOMBRE ES LA LLAVE

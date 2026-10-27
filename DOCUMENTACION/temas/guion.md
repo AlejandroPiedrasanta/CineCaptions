@@ -49,3 +49,37 @@ una y otra en vertical). Ya NO calca la separación de REFERENCIA.mp4 (≈0,08 e
 
 Con `hueco` 0,004 las palabras grandes en letra editorial / de pincel (estilos 2 y 5 y sus barridos 10, 12, 14, 16 = `ESTILOS_EDITORIAL`)
 pisaban la línea de al lado en el render real: llevan `AIRE_EDITORIAL` (0,012 del alto) arriba y abajo. El resto sigue pegado.
+
+## nota — v5.48 · más fluido, números que cuentan (pedido: «muy rápido, no fluye», «mucha tabulación»)
+
+**Ritmo:** `_respiro`: la última palabra de cada bloque se ve al menos `respiro` s; el bloque siguiente espera hasta 0,35 s y sus palabras no entran antes que él (valores medidos contra la referencia, abajo). Antes el fin del bloque se cortaba en el inicio del siguiente y la última palabra podía verse 0,1 s.
+
+**Espaciado:** `guion_captions.AFINADO['espacio']` 0,55 → 0,2 (las referencias del usuario van con las palabras juntas).
+
+**Estilos quitados (pedido):** el pack ya no trae 4, 11, 15 («Moderno blanco» y sus barridos) ni 17 (Luxe Count de los números, que se llegó a probar: cuenta de 0 a la cifra). Los demás conservan su número (`pack_referencia.QUITAR`); `_estilo_para` solo elige variantes que el pack trae. Con el subrayado (8) la línea de debajo va CENTRADA bajo la grande (`ESTILOS_LINEA3_CENTRADA`).
+
+**Tachado:** el 7 (Strike) y el 6 (Fire) solo los pide el significado; ya no son el último recurso cuando ninguna otra cabe (salía «Quetzaltenango» tachado).
+
+**Líneas pequeñas hacia la derecha:** las de Luxe Slide (Poppins Light / Bold) van con POSITION «Mirror Out» desactivado y dirección «→» (Start Direction 180, End Direction 0): entran y salen hacia la derecha, como se leen. Desmarcar «Mirror Out» en el Inspector ejecuta un Script del macro que cambia las expresiones de `positionVector`; `luxe_macro._deslizar` las deja escritas igual (pack: `'deslizar': 'derecha'`).
+
+**Bloques de tres líneas + cortos** (pedido: «más entretenido»): `_complejos` alterna un bloque pequeña · PRINCIPAL · pequeña con al menos `cortos_entre` (2) bloques cortos. Un bloque que acaba en su palabra grande se lleva hasta `complejo_max` (4) palabras pequeñas del principio del siguiente (sin pausa > `pausa_frase`, bloque ≤ `complejo_s` 3,2 s, sin cortar tras «de/la/que»); el siguiente queda corto. Con mains forzados a mano no se toca.
+
+**La grande al ancho de su línea** (pedido: «el principal debe ser grande para que el Luxe Slide esté encima casi al ras»): con una línea pequeña encima (o debajo, si no hay encima), la grande ocupa el ancho de esa línea: nunca menos que su tamaño natural (zoom 1) ni más de 2,2× ni del 90 % del cuadro. Sin línea pequeña sigue el tope `zoom_max`. `_alto_main` sube su tope de 0,10 a 0,13 del alto para dejarle sitio.
+
+**Nunca 4 líneas · más junto · grande algo mayor** (pedido): UNA palabra grande por bloque (en `planificar`, después de `_partir`, que no se toca porque lo usan los temas 1 y 3): el corte va justo tras la primera grande. La grande = `grande_linea` (1,1) × el ancho de su línea pequeña y ≥ `grande_min` (1,1) × su tamaño natural (tope 2,4× y 92 % del cuadro). Alturas más ceñidas a la tinta: `hueco` 0,005, `alto_linea` 0,031 y `_alto_main` con k por letra (medido en Resolve): serif cursiva `k_alto` 1,35, Poppins/Inter `k_alto_sans` 1,7 (con un solo k las gruesas pisaban la línea de al lado). `_complejos` solo roba palabras a un bloque siguiente que tenga grande, y si caben todas las de antes de su grande se las lleva todas.
+
+**Ritmo de pesos** (pedido: «jamás 4 en light, tiene que tener un bold; máximo 2 en bold y 3 en light»): `_ritmo_pesos` (tras `_pesos_linea`, solo si el usuario no marcó finas a mano): toda línea de 2+ palabras lleva una negrita (la palabra con contenido más larga), nunca más de `MAX_FINAS` (3) finas ni `MAX_NEGRITAS` (2) negritas seguidas.
+
+**Al ras, medido con la tinta** (pedido: «jamás va separado, va al ras»): `guion_captions.extension_tinta` da cuánto sube y baja la tinta de la grande respecto a la y del clip, con su tipografía y el ancho que ocupa. Medido en Resolve: Fusion centra la CAJA de la letra (ascent/descent), no la tinta («Maquillaje» cuelga por abajo); Amro ≈ 45 % arriba / 75 % abajo. El planificador apila con eso (`arriba[j]`). Se quitó `dy {1: -0.021}`: con el Shine v1.09 abría 40 px de hueco bajo «EMPEZAMOS». Resultado medido: 3-18 px de tinta a tinta. Herramienta de medida (fuera del proyecto): fotograma de cada bloque → bandas de filas con tinta → hueco entre líneas.
+
+**Reglas de líneas** (pedido): `_reglas_lineas` (tras `_complejos`): ninguna línea pequeña pasa de `max_linea` (4) palabras (lo que sobra forma un bloque corto de ≥2, que se vuelve a revisar) y la línea de DEBAJO de la grande nunca lleva una sola palabra (pasa al bloque siguiente; si es el último, va sola). `_complejos` solo arma la línea 3 con ≥2 palabras. La línea de debajo de la grande empieza en el centro del cuadro y va hacia la derecha, y NUNCA se sale del borde derecho de la grande (margen 0,03): la grande toma el ancho de su línea pequeña más ancha (encima o debajo, `_ancho_linea`) y, si aun así la de debajo es más ancha, esta se reduce al ancho de la grande. Comprobado en 177 bloques de 5 transcripciones: 0 fallos (4 líneas, 5+ palabras, pesos, línea 3 de 1 palabra).
+
+**Espaciado de letras:** todos los textos Luxe del pack con Character Spacing `pack_referencia.ESPACIADO` = 0,99 (se probó 0,95 y el usuario prefirió 0,99). Medido en Resolve: Fusion quita por LETRA (1 − espaciado) × 1,4 × tamaño de letra (con 0,95 las palabras encogían ~15 %); `guion_captions._apretado` lo descuenta en `ancho_px` / `ancho_main` (`AFINADO['espaciado']` debe ser igual a `ESPACIADO`) para que los huecos entre palabras no se abran.
+
+**Colores y Amro (vista de los 17 estilos):** el Luxe Shine v1.09 trae su propio color (azul verdoso, Red1/Green1/Blue1 en Text1) DESPUÉS del que ponía `comp_luxe`, así que ganaba: «Moderno blanco» salía azul y los rosa, azul verdoso. `comp_luxe` lo quita antes de poner el del estilo. «Moderno blanco» (4, 11, 15) sube de 0,118 (el tamaño de las pequeñas) a 0,18. Los presets de Amro reservan su alto medido (`guion_captions.AFINADO['amro_ext']`, px a zoom 1: pastilla 3 = 82/94, fuego 6 = 64/118, tachado 7 = 30/36, subrayado 8 = 38/98): la pastilla tapaba las líneas pequeñas y el subrayado tocaba la de abajo.
+
+**Pulido de cortes** (pedido: «pule más los captions»): `_corte` elige dónde partir una línea larga: nunca tras «de/la/y…», repartiendo el TIEMPO en pantalla entre los dos trozos (pausa como desempate) → «La Unión Europea» | «trae a / Quetzaltenango». La línea 3 nunca acaba en palabra vacía: esas pasan al bloque siguiente con su palabra («y del / Salvador»), salvo por encima de un fin de frase (pausa ≥ `pausa_frase` o «.?!»). Un bloque sin grande de 5-8 palabras va en dos líneas del MISMO bloque (`_lineas_pequenas`), no en dos bloques fugaces. `respiro` 0,4 → 0,55. Tachado (7): `amro_ext` 30/36 → 32/50 (la línea de debajo quedaba pegada).
+
+**Medido contra REFERENCIA.mp4** (`ref_exacta.guion.json`): la palabra entra ~0,08 s DESPUÉS de la voz (`adelanto` 0), entre bloques queda un hueco de 0,15-0,25 s (`gap_minimo` 0,15), la última palabra se ve ≥0,35 s (`respiro` 0,4) y las grandes van a zoom 0,9-1,3 (`zoom_max` 1,3; antes las cortas se inflaban hasta 2,5).
+
+**Ojo al probar:** el script de Resolve solo buscaba 16 sets (`MAX_SETS`/`MAX_VARIANTES` en el .py y el .lua): la variante 17 caía en silencio al estilo 1. Ahora 20.

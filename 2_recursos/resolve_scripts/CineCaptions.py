@@ -101,7 +101,7 @@ NOMBRES_ROL = {
 NOMBRES_BASE = ("simple", "base")
 NOMBRE_IMAGEN = "imagen"      # el bloque donde va el icono o la imagen (el emoji)
 NOMBRES_SOLO_NUEVOS = ("arriba", "abajo", "imagen")
-MAX_VARIANTES = 16            # con los nombres nuevos (v5.9: antes 3; v5.5: 16 por las variantes de barrido de «Referencia», 9-16)
+MAX_VARIANTES = 20            # (v5.48: 20, gemela de MAX_SETS) con los nombres nuevos (v5.9: antes 3; v5.5: 16 por las variantes de barrido de «Referencia», 9-16)
 
 # Si quieres varios estilos que se vayan alternando, duplica las plantillas
 # agregando un numero: "contexto 2", "principal 2", "complemento 2", despues
@@ -109,7 +109,7 @@ MAX_VARIANTES = 16            # con los nombres nuevos (v5.9: antes 3; v5.5: 16 
 # se queda con todos los que encuentre, y los va alternando bloque a bloque
 # sin repetir nunca el mismo dos veces seguidas. No hace falta numerar de
 # corrido: si tienes el 1, el 2 y el 5, usa esos tres.
-MAX_SETS = 16
+MAX_SETS = 20                 # v5.48: 16 -> 20 (la variante 17 de «Referencia» = Luxe Count de los números)
 
 # Formas de numerar que se aceptan: "contexto 2", "contexto2", "contexto-2",
 # "contexto_2". Asi un nombre escrito distinto no deja el set afuera.

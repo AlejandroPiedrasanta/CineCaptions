@@ -137,52 +137,6 @@
   },
   "amro": true
  },
- "4": {
-  "nombre": "Moderno blanco",
-  "color": "#FFFFFF",
-  "roles": {
-   "context": {
-    "f1": [
-     "Poppins",
-     "Light"
-    ],
-    "f2": [
-     "Poppins",
-     "Light"
-    ],
-    "tam": 0.118,
-    "color": "#FFFFFF",
-    "mayus": false
-   },
-   "main": {
-    "f1": [
-     "Poppins",
-     "Bold"
-    ],
-    "f2": [
-     "Poppins",
-     "Bold"
-    ],
-    "tam": 0.118,
-    "color": "#FFFFFF",
-    "mayus": false
-   },
-   "complement": {
-    "f1": [
-     "Poppins",
-     "Bold"
-    ],
-    "f2": [
-     "Poppins",
-     "Bold"
-    ],
-    "tam": 0.118,
-    "color": "#FFFFFF",
-    "mayus": false
-   }
-  },
-  "amro": false
- },
  "5": {
   "nombre": "Editorial azul",
   "color": "#5C9EF5",
@@ -459,52 +413,6 @@
   },
   "amro": false
  },
- "11": {
-  "nombre": "Moderno blanco · Screen",
-  "color": "#FFFFFF",
-  "roles": {
-   "context": {
-    "f1": [
-     "Poppins",
-     "Light"
-    ],
-    "f2": [
-     "Poppins",
-     "Light"
-    ],
-    "tam": 0.118,
-    "color": "#FFFFFF",
-    "mayus": false
-   },
-   "main": {
-    "f1": [
-     "Poppins",
-     "Bold"
-    ],
-    "f2": [
-     "Poppins",
-     "Bold"
-    ],
-    "tam": 0.118,
-    "color": "#FFFFFF",
-    "mayus": false
-   },
-   "complement": {
-    "f1": [
-     "Poppins",
-     "Bold"
-    ],
-    "f2": [
-     "Poppins",
-     "Bold"
-    ],
-    "tam": 0.118,
-    "color": "#FFFFFF",
-    "mayus": false
-   }
-  },
-  "amro": false
- },
  "12": {
   "nombre": "Editorial azul · Screen",
   "color": "#5C9EF5",
@@ -625,52 +533,6 @@
     ],
     "tam": 0.28,
     "color": "#FF75B2",
-    "mayus": false
-   },
-   "complement": {
-    "f1": [
-     "Poppins",
-     "Bold"
-    ],
-    "f2": [
-     "Poppins",
-     "Bold"
-    ],
-    "tam": 0.118,
-    "color": "#FFFFFF",
-    "mayus": false
-   }
-  },
-  "amro": false
- },
- "15": {
-  "nombre": "Moderno blanco · Sólido",
-  "color": "#FFFFFF",
-  "roles": {
-   "context": {
-    "f1": [
-     "Poppins",
-     "Light"
-    ],
-    "f2": [
-     "Poppins",
-     "Light"
-    ],
-    "tam": 0.118,
-    "color": "#FFFFFF",
-    "mayus": false
-   },
-   "main": {
-    "f1": [
-     "Poppins",
-     "Bold"
-    ],
-    "f2": [
-     "Poppins",
-     "Bold"
-    ],
-    "tam": 0.118,
-    "color": "#FFFFFF",
     "mayus": false
    },
    "complement": {

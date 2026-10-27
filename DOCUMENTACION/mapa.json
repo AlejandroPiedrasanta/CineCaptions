@@ -1108,7 +1108,8 @@
         "construir_pack.py",
         "plantillas.py",
         "luxe_shine_base.lua",
-        "luxe_slide_base.lua"
+        "luxe_slide_base.lua",
+        "luxe_count_base.lua"
       ],
       "simbolos": [
         "comp_luxe",
