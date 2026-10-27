@@ -396,7 +396,10 @@ def etiquetas_de_go(ctx):
             tipo = _tipo_pieza(f"{m.get('pieza')} {m.get('asset')}")
         ev.append({'segundo': round(float(m['ini']), 3), 'tipo': tipo, 'detalle': f"{m['origen']}: {m.get('asset') or m.get('pieza')}",
                    'fuerza': 7})
-    for t in ctx.get('cortes') or []:
+    # Tema 1 SOLO CAPTIONS: cada sonido sale de un caption; los cortes del video NO suenan (el usuario: «estás confundiendo el Tema 1 solo
+    # captions con el PRO, hay sonidos donde no deberían ir»). Un corte suena si lo pide quien lo anima: las transiciones de Efectos (ya
+    # vienen arriba como 'corte') o los barridos de la PRO (etiquetas_neon). Los otros temas siguen con los cortes que detecta GO.
+    for t in ([] if kin else ctx.get('cortes') or []):
         if float(t) >= CORTE_MIN:
             ev.append({'segundo': round(float(t), 3), 'tipo': 'corte', 'detalle': 'corte del video', 'fuerza': 6})
     return sorted(ev, key=lambda e: e['segundo'])
