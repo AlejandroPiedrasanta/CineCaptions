@@ -34,7 +34,7 @@ NOMBRE_TIPO = {'gancho': 'Gancho', 'acento': 'Acento', 'texto_grande': 'Palabra 
                'barrido_luz': 'Brillo', 'neon': 'Neón', 'icono': 'Ícono', 'tarjeta': 'Tarjeta', 'foto': 'Foto', 'numero_precio': 'Dinero',
                'check': 'Check', 'boton_on': 'Botón ON', 'boton_off': 'Botón OFF', 'cursor_click': 'Click', 'notificacion': 'Notificación',
                'barra_carga': 'Carga', 'pagina': 'Página', 'glitch': 'Glitch', 'tachado': 'Tachado', 'positivo': 'Positivo',
-               'negativo': 'Negativo', 'grafica': 'Gráfica'}
+               'negativo': 'Negativo', 'grafica': 'Gráfica', 'pegatina': 'Pegatina'}
 CARRILES = (('AI SFX MOTION', 'Movimiento', '#4589FF'), ('AI SFX IMPACTS', 'Impactos', '#FF5D73'), ('AI SFX TONAL', 'Acentos', '#F5C451'),
             ('AI SFX UI', 'Interfaz', '#2BD4A4'), ('AI SFX TEXTURE', 'Textura', '#B07CFF'))
 COLOR = {p: c for p, _, c in CARRILES}

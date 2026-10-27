@@ -73,7 +73,8 @@ POOL_A_TIPO = {'riser': 'riser', 'whoosh': 'whoosh', 'swoosh': 'whoosh', 'flash'
                'shine': 'acento', 'ding': 'acento', 'burbuja': 'pop', 'tarjeta': 'pop', 'boton_on': 'tick', 'boton_off': 'tick', 'mouse': 'tick',
                'notif': 'acento', 'dinero': 'dinero', 'positivo': 'acento', 'error': 'acento', 'impacto': 'golpe', 'carga': 'carga',
                'pagina': 'papel', 'glitch': 'glitch'}
-DINERO_RX = r'(\$|€|₹|dinero|precio|gratis|gratuit|money|dollar|price|free|cost|pesos|quetzal|millon)'
+REGLAS_CC = {'pegatina': ('burbuja', 6)}   # tipos que solo existen en CineCaptions (Tema 1); REGLAS sigue igual a la skill
+DINERO_RX = r'(\$|€|₹|\b(dinero|precio|gratis|gratuit\w*|money|dollars?|price|free|cost\w*|pesos?|quetzal(es)?|millon\w*|millón)\b)'   # palabras ENTERAS: «Quetzaltenango» no es dinero
 # v5.48 — lo aprendido de 70 videos de creadores (skill, apoyo_decision.py 2026-10-26): densidad por estilo, 4 sonidos por tipo con tope,
 # solo sonidos curados (los extraídos de los creadores suenan pobres en un video nuevo) y lo que el usuario APROBÓ pesa 5×
 REFS_CREADORES = Path.home() / '.sonorizar-sfx' / 'datos' / 'refs.json'     # lo escribe la skill (autoentreno.py); sin él, la tabla
@@ -84,6 +85,7 @@ VARIANTES_POR_ROL, TOPE_REPETIR = 3, 0.40         # 1 principal + 3 de otras fam
 RESPALDO = {'boton_on': 'mouse', 'boton_off': 'mouse', 'mouse': 'pop', 'kinetic': 'pop', 'shine': 'ding', 'ding': 'shine', 'flash': 'swoosh',
             'carga': 'pop', 'notif': 'ding', 'riser': 'swoosh', 'acento': 'pop', 'tarjeta': 'burbuja'}   # pool de 1 familia → el vecino
 _DENS = {}
+SIEMPRE_SU_SONIDO = ('kinetic',)   # MAPA: «el KINETIC va en TODO caption con aro» (variantes: rotar con él)
 
 
 def _prefs():
@@ -202,12 +204,77 @@ def _tipo_pieza(nombre):
     return 'tarjeta'
 
 
+HEROE_GOLPE = 10 / 30 * 0.37      # Tema 1: el héroe entra con rebote de 10 cuadros y llega a su tamaño en p≈0,37: ahí va el golpe
+GANCHO_MIN = 0.45                 # lo que necesita un riser para subir antes del primer momento
+CORTE_MIN = 0.3                   # un «corte» antes de esto es el comienzo del video, no un corte
+
+
+def cues_kinetic(ctx):
+    """Tema 1 (pack Kinetic): sus bloques con los ELEMENTOS que anima cada uno y cuándo entran (`runs`: k hero/ring/line/tape/label/serif/
+    script con su t), del .kinetic.json que GO escribe en DaVinciSubtitles (`{video}.{idioma}.kinetic.json`). Solo si sus bloques coinciden con
+    los de este GO (si no, None y se sigue con la metadata general)."""
+    if 'kinetic' not in str(ctx.get('pack') or '').lower() or not ctx.get('video'):
+        return None
+    carpeta, stem = Path.home() / 'DaVinciSubtitles', Path(ctx['video']).stem
+    rutas = [carpeta / f"{stem}.{ctx.get('idioma')}.kinetic.json"] + sorted(carpeta.glob(f'{glob_escape(stem)}.*.kinetic.json'),
+                                                                           key=lambda p: -p.stat().st_mtime)
+    bloques = ctx.get('bloques') or []
+    for ruta in rutas:
+        try:
+            cues = json.loads(ruta.read_text(encoding='utf-8')).get('cues') or []
+        except Exception:
+            continue
+        if cues and len(cues) == len(bloques) and all(abs(float(c['start']) - float(b['start'])) < 0.05 for c, b in zip(cues, bloques)):
+            return cues
+    return None
+
+
+def glob_escape(texto):
+    import glob
+    return glob.escape(texto)
+
+
+def etiquetas_tema1(cues, frases):
+    """Tema 1: el tema no cambia, así que cada bloque suena siempre igual según lo que anima, con las reglas de la biblioteca
+    (03_CAPTIONS_TAP_TECLEO/TEMA_1/00_REGLAS_DE_USO.txt y MAPA_SFX.md): UN sonido por bloque — si se dibuja un ARO o SUBRAYADO, el KINETIC
+    (va en TODO caption con aro; empieza cuando el aro empieza a dibujarse); si no, el golpe del HÉROE en su rebote; si solo hay PEGATINA, su
+    pop. Las líneas chicas (label, serif) y la palabra a mano (script) no suenan. El dinero solo si la palabra es de dinero de verdad."""
+    import director_sonido_eventos as EV
+    ev = []
+    for c in cues:
+        runs = c.get('runs') or []
+        texto = ' '.join(str(r.get('texto')) for r in runs if r.get('texto'))[:60]
+        trazo = next((r for r in runs if str(r.get('k') or '').startswith(('k ring', 'k line'))), None)
+        heroe = next((r for r in runs if str(r.get('k') or '').startswith('k hero')), None)
+        cinta = next((r for r in runs if str(r.get('k') or '').startswith('k tape')), None)
+        if trazo:
+            ev.append({'segundo': round(float(trazo['t']), 3), 'tipo': 'aro', 'fuerza': 9,
+                       'detalle': f"Tema 1: {'aro' if 'ring' in str(trazo['k']) else 'subrayado'} que se dibuja · «{texto}»"})
+        elif heroe:
+            t, palabra = float(heroe['t']), str(heroe.get('texto') or '')[:30]
+            rol, importancia, _ = EV._rol_en(frases, t) if frases else ('EXPLANATION', 0.3, '')
+            tipo = 'numero_precio' if re.search(DINERO_RX, palabra.lower()) else 'texto_grande'
+            ev.append({'segundo': round(t + HEROE_GOLPE, 3), 'tipo': tipo, 'detalle': f'Tema 1: héroe «{palabra}» ({rol})',
+                       'fuerza': round(8 + 5 * (EV.PESO_ROL.get(rol, 0.0) + float(importancia)), 2)})
+        elif cinta:
+            ev.append({'segundo': round(float(cinta['t']), 3), 'tipo': 'pegatina', 'detalle': f"Tema 1: pegatina «{str(cinta.get('texto') or '')[:30]}»",
+                       'fuerza': 8})
+    return ev
+
+
 def etiquetas_de_go(ctx):
     """Los eventos que GO ya conoce, con su tipo de MAPA_SFX.md: [{'segundo', 'tipo', 'detalle', 'fuerza'}]."""
     import director_sonido_eventos as EV
     dur = None
     ev = []
-    caps = EV.captions(ctx.get('bloques') or [], dur).get('lista') or []
+    kin = cues_kinetic(ctx)
+    if kin:
+        try:
+            frases = EV.narrativa(ctx.get('palabras') or [], dur).get('frases') or []
+        except Exception:
+            frases = []
+        ev = etiquetas_tema1(kin, frases)
+    caps = [] if kin else EV.captions(ctx.get('bloques') or [], dur).get('lista') or []
     tam = [c.get('tamano') or c.get('escala_clave') or 0 for c in caps]
     grande = float(np.percentile([t for t in tam if t] or [1], 60))
     try:
@@ -253,7 +320,8 @@ def etiquetas_de_go(ctx):
         ev.append({'segundo': round(float(m['ini']), 3), 'tipo': tipo, 'detalle': f"{m['origen']}: {m.get('asset') or m.get('pieza')}",
                    'fuerza': 7})
     for t in ctx.get('cortes') or []:
-        ev.append({'segundo': round(float(t), 3), 'tipo': 'corte', 'detalle': 'corte del video', 'fuerza': 6})
+        if float(t) >= CORTE_MIN:
+            ev.append({'segundo': round(float(t), 3), 'tipo': 'corte', 'detalle': 'corte del video', 'fuerza': 6})
     return sorted(ev, key=lambda e: e['segundo'])
 
 
@@ -353,6 +421,13 @@ class Elector:
         return self.fijos[pool]
 
     def elegir(self, pool):
+        if pool in SIEMPRE_SU_SONIDO and self.pools.get(pool):    # siempre ese sonido: rota sus variantes de tono, sin tope ni vecino
+            todos = self.pools[pool]
+            arch = todos[self.por_pool[pool] % len(todos)]
+            self.usos[arch] += 1
+            self.por_pool[pool] += 1
+            self.ultimo = arch
+            return arch
         lista = self.lista(pool)
         if not lista:
             return None
@@ -385,7 +460,7 @@ def elegir(ev, estilo):
             ult = w
     out = []
     for e in sorted(ev, key=lambda x: x['segundo']):
-        e['pool'], e['prioridad'] = REGLAS.get(e['tipo'], ('pop', 2))
+        e['pool'], e['prioridad'] = REGLAS.get(e['tipo']) or REGLAS_CC.get(e['tipo'], ('pop', 2))
         if out:
             p = out[-1]
             gap = cfg['gap_pop'] if e['pool'] in ('pop', 'acento') and p['pool'] in ('pop', 'acento') else 0.25
@@ -467,6 +542,8 @@ def hornear(filas, cat, lib, carpeta, con_voz=True):
         # lo que cae en el cuadro del evento es el PUNTO DE SYNC del catálogo (ataque, pico o fin según el sonido: un riser termina en el
         # evento), igual que la skill; antes era siempre el pico (hasta 5 cuadros de error en un riser)
         sync = float(info.get('punto_sync', info['pico']) or 0.0)
+        if f['pool'] == 'kinetic':                              # MAPA: el KINETIC EMPIEZA cuando el aro empieza a dibujarse (su golpe cae al cerrarse)
+            sync = float(info.get('ataque') or 0.0)
         antes = sync - float(f['segundo'])
         if antes > 0:                                           # empezaría antes del 0: se recorta el comienzo, el sync sigue en su cuadro
             x = x[:, int(antes * SR):]
@@ -508,9 +585,11 @@ def disenar(ctx, prefs=None):
     if estilo not in ESTILO:
         estilo = estilo_de_pack(ctx.get('pack'))
     ev = etiquetas_de_go(ctx)
-    if prefs.get(PREF_GANCHO, True) and not intro_con_sonido(ctx):
-        ev.append({'segundo': round(min([e['segundo'] for e in ev if e['segundo'] < 1.0] or [0.3]), 3), 'tipo': 'gancho',
-                   'detalle': 'gancho del inicio', 'fuerza': 99})
+    primero = min([e['segundo'] for e in ev if e['tipo'] != 'corte' and e['segundo'] < 1.0] or [None], key=lambda x: 9 if x is None else x)
+    # el riser termina EN el primer momento (≈0,4 s de subida): si el video arranca con algo antes de 0,45 s no cabe (quedaba una cola de
+    # 0,06 s): ese primer golpe ya es el gancho
+    if prefs.get(PREF_GANCHO, True) and not intro_con_sonido(ctx) and (primero is None or primero >= GANCHO_MIN):
+        ev.append({'segundo': round(primero if primero is not None else 0.5, 3), 'tipo': 'gancho', 'detalle': 'gancho del inicio', 'fuerza': 99})
     filas = asignar(elegir(ev, estilo), cat, lib)
     return estilo, filas, cat, lib
 
