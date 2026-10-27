@@ -6432,11 +6432,15 @@ class SubtitleApp(QWidget):
     def _prearmar_paginas(self, pendientes=None):
         """v5.47 (el usuario: «va lento y trabado cuando doy clic»; medido: el PRIMER clic en Efectos tardaba 0,77 s y en Estilos 0,29–0,37 s armando
         la página): se arman solas, una cada 2 s, mientras el programa está en reposo (en Inicio y sin GO). Si el usuario está en otra página o hay un
-        GO, se espera; si ya se abrieron, no hace nada."""
+        GO, se espera; si ya se abrieron, no hace nada.
+        v5.49 (el usuario: «la animación de Inicio se traba demasiado»): armar Efectos congela la ventana ~0,36 s y Estilos ~0,07 s; con la animación
+        de Inicio a la vista se veía como un tirón a los 7-9 s de abrir. Ahora espera a que la ventana no tenga el foco (el usuario está en Resolve)
+        o esté minimizada: nadie mira la animación."""
         pendientes = list(pendientes if pendientes is not None else ('efectos', 'estilos'))
         if not pendientes:
             return
-        if getattr(self, '_go_corriendo', False) or getattr(self, '_pagina_actual', 'inicio') != 'inicio':
+        if (getattr(self, '_go_corriendo', False) or getattr(self, '_pagina_actual', 'inicio') != 'inicio'
+                or (self.isActiveWindow() and not self.isMinimized())):
             despues(5000, lambda: self._prearmar_paginas(pendientes), self)
             return
         clave = pendientes.pop(0)

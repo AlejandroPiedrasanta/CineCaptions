@@ -12,7 +12,7 @@ Python con dependencias: `6_compilacion/venv315/Scripts/python.exe`. Con `QT_QPA
 - **Prefs reales:** `_poner_go_pack`, `_plantilla_elegida`, `poner_estilo_fijo`, `_alternar_*_go` escriben `~/DaVinciSubtitles/preferencias.json` de verdad: parchea `ajustes_ui.leer_prefs/guardar_prefs` en memoria (como `probar_go.py`) o haz copia antes.
 - **GO sin Resolve:** `resolve_mcp.ruta_exe = lambda: None` (con solo `CINECAPTIONS_SIN_MCP` GO se detiene tras transcribir por `_abortar_si_fallo_el_timeline`) y anular `ui.error_con_acciones` (el diálogo modal bloquea el hilo UI). `w.show()` es obligatorio (la animación final de GO dispara la colocación).
 - Este venv no trae las DLL de CUDA para Whisper: cae a CPU.
-- Para fuentes reales NO `offscreen`: ventana en x=-5000 (`test_paridad.py`/`test_creativo.py` necesitan `qt_kit.crear_app()`).
+- Para fuentes reales NO `offscreen`: ventana en x=-5000 (`test_paridad.py`/`test_creativo.py` necesitan `qt_kit.crear_app()`). v5.49: con `offscreen` también salen reales con `QT_QPA_FONTDIR=C:/Windows/Fonts`; y para MEDIR repintados la ventana fuera de la pantalla no vale (Windows no la expone: Qt no pinta nada). Medir la animación de Inicio al tamaño del usuario: 2293×928 con `QT_SCALE_FACTOR=1.5` (tema `go-inicio`).
 
 ## herramientas-dev — Arneses de prueba con Resolve real y de estilos
 

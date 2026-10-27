@@ -180,7 +180,11 @@
         "escena",
         "hud",
         "un",
-        "clic"
+        "clic",
+        "fluido",
+        "trabada",
+        "tirones",
+        "calma"
       ],
       "archivos": [
         "un_clic_ui.py",
@@ -190,7 +194,11 @@
       "simbolos": [
         "TituloGo",
         "_politica",
-        "_precalentar_ondas_sfx"
+        "_precalentar_ondas_sfx",
+        "_calma",
+        "_preparar_cuadro",
+        "_dibujar_cuadro",
+        "_prearmar_paginas"
       ],
       "resumen": "un_clic_ui (panel/botón), escena_go (3D), mograf_ui (HUD)"
     },
@@ -219,33 +227,39 @@
     {
       "id": "estilos-inicio",
       "grupo": "go",
-      "tema": "10 estilos de Inicio (héroe, fondo, partículas, tema)",
+      "tema": "3 estilos de Inicio (Nebulosa, Astrolabio, Proceso)",
       "claves": [
         "estilos",
         "inicio",
-        "heroe",
-        "tema",
-        "acento",
+        "escena",
+        "nebulosa",
+        "astrolabio",
+        "proceso",
+        "constelacion",
+        "tarjetas",
         "aurora",
         "go_estilo"
       ],
       "archivos": [
-        "estilos_inicio.py"
+        "estilos_inicio.py",
+        "escena_go.py"
       ],
       "simbolos": [
         "ESTILOS",
         "Estilo",
-        "heroe",
+        "escena",
         "fondo",
-        "frente",
-        "miniatura",
-        "EscenaGo",
+        "onda",
+        "Nebulosa",
+        "Astrolabio",
+        "Proceso",
+        "dibujar_miniatura",
+        "_EscenaMini",
+        "posiciones_motas",
         "poner_estilo",
-        "BotonGo",
-        "_poner_estilo",
-        "Orbe"
+        "_poner_estilo"
       ],
-      "resumen": "estilos_inicio.ESTILOS; pref go_estilo; Ajustes > Interfaz"
+      "resumen": "estilos_inicio.ESTILOS (nebulosa, astrolabio de fábrica, proceso): el astrolabio + su escena y su proceso de GO; pref go_estilo; Ajustes > Interfaz"
     },
     {
       "id": "instalador-cs",
@@ -275,7 +289,8 @@
         "orbe",
         "astrolabio",
         "mecanica",
-        "capas"
+        "capas",
+        "sprites"
       ],
       "archivos": [
         "orbe_mecanica.py"
@@ -285,7 +300,9 @@
         "dibujar",
         "avanzar",
         "BotonGo",
-        "paintEvent"
+        "paintEvent",
+        "_sprite",
+        "_copiar"
       ],
       "resumen": "orbe_mecanica.OrbeMecanica (lo usa BotonGo.paintEvent)"
     },
@@ -322,13 +339,20 @@
         "fps",
         "ritmo",
         "regulador",
-        "animaciones"
+        "animaciones",
+        "vsync",
+        "vblank",
+        "refresco",
+        "monitor"
       ],
       "archivos": [
         "ritmo_ui.py"
       ],
-      "simbolos": [],
-      "resumen": "ritmo_ui.py"
+      "simbolos": [
+        "RelojPantalla",
+        "_Vblank"
+      ],
+      "resumen": "ritmo_ui.py (regulador del ritmo; RelojPantalla = reloj atado al refresco del monitor)"
     },
     {
       "id": "qt-kit",
