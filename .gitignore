@@ -31,3 +31,6 @@ desktop.ini
 # v5.48: la biblioteca de sonido del autor (antes Desktop\SFX; 8 GB de SFX, música y videos de creadores): vive aquí pero NO va a Git
 # (GitHub no admite > 100 MB por archivo y parte de la música no se puede redistribuir). Desktop\SFX queda como enlace a esta carpeta.
 5_SFX/
+
+# 2026-10-27: icono, renders 4K de Inicio, capturas 4K de cada página y banners juntos para usarlos (videos pesados: NO van a Git)
+MEDIOS/
