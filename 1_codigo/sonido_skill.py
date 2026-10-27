@@ -294,9 +294,11 @@ def densidad_creadores(ruta=None):
 
 
 def max10(estilo):
-    """Tope de SFX por ventana de 10 s: la densidad de los creadores en ese estilo (elegante ~3, dinámico ~7, cinética ~15)."""
+    """Tope de SFX por ventana de 10 s: el MAYOR entre la tabla de ESTILO (elegante 7, dinámico 11, lista 11, cinética 16) y la densidad de
+    los creadores en ese estilo. Los videos de CineCaptions llevan un caption cada ~2 s: con solo la densidad de los creadores (dinámico ~7)
+    no cabían los cortes y el usuario los oyó «muy pocos» (2026-10-27)."""
     d = densidad_creadores().get(estilo) or DENSIDAD_ESTILO.get(estilo)
-    return max(1, int(round(d * 10))) if d else ESTILO[estilo]['max10']
+    return max(ESTILO[estilo]['max10'], int(round(d * 10)) if d else 0)
 
 
 def usos_aprobados(lib):
@@ -388,7 +390,7 @@ def elegir(ev, estilo):
             p = out[-1]
             gap = cfg['gap_pop'] if e['pool'] in ('pop', 'acento') and p['pool'] in ('pop', 'acento') else 0.25
             if e['segundo'] - p['segundo'] < gap:
-                if e['prioridad'] > p['prioridad']:
+                if _peso(e) > _peso(p):
                     out[-1] = e
                 continue
         out.append(e)
@@ -400,10 +402,20 @@ def elegir(ev, estilo):
         for e in out:
             ventana = [x for x in out if e['segundo'] <= x['segundo'] < e['segundo'] + 10]
             if len(ventana) > cfg['max10']:
-                out.remove(min(ventana, key=lambda x: (x['prioridad'], x['fuerza'])))
+                out.remove(min(ventana, key=lambda x: (_peso(x), x['fuerza'])))
                 cambio = True
                 break
     return out
+
+
+RELLENO = ('corte', 'corte_fuerte', 'transicion', 'icono', 'foto', 'tarjeta', 'golpe_ref', 'aparicion')
+
+
+def _peso(e):
+    """Qué gana al chocar o al pasar del tope. En CineCaptions mandan los CAPTIONS y las piezas con su animación; los cortes, íconos y
+    tarjetas son RELLENO y salen primero (el usuario: «no se aplican bien y son muy pocos»: en ESPAÑOL.mov el tope se comía 20 de 33
+    palabras clave para dejar swooshes en los cortes). Entre los de un mismo grupo sigue la prioridad de REGLAS."""
+    return e['prioridad'] + (0 if e['tipo'] in RELLENO else 10)
 
 
 def asignar(out, cat, lib=None):
@@ -452,6 +464,13 @@ def hornear(filas, cat, lib, carpeta, con_voz=True):
         info = cat[f['archivo']]
         dur = recorte(info, f.get('duracion'))
         x = leer_audio(Path(lib) / f['archivo'])[:, :int(dur * SR)]
+        # lo que cae en el cuadro del evento es el PUNTO DE SYNC del catálogo (ataque, pico o fin según el sonido: un riser termina en el
+        # evento), igual que la skill; antes era siempre el pico (hasta 5 cuadros de error en un riser)
+        sync = float(info.get('punto_sync', info['pico']) or 0.0)
+        antes = sync - float(f['segundo'])
+        if antes > 0:                                           # empezaría antes del 0: se recorta el comienzo, el sync sigue en su cuadro
+            x = x[:, int(antes * SR):]
+            sync -= antes
         if not x.shape[1]:
             x = np.zeros((2, int(0.05 * SR)), np.float32)       # nunca saltar: sfx_plan[i] va con filas[i]
         variacion_db = 0.0
@@ -473,9 +492,9 @@ def hornear(filas, cat, lib, carpeta, con_voz=True):
         destino = carpeta / f"sfx_{i:03d}_{f['pool']}.wav"
         _escribir_wav(destino, x)
         tipo = POOL_A_TIPO.get(f['pool'], 'pop')
-        eventos.append({'tipo': 'sonido', 'pista': PISTA.get(tipo, 'AI SFX UI'), 'ini': round(max(0.0, f['segundo'] - info['pico']), 3),
+        eventos.append({'tipo': 'sonido', 'pista': PISTA.get(tipo, 'AI SFX UI'), 'ini': round(max(0.0, f['segundo'] - sync), 3),
                         'dur': round(x.shape[1] / SR, 3), 'archivo': str(destino), 'asset': f"{f['tipo']} · {Path(f['archivo']).stem}"[:80],
-                        'pico': info['pico'], 'ai': {'tipo': tipo, 'ancla': f['segundo'], 'origen': ORIGEN, 'fuente': f['archivo'],
+                        'pico': round(sync, 3), 'ai': {'tipo': tipo, 'ancla': f['segundo'], 'origen': ORIGEN, 'fuente': f['archivo'],
                                                      'por_que': f['por_que']}})
     return eventos
 
@@ -521,6 +540,7 @@ def preparar(ctx, res=None, al_estado=None, prefs=None):
         et = etiquetas_de_go(ctx)
         guia = {'captions': [{'t': e['segundo'], 'texto': e['detalle']} for e in et if e['detalle'].startswith('caption')],
                 'cortes': [e['segundo'] for e in et if e['tipo'] == 'corte'],
+                'bloques': bloques_captions(ctx),
                 'duracion': max([float(p.get('end') or 0) for p in ctx.get('palabras') or []] + [f['segundo'] + 1 for f in filas] + [1.0])}
         estado['sonido_skill'] = {'version': VERSION, 'estilo': estilo, 'biblioteca': str(lib), 'filas': filas, 'con_voz': con_voz,
                                   'guia': guia, 'fecha': time.strftime('%Y-%m-%d %H:%M:%S')}
@@ -553,11 +573,29 @@ def rehacer(video, prefs=None):
     return True, f"{len(res['sfx']['eventos'])} sonidos listos. Pulsa «Aplicar a Resolve»."
 
 
+def bloques_captions(ctx):
+    """Los captions de GO para el carril de la página: [{'ini', 'fin', 'texto', 'clave', 't'}] ('t' = cuando sale la palabra clave)."""
+    import director_sonido_eventos as EV
+    try:
+        caps = EV.captions((ctx or {}).get('bloques') or [], None).get('lista') or []
+    except Exception:
+        return []
+    return [{'ini': round(float(c['ini']), 3), 'fin': round(float(c.get('fin') or c['ini']), 3), 'texto': str(c.get('texto') or '')[:80],
+             'clave': str(c.get('clave') or ''), 't': round(float(next((s['t'] for s in c.get('sonidos') or [] if s.get('t') is not None),
+                                                                       c['ini'])), 3)} for c in caps]
+
+
 def resumen(video):
     """Lo que la página muestra: estilo, biblioteca, filas (con su WAV horneado y pista), guía (captions, cortes) y si está pendiente."""
     import director_sonido_estado as E
     estado = E.cargar(video) if video else {}
     s = estado.get('sonido_skill') or {}
+    if s and not (s.get('guia') or {}).get('bloques'):           # diseño anterior a los carriles de captions: se leen de la foto de GO
+        try:
+            import director_sonido as D
+            s.setdefault('guia', {})['bloques'] = bloques_captions(D.cargar_contexto(video))
+        except Exception:
+            pass
     filas = [dict(f) for f in s.get('filas') or []]
     for f, e in zip(filas, estado.get('sfx_plan') or []):
         f.update({'wav': e.get('archivo'), 'pista': e.get('pista'), 'ini': e.get('ini'), 'dur': e.get('dur')})
