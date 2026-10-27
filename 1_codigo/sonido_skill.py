@@ -73,7 +73,8 @@ POOL_A_TIPO = {'riser': 'riser', 'whoosh': 'whoosh', 'swoosh': 'whoosh', 'flash'
                'shine': 'acento', 'ding': 'acento', 'burbuja': 'pop', 'tarjeta': 'pop', 'boton_on': 'tick', 'boton_off': 'tick', 'mouse': 'tick',
                'notif': 'acento', 'dinero': 'dinero', 'positivo': 'acento', 'error': 'acento', 'impacto': 'golpe', 'carga': 'carga',
                'pagina': 'papel', 'glitch': 'glitch'}
-REGLAS_CC = {'pegatina': ('burbuja', 6)}   # tipos que solo existen en CineCaptions (Tema 1); REGLAS sigue igual a la skill
+REGLAS_CC = {'pegatina': ('burbuja', 6), 'sube': ('swoosh', 6), 'barrido_kit': ('whoosh', 7), 'tarjeta_kit': ('tarjeta', 6),
+             'logo_kit': ('shine', 8)}   # tipos que solo existen en CineCaptions (Tema 1 y su kit neón); REGLAS sigue igual a la skill
 DINERO_RX = r'(\$|€|₹|\b(dinero|precio|gratis|gratuit\w*|money|dollars?|price|free|cost\w*|pesos?|quetzal(es)?|millon\w*|millón)\b)'   # palabras ENTERAS: «Quetzaltenango» no es dinero
 # v5.48 — lo aprendido de 70 videos de creadores (skill, apoyo_decision.py 2026-10-26): densidad por estilo, 4 sonidos por tipo con tope,
 # solo sonidos curados (los extraídos de los creadores suenan pobres en un video nuevo) y lo que el usuario APROBÓ pesa 5×
@@ -85,7 +86,7 @@ VARIANTES_POR_ROL, TOPE_REPETIR = 3, 0.40         # 1 principal + 3 de otras fam
 RESPALDO = {'boton_on': 'mouse', 'boton_off': 'mouse', 'mouse': 'pop', 'kinetic': 'pop', 'shine': 'ding', 'ding': 'shine', 'flash': 'swoosh',
             'carga': 'pop', 'notif': 'ding', 'riser': 'swoosh', 'acento': 'pop', 'tarjeta': 'burbuja'}   # pool de 1 familia → el vecino
 _DENS = {}
-SIEMPRE_SU_SONIDO = ('kinetic',)   # MAPA: «el KINETIC va en TODO caption con aro» (variantes: rotar con él)
+SIEMPRE_SU_SONIDO = ('kinetic', 'boton_on')   # MAPA: «el KINETIC va en TODO caption con aro»; un interruptor suena a interruptor (variantes: rotar)
 
 
 def _prefs():
@@ -262,6 +263,78 @@ def etiquetas_tema1(cues, frases):
     return ev
 
 
+def motions_neon(plan_pro):
+    """Los motions del kit neón del Tema 1: `kitneon_motions` del plan de la PRO o, si solo quedan las piezas ya armadas, sus escenas."""
+    pro = plan_pro if isinstance(plan_pro, dict) else {}
+    if pro.get('kitneon_motions'):
+        return pro['kitneon_motions']
+    out = []
+    for p in pro.get('piezas') or []:
+        if isinstance(p, dict) and p.get('pieza') == 'neon_motion' and not p.get('quitar'):
+            val = p.get('valores') if isinstance(p.get('valores'), dict) else {}
+            esc = (val.get('escena') or [{}])[0] if isinstance(val.get('escena'), list) else {}
+            a = esc.get('a') if isinstance(esc.get('a'), dict) else ({'_args': esc['args']} if esc.get('args') else {})
+            out.append({'fn': esc.get('fn'), 'a': a, 'ini': float(p.get('ini') or 0.0)})
+    return out
+
+
+def etiquetas_neon(motions):
+    """Tema 1 con Edición PRO: los MOTIONS del kit neón (`plan_pro['kitneon_motions']`, kit_neon_motions.escena_motions) con sus tiempos
+    internos. Cada pieza suena siempre igual, calibrado con la línea de tiempo que el usuario APROBÓ para SOLO VOZ (el mismo kit):
+    notificación que baja → NOTIFICACION (+0,18 s, cuando aterriza) · tarjeta que sube / tarjeta de ruta / interruptores → swoosh corto ·
+    barrido → whoosh (0,1 s antes de su centro) · órbita, avatares, chips y etiquetas → burbuja · cada interruptor → ACTIVAR ON · la ruta que
+    se dibuja → CARGA y el último hito → POSITIVO · tarjetas en cascada → UI tarjeta (cada 0,2 s) · checks → ACTIVAR ON y el último POSITIVO ·
+    logo de cierre → SHINE. El avión y el degradado de fondo no suenan (van pegados a otro sonido)."""
+    ev = []
+
+    def poner(t, tipo, que):
+        if t is not None:
+            ev.append({'segundo': round(float(t), 3), 'tipo': tipo, 'detalle': f'motion Tema 1: {que}', 'fuerza': 8})
+
+    for m in motions or []:
+        fn, a, ini = m.get('fn'), m.get('a') or {}, float(m.get('ini') or 0.0)
+        args = a.get('_args') or []
+        if fn == 'notificacion':
+            poner(ini + 0.18, 'notificacion', 'notificación baja')
+        elif fn == 'tarjetaInferior':
+            poner(ini, 'sube', 'tarjeta sube')
+        elif fn == 'barrido' and args:
+            poner(float(args[0]) - 0.1, 'barrido_kit', 'barrido de transición')
+        elif fn == 'orbita':
+            poner(a.get('tin', ini), 'pegatina', 'íconos en órbita')
+        elif fn == 'avataresArco':
+            poner(a.get('t0', ini), 'pegatina', 'avatares')
+        elif fn == 'interruptores':
+            poner(a.get('tin', ini), 'sube', 'tarjeta de opciones')
+            for fila in a.get('filas') or []:
+                poner(float(fila[-1]) + 0.08, 'boton_on', f'interruptor «{fila[0]}» ON')
+            if a.get('tDerecha') is not None:
+                poner(float(a['tDerecha']) + 0.1, 'pegatina', f"chip «{a.get('etiqueta') or ''}»")
+        elif fn == 'lineaIcono':
+            poner(a.get('tin', ini), 'pegatina', f"chip «{a.get('texto') or ''}»")
+        elif fn in ('etiquetas', 'filaEtiqueta'):
+            for it in a.get('items') or []:
+                if isinstance(it, (list, tuple)) and it and isinstance(it[-1], (int, float)):
+                    poner(it[-1], 'pegatina', f"etiqueta «{it[1] if len(it) > 2 else ''}»")
+        elif fn == 'tarjetaRuta':
+            poner(a.get('tin', ini), 'sube', 'tarjeta de ruta')
+            poner(float(a.get('tin', ini)) + 0.3, 'barra_carga', 'la ruta se dibuja')
+            hitos = [float(h[-1]) for h in a.get('hitos') or [] if isinstance(h, (list, tuple)) and h]
+            if hitos:
+                poner(max(hitos) + 0.09, 'positivo', 'ruta completa: el pin')
+        elif fn == 'tarjetasProducto':
+            for k in range(len(a.get('contenidos') or a.get('rects') or [])):
+                poner(float(a.get('tin', ini)) + 0.2 * k, 'tarjeta_kit', f'tarjeta {k + 1} en cascada')
+        elif fn == 'checks':
+            items = [it for it in a.get('items') or [] if isinstance(it, (list, tuple)) and it]
+            for k, it in enumerate(items):
+                ultimo = k == len(items) - 1 and len(items) > 1
+                poner(float(it[-1]) + (0.15 if ultimo else 0.2), 'positivo' if ultimo else 'check', f'check «{str(it[0])[:30]}»')
+        elif fn == 'logoCierre':
+            poner(a.get('t', ini), 'logo_kit', 'logo de cierre (brillo)')
+    return ev
+
+
 def etiquetas_de_go(ctx):
     """Los eventos que GO ya conoce, con su tipo de MAPA_SFX.md: [{'segundo', 'tipo', 'detalle', 'fuerza'}]."""
     import director_sonido_eventos as EV
@@ -306,9 +379,13 @@ def etiquetas_de_go(ctx):
             tipo = 'numero_precio'
         ev.append({'segundo': round(t, 3), 'tipo': tipo, 'detalle': f'caption «{texto}» ({rol})',
                    'fuerza': round(5 + 10 * float(v or 0) + 5 * peso, 2)})
+    neon = motions_neon(ctx.get('plan_pro'))
+    ev += etiquetas_neon(neon)
     mot = EV.motions(ctx.get('plan_efectos'), ctx.get('plan_pro'), dur).get('lista') or []
     fx = {'corte': 'corte', 'icono': 'icono', 'numero': 'grafica', 'pegatina': 'icono', 'enfasis': 'acento', 'broll': 'corte'}
     for m in mot:
+        if m['origen'] == 'kit neón' and neon:
+            continue                                        # ya sonó con sus tiempos internos (etiquetas_neon)
         if m['origen'] == 'Efectos':
             tipo = fx.get(m['pieza'])
             if not tipo:
@@ -538,7 +615,7 @@ def _escribir_wav(destino, x):
 #   nivel   dB sobre el nivel de su categoría   tono  ±% de velocidad   db  ±dB al azar   agudos  corte de agudos (Hz) entre min y max
 #   graves  corte de graves (Hz)                fundido  fundido final (s)
 PULIDO = {
-    'kinetic': {'nivel': -4.0, 'tono': 0.035, 'db': 1.5, 'agudos': (6000, 9500), 'graves': 180, 'fundido': 0.12},
+    'kinetic': {'nivel': -9.0, 'tono': 0.035, 'db': 1.5, 'agudos': (6000, 9500), 'graves': 180, 'fundido': 0.12},
     'pop': {'nivel': -1.5, 'tono': 0.04, 'db': 1.0, 'agudos': (9000, 14000), 'graves': 140, 'fundido': 0.05},
     'acento': {'nivel': -1.0, 'tono': 0.025, 'db': 0.8, 'agudos': (10000, 15000), 'graves': 110, 'fundido': 0.08},
 }
