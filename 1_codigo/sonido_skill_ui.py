@@ -6,6 +6,7 @@ Reemplaza a la página del «AI Sound Director» (ya no se muestra). De arriba a
     cabecera     logo, «Sonido», video · tema · cuántos sonidos, pastilla de estado, «Rehacer» y «Aplicar a Resolve»
     estilos (B)  cinco tarjetas (Automático · Elegante · Dinámico · Lista · Cinética), el aro de tipos (cuántos de cada pista) y los
                  interruptores Gancho al inicio / Fiesta o mar
+    música       (v5.48) 3 opciones de 02_MUSICA de carpetas distintas + «Sin música», ▶ Escuchar, nivel, crédito CC BY y su interruptor
     editor (A)   el cuadro del video en el momento elegido (con su etiqueta) | el inspector: ícono, tipo y segundo, la onda del sonido,
                  POR QUÉ suena ahí y ▶ Escuchar · Otra variante · ◀/▶ un fotograma · Quitar
     línea (A)    tira de fotogramas, onda de la voz y un carril por pista (bloques de color con su ícono y su onda; línea en el PICO), cabezal
@@ -552,6 +553,25 @@ class PaginaSonido(QWidget):
         cf.addWidget(Boton(tr('Cambiar carpeta…'), self._elegir_carpeta, alto=32, tam=12))
         capa.addWidget(fila)
 
+        # ---- música (v5.48): 3 opciones de 02_MUSICA (carpetas distintas), escuchar, sin música, crédito CC BY
+        import sonido_musica as M
+        mu = Tarjeta(espacio=10, margenes=(20, 14, 20, 14))
+        top, ct = caja_h(espacio=12)
+        ct.addWidget(Etiqueta(tr('Música'), 15, peso='medio', color='#FFFFFF'))
+        self._lbl_musica = ui.Elidida('', 12, color=MUT)
+        ct.addWidget(self._lbl_musica, 1)
+        self._var_musica = ui.BooleanVar(M.activa(prefs))
+        ct.addWidget(Interruptor(tr('En los próximos GO'), self._var_musica, lambda: self._pref(M.PREF_MUSICA, bool(self._var_musica.get())),
+                                 tam=13, color='#E0EBFB'))
+        mu.capa.addWidget(top)
+        fila_m, self._capa_musica = caja_h(espacio=10)
+        self._capa_musica.addStretch(1)
+        mu.capa.addWidget(fila_m)
+        self._lbl_credito = Etiqueta('', 12, color=MUT, envolver=True)
+        mu.capa.addWidget(self._lbl_credito)
+        capa.addWidget(mu)
+        self._botones_musica = []
+
         # ---- (A) cuadro del video + inspector
         fila = QWidget()
         cf = QHBoxLayout(fila)
@@ -702,6 +722,7 @@ class PaginaSonido(QWidget):
         self._lbl_lib.setText(tr('Biblioteca: {r}', r=self._res.get('biblioteca') or ''))
         self._lbl_pend.setText(tr('● cambios sin aplicar') if self._res.get('pendiente') and filas else '')
         self._aro.poner(filas)
+        self._pintar_musica(self._res.get('musica') or {})
         self._linea.poner(filas, self._vis, (self._res.get('guia') or {}).get('duracion'))
         self._llenar_momentos(filas)
         avisos = S.revisar(filas) if filas else []
@@ -725,6 +746,59 @@ class PaginaSonido(QWidget):
             m.clic.connect(self._elegir)
             self._tira_capa.insertWidget(self._tira_capa.count() - 1, m)
             self._momentos.append(m)
+
+    def _pintar_musica(self, m):
+        import sonido_musica as M
+        for b in self._botones_musica:
+            b.setParent(None)
+            b.deleteLater()
+        self._botones_musica = []
+        cands, el = m.get('candidatos') or [], m.get('elegida')
+        corto = lambda t: t if len(t) <= 30 else t[:29].rstrip() + '…'   # noqa: E731
+        botones = [Boton(('● ' if i == el else '') + corto(c['titulo']), lambda i=i: self._musica(i), tipo='primario' if i == el else 'secundario',
+                         alto=36, tam=12) for i, c in enumerate(cands)]
+        if cands:
+            botones.append(Boton(('● ' if el is None else '') + tr('Sin música'), lambda: self._musica(None),
+                                 tipo='primario' if el is None else 'secundario', alto=36, tam=12))
+            self._b_oir_musica = Boton(tr('▶ Escuchar'), self._oir_musica, alto=36, tam=12)
+            self._b_oir_musica.setEnabled(el is not None)
+            botones.append(self._b_oir_musica)
+        for b in botones:
+            self._capa_musica.insertWidget(self._capa_musica.count() - 1, b)
+        self._botones_musica = botones
+        c = cands[el] if el is not None and 0 <= el < len(cands) else None
+        if c:
+            self._lbl_musica.setText(f"{M.NOMBRE_CARPETA.get(c['carpeta'], c['carpeta'])} · {c['bpm']:g} BPM · {tr(c.get('nivel') or '')}")
+        elif m.get('apagada'):
+            self._lbl_musica.setText(tr('Apagada: enciéndela y pulsa «Rehacer».'))
+        else:
+            self._lbl_musica.setText(tr('Sin música') if cands else tr('Haz GO o «Rehacer»: aquí eliges entre 3 músicas de tu biblioteca.'))
+        self._lbl_credito.setText(tr('Crédito obligatorio en la descripción: {c}', c=c['credito'].replace('\n', ' · ')) if c and c.get('credito') else '')
+
+    def _musica(self, i):
+        import sonido_musica as M
+        import sonido_skill as S
+        v = self.video()
+
+        def trabajo():
+            ok, msg = M.elegir(v, i)
+            return ok, msg, S.resumen(v)
+
+        def fin(r):
+            ok, msg, res = r
+            self._pintar(res)
+            self._estado(msg)
+        self._trabajar(tr('Cambiando la música…'), trabajo, fin)
+
+    def _oir_musica(self):
+        import director_sonido_sesion as DS
+        m = self._res.get('musica') or {}
+        cands, el = m.get('candidatos') or [], m.get('elegida')
+        if el is not None and 0 <= el < len(cands) and cands[el].get('wav'):
+            try:
+                DS.reproducir(cands[el]['wav'])
+            except Exception as e:
+                self._estado(tr('No pude reproducirlo: {e}', e=e))
 
     def _botones_sel(self, si):
         for b in (self._b_oir, self._b_var, self._b_izq, self._b_der, self._b_quitar):

@@ -360,6 +360,8 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         la pantalla SFX Lab (biblioteca, pad XY, marcadores por color, reemplazar).
     sidecar_lua.py
         escribe <archivo>.lua junto a cada .json (canal de lectura para Resolve Free 21.1).
+    sonido_musica.py
+        MÚSICA de la biblioteca del autor (Desktop\SFX\02_MUSICA) para la página Sonido (v5.48). Mismo criterio que
     sonido_skill.py
         SONIDO con la biblioteca del autor y las reglas de MAPA_SFX.md (reemplaza el diseño de SFX del «AI Sound Director»).
     sonido_skill_ui.py

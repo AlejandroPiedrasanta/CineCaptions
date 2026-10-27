@@ -13,7 +13,10 @@ iguales en los dos. Aquí NO se adivina mirando el video: los eventos salen de l
 API para GO (la misma forma que director_sonido; el resto de la tubería —al_colocar, pistas AI SFX, apagar Simple, confirmar— es la de siempre):
     activo()            preferencia 'sonido_skill' (encendido por defecto)
     preparar(ctx, res)  diseña, hornea cada WAV (recorte + nivel) y deja res['sfx'] = {'eventos': [{'tipo': 'sonido', 'pista', 'ini', 'dur',
-                        'archivo', 'asset', 'pico'}], 'puestos': [...]} y el diseño en el estado del video ('sfx_plan', 'sonido_skill')
+                        'archivo', 'asset', 'pico'}], 'puestos': [...]} y el diseño en el estado del video ('sfx_plan', 'sonido_skill');
+                        v5.48: también la música de 02_MUSICA (sonido_musica: 3 opciones, res['capas'] y 'music_plan' = la elegida)
+Elección (v5.48, lo aprendido de 70 videos de creadores): solo sonidos curados, 1 principal + 3 variantes por tipo con tope del 40 %, nunca la
+misma familia seguida, lo APROBADO por el usuario primero y la densidad de los creadores por estilo (max10).
     rehacer(video, …)   la página Sonido rediseña con la foto guardada de GO (estilo, gancho, fiesta) sin volver a hacer GO
 Biblioteca: preferencia 'sonido_biblioteca' (por defecto Desktop\\SFX del autor si existe; si no, «Mis sonidos» del director). Si la carpeta trae
 catalogo_sfx.json (lo escribe la skill) se usa; si no, se mide aquí con PyAV y se guarda en caché.
@@ -69,6 +72,16 @@ POOL_A_TIPO = {'riser': 'riser', 'whoosh': 'whoosh', 'swoosh': 'whoosh', 'flash'
                'notif': 'acento', 'dinero': 'dinero', 'positivo': 'acento', 'error': 'acento', 'impacto': 'golpe', 'carga': 'carga',
                'pagina': 'papel', 'glitch': 'glitch'}
 DINERO_RX = r'(\$|€|₹|dinero|precio|gratis|gratuit|money|dollar|price|free|cost|pesos|quetzal|millon)'
+# v5.48 — lo aprendido de 70 videos de creadores (skill, apoyo_decision.py 2026-10-26): densidad por estilo, 4 sonidos por tipo con tope,
+# solo sonidos curados (los extraídos de los creadores suenan pobres en un video nuevo) y lo que el usuario APROBÓ pesa 5×
+REFS_CREADORES = Path.home() / '.sonorizar-sfx' / 'datos' / 'refs.json'     # lo escribe la skill (autoentreno.py); sin él, la tabla
+DENSIDAD_ESTILO = {'elegante': 0.6, 'dinamico': 1.0, 'lista': 1.0, 'cinetica': 1.4}   # SFX por segundo si no hay datos de creadores
+MIN_REFS_ESTILO = 5
+APROBADOS = '_datos_catalogo/aprobados.json'      # {"csv": [líneas de tiempo que el usuario aprobó]} en la biblioteca
+VARIANTES_POR_ROL, TOPE_REPETIR = 3, 0.40         # 1 principal + 3 de otras familias; ningún archivo en más del 40 % de su tipo
+RESPALDO = {'boton_on': 'mouse', 'boton_off': 'mouse', 'mouse': 'pop', 'kinetic': 'pop', 'shine': 'ding', 'ding': 'shine', 'flash': 'swoosh',
+            'carga': 'pop', 'notif': 'ding', 'riser': 'swoosh', 'acento': 'pop', 'tarjeta': 'burbuja'}   # pool de 1 familia → el vecino
+_DENS = {}
 
 
 def _prefs():
@@ -256,8 +269,107 @@ def intro_con_sonido(ctx):
 
 
 # ---------------------------------------------------------------------------------------------------- el motor (igual a la skill)
+def curado(rel, info=None):
+    """¿Sirve para un video nuevo? Nunca los extraídos de los videos de creadores ni los crudos de ejercicio."""
+    return '17_EXTRAIDOS_REFERENCIAS' not in rel and '_DE_REFERENCIAS' not in rel and not (info or {}).get('solo_ejercicio')
+
+
+def densidad_creadores(ruta=None):
+    """{estilo: mediana de SFX/s} de los videos de creadores (estilos con ≥ 5 videos) — igual que la skill. {} si no hay datos."""
+    ruta = Path(ruta or REFS_CREADORES)
+    if str(ruta) not in _DENS:
+        try:
+            d = json.loads(ruta.read_text(encoding='utf-8'))
+            refs = [r for r in (d.values() if isinstance(d, dict) else d) if isinstance(r, dict) and r.get('densidad') is not None]
+        except Exception:
+            refs = []
+        por = {}
+        for r in refs:
+            por.setdefault(r.get('estilo'), []).append(float(r['densidad']))
+        _DENS[str(ruta)] = {e: round(float(np.median(v)), 3) for e, v in por.items() if e and len(v) >= MIN_REFS_ESTILO}
+    return _DENS[str(ruta)]
+
+
+def max10(estilo):
+    """Tope de SFX por ventana de 10 s: la densidad de los creadores en ese estilo (elegante ~3, dinámico ~7, cinética ~15)."""
+    d = densidad_creadores().get(estilo) or DENSIDAD_ESTILO.get(estilo)
+    return max(1, int(round(d * 10))) if d else ESTILO[estilo]['max10']
+
+
+def usos_aprobados(lib):
+    """{archivo: peso}: cada fila de un CSV aprobado por el usuario suma 5 y cada réplica de creador (EJERCICIO) 1."""
+    import csv
+    from collections import Counter
+    lib = Path(lib)
+    c = Counter()
+    try:
+        aprob = json.loads((lib / APROBADOS).read_text(encoding='utf-8')).get('csv') or []
+    except Exception:
+        aprob = []
+    fuentes = [(p, 1) for p in (lib / '00_REFERENCIAS_CREADORES').glob('*/*/EJERCICIO - linea de tiempo.csv')] + [(Path(p), 5) for p in aprob]
+    for p, peso in fuentes:
+        try:
+            with open(p, encoding='utf-8-sig', newline='') as fh:
+                for r in csv.reader(fh):
+                    if r and r[0][:1].isdigit() and len(r) > 1:
+                        c[r[1].replace('\\', '/')] += peso
+        except Exception:
+            continue
+    return c
+
+
+def pools_de(cat, lib=None):
+    """{pool: [archivos curados]} en orden de preferencia: lo que el usuario aprobó y los creadores usan primero, luego por nombre."""
+    usos = usos_aprobados(lib or biblioteca())
+    return {k: sorted((r for r in cat if re.search(rx, r) and curado(r, cat[r])), key=lambda r: (-usos.get(r, 0), r)) for k, rx in POOLS.items()}
+
+
+class Elector:
+    """Igual que la skill: por pool un sonido principal + VARIANTES_POR_ROL de otras familias; nunca la misma familia dos veces seguidas y
+    ningún archivo en más del TOPE_REPETIR de los golpes de su pool (en los creadores el más usado cubre 43-57 % y hay 3-4 por tipo)."""
+
+    def __init__(self, pools, familias=None, variantes=VARIANTES_POR_ROL, tope=TOPE_REPETIR):
+        from collections import Counter
+        self.pools, self.familias, self.variantes, self.tope = pools, familias or {}, variantes, tope
+        self.fijos, self.ultimo = {}, None
+        self.usos, self.por_pool = Counter(), Counter()
+
+    def fam(self, r):
+        return self.familias.get(r) or r
+
+    def lista(self, pool):
+        if pool not in self.fijos:
+            vistos, fams = [], set()
+            for r in self.pools.get(pool) or []:
+                if self.fam(r) not in fams:
+                    vistos.append(r)
+                    fams.add(self.fam(r))
+            self.fijos[pool] = vistos[:1 + self.variantes]
+        return self.fijos[pool]
+
+    def elegir(self, pool):
+        lista = self.lista(pool)
+        if not lista:
+            return None
+        ult = self.fam(self.ultimo) if self.ultimo else None
+        cand = [r for r in lista if self.fam(r) != ult] or [r for r in self.pools.get(pool) or [] if self.fam(r) != ult]
+        if not cand and RESPALDO.get(pool):
+            cand = [r for r in self.lista(RESPALDO[pool]) if self.fam(r) != ult]
+        if not cand:
+            cand = [r for r in lista[1:] + list(self.pools.get(pool) or []) if r != self.ultimo] or lista[:1]
+        tope = max(1.0, self.tope * (self.por_pool[pool] + 1))
+        dentro = [r for r in cand if self.usos[r] + 1 <= tope]
+        if not dentro and RESPALDO.get(pool):
+            dentro = [r for r in self.lista(RESPALDO[pool]) if self.fam(r) != ult and self.usos[r] + 1 <= tope]
+        arch = dentro[0] if dentro else min(cand, key=lambda r: (self.usos[r], cand.index(r)))
+        self.usos[arch] += 1
+        self.por_pool[pool] += 1
+        self.ultimo = arch
+        return arch
+
+
 def elegir(ev, estilo):
-    cfg = ESTILO[estilo]
+    cfg = dict(ESTILO[estilo], max10=max10(estilo))
     ev = [dict(e) for e in ev if cfg['chicos'] or e['tipo'] != 'texto_chico']
     textos = [e for e in ev if e['tipo'] == 'texto_grande']
     ult = -10
@@ -291,22 +403,18 @@ def elegir(ev, estilo):
     return out
 
 
-def asignar(out, cat):
-    pools = {k: sorted(r for r in cat if re.search(rx, r)) for k, rx in POOLS.items()}
-    idx, ultimo, filas = {}, None, []
+def asignar(out, cat, lib=None):
+    pools = pools_de(cat, lib)
+    el = Elector(pools, {r: i.get('familia') for r, i in cat.items() if isinstance(i, dict) and i.get('familia')})
+    filas = []
     for e in out:
-        lista = pools.get(e['pool']) or pools['pop']
-        if not lista:
+        archivo = el.elegir(e['pool'] if pools.get(e['pool']) else 'pop')
+        if not archivo:
             continue
-        i = idx.get(e['pool'], 0)
-        archivo = lista[i % len(lista)]
-        if archivo == ultimo and len(lista) > 1:
-            i += 1
-            archivo = lista[i % len(lista)]
-        idx[e['pool']], ultimo = i + 1, archivo
         filas.append({'segundo': e['segundo'], 'archivo': archivo, 'tipo': e['tipo'], 'pool': e['pool'], 'por_que': e['detalle']})
-        if e['pool'] == 'impacto' and pools['shine']:
-            filas.append({'segundo': round(e['segundo'] + 0.55, 3), 'archivo': pools['shine'][0], 'tipo': 'barrido_luz', 'pool': 'shine',
+        ts = round(e['segundo'] + 0.55, 3)
+        if e['pool'] == 'impacto' and pools['shine'] and all(abs(x['segundo'] - ts) >= 0.25 for x in out):   # nunca dos SFX a < 0,25 s
+            filas.append({'segundo': ts, 'archivo': el.elegir('shine'), 'tipo': 'barrido_luz', 'pool': 'shine',
                           'por_que': 'brillo después del impacto (logo)'})
     return filas
 
@@ -381,7 +489,7 @@ def disenar(ctx, prefs=None):
     if prefs.get(PREF_GANCHO, True) and not intro_con_sonido(ctx):
         ev.append({'segundo': round(min([e['segundo'] for e in ev if e['segundo'] < 1.0] or [0.3]), 3), 'tipo': 'gancho',
                    'detalle': 'gancho del inicio', 'fuerza': 99})
-    filas = asignar(elegir(ev, estilo), cat)
+    filas = asignar(elegir(ev, estilo), cat, lib)
     return estilo, filas, cat, lib
 
 
@@ -400,8 +508,13 @@ def preparar(ctx, res=None, al_estado=None, prefs=None):
         res['sfx'] = {'eventos': eventos, 'puestos': [{'tipo': f['tipo'], 'segundo': f['segundo'], 'archivo': f['archivo'],
                                                        'por_que': f['por_que'], 'fuente': 'biblioteca'} for f in filas],
                       'segundos': round(time.time() - t0, 2)}
+        import sonido_musica as M                                   # v5.48: la música de 02_MUSICA (3 opciones; la 1.ª elegida)
+        musica = M.preparar(ctx, filas, lib, E.carpeta_de(video) / 'musica_biblioteca', prefs)
+        plan_musica = M.plan(musica)
+        if plan_musica:
+            res['capas'] = {'musica': {'plan': plan_musica}}
         estado = E.cargar(video)
-        estado['sfx_plan'] = eventos
+        estado['sfx_plan'], estado['sonido_musica'], estado['music_plan'] = eventos, musica, plan_musica
         et = etiquetas_de_go(ctx)
         guia = {'captions': [{'t': e['segundo'], 'texto': e['detalle']} for e in et if e['detalle'].startswith('caption')],
                 'cortes': [e['segundo'] for e in et if e['tipo'] == 'corte'],
@@ -409,7 +522,8 @@ def preparar(ctx, res=None, al_estado=None, prefs=None):
         estado['sonido_skill'] = {'version': VERSION, 'estilo': estilo, 'biblioteca': str(lib), 'filas': filas, 'con_voz': con_voz,
                                   'guia': guia, 'fecha': time.strftime('%Y-%m-%d %H:%M:%S')}
         E.guardar(video, estado)
-        log(f'{len(eventos)} sonidos de la biblioteca · estilo {NOMBRE_ESTILO.get(estilo, estilo)} · {res["sfx"]["segundos"]} s')
+        log(f'{len(eventos)} sonidos de la biblioteca · estilo {NOMBRE_ESTILO.get(estilo, estilo)} · '
+            + (f"música «{musica['candidatos'][0]['titulo']}»" if plan_musica else 'sin música') + f' · {round(time.time() - t0, 2)} s')
     except Exception:
         try:
             import registro
@@ -446,7 +560,8 @@ def resumen(video):
         f.update({'wav': e.get('archivo'), 'pista': e.get('pista'), 'ini': e.get('ini'), 'dur': e.get('dur')})
     return {'video': video, 'estilo': s.get('estilo'), 'biblioteca': s.get('biblioteca') or str(biblioteca()), 'filas': filas,
             'guia': s.get('guia') or {}, 'fecha': s.get('fecha'), 'pendiente': bool(estado.get('pendiente_resolve')),
-            'en_resolve': estado.get('en_resolve'), 'con_go': bool((estado.get('ultimo_go') or {}).get('con_director'))}
+            'en_resolve': estado.get('en_resolve'), 'con_go': bool((estado.get('ultimo_go') or {}).get('con_director')),
+            'musica': estado.get('sonido_musica') or {}}
 
 
 def _envolvente(x, n):
@@ -529,7 +644,7 @@ def editar(video, i, accion, valor=None):
         filas.pop(i)
         texto = f"Quitado: {Path(f['archivo']).stem}"
     elif accion == 'variante':
-        lista = sorted(r for r in cat if re.search(POOLS.get(f['pool'], '$^'), r)) or [f['archivo']]
+        lista = pools_de(cat, lib).get(f['pool']) or [f['archivo']]
         f['archivo'] = lista[(lista.index(f['archivo']) + 1) % len(lista)] if f['archivo'] in lista else lista[0]
         filas[i] = f
         texto = f"Ahora suena: {Path(f['archivo']).stem}"
@@ -554,7 +669,7 @@ def revisar(filas, cat=None):
         cat = cat if cat is not None else catalogo()
     except Exception:
         cat = {}
-    variantes = {k: sum(1 for r in cat if re.search(rx, r)) for k, rx in POOLS.items()}
+    variantes = {k: sum(1 for r in cat if re.search(rx, r) and curado(r, cat[r])) for k, rx in POOLS.items()}
     avisos, faltan = [], set()
     for a, b in zip(filas, filas[1:]):
         if a['archivo'] == b['archivo']:

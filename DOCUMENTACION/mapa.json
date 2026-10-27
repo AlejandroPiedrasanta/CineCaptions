@@ -4116,11 +4116,20 @@
         "pico",
         "hornear",
         "desktop sfx",
-        "reemplaza director"
+        "reemplaza director",
+        "creadores",
+        "densidad",
+        "aprobados",
+        "curados",
+        "variantes",
+        "musica biblioteca",
+        "02_musica",
+        "credito cc by"
       ],
       "archivos": [
         "sonido_skill.py",
         "sonido_skill_ui.py",
+        "sonido_musica.py",
         "director_sonido.py",
         "director_sonido_eventos.py",
         "director_sonido_sesion.py",
@@ -4140,7 +4149,18 @@
         "revisar",
         "PaginaSonido",
         "_director_sonido_arrancar",
-        "_asegurar_sfx"
+        "_asegurar_sfx",
+        "Elector",
+        "curado",
+        "densidad_creadores",
+        "max10",
+        "usos_aprobados",
+        "pools_de",
+        "candidatos",
+        "carpetas_para",
+        "puntuar",
+        "credito",
+        "_pintar_musica"
       ]
     },
     {
