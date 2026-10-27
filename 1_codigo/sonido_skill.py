@@ -542,7 +542,9 @@ class Elector:
 def elegir(ev, estilo):
     cfg = dict(ESTILO[estilo], max10=max10(estilo))
     ev = [dict(e) for e in ev if cfg['chicos'] or e['tipo'] != 'texto_chico']
-    textos = [e for e in ev if e['tipo'] == 'texto_grande']
+    # Tema 1: el héroe suena SIEMPRE con su pop al entrar; el acento (sube 0,34 s ANTES de la palabra) sonaba sobre las letras chicas que
+    # la preceden (el usuario, 50–54 s de ESPAÑOL: «hay sonido que no va» = ACENTO en «PERDER» desde 53,50 s)
+    textos = [e for e in ev if e['tipo'] == 'texto_grande' and not str(e.get('detalle') or '').startswith('Tema 1')]
     ult = -10
     for w in range(0, int(max([e['segundo'] for e in ev] or [0])) + 4, 4):
         grupo = [e for e in textos if w <= e['segundo'] < w + 4]
