@@ -205,7 +205,7 @@ def _tipo_pieza(nombre):
     return 'tarjeta'
 
 
-HEROE_GOLPE = 10 / 30 * 0.37      # Tema 1: el héroe entra con rebote de 10 cuadros y llega a su tamaño en p≈0,37: ahí va el golpe
+HEROE_GOLPE = 0.0                 # Tema 1: el pop del héroe va en el PRIMER cuadro de su entrada (antes en p≈0,37 del rebote: +0,12 s, «llega tarde»)
 GANCHO_MIN = 0.45                 # lo que necesita un riser para subir antes del primer momento
 CORTE_MIN = 0.3                   # un «corte» antes de esto es el comienzo del video, no un corte
 
@@ -238,7 +238,7 @@ def glob_escape(texto):
 def etiquetas_tema1(cues, frases):
     """Tema 1: el tema no cambia, así que cada bloque suena siempre igual según lo que anima, con las reglas de la biblioteca
     (03_CAPTIONS_TAP_TECLEO/TEMA_1/00_REGLAS_DE_USO.txt y MAPA_SFX.md): UN sonido por bloque — si se dibuja un ARO o SUBRAYADO, el KINETIC
-    (va en TODO caption con aro; empieza cuando el aro empieza a dibujarse); si no, el golpe del HÉROE en su rebote; si solo hay PEGATINA, su
+    (va en TODO caption con aro; empieza cuando el aro empieza a dibujarse); si no, el pop del HÉROE en el primer cuadro de su entrada; si solo hay PEGATINA, su
     pop. Las líneas chicas (label, serif) y la palabra a mano (script) no suenan. El dinero solo si la palabra es de dinero de verdad."""
     import director_sonido_eventos as EV
     ev = []
@@ -281,8 +281,8 @@ def motions_neon(plan_pro):
 def etiquetas_neon(motions):
     """Tema 1 con Edición PRO: los MOTIONS del kit neón (`plan_pro['kitneon_motions']`, kit_neon_motions.escena_motions) con sus tiempos
     internos. Cada pieza suena siempre igual, calibrado con la línea de tiempo que el usuario APROBÓ para SOLO VOZ (el mismo kit):
-    notificación que baja → NOTIFICACION (+0,18 s, cuando aterriza) · tarjeta que sube / tarjeta de ruta / interruptores → swoosh corto ·
-    barrido → whoosh (0,1 s antes de su centro) · órbita, avatares, chips y etiquetas → burbuja · cada interruptor → ACTIVAR ON · la ruta que
+    notificación que baja → NOTIFICACION · tarjeta que sube / tarjeta de ruta / interruptores → swoosh corto ·
+    barrido → whoosh (0,1 s antes de su centro) · órbita, avatares, chips y etiquetas → burbuja · cada interruptor → ACTIVAR ON · (todo en el PRIMER cuadro de su animación) la ruta que
     se dibuja → CARGA y el último hito → POSITIVO · tarjetas en cascada → UI tarjeta (cada 0,2 s) · checks → ACTIVAR ON y el último POSITIVO ·
     logo de cierre → SHINE. El avión y el degradado de fondo no suenan (van pegados a otro sonido)."""
     ev = []
@@ -295,7 +295,7 @@ def etiquetas_neon(motions):
         fn, a, ini = m.get('fn'), m.get('a') or {}, float(m.get('ini') or 0.0)
         args = a.get('_args') or []
         if fn == 'notificacion':
-            poner(ini + 0.18, 'notificacion', 'notificación baja')
+            poner(ini, 'notificacion', 'notificación baja')
         elif fn == 'tarjetaInferior':
             poner(ini, 'sube', 'tarjeta sube')
         elif fn == 'barrido' and args:
@@ -307,9 +307,9 @@ def etiquetas_neon(motions):
         elif fn == 'interruptores':
             poner(a.get('tin', ini), 'sube', 'tarjeta de opciones')
             for fila in a.get('filas') or []:
-                poner(float(fila[-1]) + 0.08, 'boton_on', f'interruptor «{fila[0]}» ON')
+                poner(float(fila[-1]), 'boton_on', f'interruptor «{fila[0]}» ON')
             if a.get('tDerecha') is not None:
-                poner(float(a['tDerecha']) + 0.1, 'pegatina', f"chip «{a.get('etiqueta') or ''}»")
+                poner(float(a['tDerecha']), 'pegatina', f"chip «{a.get('etiqueta') or ''}»")
         elif fn == 'lineaIcono':
             poner(a.get('tin', ini), 'pegatina', f"chip «{a.get('texto') or ''}»")
         elif fn in ('etiquetas', 'filaEtiqueta'):
@@ -321,7 +321,7 @@ def etiquetas_neon(motions):
             poner(float(a.get('tin', ini)) + 0.3, 'barra_carga', 'la ruta se dibuja')
             hitos = [float(h[-1]) for h in a.get('hitos') or [] if isinstance(h, (list, tuple)) and h]
             if hitos:
-                poner(max(hitos) + 0.09, 'positivo', 'ruta completa: el pin')
+                poner(max(hitos), 'positivo', 'ruta completa: el pin')
         elif fn == 'tarjetasProducto':
             for k in range(len(a.get('contenidos') or a.get('rects') or [])):
                 poner(float(a.get('tin', ini)) + 0.2 * k, 'tarjeta_kit', f'tarjeta {k + 1} en cascada')
@@ -329,7 +329,7 @@ def etiquetas_neon(motions):
             items = [it for it in a.get('items') or [] if isinstance(it, (list, tuple)) and it]
             for k, it in enumerate(items):
                 ultimo = k == len(items) - 1 and len(items) > 1
-                poner(float(it[-1]) + (0.15 if ultimo else 0.2), 'positivo' if ultimo else 'check', f'check «{str(it[0])[:30]}»')
+                poner(float(it[-1]), 'positivo' if ultimo else 'check', f'check «{str(it[0])[:30]}»')
         elif fn == 'logoCierre':
             poner(a.get('t', ini), 'logo_kit', 'logo de cierre (brillo)')
     return ev
@@ -647,6 +647,26 @@ def pulir(x, p, semilla):
     return x, p['nivel'] + float(rng.uniform(-p['db'], p['db']))
 
 
+SYNC_CATALOGO = ('whoosh', 'swoosh', 'riser', 'acento', 'impacto', 'flash')   # suben hacia el momento: su pico/fin cae en el cuadro
+ARRANCAN_CON_LA_ANIMACION = ('sube',)   # tarjeta que sube: el swoosh acompaña el movimiento desde su primer cuadro (no se adelanta como al corte)
+UMBRAL_INICIO = 0.03          # primer instante que se oye: 3 % del pico (−30 dB)
+
+
+def sin_silencio_inicial(x):
+    """(audio sin el silencio del comienzo, segundos quitados). Deja 2 ms antes del primer sonido y un fundido de entrada de 2 ms (sin clic)."""
+    m = np.abs(x).max(axis=0)
+    pk = float(m.max()) if m.size else 0.0
+    if pk <= 0:
+        return x, 0.0
+    k = max(0, int(np.argmax(m > pk * UMBRAL_INICIO)) - int(0.002 * SR))
+    if not k:
+        return x, 0.0
+    y = x[:, k:].copy()
+    n = min(int(0.002 * SR), y.shape[1])
+    y[:, :n] *= np.linspace(0.0, 1.0, n, dtype=np.float32)
+    return y, k / SR
+
+
 def hornear(filas, cat, lib, carpeta, con_voz=True):
     """Cada SFX recortado, con fundido y su nivel dentro del archivo (Resolve ignora el volumen de clip por script)."""
     carpeta = Path(carpeta)
@@ -659,8 +679,11 @@ def hornear(filas, cat, lib, carpeta, con_voz=True):
         # lo que cae en el cuadro del evento es el PUNTO DE SYNC del catálogo (ataque, pico o fin según el sonido: un riser termina en el
         # evento), igual que la skill; antes era siempre el pico (hasta 5 cuadros de error en un riser)
         sync = float(info.get('punto_sync', info['pico']) or 0.0)
-        if f['pool'] == 'kinetic':                              # MAPA: el KINETIC EMPIEZA cuando el aro empieza a dibujarse (su golpe cae al cerrarse)
-            sync = float(info.get('ataque') or 0.0)
+        x, inicio = sin_silencio_inicial(x)                     # fuera los milisegundos vacíos del archivo: el clip empieza sonando
+        # lo que APARECE (pop, aro, burbuja, notificación, interruptor, check, tarjeta…) suena desde el primer cuadro de su animación: va el
+        # PRIMER sonido audible, no su pico (el usuario: «el video pasa y el sonido después… que empiece justo en la animación»). Los que
+        # suben HACIA el momento (whoosh al corte, riser, acento, impacto) siguen con el punto de sync del catálogo.
+        sync = max(0.0, sync - inicio) if f['pool'] in SYNC_CATALOGO and f['tipo'] not in ARRANCAN_CON_LA_ANIMACION else 0.0
         antes = sync - float(f['segundo'])
         if antes > 0:                                           # empezaría antes del 0: se recorta el comienzo, el sync sigue en su cuadro
             x = x[:, int(antes * SR):]
