@@ -1127,7 +1127,10 @@
         "slide",
         "macro",
         "pack",
-        "revision_bin"
+        "revision_bin",
+        "halftone",
+        "trama",
+        "subrayado"
       ],
       "archivos": [
         "2_recursos/generador_packs/luxe_macro.py",
@@ -1139,7 +1142,10 @@
       ],
       "simbolos": [
         "comp_luxe",
-        "REVISION_BIN"
+        "REVISION_BIN",
+        "_trama",
+        "retocar_comp",
+        "BARRA_AL_RAS"
       ],
       "resumen": "generador_packs/luxe_macro.py; subir plantillas.REVISION_BIN al cambiar un pack"
     },
