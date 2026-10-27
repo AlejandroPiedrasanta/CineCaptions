@@ -82,6 +82,8 @@ pisaban la línea de al lado en el render real: llevan `AIRE_EDITORIAL` (0,012 d
 
 **Pulido de cortes** (pedido: «pule más los captions»): `_corte` elige dónde partir una línea larga: nunca tras «de/la/y…», repartiendo el TIEMPO en pantalla entre los dos trozos (pausa como desempate) → «La Unión Europea» | «trae a / Quetzaltenango». La línea 3 nunca acaba en palabra vacía: esas pasan al bloque siguiente con su palabra («y del / Salvador»), salvo por encima de un fin de frase (pausa ≥ `pausa_frase` o «.?!»). Un bloque sin grande de 5-8 palabras va en dos líneas del MISMO bloque (`_lineas_pequenas`), no en dos bloques fugaces. `respiro` 0,4 → 0,55. Tachado (7): `amro_ext` 30/36 → 32/50 (la línea de debajo quedaba pegada).
 
+**Menos rápido** (pedido: «se ve muy rápido»): `_juntar_cortos` (tras `_reglas_lineas`) junta un bloque de menos de `bloque_min` (1,2 s) con su vecino de la misma frase como una línea más, si se cumplen las reglas (una grande por bloque, ≤3 líneas, ≤4 palabras/línea, línea 3 de ≥2 sin palabra vacía al final, ≤ `complejo_s` + 0,6 s): «Se pasaron / me hicieron el día». En REFERENCIA la mediana pasó de 0,94 a 1,42 s por bloque. Las grandes sueltas («EMPEZAMOS») siguen solas: dos grandes no van juntas.
+
 **Medido contra REFERENCIA.mp4** (`ref_exacta.guion.json`): la palabra entra ~0,08 s DESPUÉS de la voz (`adelanto` 0), entre bloques queda un hueco de 0,15-0,25 s (`gap_minimo` 0,15), la última palabra se ve ≥0,35 s (`respiro` 0,4) y las grandes van a zoom 0,9-1,3 (`zoom_max` 1,3; antes las cortas se inflaban hasta 2,5).
 
 **Ojo al probar:** el script de Resolve solo buscaba 16 sets (`MAX_SETS`/`MAX_VARIANTES` en el .py y el .lua): la variante 17 caía en silencio al estilo 1. Ahora 20.

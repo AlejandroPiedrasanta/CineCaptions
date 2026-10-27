@@ -52,7 +52,7 @@ AIRE_EDITORIAL = 0.012
 # v5.48 (el usuario: «muy rápido y no están fluidos»; medido contra REFERENCIA.mp4 / ref_exacta): cada palabra entra cuando se dice (la referencia
 # va ~0,08 s DETRÁS de la voz), la última de cada bloque se ve al menos 'respiro' s (el siguiente espera hasta 'espera_max' s; ver _respiro) y entre
 # bloque y bloque queda un instante vacío ('gap_minimo'; en la referencia 0,15-0,25 s). Las grandes no pasan de 'zoom_max' (la referencia: 0,9-1,3).
-AFINADO = {'adelanto': 0.0, 'respiro': 0.55, 'espera_max': 0.35, 'zoom_max': 1.3, 'cortos_entre': 2, 'complejo_max': 4, 'complejo_s': 3.2, 'max_linea': 4, 'zoom_max_cifra': 1.7,
+AFINADO = {'adelanto': 0.0, 'respiro': 0.55, 'espera_max': 0.35, 'zoom_max': 1.3, 'cortos_entre': 2, 'complejo_max': 4, 'complejo_s': 3.2, 'max_linea': 4, 'zoom_max_cifra': 1.7, 'bloque_min': 1.2,
            # v5.48 (pedido: «más junto en general y el principal un poco más grande»): la grande = 1,1 × el ancho de su línea pequeña (y ≥1,1 × su
            # tamaño natural); alturas estimadas más ceñidas a la tinta ('k_alto' 1,45 -> 1,3; 'alto_linea' 0,036 -> 0,031)
            'grande_linea': 1.1, 'grande_min': 1.1, 'k_alto': 1.35, 'k_alto_sans': 1.7, 'hold': 0.22, 'min_bloque': 0.7, 'gap_minimo': 0.15, 'puntaje_min': 8.0, 'puntaje_2': 9.0, 'dist_mains': 4,
@@ -380,6 +380,58 @@ def _reglas_lineas(plan, pal, A=AFINADO):
     return [b for b in salida if b['palabras']]
 
 
+def _juntar_cortos(plan, pal, A=AFINADO):
+    """v5.48 (pedido: «se ve muy rápido»): un bloque que se vería menos de A['bloque_min'] s se junta con su vecino de la misma frase, como una
+    línea más, si las reglas lo permiten (una sola grande por bloque, ≤3 líneas, ≤4 palabras por línea, la línea de debajo de la grande con ≥2
+    palabras y sin acabar en «de/la/y…»): «Se pasaron» + «me hicieron el día» -> un bloque de dos líneas."""
+    MAX = A['max_linea']
+
+    def partes(b):
+        if not b['mains']:
+            return b['palabras'], [], []
+        m0 = min(b['mains'])
+        fin = max(k for g in b['mains'] for k in b['grupos'].get(g, [g]))
+        return [k for k in b['palabras'] if k < m0], [k for k in b['palabras'] if m0 <= k <= fin], [k for k in b['palabras'] if k > fin]
+
+    def lineas(b):
+        antes, medio, despues = partes(b)
+        if not b['mains']:
+            return 1 if len(antes) <= MAX else 2
+        return (len(antes) + MAX - 1) // MAX + 1 + (1 if despues else 0)
+
+    def dura(b):
+        return pal[b['palabras'][-1]]['fin'] - pal[b['palabras'][0]]['t'] + A['respiro']
+
+    def seguidos(a, b):
+        ult = pal[a['palabras'][-1]]
+        return pal[b['palabras'][0]]['t'] - ult['fin'] < A['pausa_frase'] and not (ult['signo'] and ult['signo'] in _FUERTE)
+
+    def juntar(a, b):
+        ks = a['palabras'] + b['palabras']
+        return dict(b if b['mains'] else a, palabras=ks, mains=a['mains'] + b['mains'], orig=sorted(o for k in ks for o in pal[k]['orig']))
+
+    i = 0
+    while i + 1 < len(plan):
+        a, b = plan[i], plan[i + 1]
+        corto = min(dura(a), dura(b)) < A['bloque_min']
+        if not corto or not seguidos(a, b) or (a['mains'] and b['mains']) or dura(juntar(a, b)) > A['complejo_s'] + 0.6:
+            i += 1
+            continue
+        nuevo = juntar(a, b)
+        antes, medio, despues = partes(nuevo)
+        ok = lineas(nuevo) <= 3 and (not nuevo['mains'] or len(antes) <= 2 * MAX)
+        if nuevo['mains'] and despues:
+            ok = ok and len(despues) >= 2 and len(despues) <= MAX and not _debil(pal, despues[-1])
+        if not nuevo['mains']:
+            ok = ok and len(antes) <= 2 * MAX
+        if ok:
+            plan[i:i + 2] = [nuevo]
+            i = max(0, i - 1)                           # (el bloque nuevo puede juntarse otra vez con el de antes)
+        else:
+            i += 1
+    return plan
+
+
 def _lineas_pequenas(pal, segs, A=AFINADO):
     """Una línea pequeña de más de A['max_linea'] palabras (bloque sin grande) se parte en dos líneas por un sitio natural."""
     salida = []
@@ -648,6 +700,7 @@ def planificar(palabras, idioma='es', pack='Referencia', ancho_tl=1080, ancla='m
     if A.get('complejos', True) and not forzados:
         plan = _complejos(plan, pal, A)
     plan = _reglas_lineas(plan, pal, A)
+    plan = _juntar_cortos(plan, pal, A)
     # ORACIONES: un bloque abre oración nueva si lo anterior acabó en signo fuerte o con una pausa (los signos a veces se pierden por el camino)
     oraciones, o = [], -1
     for n, b in enumerate(plan):
