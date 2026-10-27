@@ -394,7 +394,8 @@ def usos_aprobados(lib):
 def pools_de(cat, lib=None):
     """{pool: [archivos curados]} en orden de preferencia: lo que el usuario aprobó y los creadores usan primero, luego por nombre."""
     usos = usos_aprobados(lib or biblioteca())
-    return {k: sorted((r for r in cat if re.search(rx, r) and curado(r, cat[r])), key=lambda r: (-usos.get(r, 0), r)) for k, rx in POOLS.items()}
+    return {k: sorted((r for r in cat if re.search(rx, r) and curado(r, cat[r]) and not (k == 'pop' and any(m in r for m in POP_FUERA))),
+                      key=lambda r: (-usos.get(r, 0), r)) for k, rx in POOLS.items()}
 
 
 class Elector:
@@ -530,6 +531,45 @@ def _escribir_wav(destino, x):
         w.writeframes((y * 32767).astype('<i2').tobytes())
 
 
+# Pulido de los sonidos que más se repiten en un video de captions (2026-10-27, el usuario: «los aros… bájale el sonido y hazlo variado para
+# que no se repita siempre exactamente; en el texto principal, tap o pop, mejóralo»). Medido: el KINETIC es casi todo siseo (timbre ~10 kHz)
+# y sonaba al nivel de la voz; los pops buenos son cortos y medios (900–1300 Hz). Cada sonido sale con su propio tono, nivel y brillo
+# (azar fijo por sonido: rehacer da lo mismo) y sin graves sucios.
+#   nivel   dB sobre el nivel de su categoría   tono  ±% de velocidad   db  ±dB al azar   agudos  corte de agudos (Hz) entre min y max
+#   graves  corte de graves (Hz)                fundido  fundido final (s)
+PULIDO = {
+    'kinetic': {'nivel': -4.0, 'tono': 0.035, 'db': 1.5, 'agudos': (6000, 9500), 'graves': 180, 'fundido': 0.12},
+    'pop': {'nivel': -1.5, 'tono': 0.04, 'db': 1.0, 'agudos': (9000, 14000), 'graves': 140, 'fundido': 0.05},
+    'acento': {'nivel': -1.0, 'tono': 0.025, 'db': 0.8, 'agudos': (10000, 15000), 'graves': 110, 'fundido': 0.08},
+}
+POP_FUERA = ('CAPTIONS_TAP_TECLEO - POP 3',)   # golpe grave (174 Hz) con cola de 0,22 s: suena a tocar una puerta, no a pop de caption
+
+
+def _filtrar(x, graves, agudos):
+    """Corte de graves y de agudos suave en el dominio de frecuencia (rápido para sonidos de < 1 s)."""
+    n = x.shape[1]
+    if n < 64:
+        return x
+    X = np.fft.rfft(x, axis=1)
+    f = np.fft.rfftfreq(n, 1 / SR)
+    h = 1.0 / np.sqrt(1.0 + (graves / np.maximum(f, 1.0)) ** 4)        # paso alto de 2.º orden
+    h *= 1.0 / np.sqrt(1.0 + (f / agudos) ** 2)                         # paso bajo de 1.er orden
+    return np.fft.irfft(X * h, n=n, axis=1).astype(np.float32)
+
+
+def pulir(x, p, semilla):
+    """(x, variación en dB): tono, brillo y nivel propios para ESTE sonido (azar fijo por la semilla) + el nivel de su categoría."""
+    import hashlib
+    rng = np.random.default_rng(int(hashlib.sha1(semilla.encode('utf-8')).hexdigest()[:12], 16))
+    factor = 1.0 + float(rng.uniform(-p['tono'], p['tono']))
+    if abs(factor - 1.0) > 0.002:
+        n = max(1, int(x.shape[1] / factor))
+        pos = np.linspace(0, x.shape[1] - 1, n)
+        x = np.stack([np.interp(pos, np.arange(x.shape[1]), c) for c in x]).astype(np.float32)
+    x = _filtrar(x, p['graves'], float(rng.uniform(*p['agudos'])))
+    return x, p['nivel'] + float(rng.uniform(-p['db'], p['db']))
+
+
 def hornear(filas, cat, lib, carpeta, con_voz=True):
     """Cada SFX recortado, con fundido y su nivel dentro del archivo (Resolve ignora el volumen de clip por script)."""
     carpeta = Path(carpeta)
@@ -553,13 +593,16 @@ def hornear(filas, cat, lib, carpeta, con_voz=True):
         variacion_db = 0.0
         repeticion = repeticion + 1 if f['archivo'] == previo else 0
         previo = f['archivo']
-        if repeticion:                                          # el mismo archivo seguido: microvariación (tono ±3 %, ±0,7 dB) para que no suene clonado
+        pulido = PULIDO.get(f['pool'])
+        if pulido:                                              # aros y pops de caption: cada uno distinto y más limpio (ver PULIDO)
+            x, variacion_db = pulir(x, pulido, f"{f['archivo']}|{i}|{f['segundo']}")
+        elif repeticion:                                        # el mismo archivo seguido: microvariación (tono ±3 %, ±0,7 dB) para que no suene clonado
             factor = 1.0 + 0.03 * (1 if repeticion % 2 else -1)
             n = int(x.shape[1] / factor)
             pos = np.linspace(0, x.shape[1] - 1, n)
             x = np.stack([np.interp(pos, np.arange(x.shape[1]), c) for c in x]).astype(np.float32)
             variacion_db = 0.7 if repeticion % 2 else -0.7
-        fade = min(int(0.2 * SR), x.shape[1])
+        fade = min(int((pulido or {}).get('fundido', 0.2) * SR), x.shape[1])
         x[:, -fade:] *= np.linspace(1.0, 0.0, fade, dtype=np.float32)
         g = (info['nivel_db'] - info['max_db'] + (OFFSET_VOZ if con_voz else 0.0) + float(f.get('ganancia_db') or 0.0) + variacion_db)
         x *= 10 ** (g / 20)
