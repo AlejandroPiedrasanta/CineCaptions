@@ -495,6 +495,12 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.48', [
+        'Tema 2 renovado con el Luxe Title Pack 1.09: las palabras entran con más calma, las líneas van al ras y la palabra grande ocupa el ancho de su línea.',
+        'Bloques de tres líneas con la palabra grande en medio, alternados con bloques cortos; nunca más de 4 palabras por línea ni frases cortadas por la mitad.',
+        'Los números suben contando y, si se habla de dinero, llevan su moneda ($, Q, €).',
+        'Las animaciones de los textos ya no fallan en clips cortos: se ajustan solas a lo que dura cada palabra.',
+    ]),
     ('5.37', [
         'AI Sound Director se encarga de todo el sonido: los sonidos de las reglas de antes ya no suenan, y los de los motions (también los del Tema 1) los rehace a la medida.',
         'Usa todas tus bibliotecas de sonido: miles de whooshes, golpes, risers y tonos, camas de música de score y ambientes reales, cada uno revisado antes de usarlo.',
