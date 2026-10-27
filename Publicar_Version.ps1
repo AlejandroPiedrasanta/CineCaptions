@@ -112,10 +112,10 @@ $v = $null
 for ($i = 0; $i -lt 10; $i++) {
     $publicado = Invoke-RestMethod -Uri "$url`?t=$([DateTimeOffset]::UtcNow.ToUnixTimeSeconds())" -UseBasicParsing -Headers @{ 'Cache-Control' = 'no-cache' }
     $v = $publicado.$Canal.version
-    if ($v -eq $version) { break }
+    if ($v -eq $versionManifiesto) { break }      # (el manifiesto lleva x.y.z: «5.49.0»)
     Start-Sleep -Seconds 20
 }
 Write-Host "    $url  ->  $Canal $v"
-if ($v -ne $version) { throw "El manifiesto publicado dice $v y se esperaba $version" }
+if ($v -ne $versionManifiesto) { throw "El manifiesto publicado dice $v y se esperaba $versionManifiesto" }
 Write-Host ''
 Write-Host "Publicada la $version. Los CineCaptions instalados la veran en menos de 12 h (o al pulsar 'Buscar actualizaciones')." -ForegroundColor Green

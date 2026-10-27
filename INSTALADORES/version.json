@@ -1,23 +1,23 @@
 {
     "estable":  {
-                    "version":  "5.5.11",
-                    "notas":  "Sonido más limpio: la biblioteca de sonidos sale en una ventana al pulsar «Buscar archivo…» en cada sonido y emoji. Inicio: el botón del Registro va junto a minimizar, como en el resto de páginas.",
-                    "fecha":  "2026-10-17",
+                    "version":  "5.49.0",
+                    "notas":  "Tema 2 renovado con el Luxe Title Pack 1.09: palabras con más calma, líneas al ras, bloques de tres líneas con la palabra grande en medio y números que suben contando con su moneda. Página Sonido con música de tu biblioteca.",
+                    "fecha":  "2026-10-27",
                     "archivos":  {
                                      "windows":  {
-                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.11/Instalar_CineCaptions_5.5.11.exe",
-                                                     "sha256":  "d436c5c2cbaab3109032eac1699566d17783f4d23357cfc7fb22d25d276eda06",
-                                                     "tam":  583070104
+                                                     "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.49/Instalar_CineCaptions_5.49.exe",
+                                                     "sha256":  "4f28646e56fe4be4fe7a54af07d0e57e8cde56e16da8dfdeadd29bc58d75bbd7",
+                                                     "tam":  555126912
                                                  },
                                      "mac_arm64":  {
-                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.11/CineCaptions_Mac_AppleSilicon_5.5.11.dmg",
-                                                       "sha256":  "6a24ad83d8251f76d46b62982475862d49f329cfd67862ab17aa4c712fe30c68",
-                                                       "tam":  590931183
+                                                       "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.49/CineCaptions_Mac_AppleSilicon_5.49.dmg",
+                                                       "sha256":  "bb07d727d9fcd12caaab5f665eb722ac3552242aeb88460ac9287094a38841f6",
+                                                       "tam":  574889790
                                                    },
                                      "mac_x86_64":  {
-                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.5.11/CineCaptions_Mac_Intel_5.5.11.dmg",
-                                                        "sha256":  "7c1663757c172fcf876a87102e9939fd75ff1058254375d24e70d7b6492077d0",
-                                                        "tam":  535209073
+                                                        "url":  "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.49/CineCaptions_Mac_Intel_5.49.dmg",
+                                                        "sha256":  "fb2cfa9c7d7607b6b9eb54a107ac924c9724e2da81fac1727d4c02e8a98a8f3b",
+                                                        "tam":  508943035
                                                     }
                                  }
                 }
