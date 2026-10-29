@@ -1,19 +1,19 @@
 {
   "estable": {
-    "version": "5.53.0",
-    "notas": "• Las animaciones de la Edición PRO y del Tema 1 se crean unas 3 veces más rápido (los personajes 3D, hasta 7): ahora usan la tarjeta gráfica.\r\n• Repetir GO con un video ya transcrito vuelve a aprovechar el resultado de la IA: unos 10 segundos en vez de 2-3 minutos.\r\n• Conexión con DaVinci Resolve más estable: al reconectar ya no quedan procesos de Resolve sueltos que podían colgarlo, y si la conexión se corta en mitad de un trabajo se avisa al momento.\r\n• GO ya no se queda parado en «Expandir vista» cuando otra ventana de Windows no responde.\r\n• Tema 2: Amro Fire ya no corta las palabras largas.\r\n• Mac: con Resolve cerrado, CineCaptions lo detecta al instante en vez de esperar unos segundos en cada paso.\r\n• Motores al día: PyTorch 2.15 en instalaciones nuevas con drivers NVIDIA recientes (los ya instalados siguen igual), Node 26 LTS y Chrome 157.",
-    "fecha": "2026-10-28",
+    "version": "5.54.0",
+    "notas": "• Resolve Free: GO ya no se detiene con «El Puente murió a mitad» en los Free que no dejan a sus scripts leer archivos como antes.\r\n• Captions más premium en los 6 temas: la palabra principal con el degradado y el brillo de su color, las pequeñas más finas y una sombra que se lee sobre cualquier fondo.\r\n• Los emojis salen solo con la Edición PRO y su opción «Emojis animados», en todos los temas.\r\n• Resolve Studio: los subtítulos de los Temas 2, 4, 5 y 6 se colocan más rápido (el Tema 2, de 11 a 7 segundos).\r\n• Registro más claro: si a un motor de IA le faltan librerías al abrir CineCaptions, ahora lo dice así y explica cómo repararlo.",
+    "fecha": "2026-10-29",
     "archivos": {
       "windows": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.53/Instalar_CineCaptions_5.53.exe",
-        "sha256": "77edd665901e7c2fb7c13a7139479c5945805c086582693b66e2ae1a6b0c516c",
-        "tam": 561008535
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.54/Instalar_CineCaptions_5.54.exe",
+        "sha256": "dc42b9b3ec62c24df63b298fa84067c139d8d2350222bc166f9c56b09685a696",
+        "tam": 561302166
       }
     }
   },
   "firma": {
     "alg": "ed25519",
     "clave": "7a4e413e",
-    "valor": "aborZCRhlN9RKQkqOpUa+qIpLH0aWIDFYfpCAVI7G51PmWcioOP9f6Zy1/miNmxJCAGp/6/w9ZIn0K2t9HVpDw=="
+    "valor": "CZNhtCXpZcoLiRSFCxCUVLG5+gZ+9Mxnc5geWxxJShhwWHMkOGG5BGQopSqFQKQTOJv/Ho3HAlsjtEkooAu5Cw=="
   }
 }
