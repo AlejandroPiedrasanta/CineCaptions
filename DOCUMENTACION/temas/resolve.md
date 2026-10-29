@@ -143,3 +143,15 @@ Además `resolve_mcp.ejecutar_py` ya NO llama al MCP mientras corre el trabajo: 
 página (registro de Resolve), a la vez que el trabajo mueve clips. El trabajo (`_LANZAR`) escribe `%TEMP%/cinecaptions_trabajos/<job>.json`
 (resultado) y `<job>.json.vivo` (al empezar); la app mira ese archivo cada 0,5 s y que Resolve.exe siga vivo; da Resolve por colgado tras
 2 min «No responde» y sin escribir en su registro. Solo si el trabajo no pudo escribir el «vivo» se pregunta por el MCP como antes.
+
+## nota — v5.54 · Colocar más rápido por el MCP (Temas 2, 4, 5 y 6)
+
+**Medido:** 2026-10-29, Resolve Studio 21.1.2 por ResolveMCP, GO sin pantalla con un video de 24 s, solo captions, cada tema en un proyecto nuevo; cada llamada a la API cronometrada envolviendo `resolve`/`project` en una copia del script. En el Tema 2, `buscar_sets_de_plantillas` probaba 669 nombres y cada uno recorría el bin entero (28 819 `GetName`): ~21 de 28 s del script. El resto se reparte en `AppendToTimeline` (~45 ms por clip), `GetFusionCompByIndex` (~15-45 ms) y `GetDuration` (13-180 ms justo después de insertar).
+
+**Arreglo:** `indice_de_clips` (en el .lua `NOMBRES.indice_de_clips`: el archivo está al límite de 200 locales) recorre el bin UNA vez y devuelve {nombre normalizado: clips}, con el mismo recorrido y orden que `find_clips_by_name_ci`; lo usan `buscar_sets_de_plantillas` y `place_kinetic_track` (`clip_de` en el .lua). Solo vale mientras no cambie el Media Pool: se arma justo antes de buscar. `_colocar_medido_base` ya no pide `GetDuration` si esa plantilla cayó EXACTA antes con factor 1 hasta ese punto de su origen (`_EXACTOS` / `OFF.exactos`; se vacía si cambia el fin inclusivo).
+
+**Resultado:** tiempo del script de subtítulos, original de git frente a nuevo, alternando: Tema 2 11,3 → 7,0 s; Tema 4 9,2 → 8,1; Tema 5 10,2 → 8,4; Tema 6 9,8 → 8,4; Temas 1 y 3 iguales (casi no buscan plantillas). Saltarse `GetDuration` apenas cuenta: esa espera es Resolve terminando de insertar y la paga la llamada siguiente. Probado además con un Media Pool simulado en los dos gemelos (.py con Python, .lua con LuaJIT 2.1): mismos sets, mismas búsquedas y mismas duraciones que el original.
+
+**Probado y descartado — colocar en lote:** `AppendToTimeline` de 40 clips en UNA llamada tarda ~27 ms por clip frente a ~45 uno a uno, y Resolve devuelve los clips en el orden pedido aunque vayan en pistas distintas y desordenados. Pero con TODO el tema colocado de golpe (calibrar la primera de cada plantilla sola y el resto en tandas de 60) el script del Tema 1 pasó de 5,6-9,8 s a 16-45 s (3 vueltas): escribir luego el texto de cada título de Fusion sale mucho más caro; en los Temas 2-6 no ganó nada medible. No se hace.
+
+**Pendiente:** en el paso «Resolve» de GO pesa más la Edición PRO en la app que el MCP: «buscando a las personas del video…» tardó 11 s en el Tema 5 y se repite en cada GO del mismo video.

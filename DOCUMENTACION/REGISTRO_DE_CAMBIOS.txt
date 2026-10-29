@@ -12,6 +12,12 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-29 00:48  ·  v5.53  ·  cambio explicado
+    Colocar por el MCP más rápido: medido con cada llamada a la API cronometrada, buscar_sets_de_plantillas recorría el bin entero por cada uno de cientos de nombres (Tema 2: 21 de 28 s). Índice de nombres de un solo recorrido (indice_de_clips, gemelo NOMBRES.indice_de_clips en el .lua) y sin GetDuration en plantillas ya exactas. Script de subtítulos: Tema 2 11,3→7,0 s, Temas 4-6 −12/−18 %.
+    modificados (2):
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_Subtitulos.lua
+
 2026-10-28 19:25  ·  v5.53  ·  (automático)
     modificados (67):
       ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/headless_command_resources.pak
