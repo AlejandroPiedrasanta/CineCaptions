@@ -42,7 +42,7 @@ function frames_de_audio(item, fps)
     return 0
 end
 
-local VERSION = "5.53 (subtitulos)"
+local VERSION = "5.54 (subtitulos)"
 
 -- La ENTREGA del Puente (v1.0.43): el resolve validado llega como
 -- argumento del chunk, porque las globales del Puente NO cruzan el
@@ -579,7 +579,10 @@ local function leer_archivo(ruta)
         -- de la pista normal/traducida) la app deja "<ruta>.lua" con
         -- `return { texto = ... }` (subtitle_transcriber.write_srt). Los
         -- .json van por cargar_tabla, que es tabla directa.
-        local chunk = loadfile(ruta .. ".lua")
+        local chunk = loadfile and loadfile(ruta .. ".lua")
+        if not chunk and not loadfile and dofile then          -- v5.54: hay Free sin loadfile (solo dofile): sin esto el script se caia aqui
+            chunk = function() return dofile(ruta .. ".lua") end
+        end
         local ok, t = pcall(chunk or function() end)
         return (ok and type(t) == "table") and t.texto or nil
     end
@@ -684,7 +687,11 @@ local function cargar_tabla(ruta)
         local ok, t = pcall(parsear_json, txt)
         return (ok and type(t) == "table") and t or nil
     end
-    local chunk = loadfile(ruta .. ".lua")
+    local chunk = loadfile and loadfile(ruta .. ".lua")
+    if not chunk and not loadfile and dofile then              -- v5.54: hay Free sin loadfile (solo dofile): sin esto el script se caia aqui
+        local ok, t = pcall(dofile, ruta .. ".lua")
+        return (ok and type(t) == "table") and t or nil
+    end
     if not chunk then return nil end
     local ok, t = pcall(chunk)
     return (ok and type(t) == "table") and t or nil
@@ -692,6 +699,7 @@ end
 
 local function dato_existe(ruta)
     if not SIN_IO then return archivo_existe(ruta) end
+    if not loadfile then return dofile ~= nil and (pcall(dofile, ruta .. ".lua")) end      -- v5.54: Free sin loadfile (solo dofile)
     return loadfile(ruta .. ".lua") ~= nil
 end
 

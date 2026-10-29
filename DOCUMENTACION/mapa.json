@@ -4216,9 +4216,11 @@
         "EmojiPro",
         "_cambio_ajuste",
         "_pref_niveles",
-        "poner_intensidad"
+        "poner_intensidad",
+        "emojis_del_tema",
+        "_emojis_permitidos"
       ],
-      "resumen": "Opción «Emojis animados» del menú de la PRO (píldora Suave/Media/Fuerte) y sección de Efectos con Automático + 5 estilos 2D Lottie (Google Noto, CC BY 4.0) y 5 3D (PNG Fluent movidos en 3D), «Dónde» (auto/lado/encima/cabeza) e «Intensidad»; edicion_pro._emojis_pro saca el emoji de la palabra dicha, lo pone junto al caption sin tapar caras ni otros gráficos y apaga el emoji del tema ahí; render con Remotion EmojiPro (alfa) en la pista de iconos."
+      "resumen": "Emojis SOLO con la Edición PRO y su opción «Emojis animados», en todos los temas (v5.54: emojis_del_tema / _emojis_permitidos; antes solo el Tema 2). Opción «Emojis animados» del menú de la PRO (píldora Suave/Media/Fuerte) y sección de Efectos con Automático + 5 estilos 2D Lottie (Google Noto, CC BY 4.0) y 5 3D (PNG Fluent movidos en 3D), «Dónde» (auto/lado/encima/cabeza) e «Intensidad»; edicion_pro._emojis_pro saca el emoji de la palabra dicha, lo pone junto al caption sin tapar caras ni otros gráficos y apaga el emoji del tema ahí; render con Remotion EmojiPro (alfa) en la pista de iconos."
     },
     {
       "id": "sonido-biblioteca",
