@@ -1,29 +1,19 @@
 {
   "estable": {
-    "version": "5.52.0",
-    "notas": "• Más seguridad: las actualizaciones llegan firmadas y CineCaptions solo instala las versiones auténticas de Cinema Productions.\r\n• Licencias de cinecaptions.shop: pega tu clave CC- y se activa al momento, en hasta 2 computadoras. Desactivar este equipo lo libera enseguida para usarla en otra.\r\n• Ajustes más simples: GO siempre arma el timeline en vertical, reproduce al terminar y deja Resolve con tu vista.",
-    "fecha": "2026-10-27",
+    "version": "5.53.0",
+    "notas": "• Las animaciones de la Edición PRO y del Tema 1 se crean unas 3 veces más rápido (los personajes 3D, hasta 7): ahora usan la tarjeta gráfica.\r\n• Repetir GO con un video ya transcrito vuelve a aprovechar el resultado de la IA: unos 10 segundos en vez de 2-3 minutos.\r\n• Conexión con DaVinci Resolve más estable: al reconectar ya no quedan procesos de Resolve sueltos que podían colgarlo, y si la conexión se corta en mitad de un trabajo se avisa al momento.\r\n• GO ya no se queda parado en «Expandir vista» cuando otra ventana de Windows no responde.\r\n• Tema 2: Amro Fire ya no corta las palabras largas.\r\n• Mac: con Resolve cerrado, CineCaptions lo detecta al instante en vez de esperar unos segundos en cada paso.\r\n• Motores al día: PyTorch 2.15 en instalaciones nuevas con drivers NVIDIA recientes (los ya instalados siguen igual), Node 26 LTS y Chrome 157.",
+    "fecha": "2026-10-28",
     "archivos": {
       "windows": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.52/Instalar_CineCaptions_5.52.exe",
-        "sha256": "027fefa0059db1dd030ca016cf08291fe78687ecb48ccf15886e5fc7bce72910",
-        "tam": 555216281
-      },
-      "mac_arm64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.52/CineCaptions_Mac_AppleSilicon_5.52.dmg",
-        "sha256": "0cf0748ed069f5a0ffd1719de717066375fe62a25354062943338befcc79b94f",
-        "tam": 575208361
-      },
-      "mac_x86_64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.52/CineCaptions_Mac_Intel_5.52.dmg",
-        "sha256": "421e0a2f3f18388be3b0cb5b06bcbb209eaaae3a396595cf0493ba5857eb79ca",
-        "tam": 509074813
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.53/Instalar_CineCaptions_5.53.exe",
+        "sha256": "77edd665901e7c2fb7c13a7139479c5945805c086582693b66e2ae1a6b0c516c",
+        "tam": 561008535
       }
     }
   },
   "firma": {
     "alg": "ed25519",
     "clave": "7a4e413e",
-    "valor": "P1Q+82/R/DefVN90g2GYwb3Y8otfpYmNdPYZ/dd5vFiuU2lhmBOkk/ySh6LaFSibYmCqLacjiqzDuqitOFp0BQ=="
+    "valor": "aborZCRhlN9RKQkqOpUa+qIpLH0aWIDFYfpCAVI7G51PmWcioOP9f6Zy1/miNmxJCAGp/6/w9ZIn0K2t9HVpDw=="
   }
 }

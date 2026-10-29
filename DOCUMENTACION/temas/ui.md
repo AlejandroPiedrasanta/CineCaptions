@@ -106,6 +106,8 @@ Recorrido visual (recorrido_ui.py): 14 pasos con foco animado (el hueco sigue a 
 
 **Probar:** `cuda_libs.diagnostico()`; `cache_voz.CARPETA`; la reanudación de `descargas` se probó con un servidor local con Range que corta la conexión a mitad (reanuda, descarta un hash malo y reconoce lo ya completo).
 
+**v5.53 · Voz en caché = soltar el motor de voz:** al pulsar GO, `_precargar_motores` arranca siempre el servidor de voz; si luego `cache_voz.leer` acierta, `st.transcribe` no corre y su `liberar()` tampoco. El servidor seguía vivo 120 s y `vram_para_ia_gb` le sumaba 6 GB «liberables»: con 16 GB y Resolve cerrado salían 14,3 GB → Gemma, cuando el GO sin caché había usado la 1.7B (8,3 GB), y la caché de la IA (su clave lleva el modelo) fallaba: paso ia de 2-3 min en vez de ~10 s. Ahora la rama `if words:` del pipeline (hilo del GO) llama a `motor_voz.soltar()` si `modo_gpu() != 'residente'`: lo saca de `_SRV_VOZ` al momento y lo cierra en otro hilo (`cerrar()` espera hasta 6 s porque el servidor no lee stdin mientras carga). Arnés con servidor falso: `soltar()` vuelve en 1 ms, 14,3 → 8,3 GB, Gemma → 1.7B, el cierre termina en el hilo `voz-soltar`; AST: solo la rama de la caché lo llama. Queda una carrera rara (la precarga lanza la voz después del acierto): se vuelve a lo de antes, sin daño.
+
 
 ## nota — v5.4.21 · listas desplegables en píldoras
 

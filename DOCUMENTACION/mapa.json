@@ -512,7 +512,9 @@
         "palabras mal",
         "reconocimiento",
         "dictado",
-        "error de palabra"
+        "error de palabra",
+        "torch",
+        "requisitos del motor"
       ],
       "archivos": [
         "subtitle_transcriber.py",
@@ -526,7 +528,10 @@
         "2_recursos/motor_compat/worker.py"
       ],
       "simbolos": [
-        "completar_requisitos"
+        "completar_requisitos",
+        "torch_para_este_equipo",
+        "_torch_valido",
+        "soltar"
       ],
       "resumen": "subtitle_transcriber, motor_voz, ia_texto"
     },
@@ -1911,7 +1916,9 @@
       "simbolos": [
         "ruta_exe",
         "ejecutar",
-        "scripting_desactivado"
+        "scripting_desactivado",
+        "_listar_pids_resolve_mac",
+        "_resolve_cerrado"
       ],
       "resumen": "En Mac está en Contents/Applications/ResolveMCP; si falta, GO cae al Puente. Studio: External scripting = Local"
     },
@@ -3067,7 +3074,13 @@
         "saas",
         "detras de ti",
         "intensidad",
-        "studio"
+        "studio",
+        "gpu",
+        "angle",
+        "chrome-headless-shell",
+        "node 26",
+        "mediabunny",
+        "runtime"
       ],
       "archivos": [
         "edicion_pro.py",
@@ -3384,7 +3397,10 @@
         "reconectar",
         "registro",
         "firma",
-        "magic mask"
+        "magic mask",
+        "huerfano",
+        "resolvepython",
+        "cerrar"
       ],
       "archivos": [
         "resolve_bridge.py",
@@ -3392,9 +3408,14 @@
         "uia_resolve.py",
         "instalador_scripts.py",
         "registro_ui.py",
-        "3_compilar/Construir_Instalador.ps1"
+        "3_compilar/Construir_Instalador.ps1",
+        "resolve_mcp.py"
       ],
       "simbolos": [
+        "_terminar",
+        "_tras_fallo",
+        "trabajo_en_marcha",
+        "_aviso_de_carpeta",
         "asegurar_conexion",
         "_reconectar_mcp",
         "es_studio",

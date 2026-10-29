@@ -12,6 +12,94 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-28 19:25  ·  v5.53  ·  (automático)
+    modificados (67):
+      ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/headless_command_resources.pak
+      ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/headless_lib_data.pak
+      ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/headless_lib_strings.pak
+      ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/libEGL.dll
+      ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/libGLESv2.dll
+      ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/locales/af.pak
+      ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/locales/am.pak
+      ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/locales/ar.pak
+      ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/locales/bg.pak
+      ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/locales/bn.pak
+      ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/locales/ca.pak
+      ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/locales/cs.pak
+      … y 55 más
+    quitados (2):
+      - 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/chrome_debug.log
+      - 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/debug.log
+
+2026-10-28 19:24  ·  v5.53  ·  cambio explicado
+    ejecutar_py espera el archivo de resultado con FindFirstChangeNotification (Windows) en vez de sondear cada 50/150 ms: trabajos de 4 s detectados en ~2,5 ms en vez de ~90 ms de media (arnés en el scratchpad). motor_voz.instalar suelta los servidores de IA antes de cambiar torch (Reparar con driver >= 595). mac.yml: acciones v7 y Node 26.13.0.
+
+2026-10-28 19:24  ·  v5.53  ·  cambio explicado
+    Remotion pintaba por software: render.mjs abría el navegador sin gl, y el gl:'angle' de renderMedia se ignora cuando se pasa puppeteerInstance. Ahora openBrowser lleva gl 'angle' en Windows, con respaldo sin gl y reintento final de los clips fallidos: 6 clips KitNeon pasan de 56,2 s a 17,4 s, con 0,73/255 de diferencia media. preparar_remotion usa Node 26.13.0 (6_compilacion/node26) y Chrome CfT 157.0.8080.0, registrado en version.json para que se recopie, y borra .remotion. mediabunny 1.63.0: mismos píxeles en 99/100 plantillas.
+
+2026-10-28 19:24  ·  v5.53  ·  cambio explicado
+    v5.53 motores: GO con voz en caché llama a motor_voz.soltar() (sale de _SRV_VOZ sin esperar). Antes el servidor precargado sumaba 6 GB en vram_para_ia_gb, se elegía Gemma en vez de la 1.7B y fallaba la caché de la IA. torch 2.15.0+cu132 con driver ≥595 (2.14.1+cu130 y 2.14.1+cpu siguen válidos, sin migración). hf-xet 1.7.1 y platformdirs 4.14.0. transformers sigue en 5.21.0: la 5.20.2 es más lenta en el A/B, y los 82-90 s eran pruebas desde Claude leyendo el motor por \\localhost\c$ (en disco local el import es de 5,3 s).
+    nuevos (3):
+      + 2_recursos/edicion_pro/remotion/bundle/926.bundle.js
+      + 2_recursos/edicion_pro/remotion/bundle/926.bundle.js.map
+      + 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/debug.log
+    modificados (149):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/motor_voz.py
+      ~ 1_codigo/remotion/galeria.mjs
+      ~ 1_codigo/remotion/node_modules/.package-lock.json
+      ~ 1_codigo/remotion/node_modules/mediabunny/README.md
+      ~ 1_codigo/remotion/node_modules/mediabunny/dist/bundles/mediabunny.cjs
+      ~ 1_codigo/remotion/node_modules/mediabunny/dist/bundles/mediabunny.min.cjs
+      ~ 1_codigo/remotion/node_modules/mediabunny/dist/bundles/mediabunny.min.mjs
+      ~ 1_codigo/remotion/node_modules/mediabunny/dist/bundles/mediabunny.mjs
+      ~ 1_codigo/remotion/node_modules/mediabunny/dist/bundles/mediabunny.node.cjs
+      ~ 1_codigo/remotion/node_modules/mediabunny/dist/mediabunny.d.ts
+      … y 137 más
+    quitados (2):
+      - 2_recursos/edicion_pro/remotion/bundle/69.bundle.js
+      - 2_recursos/edicion_pro/remotion/bundle/69.bundle.js.map
+
+2026-10-28 16:27  ·  v5.53  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-10-28 16:26  ·  v5.52  ·  cambio explicado
+    MCP de Resolve: cierre ordenado (cerrar stdin antes de kill; medido: cada reconexión dejaba un ResolvePython.exe huérfano que podía seguir tocando el timeline). No se corta la conexión con un trabajo en marcha (vigía y _tras_fallo), _tras_fallo solo cierra el cliente que falló, ejecutar_py avisa al momento si ResolveMCP salió y al salir del programa se espera el cierre. Mac: pgrep antes de preguntar al MCP con Resolve cerrado (~4 s por llamada). mac.yml: Node 24.22.1 como Windows. spec: chrome_debug.log fuera del instalador. Probado con servidor MCP falso (8 casos, HEAD fallaba 4) y Mac simulado (20 casos).
+    modificados (5):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/resolve_bridge.py
+      ~ 1_codigo/resolve_mcp.py
+      ~ 3_compilar/cinecaptions.spec
+
+2026-10-28 09:09  ·  v5.52  ·  cambio explicado
+    Tema 2: Amro Fire (6) cortaba las palabras largas («Principa») porque su comp dibuja las letras en un cuadro de 1080 y las encoge después al 0,66. Ahora la curva de tamaño del Follower va ya al 0,66 y el Transform a 1 (rejilla, ruido, difuminado y sombra a la misma escala). Probado en Resolve: FUEGO igual y Principal entera. REVISION_BIN Ref 19.
+    modificados (3):
+      ~ 1_codigo/plantillas.py
+      ~ 2_recursos/generador_packs/pack_referencia.py
+      ~ 2_recursos/plantillas_incluidas/Referencia/Referencia vertical.drb
+
+2026-10-27 22:56  ·  v5.52  ·  cambio explicado
+    uia_resolve: las ventanas de Resolve por EnumWindows+ElementFromHandle (no FindAll desde la raíz del escritorio) y CUIAutomation8 con topes 2 s/8 s: GO se colgaba 6+ min en «Expandir vista» cuando otra ventana de Windows no respondía. Probado con GO real: 17 bloques, vista expandida al instante.
+    nuevos (1):
+      + 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/chrome_debug.log
+    modificados (1):
+      ~ 1_codigo/uia_resolve.py
+
 2026-10-27 15:47  ·  v5.52  ·  cambio explicado
     mapa_codigo: el índice y el grafo de llamadas entran en los if/try/with de nivel de módulo (las clases de «if _QT:» de posiciones_pro no se veían). Comparado con codebase-memory-mcp con las mismas preguntas (mismos llamadores; el nuestro da la línea y menos texto); codebase-memory desinstalado a petición del usuario (1 GB, hooks en cada búsqueda).
     modificados (2):
