@@ -1166,6 +1166,49 @@
       "resumen": "generador_packs/luxe_macro.py; subir plantillas.REVISION_BIN al cambiar un pack"
     },
     {
+      "id": "captions-premium",
+      "grupo": "estilos",
+      "tema": "Acabado «B · Premium» de los captions de los 6 temas (degradado y brillo de la principal, pequeñas al 90 %, sombra ancha)",
+      "claves": [
+        "premium",
+        "pulir",
+        "degradado",
+        "brillo",
+        "acabado",
+        "sombra",
+        "interlineado",
+        "espaciado",
+        "cinta",
+        "reflejo"
+      ],
+      "archivos": [
+        "2_recursos/generador_packs/luxe_macro.py",
+        "2_recursos/generador_packs/construir_pack.py",
+        "2_recursos/generador_packs/pack_referencia.py",
+        "2_recursos/generador_packs/pack_tema4.py",
+        "2_recursos/generador_packs/pack_tema5.py",
+        "2_recursos/generador_packs/kinetic_elementos.py",
+        "2_recursos/generador_packs/viral_elementos.py",
+        "kinetic_paleta.py",
+        "tema4_planificador.py",
+        "render_temas.py",
+        "render_sin_resolve.py"
+      ],
+      "simbolos": [
+        "degradado_premium",
+        "_premium",
+        "SOMBRA_PREMIUM",
+        "premium_sobre_drb",
+        "_retoque_premium",
+        "con_reflejo",
+        "cinta_degradado",
+        "AIRE_T4",
+        "_margenes_guion",
+        "MARGEN_CLIP_EM"
+      ],
+      "resumen": "luxe_macro._premium (modo Gradient del macro) + combo['premium']; T4-T6 retocados sobre su .drb (premium_sobre_drb); vista en render_temas"
+    },
+    {
       "id": "anim-cortos",
       "grupo": "bloques",
       "tema": "Fix de animación de textos cortos",

@@ -12,6 +12,23 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-29 10:46  ·  v5.53  ·  cambio explicado
+    Captions «B · Premium» en los 6 temas (el usuario pidió «pule más los captions» y eligió la propuesta B): la principal con un degradado de su color y su brillo (modo Gradient del propio macro Luxe: Type1 = 2 / Overlap1 = 2), las pequeñas al 90 % y una sombra ancha; Tema 1 con reflejo arriba, brillo de su color y pegatinas con degradado; Tema 3 negrita blanca → azul hielo con brillo; Tema 4 clave en lima. Temas 4-6 RETOCADOS sobre su .drb de fábrica (construir_pack.premium_sobre_drb): regenerarlos cambiaba sus macros Luxe viejos y sus animaciones. Interlineado sin choques (AIRE_T4, AIRE_SKILL 0,30) y conectoras del Tema 4 al 0,70. Vista: degradado/brillo como Resolve y arreglo de las palabras pegadas del Tema 2 (kerning + margen de clip). REVISION_BIN: Ref 20, Kin 18, Vir 7, T4-T6 7. Probado sin Resolve (LuaJIT: 0 fallos; banco de la vista) y en Resolve Studio 21.1.2 real (proyecto temporal zz_PRUEBAS_CC, los 6 temas colocados y renderizados): ahí salió una CAJA detrás de las grandes del Tema 1 (el elemento 4 de Text+ es una caja por defecto) → ElementShape4 = 0 en Kinetic y en la negrita de VIRAL (Kin 18 / Vir 7), comprobado otra vez en Resolve.
+    modificados (23):
+      ~ 1_codigo/kinetic_paleta.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/render_sin_resolve.py
+      ~ 1_codigo/render_temas.py
+      ~ 1_codigo/tema4_planificador.py
+      ~ 2_recursos/generador_packs/construir_pack.py
+      ~ 2_recursos/generador_packs/kinetic_elementos.py
+      ~ 2_recursos/generador_packs/luxe_macro.py
+      ~ 2_recursos/generador_packs/pack_referencia.py
+      ~ 2_recursos/generador_packs/pack_tema4.py
+      ~ 2_recursos/generador_packs/pack_tema5.py
+      ~ 2_recursos/generador_packs/viral_elementos.py
+      … y 11 más
+
 2026-10-29 00:48  ·  v5.53  ·  cambio explicado
     Colocar por el MCP más rápido: medido con cada llamada a la API cronometrada, buscar_sets_de_plantillas recorría el bin entero por cada uno de cientos de nombres (Tema 2: 21 de 28 s). Índice de nombres de un solo recorrido (indice_de_clips, gemelo NOMBRES.indice_de_clips en el .lua) y sin GetDuration en plantillas ya exactas. Script de subtítulos: Tema 2 11,3→7,0 s, Temas 4-6 −12/−18 %.
     modificados (2):
