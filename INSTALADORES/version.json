@@ -1,19 +1,19 @@
 {
   "estable": {
-    "version": "5.54.0",
-    "notas": "• Resolve Free: GO ya no se detiene con «El Puente murió a mitad» en los Free que no dejan a sus scripts leer archivos como antes.\r\n• Captions más premium en los 6 temas: la palabra principal con el degradado y el brillo de su color, las pequeñas más finas y una sombra que se lee sobre cualquier fondo.\r\n• Los emojis salen solo con la Edición PRO y su opción «Emojis animados», en todos los temas.\r\n• Resolve Studio: los subtítulos de los Temas 2, 4, 5 y 6 se colocan más rápido (el Tema 2, de 11 a 7 segundos).\r\n• Registro más claro: si a un motor de IA le faltan librerías al abrir CineCaptions, ahora lo dice así y explica cómo repararlo.",
-    "fecha": "2026-10-29",
+    "version": "5.55.0",
+    "notas": "Crea tu estilo nuevo (temas 1-6, tu letra y tus colores), emojis solo con «Emojis animados», Tema 3 Select y Drag como los virales, y GO en Resolve Free que no deja leer archivos.",
+    "fecha": "2026-10-30",
     "archivos": {
       "windows": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.54/Instalar_CineCaptions_5.54.exe",
-        "sha256": "dc42b9b3ec62c24df63b298fa84067c139d8d2350222bc166f9c56b09685a696",
-        "tam": 561302166
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.55/Instalar_CineCaptions_5.55.exe",
+        "sha256": "936e2be550943c92f28b6d9befd80574ca8022981af31673d94ca1479f3b212c",
+        "tam": 561706761
       }
     }
   },
   "firma": {
     "alg": "ed25519",
     "clave": "7a4e413e",
-    "valor": "CZNhtCXpZcoLiRSFCxCUVLG5+gZ+9Mxnc5geWxxJShhwWHMkOGG5BGQopSqFQKQTOJv/Ho3HAlsjtEkooAu5Cw=="
+    "valor": "lnUKswP26xpjRxsyDZnfBg+iLO4BuoDLwj5uBIsBBdanxedKWNlJqTcnWAyBymOeTEla3ZycilGMjaqkq5BMCg=="
   }
 }
