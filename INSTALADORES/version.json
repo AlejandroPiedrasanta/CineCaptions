@@ -8,12 +8,22 @@
         "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.55/Instalar_CineCaptions_5.55.exe",
         "sha256": "936e2be550943c92f28b6d9befd80574ca8022981af31673d94ca1479f3b212c",
         "tam": 561706761
+      },
+      "mac_arm64": {
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.55/CineCaptions_Mac_AppleSilicon_5.55.dmg",
+        "sha256": "c520e4a4efb9ba6268990274ae12b9169ee879c2c9f75c8421561f8a4a5f42ca",
+        "tam": 503699362
+      },
+      "mac_x86_64": {
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.55/CineCaptions_Mac_Intel_5.55.dmg",
+        "sha256": "a2b7a8929dd530b4b60a261ac2e2452e6afd9068efc4a1210eec92784036b0f0",
+        "tam": 516318725
       }
     }
   },
   "firma": {
     "alg": "ed25519",
     "clave": "7a4e413e",
-    "valor": "lnUKswP26xpjRxsyDZnfBg+iLO4BuoDLwj5uBIsBBdanxedKWNlJqTcnWAyBymOeTEla3ZycilGMjaqkq5BMCg=="
+    "valor": "qzzOCzQVhGEfDaTSBs8bInSDthXiX4NJbOoNqUjsuzLIReUAqU7N/+cGCfghgLSOyFfWZJbHmBkxVtJFEvpwCg=="
   }
 }
