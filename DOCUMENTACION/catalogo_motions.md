@@ -257,7 +257,7 @@ Generado desde el código (`python 1_codigo/catalogo_ia.py`). La IA local elige 
 |---|---|---|---|
 | `tema_Kinetic` | Títulos de gancho — Kinetic | Títulos enormes con cintas y anillos animados en las frases clave, con un golpe de sonido. | colores, posición, emojis |
 | `tema_Referencia` | Captions palabra a palabra — Referencia | Una línea fina con la palabra importante en negrita y en grande, al ritmo de la voz. | colores, posición, emojis |
-| `tema_VIRAL` | Subtítulos virales — VIRAL | Texto fino con negrita cursiva, efectos de impacto y emojis que aparecen con la voz. | colores, posición, emojis |
+| `tema_VIRAL` | Subtítulos virales — VIRAL | Texto fino con negrita cursiva y efectos de impacto que aparecen con la voz. | colores, posición, emojis |
 | `tema_Tema4` | Captions limpios — Tema4 | Texto blanco que se arma palabra a palabra en un recuadro, con la palabra clave grande y las conectoras pequeñas. | colores, posición, emojis |
 | `tema_Tema5` | Edición total — Tema5 | Lo edito todo con el sistema de los reels virales: captions sans + serif, pasos y deslizador en pantalla, escenas de papel, pantalla dividida y sonido. | colores, posición, emojis |
 | `tema_Tema6` | Editorial — Tema6 | Edición elegante y cálida: captions en serif fina con la frase clave grande en lima, escenas melocotón con tarjetas blancas, visor de cámara, barra de búsqueda y perfil que cuenta. | colores, posición, emojis |

@@ -1,5 +1,211 @@
 REGISTRO DE CAMBIOS ARCHIVADO · 2026-10 (la entrada más nueva arriba)
 
+2026-10-27 01:29  ·  v5.48  ·  cambio explicado
+    Página Sonido pulida (el usuario eligió A + C entre 3 propuestas renderizadas): carril de Música en la línea de tiempo, solo los carriles que suenan, inspector con Anterior / Siguiente, textos más claros y momentos compactos (~250 px menos)
+    modificados (2):
+      ~ 1_codigo/guion_planificador.py
+      ~ 1_codigo/sonido_skill_ui.py
+
+2026-10-27 01:15  ·  v5.48  ·  cambio explicado
+    Página Sonido con lo aprendido de 70 videos de creadores (pedido del usuario): solo sonidos curados, 4 por tipo con tope 40 %, lo aprobado primero (aprobados.json ×5), densidad de los creadores por estilo; y MÚSICA de 02_MUSICA (sonido_musica: 3 opciones por ánimo y compás, −6 dB bajo la voz, crédito CC BY)
+
+2026-10-27 01:15  ·  v5.48  ·  (automático)
+    nuevos (1):
+      + 1_codigo/sonido_musica.py
+    modificados (2):
+      ~ 1_codigo/sonido_skill.py
+      ~ 1_codigo/sonido_skill_ui.py
+
+2026-10-27 01:10  ·  v5.48  ·  (automático)
+    modificados (32):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/guion_captions.py
+      ~ 1_codigo/guion_planificador.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/generador_packs/construir_pack.py
+      ~ 2_recursos/generador_packs/luxe_count_base.lua
+      ~ 2_recursos/generador_packs/luxe_macro.py
+      ~ 2_recursos/generador_packs/luxe_shine_base.lua
+      ~ 2_recursos/generador_packs/luxe_slide_base.lua
+      ~ 2_recursos/generador_packs/pack_referencia.py
+      ~ 2_recursos/plantillas_incluidas/Referencia/Referencia vertical.drb
+      … y 20 más
+
+2026-10-26 22:06  ·  v5.47  ·  cambio explicado
+    Tema 2 (v5.48): macros Luxe v1.09 (Shine, Slide y Count para los números), Anim Engine autorreparado (entrada/salida <= 30 % del clip, adiós «Animation too long»), ritmo con respiro (última palabra >= 0,55 s, adelanto 0,13), menos espacio entre palabras y el tachado solo para negaciones. MAX_SETS 16 -> 20 en el .py y el .lua (la variante 17 caía al estilo 1).
+    nuevos (2):
+      + 2_recursos/generador_packs/luxe_count_base.lua
+      + 2_recursos/generador_packs/luxe_count_cabecera.txt
+    modificados (14):
+      ~ 1_codigo/guion_captions.py
+      ~ 1_codigo/guion_planificador.py
+      ~ 1_codigo/plantillas.py
+      ~ 2_recursos/generador_packs/construir_pack.py
+      ~ 2_recursos/generador_packs/luxe_macro.py
+      ~ 2_recursos/generador_packs/luxe_shine_base.lua
+      ~ 2_recursos/generador_packs/luxe_shine_cabecera.txt
+      ~ 2_recursos/generador_packs/luxe_slide_base.lua
+      ~ 2_recursos/generador_packs/luxe_slide_cabecera.txt
+      ~ 2_recursos/generador_packs/pack_referencia.py
+      ~ 2_recursos/plantillas_incluidas/Referencia/Referencia vertical.drb
+      ~ 2_recursos/plantillas_incluidas/Referencia/Referencia vertical.variantes.json
+      … y 2 más
+
+2026-10-26 16:04  ·  v5.47  ·  (automático)
+    modificados (21):
+      ~ 1_codigo/kinetic_planificador.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      … y 9 más
+
+2026-10-26 14:51  ·  v5.46  ·  cambio explicado
+    Tema 1 v5.47 (Kin 16): relleno vivo detrás del Transform con desenfoque (delante, render 3x sin caché y atascado); enlazar expresiones a otra herramienta (Anim.Center) tumbó Resolve 21.1.1: se repiten las expresiones. Probado en Resolve real: 21,5 s en 117 s.
+    modificados (3):
+      ~ 1_codigo/plantillas.py
+      ~ 2_recursos/generador_packs/kinetic_elementos.py
+      ~ 2_recursos/plantillas_incluidas/Kinetic/Kinetic vertical.drb
+
+2026-10-26 14:32  ·  v5.46  ·  cambio explicado
+    Tema 1 (v5.47): aros del color contrario a la palabra con halo, salida que se desdibuja antes que el texto (nunca un aro vacío), subrayado pincelada con remate a su ancho real (variantes 30-90) y relleno vivo (franja de tono + brillo cada 3 s, halftone que se desliza) recortado con una copia del Text+ sin sombras. Custom Tool de Fusion no se anima con time en Resolve 21.1.1; comillas sin escapar en una expresión dejan la comp negra. Pack Kin 14.
+    modificados (8):
+      ~ 1_codigo/kinetic_captions.py
+      ~ 1_codigo/kinetic_paleta.py
+      ~ 1_codigo/kinetic_planificador.py
+      ~ 1_codigo/kinetic_vista.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/render_temas.py
+      ~ 2_recursos/generador_packs/kinetic_elementos.py
+      ~ 2_recursos/plantillas_incluidas/Kinetic/Kinetic vertical.drb
+
+2026-10-26 09:57  ·  v5.46  ·  cambio explicado
+    Tema 1 más rápido (medido en zz_PRUEBAS_CC): colocar los 53 sonidos/efectos 18 s -> 4,1 s (Media Pool leído una vez, ImportMedia y AppendToTimeline en bloque; gemelo .lua igual, 16847 -> 421 llamadas). MCP: ejecutar_py mira su resultado cada 50/150 ms (antes 500: +0,5 s por script) y con Resolve cerrado script/estado/resolve_abierto contestan al momento (estado 8,5 s -> 15 ms). Los Text+ del Tema 1: el coste es de Resolve por clip; colocar en bloque no ahorra (descartado).
+    modificados (4):
+      ~ 1_codigo/resolve_mcp.py
+      ~ 2_recursos/efectos/colocar_efectos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+
+2026-10-26 09:16  ·  v5.46  ·  cambio explicado
+    Rapidez con Resolve abierto (medido con la ventana real): Resolve responde en 0,26 s sin trabar la ventana. La vuelta a Inicio desde Efectos tardaba 120 ms: (1) vistas_slider.Reproductor usaba thread_type AUTO y reabría el mp4 en cada vuelta; abrir/cerrar paraba Python 50-90 ms -> decodificador de 1 hilo, archivo abierto una vez y seek(0); (2) leer_prefs abría preferencias.json en cada cambio de página (antivirus: hasta 90 ms) -> caché por tamaño+fecha; (3) correr_en_hilo reutiliza hilos (Thread.start esperaba con el equipo ocupado). Resultado: Inicio 120->50 ms, media 42->32 ms, peor tirón en Efectos 89->33 ms.
+    modificados (3):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/qt_kit.py
+      ~ 1_codigo/vistas_slider.py
+
+2026-10-26 08:51  ·  v5.46  ·  cambio explicado
+    Interfaz trabada (el usuario: «va lento y trabado cuando doy clic y a veces se congela»): el registro mostraba «congelación 2,5–3 s» en ir_a → _pintar_go_reposo → colocacion.detectar_resolve → resolve_mcp.estado esperando a ResolveMCP desde la ventana; ahora estado() desde el hilo de la ventana nunca espera (último estado conocido o «comprobando» y la pregunta en un hilo). Y Efectos/Estilos se arman solas en reposo tras abrir (_prearmar_paginas): primer clic 766 → 102 ms y 369 → 74 ms; clic más lento 131 ms.
+    modificados (22):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/resolve_mcp.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      … y 10 más
+
+2026-10-26 08:32  ·  v5.45  ·  cambio explicado
+    Ajustes > General: fila «IA de texto» (Gemma 4 E4B por defecto, Qwen3.5-4B, Qwen3-1.7B; estado de las instaladas y cuál se usaría; descargar las que faltan) y «Otras IA» (Whisper, MODNet, Argos, efectos de sonido, Sound Director/PRO). Instalador: textos con Gemma y 6 h para la tarea motor_ia ya instalado (30 min no daba para 25 GB).
+    modificados (3):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/motor_voz.py
+      ~ 3_compilar/Instalador.cs
+
+2026-10-26 08:12  ·  v5.45  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-10-26 00:41  ·  v5.44  ·  cambio explicado
+    IA de texto: Gemma 4 E4B principal y Qwen3.5-4B de respaldo (decisión del usuario tras el banco del 2026-10-26), carga repartida GPU/RAM de Gemma, latido mientras carga, descarga en la instalación y completar_ia_texto para quien ya lo tenía. Python 3.15.2 en el programa (venv rehecho, 186 módulos importan); motores en 3.14.10 (los 3.14.x instalados siguen valiendo: torch y otras sin cp315). ctranslate2 4.8.4.
+    modificados (14):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ia_texto.py
+      ~ 1_codigo/motor_compat.py
+      ~ 1_codigo/motor_voz.py
+      ~ 1_codigo/qt_kit.py
+      ~ 1_codigo/salud.py
+      ~ 1_codigo/subtitle_transcriber.py
+      ~ 1_codigo/tareas_instalador.py
+      ~ 2_recursos/motor_compat/requirements.txt
+      ~ 2_recursos/motor_qwen/motor_texto.py
+      ~ 3_compilar/Construir_Instalador.ps1
+      ~ 3_compilar/Instalador.cs
+      … y 2 más
+
+2026-10-25 23:01  ·  v5.44  ·  cambio explicado
+    Tema 1 Text+ (v5.45): aros que se dibujan bien (WriteLength/WritePosition en Resolve 21, variantes con su forma y zoom uniforme, clips 0,33 s más largos para la salida del kit), desenfoque de movimiento, geometría y tiempos del kit, cifra en lima, versalitas con el espaciado del kit; la tipografía de Crea tu estilo no cambia el Tema 1. 6 rondas más en Resolve real comparando con los clips neón.
+    modificados (9):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/fuente_usuario.py
+      ~ 1_codigo/kinetic_captions.py
+      ~ 1_codigo/kinetic_paleta.py
+      ~ 1_codigo/kinetic_planificador.py
+      ~ 1_codigo/kit_neon.py
+      ~ 1_codigo/plantillas.py
+      ~ 2_recursos/generador_packs/kinetic_elementos.py
+      ~ 2_recursos/plantillas_incluidas/Kinetic/Kinetic vertical.drb
+
+2026-10-25 22:03  ·  v5.44  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-10-25 21:25  ·  v5.43  ·  cambio explicado
+    Tema 1 con Text+ editables otra vez por defecto (kit_neon.CAPTIONS_TEXTO=True), tras 5 rondas en Resolve real: composición del kit en los Text+ (kinetic_planificador._como_el_kit, kit=True desde GO: cifras, versalitas juntas, versalita bajo la grande → serif, ¿…?; los 33 bloques de PRUEBA ESPAÑOL con el mismo texto que el kit), animaciones del kit, halftone, CharacterSpacing medido. Pruebas: proyecto temporal con 20 s de espera tras cerrar el del usuario (sin ella Resolve se colgaba).
+    modificados (3):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/kinetic_planificador.py
+      ~ 1_codigo/kit_neon.py
+
+2026-10-25 16:57  ·  v5.43  ·  cambio explicado
+    Tema 1 Text+ pulido (probado en Resolve real, proyecto temporal, 4 rondas): las entradas y salidas del kit en el pack Kinetic (cada línea entra y sale por su máscara con el muelle del kit: sin el «efecto fantasma» de antes, que era la salida que encogía y se desvanecía), pegatinas que caen y se asientan, letra a mano que se escribe y se borra, trazos que se van en 0,3 s, halftone del blanco (Custom Tool) y CharacterSpacing de Text+ medido bien (suma 1,93 em por letra: las versalitas largas se salían). REVISION_BIN Kinetic → Kin 8. Falta igualar la composición del kit (juntar versalitas, cifras) antes de volver a encender kit_neon.CAPTIONS_TEXTO.
+    modificados (5):
+      ~ 1_codigo/fuente_usuario.py
+      ~ 1_codigo/kinetic_captions.py
+      ~ 1_codigo/plantillas.py
+      ~ 2_recursos/generador_packs/kinetic_elementos.py
+      ~ 2_recursos/plantillas_incluidas/Kinetic/Kinetic vertical.drb
+
+
+(Lo anterior está archivado por mes en DOCUMENTACION/historial/REGISTRO_<aaaa-mm>.txt)
 2026-10-25 15:33  ·  v5.43  ·  cambio explicado
     Tema 1 tras la 5.43 (el usuario: «le falta pulir… textos que se salen, efecto fantasma, faltan los halftone… no lo arruines»): GO vuelve a los clips neón exactos (kit_neon.CAPTIONS_TEXTO=False) mientras los Text+ no igualen. Causa de los textos fuera de pantalla: la tipografía principal elegida en Crea tu estilo (Arial Black) se aplicaba con el tamaño calculado para la fuente del tema; fuente_usuario._encajar reduce el Size para que ocupe lo mismo (todos los temas con runs kinetic). Comparación cuadro a cuadro Text+ vs neón en el scratchpad.
     modificados (3):

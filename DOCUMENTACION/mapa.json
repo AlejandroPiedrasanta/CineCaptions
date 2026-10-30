@@ -784,86 +784,127 @@
     {
       "id": "crea-tu-estilo",
       "grupo": "estilos",
-      "tema": "«Crea tu estilo» (48 ejemplos, vistas reales)",
+      "tema": "«Crea tu estilo» (Temas 1-6 sobre negro, letra y colores)",
       "claves": [
         "crea",
         "tu",
         "estilo",
-        "ejemplos",
-        "galeria",
-        "vista",
-        "real",
-        "amro",
-        "luxe",
-        "guia",
         "estilo propio",
         "crear estilo",
-        "personalizado"
+        "personalizado",
+        "derivado",
+        "letra",
+        "colores",
+        "cajon",
+        "tipografia",
+        "fuente",
+        "color",
+        "pack derivado",
+        "tema base"
       ],
       "archivos": [
+        "crea_estilo_ui.py",
+        "vista_estilos.py",
+        "pack_personalizado.py",
+        "mezcla_planificador.py",
+        "plantillas.py",
+        "fuente_usuario.py",
+        "render_temas.py",
+        "edicion_pro.py",
         "ejemplos_estilo.py",
         "vistas_guia.py",
-        "crea_estilo_ui.py",
         "hacer_vistas_guia_video.py",
-        "2_recursos/guia_estilo/construir_guia.py",
-        "fuente_usuario.py"
+        "2_recursos/guia_estilo/construir_guia.py"
       ],
       "simbolos": [
-        "EJEMPLOS",
-        "miniatura",
-        "crear_pack",
-        "datos_guia",
-        "CUADROS_VISTA_S",
-        "rutas_vista",
-        "vistas",
-        "_Tarjeta",
         "CreaEstiloDialogo",
-        "AyudaEstilo",
+        "_Lista",
+        "_Interruptor",
+        "_Ficha",
+        "_Paleta",
+        "_Resumen",
+        "_Cajon",
+        "imagenes",
+        "fondo",
+        "crear_estilo",
+        "normalizar_ajustes",
+        "preparar",
+        "plantilla",
+        "_crear_estilo",
+        "_crear_mi_estilo",
+        "_poster_estilo",
+        "tema_base",
+        "base",
+        "ajustes",
+        "con_ajustes",
+        "_con_pack_personalizado",
+        "_plantilla_personalizada",
+        "_estilo_render",
+        "_ajustes_de_pack",
         "aplicar_a_pista",
-        "marcar_runs"
+        "marcar_runs",
+        "sin_color_claves"
       ],
-      "resumen": "ejemplos_estilo, crea_estilo_ui, vistas_guia; guia_estilo/construir_guia.py"
+      "resumen": "crea_estilo_ui (página), vista_estilos (filas), mezcla_planificador.crear_estilo (pack.json), pack_personalizado (letra/color en los clips), plantillas (base/ajustes/tema_base), GO"
     },
     {
       "id": "mezcla-temas",
       "grupo": "estilos",
-      "tema": "«Crea tu estilo» mezclando los 3 temas (looks por frases)",
+      "tema": "«Crea tu estilo» mezclando temas enteros t1…t6 por frases",
       "claves": [
+        "biblioteca",
+        "crea",
+        "enteros",
+        "estilo",
+        "kinetic",
+        "looks",
         "mezcla",
         "mezclar",
-        "looks",
+        "plantillas_extra",
+        "referencia",
+        "renombrar",
+        "tema4",
+        "tema5",
+        "tema6",
         "temas",
-        "crea",
-        "estilo",
         "tramos",
-        "biblioteca",
-        "kinetic",
-        "viral",
-        "referencia"
+        "viral"
       ],
       "archivos": [
         "mezcla_planificador.py",
         "mezcla_vista.py",
-        "crea_estilo_ui.py",
+        "pack_personalizado.py",
         "probar_mezcla_app.py",
         "resolve_scripts/CineCaptions_Subtitulos.lua",
         "resolve_scripts/CineCaptions.py"
       ],
       "simbolos": [
+        "TEMAS_ENTEROS",
+        "look_de",
+        "pack_de_look",
         "catalogo",
         "planificar",
-        "crear_pack",
         "tramos",
-        "vista",
+        "_partir_larga",
+        "_a_su_hora",
+        "_acortar",
+        "_sin_pisarse",
+        "MIN_BORDE",
+        "ESPERA_MAX",
+        "renombrar_packs",
+        "crear_estilo",
+        "crear_pack",
+        "normalizar_ajustes",
         "poster",
-        "_TarjetaLook",
         "_generar_con_mezcla",
         "_pack_mezcla",
         "_poner_pistas_motor",
         "MEZCLA_ACUM",
-        "_MEZCLA_ACUM"
+        "_MEZCLA_ACUM",
+        "place_guion",
+        "place_guion_track"
       ],
-      "resumen": "mezcla_planificador (catalogo/planificar/crear_pack), mezcla_vista (vista/poster), _generar_con_mezcla, manifest.mezcla en los scripts de Resolve"
+      "resumen": "mezcla_planificador (temas enteros, planificar, renombrar_packs, crear_estilo), _generar_con_mezcla (una pista guion + plantillas_extra), gemelos con cue.pack"
     },
     {
       "id": "tema4",
@@ -900,7 +941,10 @@
         "construir",
         "comp_luxe",
         "resolve_colgado",
-        "_renderizar"
+        "_renderizar",
+        "_pulir_cortes",
+        "_cortes_oracion",
+        "_empieza_oracion"
       ],
       "resumen": "tema4_planificador (bloques, tamaños, recuadro) + pack_tema4 (Inter Bold, brillo) + probar_tema4 (render por tramos en Resolve Free)"
     },
@@ -1860,7 +1904,7 @@
         "_sincronizar_sfx",
         "_asegurar_pack_luxe"
       ],
-      "resumen": "pack: go_pack⇄plantilla_sel; efectos: go_sfx(+sfx_var); emojis: go_emojis; GO con «guion» guarda los roles del planificador, no los de la IA"
+      "resumen": "pack: go_pack⇄plantilla_sel; efectos: go_sfx(+sfx_var); emojis: edicion_pro.emojis_permitidos (PRO + «Emojis animados»; go_emojis no los enciende); GO con «guion» guarda los roles del planificador, no los de la IA"
     },
     {
       "id": "carpetas-del-usuario",
@@ -1980,7 +2024,13 @@
         "menu",
         "secuencias de comandos",
         "foco",
-        "reproducir"
+        "reproducir",
+        "loadfile",
+        "dofile",
+        "readfile",
+        "runscript",
+        "free.lua",
+        "sin_lectura"
       ],
       "archivos": [
         "resolve_scripts/CineCaptions_Subtitulos.lua",
@@ -1988,7 +2038,9 @@
         "sidecar_lua.py",
         "kinetic_captions.py",
         "guion_captions.py",
-        "colocacion.py"
+        "colocacion.py",
+        "resolve_bridge.py",
+        "registro_ayuda.py"
       ],
       "simbolos": [
         "escribir_sidecar",
@@ -1997,7 +2049,10 @@
         "vista_en_manifiesto",
         "_al_frente",
         "reproducir_desde_inicio",
-        "escribir"
+        "escribir",
+        "a_lua_free",
+        "rutas_sidecar",
+        "_puente_sin_lectura"
       ],
       "resumen": "Resolve Free no tiene io: sidecars .lua escritos por la app, Puente por señales (heartbeat) y cómo probarlo en un Free real"
     },
@@ -2239,7 +2294,8 @@
         "_lineas_finas",
         "apilar",
         "construir_cues",
-        "lado_de_referencia"
+        "lado_de_referencia",
+        "_sin_colgantes"
       ],
       "resumen": "viral_planificador.planificar (pila o efecto por bloque; Creativo: efecto solo en las palabras marcadas), viral_captions.apilar; mismo JSON y colocador que Kinetic"
     },
@@ -2883,6 +2939,50 @@
         "construir_cues"
       ],
       "resumen": "16 variantes (9-12 Screen, 13-16 Sólido); el script de Resolve ajusta inicio, duración y recorrido a cada palabra (inputOffset/inputLength/inputShine)"
+    },
+    {
+      "id": "viral-select-drag",
+      "grupo": "viral",
+      "tema": "Select y Drag del Tema 3 como las referencias TEMA3 (1)/(2) (brillo sin contorno, caja gruesa, cursor grande con sitio en la pila, la mano entra y arrastra la palabra)",
+      "claves": [
+        "viral",
+        "tema 3",
+        "select",
+        "drag",
+        "cursor",
+        "mano",
+        "brillo",
+        "caja",
+        "punteada",
+        "arrastra",
+        "referencia",
+        "espaciado",
+        "characterspacing"
+      ],
+      "archivos": [
+        "2_recursos/generador_packs/viral_elementos.py",
+        "viral_captions.py",
+        "render_temas.py",
+        "vista_tema.py"
+      ],
+      "simbolos": [
+        "comp_select",
+        "comp_drag",
+        "_mano",
+        "_piezas_mano",
+        "MANO_ABIERTA",
+        "_letra_efecto",
+        "EFECTO_RELLENO",
+        "CURSOR_SELECT",
+        "apilar",
+        "K_ESP_TEXTPLUS",
+        "_t24",
+        "_inicio_x",
+        "_caja_select",
+        "_halo",
+        "con_sombra"
+      ],
+      "resumen": "v5.55: letra blanco roto con brillo y sin contorno, guiones gruesos, cursor grande (con sitio en apilar); Drag: la mano entra, agarra y arrastra la palabra 0,9 em, gris → blanco, y se va por detrás. Text+ SUMA el espaciado: 0,97 ya casaba"
     },
     {
       "id": "viral-colores",
@@ -4188,7 +4288,11 @@
         "intensidad",
         "dónde",
         "cabeza",
-        "iconos 3d"
+        "iconos 3d",
+        "sin emojis",
+        "emojis apagados",
+        "píldoras con emoji",
+        "juez de emojis"
       ],
       "archivos": [
         "edicion_pro.py",
@@ -4199,7 +4303,13 @@
         "pro_lateral_ui.py",
         "posiciones_pro.py",
         "herramientas_dev/hacer_ejemplos_pro.py",
-        "herramientas_dev/hacer_estilos_pro.py"
+        "herramientas_dev/hacer_estilos_pro.py",
+        "edicion_pro_temas.py",
+        "edicion_pro_tema5_acomp.py",
+        "edicion_pro_tema6.py",
+        "motions_completo.py",
+        "emojis.py",
+        "vista_tema.py"
       ],
       "simbolos": [
         "_emojis_pro",
@@ -4218,9 +4328,14 @@
         "_pref_niveles",
         "poner_intensidad",
         "emojis_del_tema",
-        "_emojis_permitidos"
+        "_emojis_permitidos",
+        "emojis_permitidos",
+        "emojis_del_plan",
+        "quitar_emojis",
+        "acompanantes",
+        "quitar"
       ],
-      "resumen": "Emojis SOLO con la Edición PRO y su opción «Emojis animados», en todos los temas (v5.54: emojis_del_tema / _emojis_permitidos; antes solo el Tema 2). Opción «Emojis animados» del menú de la PRO (píldora Suave/Media/Fuerte) y sección de Efectos con Automático + 5 estilos 2D Lottie (Google Noto, CC BY 4.0) y 5 3D (PNG Fluent movidos en 3D), «Dónde» (auto/lado/encima/cabeza) e «Intensidad»; edicion_pro._emojis_pro saca el emoji de la palabra dicha, lo pone junto al caption sin tapar caras ni otros gráficos y apaga el emoji del tema ahí; render con Remotion EmojiPro (alfa) en la pista de iconos."
+      "resumen": "Emojis SOLO con la Edición PRO y su opción «Emojis animados», en todos los temas (v5.54: emojis_del_tema / _emojis_permitidos; antes solo el Tema 2). v5.55: un solo juez edicion_pro.emojis_permitidos (pro_emojis APAGADO de fábrica; Tema 1: «emoji» de pro_neon_extras), la decisión viaja en plan['emojis'] (emojis_del_plan; el pase ligero, nunca), quitar_emojis limpia las piezas de la PRO (EmojiPro, píldoras sticker/saludo, equipo T6, plantillas con sticker, ConceptoK, AbanicoK, pictograma) y acompanantes/T6.elementos/motions_completo reciben con_emojis; Creativo (vista, Comprobar en Resolve, Asistencia) igual. Opción «Emojis animados» del menú de la PRO (píldora Suave/Media/Fuerte) y sección de Efectos con Automático + 5 estilos 2D Lottie (Google Noto, CC BY 4.0) y 5 3D (PNG Fluent movidos en 3D), «Dónde» (auto/lado/encima/cabeza) e «Intensidad»; edicion_pro._emojis_pro saca el emoji de la palabra dicha, lo pone junto al caption sin tapar caras ni otros gráficos y apaga el emoji del tema ahí; render con Remotion EmojiPro (alfa) en la pista de iconos."
     },
     {
       "id": "sonido-biblioteca",

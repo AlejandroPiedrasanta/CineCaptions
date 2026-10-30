@@ -14,7 +14,7 @@ Programa de escritorio (Python 3.14 + PySide6/Qt; Windows y Mac) que **subtitula
 Inicio (GO + chips Estilo/Emojis/Efectos/Formato/Proyecto) · Estilos (packs, «Crea tu estilo», vistas reales) · Creativo (`WordTagWindow`: pintar roles, Asistencia, Generar) · Sonido (SFX Lab) · Ajustes · Registro. «Generar» del editor usa la misma receta que GO (`_receta_generar`).
 
 ## Quién decide qué (una sola fuente por ajuste)
-Pack: pref `go_pack` ⇄ `plantilla_sel` (Estilos y chip de GO son lo mismo) · Efectos: pref `go_sfx` (+ `sfx_var`) · Emojis: pref `go_emojis` · Posición/estilo fijo: solo en packs de 3 líneas · Sonido: modo en `sfx_rules` (Simple/Avanzado) · Estilo de cada bloque: `estilos_bloque.asignar` (el usuario lo cambia en Creativo).
+Pack: pref `go_pack` ⇄ `plantilla_sel` (Estilos y chip de GO son lo mismo) · Efectos: pref `go_sfx` (+ `sfx_var`) · Emojis: `edicion_pro.emojis_permitidos` (PRO en juego + «Emojis animados» `pro_emojis`; Tema 1: «emoji» en `pro_neon_extras`; `go_emojis` no los enciende) · Posición/estilo fijo: solo en packs de 3 líneas · Sonido: modo en `sfx_rules` (Simple/Avanzado) · Estilo de cada bloque: `estilos_bloque.asignar` (el usuario lo cambia en Creativo).
 
 ## Estructura del proyecto
 `1_codigo/` programa · `2_recursos/` lo que viaja en el .exe (scripts de Resolve, packs, fuentes, sfx, locales) · `3_compilar/` armar el instalador · `4_diseno/` banner e icono · `6_compilacion/` temporal (se rehace) · `7_mac/` instalador Mac · `INSTALADORES/` Windows y Mac listos · `DOCUMENTACION/` esta carpeta.
@@ -24,4 +24,4 @@ Datos del usuario (fuera del programa): `~/DaVinciSubtitles/` (ajustes, marcas, 
 Estado del usuario solo con `archivos_seguros` (nunca `write_text`) · nada de red/subprocess/`sleep` en el hilo de la interfaz (`correr_en_hilo`) · packs = solo macros reales Luxe (MediaOut, no Saver; subir `REVISION_BIN` al cambiar uno) · Amro solo como texto principal · no insertar efectos por nombre dudoso en un Resolve vivo · versión única en `version.py` (`sincronizar_version.py` la copia a los scripts).
 
 ## Cómo encontrar algo SIN leer archivos enteros
-`mapa(consulta)` → temas con archivos y símbolos · `mapa(id=…)` → detalle · `simbolo(nombre)` → solo esa función · `modulo(nombre)` → qué es un archivo · `cambios(n)` → últimos cambios. (MCP `cinecaptions`; sin MCP: `6_compilacion/venv315/Scripts/python.exe 1_codigo/mapa_codigo.py mapa <palabras>`.)
+`mapa(consulta)` → temas con archivos y símbolos · `mapa(id=…)` → detalle · `donde(nombre)` → archivo:línea · `simbolo(nombre)` → solo esa función · `modulo(nombre)` → qué es un archivo · `cambios(n)` → últimos cambios. (MCP `cinecaptions`; sin MCP: `6_compilacion/venv315/Scripts/python.exe 1_codigo/mapa_codigo.py mapa <palabras>`.)
