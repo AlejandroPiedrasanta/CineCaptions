@@ -32,7 +32,9 @@ interlineado ni Align (las copias tienen la letra fija y el shatter supone la pa
 (`viral_elementos._copia`): el «Tracking» mueve la medida, el brillo y la caja con las letras. En el drag, el relleno sigue al «Color» (Red1, el
 contorno: `G0 + (math.min(1, Template.Red1 / GRIS_DRAG * EFECTO_RELLENO) - G0) * llena`; con el de fábrica, lo de siempre) y solo se publica
 «Color» (`color='solo'`); `pack_personalizado.color_viral` lee esa razón de la expresión. El render no cambia: la vista no hay que rehacerla. Sin
-probar en Resolve: el DataWindow de «Medida» (no se compone) dentro del macro; si fallara, WW y el nº de letras caen a su valor de reserva sin aviso.
+el DataWindow de «Medida» (que no se compone) funciona DENTRO del macro: probado en Studio 21.1.2 con GO real (video VENTAS, con shatter
+«Knockout», select «Especiales» y drag «Puerto»), render idéntico al Vir 8 (744 de 744 cuadros). Si fallara, WW y el nº de letras caerían a su
+valor de reserva sin aviso: es lo primero que hay que mirar si se toca este macro.
 
 **Hallazgos de Fusion (Resolve 21.1.1), medidos con renders reales:**
 - Una **expresión que falla NO avisa: el clip sale NEGRO y opaco.** `string.len(...)` y `#...` fallan (GetInput da None); valen `math.*`, `time`, `comp.RenderEnd`, `Nodo.Size`, `Nodo.Output.DataWindow`, `comp:GetPrefs(...)`.

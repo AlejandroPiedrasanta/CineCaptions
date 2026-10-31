@@ -267,7 +267,13 @@ llevarlo.
 **v5.57, los 6 temas («utiliza las herramientas de Luxe Slide y solo le pones el banner», «Sí, en los 6»):** el primer tool de cada caption es
 un MACRO con el banner del LOGO en sus propios UserControls (`IC_ControlPage = -1`, encima de las pestañas) y la pestaña «Controles» de Luxe Slide;
 el Text+ «Template» va DENTRO, de primer tool (la app lo encuentra con `FindTool("Template")` y sigue siendo el primer `= TextPlus {` del texto para
-`packs_drt`). El render no cambia. `REVISION_BIN`: Kin 21, Vir 9, Ref 21, T4/T5/T6 8.
+`packs_drt`). El render no cambia: probado en Studio 21.1.2 con GO real de solo captions (video VENTAS), cada tema con su pack de antes y el
+nuevo: Temas 3-6 idénticos cuadro a cuadro; la Referencia, idéntica en ProRes (en H.264 salía ruido entre cuadros también en el fondo: es del
+codificador, no del pack; para un A/B, renderizar en ProRes en vez del «H.264 Master» de `banco_pruebas.renderizar`). `REVISION_BIN`: Kin 21, Vir 9, Ref 21, T4/T5/T6 8.
+
+**Pendiente (revisión independiente, menor):** el «reinicio» (Default) de los controles se escribe una vez; «Crea tu estilo»
+(`pack_personalizado.retocar_tools`) y el premium (`construir_pack.premium_sobre_drb`) cambian el color después y no lo ponen al día: la flecha
+de reiniciar vuelve al color de fábrica. `construir` no corre `inspector_luxe.comprobar` (solo `retocar_drb`).
 
 **Temas 1 y 3:** la comp entera dentro del macro «CineCaptions» (`macro_kinetic.py`; ver `kinetic-pack` y `viral-pack`), con DROP SHADOW y GLOW
 apagados.

@@ -289,7 +289,9 @@ def puntos_fusion(det):
 
 ALTO_MATTE = 1024                        # v5.31: el BORDE del recorte con el modelo a 1024 px (a 512 el pelo y las orejas llevaban halo de fondo)
 ALTO_FORMA = 512                         # …y la FORMA de la persona a 512 (a 1024 el modelo a veces deja huecos dentro del cuerpo)
-VERSION_MATTE = 3
+VERSION_MATTE = 4                        # v5.57: 4 = el borde estable (las máscaras guardadas con la 3 se rehacen)
+QUIETO_NIVELES = 4.0                     # v5.57: si la luz cambia menos que esto (0-255, suavizada) entre dos fotogramas, ese sitio está QUIETO…
+MARGEN_CAMBIO = 0.4                      # …y ahí un píxel solo cambia de lado si la IA lo dice claro (alfa a más de esto de 0,5)
 MASCARAS = Path.home() / 'DaVinciSubtitles' / 'mascaras_persona'   # v5.31: los mattes de «detrás de ti», FUERA de la caché (Resolve los usa)
 DIAS_MASCARAS = 120
 
@@ -361,9 +363,10 @@ def matte_persona(rgb, previo=None, estado=None, forma=None):
     """v5.31 (el usuario: «la máscara perfecta para humanos, sin bugs ni fallas»): la silueta de las personas para el recorte, en DOS pasadas
     del modelo: la FORMA a ALTO_FORMA px (robusta: ni huecos en el cuerpo ni manchas de fondo) y el BORDE a ALTO_MATTE px (pelo, orejas,
     dedos), que solo cuenta en una franja alrededor del contorno de la forma; sin manchas sueltas (_limpiar_islas), sin agujeros dentro (la cara,
-    una mano delante) y estable de un fotograma a otro sin dejar estela (se suaviza solo donde casi no cambió). Devuelve el alfa (0..1) a la
-    resolución de la pasada fina. `forma`: la de _forma_persona(rgb) si ya está hecha (v5.57)."""
-    from PIL import Image
+    una mano delante) y estable de un fotograma a otro sin dejar estela (v5.57: se suaviza solo donde la IMAGEN está quieta). Devuelve el alfa
+    (0..1) a la resolución de la pasada fina. `forma`: la de _forma_persona(rgb) si ya está hecha (v5.57). `estado` guarda entre fotogramas la
+    zona de la persona y la luz del fotograma anterior."""
+    from PIL import Image, ImageFilter
     forma = _forma_persona(rgb) if forma is None else forma
     H0, W0 = rgb.shape[:2]
     h, w = forma.shape                                                 # (la rejilla fina)
@@ -384,9 +387,19 @@ def matte_persona(rgb, previo=None, estado=None, forma=None):
     for _ in range(max(2, h // 220)):                                  # (≈4-5 px a 1024 por lado: el pelo suelto; con numpy, unos ms)
         franja = _dilatar(franja)
     a = np.where(franja, fino, forma)
-    if previo is not None and previo.shape == a.shape:
-        quieto = np.abs(a - previo) < 0.25
-        a = np.where(quieto, previo * 0.35 + a * 0.65, a)
+    # v5.57 (el usuario: «verifica que está en máxima calidad»; eligió el borde «muy estable»): donde la IMAGEN no se movió, un píxel solo
+    # cambia de lado (alfa por encima o por debajo de 0,5) si la IA lo dice claro; si no, se queda como en el fotograma anterior. Sin mezclar
+    # alfas: no crea grises nuevos. La mezcla con el anterior (el «C» de los ejemplos) quitaba más temblor pero volvía translúcido el borde de
+    # lo que se mueve despacio (4K de boda: grises visibles del 3,5 al 8,9 % de la persona, y 2 → 6 islas); la mediana de 3 fotogramas también
+    # creaba islas. Medido en 5 tramos: lo que cambia de lado en lo quieto baja un 17-29 %, mismas islas y mismo halo, y sin la estela de antes
+    # (2,8-4,8 /255 → 0). Antes: 35 % del anterior donde el ALFA cambió < 0,25, también en lo que se movía.
+    luma = np.asarray(Image.fromarray(rgb).convert('L').resize((w, h), Image.BILINEAR), np.float32)
+    luma_ant, estado['luma'] = estado.get('luma'), luma
+    if previo is not None and previo.shape == a.shape and luma_ant is not None and luma_ant.shape == luma.shape:
+        dif = np.clip(np.abs(luma - luma_ant), 0, 255).astype(np.uint8)
+        quieto = np.asarray(Image.fromarray(dif).filter(ImageFilter.GaussianBlur(2)), np.float32) < QUIETO_NIVELES
+        dudoso = ((a >= 0.5) != (previo >= 0.5)) & (np.abs(a - 0.5) <= MARGEN_CAMBIO)
+        a = np.where(quieto & dudoso, previo, a)
     return a
 
 
