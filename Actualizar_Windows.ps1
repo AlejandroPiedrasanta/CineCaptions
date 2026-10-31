@@ -64,15 +64,22 @@ $version = VersionActual
 $salida = Join-Path $raiz 'INSTALADORES\Windows'
 $exeActual = Join-Path $salida "Instalar_CineCaptions_$version.exe"
 Paso 'Mirando si el codigo cambio'
+# v5.56: los SFX que viajan en el .exe (2_recursos\biblioteca_sonido) salen de 5_SFX, que no entra en la huella: un cambio ahi se copia antes
+# de calcularla (con -Comprobar solo se mira)
+$sonidosViejos = $false
+if (Test-Path $vpy) {
+    $empaquetar = Join-Path $raiz '3_compilar\empaquetar_sonidos.py'
+    if ($Comprobar) { & $vpy $empaquetar --comprobar | Out-Null; $sonidosViejos = ($LASTEXITCODE -ne 0) } else { & $vpy $empaquetar | Out-Null }
+}
 $huella = HuellaFuentes
 $estado = LeerEstado
 $cambio = (-not $estado) -or ($estado.huella -ne $huella)
 $otros = @((@(Get-ChildItem -LiteralPath $salida -Filter 'Instalar_CineCaptions*.exe' -File -ErrorAction SilentlyContinue) + @(Get-ChildItem -LiteralPath $raiz -Filter 'Instalar_CineCaptions*.exe' -File)) | Where-Object { $_.FullName -ne $exeActual })
-$alDia = (Test-Path -LiteralPath $exeActual) -and $estado -and ($estado.version -eq $version) -and (-not $cambio) -and ($otros.Count -eq 0)
+$alDia = (Test-Path -LiteralPath $exeActual) -and $estado -and ($estado.version -eq $version) -and (-not $cambio) -and ($otros.Count -eq 0) -and (-not $sonidosViejos)
 
 if ($Comprobar) {
     if ($alDia) { Write-Host "    AL DIA: $(Split-Path $exeActual -Leaf) corresponde al codigo actual (version $version)." -ForegroundColor Green; exit 0 }
-    $porque = if (-not (Test-Path -LiteralPath $exeActual)) { "no existe Instalar_CineCaptions_$version.exe" } elseif ($cambio) { 'el codigo cambio despues de la ultima compilacion' } elseif ($otros.Count) { 'hay instaladores viejos en la raiz' } else { 'no hay registro de la ultima compilacion' }
+    $porque = if (-not (Test-Path -LiteralPath $exeActual)) { "no existe Instalar_CineCaptions_$version.exe" } elseif ($cambio) { 'el codigo cambio despues de la ultima compilacion' } elseif ($sonidosViejos) { 'los sonidos de 5_SFX cambiaron (empaquetar_sonidos.py)' } elseif ($otros.Count) { 'hay instaladores viejos en la raiz' } else { 'no hay registro de la ultima compilacion' }
     Write-Host "    DESACTUALIZADO: $porque. Corre Actualizar_Windows.ps1." -ForegroundColor Yellow
     exit 1
 }

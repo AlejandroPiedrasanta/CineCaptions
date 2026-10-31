@@ -190,7 +190,9 @@ con los clips ya nombrados (principal, arriba 2…) y su Tilt; y 🗑 (los packs
 
 ## tema5 — Tema 5 «Edición total» (sistema de la skill «Edit VIRAL Reels with AI»)
 
-`edicion_pro_tema5.planificar` arma la edición entera con la Edición PRO (va siempre con este tema): pasos y deslizador sobre cristal oscuro,
+**v5.57 (el usuario: «esa misma lógica para los 6 temas, para que los captions de solo captions lo hagan rápido»):** el Tema 5 (y el 6) ya NO va con la PRO completa por sí solo: su motor corre solo con la PRO encendida y algún motion encendido en su menú (`edicion_pro.activa_en_go`, `hay_motions`; ver `pro-lateral`). Sin la PRO o sin nada encendido, GO pone sus captions (los Text+ del pack) con la regla de la cara (plan ligero `solo_captions`) y los efectos de Efectos como en los demás temas; el chip de Inicio ya no dice «la del tema».
+
+`edicion_pro_tema5.planificar` arma la edición entera con la Edición PRO (con la PRO y algo encendido en su menú): pasos y deslizador sobre cristal oscuro,
 escenas de papel con cuadrícula (pantalla completa o dividida), órbita, tarjeta tachada, acompañantes, final y sonido (guía de sonido). Su
 diseño de captions es sans pequeña + frase clave serif cursiva (DM Serif Text) en el acento del video (`acento_de_video`), hecho en Remotion
 (`Subtitulo.tsx`, pista PRO-SUBS). v5.5.8: por defecto (`pro_captions_editables`) esos captions de Remotion NO se ponen: quedan los Text+ del
@@ -259,8 +261,29 @@ el Text+ «Template» (o el primer Text+ si no hay) lleva un LabelControl con el
 Productions», 600×150, paleta de 128 colores, ~5 KB, en base64 dentro del HTML como la cabecera del macro Luxe) y una línea de ayuda, con
 `IC_ControlPage = -1` = ENCIMA de la fila de pestañas; con macro, además un banner de solo texto dentro y publicado como su primer control.
 `python banner_inspector.py <carpeta|.drb>` lo pone o lo deja al día (idempotente; `_VIEJO` reconoce los anteriores). Al cambiarlo: subir
-`plantillas.REVISION_BIN` (5.5.9: Luxe 5, Ref 5, Kin 6, Vir 5, T4/T5/T6 5). Los 4 clips especiales de Referencia (primer tool TimeSpeed) lo
-llevan en su Text+. Los clips de video (Remotion, efectos sobre V1, emojis) no pueden llevarlo.
+`plantillas.REVISION_BIN` (5.5.9: Luxe 5, Ref 5, Kin 6, Vir 5, T4/T5/T6 5). Los clips de video (Remotion, efectos sobre V1, emojis) no pueden
+llevarlo.
+
+**v5.57, los 6 temas («utiliza las herramientas de Luxe Slide y solo le pones el banner», «Sí, en los 6»):** el primer tool de cada caption es
+un MACRO con el banner del LOGO en sus propios UserControls (`IC_ControlPage = -1`, encima de las pestañas) y la pestaña «Controles» de Luxe Slide;
+el Text+ «Template» va DENTRO, de primer tool (la app lo encuentra con `FindTool("Template")` y sigue siendo el primer `= TextPlus {` del texto para
+`packs_drt`). El render no cambia. `REVISION_BIN`: Kin 21, Vir 9, Ref 21, T4/T5/T6 8.
+
+**Temas 1 y 3:** la comp entera dentro del macro «CineCaptions» (`macro_kinetic.py`; ver `kinetic-pack` y `viral-pack`), con DROP SHADOW y GLOW
+apagados.
+
+**Temas 2, 4, 5 y 6 (`inspector_luxe.py`):** se RETOCAN sus `.drb` (los Temas 4-6 llevan el Luxe de antes de la v1.09: no se regeneran) con
+ediciones por posición sobre el lector de `pack_personalizado`: el Template entra en el macro Luxe (LuxeSlide / LuxeShine / LuxeCount) sin su
+banner; Input1 publica `Template.StyledText` (el texto se edita en el Inspector; al Luxe Count se le añade); fuera la cabecera de Van Beek y los
+banners de texto; el «reinicio» de Size, Tracking, interlineado y Color = el valor del clip. Las curvas, la trama y MediaOut1 siguen fuera. Siguen
+por expresión (se ven, no se arrastran): Length del Tema 2 y lo del Count que sale del texto. `comprobar()` mira que no cambie ninguna entrada ni
+conexión; `python inspector_luxe.py <.drb>` retoca en el sitio (idempotente). `construir_pack.blob_de_comp` lo aplica a lo que se genera.
+
+**Amro (Referencia «principal 3/6/7/8»):** su primer tool es un GroupOperator sin Template (la app escribe en su Text1): el banner va en los
+UserControls del grupo (`inspector_luxe.banner_en_grupo`; antes no llevaban ninguno). Sin probar en Resolve que un grupo lo enseñe arriba.
+
+**`con_banner`:** deja tal cual una comp cuyo primer tool es un macro o un grupo con el banner en SUS UserControls (`banner_en_el_primero`): su
+`_VIEJO.sub` lo pasaba a solo texto y metía otro en el Template de dentro, que en el Inspector no se ve.
 
 ## motions-resolve — Motions EDITABLES en Resolve: «CineCaptions Motions.drfx» (Efectos › Títulos › CineCaptions, v5.5.9)
 

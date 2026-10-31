@@ -25,6 +25,15 @@ Inter 28pt Black (efectos); las trae `2_recursos/fonts`.
 `viral_lab.py` (comps de laboratorio; `pack_viral.py --lab` las añade como «v lab …»). Al cambiar una comp: `python 2_recursos/generador_packs/pack_viral.py`, subir `plantillas.REVISION_BIN['VIRAL']` y rehacer la vista
 (`python 1_codigo/hacer_vista_viral.py`).
 
+**Inspector con los controles de Luxe Slide (v5.57, Vir 9):** cada comp va dentro del macro «CineCaptions» de `macro_kinetic.envolver`, como el
+Tema 1 (ver `banner-inspector`): el Template, primero dentro; Center, DROP SHADOW y GLOW apagados; solo el banner. `envolver` publica únicamente lo
+que siguen las COPIAS del texto (Medida, BrilloTxt, Caja: Text+ con `StyledText = Template.StyledText`): en shatter, select y drag no hay fuente,
+interlineado ni Align (las copias tienen la letra fija y el shatter supone la palabra centrada). Las copias siguen también `CharacterSpacing`
+(`viral_elementos._copia`): el «Tracking» mueve la medida, el brillo y la caja con las letras. En el drag, el relleno sigue al «Color» (Red1, el
+contorno: `G0 + (math.min(1, Template.Red1 / GRIS_DRAG * EFECTO_RELLENO) - G0) * llena`; con el de fábrica, lo de siempre) y solo se publica
+«Color» (`color='solo'`); `pack_personalizado.color_viral` lee esa razón de la expresión. El render no cambia: la vista no hay que rehacerla. Sin
+probar en Resolve: el DataWindow de «Medida» (no se compone) dentro del macro; si fallara, WW y el nº de letras caen a su valor de reserva sin aviso.
+
 **Hallazgos de Fusion (Resolve 21.1.1), medidos con renders reales:**
 - Una **expresión que falla NO avisa: el clip sale NEGRO y opaco.** `string.len(...)` y `#...` fallan (GetInput da None); valen `math.*`, `time`, `comp.RenderEnd`, `Nodo.Size`, `Nodo.Output.DataWindow`, `comp:GetPrefs(...)`.
   Para comprobarlas sin renderizar: `item.ImportFusionComp(ruta)` + `herramienta.GetInput('Entrada', fotograma)` (None = error).

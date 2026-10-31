@@ -1664,6 +1664,41 @@
       "resumen": "recorrido_ui.py sigue en el código pero ya no se arranca ni hay interruptor en Ajustes"
     },
     {
+      "id": "fluidez-resolve",
+      "grupo": "resolve",
+      "tema": "Reproducción fluida al terminar GO: caché de render de Fusion (CACHE_ENABLED) y reproducir cuando está lista",
+      "claves": [
+        "fluidez",
+        "fluida",
+        "lags",
+        "tirones",
+        "render cache",
+        "cache",
+        "cacheclip",
+        "reproducir",
+        "SetFusionOutputCache",
+        "CACHE_ENABLED"
+      ],
+      "archivos": [
+        "fluidez_resolve.py",
+        "colocacion.py",
+        "2_recursos/resolve_scripts/CineCaptions_Vista.lua"
+      ],
+      "simbolos": [
+        "preparar",
+        "esperar_cache",
+        "contar_cuadros",
+        "esperar_y_reproducir",
+        "sin_cambios",
+        "antes_de_reproducir",
+        "reproducir_desde_inicio",
+        "_valores_cache",
+        "valores_cache",
+        "_fluidez_esperando"
+      ],
+      "resumen": "fluidez_resolve.preparar (marca con resolve.CACHE_ENABLED) + esperar_y_reproducir en un hilo tras «Listo»"
+    },
+    {
       "id": "vista-real-previo",
       "grupo": "resolve",
       "tema": "Vista real cortada a medias",
@@ -1673,7 +1708,9 @@
         "temporal",
         "previo",
         "reparar",
-        "timeline"
+        "timeline",
+        "durante go",
+        "sonido no se aplico"
       ],
       "archivos": [
         "vistas_reales.py"
@@ -1684,7 +1721,10 @@
         "PREVIO",
         "ejecutar_py",
         "preparar_resolve",
-        "_reparar_vistas"
+        "_reparar_vistas",
+        "esperar_libre",
+        "_renderizar_reales",
+        "_go_ocupa_resolve"
       ],
       "resumen": "vistas_reales.anotar_previo/reparar_pendiente"
     },
@@ -2112,14 +2152,20 @@
         "cinta",
         "heroe",
         "degradado",
-        "drb"
+        "drb",
+        "inspector",
+        "luxe slide",
+        "macro",
+        "drop shadow",
+        "glow"
       ],
       "archivos": [
         "2_recursos/generador_packs/pack_kinetic.py",
         "2_recursos/generador_packs/kinetic_elementos.py",
         "2_recursos/generador_packs/kinetic_pack.py",
         "2_recursos/generador_packs/kinetic_comps.py",
-        "2_recursos/generador_packs/leer_comp.py"
+        "2_recursos/generador_packs/leer_comp.py",
+        "2_recursos/generador_packs/macro_kinetic.py"
       ],
       "simbolos": [
         "construir",
@@ -2129,9 +2175,13 @@
         "comp_anillo",
         "comp_linea",
         "construir_clips",
-        "blob_con_nombre"
+        "blob_con_nombre",
+        "_calidad_desenfoque",
+        "DESENFOQUE_SOLO_AL_MOVERSE",
+        "envolver",
+        "TEXT_SHADING"
       ],
-      "resumen": "pack_kinetic.construir → Kinetic vertical.drb (25 clips); subir REVISION_BIN al cambiar"
+      "resumen": "pack_kinetic.construir → Kinetic vertical.drb (91 clips, cada comp dentro del macro «CineCaptions» con los controles de Luxe Slide: macro_kinetic); subir REVISION_BIN al cambiar"
     },
     {
       "id": "kinetic-neon-kit",
@@ -2313,14 +2363,19 @@
         "punteado",
         "poligono",
         "glitch",
-        "drb"
+        "drb",
+        "inspector",
+        "luxe slide",
+        "macro",
+        "tracking"
       ],
       "archivos": [
         "2_recursos/generador_packs/pack_viral.py",
         "2_recursos/generador_packs/viral_elementos.py",
         "2_recursos/generador_packs/viral_comps.py",
         "2_recursos/generador_packs/viral_lab.py",
-        "2_recursos/generador_packs/kinetic_pack.py"
+        "2_recursos/generador_packs/kinetic_pack.py",
+        "2_recursos/generador_packs/macro_kinetic.py"
       ],
       "simbolos": [
         "construir",
@@ -2332,9 +2387,12 @@
         "comp_fina",
         "comp_negrita",
         "poligono",
-        "cadena"
+        "cadena",
+        "envolver",
+        "_copia",
+        "GRIS_DRAG"
       ],
-      "resumen": "pack_viral.construir → VIRAL vertical.drb + VIRAL horizontal.drb (5 clips «v …»); una expresión que falla deja el clip NEGRO; subir REVISION_BIN al cambiar"
+      "resumen": "pack_viral.construir → VIRAL vertical.drb + VIRAL horizontal.drb (5 clips «v …»; v5.57 cada comp dentro del macro «CineCaptions» de macro_kinetic.envolver: las copias siguen el Tracking, el relleno del drag sigue al Color); una expresión que falla deja el clip NEGRO; subir REVISION_BIN al cambiar"
     },
     {
       "id": "viral-app-resolve",
@@ -2408,17 +2466,29 @@
         "errores",
         "registro",
         "audio",
-        "A1"
+        "A1",
+        "solo captions",
+        "con pro",
+        "reutilizado",
+        "5 minutos"
       ],
       "archivos": [
         "un_clic_ui.py",
         "registro_ayuda.py",
-        "resolve_mcp.py"
+        "resolve_mcp.py",
+        "ia_texto.py"
       ],
       "simbolos": [
         "EstimadorGo",
         "PanelGo",
         "estimar_duracion",
+        "poner_pro",
+        "reutilizado",
+        "en_cache",
+        "_configurar_estimador",
+        "_sin_ia_en_go",
+        "precarga_en_este_go",
+        "hace_falta",
         "asegurar_audio_original",
         "explicar",
         "idioma_detectado",
@@ -3633,7 +3703,11 @@
         "cápsula",
         "burbuja",
         "intensidad",
-        "detras de ti"
+        "detras de ti",
+        "solo captions",
+        "nada encendido",
+        "6 temas",
+        "activa en go"
       ],
       "archivos": [
         "pro_lateral_ui.py",
@@ -3655,9 +3729,12 @@
         "opciones_visibles",
         "poner_intensidad",
         "NIVELES",
-        "_pintar_niveles"
+        "_pintar_niveles",
+        "encendidas",
+        "activa_en_go",
+        "opciones_menu"
       ],
-      "resumen": "mismas prefs que Efectos (pro_motions*, pro_internet, pro_mascara, pro_motions_completo); clips en edicion_pro/ejemplos_pro"
+      "resumen": "mismas prefs que Efectos (pro_motions*, pro_internet, pro_mascara, pro_motions_completo); v5.57: la PRO solo hace lo encendido aquí en los 6 temas (nada = solo captions; de fábrica, nada); clips en edicion_pro/ejemplos_pro"
     },
     {
       "id": "estilos-pro",
@@ -4048,20 +4125,34 @@
         "cinecaptions",
         "personalizar",
         "label",
-        "arriba"
+        "arriba",
+        "luxe",
+        "macro",
+        "amro",
+        "van beek",
+        "luxe slide"
       ],
       "archivos": [
         "2_recursos/generador_packs/banner_inspector.py",
-        "2_recursos/generador_packs/construir_pack.py"
+        "2_recursos/generador_packs/construir_pack.py",
+        "2_recursos/generador_packs/macro_kinetic.py",
+        "2_recursos/generador_packs/inspector_luxe.py"
       ],
       "simbolos": [
         "LABEL",
         "LABEL_TEXTO",
         "banner_png",
         "con_banner",
-        "parchear_drb"
+        "parchear_drb",
+        "banner_en_el_primero",
+        "estado",
+        "al_inspector",
+        "banner_en_grupo",
+        "retocar",
+        "comprobar",
+        "retocar_drb"
       ],
-      "resumen": "logo en el Text+ «Template» (el que enseña el Inspector) con IC_ControlPage = -1; subir REVISION_BIN"
+      "resumen": "v5.57, los 6 temas: el primer tool es un macro (o el grupo de Amro) con el banner del logo en SUS UserControls (IC_ControlPage = -1) y los controles de Luxe Slide; el Template va dentro, primero. Temas 1 y 3: macro_kinetic; Temas 2 y 4-6: inspector_luxe retoca sus .drb (construir_pack lo aplica al generar); con_banner los salta (banner_en_el_primero); subir REVISION_BIN"
     },
     {
       "id": "motions-resolve",
@@ -4369,10 +4460,15 @@
         "variantes",
         "musica biblioteca",
         "02_musica",
-        "credito cc by"
+        "credito cc by",
+        "sfx en el exe",
+        "biblioteca_sonido",
+        "empaquetar sonidos",
+        "0 sonidos"
       ],
       "archivos": [
         "sonido_skill.py",
+        "3_compilar/empaquetar_sonidos.py",
         "sonido_skill_ui.py",
         "sonido_musica.py",
         "director_sonido.py",
@@ -4408,7 +4504,10 @@
         "_pintar_musica",
         "_musica_linea",
         "TarjetaMomento",
-        "LineaTiempo"
+        "LineaTiempo",
+        "lib_incluida",
+        "disponible",
+        "INCLUIDA"
       ]
     },
     {

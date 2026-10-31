@@ -1,5 +1,194 @@
 REGISTRO DE CAMBIOS ARCHIVADO · 2026-10 (la entrada más nueva arriba)
 
+2026-10-27 13:32  ·  v5.51  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-10-27 13:12  ·  v5.50  ·  cambio explicado
+    Librerías al día (pedido: «actualízalo igual»): motor Whisper/ONNX onnxruntime 1.31.1; motor Qwen transformers 5.21.0, numba 0.68.1, msgpack 1.2.4, platformdirs 4.13.6, narwhals 2.28.0; Remotion 4.0.539 + mediabunny 1.62.1 (bundle y runtime rehechos). Probado: Qwen con las nuevas da la MISMA transcripción (60 palabras, mismos tiempos) usando el Python real del motor sin tocarlo; Silero VAD igual con onnxruntime 1.31.1; autoprueba y render de Remotion bien. Los motores ya instalados se ponen al día solos en la tarea del instalador (solo lo que cambió, --no-deps).
+    nuevos (192):
+      + 1_codigo/remotion/node_modules/@remotion/bundler/dist/define-plugin-definitions.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/bundler/dist/define-plugin-definitions.js
+      + 1_codigo/remotion/node_modules/@remotion/cli/dist/get-license-key.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/cli/dist/get-license-key.js
+      + 1_codigo/remotion/node_modules/@remotion/codemods/dist/add-component.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/codemods/dist/add-media.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/codemods/dist/add-solid.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/codemods/dist/apply-visual-control.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/codemods/dist/composition-source-edits.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/codemods/dist/delete-jsx-nodes.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/codemods/dist/duplicate-jsx-nodes.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/codemods/dist/get-jsx-elements-with-node-paths.d.ts
+      … y 180 más
+    modificados (181):
+      ~ 1_codigo/remotion/node_modules/.package-lock.json
+      ~ 1_codigo/remotion/node_modules/@babel/core/node_modules/.bin/parser
+      ~ 1_codigo/remotion/node_modules/@babel/core/node_modules/.bin/parser.cmd
+      ~ 1_codigo/remotion/node_modules/@babel/core/node_modules/@babel/parser/lib/index.js
+      ~ 1_codigo/remotion/node_modules/@babel/core/node_modules/@babel/parser/lib/index.js.map
+      ~ 1_codigo/remotion/node_modules/@babel/core/node_modules/@babel/parser/package.json
+      ~ 1_codigo/remotion/node_modules/@babel/generator/node_modules/.bin/parser
+      ~ 1_codigo/remotion/node_modules/@babel/generator/node_modules/.bin/parser.cmd
+      ~ 1_codigo/remotion/node_modules/@babel/generator/node_modules/@babel/parser/lib/index.js
+      ~ 1_codigo/remotion/node_modules/@babel/generator/node_modules/@babel/parser/lib/index.js.map
+      ~ 1_codigo/remotion/node_modules/@babel/generator/node_modules/@babel/parser/package.json
+      ~ 1_codigo/remotion/node_modules/@babel/template/node_modules/.bin/parser
+      … y 169 más
+    quitados (24):
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/CaptionQueueProcessor-hcbpmydg.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/LazyModels-5wq5p7fh.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/LazyModels-qjnzf2tt.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/TranscriptionModal-q7g2m5ge.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/VideoMattingModal-hdxbe1vq.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/index-394460kk.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/index-e7w84rbx.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/index-hbw4mbkr.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/index-hfvxjqa8.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/index-r1dx4ekm.mjs
+      - 2_recursos/edicion_pro/remotion/bundle/103.bundle.js
+      - 2_recursos/edicion_pro/remotion/bundle/103.bundle.js.map
+      … y 12 más
+
+2026-10-27 12:35  ·  v5.50  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-10-27 12:34  ·  v5.49  ·  cambio explicado
+    Tema 2: halftone de 1, 9 y 13 rehecho (el usuario: «están feos, debe ser todo, sutil y difuminado»): puntos por toda la letra, de borde suave y opacidad 40 % abajo a 12 % arriba. REVISION_BIN Ref 18.
+    modificados (5):
+      ~ 1_codigo/escena_go.py
+      ~ 1_codigo/plantillas.py
+      ~ 2_recursos/generador_packs/luxe_macro.py
+      ~ 2_recursos/generador_packs/pack_referencia.py
+      ~ 2_recursos/plantillas_incluidas/Referencia/Referencia vertical.drb
+
+2026-10-27 12:02  ·  v5.49  ·  cambio explicado
+    Inicio, los 3 estilos pulidos (el usuario: «Astrolabio, ¿puedes pulirlo más? y también Nebulosa y Proceso»). Común: ondas de choque nítidas (filo + resplandor, ~1,7 ms por aro; antes un anillo escalado y borroso que lavaba el título), destello plano en la lista solo si el estilo la enseña, choques de cometa solo con cometas, explosión con floración corta y destello anamórfico. Astrolabio: velos de nebulosa, estrellas con destello, anillo horario grabado con brillo que lo recorre, la araña del astrolabio girando, aros de metal con luz y filo, sin cometas, constelación más legible. Nebulosa: velo violeta, polvo oscuro, núcleo, disco de gas en espiral que se tiñe en GO, estrellas nítidas, bokeh suave, penumbra bajo el texto. Proceso: espectro de voz de 120 barras, palabras en dos corrientes, tarjetas más grandes con riel, timeline con clips y cabezal. Reposo: los tres a 60 fps (tic +0,3-0,7 ms); GO: escena 7,2-9,1 ms a 30 fps.
+    modificados (2):
+      ~ 1_codigo/escena_go.py
+      ~ 1_codigo/estilos_inicio.py
+
+2026-10-27 11:40  ·  v5.49  ·  cambio explicado
+    Tema 2: halftone (propuesta A) en los estilos 1, 9 y 13 (luxe_macro._trama: puntos #16357A que crecen hacia la base, solo en la letra opaca) y barra del estilo 8 del ancho exacto de la palabra (Line sigue fuente/peso/espaciado de Text1; ExtendHorizontal8 -0,16).
+    modificados (4):
+      ~ 2_recursos/generador_packs/construir_pack.py
+      ~ 2_recursos/generador_packs/luxe_macro.py
+      ~ 2_recursos/generador_packs/pack_referencia.py
+      ~ 2_recursos/plantillas_incluidas/Referencia/Referencia vertical.drb
+
+2026-10-27 11:13  ·  v5.49  ·  cambio explicado
+    Inicio sin tirones de fondo (el usuario: «que no haya tirones jamás»): hilos de fondo retenían el GIL y congelaban la animación 50-190 ms. Los JSON grandes (emojis 10 MB, picos de SFX 3 MB) se leen por partes cediendo (archivos_seguros.leer_json_cediendo); sfx_rules cachea sus JSON por fecha + tamaño y fuentes_del_usuario 3 s; congelar_gc ya no hace gc.collect; el precalentado de ondas SFX (PyAV) espera a que la ventana no tenga el foco; la escena lee las preferencias en un hilo; mantenimiento recorre las cachés en una pasada con os.scandir (1 s -> 0,14 s, mismo resultado); «Proyectos recientes» crea una fila por vuelta; el chequeo de librerías escribe el Registro en su hilo. Medido 60 s desde que se abre: cuadros > 25 ms 250 -> 26, peor 186 -> 82 ms, 54,9 -> 59,8 fps; desde los 4 s ninguno > 22 ms.
+    modificados (8):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/archivos_seguros.py
+      ~ 1_codigo/emojis.py
+      ~ 1_codigo/escena_go.py
+      ~ 1_codigo/mantenimiento.py
+      ~ 1_codigo/qt_kit.py
+      ~ 1_codigo/sfx_rules.py
+      ~ 1_codigo/sfx_studio.py
+
+2026-10-27 11:12  ·  v5.49  ·  cambio explicado
+    Tema 2: la barra del estilo 8 (Underline de Amro) queda al ras de la palabra: Offset8 de su Text+ Line -0,042 -> -0,036 (construir_pack.retocar_comp), amro_ext[8] (38, 87). Medido en Resolve: 12 px de hueco bajo la tinta.
+    modificados (13):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/archivos_seguros.py
+      ~ 1_codigo/emojis.py
+      ~ 1_codigo/escena_go.py
+      ~ 1_codigo/guion_captions.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/qt_kit.py
+      ~ 1_codigo/sfx_rules.py
+      ~ 1_codigo/sfx_studio.py
+      ~ 1_codigo/sonido_skill.py
+      ~ 2_recursos/generador_packs/construir_pack.py
+      ~ 2_recursos/generador_packs/pack_referencia.py
+      … y 1 más
+
+2026-10-27 10:27  ·  v5.49  ·  cambio explicado
+    Inicio: 3 estilos (Nebulosa, Astrolabio de fábrica, Proceso) en lugar de los 11 de antes. El usuario eligió las tres propuestas («me gustan los 3, púlelo más, elimina todos estos y deja estos 3, por defecto la B»). Los tres llevan el astrolabio de bronce como botón y cada uno dibuja su escena y su proceso de GO (estilos_inicio.Estilo.escena; EscenaGo.dibujar pone lo común). Fuera: orbe de React Bits, synthwave, reactor, agujero, líquido, prisma, ecualizador, plasma, carrete, matrix y el HUD de líneas de mograf_ui. Los go_estilo viejos pasan a astrolabio. Coste medido a 3440x1440: 7-9 ms por escena, 60 fps en reposo; textos traducidos (en, pt, fr, it, de).
+    modificados (11):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/escena_go.py
+      ~ 1_codigo/estilos_inicio.py
+      ~ 1_codigo/mograf_ui.py
+      ~ 1_codigo/sonido_skill.py
+      ~ 1_codigo/un_clic_ui.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+
+2026-10-27 09:31  ·  v5.49  ·  cambio explicado
+    Inicio fluido (el usuario: «la animación de inicio se traba demasiado»). Medido a 2293x928 con dpr 1,5 (su 3440x1440 al 150 %): cada cuadro repintaba la ventana entera, ~16 ms con la interfaz al 95 %, no cabía en 60 fps y bailaba 60/30 con huecos de 20-40 ms; además el QTimer de 16 ms (62,5 Hz) perdía un cuadro cada ~0,4 s contra el monitor de 59,94 Hz. Ahora: en calma la escena se dibuja a 30 fps en un búfer de reserva (un tic prepara, el siguiente enseña) y el orbe sigue a 60; orbe, órbitas del HUD y fondo del Astrolabio con sprites; ritmo_ui.RelojPantalla late con el vblank del monitor (Windows; QTimer en Mac); «equipo lento» por cuadros tarde y 4 s de gracia al abrir; _prearmar_paginas espera a que la ventana no tenga el foco. Medido 30 s en reposo: 55 -> 60 fps, 16,6 -> 5,3 ms por repintado, 109 -> 2 huecos > 25 ms.
+
+2026-10-27 09:29  ·  v5.49  ·  cambio explicado
+    Tema 2: entrada 0,6 s / salida 0,45 s (tope 50 %/35 % del clip) y bloques encadenados (gap_minimo 0, pegar 1,2 s). Medido a 30 fps contra PRUEBAS (3): entraba y salía en la mitad y dejaba 0,2-0,6 s en negro entre bloques.
+    modificados (16):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/actualizar_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/escena_go.py
+      ~ 1_codigo/estilos_inicio.py
+      ~ 1_codigo/guion_planificador.py
+      ~ 1_codigo/mograf_ui.py
+      ~ 1_codigo/orbe_mecanica.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/ritmo_ui.py
+      ~ 1_codigo/sonido_musica.py
+      ~ 1_codigo/sonido_skill.py
+      … y 4 más
+
+2026-10-27 08:14  ·  v5.49  ·  cambio explicado
+    Ventana de actualización nueva (5.49, propuesta A + B): actualizar_ui.PanelActualizacion con anillo y %, versión vieja → nueva, MB/velocidad/tiempo que falta, pasos con su tiempo, novedades del manifiesto y Cancelar.
+    nuevos (1):
+      + 1_codigo/actualizar_ui.py
+    modificados (1):
+      ~ 1_codigo/CineCaptions (script principal).py
+
+2026-10-27 01:41  ·  v5.49  ·  (automático)
+    modificados (21):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      … y 9 más
+
+
+(Lo anterior está archivado por mes en DOCUMENTACION/historial/REGISTRO_<aaaa-mm>.txt)
 2026-10-27 01:29  ·  v5.48  ·  cambio explicado
     Página Sonido pulida (el usuario eligió A + C entre 3 propuestas renderizadas): carril de Música en la línea de tiempo, solo los carriles que suenan, inspector con Anterior / Siguiente, textos más claros y momentos compactos (~250 px menos)
     modificados (2):

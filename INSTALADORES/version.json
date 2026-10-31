@@ -1,29 +1,19 @@
 {
   "estable": {
-    "version": "5.55.0",
-    "notas": "Crea tu estilo nuevo (temas 1-6, tu letra y tus colores), emojis solo con «Emojis animados», Tema 3 Select y Drag como los virales, y GO en Resolve Free que no deja leer archivos.",
+    "version": "5.56.0",
+    "notas": "• Si DaVinci Resolve se queda trabado, GO lo repara solo: cuando Resolve sigue abierto pero sin ventana (se cerró a medias) lo nota en segundos, y si pasa un minuto sin responder también. Lo cierra del todo, lo vuelve a abrir, vuelve a tu proyecto y repite el paso. Antes GO se quedaba unos 7 minutos en el 70 % y terminaba con «Resolve no creó el proyecto».\r\n• Nuevo en Ajustes: «Reparar Resolve solo si se traba» (encendido). Si lo apagas, GO no cierra Resolve: te dice en el Registro qué le pasa y se detiene.\r\n• Un Resolve que solo está ocupado (renderizando o colocando mucho) nunca se cierra: GO solo actúa si de verdad no da señales de vida.\r\n• Los efectos de sonido vuelven a salir siempre: ahora vienen dentro del programa. Antes, en algunos equipos el Tema 1 quedaba sin ningún SFX.\r\n• GO de solo captions mucho más rápido (un video de 24 segundos, en unos 20) y el tiempo que anuncia ya es el real: el de la Edición PRO se calcula aparte.\r\n• Reproducción fluida en Resolve: los captions, los efectos y la Edición PRO por fin entran en la caché de Resolve, y la reproducción empieza cuando está lista, sin tirones. Si mientras tanto usas Resolve, no te reproduce encima.\r\n• Tema 1 sin la sombra oscura y más ligero para Resolve: su caché está lista un 20 % antes.",
     "fecha": "2026-10-30",
     "archivos": {
       "windows": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.55/Instalar_CineCaptions_5.55.exe",
-        "sha256": "936e2be550943c92f28b6d9befd80574ca8022981af31673d94ca1479f3b212c",
-        "tam": 561706761
-      },
-      "mac_arm64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.55/CineCaptions_Mac_AppleSilicon_5.55.dmg",
-        "sha256": "c520e4a4efb9ba6268990274ae12b9169ee879c2c9f75c8421561f8a4a5f42ca",
-        "tam": 503699362
-      },
-      "mac_x86_64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.55/CineCaptions_Mac_Intel_5.55.dmg",
-        "sha256": "a2b7a8929dd530b4b60a261ac2e2452e6afd9068efc4a1210eec92784036b0f0",
-        "tam": 516318725
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.56/Instalar_CineCaptions_5.56.exe",
+        "sha256": "fdcc2229562fdc2a6a60a57e11fb5162ca9e71d797799b861e356345292d86d0",
+        "tam": 570890203
       }
     }
   },
   "firma": {
     "alg": "ed25519",
     "clave": "7a4e413e",
-    "valor": "qzzOCzQVhGEfDaTSBs8bInSDthXiX4NJbOoNqUjsuzLIReUAqU7N/+cGCfghgLSOyFfWZJbHmBkxVtJFEvpwCg=="
+    "valor": "mbh1yEzmWIMaBRCMWDWuRnGizXaG/wQTcR/aB68QVn1NFiNyW4vpX7iCrL83Kk0olf6/uaJfEvKP3H83hgeEDQ=="
   }
 }
