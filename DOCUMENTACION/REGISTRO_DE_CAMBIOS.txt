@@ -12,6 +12,11 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-10-31 02:05  ·  v5.57  ·  cambio explicado
+    v5.57 Inspector en los 6 temas («Sí, en los 6»): Temas 2, 4-6 con inspector_luxe.py, que RETOCA sus .drb (los T4-T6 llevan el Luxe de antes de la v1.09: no se regeneran; regenerar la Referencia da las mismas comps): el Template entra como primer tool del macro Luxe, Input1 publica Template.StyledText (texto editable; el Count lo gana), la cabecera de Van Beek pasa a nuestro banner y el reinicio de cada control es el valor del clip; los 4 de Amro llevan el banner en su grupo. Tema 3: macro_kinetic.envolver generalizado (publica solo lo que siguen las copias del texto: sin fuente, interlineado ni Align en shatter, select y drag, porque Medida/BrilloTxt/Caja tienen la letra fija), las copias siguen el Tracking y el relleno del drag sigue al Color (color_viral lee la razón de la expresión). con_banner salta cualquier macro o grupo primero con el banner en sus UserControls. CineCaptions.py: apply_fades y set_text_on_clip buscan el Template como el .lua (con el macro primero, el primer Text+ de GetToolList puede ser otro). Probado en Studio 21.1.2 con GO real (video VENTAS) contra el pack de antes: Temas 3-6 idénticos cuadro a cuadro (en el 3 con shatter, select y drag: el DataWindow de Medida funciona dentro del macro); la Referencia idéntica en ProRes (en H.264 el codificador mete ruido entre cuadros). Pendiente menor: el reinicio de los controles no se pone al día al recolorear con «Crea tu estilo» o el premium.
+    modificados (1):
+      ~ 1_codigo/edicion_pro_persona.py
+
 2026-10-31 01:11  ·  v5.57  ·  (automático)
     nuevos (1):
       + 2_recursos/generador_packs/inspector_luxe.py

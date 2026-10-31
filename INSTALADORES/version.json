@@ -1,19 +1,29 @@
 {
   "estable": {
-    "version": "5.56.0",
-    "notas": "• Si DaVinci Resolve se queda trabado, GO lo repara solo: cuando Resolve sigue abierto pero sin ventana (se cerró a medias) lo nota en segundos, y si pasa un minuto sin responder también. Lo cierra del todo, lo vuelve a abrir, vuelve a tu proyecto y repite el paso. Antes GO se quedaba unos 7 minutos en el 70 % y terminaba con «Resolve no creó el proyecto».\r\n• Nuevo en Ajustes: «Reparar Resolve solo si se traba» (encendido). Si lo apagas, GO no cierra Resolve: te dice en el Registro qué le pasa y se detiene.\r\n• Un Resolve que solo está ocupado (renderizando o colocando mucho) nunca se cierra: GO solo actúa si de verdad no da señales de vida.\r\n• Los efectos de sonido vuelven a salir siempre: ahora vienen dentro del programa. Antes, en algunos equipos el Tema 1 quedaba sin ningún SFX.\r\n• GO de solo captions mucho más rápido (un video de 24 segundos, en unos 20) y el tiempo que anuncia ya es el real: el de la Edición PRO se calcula aparte.\r\n• Reproducción fluida en Resolve: los captions, los efectos y la Edición PRO por fin entran en la caché de Resolve, y la reproducción empieza cuando está lista, sin tirones. Si mientras tanto usas Resolve, no te reproduce encima.\r\n• Tema 1 sin la sombra oscura y más ligero para Resolve: su caché está lista un 20 % antes.",
-    "fecha": "2026-10-30",
+    "version": "5.57.0",
+    "notas": "• Edición PRO a tu medida en los 6 temas: solo pone lo que enciendes en su menú (Captions detrás de ti, Píldora, B-roll, Escenas, Kit, Gráficos, Emojis animados o Motions completo). Encendida y sin nada activado, GO va tan rápido como solo captions.\r\n• El menú de la Edición PRO viene sin nada encendido (salvo el Gancho del inicio) y ya se puede apagar todo.\r\n• Temas 5 y 6 en solo captions: sin la Edición PRO ponen sus captions y nada más, igual de rápido que los otros temas (antes hacían siempre la edición completa).\r\n• Tema 1 con la Edición PRO: sus motions del kit y la placa con cámara van en el botón «Kit de motions» del menú; sin él, nada de eso (antes iban siempre y el GO podía tardar de 4 a 13 minutos).\r\n• «Captions detrás de ti» mucho más rápido: en Windows el recorte de la persona usa la tarjeta gráfica (hasta unas 6 veces más rápido; sin ella, casi el doble) y sale igual de fino.\r\n• Los 6 temas en el Inspector de Resolve: los controles de Luxe Slide (texto editable, tamaño, posición, color, DROP SHADOW y GLOW, entre otros) y arriba solo el banner de CineCaptions.",
+    "fecha": "2026-10-31",
     "archivos": {
       "windows": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.56/Instalar_CineCaptions_5.56.exe",
-        "sha256": "fdcc2229562fdc2a6a60a57e11fb5162ca9e71d797799b861e356345292d86d0",
-        "tam": 570890203
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.57/Instalar_CineCaptions_5.57.exe",
+        "sha256": "1aa2840bda7c88d2a2436e5eb9590f10b9e2b489332f524807c72148d47d121c",
+        "tam": 570370194
+      },
+      "mac_arm64": {
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.57/CineCaptions_Mac_AppleSilicon_5.57.dmg",
+        "sha256": "a1fa069e3e5d0b948159f4835becb1895824f5b55f31b098a5f50eb5066eaefc",
+        "tam": 512093031
+      },
+      "mac_x86_64": {
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.57/CineCaptions_Mac_Intel_5.57.dmg",
+        "sha256": "9ba2ce4d13a556f15ce02fe44d0fd92a7ddce6dc9ae79f9907e4a72dfb85110d",
+        "tam": 525812954
       }
     }
   },
   "firma": {
     "alg": "ed25519",
     "clave": "7a4e413e",
-    "valor": "mbh1yEzmWIMaBRCMWDWuRnGizXaG/wQTcR/aB68QVn1NFiNyW4vpX7iCrL83Kk0olf6/uaJfEvKP3H83hgeEDQ=="
+    "valor": "ddczuUlti9JIfntOKqL1NUy2Qh9sTkVIJdhdKau0HIes3mYR9X7hU8cEb6IsHgXstDuAYP8mHwppPldyyDxNAA=="
   }
 }
