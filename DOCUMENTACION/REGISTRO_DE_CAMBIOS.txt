@@ -12,6 +12,46 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-02 12:13  ·  v5.59  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-11-02 11:52  ·  v5.58  ·  cambio explicado
+    v5.59 revisión independiente del arreglo «Studio ocupado»: _reconectar_mcp ya no toma «ocupado» por reconectado (mentía en el Registro y no esperaba); _PROYECTO y _CREAR_TIMELINE devuelven producto/version/pagina para que la caché anotada no deje a Studio como Free si GO abrió Resolve, y _anotar_estado solo fía «ocupado» con el producto; _sigue_ocupado con estado_resolve (ventana «No responde» y registro mudo 60 s, fantasma, caído; Mac por el registro) porque un Resolve ocupado importando también «No responde»; crear_timeline_con_video anota el proyecto. Probado contra un Resolve falso y con un 2.º GO real «¡Listo!».
+    modificados (2):
+      ~ 1_codigo/resolve_bridge.py
+      ~ 1_codigo/resolve_mcp.py
+
+2026-11-02 11:46  ·  v5.58  ·  cambio explicado
+    v5.59 Studio ocupado, en el Resolve REAL (pedido «toca resolve real»): ResolveMCP atiende una petición cada vez, así que con un script largo delante también get_resolve_status caduca a los 10 s (HEAD lo daba por «desconectado»): estado() trata ese TimeoutError igual (_sigue_ocupado: contestó hace menos de OCUPADO_S y la ventana no está colgada). Un script en cola no caduca por esperar: el «Script timed out» del usuario fue Resolve lento dentro del script. GO real desde el código con su video: «¡Listo!» sin «Falta un clic» ni reconexión, colocación 0,3 s tras armar el timeline. Sin resolver: en cada GO con video Resolve se calla 7-34 s tras «refreshing color gallery» (mcp.log y ResolveDebug.txt); fuera de GO no pasa (0,1-0,2 s).
+    modificados (1):
+      ~ 1_codigo/resolve_mcp.py
+
+2026-11-02 11:19  ·  v5.58  ·  cambio explicado
+    v5.59 GO con Resolve Studio acabó en «Falta un clic en Resolve» (camino de Free) y lo marcó como fallo aunque colocó 27 s después (Registro del usuario 02-11 11:09). Causa: tras crear el timeline, resolve_mcp._refrescar_estado() preguntó el estado con un script que Resolve, aún ocupado con el video recién importado, no acabó en 10 s; estado() lo tomaba por «desconectado» y la mirada pasiva de _go_lanzar (modo_actual(pasivo=True) == 'manual') cortaba GO mientras el hilo de colocar reconectaba y seguía. Arreglo: estado() trata el script a destiempo (timed out / ocupado) como OCUPADO si Resolve contestó en los últimos 2 min (OCUPADO_S); crear proyecto y crear timeline anotan en la caché lo que devolvió su propio script (_anotar_estado) en vez de otro script de estado (sin esa espera); y _go_lanzar ya no decide «Falta un clic» con Studio o camino MCP/API detectado (lo decide el hilo de colocar). Probado con Resolve simulado (11 casos); sin compilar.
+    modificados (9):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/resolve_mcp.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 3_compilar/traducciones_extra.json
+
 2026-11-02 09:13  ·  v5.58  ·  cambio explicado
     v5.58 Mac sin voz desde la 5.34 (captura del usuario: GO falla en «Transcribiendo» con «El motor auxiliar Python 3.14 está configurado para Windows x64»): Whisper, Argos y ONNX corren en un Python 3.14 aparte que solo existe en Windows, y el Mac salía sin esas librerías (la autoprueba solo daba un aviso). Arreglo: motor_compat.EN_PROCESO (fuera de Windows worker.atender corre dentro del programa con _EnProceso, la misma interfaz que _Servidor; «detrás de ti» sigue fuera del Mac), Construir_Instalador_Mac.sh instala el requirements del motor con onnxruntime 1.24.4 / 1.23.2 Intel, el .spec las declara (copy_metadata obligatorio para httpx2/httpcore2) y la autoprueba del motor es crítica fuera de Windows (VAD, int8, audio a 16 kHz, Argos, sin red). De paso, dos fallos que también tenía Windows: motor_compat.traducir devolvía el dict y la pista traducida salía con «textos»; y cancelar GO durante la transcripción desordenaba las respuestas del servicio hasta reiniciar. macOS 14 como mínimo real. Probado simulando el Mac con el Python 3.14 del motor real (transcribe 42 palabras, cancela y sigue) y Windows igual; falta la compilación de Mac en GitHub.
     modificados (10):
