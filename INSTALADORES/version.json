@@ -1,29 +1,29 @@
 {
   "estable": {
-    "version": "5.57.0",
-    "notas": "• Edición PRO a tu medida en los 6 temas: solo pone lo que enciendes en su menú (Captions detrás de ti, Píldora, B-roll, Escenas, Kit, Gráficos, Emojis animados o Motions completo). Encendida y sin nada activado, GO va tan rápido como solo captions.\r\n• El menú de la Edición PRO viene sin nada encendido (salvo el Gancho del inicio) y ya se puede apagar todo.\r\n• Temas 5 y 6 en solo captions: sin la Edición PRO ponen sus captions y nada más, igual de rápido que los otros temas (antes hacían siempre la edición completa).\r\n• Tema 1 con la Edición PRO: sus motions del kit y la placa con cámara van en el botón «Kit de motions» del menú; sin él, nada de eso (antes iban siempre y el GO podía tardar de 4 a 13 minutos).\r\n• «Captions detrás de ti» mucho más rápido: en Windows el recorte de la persona usa la tarjeta gráfica (hasta unas 6 veces más rápido; sin ella, casi el doble) y sale igual de fino.\r\n• Los 6 temas en el Inspector de Resolve: los controles de Luxe Slide (texto editable, tamaño, posición, color, DROP SHADOW y GLOW, entre otros) y arriba solo el banner de CineCaptions.",
-    "fecha": "2026-10-31",
+    "version": "5.58.0",
+    "notas": "• «Captions detrás de ti» con el borde más estable: donde la imagen está quieta, el contorno de la persona tiembla menos de un fotograma a otro (hasta un 30 % menos) y, cuando se mueve, ya no deja estela.\r\n• «Captions detrás de ti» ya no pide intensidad: al encenderlo, el programa decide solo qué captions van detrás y cuánto los tapa la cabeza.\r\n• La Edición PRO completa también en DaVinci Resolve Free, con «Captions detrás de ti» (antes solo en Studio) y su «Listo» desde Efectos › Posición.\r\n• «Captions detrás de ti» sin destellos y más rápido: ya no se cuela un trozo del fondo pegado a la cabeza ni la sombra del suelo, el recorte no pasa de un cambio de toma y tarda menos que antes.\r\n• «Captions detrás de ti» solo con personas (de frente, de lado o de espaldas): ya no toma por persona un cojín, una cama, un balón ni una mesa de DJ, y un tramo cuyo recorte no salga limpio va sin la persona delante.\r\n• «Crea tu estilo» en el Inspector de Resolve: al reiniciar el color de un caption vuelve a tu color, no al de fábrica del tema.\r\n• Reproducción fluida también en videos largos: tras GO, la reproducción automática espera a que Resolve termine la caché de los captions mientras siga avanzando (antes se rendía a los 4 minutos y el final iba a tirones).\r\n• Temas 1 y 3: la reproducción fluida llega antes: cada caption renderiza sus partes a la vez y Resolve los guarda en caché entre un 6 y un 12 % más rápido (en un video de 1 minuto, unos 15 segundos antes).\r\n• Tiempo de GO exacto y sin saltos: la cuenta atrás baja de segundo en segundo, sale de lo que tardaron tus últimos GO en este equipo y, si GO va más rápido o más lento, se corrige poco a poco (antes anunciaba «2 minutos» y caía de golpe). Y tras GO dice cuánto falta para que la reproducción empiece fluida.\r\n• Mac: vuelve la transcripción. GO ya no se para en «Transcribiendo» con el error del motor de Windows: el programa de Mac trae dentro su motor de voz (Whisper) y de traducción.\r\n• Subtítulos traducidos: la pista traducida vuelve a salir con las frases traducidas (desde la 5.34 salía mal).\r\n• Cancelar GO mientras transcribe ya no estropea el siguiente GO (antes podía salir sin palabras hasta reiniciar el programa).\r\n• El instalador de Mac pide macOS 14 (Sonoma) o posterior, lo que el programa necesita de verdad: en versiones anteriores se instalaba y luego no abría.",
+    "fecha": "2026-11-02",
     "archivos": {
       "windows": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.57/Instalar_CineCaptions_5.57.exe",
-        "sha256": "1aa2840bda7c88d2a2436e5eb9590f10b9e2b489332f524807c72148d47d121c",
-        "tam": 570370194
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.58/Instalar_CineCaptions_5.58.exe",
+        "sha256": "0ea798c66c52d054e5d9aaecd291230e2ae97cd0a013b4ccc4785e5f05bfaef2",
+        "tam": 574164816
       },
       "mac_arm64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.57/CineCaptions_Mac_AppleSilicon_5.57.dmg",
-        "sha256": "a1fa069e3e5d0b948159f4835becb1895824f5b55f31b098a5f50eb5066eaefc",
-        "tam": 512093031
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.58/CineCaptions_Mac_AppleSilicon_5.58.dmg",
+        "sha256": "a75ad89c459353d5042b5b8ec1e5e4cf12655238c5a203c9797e923a02d3ef2f",
+        "tam": 549763960
       },
       "mac_x86_64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.57/CineCaptions_Mac_Intel_5.57.dmg",
-        "sha256": "9ba2ce4d13a556f15ce02fe44d0fd92a7ddce6dc9ae79f9907e4a72dfb85110d",
-        "tam": 525812954
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.58/CineCaptions_Mac_Intel_5.58.dmg",
+        "sha256": "19014bf5e17bf01a5a23aa7df74056bef3adf66f9d1bff02bba76eaccb5a529f",
+        "tam": 577017473
       }
     }
   },
   "firma": {
     "alg": "ed25519",
     "clave": "7a4e413e",
-    "valor": "ddczuUlti9JIfntOKqL1NUy2Qh9sTkVIJdhdKau0HIes3mYR9X7hU8cEb6IsHgXstDuAYP8mHwppPldyyDxNAA=="
+    "valor": "HYf0Pa9jqWUYItFl4tJj42kZWdFEcju7WXYPp42QybQB5KFgvsiw8w61kGlkgQ8+oZ7dSCPf14keBDkVReHgDQ=="
   }
 }
