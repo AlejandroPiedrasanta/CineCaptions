@@ -495,6 +495,9 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.60', [
+        '«Captions detrás de ti» avisa en el Registro cuando en un video ningún caption puede ir detrás de la persona (sale pequeña, de espaldas o moviéndose, o cambia la toma) y dice por qué: antes GO terminaba igual que sin él y parecía que no funcionaba.',
+    ]),
     ('5.59', [
         'Resolve Studio: GO ya no termina en «Falta un clic en Resolve» cuando Studio tarda en contestar justo después de armar el timeline: sigue solo y coloca los captions sin esperar a esa comprobación.',
     ]),

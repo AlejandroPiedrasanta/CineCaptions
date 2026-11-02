@@ -12,6 +12,38 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-02 17:52  ·  v5.60  ·  (automático)
+    modificados (21):
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      … y 9 más
+
+2026-11-02 17:42  ·  v5.59  ·  cambio explicado
+    v5.60: «Captions detrás de ti» encendido y ningún caption detrás (persona pequeña, de espaldas, moviéndose o muchos cortes) acababa igual que sin la opción y el usuario creía que no funcionaba: ahora el Registro avisa con los motivos (_avisar_sin_detras; motivos de _captions_detras) en GO y en «Listo».
+    modificados (12):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/vistas_slider/Referencia.jpg
+      ~ 2_recursos/vistas_slider/Referencia.mp4
+      ~ 2_recursos/vistas_slider/Referencia_captions.jpg
+      ~ 2_recursos/vistas_slider/Referencia_captions.mp4
+      ~ 3_compilar/traducciones_extra.json
+
 2026-11-02 12:13  ·  v5.59  ·  (automático)
     modificados (20):
       ~ 1_codigo/version.py
