@@ -62,6 +62,9 @@ sesión) = `hacer_vista_slider.generar` dos veces por tema (`CINECAPTIONS_PRO` 0
 
 **Prueba:** sin Resolve, arneses con `QT_QPA_PLATFORM=offscreen` y todo lo del usuario desviado (packs, caché, carpeta compartida, Registro): abrir la página, tocar temas, abrir el cajón, crear y comprobar `pack.json` + slider; GO con `_generar_con_motor` + `_poner_pistas_motor` y revisar las pistas (pack «Base · hash», `plantillas_extra`, `cue['pack']`, sin emojis, sin letra global). Falta el render real en Resolve (proyecto temporal).
 
+**Inspector (v5.58):** el derivado lleva los controles del Inspector con su «reinicio» al día: `retocar_tools` termina con
+`reinicios_al_dia(antes, después)` (el Default que seguía al clip pasa al color elegido; ver `banner-inspector`). `GENERADOR` 'per 2'.
+
 ## editar-quitar-pack — Botones ✎ editar en Resolve y 🗑 quitar pack
 
 **Qué:** Botones ✎ (editar en Resolve; también doble clic) y 🗑 (quitar; los packs incluidos solo se ocultan: pref `packs_ocultos`) en cada tarjeta de «Pack de estilos»
@@ -86,7 +89,7 @@ sesión) = `hacer_vista_slider.generar` dos veces por tema (`CINECAPTIONS_PRO` 0
 
 **Temas 2, 4, 5 y 6 (macros Luxe):** `combo['premium'] = {'brillo_principal': (tamaño, intensidad)}` en `pack_referencia` / `pack_tema4` / `pack_tema5`. `construir_pack` pasa a cada clip `luxe_macro._premium`: la principal con `degradado_premium(color)` en el modo «Gradient» DEL PROPIO MACRO (lo que hace su botón TextShading: `Type1 = 2`, `Overlap1 = 2` y su `ShadingGradient1`; el grafo no se toca) y su `glow1` más fuerte; todas con la sombra ancha (`SOMBRA_PREMIUM`, elemento 5). Las paradas van de la base de la letra (0) a lo alto (1), como en cualquier Text+. Amro no se toca (se copia tal cual). El `.variantes.json` guarda el `degradado` de cada principal y `premium` (la vista lo dibuja igual). Tema 4: la clave en lima `#B9E25B` (el usuario ya dijo «Lima está bien»).
 
-**Temas 4, 5 y 6 se RETOCAN, no se regeneran:** sus `.drb` de fábrica llevan los macros Luxe de ANTES de la v1.09; generarlos otra vez cambiaba también sus animaciones (188 diferencias por clip). `construir_pack.premium_sobre_drb(origen, salida, combos)` (o `pack_tema4.py / pack_tema5.py … --retocar <.drb>`) copia el .drb y cambia solo color, degradado, sombra y brillo del Text1 de cada clip. `_premium` se puede aplicar dos veces (no duplica `Type1` ni el elemento 5).
+**Temas 4, 5 y 6 se RETOCAN, no se regeneran:** sus `.drb` de fábrica llevan los macros Luxe de ANTES de la v1.09; generarlos otra vez cambiaba también sus animaciones (188 diferencias por clip). `construir_pack.premium_sobre_drb(origen, salida, combos)` (o `pack_tema4.py / pack_tema5.py … --retocar <.drb>`) copia el .drb y cambia solo color, degradado, sombra y brillo del Text1 de cada clip. `_premium` se puede aplicar dos veces (no duplica `Type1` ni el elemento 5). v5.58: además pasa por `inspector_luxe.retocar` (un .drb de antes de la 5.57 sale con el macro primero) y pone al día los reinicios del Inspector (`reinicios_al_dia`); sobre los .drb de fábrica no cambia nada.
 
 **Tema 1 (Kinetic):** las grandes (`k hero …`) con `kinetic_paleta.con_reflejo` (el degradado de siempre hasta el 86 % y un reflejo claro arriba) y el brillo de su color (`BRILLO_HEROE`, elemento 3, delante del halo oscuro, que pasa al 4); las pegatinas (`k tape(s) …`) con `cinta_degradado`: una franja clara de borde suave en la mitad de arriba y una más honda abajo, recortadas con la caja (máscara + fondo + Merge «In», las piezas ya probadas del relleno vivo). El `vivo` sigue con el tono de arriba de siempre. **Ojo (medido en Resolve 21.1.2):** del elemento 4 en adelante Text+ dibuja por defecto una CAJA, no la letra: sin `ElementShape4 = 0` salía un recuadro gris u oscuro detrás de la grande (Kin 17 / Vir 6; arreglado en Kin 18 / Vir 7). Los macros Luxe ya lo ponían.
 
@@ -271,9 +274,13 @@ el Text+ «Template» va DENTRO, de primer tool (la app lo encuentra con `FindTo
 nuevo: Temas 3-6 idénticos cuadro a cuadro; la Referencia, idéntica en ProRes (en H.264 salía ruido entre cuadros también en el fondo: es del
 codificador, no del pack; para un A/B, renderizar en ProRes en vez del «H.264 Master» de `banco_pruebas.renderizar`). `REVISION_BIN`: Kin 21, Vir 9, Ref 21, T4/T5/T6 8.
 
-**Pendiente (revisión independiente, menor):** el «reinicio» (Default) de los controles se escribe una vez; «Crea tu estilo»
-(`pack_personalizado.retocar_tools`) y el premium (`construir_pack.premium_sobre_drb`) cambian el color después y no lo ponen al día: la flecha
-de reiniciar vuelve al color de fábrica. `construir` no corre `inspector_luxe.comprobar` (solo `retocar_drb`).
+**Reinicios al día tras recolorear (v5.58):** el «reinicio» (Default) de los controles se escribe al generar (el valor del clip). «Crea tu
+estilo» (`pack_personalizado.retocar_tools`, con `_Retoque.reinicios`: sin volver a leer la comp) y el premium (`construir_pack.retocar_comp` con
+una función ← `premium_sobre_drb`, con `reinicios_al_dia(antes, despues)`) cambian el color después: ahora cada Default que valía lo mismo que su
+entrada pasa al valor nuevo (los que ya eran distintos de su entrada, como muchos de fábrica de Luxe y Amro, no se tocan; las listas de cambios de
+Amro no pasan por aquí: regenerar la Referencia sigue dando el .drb de fábrica); antes la flecha de reiniciar volvía al color de fábrica. `GENERADOR` = 'per 2': los estilos ya creados
+se rehacen en el siguiente GO, en carpeta y bin nuevos. El premium pasa además por `inspector_luxe.retocar` (un .drb de antes de la 5.57 sale con
+el macro primero). Pendiente: `construir` no corre `inspector_luxe.comprobar` (solo `retocar_drb`).
 
 **Temas 1 y 3:** la comp entera dentro del macro «CineCaptions» (`macro_kinetic.py`; ver `kinetic-pack` y `viral-pack`), con DROP SHADOW y GLOW
 apagados.

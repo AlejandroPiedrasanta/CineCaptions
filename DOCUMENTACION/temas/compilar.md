@@ -18,6 +18,17 @@
 
 **Qué:** Instalador de Mac (Apple Silicon): .app + .pkg + .dmg; no compila desde Windows (Mac o GitHub Actions)
 
+**Voz dentro del programa (v5.58):** desde la 5.34 Whisper, Argos y ONNX corren en un Python 3.14 aparte que solo existe en Windows
+(`motor_compat`), y el Mac salía SIN ellos: GO fallaba en «Transcribiendo» con «El motor auxiliar Python 3.14 está configurado para Windows
+x64» (la autoprueba solo lo daba como aviso). Ahora `Construir_Instalador_Mac.sh` instala `2_recursos/motor_compat/requirements.txt` con
+`--no-deps --only-binary` (onnxruntime 1.24.4 en Apple Silicon y 1.23.2 en Intel, la última con rueda Intel, en vez de onnxruntime-directml) y
+comprueba que se importan; `cinecaptions_mac.spec` las declara (worker.py viaja como dato y PyInstaller no lo analiza: hiddenimports,
+collect_submodules, `copy_metadata`, obligatorio para httpx2/httpcore2, y `collect_dynamic_libs('ctranslate2')`) y corta la compilación si
+falta alguna; la autoprueba del motor es CRÍTICA fuera de Windows (`tareas_instalador`, con VAD, int8, audio a 16 kHz y Argos sin red). En
+el programa, `motor_compat.EN_PROCESO` corre `worker.atender` en el mismo proceso (ver `voz-ia`). macOS mínimo real: 14 (PySide6 6.12, av,
+numpy y onnxruntime): desde la 5.58 lo piden el .pkg (`os-version min`), la app (`LSMinimumSystemVersion`) y la bienvenida; antes decía 12 y en
+12-13 se instalaba y no abría. Si cambia la línea `onnxruntime-directml==` del requirements del motor, el `sed` del .sh lo detecta y corta.
+
 **Dónde:** `7_mac/` · `Construir_Instalador_Mac.sh`, `cinecaptions_mac.spec`, `pkg/scripts/postinstall` (corre `--tarea scripts` y `fuentes` como el usuario); leer `7_mac/0_LEEME.txt`. SIN PROBAR en una Mac real
 
 ## compilar-win — Compilar, versiones y desinstalador de Windows

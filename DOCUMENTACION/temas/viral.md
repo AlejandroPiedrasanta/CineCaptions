@@ -36,6 +36,10 @@ el DataWindow de «Medida» (que no se compone) funciona DENTRO del macro: proba
 «Knockout», select «Especiales» y drag «Puerto»), render idéntico al Vir 8 (744 de 744 cuadros). Si fallara, WW y el nº de letras caerían a su
 valor de reserva sin aviso: es lo primero que hay que mirar si se toca este macro.
 
+**Ramas en paralelo (v5.58, Vir 10):** como el Tema 1 (`kinetic_comps.armar_comp`, ver `kinetic-pack`), cada comp lleva en su cabecera
+`Prefs.Comp.Memory.Render/Interactive.SimultaneousBranching = true`. Regenerado con `pack_viral.py`: 14 + 14 comps, solo cambia la cabecera (las Tools
+idénticas). Medido en Studio 21.1.2 (banco de 24 s): la caché de los captions en 33,6 s frente a 36,0 s (−7 %).
+
 **Hallazgos de Fusion (Resolve 21.1.1), medidos con renders reales:**
 - Una **expresión que falla NO avisa: el clip sale NEGRO y opaco.** `string.len(...)` y `#...` fallan (GetInput da None); valen `math.*`, `time`, `comp.RenderEnd`, `Nodo.Size`, `Nodo.Output.DataWindow`, `comp:GetPrefs(...)`.
   Para comprobarlas sin renderizar: `item.ImportFusionComp(ruta)` + `herramienta.GetInput('Entrada', fotograma)` (None = error).

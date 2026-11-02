@@ -514,7 +514,11 @@
         "dictado",
         "error de palabra",
         "torch",
-        "requisitos del motor"
+        "requisitos del motor",
+        "mac",
+        "en proceso",
+        "motor auxiliar",
+        "traducir"
       ],
       "archivos": [
         "subtitle_transcriber.py",
@@ -531,7 +535,11 @@
         "completar_requisitos",
         "torch_para_este_equipo",
         "_torch_valido",
-        "soltar"
+        "soltar",
+        "EN_PROCESO",
+        "_EnProceso",
+        "_worker",
+        "traducir"
       ],
       "resumen": "subtitle_transcriber, motor_voz, ia_texto"
     },
@@ -800,7 +808,10 @@
         "fuente",
         "color",
         "pack derivado",
-        "tema base"
+        "tema base",
+        "reinicio",
+        "default",
+        "inspector"
       ],
       "archivos": [
         "crea_estilo_ui.py",
@@ -843,7 +854,9 @@
         "_ajustes_de_pack",
         "aplicar_a_pista",
         "marcar_runs",
-        "sin_color_claves"
+        "sin_color_claves",
+        "reinicios_al_dia",
+        "_publicados"
       ],
       "resumen": "crea_estilo_ui (página), vista_estilos (filas), mezcla_planificador.crear_estilo (pack.json), pack_personalizado (letra/color en los clips), plantillas (base/ajustes/tema_base), GO"
     },
@@ -1284,15 +1297,24 @@
         "silicon",
         "intel",
         "github",
-        "actions"
+        "actions",
+        "voz",
+        "whisper",
+        "onnxruntime",
+        "ctranslate2",
+        "autoprueba"
       ],
       "archivos": [
         "Construir_Instalador_Mac.sh",
-        "cinecaptions_mac.spec"
+        "cinecaptions_mac.spec",
+        "1_codigo/motor_compat.py",
+        "1_codigo/tareas_instalador.py"
       ],
       "simbolos": [
         "scripts",
-        "fuentes"
+        "fuentes",
+        "EN_PROCESO",
+        "_motor_en_proceso_sin_red"
       ],
       "resumen": "7_mac/Construir_Instalador_Mac.sh, cinecaptions_mac.spec; Actualizar_Mac.ps1"
     },
@@ -1677,7 +1699,12 @@
         "cacheclip",
         "reproducir",
         "SetFusionOutputCache",
-        "CACHE_ENABLED"
+        "CACHE_ENABLED",
+        "render preview",
+        "velocidad de la caché",
+        "SimultaneousBranching",
+        "mientras_avance",
+        "TOPE_FONDO_S"
       ],
       "archivos": [
         "fluidez_resolve.py",
@@ -1694,9 +1721,12 @@
         "reproducir_desde_inicio",
         "_valores_cache",
         "valores_cache",
-        "_fluidez_esperando"
+        "_fluidez_esperando",
+        "falta_cache",
+        "cuenta_atras",
+        "texto_tiempo"
       ],
-      "resumen": "fluidez_resolve.preparar (marca con resolve.CACHE_ENABLED) + esperar_y_reproducir en un hilo tras «Listo»"
+      "resumen": "fluidez_resolve.preparar (marca con resolve.CACHE_ENABLED) + esperar_y_reproducir en un hilo tras «Listo» (v5.58: sigue mientras los clips avancen; Resolve usa ~3,8 hilos al cachear)"
     },
     {
       "id": "vista-real-previo",
@@ -2157,7 +2187,10 @@
         "luxe slide",
         "macro",
         "drop shadow",
-        "glow"
+        "glow",
+        "ramas en paralelo",
+        "SimultaneousBranching",
+        "render cache"
       ],
       "archivos": [
         "2_recursos/generador_packs/pack_kinetic.py",
@@ -2179,7 +2212,8 @@
         "_calidad_desenfoque",
         "DESENFOQUE_SOLO_AL_MOVERSE",
         "envolver",
-        "TEXT_SHADING"
+        "TEXT_SHADING",
+        "armar_comp"
       ],
       "resumen": "pack_kinetic.construir → Kinetic vertical.drb (91 clips, cada comp dentro del macro «CineCaptions» con los controles de Luxe Slide: macro_kinetic); subir REVISION_BIN al cambiar"
     },
@@ -2367,7 +2401,9 @@
         "inspector",
         "luxe slide",
         "macro",
-        "tracking"
+        "tracking",
+        "ramas en paralelo",
+        "SimultaneousBranching"
       ],
       "archivos": [
         "2_recursos/generador_packs/pack_viral.py",
@@ -2470,7 +2506,12 @@
         "solo captions",
         "con pro",
         "reutilizado",
-        "5 minutos"
+        "5 minutos",
+        "cuenta atrás",
+        "tiempo exacto",
+        "saltos",
+        "go_historial",
+        "Theil-Sen"
       ],
       "archivos": [
         "un_clic_ui.py",
@@ -2480,6 +2521,9 @@
       ],
       "simbolos": [
         "EstimadorGo",
+        "eta_segundos",
+        "_prevision",
+        "_mediana",
         "PanelGo",
         "estimar_duracion",
         "poner_pro",
@@ -2494,7 +2538,7 @@
         "idioma_detectado",
         "_sin_palabras_mensaje"
       ],
-      "resumen": "EstimadorGo (ETA bajo el %), registro_ayuda._REGLAS (causas concretas), asegurar_audio_original (A1 nunca se quita)"
+      "resumen": "EstimadorGo (ETA bajo el %; v5.58: cuenta atrás al segundo sin saltos y previsión con la historia del equipo), registro_ayuda._REGLAS (causas concretas), asegurar_audio_original (A1 nunca se quita)"
     },
     {
       "id": "efectos-visuales",
@@ -4130,13 +4174,16 @@
         "macro",
         "amro",
         "van beek",
-        "luxe slide"
+        "luxe slide",
+        "reinicio",
+        "default"
       ],
       "archivos": [
         "2_recursos/generador_packs/banner_inspector.py",
         "2_recursos/generador_packs/construir_pack.py",
         "2_recursos/generador_packs/macro_kinetic.py",
-        "2_recursos/generador_packs/inspector_luxe.py"
+        "2_recursos/generador_packs/inspector_luxe.py",
+        "1_codigo/pack_personalizado.py"
       ],
       "simbolos": [
         "LABEL",
@@ -4150,7 +4197,9 @@
         "banner_en_grupo",
         "retocar",
         "comprobar",
-        "retocar_drb"
+        "retocar_drb",
+        "reinicios_al_dia",
+        "_publicados"
       ],
       "resumen": "v5.57, los 6 temas: el primer tool es un macro (o el grupo de Amro) con el banner del logo en SUS UserControls (IC_ControlPage = -1) y los controles de Luxe Slide; el Template va dentro, primero. Temas 1 y 3: macro_kinetic; Temas 2 y 4-6: inspector_luxe retoca sus .drb (construir_pack lo aplica al generar); con_banner los salta (banner_en_el_primero); subir REVISION_BIN"
     },
@@ -4354,7 +4403,15 @@
         "recuperar",
         "poner_posicion",
         "poner_intensidad",
-        "deteccion"
+        "deteccion",
+        "caras",
+        "cuerpos",
+        "_cuerpo_de",
+        "etiquetas",
+        "_sin_destellos",
+        "_quitar_pegotes",
+        "calidad_mascara",
+        "_luz"
       ],
       "resumen": "Botón «Posición» (y doble clic) en cada sección de Efectos › Edición PRO: línea de tiempo del video con fotogramas para marcar en qué segundos va el efecto; «Solo mis marcas | + automático»; GO lo respeta (posiciones_pro.para_plan → edicion_pro: _marcas_libres, _ligadas, _marcas_broll, _captions_detras(marcas=), _tramos_motions). v5.27: «detrás de ti» con topes (verde donde queda bien, máximo 8, motivo de cada sitio), marcas guardadas con el VIDEO (valen con el audio del timeline), Magic Mask solo en cara y hombros, «Listo» enciende y pone el video en Inicio. v5.28: 3 sugeridas a un clic (y el efecto se enciende), vista con los captions del tema detrás de la persona. v5.29: la persona con el matte de la IA (no Magic Mask) y «Listo» lo pone ya en el timeline (aplicar_detras + colocar_pro solo_encima); marcas que valen con la copia de audio compatible. v5.30: la tira enseña lo que hay en el timeline (también lo que puso GO) y «Listo» pone exactamente lo de la tira (vacía = quitarlo). v5.32: «Listo» detiene la reproducción de GO y no cambia de página sin esperar (Resolve se caía), ve la caída al momento; la tira usa la regla del timeline de GO (= «Listo»); diseño nuevo de «detrás de ti» (posiciones_detras_ui: cabecera, visor con reproducción, panel Ajustes/Marcas/Sugerencias, tira compacta); en horizontal Arriba/Izquierda/Derecha (Pan en colocar_pro)."
     },
