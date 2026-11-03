@@ -4135,6 +4135,12 @@
     "Vuelve a darle a «Listo».": "Drücke erneut auf „Fertig“.",
     "«Captions detrás de ti» pone el caption de verdad DETRÁS de la persona: su cabeza tapa parte de la palabra grande (antes el texto quedaba apoyado encima de la cabeza).": "„Untertitel hinter dir“ setzt den Untertitel jetzt wirklich HINTER die Person: Ihr Kopf verdeckt einen Teil des großen Wortes (vorher lag der Text auf dem Kopf).",
     "«Captions detrás de ti» es un solo interruptor para los Temas 1 a 6: si lo enciendes con un tema, también vale al hacer GO con otro.": "„Untertitel hinter dir“ ist ein einziger Schalter für die Themen 1 bis 6: Schaltest du ihn bei einem Thema ein, gilt er auch beim GO mit einem anderen.",
-    "Efectos › «Listo» de «Captions detrás de ti» funciona después de cualquier GO (aunque lo tuvieras apagado) y, si Resolve está cerrado, lo dice en vez de «otro timeline».": "Effekte › „Fertig“ bei „Untertitel hinter dir“ funktioniert nach jedem GO (auch wenn es aus war) und sagt, wenn Resolve geschlossen ist, genau das statt „andere Timeline“."
+    "Efectos › «Listo» de «Captions detrás de ti» funciona después de cualquier GO (aunque lo tuvieras apagado) y, si Resolve está cerrado, lo dice en vez de «otro timeline».": "Effekte › „Fertig“ bei „Untertitel hinter dir“ funktioniert nach jedem GO (auch wenn es aus war) und sagt, wenn Resolve geschlossen ist, genau das statt „andere Timeline“.",
+    "Nueva versión": "Neue Version",
+    "Posición ajustada": "Position angepasst",
+    "Solo el estilo {n}": "Nur Stil {n}",
+    "detectado": "erkannt",
+    "Mezcla los temas con tu letra y tus colores": "Mische die Themen mit deiner Schrift und deinen Farben",
+    "Elige los temas, tu letra y tus colores, y ponle nombre.": "Wähle die Themen, deine Schrift und deine Farben und gib ihm einen Namen."
   }
 }

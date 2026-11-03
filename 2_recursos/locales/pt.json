@@ -4135,6 +4135,12 @@
     "Vuelve a darle a «Listo».": "Pressione «Pronto» de novo.",
     "«Captions detrás de ti» pone el caption de verdad DETRÁS de la persona: su cabeza tapa parte de la palabra grande (antes el texto quedaba apoyado encima de la cabeza).": "«Legendas atrás de você» coloca a legenda de verdade ATRÁS da pessoa: a cabeça cobre parte da palavra grande (antes o texto ficava apoiado em cima da cabeça).",
     "«Captions detrás de ti» es un solo interruptor para los Temas 1 a 6: si lo enciendes con un tema, también vale al hacer GO con otro.": "«Legendas atrás de você» é um único interruptor para os Temas 1 a 6: se você o ativar com um tema, também vale ao fazer GO com outro.",
-    "Efectos › «Listo» de «Captions detrás de ti» funciona después de cualquier GO (aunque lo tuvieras apagado) y, si Resolve está cerrado, lo dice en vez de «otro timeline».": "Efeitos › «Pronto» de «Legendas atrás de você» funciona depois de qualquer GO (mesmo que estivesse desligado) e, se o Resolve estiver fechado, avisa isso em vez de «outra timeline»."
+    "Efectos › «Listo» de «Captions detrás de ti» funciona después de cualquier GO (aunque lo tuvieras apagado) y, si Resolve está cerrado, lo dice en vez de «otro timeline».": "Efeitos › «Pronto» de «Legendas atrás de você» funciona depois de qualquer GO (mesmo que estivesse desligado) e, se o Resolve estiver fechado, avisa isso em vez de «outra timeline».",
+    "Nueva versión": "Nova versão",
+    "Posición ajustada": "Posição ajustada",
+    "Solo el estilo {n}": "Só o estilo {n}",
+    "detectado": "detectado",
+    "Mezcla los temas con tu letra y tus colores": "Mistura os temas com a tua letra e as tuas cores",
+    "Elige los temas, tu letra y tus colores, y ponle nombre.": "Escolhe os temas, a tua letra e as tuas cores, e dá-lhe um nome."
   }
 }

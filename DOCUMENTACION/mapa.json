@@ -193,6 +193,8 @@
       ],
       "simbolos": [
         "TituloGo",
+        "ChipGo",
+        "LineaGo",
         "_politica",
         "_precalentar_ondas_sfx",
         "_calma",
@@ -1185,7 +1187,6 @@
       "simbolos": [
         "PlantillasWindow",
         "_acciones_de",
-        "_editar_en_resolve",
         "_quitar_pack"
       ],
       "resumen": "edicion_pack.py, PlantillasWindow._acciones_de/_editar_en_resolve/_quitar_pack"

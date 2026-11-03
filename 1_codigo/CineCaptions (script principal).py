@@ -1863,14 +1863,13 @@ class PlantillasWindow(QWidget):
     """
     MOSTRAR_PRESETS = False
     def __init__(self, master, seleccion=None, on_elegir=None,
-                 on_importar=None, on_importar_drt=None, formato=None,
+                 on_importar=None, formato=None,
                  diseno_actual=None, on_diseno=None,
                  basicos_actual=None, on_basicos=None, modo='dinamico', franja=None):
         super().__init__()
         self.app = master
         self.on_elegir = on_elegir
         self.on_importar = on_importar
-        self.on_importar_drt = on_importar_drt
         self.on_diseno = on_diseno
         self._diseno = dict(diseno_actual or {'preset': 'clasico'})
         self._preset_retirado = None
@@ -1933,7 +1932,7 @@ class PlantillasWindow(QWidget):
             pass
         self.carrusel.elegida.connect(self._elegir)
         self.carrusel.centrada.connect(self._pintar_info)
-        self.carrusel.anadir.connect(self._importar_drt)
+        self.carrusel.anadir.connect(self._crear_estilo)          # v5.62: la carta del final es «Crea tu estilo» (sin importar .drb)
         # v5.5.10: con la PRO en juego, a los lados del slider: el ejemplo real (izquierda) y los motions que pondrá GO (derecha), en las mismas
         # preferencias que la página Efectos (pro_lateral_ui)
         import pro_lateral_ui
@@ -2143,7 +2142,7 @@ class PlantillasWindow(QWidget):
             self.info_w.hide()
             return
         self.info_w.show()
-        self.info_nombre.setText(tr('Trae tu propio estilo') if carta.tipo == 'anadir' else carta.titulo)
+        self.info_nombre.setText(tr('Crea tu estilo') if carta.tipo == 'anadir' else carta.titulo)
         if carta.pack is not None and carta.estado and carta.color_estado not in (ui.VERDE, TEXT_MUTED):
             self.info_fuentes.configure(text='⚠ ' + carta.estado + ' · ' + tr('instalar'))
             self.info_fuentes.show()
@@ -2237,7 +2236,7 @@ class PlantillasWindow(QWidget):
         if c is None:
             return
         if c.tipo == 'anadir':
-            self.usar_btn.poner(False, tr('Añadir plantilla (.drb)'))
+            self.usar_btn.poner(False, tr('Crea tu estilo'))
             self.usar_btn.setEnabled(True)
             self.usar_btn.setVisible(True)
             return
@@ -2252,7 +2251,7 @@ class PlantillasWindow(QWidget):
         if c is None:
             return
         if c.tipo == 'anadir':
-            self._importar_drt()
+            self._crear_estilo()
         else:
             self._elegir(c.valor)
     def _instalar_fuentes_central(self):
@@ -2318,12 +2317,6 @@ class PlantillasWindow(QWidget):
         if 'v' in (pack.formatos or ()):
             return 'v'
         return pack.formatos[0] if pack.formatos else None
-    def _formato_edicion(self, pack):
-        """El formato con el que se abre un pack en Resolve para editarlo: el del timeline en juego si el pack lo trae."""
-        f = self._formato_juego
-        if pack is not None and f not in (pack.formatos or ()):
-            return pack.formatos[0] if pack.formatos else None
-        return f
     # -- v5.2: vistas previas REALES (renderizadas por Resolve) -------------------
     def _real_de(self, pack):
         """(sets, recortes) del render real ya hecho de ese pack, o None."""
@@ -2443,7 +2436,7 @@ class PlantillasWindow(QWidget):
                                                        (tr('tus subtítulos'), {'familia': 'Montserrat', 'peso': 'Bold', 'tam': 0.13, 'color': ui.ROL_PRINCIPAL})],
                                                formatos=self._texto_formatos(pack) or '', estado=estado, color_estado=color, menu=menu, pack=pack,
                                                extra=lambda pk=pack: self._widget_combos(pk)))
-        cartas.append(estilos_slider.Carta('__anadir__', tr('Añadir plantilla (.drb)'), tipo='anadir', detalle=tr('Exporta una bandeja desde Resolve y súbela aquí: queda guardada como un estilo más.')))
+        cartas.append(estilos_slider.Carta('__anadir__', tr('Crea tu estilo'), tipo='anadir', detalle=tr('Elige los temas, tu letra y tus colores, y ponle nombre.')))
         if not packs:
             self.nota_modo.configure(text=tr('No hay plantillas de básicos: añade un .drb con clips \'basico inferior 1\', \'traducion inferior 1\'… (botón de arriba), o queda la clásica.'), text_color='#E0A030')
             self.nota_modo.show()
@@ -2522,7 +2515,7 @@ class PlantillasWindow(QWidget):
             self.ocultos_lnk.hide()                   # v5.4.5: sin «Mostrar los packs quitados» (se quitó el enlace de Proyecto)
             for pack in packs:
                 cartas.append(self._carta_pack(pack))
-            cartas.append(estilos_slider.Carta('__anadir__', tr('Añadir plantilla (.drb)'), tipo='anadir', detalle=tr('Exporta una bandeja desde Resolve y súbela aquí: queda guardada como un estilo más.')))
+            cartas.append(estilos_slider.Carta('__anadir__', tr('Crea tu estilo'), tipo='anadir', detalle=tr('Elige los temas, tu letra y tus colores, y ponle nombre.')))
             self.carrusel.poner_cartas(cartas, self._valor_actual())
             try:
                 self._poner_cuenta('' if plantillas.SOLO_TEMAS else (tr('1 pack') if len(packs) == 1 else tr('{n} packs', n=len(packs))))
@@ -2586,9 +2579,9 @@ class PlantillasWindow(QWidget):
                 return None
         return ruta
     def _acciones_de(self, pack, quitable=True):
-        """Los botones de la tarjeta de un estilo: ✎ editar en Resolve y 🗑 quitar (los incluidos no se borran del disco: se quitan de la lista)."""
-        acciones = [] if (getattr(pack, 'mezcla', False) or getattr(pack, 'base', None)) else [('ph.pencil-simple-bold', '✎', tr('Editar en Resolve: abre el timeline de este estilo para cambiar fuente, color, tamaño o posición. Luego lo exportas (.drt) y lo añades de nuevo. También con doble clic.'),
-                     lambda p=pack: self._editar_en_resolve(p))]          # (un estilo mezclado no se edita en Resolve: se vuelve a crear en «Crea tu estilo»)
+        """Los botones de la tarjeta de un estilo: 🗑 quitar (los incluidos no se borran del disco: se quitan de la lista). v5.62: sin ✎ «Editar
+        en Resolve»: el cambio volvía con la importación de .drb/.drt, que se quitó (el usuario: la carta del final ahora es «Crea tu estilo»)."""
+        acciones = []
         if quitable:
             ayuda = tr('Quitar de la lista (es un pack incluido en el programa: no se borra del disco)') if pack.incorporado else tr('Quitar este estilo')
             acciones.append(('ph.trash-bold', '🗑', ayuda, lambda p=pack: self._quitar_pack(p)))
@@ -2615,29 +2608,6 @@ class PlantillasWindow(QWidget):
         import ajustes_ui
         ajustes_ui.guardar_prefs({'packs_ocultos': []})
         self._recargar()
-    def _editar_en_resolve(self, pack):
-        """✎ / doble clic: abre el timeline del pack en Resolve para modificarlo (edicion_pack.py)."""
-        if getattr(self, '_editando_pack', False) or pack is None or getattr(pack, 'mezcla', False) or getattr(pack, 'base', None):     # (un estilo de «Crea tu estilo» no tiene timeline que editar)
-            return
-        self._editando_pack = True
-        formato = self._formato_edicion(pack) or (pack.formatos[0] if pack.formatos else 'v')
-        self.app.status_var.set(tr('Abriendo «{n}» en Resolve para editarlo…', n=pack.nombre))
-        def trabajo():
-            import edicion_pack
-            return edicion_pack.abrir_en_resolve(pack, formato, al_estado=lambda t: self.app.msg_queue.put(('status', t)))
-        def fin(resultado, error):
-            self._editando_pack = False
-            if not vivo(self):
-                return
-            ok, mensaje = resultado if (resultado and not error) else (False, str(error or ''))
-            if ok:
-                self.app.status_var.set(tr('Listo: «{n}» está abierto en Resolve. Cambia lo que quieras y exporta el timeline (Archivo > Exportar > Timeline, .drt); luego añádelo con «Añadir plantilla (.drb)».', n=pack.nombre))
-                import ui_toast
-                ui_toast.mostrar(self.app, tr('«{n}» está abierto en Resolve para editarlo', n=pack.nombre))
-            else:
-                self.app.status_var.set(tr('No pude abrir el pack en Resolve: {m}', m=mensaje))
-                messagebox.showwarning(tr('Editar en Resolve'), tr('No pude abrir el pack en Resolve: {m}', m=mensaje), parent=self)
-        _correr_en_hilo(self, trabajo, fin)
     def _detalles(self, pack):
         lineas = []
         if pack.problemas:
@@ -2702,9 +2672,6 @@ class PlantillasWindow(QWidget):
     def _importar(self):
         if self.on_importar:
             self.on_importar(self._recargar)
-    def _importar_drt(self):
-        if self.on_importar_drt:
-            self.on_importar_drt(self._recargar)
     def _aceptar(self):
         """Compat: la eleccion ya viaja al tocarla (_elegir)."""
         if self.on_elegir:
@@ -7515,30 +7482,32 @@ class SubtitleApp(QWidget):
         if panel is None or not hasattr(self, 'lang_var'):
             return
         limpiar_capa(panel.opciones_capa)
+        import un_clic_ui
         pack = self._plantilla_un_clic()
         nombre_pack = tr('Diseño automático') if pack in ('auto', 'dinamico', 'Base títulos dinámicos') else plantillas.nombre_visible(pack)
         formato = self.formato_var.get() if hasattr(self, 'formato_var') else tr('Detectar solo')
         # v5.5.7: el chip del sonido por palabra se llamaba «Efectos» (se confundía con la página Efectos, que es lo visual): ahora «Sonido».
         # v5.57: los Temas 5 y 6 ya no son la PRO con el interruptor apagado («la del tema»): sí o no, como los demás
-        txt_pro = tr('sí') if self._go_pro() else tr('no')
-        chips = [(tr('Estilo: {p}', p=nombre_pack), self._menu_estilo_go,
+        # v5.62 (el usuario eligió la propuesta A): un_clic_ui.ChipGo, cristal oscuro con icono, nombre y valor; (icono, nombre, valor, tono,
+        # clic, ayuda, 'menu' | 'cerrar' | None). «Sí»/«No» con mayúscula: tr('no') es el noruego en los catálogos
+        pro, mc = self._go_pro(), self._go_motions_completo()
+        chips = [('ph.palette', tr('Estilo'), nombre_pack, 'verde', self._menu_estilo_go,
                   tr('Clic: elegir el tema de GO (Tema 1 a Tema 6).') if plantillas.SOLO_TEMAS
-                  else tr('Clic: elegir el estilo de GO (Referencia = captions palabra a palabra, línea fina y negrita + palabra grande; Diseño automático = 3 líneas).')),
+                  else tr('Clic: elegir el estilo de GO (Referencia = captions palabra a palabra, línea fina y negrita + palabra grande; Diseño automático = 3 líneas).'), 'menu'),
                  # v5.5.10 (pedido: «en Inicio deja estilo de tema, Edición PRO y Motions completo»): sin los chips Emojis, Sonido, Visuales
                  # y Proyecto; sus ajustes guardados siguen valiendo
-                 (tr('Edición PRO: {v}', v=txt_pro), self._menu_pro_go,
-                  tr('Edición PRO: GO edita el video en la línea de tiempo de Resolve (titulares detrás de la persona con Magic Mask, cifras, listas, marcos, ficha final y sonidos), con un estilo propio para cada video. Clic: activar y elegir el estilo.')),
+                 ('ph.crown', tr('Edición PRO'), tr('Sí') if pro else tr('No'), 'pro' if pro else 'apagado', self._menu_pro_go,
+                  tr('Edición PRO: GO edita el video en la línea de tiempo de Resolve (titulares detrás de la persona con Magic Mask, cifras, listas, marcos, ficha final y sonidos), con un estilo propio para cada video. Clic: activar y elegir el estilo.'), None),
                  # v5.5.8 (pedido: «a la par de Edición PRO un botón que diga Motions completo»): el último paso de GO
-                 (tr('Motions completo: {v}', v=tr('sí') if self._go_motions_completo() else tr('no')), self._alternar_motions_completo_go,
-                  tr('Motions completo: al final de GO, un video de solo motions de todo el video en el estilo de los mejores reels (un titular arriba y una tarjeta que explica lo que se dice; sin captions) en la pista de más arriba, encima de captions y efectos, para que lo cortes donde quieras ver tu video. Clic: sí o no.'))]
-        chips = [(t, f, a, ui.ACCENT_CLARO) for t, f, a in chips]
+                 ('ph.film-strip', tr('Motions completo'), tr('Sí') if mc else tr('No'), 'verde' if mc else 'apagado', self._alternar_motions_completo_go,
+                  tr('Motions completo: al final de GO, un video de solo motions de todo el video en el estilo de los mejores reels (un titular arriba y una tarjeta que explica lo que se dice; sin captions) en la pista de más arriba, encima de captions y efectos, para que lo cortes donde quieras ver tu video. Clic: sí o no.'), None)]
         act = getattr(self, '_actualizacion', None)
         if isinstance(act, dict) and act.get('version'):
             try:
                 import actualizaciones
                 if actualizaciones.es_mas_nueva(act['version'], APP_VERSION):
-                    chips.insert(0, (tr('Nueva versión {v} ↑', v=act['version']), self._ofrecer_actualizacion,
-                                     tr('Hay una versión nueva de CineCaptions. Clic: descargarla, comprobar que es auténtica e instalarla (se cierra y se vuelve a abrir solo).'), ui.AMBAR))
+                    chips.insert(0, ('ph.arrow-circle-up', tr('Nueva versión'), act['version'], 'aviso', self._ofrecer_actualizacion,
+                                     tr('Hay una versión nueva de CineCaptions. Clic: descargarla, comprobar que es auténtica e instalarla (se cierra y se vuelve a abrir solo).'), None))
             except Exception:
                 pass
         # v5.8 (auditoría del flujo): lo que cambia el resultado y GO no enseñaba (se quedaba guardado de otra vez) sale en ámbar y se quita con un clic
@@ -7549,18 +7518,18 @@ class SubtitleApp(QWidget):
         except Exception:
             es_guion = False
         if not es_guion and not composicion.es_defecto(getattr(self, 'composicion', None)):
-            chips.append((tr('Posición ajustada ✕'), self._quitar_ajuste_fino,
+            chips.append(('ph.arrows-out-cardinal', tr('Posición ajustada'), None, 'aviso', self._quitar_ajuste_fino,
                           tr('Tu «Ajuste fino» de Proyecto mueve los subtítulos ({d}) respecto a la posición exacta del estilo. Clic: quitarlo.',
-                             d=resumen_composicion(getattr(self, 'composicion', None))), ui.AMBAR))
+                             d=resumen_composicion(getattr(self, 'composicion', None))), 'cerrar'))
         try:
             hay_varios = len(plantillas.variantes_de(pack, self._formato_en_juego())) > 1
         except Exception:
             hay_varios = False
         if estilo_fijo() and hay_varios and not es_guion:
-            chips.append((tr('Solo el estilo {n} ✕', n=estilo_fijo()), self._quitar_estilo_fijo,
-                          tr('Todos los bloques usan el mismo estilo del pack. Clic: volver a alternar los estilos.'), ui.AMBAR))
-        for texto, fn, ayuda, color in chips:
-            ch = Chip(texto, color, fn, alto=32, tam=13)
+            chips.append(('ph.lock-simple', tr('Solo el estilo {n}', n=estilo_fijo()), None, 'aviso', self._quitar_estilo_fijo,
+                          tr('Todos los bloques usan el mismo estilo del pack. Clic: volver a alternar los estilos.'), 'cerrar'))
+        for icono, nombre, valor, tono, fn, ayuda, extra in chips:
+            ch = un_clic_ui.ChipGo(icono, nombre, valor, tono, fn, menu=extra == 'menu', cerrar=extra == 'cerrar')
             Tooltip(ch, ayuda)
             panel.opciones_capa.addWidget(ch)
     def _menu_estilo_go(self):
@@ -10744,7 +10713,7 @@ class SubtitleApp(QWidget):
             self._vistas_reales_solas()
             return
         cuerpo, cc = caja_h(espacio=20)
-        self._plantillas_ventana = PlantillasWindow(self, seleccion=self.plantilla_sel, on_elegir=self._plantilla_elegida, on_importar=self._importar_estilos, on_importar_drt=self._importar_estilos_drt, formato=self._formato_en_juego(), diseno_actual=getattr(self, 'diseno_dinamico', None), on_diseno=self._plantilla_diseno, basicos_actual=self._basicos_actual(), on_basicos=self._plantilla_basicos, modo=self._modo(), franja=self._tarjeta_fuente)
+        self._plantillas_ventana = PlantillasWindow(self, seleccion=self.plantilla_sel, on_elegir=self._plantilla_elegida, on_importar=self._importar_estilos, formato=self._formato_en_juego(), diseno_actual=getattr(self, 'diseno_dinamico', None), on_diseno=self._plantilla_diseno, basicos_actual=self._basicos_actual(), on_basicos=self._plantilla_basicos, modo=self._modo(), franja=self._tarjeta_fuente)
         cc.addWidget(self._plantillas_ventana, 8)
         # v5.2: con Resolve conectado, las vistas reales que falten se renderizan solas
         try:
@@ -11648,108 +11617,6 @@ class SubtitleApp(QWidget):
         despues(2000, mirar, self)
     def _abrir_plantillas(self):
         self.ir_a('estilos')
-    def _importar_estilos_drt(self, cuando_termine=None):
-        """Añade un pack a partir de un archivo .drt. SIN abrir Resolve.
-
-        Este es el camino bueno desde la v1.0.27: el pack ES el .drt, no
-        una extracción de sus valores. El motivo esta medido: al abrir los
-        .drt de verdad se vio que cada "Text+" es un GroupOperator entero
-        (SoftGlow + TextPlus + StyledTextFollower + PolyPath + curvas de
-        animacion), y el extractor guardaba SOLO el nodo TextPlus. Con el
-        se iba la animacion y, sobre todo, la POSICION -que vive en el
-        PolyPath, no en el 'Center' del Text+-. Ese era el bug que se
-        reportaba como "el bloque 2 no respeta su posicion".
-
-        Y se lee aqui, con packs_drt.py, sin pedirle nada a Resolve: un
-        .drt es un ZIP con XML adentro. Asi lo que se le enseña al usuario
-        -cuantos sets hay, cuales faltan, que tipografias pide- sale del
-        archivo de verdad y no puede mentir. Hasta la v1.0.26 esto pasaba
-        por Resolve y el resultado era el "simula que los importa".
-        """
-        ruta = filedialog.askopenfilename(parent=self, title=tr('Elige la bandeja (.drb) o el timeline (.drt) exportado de tu plantilla'), filetypes=[(tr('Bandeja o timeline de Resolve'), '*.drb *.drt'), (tr('Todos los archivos'), '*.*')])
-        if not ruta:
-            return
-        es_drb = str(ruta).lower().endswith('.drb')
-        info = packs_drt.leer_drb(ruta) if es_drb else packs_drt.leer(ruta)
-        if not info.get('ok'):
-            titulo = tr('No pude leer ese .drb') if es_drb else tr('No pude leer ese .drt')
-            messagebox.showerror(titulo, info.get('error') or tr('No encontré ningún estilo utilizable.'), parent=self)
-            return
-        formato = self._preguntar_formato(Path(ruta).name)
-        if formato is None:
-            return
-        nombre = simpledialog.askstring(tr('Nombre del pack'), tr('¿Cómo quieres llamar a este pack?\n\nSi ya existe uno con ese nombre, se le añade este formato y se conservan los demás.'), initialvalue=Path(ruta).stem, parent=self)
-        if not nombre or not nombre.strip():
-            return None
-        guardar = plantillas.guardar_drb if es_drb else plantillas.guardar_drt
-        pack, avisos = guardar(nombre.strip(), formato, ruta)
-        if pack is None:
-            messagebox.showerror(tr('No pude guardar el pack'), '\n'.join(avisos), parent=self)
-            return
-        _CACHE_ESTILOS.pop(pack.nombre, None)
-        if getattr(pack, 'es_basicos', False):
-            basicos = info.get('basicos') or {}
-            partes = [f'{_combinacion_visible(pos)} '
-                      f"{', '.join(map(str, sorted(ns)))}"
-                      for pos, ns in sorted(basicos.items()) if ns]
-            total = sum((len(ns) for ns in basicos.values()))
-            extra = '' if self._modo() == 'normal' else tr('\n\nOJO: es una plantilla de SUBTÍTULOS BÁSICOS — se elige y se usa en el modo «Subtítulos normales».')
-            messagebox.showinfo(tr('Plantilla de básicos añadida'), tr('«{nombre}» ({lower}): {total} combinaciones — ', nombre=pack.nombre, lower=plantillas.ETIQUETA_FORMATO[formato].lower(), total=total) + ' · '.join(partes) + extra, parent=self)
-            self._guardar_preferencias()
-            if cuando_termine:
-                cuando_termine(None)
-            return None
-        resumen = f'«{pack.nombre}» ({plantillas.ETIQUETA_FORMATO[formato].lower()}): ' + packs_drt.resumen(info)
-        if self._modo() == 'normal':
-            resumen += tr('\n\nOJO: es un pack de títulos DINÁMICOS — se elige y se usa en el modo «Dinámicos (3 líneas)».')
-        if not info.get('completos'):
-            messagebox.showwarning(tr('Pack añadido, pero sin combinaciones completas'), resumen + tr('\n\nNingún set tiene los tres roles (arriba, principal y abajo), así que no hay nada que usar todavía.'), parent=self)
-        else:
-            messagebox.showinfo(tr('Pack añadido'), resumen, parent=self)
-        self.plantilla_sel = pack.nombre
-        self.plantilla_lbl.configure(text=self._etiqueta_plantilla_completa())
-        self._guardar_preferencias()
-        self._refrescar_vista_estilo()
-        self._refrescar_receta()
-        if cuando_termine:
-            cuando_termine(pack.nombre)
-    def _preguntar_formato(self, nombre_archivo):
-        """Horizontal, vertical o cuadrado. None si el usuario cancela.
-
-        Lo elige el usuario y no se deduce del archivo porque la resolucion
-        del timeline NO es legible fuera de Resolve: vive en un blob binario
-        propio. Se propone lo que diga el nombre del archivo, que es como
-        la gente los nombra de todos modos.
-        """
-        minus = nombre_archivo.lower()
-        sugerido = next((f for pista, f in plantillas._PISTAS_FORMATO
-                         if pista in minus), 'h')
-        dlg = Dialogo(self, tr('Formato del pack'), 400, 230, redimensionable=False)
-        capa = _capa_dialogo(dlg, (22, 20, 22, 18), 8)
-        capa.addWidget(Etiqueta(tr('¿Para qué formato es esta plantilla?'), FS_NORMAL + 2, peso='negrita', alineacion=Qt.AlignmentFlag.AlignCenter))
-        capa.addWidget(Etiqueta(nombre_archivo, FS_MENOR, color=TEXT_MUTED, alineacion=Qt.AlignmentFlag.AlignCenter))
-        var = StringVar(sugerido)
-        if var.get() not in ['h', 'v']:
-            var.set('h')
-        fila, cf = caja_h(espacio=18, margenes=(0, 10, 0, 0))
-        cf.addStretch(1)
-        for f in ['h', 'v']:
-            cf.addWidget(Radio(plantillas.ETIQUETA_FORMATO[f], var, f, tam=FS_NORMAL))
-        cf.addStretch(1)
-        capa.addWidget(fila)
-        capa.addStretch(1)
-        elegido = {'valor': None}
-        def aceptar():
-            elegido['valor'] = var.get()
-            dlg.cerrar()
-        pie, cp = caja_h(espacio=10)
-        cp.addStretch(1)
-        cp.addWidget(Boton(tr('Cancelar'), dlg.cerrar, tipo='neutro', alto=36, ancho=100))
-        cp.addWidget(Boton(tr('Añadir'), aceptar, tipo='primario', alto=36, ancho=100))
-        cp.addStretch(1)
-        capa.addWidget(pie)
-        dlg.exec()
-        return elegido['valor']
     def _importar_estilos(self, cuando_termine=None, ruta_drt=None):
         """Le pide a Resolve que extraiga los estilos de un timeline: el que
         esté abierto, o -si se pasa 'ruta_drt'- uno importado desde un

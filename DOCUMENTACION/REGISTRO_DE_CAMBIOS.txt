@@ -12,6 +12,28 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-02 23:07  ·  v5.61  ·  cambio explicado
+    Proyecto: la carta del final del slider pasa de «Añadir plantilla (.drb)» a «Crea tu estilo» (abre la misma ventana que el botón de arriba); se quitó la importación de .drb/.drt y el ✎ «Editar en Resolve» que dependía de ella, a petición del usuario
+    modificados (7):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/estilos_slider.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+
+2026-11-02 23:00  ·  v5.61  ·  cambio explicado
+    Inicio, debajo de «Un clic y listo» (propuesta A elegida entre tres maquetas): chips de cristal oscuro con icono, nombre y valor (PRO en dorado, lo apagado en gris) porque el anillo del astrolabio tapaba las letras; la línea de Resolve con punto de estado y un velo oscuro detrás
+    modificados (7):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/un_clic_ui.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+
 2026-11-02 22:40  ·  v5.61  ·  cambio explicado
     Proyecto con la PRO: el móvil del ejemplo ya no queda esquinado; se centra en el hueco libre a la izquierda del slider (junto al Tema 1 cuando no hay vecinas) y sigue al slider al deslizar, sin tapar tarjetas ni quitarles el ratón
     modificados (1):

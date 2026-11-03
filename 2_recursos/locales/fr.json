@@ -4135,6 +4135,12 @@
     "Vuelve a darle a «Listo».": "Appuyez de nouveau sur « Terminé ».",
     "«Captions detrás de ti» pone el caption de verdad DETRÁS de la persona: su cabeza tapa parte de la palabra grande (antes el texto quedaba apoyado encima de la cabeza).": "« Sous-titres derrière vous » place vraiment le sous-titre DERRIÈRE la personne : sa tête cache une partie du grand mot (avant, le texte restait posé au-dessus de la tête).",
     "«Captions detrás de ti» es un solo interruptor para los Temas 1 a 6: si lo enciendes con un tema, también vale al hacer GO con otro.": "« Sous-titres derrière vous » est un seul interrupteur pour les Thèmes 1 à 6 : si vous l’activez avec un thème, il vaut aussi quand vous faites GO avec un autre.",
-    "Efectos › «Listo» de «Captions detrás de ti» funciona después de cualquier GO (aunque lo tuvieras apagado) y, si Resolve está cerrado, lo dice en vez de «otro timeline».": "Effets › « Terminé » de « Sous-titres derrière vous » fonctionne après n’importe quel GO (même s’il était désactivé) et, si Resolve est fermé, le dit au lieu de « une autre timeline »."
+    "Efectos › «Listo» de «Captions detrás de ti» funciona después de cualquier GO (aunque lo tuvieras apagado) y, si Resolve está cerrado, lo dice en vez de «otro timeline».": "Effets › « Terminé » de « Sous-titres derrière vous » fonctionne après n’importe quel GO (même s’il était désactivé) et, si Resolve est fermé, le dit au lieu de « une autre timeline ».",
+    "Nueva versión": "Nouvelle version",
+    "Posición ajustada": "Position ajustée",
+    "Solo el estilo {n}": "Seulement le style {n}",
+    "detectado": "détecté",
+    "Mezcla los temas con tu letra y tus colores": "Mélange les thèmes avec ta police et tes couleurs",
+    "Elige los temas, tu letra y tus colores, y ponle nombre.": "Choisis les thèmes, ta police et tes couleurs, et donne-lui un nom."
   }
 }

@@ -4135,6 +4135,12 @@
     "Vuelve a darle a «Listo».": "Press “Done” again.",
     "«Captions detrás de ti» pone el caption de verdad DETRÁS de la persona: su cabeza tapa parte de la palabra grande (antes el texto quedaba apoyado encima de la cabeza).": "“Captions behind you” now really puts the caption BEHIND the person: their head covers part of the big word (before, the text sat on top of the head).",
     "«Captions detrás de ti» es un solo interruptor para los Temas 1 a 6: si lo enciendes con un tema, también vale al hacer GO con otro.": "“Captions behind you” is a single switch for Themes 1 to 6: if you turn it on with one theme, it also applies when you press GO with another.",
-    "Efectos › «Listo» de «Captions detrás de ti» funciona después de cualquier GO (aunque lo tuvieras apagado) y, si Resolve está cerrado, lo dice en vez de «otro timeline».": "Effects › “Done” in “Captions behind you” works after any GO (even if it was off) and, if Resolve is closed, says so instead of “another timeline”."
+    "Efectos › «Listo» de «Captions detrás de ti» funciona después de cualquier GO (aunque lo tuvieras apagado) y, si Resolve está cerrado, lo dice en vez de «otro timeline».": "Effects › “Done” in “Captions behind you” works after any GO (even if it was off) and, if Resolve is closed, says so instead of “another timeline”.",
+    "Nueva versión": "New version",
+    "Posición ajustada": "Position adjusted",
+    "Solo el estilo {n}": "Only style {n}",
+    "detectado": "detected",
+    "Mezcla los temas con tu letra y tus colores": "Mix the themes with your font and your colors",
+    "Elige los temas, tu letra y tus colores, y ponle nombre.": "Pick the themes, your font and your colors, and give it a name."
   }
 }
