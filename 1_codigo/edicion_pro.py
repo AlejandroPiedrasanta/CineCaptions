@@ -74,10 +74,20 @@ DETRAS_CAPTIONS = {'sobria': 0.35, 'media': 0.55, 'espectaculo': 0.8}       # de
 # v5.5.20 (el usuario: «que exista en el menú la intensidad… que se aprecien los captions, que no los tape tanto la Magic Mask»): de los momentos
 # que valen, cuántos van detrás (frac); cuánto de la palabra GRANDE de abajo puede tapar la cabeza (tapa, fracción de su alto; tapa_max, del
 # cuadro) y cuántos tramos de Magic Mask como mucho (cada uno se rastrea en Resolve: pocos y cortos = Resolve estable). v5.58: ya no se elige
-# (intensidad_detras: siempre 'media')
-INTENSIDAD_DETRAS = {'suave': {'frac': 0.25, 'tapa': 0.2, 'tapa_max': 0.035, 'tramos': 3},
-                     'media': {'frac': 0.45, 'tapa': 0.3, 'tapa_max': 0.045, 'tramos': 5},
-                     'fuerte': {'frac': 0.7, 'tapa': 0.4, 'tapa_max': 0.06, 'tramos': 8}}
+# (intensidad_detras: siempre 'media'). v5.61: la cabeza tapa más de la mitad de la palabra grande (tapa_detras)
+INTENSIDAD_DETRAS = {'suave': {'frac': 0.25, 'tapa': 0.7, 'tapa_max': 0.08, 'tramos': 3},
+                     'media': {'frac': 0.45, 'tapa': 1.0, 'tapa_max': 0.12, 'tramos': 5},
+                     'fuerte': {'frac': 0.7, 'tapa': 1.2, 'tapa_max': 0.14, 'tramos': 8}}
+
+
+def tapa_detras(cfg, cab, linea):
+    """v5.61 (el usuario: «detrás de ti debe ser detrás de la persona, no solo ponerlo arriba»): cuánto baja el pie de la pila por debajo de
+    la coronilla (fracción del alto). Antes, hasta el 30 % de la palabra de abajo, el 40 % de la cabeza y el 4,5 % del cuadro: en ESPAÑOL.mov
+    el borde del texto quedaba entre −1 y +2 % de la coronilla, apoyado ENCIMA de la cabeza. Ahora, una palabra grande entera (sin pasar del
+    80 % de la cabeza): como la coronilla de la IA queda algo por encima del pelo, la cabeza tapa a la vista casi la mitad de la palabra
+    (medido con la vista de Efectos en ESPAÑOL.mov: XELA, VIVO, SÁBADO 10, GRATUITA) y la parte de arriba de las letras se sigue leyendo."""
+    cfg = cfg or INTENSIDAD_DETRAS['media']
+    return max(0.012, min(cfg['tapa_max'], 0.8 * cab, cfg['tapa'] * linea))
 NIVELES_DETRAS = ('suave', 'media', 'fuerte')
 TRAMO_DETRAS_MAX_S = 12.0                                                    # un recorte de la persona no pasa de esto (el rastreo del Magic Mask va por tramos)
 PUNCH_IN = 1.08                                                              # el «punch-in» que alterna en cada salto de V1 (pausas quitadas), como en la skill
@@ -1264,7 +1274,14 @@ def bloques_de_cues(cues):
         fin = max([fin] + [float(r['fin']) for r in runs if isinstance(r.get('fin'), (int, float))])
         if fin - ini >= 0.5 and 0 <= arriba < abajo <= 1:
             linea = 2.0 * (abajo - max(ys)) if ys and max(ys) < abajo else abajo - arriba     # el alto de la línea de ABAJO (la que tapa la cabeza)
+            # v5.61: los Text+ del Tema 1 (runs con su clip 'k' y su 'size') dicen si abajo va la palabra GRANDE: con una línea pequeña abajo
+            # («porque»), la cabeza solo la rozaba y el texto quedaba encima de la persona (lo automático no lo elige; una marca, sí)
+            textos = [r for r in runs if 'k' in r and r.get('texto') and isinstance(r.get('y'), (int, float)) and r.get('size')]
+            grande = None
+            if textos:
+                grande = float(max(textos, key=lambda r: float(r['y']))['size']) >= 0.8 * max(float(r['size']) for r in textos)
             out.append({'ini': ini, 'fin': fin, 'arriba': arriba, 'abajo': abajo, 'linea': max(0.02, linea), 'xs': xs or [0.5],
+                        **({'grande_abajo': grande} if grande is not None else {}),
                         'palabras': [(str(r.get('texto') or ''), float(r['t']) if isinstance(r.get('t'), (int, float)) else ini) for r in runs],
                         'emoji': c.get('emoji') if isinstance(c.get('emoji'), str) else None})    # (v5.25: el del tema, ya elegido con coherencia)
     out.sort(key=lambda b: b['ini'])
@@ -1401,9 +1418,9 @@ def _detras_bloque(b, info, video, W, H, cfg, a_cuadro, cortes, forzado, posicio
         return dict(b, subir=-r[1], mover=r[0], clip=fuentes[0][2], det=vs[0] if a_cuadro is not None else ds[0], t_det=ts[0], caras=caras), None
     if not (min(b['xs']) - 0.16 <= cab_x <= max(b['xs']) + 0.16):
         return None, MOTIVOS_DETRAS['lado']
-    # cuánto de la pila tapa la cabeza: hasta la frente (~40 % de la cabeza), sin pasar del 45 % de la línea de abajo (la palabra se sigue
-    # leyendo); en un plano entero (cabeza pequeña) tapa poco y en un primer plano mucho más
-    tapa = max(0.012, min(cfg['tapa_max'] if cfg else 0.055, 0.4 * cab, (cfg['tapa'] if cfg else 0.45) * b['linea']))
+    # cuánto de la pila tapa la cabeza (tapa_detras): a la vista, casi la mitad de la palabra de abajo; en un plano entero (cabeza pequeña)
+    # tapa menos y en un primer plano más
+    tapa = tapa_detras(cfg, cab, b['linea'])
     if linea_chica:                                                   # (una línea pequeña abajo: la cabeza solo le roza el pie, se sigue leyendo)
         tapa = max(0.006, min(tapa, 0.28 * b['linea']))
     dy = coronilla + tapa - b['abajo']

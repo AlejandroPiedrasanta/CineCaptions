@@ -495,6 +495,11 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.61', [
+        '«Captions detrás de ti» pone el caption de verdad DETRÁS de la persona: su cabeza tapa parte de la palabra grande (antes el texto quedaba apoyado encima de la cabeza).',
+        '«Captions detrás de ti» es un solo interruptor para los Temas 1 a 6: si lo enciendes con un tema, también vale al hacer GO con otro.',
+        'Efectos › «Listo» de «Captions detrás de ti» funciona después de cualquier GO (aunque lo tuvieras apagado) y, si Resolve está cerrado, lo dice en vez de «otro timeline».',
+    ]),
     ('5.60', [
         '«Captions detrás de ti» avisa en el Registro cuando en un video ningún caption puede ir detrás de la persona (sale pequeña, de espaldas o moviéndose, o cambia la toma) y dice por qué: antes GO terminaba igual que sin él y parecía que no funcionaba.',
     ]),

@@ -4132,6 +4132,9 @@
     "En Resolve está abierto otro timeline": "Une autre timeline est ouverte dans Resolve",
     "Lo que hay en V1 del timeline abierto en Resolve no es lo que dejó tu último GO de este video.": "Ce qui se trouve sur V1 de la timeline ouverte dans Resolve n’est pas ce qu’a laissé votre dernier GO avec cette vidéo.",
     "En Resolve, abre el timeline que dice el aviso (el de tu último GO con este video).": "Dans Resolve, ouvrez la timeline indiquée dans l’avis (celle de votre dernier GO avec cette vidéo).",
-    "Vuelve a darle a «Listo».": "Appuyez de nouveau sur « Terminé »."
+    "Vuelve a darle a «Listo».": "Appuyez de nouveau sur « Terminé ».",
+    "«Captions detrás de ti» pone el caption de verdad DETRÁS de la persona: su cabeza tapa parte de la palabra grande (antes el texto quedaba apoyado encima de la cabeza).": "« Sous-titres derrière vous » place vraiment le sous-titre DERRIÈRE la personne : sa tête cache une partie du grand mot (avant, le texte restait posé au-dessus de la tête).",
+    "«Captions detrás de ti» es un solo interruptor para los Temas 1 a 6: si lo enciendes con un tema, también vale al hacer GO con otro.": "« Sous-titres derrière vous » est un seul interrupteur pour les Thèmes 1 à 6 : si vous l’activez avec un thème, il vaut aussi quand vous faites GO avec un autre.",
+    "Efectos › «Listo» de «Captions detrás de ti» funciona después de cualquier GO (aunque lo tuvieras apagado) y, si Resolve está cerrado, lo dice en vez de «otro timeline».": "Effets › « Terminé » de « Sous-titres derrière vous » fonctionne après n’importe quel GO (même s’il était désactivé) et, si Resolve est fermé, le dit au lieu de « une autre timeline »."
   }
 }

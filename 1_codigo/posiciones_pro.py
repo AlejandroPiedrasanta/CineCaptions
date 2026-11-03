@@ -591,7 +591,8 @@ def texto_cue(cue, n=4):
 
 def _grande_abajo(cue):
     """¿La palabra GRANDE del cue es la de abajo? (es la que tapa la cabeza: así la línea pequeña siempre se lee)."""
-    runs = [r for r in cue.get('runs') or [] if isinstance(r.get('y'), (int, float))]
+    runs = [r for r in cue.get('runs') or [] if isinstance(r.get('y'), (int, float))
+            and (r.get('texto') or 'k' not in r)]                     # (v5.61: sin los aros y subrayados del Tema 1, que no son texto)
     if not runs:
         return False
     tam = lambda r: float(r.get('size') or r.get('zoom') or (2.0 if r.get('rol') == 'main' or r.get('fu') == 'main' else 1.0))
@@ -975,7 +976,7 @@ def vista_detras(ruta, t, captions, imagen=None, alto=640, posicion=None):
     else:
         coronilla, cab_x, alto_p, cab = hcab
         cfg = EP.INTENSIDAD_DETRAS.get(EP.intensidad_detras()) or EP.INTENSIDAD_DETRAS['media']
-        tapa = max(0.012, min(cfg['tapa_max'], 0.4 * cab, cfg['tapa'] * linea))
+        tapa = EP.tapa_detras(cfg, cab, linea)                # (v5.61: la misma que GO)
         dy = coronilla + tapa - abajo
         xs = [(c['x'] + c['a'].shape[1] / 2.0) / W for c in letras]
         m = EP.motivo_cabeza(coronilla, alto_p)
