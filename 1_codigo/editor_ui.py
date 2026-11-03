@@ -386,6 +386,71 @@ class MarcoPapel(QFrame):
         p.end()
 
 
+class MuestraPalabras(QWidget):
+    """v5.66 (el usuario: «si no hay sesión o audio, pulir mejor el aviso»): la cabecera del aviso del Corrector sin sesión: una frase de
+    ejemplo como se ve aquí, cada palabra en su píldora con el color de su rol (Arriba / Principal / Abajo / sin marcar) y la principal
+    con su halo; debajo, qué significa cada color. Estático (sin reloj)."""
+    FRASE = (('Así', 'context'), ('ganamos', 'context'), ('10.000', 'main'), ('euros', 'complement'), ('en', None), ('un', None), ('mes', 'complement'))
+    ALTO = 76
+
+    def __init__(self, padre=None):
+        super().__init__(padre)
+        self.setFixedHeight(self.ALTO)
+        self.setMinimumWidth(420)
+        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+
+    @staticmethod
+    def _color(rol):
+        return QColor({'context': ui.ROL_CONTEXTO, 'main': ui.ROL_PRINCIPAL, 'complement': ui.ROL_COMPLEMENTO}.get(rol, ui.ROL_BASE))
+
+    def paintEvent(self, _e):
+        p = QPainter(self)
+        p.setRenderHint(QPainter.RenderHint.Antialiasing)
+        f = fuente(15, peso='negrita')
+        fm = QFontMetricsF(f)
+        p.setFont(f)
+        x, y, alto = 0.0, 6.0, 36.0
+        for palabra, rol in self.FRASE:
+            ancho = fm.horizontalAdvance(palabra) + 26.0
+            r = QRectF(x, y, ancho, alto)
+            c = self._color(rol)
+            if rol == 'main':                                  # la principal: halo y relleno lleno
+                halo = QRadialGradient(r.center(), ancho * 0.9)
+                halo.setColorAt(0.0, QColor(c.red(), c.green(), c.blue(), 70))
+                halo.setColorAt(1.0, QColor(c.red(), c.green(), c.blue(), 0))
+                p.setPen(Qt.PenStyle.NoPen)
+                p.setBrush(halo)
+                p.drawEllipse(r.center(), ancho * 0.9, alto * 1.1)
+                p.setBrush(c)
+                p.setPen(Qt.PenStyle.NoPen)
+                p.drawRoundedRect(r, alto / 2, alto / 2)
+                p.setPen(QColor(ui._texto_sobre(c.name())))
+            else:
+                p.setBrush(QColor(c.red(), c.green(), c.blue(), 30 if rol else 14))
+                p.setPen(QPen(QColor(c.red(), c.green(), c.blue(), 150 if rol else 70), 1.2))
+                p.drawRoundedRect(r.adjusted(0.6, 0.6, -0.6, -0.6), alto / 2, alto / 2)
+                p.setPen(QColor('#E8EEF8') if rol else QColor('#8A97AE'))
+            p.drawText(r, Qt.AlignmentFlag.AlignCenter, palabra)
+            x += ancho + 8.0
+        f2 = fuente(11.5, peso='medio')
+        p.setFont(f2)
+        fm2 = QFontMetricsF(f2)
+        x = 2.0
+        for rol, nombre in (('context', tr('Arriba')), ('main', tr('Principal')), ('complement', tr('Abajo')), (None, tr('Sin marcar'))):
+            c = self._color(rol)
+            p.setPen(Qt.PenStyle.NoPen)
+            p.setBrush(c)
+            p.drawEllipse(QPointF(x + 4.0, y + alto + 20.0), 4.0, 4.0)
+            p.setPen(QColor('#9AA8C0'))
+            p.drawText(QPointF(x + 13.0, y + alto + 24.0), nombre)
+            x += 13.0 + fm2.horizontalAdvance(nombre) + 18.0
+        p.end()
+
+    def sizeHint(self):
+        fm = QFontMetricsF(fuente(15, peso='negrita'))
+        return QSize(int(sum(fm.horizontalAdvance(w) + 34.0 for w, _r in self.FRASE)), self.ALTO)
+
+
 class PistaPincel(QWidget):
     """Una línea sobre el párrafo que dice, con el color del pincel elegido, QUÉ pasa al tocar una palabra."""
 

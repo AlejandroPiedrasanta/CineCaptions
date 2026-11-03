@@ -12,6 +12,23 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-03 15:33  ·  v5.65  ·  cambio explicado
+    v5.66: Creativo → «Corrector» (el usuario); la sesión abierta se cierra sola (guardando) al pedir GO/retocar/transcribir y cuando Resolve se cierra; aviso sin audio pulido (MuestraPalabras, tres pasos, solo «Ir a Inicio»); «RCS · » → «CC · » en bins, temporales y emojis que van a Resolve, reconociendo los de antes.
+    modificados (29):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/banco_pruebas.py
+      ~ 1_codigo/colocacion.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/editor_ui.py
+      ~ 1_codigo/emojis.py
+      ~ 1_codigo/emojis_animados.py
+      ~ 1_codigo/hacer_vistas_guia_video.py
+      ~ 1_codigo/pack_personalizado.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/registro_ayuda.py
+      … y 17 más
+
 2026-11-03 14:27  ·  v5.65  ·  (automático)
     modificados (20):
       ~ 1_codigo/version.py
