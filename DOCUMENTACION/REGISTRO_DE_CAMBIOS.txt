@@ -12,6 +12,18 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-03 13:27  ·  v5.64  ·  cambio explicado
+    v5.64: «Copiar este error» y «Copiar todo» del Registro por secciones (qué pasó, qué significa, qué hacer, detalle técnico, lo de justo antes, equipo, motores), sin el usuario en las rutas y sin subprocess en el hilo de la interfaz (registro.informe_de_error, equipo, reporte_soporte).
+    modificados (8):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/registro.py
+      ~ 1_codigo/registro_ui.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+
 2026-11-03 13:18  ·  v5.64  ·  cambio explicado
     v5.64: (1) GPU NVIDIA sin cuBLAS/cuDNN ya no es «Falla al iniciar» (reporte de un usuario con RTX 3050 Ti): aviso + descarga sola en un hilo (vigilancia.preparar_gpu_voz). (2) El instalador no vuelve a bajar Gemma 4 E4B (16 GB) cuando Google publica otra versión: motor_texto.ya_descargado.
     modificados (6):
