@@ -12,6 +12,18 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-02 22:40  ·  v5.61  ·  cambio explicado
+    Proyecto con la PRO: el móvil del ejemplo ya no queda esquinado; se centra en el hueco libre a la izquierda del slider (junto al Tema 1 cuando no hay vecinas) y sigue al slider al deslizar, sin tapar tarjetas ni quitarles el ratón
+    modificados (1):
+      ~ 1_codigo/pro_lateral_ui.py
+
+2026-11-02 22:33  ·  v5.61  ·  cambio explicado
+    Ejemplo de «Captions detrás de ti» en el móvil de Proyecto rehecho: el texto ya no va a una altura fija (la cara tapaba el centro entero de la palabra y tocaba los bordes); ahora va donde lo pone GO (tapa_detras bajo la coronilla, media palabra tapada) y ocupa como mucho el 80 % del ancho
+    modificados (3):
+      ~ 1_codigo/herramientas_dev/hacer_ejemplos_pro.py
+      ~ 2_recursos/edicion_pro/ejemplos_pro/detras.jpg
+      ~ 2_recursos/edicion_pro/ejemplos_pro/detras.mp4
+
 2026-11-02 19:45  ·  v5.61  ·  (automático)
     modificados (27):
       ~ 1_codigo/ajustes_ui.py

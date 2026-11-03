@@ -21,7 +21,7 @@ Los ejemplos: 2_recursos/edicion_pro/ejemplos_pro/<clave>.mp4 (+ .jpg), hechos c
 import math
 from pathlib import Path
 
-from PySide6.QtCore import QRectF, QSize, Qt, QTimer, Signal
+from PySide6.QtCore import QEvent, QRectF, QSize, Qt, QTimer, Signal
 from PySide6.QtGui import QColor, QFontMetricsF, QImage, QPainter, QPainterPath, QPen, QPixmap
 from PySide6.QtWidgets import QHBoxLayout, QSizePolicy, QWidget
 
@@ -830,9 +830,12 @@ class PanelEjemploPro(QWidget):
         self._entrada = ui.Resorte(1.0, 150.0, 21.0)
         self._marco = None                             # (ancho, alto, dpr, QPixmap)
         self.medida_carta = None                       # FilaPro: CarruselPacks._medidas (para alinear el móvil con la tarjeta del centro)
+        self.libre = None                              # FilaPro: x donde empiezan las tarjetas del slider (el móvil se centra en el hueco)
+        self.ancho_movil = None                        # FilaPro: el ancho de la columna del móvil (el panel puede ser más ancho)
+        self._zona = None                              # lo que ocupan el móvil y su nombre (lo único que se repinta en cada cuadro)
         self._reloj = QTimer(self)
         self._reloj.setInterval(self.TIC_MS)
-        self._reloj.timeout.connect(self.update)
+        self._reloj.timeout.connect(self._repintar)
 
     def _carta(self):
         """(arriba, abajo) de la tarjeta del centro del slider, en las coordenadas de este panel (los dos van en la misma fila), o None."""
@@ -925,6 +928,20 @@ class PanelEjemploPro(QWidget):
             self._marco = (w, h, round(dpr, 2), pm)
         return self._marco[3]
 
+    def _repintar(self):
+        """Cada cuadro del clip: solo la zona del móvil (el panel cubre también el hueco del slider; entero, a 30/s, repintaría el slider)."""
+        if self._zona is None:
+            self.update()
+        else:
+            self.update(self._zona.toAlignedRect())
+
+    def _centro_x(self, w):
+        """x del centro del móvil: en medio del hueco libre a la izquierda del slider (FilaPro._libre) o, sin él, en medio del panel."""
+        libre = self.libre() if self.libre is not None else None
+        if libre is None:
+            return self.width() / 2.0
+        return max(10.0 + w / 2.0, min(libre / 2.0, self.width() - 10.0 - w / 2.0))
+
     @staticmethod
     def _cubrir(p, img, pant):
         esc = max(pant.width() / max(1, img.width()), pant.height() / max(1, img.height()))     # cubre la pantalla (sin franjas)
@@ -946,13 +963,14 @@ class PanelEjemploPro(QWidget):
         # se hace a esa proporción (hacer_ejemplos_pro; el usuario: «que encaje bien el mockup, no franjas negras»)
         marco, info, _foto = ui.MarcoVista._recursos_movil()
         asp = float(info.get('aspecto') or 0.5)
-        h = min(disponible.height(), disponible.width() / asp)
+        h = min(disponible.height(), (float(self.ancho_movil or self.width()) - 20.0) / asp)
         w = h * asp
         top = disponible.top() + (disponible.height() - h) / 2
         carta = self._carta()
         if carta is not None:                                      # v5.5.10 («baja más el mockup»): a la altura de la tarjeta del centro
             top = max(disponible.top(), min(carta[1] - h, disponible.bottom() - h))
-        caja = QRectF(disponible.center().x() - w / 2, top, w, h)
+        caja = QRectF(self._centro_x(w) - w / 2, top, w, h)      # v5.62 («está muy esquinado»): en medio del hueco junto al slider
+        self._zona = caja.adjusted(-48.0, -4.0, 48.0, abajo + 4.0)
         a = info.get('pantalla') or [0.0625, 0.0272, 0.9363, 0.9728]
         pant = QRectF(caja.left() + a[0] * w, caja.top() + a[1] * h, (a[2] - a[0]) * w, (a[3] - a[1]) * h)
         radio = float(info.get('radio') or 0.127) * pant.width()
@@ -1009,7 +1027,7 @@ class PanelEjemploPro(QWidget):
             p.drawText(QRectF(x0 + 26, y0 + dy, ancho, 20), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter, nombre)
             p.setFont(fuente_s)
             p.setPen(QColor(ui.VERDE if enc else ui.TEXT_MUTED))
-            p.drawText(QRectF(0, y0 + 22 + dy, self.width(), 18), Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter,
+            p.drawText(QRectF(caja.center().x() - 160, y0 + 22 + dy, 320, 18), Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter,
                        tr('GO lo pondrá en tu video') if enc else tr('Apagado: GO no lo pondrá'))
 
 
@@ -1017,7 +1035,10 @@ class PanelEjemploPro(QWidget):
 class FilaPro(QWidget):
     """[ejemplo | slider | interruptores]. Los lados se ven solo con la PRO en juego. v5.5.10 («que se vea coherente en tamaños»): crecen y
     se achican CON el slider: el móvil, tan alto como su tarjeta del centro; la barra, a la escala del alto de la fila. Con poco sitio se
-    esconde primero el ejemplo y luego la barra."""
+    esconde primero el ejemplo y luego la barra.
+    v5.62 (el usuario: «está muy esquinado el mockup»): la columna del móvil es un hueco de la capa; el panel va ENCIMA del slider (desde el
+    borde hasta la tarjeta del centro, sin recibir el ratón) y el móvil se centra en el sitio que dejan libre las tarjetas de la izquierda:
+    con el Tema 1 al centro (nada a su izquierda) queda junto a él; con vecinas, en su columna. Sigue al slider mientras se desliza."""
     cambiado = Signal()
     ESPACIO = 14
     TEXTO_MOVIL = 74          # lo que ocupa, debajo del móvil, el nombre de la función (y los márgenes del panel)
@@ -1030,17 +1051,67 @@ class FilaPro(QWidget):
         capa = QHBoxLayout(self)
         capa.setContentsMargins(0, 0, 0, 0)
         capa.setSpacing(self.ESPACIO)
-        self.ejemplo = PanelEjemploPro()
+        self._centro = centro
+        self._hueco = QWidget()                          # la columna del móvil en la capa (el panel va encima, ver _colocar_ejemplo)
+        self._hueco.setMinimumHeight(300)
+        self._ancho_ej = 330
+        self._libre_visto = None
+        self.ejemplo = PanelEjemploPro(self)
+        self.ejemplo.setMinimumSize(0, 0)
+        self.ejemplo.setMaximumSize(16777215, 16777215)
+        self.ejemplo.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, True)    # (el slider de debajo sigue recibiendo el ratón)
         self.ejemplo.medida_carta = getattr(centro, '_medidas', None)
+        self.ejemplo.libre = self._libre
         self.lista = PanelMotionsPro(ir_efectos=ir_efectos)
-        capa.addWidget(self.ejemplo)
+        capa.addWidget(self._hueco)
         capa.addWidget(centro, 1)
         capa.addWidget(self.lista)
         centro.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        centro.installEventFilter(self)
+        self.ejemplo.raise_()
         self.lista.senalada.connect(self._senalada)
         self.lista.cambiado.connect(self._cambio)
         self._pro = False
         self.refrescar()
+
+    def _libre(self):
+        """x (en la fila) donde empieza por la izquierda la primera tarjeta del slider (la del centro o una vecina, según dónde va ahora):
+        hasta ahí, el hueco del móvil. None si el slider no se deja medir."""
+        c = self._centro
+        try:
+            w, h, cx, cy = c._medidas()
+            izq = cx - w / 2.0
+            for k in range(len(c._cartas)):
+                d = k - c._pos
+                if -3.2 <= d < 0:
+                    r, _esc, op = c._transformar(d, w, h, cx, cy)
+                    if op > 0.02:
+                        izq = min(izq, r.left())
+            return c.x() + max(0.0, izq)
+        except Exception:
+            return None
+
+    def _colocar_ejemplo(self):
+        """El panel del móvil: desde el borde de la fila hasta la tarjeta del centro (encima del slider)."""
+        c = self._centro
+        try:
+            w, _h, cx, _cy = c._medidas()
+            derecha = c.x() + cx - w / 2.0
+        except Exception:
+            derecha = 0.0
+        self.ejemplo.setGeometry(0, 0, max(self._ancho_ej, int(derecha)), self.height())
+
+    def eventFilter(self, obj, e):
+        if obj is self._centro:
+            t = e.type()
+            if t in (QEvent.Type.Resize, QEvent.Type.Move):
+                self._colocar_ejemplo()
+            elif t == QEvent.Type.Paint and self.ejemplo.isVisible():     # el slider se desliza: el móvil lo sigue
+                libre = self._libre()
+                if libre is not None and (self._libre_visto is None or abs(libre - self._libre_visto) > 0.5):
+                    self._libre_visto = libre
+                    self.ejemplo.update()
+        return super().eventFilter(obj, e)
 
     def _senalada(self, clave):
         self.ejemplo.poner(clave, self.lista.encendido(clave))
@@ -1082,10 +1153,14 @@ class FilaPro(QWidget):
             movil = max(0.0, min(alto_max, h - controles - 16.0, 1040.0, carta))
         ancho_ej = int(round(movil * asp + 20))
         ver_ej = self._pro and movil >= self.MOVIL_MIN and (w - lista - ancho_ej - self.ESPACIO) >= self.CENTRO_MIN
-        if ver_ej and self.ejemplo.width() != ancho_ej:
-            self.ejemplo.setFixedWidth(ancho_ej)
+        if ver_ej and self._hueco.maximumWidth() != ancho_ej:
+            self._hueco.setFixedWidth(ancho_ej)
+        self._ancho_ej = ancho_ej
+        self.ejemplo.ancho_movil = ancho_ej
         self.lista.setVisible(ver_lista)
+        self._hueco.setVisible(ver_ej)
         self.ejemplo.setVisible(ver_ej)
+        self._colocar_ejemplo()
 
     def resizeEvent(self, e):
         super().resizeEvent(e)
