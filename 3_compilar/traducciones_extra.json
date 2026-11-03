@@ -7097,6 +7097,41 @@
   "de": "In Resolve ist eine andere Timeline offen: Öffne „{t}“ und drücke erneut auf „Fertig“.",
   "it": "In Resolve è aperta un’altra timeline: apri «{t}» e premi di nuovo «Fatto»."
  },
+ "DaVinci Resolve está cerrado o no contesta: ábrelo con el timeline «{t}» y vuelve a darle a «Listo».": {
+  "en": "DaVinci Resolve is closed or not responding: open it with the timeline “{t}” and press “Done” again.",
+  "pt": "O DaVinci Resolve está fechado ou não responde: abra-o com a timeline «{t}» e pressione «Pronto» de novo.",
+  "fr": "DaVinci Resolve est fermé ou ne répond pas : ouvrez-le avec la timeline « {t} » et appuyez de nouveau sur « Terminé ».",
+  "de": "DaVinci Resolve ist geschlossen oder antwortet nicht: Öffne es mit der Timeline „{t}“ und drücke erneut auf „Fertig“.",
+  "it": "DaVinci Resolve è chiuso o non risponde: aprilo con la timeline «{t}» e premi di nuovo «Fatto»."
+ },
+ "En Resolve está abierto otro timeline": {
+  "en": "Another timeline is open in Resolve",
+  "pt": "Há outra timeline aberta no Resolve",
+  "fr": "Une autre timeline est ouverte dans Resolve",
+  "de": "In Resolve ist eine andere Timeline offen",
+  "it": "In Resolve è aperta un’altra timeline"
+ },
+ "Lo que hay en V1 del timeline abierto en Resolve no es lo que dejó tu último GO de este video.": {
+  "en": "What is on V1 of the timeline open in Resolve is not what your last GO with this video left there.",
+  "pt": "O que está na V1 da timeline aberta no Resolve não é o que o seu último GO com este vídeo deixou.",
+  "fr": "Ce qui se trouve sur V1 de la timeline ouverte dans Resolve n’est pas ce qu’a laissé votre dernier GO avec cette vidéo.",
+  "de": "Was auf V1 der in Resolve geöffneten Timeline liegt, ist nicht das, was dein letztes GO mit diesem Video dort gelassen hat.",
+  "it": "Ciò che c’è su V1 della timeline aperta in Resolve non è quello che ha lasciato il tuo ultimo GO con questo video."
+ },
+ "En Resolve, abre el timeline que dice el aviso (el de tu último GO con este video).": {
+  "en": "In Resolve, open the timeline named in the notice (the one from your last GO with this video).",
+  "pt": "No Resolve, abra a timeline indicada no aviso (a do seu último GO com este vídeo).",
+  "fr": "Dans Resolve, ouvrez la timeline indiquée dans l’avis (celle de votre dernier GO avec cette vidéo).",
+  "de": "Öffne in Resolve die Timeline aus dem Hinweis (die deines letzten GO mit diesem Video).",
+  "it": "In Resolve, apri la timeline indicata nell’avviso (quella del tuo ultimo GO con questo video)."
+ },
+ "Vuelve a darle a «Listo».": {
+  "en": "Press “Done” again.",
+  "pt": "Pressione «Pronto» de novo.",
+  "fr": "Appuyez de nouveau sur « Terminé ».",
+  "de": "Drücke erneut auf „Fertig“.",
+  "it": "Premi di nuovo «Fatto»."
+ },
  "Listo: ya está en tu timeline de Resolve.": {
   "en": "Done: it is now in your Resolve timeline.",
   "pt": "Pronto: já está na sua timeline do Resolve.",

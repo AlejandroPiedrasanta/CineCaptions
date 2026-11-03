@@ -192,11 +192,12 @@ def estado(clave, op=None, neon=None):
     op = _op() if op is None else op
     if o.get('solo_pref'):                              # (v5.33: el gancho = la intro, solo su preferencia; también en el Tema 1, encendido por
         return bool(op.get(o['pref'], o.get('defecto', False)))         # defecto: el usuario lo pidió)
+    if o.get('mascara'):                                # v5.61: «detrás de ti», un solo interruptor para los 6 temas
+        import edicion_pro
+        return edicion_pro.detras_encendido(op)
     if (_neon() if neon is None else neon):
         return clave in (op.get('pro_neon_extras') or [])
-    if o.get('mascara'):
-        return str(op.get('pro_mascara') or 'no') != 'no'
-    ids = ids_de(clave) if o.get('motions') is not None or 'pref' not in o else []
+    ids =ids_de(clave) if o.get('motions') is not None or 'pref' not in o else []
     try:
         import motions_catalogo as MC
         motion = any(MC.permitido(i, op) for i in ids) if ids else True
@@ -216,14 +217,14 @@ def poner(clave, si):
     if o.get('solo_pref'):                              # (v5.33: el gancho, la misma preferencia en todos los temas)
         edicion_pro.guardar_opciones({o['pref']: bool(si)})
         return True
+    if o.get('mascara'):                                # v5.61: «detrás de ti», el mismo en los 6 temas (pro_mascara y pro_neon_extras)
+        edicion_pro.poner_detras(si)
+        return True
     if _neon():
         edicion_pro.poner_neon_extra(clave, si)
         return True
     op = edicion_pro.opciones_guardadas()
     cambios = {}
-    if o.get('mascara'):
-        antes = str(op.get('pro_mascara') or 'auto')
-        cambios['pro_mascara'] = (antes if antes != 'no' else 'auto') if si else 'no'
     if o.get('pref'):
         cambios[o['pref']] = bool(si)
     ids = ids_de(clave) if (o.get('motions') is not None or 'pref' not in o) and not o.get('mascara') and not o.get('solo_pref') else []

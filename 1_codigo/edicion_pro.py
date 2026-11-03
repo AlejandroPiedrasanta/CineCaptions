@@ -300,10 +300,28 @@ def poner_neon_extra(clave, si):
     guardar_opciones({'pro_neon_extras': [c for c in neon_extras() if c != clave] + ([clave] if si else [])})
 
 
+def detras_encendido(op=None):
+    """v5.61 (el usuario: «sí, unificarlo»): «Captions detrás de ti» es UN interruptor para los Temas 1 a 6. Se guardaba en dos sitios (el Tema 1
+    en pro_neon_extras, los Temas 2–6 en pro_mascara) y encenderlo con un tema y pulsar GO con otro lo dejaba apagado: vale cualquiera de los
+    dos (poner_detras escribe los dos)."""
+    op = opciones_guardadas() if op is None else op
+    return str(op.get('pro_mascara') or 'no') != 'no' or 'detras' in neon_extras(op)
+
+
+def poner_detras(si, modo=None):
+    """v5.61: enciende o apaga «detrás de ti» en los 6 temas a la vez. `modo` = el recorte ('auto' | 'magic' | 'ia'); sin él, el que había."""
+    op = opciones_guardadas()
+    antes = str(op.get('pro_mascara') or 'auto')
+    guardar_opciones({'pro_mascara': (modo or (antes if antes != 'no' else 'auto')) if si else 'no',
+                      'pro_neon_extras': [c for c in neon_extras(op) if c != 'detras'] + (['detras'] if si else [])})
+
+
 def opciones_neon(op):
     """Las opciones de la PRO del Tema 1: las del usuario, con lo del menú lateral sacado de SUS interruptores ('_neon_extras')."""
     import pro_lateral_ui as LAT
-    ex = set(neon_extras(op))
+    ex = set(neon_extras(op)) - {'detras'}
+    if detras_encendido(op):                                          # v5.61: el de los 6 temas
+        ex.add('detras')
     op = dict(op)
     antes = str(op.get('pro_mascara') or 'auto')
     op['pro_mascara'] = (antes if antes != 'no' else 'auto') if 'detras' in ex else 'no'
@@ -329,6 +347,8 @@ def opciones_menu(op):
     ids = list(dict.fromkeys(i for c in on for i in LAT.ids_de(c) if MC.permitido(i, op)))
     if 'detras' not in on:
         op['pro_mascara'] = 'no'
+    elif str(op.get('pro_mascara') or 'no') == 'no':                  # v5.61: encendido desde el Tema 1 (pro_neon_extras): el recorte de siempre
+        op['pro_mascara'] = 'auto'
     op['pro_internet'] = 'broll' in on
     op['pro_motions_completo'] = 'motions_completo' in on
     op['pro_emojis'] = 'emoji' in on and op.get('pro_emojis') is True
@@ -2271,9 +2291,12 @@ def aplicar(plan, al_estado=None, offset_frames=0, info=None):
     # usuario: «el menú PRO debe funcionar en Resolve Free… y detrás de ti igual»): Free y Studio, con el recorte de la IA (ProRes con alfa; Magic
     # Mask solo si se elige a mano, y solo en Studio); en el MP4 no hay «detrás de ti». Cuántos y cuánto tapan, la intensidad de fábrica.
     # El Tema 1 da sus bloques (los clips neón) y, con la placa, la detección y el recorte salen de la PLACA (lo que se ve, con sus zooms).
-    if hay_ia and modo_mascara != 'no' and not cap_t5 and not ligero and (not neon_tema or 'detras' in ex_neon):
-        motivos_detras = {}
-        ocupado = [(p['ini'] - 0.1, p['fin'] + 0.1) for p in plan['piezas'] if p['pieza'] != 'marco']
+    # v5.61 (el usuario: «activo detrás de ti y no lo aplica… y en Efectos tampoco me deja»): el contexto para «Listo» se guarda en TODOS los GO,
+    # también con «detrás de ti» apagado (el pase ligero): antes «Listo» usaba el de un GO viejo de ese video y decía «otro timeline»
+    quiere_detras = modo_mascara != 'no' and not ligero and (not neon_tema or 'detras' in ex_neon)
+    if hay_ia and not cap_t5:
+        motivos_detras = {} if quiere_detras else None
+        ocupado =[(p['ini'] - 0.1, p['fin'] + 0.1) for p in plan['piezas'] if p['pieza'] != 'marco']
         ocupado += [(m['ini'] - 0.1, m['fin'] + 0.1) for m in plan.get('kitneon_motions') or [] if neon_tema]   # (Tema 1: nunca tapa un motion del kit)
         ocupado += [(t['_s'] - 0.1, t['_s'] + t['dur'] + 0.1) for t in tomas]
         ocupado += [((a - info['base']) / fps, (b - info['base']) / fps) for a, b in info.get('ocupado') or []]
@@ -2294,10 +2317,11 @@ def aplicar(plan, al_estado=None, offset_frames=0, info=None):
                 except Exception:
                     bloques_tema = []                                    # sin saber dónde queda la persona en la placa, nada detrás
         try:
-            tramos = _captions_detras(info, video, fps, ocupado, op.get('pro_densidad') or 'media', decir,
-                                      preferidos=[tuple(x) for x in plan.get('detras_pref') or []], W=W, H=H,
-                                      intensidad=intensidad_detras(op), bloques=bloques_tema, a_cuadro=a_cuadro,
-                                      marcas=_marca(plan, 'detras'), cortes=plan.get('_cortes'), motivos=motivos_detras)
+            if quiere_detras:
+                tramos = _captions_detras(info, video, fps, ocupado, op.get('pro_densidad') or 'media', decir,
+                                          preferidos=[tuple(x) for x in plan.get('detras_pref') or []], W=W, H=H,
+                                          intensidad=intensidad_detras(op), bloques=bloques_tema, a_cuadro=a_cuadro,
+                                          marcas=_marca(plan, 'detras'), cortes=plan.get('_cortes'), motivos=motivos_detras)
         except Exception:
             try:                                 # (v5.27: antes se callaba y las marcas «no hacían nada» sin decir por qué)
                 import registro
@@ -2813,8 +2837,15 @@ def aplicar_detras(ruta, al_estado=None, marcas_tira=None, modo='solo', al_progr
     if ctx is None:
         return False, 'Pulsa GO una vez con este video: después, «Listo» pone «detrás de ti» directo en tu timeline.', 0
     info = _info_timeline()
-    if not info:
-        return False, 'Abre DaVinci Resolve con el timeline de este video.', 0
+    if info and info.get('via') != 'mcp':                             # v5.61: con Resolve cerrado, _info_timeline daba lo VIEJO del Puente y
+        try:                                                          # el aviso era «está abierto otro timeline» (registro del 02-11, 18:22)
+            import resolve_bridge
+            if resolve_bridge._listar_pids_resolve() == []:
+                info = None
+        except Exception:
+            pass
+    if not info or ((ctx.get('info') or {}).get('via') == 'mcp' and info.get('via') != 'mcp'):   # (Studio que no contesta: lo del Puente es viejo)
+        return False, f'DaVinci Resolve está cerrado o no contesta: ábrelo con el timeline «{ctx.get("timeline") or "de tu último GO"}» y vuelve a darle a «Listo».', 0
     por_puente = info.get('via') != 'mcp'                             # v5.58: también en Free (CineCaptions_EdicionPro.lua, por el Puente)
     if por_puente:                                                    # (los clips de V1 como los dejó GO: _v1_libre, con los mismos datos)
         info['v1'] = _v1_libre(info.get('v1'), info['fps'], info.get('inicio') or 0, ctx.get('media'), ctx.get('recorte'))

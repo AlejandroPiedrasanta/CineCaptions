@@ -2259,6 +2259,9 @@ if _QT:
             m = re.match(r'En Resolve está abierto otro timeline: abre «(.*)» y vuelve', t or '')
             if m:
                 return tr('En Resolve está abierto otro timeline: abre «{t}» y vuelve a darle a «Listo».', t=m.group(1))
+            m = re.match(r'DaVinci Resolve está cerrado o no contesta: ábrelo con el timeline «(.*)» y vuelve', t or '')
+            if m:                                                   # v5.61
+                return tr('DaVinci Resolve está cerrado o no contesta: ábrelo con el timeline «{t}» y vuelve a darle a «Listo».', t=m.group(1))
             if re.match(r'Resolve se (cay|cerr)', t or ''):          # v5.32: qué hacer, no solo qué pasó
                 return tr('DaVinci Resolve se cerró de golpe. Ábrelo con tu proyecto y pulsa «Listo» otra vez: tus marcas siguen aquí.')
             if (t or '').startswith('Resolve dejó de responder'):

@@ -1,5 +1,193 @@
 REGISTRO DE CAMBIOS ARCHIVADO · 2026-10 (la entrada más nueva arriba)
 
+2026-10-30 18:46  ·  v5.55  ·  cambio explicado
+    v5.56 Tema 1: (1) SFX: el enlace del Escritorio a la biblioteca ya no existia y el exe daba 0 sonidos con los de Simple ya apagados (GO sin SFX). Ahora los 66 SFX curados viajan en el exe (2_recursos/biblioteca_sonido, empaquetar_sonidos.py en los dos spec, Construir_Instalador y Actualizar_Windows) y sin biblioteca GO deja los de siempre. Una vista real silenciosa en mitad de GO dejaba su timeline temporal como actual y los SFX no se aplicaban: ya no corre con GO en Resolve. (2) ETA aparte con PRO y sin PRO y voz/IA reutilizadas: solo captions ~55 s en vez de ~5 min. (3) Temas 1/3 sin PRO no corren el modelo de texto (no usan sus roles) y la voz queda cargada: GO solo captions 18-20 s en Resolve real. (4) Tema 1 sin la sombra oscura (pack Kin 19, render_temas, kinetic_vista, KitNeon).
+    nuevos (70):
+      + 1_codigo/fluidez_resolve.py
+      + 1_codigo/salud_resolve.py
+      + 2_recursos/biblioteca_sonido/01_SFX/01_INTRO_RISER/INTRO_RISER - Riser 1.mp3
+      + 2_recursos/biblioteca_sonido/01_SFX/01_INTRO_RISER/INTRO_RISER - Riser 2 (flash cargando).wav
+      + 2_recursos/biblioteca_sonido/01_SFX/02_WHOOSH_TRANSICIONES/WHOOSH_TRANSICIONES - Swoosh corto 1.mp3
+      + 2_recursos/biblioteca_sonido/01_SFX/02_WHOOSH_TRANSICIONES/WHOOSH_TRANSICIONES - Swoosh corto 2.mp3
+      + 2_recursos/biblioteca_sonido/01_SFX/02_WHOOSH_TRANSICIONES/WHOOSH_TRANSICIONES - Whoosh 1.wav
+      + 2_recursos/biblioteca_sonido/01_SFX/02_WHOOSH_TRANSICIONES/WHOOSH_TRANSICIONES - Whoosh 2.wav
+      + 2_recursos/biblioteca_sonido/01_SFX/02_WHOOSH_TRANSICIONES/WHOOSH_TRANSICIONES - Whoosh 3.wav
+      + 2_recursos/biblioteca_sonido/01_SFX/03_CAPTIONS_TAP_TECLEO/CAPTIONS_TAP_TECLEO - ACENTO 1.mp3
+      + 2_recursos/biblioteca_sonido/01_SFX/03_CAPTIONS_TAP_TECLEO/CAPTIONS_TAP_TECLEO - ACENTO 2.mp3
+      + 2_recursos/biblioteca_sonido/01_SFX/03_CAPTIONS_TAP_TECLEO/CAPTIONS_TAP_TECLEO - POP 2.wav
+      … y 58 más
+    modificados (29):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/colocacion.py
+      ~ 1_codigo/ia_texto.py
+      ~ 1_codigo/kinetic_vista.py
+      ~ 1_codigo/motor_voz.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/remotion/src/kitneon/estilos.ts
+      ~ 1_codigo/render_temas.py
+      ~ 1_codigo/resolve_bridge.py
+      ~ 1_codigo/resolve_mcp.py
+      ~ 1_codigo/sonido_skill.py
+      … y 17 más
+
+2026-10-30 14:34  ·  v5.55  ·  (automático)
+    modificados (1):
+      ~ 1_codigo/ajustes_ui.py
+
+2026-10-30 14:18  ·  v5.55  ·  cambio explicado
+    Mapa más barato para los agentes: mapa() con idf + umbral y 2 renglones por tema; mapa(id) recorta archivos/símbolos (parte=archivos|simbolos|resumen|2-4); herramienta donde (archivo:línea en una línea); simbolo desde=N por páginas; modulo filtro=; bloque del mapa de CLAUDE.md solo con ids (-48 %).
+    modificados (2):
+      ~ 1_codigo/mapa_codigo.py
+      ~ 1_codigo/mcp_cinecaptions.py
+
+2026-10-30 14:06  ·  v5.55  ·  cambio explicado
+    Crea tu estilo conectado a GO (v5.55): la página nueva (Temas 1-6 + cajón de letra y colores) guarda el estilo con mezcla_planificador.crear_estilo (1 tema = pack derivado {base, ajustes}; 2-6 = mezcla t1…t6 con ajustes). plantillas.cargar hace que un derivado se comporte como su tema (guion y formatos del de fábrica) y tema_base() resuelve su nombre para planificadores, PRO, emojis y vistas. GO: el derivado va por el camino normal de su tema con el pack personalizado en el manifiesto; la mezcla saca una pista kinetic y UNA guion con plantillas_extra y cue.pack renombrado. Por qué: la letra global de la página vieja salía en todos los temas; ahora letra y color viven en el pack, los temas de fábrica salen siempre con la suya, y con color elegido el pase ligero no recolorea (sin_color_claves).
+    modificados (10):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/resolve_scripts/CineCaptions_ImportarEstilos.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Puente.lua
+      ~ 3_compilar/encabezados.py
+      ~ 3_compilar/traducciones_extra.json
+
+2026-10-30 14:01  ·  v5.55  ·  cambio explicado
+    Puente 1.0.42: Free sin loadfile ni dofile (cliente con «Trabajos atendidos: 0»). La app escribe además <x>.json.free.lua (expresión-llamada que bmd.readfile lee y que RunScript ejecuta publicando la tabla por SetData); el Puente lee por loadfile→dofile→readfile→RunScript→consola y corre los scripts por RunScript/Execute con la entrega por GetData (CineCaptions_trabajo/_inicio/_fin). Si nada funciona, reporte sin_lectura/sin_cargador + señales y la app lo dice al momento (resolve_bridge._puente_sin_lectura) en vez de «no respondió en 240 s». Cambios aditivos: el .json.lua y el camino loadfile de siempre siguen igual.
+    modificados (29):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/colocacion.py
+      ~ 1_codigo/composicion.py
+      ~ 1_codigo/crea_estilo_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/fuente_usuario.py
+      ~ 1_codigo/mezcla_planificador.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/registro_ayuda.py
+      ~ 1_codigo/resolve_bridge.py
+      ~ 1_codigo/sfx_studio.py
+      ~ 1_codigo/sidecar_lua.py
+      … y 17 más
+
+2026-10-30 13:38  ·  v5.55  ·  cambio explicado
+    Emojis v5.55 (2a vuelta): sin «Emojis animados» tampoco salen los emojis DIBUJADOS en los motions (TableroE, CuadernoE, MovilE, SeleccionK, la ❌ de TarjetaT5, PolaroidE sin foto, RecorteK a neón, recortes a color = emoji) ni las tarjetas del Reel de Motions completo con emojis fijos (REEL_CON_EMOJI; relleno buscar). Resuelto en Python, sin reempaquetar Remotion. Textos visibles sin promesas de emojis.
+    nuevos (2):
+      + 1_codigo/pack_personalizado.py
+      + 1_codigo/vista_estilos.py
+    modificados (22):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/crea_estilo_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_tema5_acomp.py
+      ~ 1_codigo/estilos_pro.py
+      ~ 1_codigo/herramientas_dev/probar_emojis_temas.py
+      ~ 1_codigo/mezcla_planificador.py
+      ~ 1_codigo/motions_completo.py
+      ~ 1_codigo/probar_go_variantes.py
+      ~ 1_codigo/render_sin_resolve.py
+      ~ 1_codigo/render_temas.py
+      … y 10 más
+
+2026-10-30 08:33  ·  v5.55  ·  cambio explicado
+    Emojis solo con la Edición PRO y «Emojis animados» activado a mano (pedido: «ningún tema del 1 al 6 debe tener emojis hasta que se lo active»). Se colaban por las píldoras del pase ligero, que corre SIN la PRO («Home», «Thinking» en el Tema 3), y porque pro_emojis venía encendido de fábrica (Temas 5/6 y cualquier PRO). Ahora: un solo juez (edicion_pro.emojis_permitidos, apagado de fábrica; Tema 1 = «emoji» de su menú), la decisión viaja en plan['emojis'] (el pase ligero, nunca), quitar_emojis limpia las piezas de la PRO, acompañantes / Tema 6 / Motions completo eligen sin emojis, y Creativo (vista, Comprobar en Resolve, Asistencia) igual. Los videos del slider ya grabados siguen con emojis hasta rehacerlos.
+    modificados (21):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_tema5.py
+      ~ 1_codigo/edicion_pro_tema5_acomp.py
+      ~ 1_codigo/edicion_pro_tema6.py
+      ~ 1_codigo/edicion_pro_temas.py
+      ~ 1_codigo/emojis.py
+      ~ 1_codigo/mezcla_planificador.py
+      ~ 1_codigo/motions_completo.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/pro_lateral_ui.py
+      … y 9 más
+
+2026-10-29 23:49  ·  v5.55  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-10-29 23:48  ·  v5.54  ·  cambio explicado
+    licencia.py manda version y so (sistema) al activar, verificar y desactivar: la tienda (pagos/licencia.php + telemetria.php) los guarda por equipo para que la app CineCaptions Ventas sepa quien actualizo y avise por correo de las versiones nuevas. Un servidor viejo los ignora; antes de la 5.55 la version ya iba en el User-Agent.
+    modificados (2):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/licencia.py
+
+2026-10-29 23:20  ·  v5.54  ·  cambio explicado
+    Tema 3, muestras: rehechos los clips t3_* de «Crea tu estilo» (banco en zz_PRUEBAS_CC + render por el MCP; 4,33 s como los anteriores: con CLIP_S = 6 quedaban 2 s de negro) y VIRAL_captions.mp4 + póster del slider (GO real sin PRO). El GO de los ejemplos lee las prefs reales: fuente_principal = Arial Black del usuario achicaba las palabras grandes; se pasa CINECAPTIONS_PREFS con la letra del tema. VIRAL.mp4 (con PRO) sin rehacer: el GO con la PRO tumbó Resolve Studio en «Colocando». Rediseño de «Crea tu estilo» pedido: lista sobre negro con el caption de cada Tema 1-6, sin variantes; propuestas A/B/C enviadas, falta que el usuario elija.
+    nuevos (1):
+      + 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/chrome_debug.log
+    modificados (13):
+      ~ 1_codigo/hacer_vista_viral.py
+      ~ 2_recursos/guia_estilo/mezcla/t3_drag.mp4
+      ~ 2_recursos/guia_estilo/mezcla/t3_pila.mp4
+      ~ 2_recursos/guia_estilo/mezcla/t3_select.mp4
+      ~ 2_recursos/guia_estilo/mezcla/t3_shatter.mp4
+      ~ 2_recursos/plantillas_incluidas/VIRAL/vista/indice.json
+      ~ 2_recursos/plantillas_incluidas/VIRAL/vista/vir_00.jpg
+      ~ 2_recursos/plantillas_incluidas/VIRAL/vista/vir_01.jpg
+      ~ 2_recursos/plantillas_incluidas/VIRAL/vista/vir_02.jpg
+      ~ 2_recursos/plantillas_incluidas/VIRAL/vista/vir_03.jpg
+      ~ 2_recursos/plantillas_incluidas/VIRAL/vista/vir_04.jpg
+      ~ 2_recursos/vistas_slider/VIRAL_captions.jpg
+      … y 1 más
+
+2026-10-29 22:40  ·  v5.54  ·  cambio explicado
+    Tema 3, revisión final (adversarial): (1) el cursor grande del «select» se salía por la DERECHA del cuadro en vertical, 4:5 y 1:1 con palabras largas (6 de 45 «select» reales, hasta 37 px): viral_captions._medir_linea hace caber la fila con su caja y su cursor y _inicio_x la corre lo justo (0 fuera, la palabra se achica como mucho un 6 %; horizontal igual). (2) La vista animada de Creativo: la caja del Select es una capa aparte que crece desde su esquina cuando acaba de escribirse, con los tiempos de comp_select. (3) La vista de la negrita y el Shatter aprieta como Text+ (salían un 5-6 % más anchos que en Resolve). Pendiente con permiso del usuario (hacen un GO real): el video del slider de VIRAL y los clips de «Crea tu estilo» del Tema 3.
+    modificados (3):
+      ~ 1_codigo/render_temas.py
+      ~ 1_codigo/viral_captions.py
+      ~ 1_codigo/vista_tema.py
+
+2026-10-29 21:49  ·  v5.54  ·  cambio explicado
+    Tema 3: Select y Drag pulidos con renders REALES de Resolve 21.1.2 (proyecto temporal zz_PRUEBAS_CC, horizontal y vertical) contra TEMA3 (1) y (2).mp4 del usuario. Los renders destaparon trampas de Fusion que la vista no ve: el Softness de un elemento de Text+ no desenfoca con SoftnessBlend 0 (el brillo era una copia nítida; ahora _halo pone 1) y va contra el cuadro (ahora sigue a Template.Size); el «Alpha» de BrightnessContrast es la casilla del canal alfa (la sombra del cursor era invisible; ahora la opacidad va en un Merge); la EllipseMask mide Height y SoftEdge contra el ancho (la mano salía estirada en horizontal y aplastada en vertical); el contorno punteado dibujaba las piezas solapadas de la Inter (CleanIntersections). Además: cursor como punta de flecha sin cola, penumbra que oscurece la caja junto al cursor (EllipseMask suave + BrightnessContrast con EffectMask, ajustada con un modelo medido), la «S» sale en el fotograma 1-2, leve volumen en la letra del Select, y en el Drag los guiones van encima del relleno gris hasta el final. Medido: brillo 34/15/8/3 frente a 31/14/8/4 de la referencia en los cuatro tamaños; penumbra 57/200/165 (H) y 61/215/170 (V) frente a 63/186/148; mano cerrada 0,48 × 0,55 em en H y V.
+    modificados (7):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/render_temas.py
+      ~ 1_codigo/viral_captions.py
+      ~ 1_codigo/vista_tema.py
+      ~ 2_recursos/generador_packs/viral_elementos.py
+      ~ 2_recursos/plantillas_incluidas/VIRAL/VIRAL horizontal.drb
+      ~ 2_recursos/plantillas_incluidas/VIRAL/VIRAL vertical.drb
+
+2026-10-29 15:11  ·  v5.54  ·  cambio explicado
+    Tema 3 (VIRAL): Select y Drag como las referencias TEMA3 (1) y (2).mp4 del usuario («pule más el Tema 3, no se parece a estos captions»). Medido: la letra de la referencia no lleva contorno (blanco roto con brillo suave) y la nuestra tenía un aro gris duro; caja de guiones el doble de gruesos; cursor ~0,55 em con sombra ancha; en el Drag la mano entra abierta por la derecha, agarra la palabra punteada y la arrastra 0,9 em a su sitio, que se rellena de gris oscuro a blanco, y se va por detrás (mano redibujada con las medidas de la referencia). El espaciado se queda en 0,97: Text+ suma (CharacterSpacing − 1) × ~1,5 em por letra y ya casaba con la referencia; la vista (que multiplicaba) ahora aprieta como Text+. El cursor grande tiene sitio en apilar (CURSOR_SELECT) y la pila no se sale del cuadro (MARGEN_CUADRO). Tiempos en fotogramas de 24 fps (t24), también en la vista animada. Fina, negrita y Shatter idénticas. REVISION_BIN VIRAL = Vir 8. Comprobado en LuaJIT (600 expresiones) y con una revisión adversarial; falta verlo en Resolve real.
+    modificados (8):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/render_temas.py
+      ~ 1_codigo/viral_captions.py
+      ~ 1_codigo/vista_tema.py
+      ~ 2_recursos/generador_packs/viral_elementos.py
+      ~ 2_recursos/plantillas_incluidas/VIRAL/VIRAL horizontal.drb
+      ~ 2_recursos/plantillas_incluidas/VIRAL/VIRAL vertical.drb
+
+2026-10-29 14:24  ·  v5.54  ·  cambio explicado
+    Pulir los captions (pedido del usuario): Temas 4-6 recolocan los cortes de cada oración (tema4_planificador._pulir_cortes: sin bloques colgados como «welcome to | the», «make your | edits», «the next | time») y ponen mayúscula solo al empezar una oración; VIRAL pasa la cola colgada («When You Don't») al bloque siguiente (viral_planificador._sin_colgantes). 100 transcripciones: colgados 243→29 (T4-6) y 137→82 (VIRAL), mayúsculas a mitad de oración →0.
+    modificados (2):
+      ~ 1_codigo/tema4_planificador.py
+      ~ 1_codigo/viral_planificador.py
+
+
+(Lo anterior está archivado por mes en DOCUMENTACION/historial/REGISTRO_<aaaa-mm>.txt)
 2026-10-29 13:31  ·  v5.54  ·  (automático)
     modificados (36):
       ~ 1_codigo/ajustes_ui.py

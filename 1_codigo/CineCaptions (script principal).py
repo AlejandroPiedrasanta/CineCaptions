@@ -7724,7 +7724,10 @@ class SubtitleApp(QWidget):
     def _poner_pro_go(self, clave, valor):
         try:
             import edicion_pro
-            edicion_pro.guardar_opciones({clave: valor})
+            if clave == 'pro_mascara':                 # v5.61: el recorte = «detrás de ti», un solo interruptor para los 6 temas
+                edicion_pro.poner_detras(valor != 'no', modo=None if valor == 'no' else valor)
+            else:
+                edicion_pro.guardar_opciones({clave: valor})
             if not edicion_pro.activado():
                 edicion_pro.poner_activado(True)
         except Exception:
