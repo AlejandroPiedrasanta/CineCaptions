@@ -1,29 +1,29 @@
 {
   "estable": {
-    "version": "5.63.0",
-    "notas": "• CineCaptions en negro y blanco: todas las páginas (Inicio, Proyecto, Creativo, Sonido, Efectos y Ajustes) en negros neutros con el blanco como color de resaltado; lo elegido, «en uso» y encendido, en blanco, sin verdes sueltos.\r\n• ¿Prefieres el azul de siempre? Ajustes › Interfaz › «Fondo de la interfaz»: Negro o Azul (con su verde).\r\n• Elegir una escena de Inicio (Nebulosa, Astrolabio, Proceso) ya no cambia el fondo ni el color de resaltado.\r\n• Proyecto con cielo de constelaciones: estrellas que derivan despacio y titilan, las constelaciones de Inicio y, de vez en cuando, una estrella fugaz detrás del slider (sin gastar más que antes; quieto con «Reducir animaciones»).",
+    "version": "5.64.0",
+    "notas": "• De fábrica, la interfaz vuelve al azul noche con el verde como color de resaltado. ¿Prefieres el negro y blanco? Ajustes › Interfaz › «Fondo de la interfaz»: Negro.\r\n• Tarjetas NVIDIA sin las librerías de CUDA: ya no sale «Falla al iniciar: GPU para la voz» en cada arranque; CineCaptions las descarga solo una vez (≈1,3 GB) y mientras la voz va por la CPU.\r\n• El instalador ya no se queda minutos en «Comprobando la IA de texto»: si Gemma 4 o Qwen ya están en el equipo, no los vuelve a descargar aunque salga una versión nueva.\r\n• La voz y la IA de texto se cargan de lo que ya está en tu equipo: si Hugging Face publica otra versión de un modelo, GO ya no se pone a descargarla en mitad del trabajo, y sin internet arrancan igual de rápido. Las descargas grandes comprueban antes que haya espacio en el disco.\r\n• Registro: «Copiar este error» y «Copiar todo» dan un informe ordenado (qué pasó, qué significa, qué hacer, detalle técnico, lo que pasó justo antes, tu equipo y los motores), sin tu nombre de usuario en las rutas y sin congelar la ventana.",
     "fecha": "2026-11-03",
     "archivos": {
       "windows": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.63/Instalar_CineCaptions_5.63.exe",
-        "sha256": "47aa4379dcb3dcc4156755fd3bd9ccc35131c91d9332c03b7fc65329c19a1091",
-        "tam": 572225509
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.64/Instalar_CineCaptions_5.64.exe",
+        "sha256": "bfd8b25c0e61b06d1c1b04db72c495c71eb081d28d792379d084f588172a620f",
+        "tam": 572240713
       },
       "mac_arm64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.63/CineCaptions_Mac_AppleSilicon_5.63.dmg",
-        "sha256": "896c13018e530dab977f9390a9056486eb6635ec41c9ce2197976062efc10936",
-        "tam": 547736595
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.64/CineCaptions_Mac_AppleSilicon_5.64.dmg",
+        "sha256": "b8408ebd5a18e187b4f12b04dbfcfba7ec8ab63f747d4178a834d38e7e3d5f2d",
+        "tam": 547725165
       },
       "mac_x86_64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.63/CineCaptions_Mac_Intel_5.63.dmg",
-        "sha256": "f772f04e1f001d6c61b0a72e4a89e9b783f2104e66b5f7a119bf99fbcbe95801",
-        "tam": 574949956
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.64/CineCaptions_Mac_Intel_5.64.dmg",
+        "sha256": "50303e2615a3500333348e61432c4d4dc9cdbf28991564d2a3654f97a444cfe5",
+        "tam": 574807274
       }
     }
   },
   "firma": {
     "alg": "ed25519",
     "clave": "7a4e413e",
-    "valor": "f3PV0XBv4viBRKZRsmJ3EQ4+q1WhomRBPsSTZQqvR2X8pe/VHqtysz+k/FOZ6m2fHKKzcEdzdjzvkH4sJj6UCg=="
+    "valor": "3vDcL5QKPxRRi2qUnhloaJuv2c4O9G7gSSZMHMe6EN7cogn3SJHYJ5J4zdezPJrngRdVqHbnfMfy4BJQv+pUCA=="
   }
 }
