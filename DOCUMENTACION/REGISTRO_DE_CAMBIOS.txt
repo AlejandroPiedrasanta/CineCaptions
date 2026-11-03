@@ -12,6 +12,23 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-03 13:36  ·  v5.64  ·  cambio explicado
+    v5.64 (el usuario: «puedes prevenir más errores futuros de clientes»): la voz y la IA de texto cargan del snapshot local entero (motor_texto.ruta_local) sin preguntar a Hugging Face: la versión nueva de Gemma 4 E4B de Google ponía a bajar 16 GB en el primer GO; cabe_en_disco y 3,5 GB libres para CUDA antes de descargar.
+    modificados (4):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/cuda_libs.py
+      ~ 2_recursos/motor_qwen/motor_qwen.py
+      ~ 2_recursos/motor_qwen/motor_texto.py
+
+2026-11-03 13:31  ·  v5.64  ·  (automático)
+    modificados (6):
+      ~ 1_codigo/registro_ayuda.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+
 2026-11-03 13:27  ·  v5.64  ·  cambio explicado
     v5.64: «Copiar este error» y «Copiar todo» del Registro por secciones (qué pasó, qué significa, qué hacer, detalle técnico, lo de justo antes, equipo, motores), sin el usuario en las rutas y sin subprocess en el hilo de la interfaz (registro.informe_de_error, equipo, reporte_soporte).
     modificados (8):
