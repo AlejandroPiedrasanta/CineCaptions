@@ -12,6 +12,23 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-03 09:24  ·  v5.62  ·  cambio explicado
+    Toda la interfaz en negro + blanco de fábrica (C, elegida por el usuario): tema Negro profundo con acento blanco, texto oscuro sobre el acento, verdes de interfaz al blanco, cielos de Inicio y Proyecto en negro; en Ajustes › Interfaz, «Fondo de la interfaz» Negro/Azul para quien prefiera el azul
+    modificados (18):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/estilos_inicio.py
+      ~ 1_codigo/isla_ui.py
+      ~ 1_codigo/posiciones_pro.py
+      ~ 1_codigo/pro_lateral_ui.py
+      ~ 1_codigo/proyecto_ui.py
+      ~ 1_codigo/qt_kit.py
+      ~ 1_codigo/registro_ayuda.py
+      ~ 1_codigo/sonido_skill_ui.py
+      ~ 1_codigo/tema.py
+      … y 6 más
+
 2026-11-03 08:51  ·  v5.62  ·  cambio explicado
     Proyecto con fondo de constelaciones (C, elegido por el usuario): estrellas en paralaje que titilan, constelaciones de Inicio y estrella fugaz; cuadro cacheado a 5/s, solo se repinta lo que no se repinta solo; mismo gasto de CPU que la tarjeta de vidrio de antes
     modificados (4):

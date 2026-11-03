@@ -1232,7 +1232,7 @@ if _QT:
                         self.modo = guardadas.get('modo') or 'solo'
                     self.cambio.emit()
                 if error is not None or not r or not r[0]:
-                    self.aviso = (tr('Este audio no trae imagen: pulsa «Obtener» con tu timeline abierto en Resolve (trae su video) o «Elegir video…».')
+                    self.aviso = (tr('Este audio no trae imagen: haz GO con tu timeline abierto en Resolve (trae su video) o pulsa «Elegir video…».')
                                   if Path(str(ruta)).suffix.lower() in AUDIO else tr('No pude leer la imagen de este video.'))
                     self.update()
                     return

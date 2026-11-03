@@ -4145,6 +4145,13 @@
     "Proyecto: tus estilos": "Projet : tes styles",
     "Cada tarjeta es un tema: haz clic en uno para elegirlo (el resaltado es el que usas). La última, «Crea tu estilo», mezcla los temas con tu letra y tus colores y lo guarda como un estilo más.": "Chaque carte est un thème : clique sur l’un pour le choisir (celui en surbrillance est celui que tu utilises). La dernière, «Crea tu estilo», mélange les thèmes avec ta police et tes couleurs et l’enregistre comme un style de plus.",
     "Aquí cambias de pantalla: Inicio, Proyecto (estilos), Creativo (retocar palabras) y Sonido (efectos). A la derecha, el estado de Resolve, los Ajustes y el pin para mantener CineCaptions encima de Resolve.": "Ici, vous changez d’écran : Accueil, Projet (styles), Créatif (retoucher les mots) et Son (effets). À droite, l’état de Resolve, les Réglages et l’épingle pour garder CineCaptions au-dessus de Resolve.",
-    "Crear mi estilo": "Créer mon style"
+    "Crear mi estilo": "Créer mon style",
+    "Fondo de la interfaz": "Fond de l'interface",
+    "Negro (de fábrica) o el azul noche de siempre, en todas las páginas. Se aplica al reiniciar.": "Noir (par défaut) ou le bleu nuit habituel, sur toutes les pages. S’applique au redémarrage.",
+    "Negro": "Noir",
+    "Blanco": "Blanc",
+    "Ir a Inicio": "Aller à l'accueil",
+    "Aún no hay audio. Pulsa GO en Inicio (o suelta un video en la ventana) y vuelve aquí: lo detecto solo.": "Pas encore d'audio. Appuie sur GO dans Accueil (ou dépose une vidéo dans la fenêtre) et reviens ici : je le détecte tout seul.",
+    "Este audio no trae imagen: haz GO con tu timeline abierto en Resolve (trae su video) o pulsa «Elegir video…».": "Cet audio n’a pas d’image : fais GO avec ta timeline ouverte dans Resolve (elle apporte sa vidéo) ou appuie sur «Choisir une vidéo…»."
   }
 }

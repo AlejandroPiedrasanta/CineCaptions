@@ -600,14 +600,28 @@
         "ajustes",
         "tema",
         "colores",
-        "preferencias"
+        "preferencias",
+        "negro",
+        "blanco",
+        "acento",
+        "azul",
+        "fondo"
       ],
       "archivos": [
         "ajustes_ui.py",
         "tema.py"
       ],
-      "simbolos": [],
-      "resumen": "ajustes_ui.py, tema.py"
+      "simbolos": [
+        "traductor",
+        "texto_sobre",
+        "es_claro",
+        "VERDES_UI",
+        "texto_acento",
+        "_elegir_fondo",
+        "_elegir_estilo",
+        "_cielo_negro"
+      ],
+      "resumen": "ajustes_ui.py, tema.py · v5.63: negro + blanco de fábrica (Fondo de la interfaz: Negro / Azul), texto oscuro sobre el acento claro"
     },
     {
       "id": "version",

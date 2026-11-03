@@ -233,7 +233,7 @@ _REGLAS = [
      'No encuentro un archivo',
      'Un archivo que CineCaptions esperaba ya no está donde estaba (movido, borrado o en una unidad desconectada).',
      ['Comprueba que el archivo o la unidad externa siguen disponibles.',
-      'Vuelve a elegir el archivo desde el botón «Obtener» o suéltalo en la ventana.'], 'bloquea'),
+      'Vuelve a soltar el archivo en la ventana o haz GO con tu timeline abierto en Resolve.'], 'bloquea'),
     (r'JSONDecodeError|Expecting value|Extra data|Unterminated string|archivo (dañado|corrupto)',
      'Un archivo de datos está dañado',
      'Un archivo de ajustes o de caché no se puede leer (quizá se cortó al guardarlo).',

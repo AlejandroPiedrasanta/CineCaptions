@@ -4145,6 +4145,13 @@
     "Proyecto: tus estilos": "Project: your styles",
     "Cada tarjeta es un tema: haz clic en uno para elegirlo (el resaltado es el que usas). La última, «Crea tu estilo», mezcla los temas con tu letra y tus colores y lo guarda como un estilo más.": "Each card is a theme: click one to choose it (the highlighted one is the one you use). The last one, «Crea tu estilo», mixes the themes with your font and your colors and saves it as one more style.",
     "Aquí cambias de pantalla: Inicio, Proyecto (estilos), Creativo (retocar palabras) y Sonido (efectos). A la derecha, el estado de Resolve, los Ajustes y el pin para mantener CineCaptions encima de Resolve.": "Here you switch screens: Home, Project (styles), Creative (touch up words) and Sound (effects). On the right, the Resolve status, Settings and the pin to keep CineCaptions on top of Resolve.",
-    "Crear mi estilo": "Create my style"
+    "Crear mi estilo": "Create my style",
+    "Fondo de la interfaz": "Interface background",
+    "Negro (de fábrica) o el azul noche de siempre, en todas las páginas. Se aplica al reiniciar.": "Black (default) or the classic night blue, on every page. Applies after restarting.",
+    "Negro": "Black",
+    "Blanco": "White",
+    "Ir a Inicio": "Go to Home",
+    "Aún no hay audio. Pulsa GO en Inicio (o suelta un video en la ventana) y vuelve aquí: lo detecto solo.": "No audio yet. Press GO on Home (or drop a video on the window) and come back here: I detect it on my own.",
+    "Este audio no trae imagen: haz GO con tu timeline abierto en Resolve (trae su video) o pulsa «Elegir video…».": "This audio has no image: run GO with your timeline open in Resolve (it brings its video) or press «Choose video…»."
   }
 }

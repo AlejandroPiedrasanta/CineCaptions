@@ -572,8 +572,10 @@ class BarraTema(QWidget):
         r = QRectF(self.rect()).adjusted(0.5, 0.5, -0.5, -0.5)
         rad = r.height() / 2.0
         g = QLinearGradient(0, 0, 0, self.height())
-        g.setColorAt(0.0, QColorReal(20, 34, 54, 235))
-        g.setColorAt(1.0, QColorReal(9, 17, 31, 235))
+        for pos, hexa in ((0.0, '#142236'), (1.0, '#09111F')):            # (QColor del tema: neutros con Negro profundo)
+            c = QColor(hexa)
+            c.setAlpha(235)
+            g.setColorAt(pos, c)
         p.setPen(QPen(QColorReal(255, 255, 255, 23), 1.0))
         p.setBrush(g)
         p.drawRoundedRect(r, rad, rad)
@@ -797,6 +799,22 @@ class PuntosSlider(QWidget):
 _CAPAS_CIELO = ((300, 2.0, 0.7, 0.55), (150, 4.0, 1.1, 0.8), (60, 7.0, 1.7, 1.0))
 _CONSTELACIONES = (((0.08, 0.18), (0.13, 0.12), (0.19, 0.16), (0.24, 0.10), (0.27, 0.19)), ((0.70, 0.14), (0.75, 0.22), (0.81, 0.18), (0.86, 0.25)),
                    ((0.06, 0.74), (0.11, 0.82), (0.17, 0.78), (0.15, 0.90)), ((0.88, 0.64), (0.92, 0.72), (0.96, 0.66)))
+# los colores del cielo por tema: «noche» (el azul de siempre) y «negro» (v5.63, el usuario eligió el tono A, negro puro, y negro + blanco
+# para todo CineCaptions): fondo (centro, medio, borde), nebulosas (r, g, b, alfa), viñeta, estrellas, rayas y nodos
+_PALETAS_CIELO = {
+    'noche': {'fondo': ('#121B31', '#0B1222', '#060A14'), 'nebulosas': ((139, 92, 246, 20), (34, 181, 115, 18)), 'vineta': (3, 6, 12),
+              'estrella': (215, 228, 255), 'raya': (170, 195, 255, 51), 'nodo': (210, 225, 255)},
+    'negro': {'fondo': ('#131313', '#0A0A0A', '#040404'), 'nebulosas': ((255, 255, 255, 7), (255, 255, 255, 5)), 'vineta': (0, 0, 0),
+              'estrella': (255, 255, 255), 'raya': (255, 255, 255, 38), 'nodo': (255, 255, 255)},
+}
+
+
+def _paleta_cielo():
+    try:
+        import tema
+        return _PALETAS_CIELO['negro' if tema.leer()['tema'] in ('negro', 'grafito') else 'noche']
+    except Exception:
+        return _PALETAS_CIELO['noche']
 
 
 class TarjetaCielo(ui.Tarjeta):
@@ -818,6 +836,7 @@ class TarjetaCielo(ui.Tarjeta):
     def __init__(self, **kw):
         super().__init__(**kw)
         ui.Tarjeta._vivas.discard(self)
+        self._pal = _paleta_cielo()                         # (v5.63: negro puro con el tema Negro profundo; el tema cambia al reiniciar)
         azar = random.Random(7)
         # por capa: [(x, y, fase, grueso)] en dos grosores (para dibujarlas por lotes)
         self._estrellas = [[(azar.random(), azar.random(), azar.random() * 6.283, 0 if azar.random() < 0.5 else 1) for _ in range(n)]
@@ -929,20 +948,20 @@ class TarjetaCielo(ui.Tarjeta):
         p = QPainter(pm)
         p.setRenderHint(QPainter.RenderHint.Antialiasing)
         p.setClipPath(self._camino(w, h))
+        pal = self._pal
         g = QRadialGradient(QPointF(w * 0.5, h * 0.42), max(w, h) * 0.8)
-        g.setColorAt(0.0, QColorReal('#121B31'))
-        g.setColorAt(0.6, QColorReal('#0B1222'))
-        g.setColorAt(1.0, QColorReal('#060A14'))
+        for pos, hexa in zip((0.0, 0.6, 1.0), pal['fondo']):
+            g.setColorAt(pos, QColorReal(hexa))
         p.fillRect(QRectF(0, 0, w, h), g)
-        for (fx, fy, radio, col, a) in ((0.18, 0.25, 620.0, (139, 92, 246), 20), (0.82, 0.70, 640.0, (34, 181, 115), 18)):
+        for (fx, fy, radio), (r_, g_, b_, a) in zip(((0.18, 0.25, 620.0), (0.82, 0.70, 640.0)), pal['nebulosas']):
             n = QRadialGradient(QPointF(w * fx, h * fy), radio)
-            n.setColorAt(0.0, QColorReal(*col, a))
-            n.setColorAt(0.45, QColorReal(*col, int(a * 0.55)))
-            n.setColorAt(1.0, QColorReal(*col, 0))
+            n.setColorAt(0.0, QColorReal(r_, g_, b_, a))
+            n.setColorAt(0.45, QColorReal(r_, g_, b_, int(a * 0.55)))
+            n.setColorAt(1.0, QColorReal(r_, g_, b_, 0))
             p.fillRect(QRectF(0, 0, w, h), n)
         v = QRadialGradient(QPointF(w * 0.5, h * 0.45), max(w, h) * 0.75)
-        v.setColorAt(min(w, h) * 0.35 / (max(w, h) * 0.75), QColorReal(3, 6, 12, 0))
-        v.setColorAt(1.0, QColorReal(3, 6, 12, 115))
+        v.setColorAt(min(w, h) * 0.35 / (max(w, h) * 0.75), QColorReal(*pal['vineta'], 0))
+        v.setColorAt(1.0, QColorReal(*pal['vineta'], 115))
         p.fillRect(QRectF(0, 0, w, h), v)
         p.end()
         self._fijo = (clave, pm)
@@ -957,9 +976,10 @@ class TarjetaCielo(ui.Tarjeta):
             q = QPainter(pm)
             q.setRenderHint(QPainter.RenderHint.Antialiasing)
             halo = QRadialGradient(QPointF(7.0, 7.0), 7.0)
-            halo.setColorAt(0.0, QColorReal(210, 225, 255, 230))
-            halo.setColorAt(0.45, QColorReal(210, 225, 255, 126))
-            halo.setColorAt(1.0, QColorReal(210, 225, 255, 0))
+            nodo = self._pal['nodo']
+            halo.setColorAt(0.0, QColorReal(*nodo, 230))
+            halo.setColorAt(0.45, QColorReal(*nodo, 126))
+            halo.setColorAt(1.0, QColorReal(*nodo, 0))
             q.setPen(Qt.PenStyle.NoPen)
             q.setBrush(halo)
             q.drawEllipse(QPointF(7.0, 7.0), 7.0, 7.0)
@@ -990,12 +1010,12 @@ class TarjetaCielo(ui.Tarjeta):
                 lotes.setdefault((grueso, nivel), []).append(QPointF((fx * w - t * vel) % w, fy * h))
             for (grueso, nivel), puntos in lotes.items():
                 a = alfa * (0.55 + 0.45 * (nivel / (n - 1) * 2.0 - 1.0))
-                lapiz = QPen(QColorReal(215, 228, 255, int(255 * a)), 2.0 * tam * (0.8 if grueso == 0 else 1.2))
+                lapiz = QPen(QColorReal(*self._pal['estrella'], int(255 * a)), 2.0 * tam * (0.8 if grueso == 0 else 1.2))
                 lapiz.setCapStyle(Qt.PenCapStyle.RoundCap)
                 p.setPen(lapiz)
                 p.drawPoints(puntos)
         desplaza = (t * _CAPAS_CIELO[0][1]) % w                       # las constelaciones van con la capa lenta (y dan la vuelta)
-        p.setPen(QPen(QColorReal(170, 195, 255, 51), 1.0))
+        p.setPen(QPen(QColorReal(*self._pal['raya']), 1.0))
         nodo = self._nodo_pm(dpr)
         for copia in (0.0, w):
             for puntos in _CONSTELACIONES:

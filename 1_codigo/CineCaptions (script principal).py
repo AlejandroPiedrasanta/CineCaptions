@@ -10497,8 +10497,11 @@ class SubtitleApp(QWidget):
             b1.poner_comando(lambda: self._detectar_desde_resolve(silencioso=False))
         else:
             titulo = tr('No hay ninguna sesión abierta')
-            texto = tr('Aún no hay audio. En Proyecto pulsa «Obtener» (o suelta un video en la ventana) y vuelve aquí: lo detecto solo. Con GO todo se hace en un clic.')
+            # (v5.63: «Obtener» ya no está en Proyecto: se quitó la franja del audio)
+            texto = tr('Aún no hay audio. Pulsa GO en Inicio (o suelta un video en la ventana) y vuelve aquí: lo detecto solo.')
             b1.setVisible(False)
+            b2.configure(text=tr('Ir a Inicio'))
+            b2.poner_comando(lambda: self.ir_a('inicio'))
         self._ev_titulo.configure(text=titulo)
         self._ev_texto.configure(text=texto)
         self._ev_detalle.configure(text=detalle)

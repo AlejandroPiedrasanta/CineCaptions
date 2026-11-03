@@ -684,7 +684,7 @@ class PanelMotionsPro(QWidget):
             _icono_motion(p, self, k, cx, cy, t_ic, self._k[k].x, esc)
             r = 3.0 * s * max(0.0, self._k[k].x)        # (el resorte pasa de 1 al llegar: el punto rebota)
             if r > 0.2:
-                p.setBrush(QColor('#24D18F'))
+                p.setBrush(QColor(ui.VERDE))
                 p.drawEllipse(QRectF(cx + 17 * s - r, cy - 12 * s - r, 2 * r, 2 * r))
         # la onda del clic: un anillo que se abre y se apaga
         o_ = max(0.0, min(1.0, self._onda.x))
@@ -727,7 +727,7 @@ class PanelMotionsPro(QWidget):
         c = QRectF(cx - 20 * s, barra.bottom() - 54 * s, 40 * s, 40 * s)
         h = max(0.0, self._hov['efectos'].x)
         c = c.adjusted(-2 * s * h, -2 * s * h, 2 * s * h, 2 * s * h)
-        blanco, menta = QColor('#FFFFFF'), QColor('#7FE0B5')
+        blanco, menta = QColor('#FFFFFF'), QColor(ui.tc('#7FE0B5'))
         p.setBrush(QColor(int(blanco.red() + (menta.red() - blanco.red()) * h), int(blanco.green() + (menta.green() - blanco.green()) * h),
                           int(blanco.blue() + (menta.blue() - blanco.blue()) * h)))
         p.drawEllipse(c)
@@ -771,7 +771,7 @@ class PanelMotionsPro(QWidget):
                 if nivel and txt is self._et_txt:
                     self._pintar_niveles(p, et, se, self._nivel, op * vis)
                 p.setOpacity(op * vis * (self._entrada.x if self._entrada.x < 0.999 else 1.0))
-                p.setBrush(QColor('#24D18F') if si else QColor('#9AA7BF'))
+                p.setBrush(QColor(ui.VERDE) if si else QColor('#9AA7BF'))
                 p.drawEllipse(QRectF(izq0 + 16 * se, et.center().y() - 4 * se + dy, 8 * se, 8 * se))
                 izq = izq0 + 32 * se
                 p.setFont(f1)
@@ -798,7 +798,7 @@ class PanelMotionsPro(QWidget):
             r = QRectF(x, y, w, 19 * se)
             elegido = clave == nivel
             p.setPen(Qt.PenStyle.NoPen)
-            p.setBrush(QColor('#24D18F') if elegido else QColor('#EEF1F6'))
+            p.setBrush(QColor(ui.VERDE) if elegido else QColor('#EEF1F6'))
             p.drawRoundedRect(r, r.height() / 2, r.height() / 2)
             p.setPen(QColor('#FFFFFF') if elegido else QColor('#4A5568'))
             p.drawText(r, Qt.AlignmentFlag.AlignCenter, txt)
@@ -1004,7 +1004,7 @@ class PanelEjemploPro(QWidget):
         p.setPen(Qt.PenStyle.NoPen)
         p.setBrush(QColor(0, 0, 0, 140))
         p.drawRoundedRect(chip, 10, 10)
-        p.setPen(QColor('#7FE0B5'))
+        p.setPen(QColor(ui.tc('#7FE0B5')))
         p.drawText(chip, Qt.AlignmentFlag.AlignCenter, tr('Ejemplo real'))
         if o is None:
             return
