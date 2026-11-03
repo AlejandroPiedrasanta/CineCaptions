@@ -496,7 +496,7 @@ def desactivar_licencia(app, al_terminar=None):
 
 NOTAS_VERSION = [
     ('5.64', [
-        'De fábrica, la interfaz vuelve al azul noche con el azul CineCaptions como color de resaltado. ¿Prefieres el negro y blanco? Ajustes › Interfaz › «Fondo de la interfaz»: Negro.',
+        'De fábrica, la interfaz vuelve al azul noche con el verde como color de resaltado. ¿Prefieres el negro y blanco? Ajustes › Interfaz › «Fondo de la interfaz»: Negro.',
     ]),
     ('5.63', [
         'CineCaptions en negro y blanco: todas las páginas (Inicio, Proyecto, Creativo, Sonido, Efectos y Ajustes) en negros neutros con el blanco como color de resaltado; lo elegido, «en uso» y encendido, en blanco, sin verdes sueltos.',
@@ -2719,7 +2719,7 @@ class VentanaAjustes(_Panel):
                              'enseñar el proceso de GO. También cambian la luz de fondo de TODAS las páginas. Pasa el ratón por una tarjeta para verla en movimiento.'),
                           caja_est, vertical=True, expandir=True)
         # v5.63 (el usuario: «deja la opción de azul en Ajustes › Interfaz por si el usuario no quiere tanto negro»): el fondo de toda la
-        # interfaz, Azul (el azul noche, con su acento azul; de fábrica desde la v5.64) o Negro (con el acento blanco)
+        # interfaz, Azul (el azul noche, con su acento verde; de fábrica desde la v5.64) o Negro (con el acento blanco)
         fondos = {'noche': tr('Azul'), 'negro': tr('Negro')}
         fondo_var = StringVar(fondos.get(self._borrador['tema'], fondos['negro']))
         f_fondo = _Fila(tr('Fondo de la interfaz'),
@@ -2768,11 +2768,11 @@ class VentanaAjustes(_Panel):
             pass
 
     def _elegir_fondo(self, clave):
-        """v5.63: Negro o Azul (noche). Con su color de siempre: el blanco va con el negro y (v5.64) el azul con el azul (si tenías el otro de
-        los dos, o el verde de antes, cambia con el fondo; un color elegido aparte se respeta)."""
+        """v5.63: Negro o Azul (noche). Con su color de siempre: el blanco va con el negro y el verde con el azul (si tenías el otro de los dos,
+        cambia con el fondo; un color elegido aparte se respeta)."""
         self._cambio('tema', clave)
-        pareja = {'negro': (('azul', 'verde'), 'blanco'), 'noche': (('blanco',), 'azul')}[clave]
-        if self._borrador.get('acento') in pareja[0]:
+        pareja = {'negro': ('verde', 'blanco'), 'noche': ('blanco', 'verde')}[clave]
+        if self._borrador.get('acento') == pareja[0]:
             self._elegir_acento(pareja[1])
 
     def _elegir_tema(self, clave):

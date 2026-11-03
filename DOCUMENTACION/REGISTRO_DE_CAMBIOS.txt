@@ -12,6 +12,12 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-03 10:14  ·  v5.63  ·  cambio explicado
+    v5.64: el color de resaltado de fábrica es el verde (con el azul noche); el usuario lo mandó con una captura de Ajustes. La pareja del Fondo vuelve a blanco ↔ verde.
+    modificados (2):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/tema.py
+
 2026-11-03 10:11  ·  v5.63  ·  cambio explicado
     v5.64: de fábrica vuelve el azul noche con el acento azul (el usuario lo eligió en Ajustes y pidió dejarlo por defecto); el negro + blanco queda como opción «Negro» en Ajustes › Interfaz. La pareja del Fondo pasa a blanco ↔ azul.
     modificados (7):
