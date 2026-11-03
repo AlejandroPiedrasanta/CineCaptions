@@ -1,0 +1,62 @@
+REGISTRO DE CAMBIOS ARCHIVADO · 2026-11 (la entrada más nueva arriba)
+
+2026-11-01 14:18  ·  v5.58  ·  cambio explicado
+    5.58: la Edición PRO y «Captions detrás de ti» en Resolve Free (el usuario: «el menú PRO debe funcionar en Resolve Free, todas sus funciones, y detrás de ti igual; testea el Tema 1 con la PRO y detrás de ti»). Al probar salieron dos fallos que impedían la PRO entera en Free: el inicio del timeline se leía de una clave que «Detectar video» no trae (todo iba al fotograma 0) y los clips de V1 del Puente llegaban con otras claves (KeyError «ini»): ahora la info de Free sale de efectos_visuales._info_libre y _v1_libre la traduce. El .lua de Free no tenía lo del Tema 1 con «detrás de ti» que sí tenía colocar_pro.py (placa, recorte por abajo, captions neón, Pan en horizontal, Motions por tramos, «Listo»): portado y comprobado con el mismo plan en los dos sobre un Resolve simulado (timeline idéntico, también sin io). «Listo» del Tema 1 sin «Kit de motions» pedía una placa que GO ya no hace (5.56): arreglado también para Studio. El recorte metía destellos de 1 a 7 fotogramas (columna, sombra, un trozo de edificio pegado a la cabeza): quita-destellos por manchas con 8 fotogramas de adelanto y prerrollo, la pasada fina manda en la cabeza cuando el color dice fondo, y el tramo no cruza un corte de toma (VERSION_MATTE 5). La prueba mide ahora el parpadeo en lo visible y con la imagen quieta.
+    modificados (17):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_persona.py
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/herramientas_dev/probar_detras_posiciones.py
+      ~ 1_codigo/herramientas_dev/probar_detras_temas.py
+      ~ 1_codigo/herramientas_dev/probar_detras_timeline.py
+      ~ 1_codigo/herramientas_dev/probar_pro_lateral.py
+      ~ 1_codigo/posiciones_pro.py
+      ~ 1_codigo/pro_lateral_ui.py
+      ~ 2_recursos/locales/de.json
+      … y 5 más
+
+2026-11-01 12:47  ·  v5.58  ·  cambio explicado
+    v5.58 reinicios del Inspector (pedido: arreglar que la flecha de reiniciar volviera al color de fábrica en los estilos de «Crea tu estilo»): los Default de los controles publicados se escriben al generar (= valor del clip) y el recoloreo no los tocaba. Ahora pack_personalizado._Retoque.reinicios (sin releer la comp: sigue a la edición de la entrada) y reinicios_al_dia(antes, despues) (premium de construir_pack.retocar_comp con función) pasan al valor nuevo cada Default que valía lo mismo que su entrada; los que ya eran distintos (fábrica de Luxe y Amro) no se tocan y las listas de Amro no pasan por ahí (regenerar la Referencia sigue dando el .drb de fábrica). premium_sobre_drb pasa además por inspector_luxe.retocar. GENERADOR per 2: los estilos ya creados se rehacen en carpeta y bin nuevos (bin nuevo, nunca el mismo nombre con otros clips); REVISION_BIN no hace falta: los .drb de fábrica no cambian. Verificado: 2086 casos con solo Default distintos de HEAD, 312 recoloreos con 0 reinicios desfasados, mismo tiempo que la 5.57.
+    modificados (14):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/herramientas_dev/probar_pro_lateral.py
+      ~ 1_codigo/pack_personalizado.py
+      ~ 1_codigo/posiciones_detras_ui.py
+      ~ 1_codigo/posiciones_pro.py
+      ~ 1_codigo/pro_lateral_ui.py
+      ~ 2_recursos/generador_packs/construir_pack.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      … y 2 más
+
+2026-11-01 12:12  ·  v5.58  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-11-01 12:11  ·  v5.57  ·  cambio explicado
+    5.58: «Captions detrás de ti» con el borde estable. Donde la imagen está quieta, un píxel del borde solo cambia de lado si la IA lo dice claro (histéresis: QUIETO_NIVELES 4, MARGEN_CAMBIO 0,4; VERSION_MATTE 4). El usuario eligió el borde «muy estable» tras ver ejemplos A/B/C con el Tema 1; la mezcla con el fotograma anterior (la «C») se descartó al medirla: volvía translúcido el borde de lo que se mueve despacio (4K de boda: grises 3,5 → 8,9 % de la persona; islas 2 → 6). Medido en 5 tramos: 17-29 % menos cambios de lado en lo quieto, mismas islas y halo, sin estela. Entró en git con la 5.57 (d5c7c13) pero no en su instalador (compilado antes).
+    modificados (6):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+

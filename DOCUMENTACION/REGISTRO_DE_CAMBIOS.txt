@@ -12,6 +12,22 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-03 15:44  ·  v5.66  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
 2026-11-03 15:42  ·  v5.65  ·  cambio explicado
     v5.66: aviso del Corrector pulido (el usuario): frase de ejemplo animada (corrige una errata y pinta la principal; el halo ya no se corta) y el cielo de constelaciones de fondo como Inicio y Tema (proyecto_ui.CieloDePagina).
     modificados (4):
@@ -463,175 +479,6 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
       ~ 2_recursos/locales/fr.json
       ~ 2_recursos/locales/it.json
       … y 3 más
-
-2026-11-01 14:18  ·  v5.58  ·  cambio explicado
-    5.58: la Edición PRO y «Captions detrás de ti» en Resolve Free (el usuario: «el menú PRO debe funcionar en Resolve Free, todas sus funciones, y detrás de ti igual; testea el Tema 1 con la PRO y detrás de ti»). Al probar salieron dos fallos que impedían la PRO entera en Free: el inicio del timeline se leía de una clave que «Detectar video» no trae (todo iba al fotograma 0) y los clips de V1 del Puente llegaban con otras claves (KeyError «ini»): ahora la info de Free sale de efectos_visuales._info_libre y _v1_libre la traduce. El .lua de Free no tenía lo del Tema 1 con «detrás de ti» que sí tenía colocar_pro.py (placa, recorte por abajo, captions neón, Pan en horizontal, Motions por tramos, «Listo»): portado y comprobado con el mismo plan en los dos sobre un Resolve simulado (timeline idéntico, también sin io). «Listo» del Tema 1 sin «Kit de motions» pedía una placa que GO ya no hace (5.56): arreglado también para Studio. El recorte metía destellos de 1 a 7 fotogramas (columna, sombra, un trozo de edificio pegado a la cabeza): quita-destellos por manchas con 8 fotogramas de adelanto y prerrollo, la pasada fina manda en la cabeza cuando el color dice fondo, y el tramo no cruza un corte de toma (VERSION_MATTE 5). La prueba mide ahora el parpadeo en lo visible y con la imagen quieta.
-    modificados (17):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/edicion_pro.py
-      ~ 1_codigo/edicion_pro_persona.py
-      ~ 1_codigo/efectos_pro_ui.py
-      ~ 1_codigo/herramientas_dev/probar_detras_posiciones.py
-      ~ 1_codigo/herramientas_dev/probar_detras_temas.py
-      ~ 1_codigo/herramientas_dev/probar_detras_timeline.py
-      ~ 1_codigo/herramientas_dev/probar_pro_lateral.py
-      ~ 1_codigo/posiciones_pro.py
-      ~ 1_codigo/pro_lateral_ui.py
-      ~ 2_recursos/locales/de.json
-      … y 5 más
-
-2026-11-01 12:47  ·  v5.58  ·  cambio explicado
-    v5.58 reinicios del Inspector (pedido: arreglar que la flecha de reiniciar volviera al color de fábrica en los estilos de «Crea tu estilo»): los Default de los controles publicados se escriben al generar (= valor del clip) y el recoloreo no los tocaba. Ahora pack_personalizado._Retoque.reinicios (sin releer la comp: sigue a la edición de la entrada) y reinicios_al_dia(antes, despues) (premium de construir_pack.retocar_comp con función) pasan al valor nuevo cada Default que valía lo mismo que su entrada; los que ya eran distintos (fábrica de Luxe y Amro) no se tocan y las listas de Amro no pasan por ahí (regenerar la Referencia sigue dando el .drb de fábrica). premium_sobre_drb pasa además por inspector_luxe.retocar. GENERADOR per 2: los estilos ya creados se rehacen en carpeta y bin nuevos (bin nuevo, nunca el mismo nombre con otros clips); REVISION_BIN no hace falta: los .drb de fábrica no cambian. Verificado: 2086 casos con solo Default distintos de HEAD, 312 recoloreos con 0 reinicios desfasados, mismo tiempo que la 5.57.
-    modificados (14):
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/edicion_pro.py
-      ~ 1_codigo/herramientas_dev/probar_pro_lateral.py
-      ~ 1_codigo/pack_personalizado.py
-      ~ 1_codigo/posiciones_detras_ui.py
-      ~ 1_codigo/posiciones_pro.py
-      ~ 1_codigo/pro_lateral_ui.py
-      ~ 2_recursos/generador_packs/construir_pack.py
-      ~ 2_recursos/locales/de.json
-      ~ 2_recursos/locales/en.json
-      ~ 2_recursos/locales/fr.json
-      ~ 2_recursos/locales/it.json
-      … y 2 más
-
-2026-11-01 12:12  ·  v5.58  ·  (automático)
-    modificados (20):
-      ~ 1_codigo/version.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
-      ~ 2_recursos/resolve_scripts/CineCaptions.py
-      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
-      … y 8 más
-
-2026-11-01 12:11  ·  v5.57  ·  cambio explicado
-    5.58: «Captions detrás de ti» con el borde estable. Donde la imagen está quieta, un píxel del borde solo cambia de lado si la IA lo dice claro (histéresis: QUIETO_NIVELES 4, MARGEN_CAMBIO 0,4; VERSION_MATTE 4). El usuario eligió el borde «muy estable» tras ver ejemplos A/B/C con el Tema 1; la mezcla con el fotograma anterior (la «C») se descartó al medirla: volvía translúcido el borde de lo que se mueve despacio (4K de boda: grises 3,5 → 8,9 % de la persona; islas 2 → 6). Medido en 5 tramos: 17-29 % menos cambios de lado en lo quieto, mismas islas y halo, sin estela. Entró en git con la 5.57 (d5c7c13) pero no en su instalador (compilado antes).
-    modificados (6):
-      ~ 1_codigo/ajustes_ui.py
-      ~ 2_recursos/locales/de.json
-      ~ 2_recursos/locales/en.json
-      ~ 2_recursos/locales/fr.json
-      ~ 2_recursos/locales/it.json
-      ~ 2_recursos/locales/pt.json
-
-2026-10-31 02:05  ·  v5.57  ·  cambio explicado
-    v5.57 Inspector en los 6 temas («Sí, en los 6»): Temas 2, 4-6 con inspector_luxe.py, que RETOCA sus .drb (los T4-T6 llevan el Luxe de antes de la v1.09: no se regeneran; regenerar la Referencia da las mismas comps): el Template entra como primer tool del macro Luxe, Input1 publica Template.StyledText (texto editable; el Count lo gana), la cabecera de Van Beek pasa a nuestro banner y el reinicio de cada control es el valor del clip; los 4 de Amro llevan el banner en su grupo. Tema 3: macro_kinetic.envolver generalizado (publica solo lo que siguen las copias del texto: sin fuente, interlineado ni Align en shatter, select y drag, porque Medida/BrilloTxt/Caja tienen la letra fija), las copias siguen el Tracking y el relleno del drag sigue al Color (color_viral lee la razón de la expresión). con_banner salta cualquier macro o grupo primero con el banner en sus UserControls. CineCaptions.py: apply_fades y set_text_on_clip buscan el Template como el .lua (con el macro primero, el primer Text+ de GetToolList puede ser otro). Probado en Studio 21.1.2 con GO real (video VENTAS) contra el pack de antes: Temas 3-6 idénticos cuadro a cuadro (en el 3 con shatter, select y drag: el DataWindow de Medida funciona dentro del macro); la Referencia idéntica en ProRes (en H.264 el codificador mete ruido entre cuadros). Pendiente menor: el reinicio de los controles no se pone al día al recolorear con «Crea tu estilo» o el premium.
-    modificados (1):
-      ~ 1_codigo/edicion_pro_persona.py
-
-2026-10-31 01:11  ·  v5.57  ·  (automático)
-    nuevos (1):
-      + 2_recursos/generador_packs/inspector_luxe.py
-    modificados (40):
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/pack_personalizado.py
-      ~ 1_codigo/plantillas.py
-      ~ 1_codigo/version.py
-      ~ 2_recursos/generador_packs/banner_inspector.py
-      ~ 2_recursos/generador_packs/construir_pack.py
-      ~ 2_recursos/generador_packs/macro_kinetic.py
-      ~ 2_recursos/generador_packs/viral_elementos.py
-      ~ 2_recursos/locales/de.json
-      ~ 2_recursos/locales/en.json
-      ~ 2_recursos/locales/fr.json
-      ~ 2_recursos/locales/it.json
-      … y 28 más
-
-2026-10-30 23:43  ·  v5.56  ·  cambio explicado
-    v5.57 Tema 1, revisión independiente del macro aplicada: sin Align en las cintas (su caja sigue el ancho del texto, no su sitio) ni interlineado en los héroes (su Relleno no lo sigue); el reinicio de cada control es el valor del clip (tinta de la cinta, Gradient, color del trazo); la DROP SHADOW cae con el ángulo como en pantalla (antes subía); nombres de Luxe (Shadow Strength, Drop Angle, Drop Distance); banner_inspector solo pone al día el banner del macro «CineCaptions». GENERADOR de pack_personalizado se queda en per 1 (la huella del Tema 1 ya cambia por el .drb y REVISION_BIN; subirlo rehacía los derivados de los Temas 2-6).
-    modificados (6):
-      ~ 1_codigo/motor_compat.py
-      ~ 1_codigo/pack_personalizado.py
-      ~ 2_recursos/generador_packs/banner_inspector.py
-      ~ 2_recursos/generador_packs/macro_kinetic.py
-      ~ 2_recursos/motor_compat/worker.py
-      ~ 2_recursos/plantillas_incluidas/Kinetic/Kinetic vertical.drb
-
-2026-10-30 23:06  ·  v5.56  ·  cambio explicado
-    v5.57 Tema 1 en el Inspector (pedido con capturas: «utiliza las herramientas de Luxe Slide y solo le pones el banner, ya que actualmente los Text+ se ven así»; «DROP SHADOW y GLOW, que funcionen; al final yo decido»): cada comp del pack Kinetic va dentro del macro «CineCaptions» (macro_kinetic.envolver, primer tool; Template sigue siendo el primero de dentro y la app le escribe como siempre) con la pestaña «Controles» de Luxe Slide publicada, DROP SHADOW (Shadow nativo) y GLOW (glow1/glow2 de Luxe) apagados de fábrica y solo el banner en los UserControls del macro; banner_inspector.con_banner salta estas comps; pack Kin 21; pack_personalizado.tool() acepta nombres dentro del macro (GENERADOR per 2). Probado en Studio 21.1.2 con GO real: render idéntico al pack anterior (728/728 cuadros, con cintas y escritura a mano: el DataWindow va dentro del macro) y la sombra y el brillo se ven al encenderlos.
-    nuevos (1):
-      + 2_recursos/generador_packs/macro_kinetic.py
-    modificados (16):
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/edicion_pro_persona.py
-      ~ 1_codigo/motor_compat.py
-      ~ 1_codigo/pack_personalizado.py
-      ~ 1_codigo/plantillas.py
-      ~ 2_recursos/generador_packs/banner_inspector.py
-      ~ 2_recursos/generador_packs/kinetic_elementos.py
-      ~ 2_recursos/locales/de.json
-      ~ 2_recursos/locales/en.json
-      ~ 2_recursos/locales/fr.json
-      ~ 2_recursos/locales/it.json
-      ~ 2_recursos/locales/pt.json
-      … y 4 más
-
-2026-10-30 22:00  ·  v5.56  ·  cambio explicado
-    v5.57: la Edición PRO solo hace lo ENCENDIDO en su menú, en los 6 temas (pedido del usuario: «si no se activa nada, aunque esté activa, seguirá funcionando como solo captions… esa misma lógica para los 6 temas»). edicion_pro.encendidas/activa_en_go/opciones_menu; de fábrica nada encendido (pro_mascara 'no', pro_internet False, 'elegidos' vacío = ninguno en motions_catalogo.modo); el menú deja apagar todo; los Temas 5/6 ya no son la PRO sin el interruptor (sin PRO: sus captions + regla de la cara + Efectos). Medido en Resolve real: PRO sin nada = solo captions (T1 21 s, T2 34 s, T3 35 s, T4 36 s, T6 38 s; T5 sin PRO 62 s con la IA de texto la 1.ª vez). Recorte de «detrás de ti» 1,8x más rápido con alfa idéntico (edicion_pro_persona._a_modelo: la imagen reducida antes del motor 3.14; antes viajaba el cuadro entero por disco en cada pasada).
-    modificados (18):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/director_sonido_identidad.py
-      ~ 1_codigo/edicion_pro.py
-      ~ 1_codigo/edicion_pro_persona.py
-      ~ 1_codigo/edicion_pro_planificador.py
-      ~ 1_codigo/efectos_pagina.py
-      ~ 1_codigo/herramientas_dev/probar_pro_lateral.py
-      ~ 1_codigo/motions_catalogo.py
-      ~ 1_codigo/motions_ui.py
-      ~ 1_codigo/pro_lateral_ui.py
-      ~ 1_codigo/sfx_studio.py
-      … y 6 más
-
-2026-10-30 20:39  ·  v5.56  ·  (automático)
-    modificados (21):
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/version.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
-      ~ 2_recursos/resolve_scripts/CineCaptions.py
-      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
-      … y 9 más
-
-2026-10-30 20:09  ·  v5.55  ·  cambio explicado
-    v5.56 Tema 1 mas ligero (el usuario: aligera las comps para que la cache de Resolve este antes): el desenfoque de movimiento del Transform Anim (Quality 3) renderizaba el texto 3 veces en todos los cuadros, tambien quieto; ahora una expresion deja 3 muestras solo al entrar y salir y 1 en el resto y en los 2 ultimos cuadros (pack Kin 20). Medido en Studio 21.1.2 con el mismo GO: cache de los captions 70,4 s -> 55,9 s (-20 %), render igual cuadro a cuadro (peor 43 dB, solo ruido de codificacion). Descartado tras medir: la trama calculada dentro de la letra (mas lenta: 63,5 s, la rejilla fija Fusion la reutiliza) y apagar la cache del compuesto (sin efecto).
-    modificados (3):
-      ~ 1_codigo/plantillas.py
-      ~ 2_recursos/generador_packs/kinetic_elementos.py
-      ~ 2_recursos/plantillas_incluidas/Kinetic/Kinetic vertical.drb
-
-2026-10-30 19:39  ·  v5.55  ·  cambio explicado
-    v5.56 cache de render (el usuario: preview fluida en Resolve sin lags): SetFusionOutputCache necesita la constante resolve.CACHE_ENABLED (1.0); con On/enabled Resolve 21 devolvia False y desde la 5.5.4 ningun clip de CineCaptions (captions, Efectos, PRO) entraba en cache. Arreglado en los 7 gemelos py/lua. GO ya no espera la cache: dice Listo (16-19 s) y un hilo reproduce cuando Resolve lleno la salida de los clips (SourceOne; 1298 cuadros de un video de 24 s en 68 s), solo si Resolve sigue en el mismo proyecto, timeline, cabezal y pagina (sin_cambios), nunca por teclado y cancelado por cualquier colocacion nueva. Revisado con 2 rondas adversariales y probado en Studio 21.1.2 real.
-    modificados (19):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/colocacion.py
-      ~ 1_codigo/fluidez_resolve.py
-      ~ 1_codigo/hacer_vistas_mezcla.py
-      ~ 1_codigo/ia_texto.py
-      ~ 1_codigo/motor_voz.py
-      ~ 2_recursos/edicion_pro/colocar_pro.py
-      ~ 2_recursos/efectos/colocar_efectos.py
-      ~ 2_recursos/locales/de.json
-      ~ 2_recursos/locales/en.json
-      ~ 2_recursos/locales/fr.json
-      ~ 2_recursos/locales/it.json
-      … y 7 más
 
 
 (Lo anterior está archivado por mes en DOCUMENTACION/historial/REGISTRO_<aaaa-mm>.txt)
