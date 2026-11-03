@@ -12,6 +12,16 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-03 13:18  ·  v5.64  ·  cambio explicado
+    v5.64: (1) GPU NVIDIA sin cuBLAS/cuDNN ya no es «Falla al iniciar» (reporte de un usuario con RTX 3050 Ti): aviso + descarga sola en un hilo (vigilancia.preparar_gpu_voz). (2) El instalador no vuelve a bajar Gemma 4 E4B (16 GB) cuando Google publica otra versión: motor_texto.ya_descargado.
+    modificados (6):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/cuda_libs.py
+      ~ 1_codigo/registro_ayuda.py
+      ~ 1_codigo/salud.py
+      ~ 1_codigo/vigilancia.py
+      ~ 2_recursos/motor_qwen/motor_texto.py
+
 2026-11-03 10:15  ·  v5.64  ·  (automático)
     modificados (20):
       ~ 1_codigo/version.py
