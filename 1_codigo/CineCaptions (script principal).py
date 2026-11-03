@@ -1892,12 +1892,9 @@ class PlantillasWindow(QWidget):
         # v5.3.6: «Pack de estilos» = un slider horizontal de tarjetas VERTICALES sobre fotos de video (estilos_slider) y, debajo, el panel del
         # estilo que está al centro. Sin filtro de formato (las vistas son siempre verticales) y sin la tarjeta de tipografías.
         self.tarjeta = Tarjeta(espacio=8, margenes=(18, 12, 18, 10))
-        if franja is not None:                        # v5.4.3: el audio (Obtener · archivo · onda · motor) va en UNA franja arriba de «Pack de estilos», en la misma tarjeta
-            self.tarjeta.capa.addWidget(franja)
-            separador = QFrame()
-            separador.setFixedHeight(1)
-            separador.setStyleSheet(ui.traducir_hoja('QFrame { background-color: #1E2A42; border: none; }'))
-            self.tarjeta.capa.addWidget(separador)
+        if franja is not None:                        # v5.62 (el usuario: «elimina esto»): la franja del audio (Obtener · archivo · onda · duración ·
+            franja.setParent(self)                    # motor · «Crea tu estilo») ya no se ve; sigue construida y escondida porque el resto del programa
+            franja.hide()                             # lee sus valores (video_var, motor_var…). GO trae el audio solo; el motor, en Ajustes › General
         cab, ch = caja_h(espacio=12)
         if not plantillas.SOLO_TEMAS:                 # v5.5.10: con los temas, sin el título «Temas» (lo pidió el usuario)
             ch.addWidget(Etiqueta(tr('Pack de estilos'), 18, peso='medio', color='#FFFFFF'))
@@ -1906,18 +1903,10 @@ class PlantillasWindow(QWidget):
         ch.addStretch(1)
         if not plantillas.SOLO_TEMAS:
             ch.addWidget(Etiqueta(tr('Rueda, ← → o arrastra  ·  clic en la del centro para usarla'), 12, color=TEXT_MUTED))
-        # «Crea tu estilo»: el único botón de la cabecera (las vistas reales de Resolve se piden solas)
-        import proyecto_ui                            # v5.32 (maqueta del usuario): botón luminoso, como «Obtener»
-        self.crear_btn = proyecto_ui.BotonLuz(tr('Crea tu estilo'), self._crear_estilo, 'sparkle')
-        capa_audio = getattr(master, '_capa_franja_audio', None) if franja is not None else None
-        if capa_audio is not None:                    # v5.5.10 (el usuario: «sube Crea tu estilo, a la par de Whisper»): a la franja del audio
-            capa_audio.addWidget(proyecto_ui.Separador())
-            capa_audio.addWidget(self.crear_btn)
-        else:
-            ch.addWidget(self.crear_btn)
+        # v5.62: sin el botón «Crea tu estilo» (iba en la franja del audio, que se quitó): es la carta del final del slider
         self.tarjeta.capa.addWidget(cab)
         self._cab = cab
-        self._cab_vacia = capa_audio is not None and plantillas.SOLO_TEMAS     # sin título ni botón: solo sale si hay aviso (vistas reales)
+        self._cab_vacia = plantillas.SOLO_TEMAS       # sin título ni botón: solo sale si hay aviso (vistas reales)
         cab.setVisible(not self._cab_vacia)
         self.nota_modo = Etiqueta('', 13, color=ui.AMBAR, envolver=True)
         self.nota_modo.hide()
@@ -2215,7 +2204,7 @@ class PlantillasWindow(QWidget):
             pass
 
     def _poner_cuenta(self, texto, silencioso=False):
-        """El aviso de la cabecera del slider (vistas reales de Resolve, cuántos packs). v5.5.10: con «Crea tu estilo» en la franja del audio la
+        """El aviso de la cabecera del slider (vistas reales de Resolve, cuántos packs). v5.5.10: sin título ni botón (con los temas) la
         cabecera queda vacía y solo se ve mientras hay un aviso. El avance de un render SILENCIOSO (el que se pide solo al conectar Resolve) no
         la abre: si no, la fila aparecía y desaparecía y el slider daba saltos mientras el usuario lo miraba."""
         if getattr(self, '_cab_vacia', False):
@@ -9302,7 +9291,7 @@ class SubtitleApp(QWidget):
               tr('Te enseño la interfaz en un minuto: dónde está cada cosa y para qué sirve. Puedes salir cuando quieras con Esc, y volver a verlo o desactivarlo desde Ajustes.'),
               None, 'inicio'),
             P(tr('Tu barra de navegación'),
-              tr('Aquí cambias de pantalla: Inicio, Proyecto (audio y estilos), Creativo (retocar palabras) y Sonido (efectos). A la derecha, el estado de Resolve, los Ajustes y el pin para mantener CineCaptions encima de Resolve.'),
+              tr('Aquí cambias de pantalla: Inicio, Proyecto (estilos), Creativo (retocar palabras) y Sonido (efectos). A la derecha, el estado de Resolve, los Ajustes y el pin para mantener CineCaptions encima de Resolve.'),
               isla, 'inicio', lado='abajo', margen=8),
             P(tr('GO: todo en un clic'),
               tr('Pulsa GO y CineCaptions pide el audio a Resolve, lo transcribe, arma los bloques con su estilo, añade sonidos y emojis y lo coloca todo en tu timeline. También puedes soltar un video sobre la ventana.'),
@@ -9310,15 +9299,10 @@ class SubtitleApp(QWidget):
             P(tr('Tus opciones de un vistazo'),
               tr('Debajo de GO eliges el estilo, los emojis, los efectos de sonido y el formato. Si algo cambia el resultado sin que se vea (una posición ajustada, un estilo fijo) aparece en ámbar: un clic lo quita.'),
               aqui('go_panel', 'opciones'), 'inicio', lado='arriba'),
-            P(tr('Proyecto: el audio'),
-              tr('«Obtener» trae el audio de tu timeline de Resolve y lo transcribe con la IA. Casi nunca lo necesitas: GO lo hace por ti; sirve para repetir solo la transcripción.'),
-              aqui('_tarjeta_audio'), 'estilos', lado='abajo'),
-            P(tr('Proyecto: pack de estilos'),
-              tr('Cada tarjeta es un pack. Haz clic en uno para elegirlo (el resaltado es el que usas). Un pack trae hasta 3 estilos, cada uno con su línea de arriba, principal y abajo. Con el lápiz lo editas en Resolve y con la papelera lo quitas.'),
+            # v5.62: sin los pasos de la franja del audio y del botón «Crea tu estilo» (se quitaron de Proyecto)
+            P(tr('Proyecto: tus estilos'),
+              tr('Cada tarjeta es un tema: haz clic en uno para elegirlo (el resaltado es el que usas). La última, «Crea tu estilo», mezcla los temas con tu letra y tus colores y lo guarda como un estilo más.'),
               aqui('_plantillas_ventana'), 'estilos', lado='derecha'),
-            P(tr('Crea tu estilo'),
-              tr('Abre una galería de ejemplos con vista animada: toca hasta 3 que te gusten, ponle nombre y pulsa «Crear mi pack». Aparece en el slider, listo para usar.'),
-              aqui('_plantillas_ventana', 'crear_btn'), 'estilos', lado='abajo', margen=8),
             P(tr('Creativo: retoca las palabras'),
               tr('Después de GO se abre aquí el editor: pinta cada palabra con su rol (Arriba, Principal, Abajo o Simple). Al tocar un texto ves qué estilo lleva y dónde cae, y puedes cambiarlo. «Generar» lo vuelve a colocar en Resolve.'),
               editor, 'editor', lado='abajo'),
@@ -9924,7 +9908,6 @@ class SubtitleApp(QWidget):
         self.motor_var.observar(_pintar_pildoras, self)
         Tooltip(self.motor_seg, tr('Qué motor convierte la voz en palabras con su tiempo. La IA (Qwen3-ASR) usa la GPU y es la más fina; Whisper large-v3-turbo es el de respaldo y entiende 99 idiomas.'))
         cf.addWidget(self.motor_seg)
-        self._capa_franja_audio = cf                 # v5.5.10: Proyecto pone aquí, a la par de Whisper, su botón «Crea tu estilo»
         self.motor_nota = Etiqueta('', 12, color=TEXT_MUTED, envolver=True)
         self.motor_nota.hide()                       # (el detalle de GPU/modelo queda en el tooltip del selector)
         t.capa.addWidget(fila)

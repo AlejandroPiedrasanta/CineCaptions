@@ -12,6 +12,16 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-02 23:23  ·  v5.61  ·  cambio explicado
+    Proyecto sin la franja del audio (Obtener, duración, motor de transcripción y «Crea tu estilo»), a petición del usuario: queda construida y escondida porque el programa lee sus valores; GO trae el audio solo y el motor se elige en Ajustes; el recorrido se ajustó
+    modificados (6):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+
 2026-11-02 23:07  ·  v5.61  ·  cambio explicado
     Proyecto: la carta del final del slider pasa de «Añadir plantilla (.drb)» a «Crea tu estilo» (abre la misma ventana que el botón de arriba); se quitó la importación de .drb/.drt y el ✎ «Editar en Resolve» que dependía de ella, a petición del usuario
     modificados (7):
