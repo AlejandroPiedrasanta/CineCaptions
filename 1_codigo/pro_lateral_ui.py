@@ -948,7 +948,9 @@ class PanelEjemploPro(QWidget):
         dw, dh = img.width() * esc, img.height() * esc
         p.drawImage(QRectF(pant.center().x() - dw / 2, pant.center().y() - dh / 2, dw, dh), img)
 
-    def paintEvent(self, _e):
+    def paintEvent(self, e):
+        if self._zona is not None and not e.rect().intersects(self._zona.toAlignedRect()):
+            return                                                 # v5.63: Qt pide un trozo sin el móvil (el slider de debajo, el cielo)
         o = _POR_CLAVE.get(self._clave)
         p = QPainter(self)
         p.setRenderHint(QPainter.RenderHint.Antialiasing)

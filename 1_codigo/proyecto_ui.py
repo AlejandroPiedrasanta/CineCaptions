@@ -14,11 +14,12 @@ Todo pintado (sin efectos de Qt: regla de rendimiento). Lo que late usa UN reloj
 nunca con «Reducir animaciones» (mograf_ui.quieto); cada pieza repinta solo su rectángulo. Los verdes salen del color de acento del tema.
 """
 import math
+import random
 import time
 import weakref
 
 from PySide6.QtCore import QEvent, QPoint, QPointF, QRect, QRectF, QSize, QSizeF, Qt, QTimer
-from PySide6.QtGui import QFont, QFontMetricsF, QLinearGradient, QPainter, QPainterPath, QPen, QRadialGradient
+from PySide6.QtGui import QFont, QFontMetricsF, QLinearGradient, QPainter, QPainterPath, QPen, QPixmap, QRadialGradient, QRegion
 from PySide6.QtWidgets import QAbstractButton, QHBoxLayout, QSizePolicy, QWidget
 
 import qt_kit as ui
@@ -788,4 +789,239 @@ class PuntosSlider(QWidget):
             p.drawRoundedRect(QRectF(x, y, w, self.LADO), self.LADO / 2.0, self.LADO / 2.0)
             self._xs.append(x + w / 2.0)
             x += w + self.HUECO
+        p.end()
+
+
+# ======================================================================================================================== v5.63: el cielo de Proyecto
+# (estrellas de cada capa: cuántas, px/s de deriva, radio, brillo) y constelaciones (puntos en fracción del ancho y del alto), como en Inicio
+_CAPAS_CIELO = ((300, 2.0, 0.7, 0.55), (150, 4.0, 1.1, 0.8), (60, 7.0, 1.7, 1.0))
+_CONSTELACIONES = (((0.08, 0.18), (0.13, 0.12), (0.19, 0.16), (0.24, 0.10), (0.27, 0.19)), ((0.70, 0.14), (0.75, 0.22), (0.81, 0.18), (0.86, 0.25)),
+                   ((0.06, 0.74), (0.11, 0.82), (0.17, 0.78), (0.15, 0.90)), ((0.88, 0.64), (0.92, 0.72), (0.96, 0.66)))
+
+
+class TarjetaCielo(ui.Tarjeta):
+    """v5.63 (el usuario eligió el fondo C, «Constelaciones», entre tres maquetas animadas): la tarjeta de Proyecto con un cielo como el de
+    Inicio: degradado de espacio con dos nebulosas tenues (lila y verde), tres capas de estrellas que derivan a distinta velocidad
+    (paralaje) y titilan, cuatro constelaciones con su raya fina y, cada 11 s, una estrella fugaz.
+    Rendimiento (medido sin pantalla a 2293×960 al 1,5: repintar la tarjeta ENTERA, con el slider, el móvil y las barras encima, cuesta
+    ~32 ms; antes la tarjeta de vidrio se repintaba así 2 veces por segundo para refrescar la aurora, ~64 ms/s): lo fijo (degradado,
+    nebulosas, viñeta, esquinas) es UNA imagen por tamaño; las estrellas se componen en un cuadro (QPixmap) FPS veces por segundo (~5 ms),
+    por lotes (drawPoints por capa, grosor y brillo; el halo de las constelaciones es un sprite), y en cada tic se repinta solo lo que NO se
+    repinta ya solo (`zonas_vivas`: el slider y el móvil van a 30/s y, al repintarse, copian su trozo del cuadro): ~10 ms → ~74 ms/s. La
+    fugaz NO va en el cuadro: paintEvent la pinta encima y, mientras cruza, solo su rectángulo se repinta a FPS_FUGAZ. Fuera de
+    Tarjeta._vivas (sin el refresco de la aurora). Quieto con «Reducir animaciones»; parado si no se ve o la ventana está minimizada."""
+    FPS, FPS_FUGAZ = 5, 24
+    RADIO = 18.0
+    PERIODO_FUGAZ, DURA_FUGAZ = 11.0, 1.4
+    BRILLOS = 8                                            # (niveles de brillo para los lotes: el titilar va por niveles)
+
+    def __init__(self, **kw):
+        super().__init__(**kw)
+        ui.Tarjeta._vivas.discard(self)
+        azar = random.Random(7)
+        # por capa: [(x, y, fase, grueso)] en dos grosores (para dibujarlas por lotes)
+        self._estrellas = [[(azar.random(), azar.random(), azar.random() * 6.283, 0 if azar.random() < 0.5 else 1) for _ in range(n)]
+                           for n, _v, _tam, _a in _CAPAS_CIELO]
+        self._fijo = None                                  # ((ancho, alto, dpr), QPixmap)
+        self._cuadro = None
+        self._nodo = None                                  # (dpr, QPixmap) el halo de un punto de constelación
+        self.zonas_vivas = None                            # la página: [QRect] de lo que ya se repinta solo (coordenadas de esta tarjeta)
+        self._t_cuadro = -1.0                              # cuándo se compuso el cuadro (s del reloj del cielo)
+        self._caja_fugaz = None                            # el rectángulo de la fugaz en el tic anterior (para borrarla)
+        self._t0 = time.perf_counter()
+        self._reloj = QTimer(self)
+        self._reloj.timeout.connect(self._tic)
+
+    # -- reloj ------------------------------------------------------------------------------------------------------------------------------
+    def showEvent(self, e):
+        super().showEvent(e)
+        self._cuadro = None
+        if not self._quieto():
+            self._reloj.start(int(1000 / self.FPS))
+
+    def hideEvent(self, e):
+        super().hideEvent(e)
+        self._reloj.stop()
+
+    @staticmethod
+    def _quieto():
+        try:
+            import mograf_ui
+            return bool(mograf_ui.quieto())
+        except Exception:
+            return False
+
+    def _t(self):
+        return 0.0 if self._quieto() else time.perf_counter() - self._t0
+
+    def _tic(self):
+        v = self.window()
+        if not self.isVisible() or (v is not None and v.isMinimized()):
+            return
+        if self._quieto():
+            self._reloj.stop()
+            return
+        t = self._t()
+        if t - self._t_cuadro >= 1.0 / self.FPS - 0.02:
+            self._t_cuadro = t
+            self._componer(t)
+            zona = QRegion(self.rect())
+            try:
+                for r in (self.zonas_vivas() if self.zonas_vivas is not None else []):
+                    zona = zona.subtracted(QRegion(r))
+            except Exception:
+                zona = QRegion(self.rect())
+            self.update(zona)
+        f = self._fugaz(t)                                                 # la fugaz: solo su rectángulo (y el de antes, para borrarla)
+        caja = self._caja(f) if f is not None else None
+        for c in (self._caja_fugaz, caja):
+            if c is not None:
+                self.update(c)
+        self._caja_fugaz = caja
+        ms = int(1000 / (self.FPS_FUGAZ if f is not None or self._fugaz(t + 0.25) is not None else self.FPS))
+        if self._reloj.interval() != ms:
+            self._reloj.setInterval(ms)
+
+    def _fugaz(self, t):
+        """(q 0..1, semilla) de la estrella fugaz que cruza ahora, o None."""
+        n = int(t // self.PERIODO_FUGAZ)
+        q = (t - n * self.PERIODO_FUGAZ - 2.0) / self.DURA_FUGAZ
+        return (q, n) if 0.0 < q < 1.0 else None
+
+    def _puntas(self, f):
+        """(cola, cabeza) de la fugaz f = (q, semilla)."""
+        q, semilla = f
+        azar = random.Random(semilla)
+        w, h = self.width(), self.height()
+        x0, y0 = w * (0.15 + 0.5 * azar.random()) + q * 520.0, h * (0.05 + 0.2 * azar.random()) + q * 190.0
+        return QPointF(x0 - 180.0, y0 - 66.0), QPointF(x0, y0)
+
+    def _caja(self, f):
+        a, b = self._puntas(f)
+        return QRectF(a, b).normalized().adjusted(-4, -4, 4, 4).toAlignedRect()
+
+    def _pintar_fugaz(self, p, t):
+        f = self._fugaz(t)
+        if f is None:
+            return
+        a, b = self._puntas(f)
+        lg = QLinearGradient(a, b)
+        lg.setColorAt(0.0, QColorReal(255, 255, 255, 0))
+        lg.setColorAt(1.0, QColorReal(255, 255, 255, int(204 * math.sin(f[0] * math.pi))))
+        p.setRenderHint(QPainter.RenderHint.Antialiasing)
+        p.setClipPath(self._camino(self.width(), self.height()))
+        p.setPen(QPen(lg, 1.6))
+        p.drawLine(a, b)
+
+    # -- dibujo -----------------------------------------------------------------------------------------------------------------------------
+    def _camino(self, w, h):
+        c = QPainterPath()
+        c.addRoundedRect(QRectF(0.5, 0.5, w - 1.0, h - 1.0), self.RADIO, self.RADIO)
+        return c
+
+    def _fijo_pm(self, w, h, dpr):
+        clave = (w, h, round(dpr, 2))
+        if self._fijo is not None and self._fijo[0] == clave:
+            return self._fijo[1]
+        pm = QPixmap(int(math.ceil(w * dpr)), int(math.ceil(h * dpr)))
+        pm.setDevicePixelRatio(dpr)
+        pm.fill(Qt.GlobalColor.transparent)
+        p = QPainter(pm)
+        p.setRenderHint(QPainter.RenderHint.Antialiasing)
+        p.setClipPath(self._camino(w, h))
+        g = QRadialGradient(QPointF(w * 0.5, h * 0.42), max(w, h) * 0.8)
+        g.setColorAt(0.0, QColorReal('#121B31'))
+        g.setColorAt(0.6, QColorReal('#0B1222'))
+        g.setColorAt(1.0, QColorReal('#060A14'))
+        p.fillRect(QRectF(0, 0, w, h), g)
+        for (fx, fy, radio, col, a) in ((0.18, 0.25, 620.0, (139, 92, 246), 20), (0.82, 0.70, 640.0, (34, 181, 115), 18)):
+            n = QRadialGradient(QPointF(w * fx, h * fy), radio)
+            n.setColorAt(0.0, QColorReal(*col, a))
+            n.setColorAt(0.45, QColorReal(*col, int(a * 0.55)))
+            n.setColorAt(1.0, QColorReal(*col, 0))
+            p.fillRect(QRectF(0, 0, w, h), n)
+        v = QRadialGradient(QPointF(w * 0.5, h * 0.45), max(w, h) * 0.75)
+        v.setColorAt(min(w, h) * 0.35 / (max(w, h) * 0.75), QColorReal(3, 6, 12, 0))
+        v.setColorAt(1.0, QColorReal(3, 6, 12, 115))
+        p.fillRect(QRectF(0, 0, w, h), v)
+        p.end()
+        self._fijo = (clave, pm)
+        return pm
+
+    def _nodo_pm(self, dpr):
+        """El halo de un punto de constelación (14×14), pintado una vez por dpr."""
+        if self._nodo is None or abs(self._nodo[0] - dpr) > 0.01:
+            pm = QPixmap(int(math.ceil(14 * dpr)), int(math.ceil(14 * dpr)))
+            pm.setDevicePixelRatio(dpr)
+            pm.fill(Qt.GlobalColor.transparent)
+            q = QPainter(pm)
+            q.setRenderHint(QPainter.RenderHint.Antialiasing)
+            halo = QRadialGradient(QPointF(7.0, 7.0), 7.0)
+            halo.setColorAt(0.0, QColorReal(210, 225, 255, 230))
+            halo.setColorAt(0.45, QColorReal(210, 225, 255, 126))
+            halo.setColorAt(1.0, QColorReal(210, 225, 255, 0))
+            q.setPen(Qt.PenStyle.NoPen)
+            q.setBrush(halo)
+            q.drawEllipse(QPointF(7.0, 7.0), 7.0, 7.0)
+            q.end()
+            self._nodo = (dpr, pm)
+        return self._nodo[1]
+
+    def _componer(self, t):
+        w, h, dpr = self.width(), self.height(), self.devicePixelRatioF()
+        if w < 4 or h < 4:
+            return
+        fijo = self._fijo_pm(w, h, dpr)
+        if self._cuadro is None or self._cuadro.size() != fijo.size() or abs(self._cuadro.devicePixelRatio() - dpr) > 0.01:
+            self._cuadro = QPixmap(fijo.size())
+            self._cuadro.setDevicePixelRatio(dpr)
+            self._cuadro.fill(Qt.GlobalColor.transparent)                  # (sin esto el QPixmap no tiene alfa: esquinas negras)
+        p = QPainter(self._cuadro)
+        p.setCompositionMode(QPainter.CompositionMode.CompositionMode_Source)      # (pisa el cuadro entero: sin borrarlo antes)
+        p.drawPixmap(0, 0, fijo)
+        p.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceOver)
+        p.setRenderHint(QPainter.RenderHint.Antialiasing)
+        p.setClipPath(self._camino(w, h))
+        n = self.BRILLOS
+        for k, ((_n, vel, tam, alfa), capa) in enumerate(zip(_CAPAS_CIELO, self._estrellas)):
+            lotes = {}
+            for fx, fy, fase, grueso in capa:
+                nivel = int((0.5 + 0.5 * math.sin(t * (1.5 + k) + fase)) * (n - 1) + 0.5)
+                lotes.setdefault((grueso, nivel), []).append(QPointF((fx * w - t * vel) % w, fy * h))
+            for (grueso, nivel), puntos in lotes.items():
+                a = alfa * (0.55 + 0.45 * (nivel / (n - 1) * 2.0 - 1.0))
+                lapiz = QPen(QColorReal(215, 228, 255, int(255 * a)), 2.0 * tam * (0.8 if grueso == 0 else 1.2))
+                lapiz.setCapStyle(Qt.PenCapStyle.RoundCap)
+                p.setPen(lapiz)
+                p.drawPoints(puntos)
+        desplaza = (t * _CAPAS_CIELO[0][1]) % w                       # las constelaciones van con la capa lenta (y dan la vuelta)
+        p.setPen(QPen(QColorReal(170, 195, 255, 51), 1.0))
+        nodo = self._nodo_pm(dpr)
+        for copia in (0.0, w):
+            for puntos in _CONSTELACIONES:
+                ps = [QPointF(fx * w - desplaza + copia, fy * h) for fx, fy in puntos]
+                for a_, b_ in zip(ps, ps[1:]):
+                    p.drawLine(a_, b_)
+                for c in ps:
+                    p.drawPixmap(QPointF(c.x() - 7.0, c.y() - 7.0), nodo)
+        p.setClipping(False)
+        p.setBrush(Qt.BrushStyle.NoBrush)
+        p.setPen(QPen(QColorReal(255, 255, 255, 18), 1.0))              # el borde de la tarjeta y su filo de luz arriba
+        p.drawPath(self._camino(w, h))
+        p.setPen(QPen(QColorReal(255, 255, 255, 26), 1.0))
+        p.drawLine(QPointF(self.RADIO, 1.5), QPointF(w - self.RADIO, 1.5))
+        p.end()
+
+    def resizeEvent(self, e):
+        super().resizeEvent(e)
+        self._cuadro = None
+
+    def paintEvent(self, _e):
+        if self._cuadro is None or self._fijo is None or self._fijo[0][:2] != (self.width(), self.height()):
+            self._componer(self._t())
+        if self._cuadro is None:
+            return
+        p = QPainter(self)
+        p.drawPixmap(0, 0, self._cuadro)                                  # (Qt recorta a lo que pidió repintar: barato)
+        self._pintar_fugaz(p, self._t())
         p.end()

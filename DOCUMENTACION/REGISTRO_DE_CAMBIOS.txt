@@ -12,6 +12,14 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-03 08:51  ·  v5.62  ·  cambio explicado
+    Proyecto con fondo de constelaciones (C, elegido por el usuario): estrellas en paralaje que titilan, constelaciones de Inicio y estrella fugaz; cuadro cacheado a 5/s, solo se repinta lo que no se repinta solo; mismo gasto de CPU que la tarjeta de vidrio de antes
+    modificados (4):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/pro_lateral_ui.py
+      ~ 1_codigo/proyecto_ui.py
+
 2026-11-03 08:22  ·  v5.62  ·  (automático)
     modificados (21):
       ~ 1_codigo/ajustes_ui.py

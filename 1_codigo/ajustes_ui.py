@@ -495,6 +495,9 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.63', [
+        'Proyecto con cielo de constelaciones: estrellas que derivan despacio y titilan, las constelaciones de Inicio y, de vez en cuando, una estrella fugaz detrás del slider (sin gastar más que antes; quieto con «Reducir animaciones»).',
+    ]),
     ('5.62', [
         'Proyecto más limpio y con la tarjeta más grande: el nombre del tema, «En uso» y «Edición PRO» van en una barra compacta debajo del slider, con puntos que dicen en qué tarjeta estás (un clic en un punto te lleva a ella).',
         'La última tarjeta del slider es «Crea tu estilo»: mezcla los temas con tu letra y tus colores. Ya no hay franja de audio arriba (GO trae el audio solo; el motor de voz se elige en Ajustes).',

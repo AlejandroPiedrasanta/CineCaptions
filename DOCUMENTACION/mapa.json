@@ -114,7 +114,9 @@
         "BarraTema",
         "NombreTema",
         "BotonCompacto",
-        "PuntosSlider"
+        "PuntosSlider",
+        "TarjetaCielo",
+        "_zonas_vivas_cielo"
       ],
       "resumen": "PlantillasWindow: _asegurar_estilos, _fila_pack · v5.32: aspecto de las maquetas (proyecto_ui: franja del audio y bloque del tema animado)."
     },

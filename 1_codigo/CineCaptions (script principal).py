@@ -1891,7 +1891,8 @@ class PlantillasWindow(QWidget):
         capa.setSpacing(8)
         # v5.3.6: «Pack de estilos» = un slider horizontal de tarjetas VERTICALES sobre fotos de video (estilos_slider) y, debajo, el panel del
         # estilo que está al centro. Sin filtro de formato (las vistas son siempre verticales) y sin la tarjeta de tipografías.
-        self.tarjeta = Tarjeta(espacio=8, margenes=(18, 12, 18, 10))
+        import proyecto_ui                            # v5.63 (el usuario eligió el fondo C): la tarjeta con el cielo de constelaciones
+        self.tarjeta = proyecto_ui.TarjetaCielo(espacio=8, margenes=(18, 12, 18, 10))
         if franja is not None:                        # v5.62 (el usuario: «elimina esto»): la franja del audio (Obtener · archivo · onda · duración ·
             franja.setParent(self)                    # motor · «Crea tu estilo») ya no se ve; sigue construida y escondida porque el resto del programa
             franja.hide()                             # lee sus valores (video_var, motor_var…). GO trae el audio solo; el motor, en Ajustes › General
@@ -1928,6 +1929,7 @@ class PlantillasWindow(QWidget):
         self.lateral_pro = pro_lateral_ui.FilaPro(self.carrusel, ir_efectos=lambda: self.app.ir_a('efectos'))
         self.lateral_pro.cambiado.connect(self._cambio_lateral_pro)
         self.tarjeta.capa.addWidget(self.lateral_pro, 1)
+        self.tarjeta.zonas_vivas = self._zonas_vivas_cielo
         # el panel del estilo que está al centro: nombre, aviso de tipografías, nota, estructura y botones
         self._carta_actual = None
         import un_clic_ui
@@ -2191,6 +2193,18 @@ class PlantillasWindow(QWidget):
             self.app._pintar_opciones_go()
         except Exception:
             pass
+
+    def _zonas_vivas_cielo(self):
+        """v5.63: lo que ya se repinta solo muchas veces por segundo (el slider a 30/s; el móvil mientras corre su clip): el cielo de la
+        tarjeta (proyecto_ui.TarjetaCielo) no lo repinta en su tic; al repintarse solos, copian su trozo del cielo."""
+        t, c, ej = self.tarjeta, self.carrusel, self.lateral_pro.ejemplo
+        zonas = []
+        if c.isVisible():
+            zonas.append(QRect(c.mapTo(t, QPoint(0, 0)), c.size()))
+        z = getattr(ej, '_zona', None)
+        if ej.isVisible() and z is not None and ej._reloj.isActive():
+            zonas.append(z.toAlignedRect().translated(ej.mapTo(t, QPoint(0, 0))))
+        return zonas
 
     def _poner_cuenta(self, texto, silencioso=False):
         """El aviso de la cabecera del slider (vistas reales de Resolve, cuántos packs). v5.5.10: sin título ni botón (con los temas) la
