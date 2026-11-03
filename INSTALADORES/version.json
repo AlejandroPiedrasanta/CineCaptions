@@ -1,29 +1,29 @@
 {
   "estable": {
-    "version": "5.59.0",
-    "notas": "• Resolve Studio: GO ya no termina en «Falta un clic en Resolve» cuando Studio tarda en contestar justo después de armar el timeline: sigue solo y coloca los captions sin esperar a esa comprobación.",
-    "fecha": "2026-11-02",
+    "version": "5.63.0",
+    "notas": "• CineCaptions en negro y blanco: todas las páginas (Inicio, Proyecto, Creativo, Sonido, Efectos y Ajustes) en negros neutros con el blanco como color de resaltado; lo elegido, «en uso» y encendido, en blanco, sin verdes sueltos.\r\n• ¿Prefieres el azul de siempre? Ajustes › Interfaz › «Fondo de la interfaz»: Negro o Azul (con su verde).\r\n• Elegir una escena de Inicio (Nebulosa, Astrolabio, Proceso) ya no cambia el fondo ni el color de resaltado.\r\n• Proyecto con cielo de constelaciones: estrellas que derivan despacio y titilan, las constelaciones de Inicio y, de vez en cuando, una estrella fugaz detrás del slider (sin gastar más que antes; quieto con «Reducir animaciones»).",
+    "fecha": "2026-11-03",
     "archivos": {
       "windows": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.59/Instalar_CineCaptions_5.59.exe",
-        "sha256": "cfb7b6d55552b5fe5671d8707d624bfe65c37bb17be9a65153439e227b3f2ada",
-        "tam": 574169796
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.63/Instalar_CineCaptions_5.63.exe",
+        "sha256": "47aa4379dcb3dcc4156755fd3bd9ccc35131c91d9332c03b7fc65329c19a1091",
+        "tam": 572225509
       },
       "mac_arm64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.59/CineCaptions_Mac_AppleSilicon_5.59.dmg",
-        "sha256": "c3d3b4ad532ea14e2f70c8fb174a77e961f24f1497d896b5e777d3254c3e1d4c",
-        "tam": 549619539
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.63/CineCaptions_Mac_AppleSilicon_5.63.dmg",
+        "sha256": "896c13018e530dab977f9390a9056486eb6635ec41c9ce2197976062efc10936",
+        "tam": 547736595
       },
       "mac_x86_64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.59/CineCaptions_Mac_Intel_5.59.dmg",
-        "sha256": "0033e777858691077a8e097e2f29d08792531313d38f15018a357312ec4dfc56",
-        "tam": 577025024
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.63/CineCaptions_Mac_Intel_5.63.dmg",
+        "sha256": "f772f04e1f001d6c61b0a72e4a89e9b783f2104e66b5f7a119bf99fbcbe95801",
+        "tam": 574949956
       }
     }
   },
   "firma": {
     "alg": "ed25519",
     "clave": "7a4e413e",
-    "valor": "A247wQ28Iw2mrjj8UNsk50TNG/FehWS+GWuU45hSHXHjh++gm+MoC5jDaeqHD6CY1NIlu7C6CD7Il9V729SBCA=="
+    "valor": "f3PV0XBv4viBRKZRsmJ3EQ4+q1WhomRBPsSTZQqvR2X8pe/VHqtysz+k/FOZ6m2fHKKzcEdzdjzvkH4sJj6UCg=="
   }
 }
