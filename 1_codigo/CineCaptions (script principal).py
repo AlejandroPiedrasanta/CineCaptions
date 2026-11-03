@@ -1932,15 +1932,17 @@ class PlantillasWindow(QWidget):
         self._carta_actual = None
         import un_clic_ui
         import proyecto_ui
-        self.info_w = proyecto_ui.FondoTema()           # v5.32 (referencia del usuario): halo lila y arcos con su punto detrás del nombre
+        # v5.62 (el usuario eligió la propuesta C, «Tarjeta más grande»): el nombre grande, los dos botones grandes y su halo con arcos
+        # (TituloGo, BotonEstado, FondoTema: ~170 px) pasan a UNA barra de cristal compacta (proyecto_ui.BarraTema) con los puntos del slider
+        # debajo (PuntosSlider); el slider gana ese alto
+        self.info_w = QWidget()
         iv = QVBoxLayout(self.info_w)
-        iv.setContentsMargins(6, 0, 6, 8)
-        iv.setSpacing(4)
-        # v5.32 (maqueta del usuario): el nombre en grande (blanco → celeste → lila) con su raya; sin la píldora «TEMA ACTIVO» (el usuario:
-        # «elimina esto para que el slider esté más grande»)
-        self.info_nombre = un_clic_ui.TituloGo('', estilo='tema')      # v5.5.9: el nombre del tema entra letra a letra cada vez que llega otro al centro
-        iv.addWidget(self.info_nombre)
-        self.info_w.ancla = self.info_nombre
+        iv.setContentsMargins(6, 6, 6, 8)
+        iv.setSpacing(8)
+        self.barra_tema = proyecto_ui.BarraTema()
+        iv.addWidget(self.barra_tema, 0, Qt.AlignmentFlag.AlignHCenter)
+        self.puntos = proyecto_ui.PuntosSlider(self.carrusel)
+        iv.addWidget(self.puntos, 0, Qt.AlignmentFlag.AlignHCenter)
         fila_n, cn = caja_h(espacio=12)
         cn.addStretch(1)
         self.info_fuentes = ui.Enlace('', self._instalar_fuentes_central, 12, color=ui.AMBAR, color_hover=ui.NARANJA)
@@ -1958,20 +1960,13 @@ class PlantillasWindow(QWidget):
         self.info_extra.setContentsMargins(0, 0, 0, 0)
         self.info_extra.setSpacing(6)
         iv.addLayout(self.info_extra)
-        fila_b, cb = caja_h(espacio=18)
-        cb.addStretch(1)
-        self.info_izq = QWidget()                      # v5.4.20: del ancho de los botones de la derecha, para que «Usar este tema» quede justo en el centro
-        cb.addWidget(self.info_izq)
-        # v5.32 (maqueta del usuario): «En uso» / «Usar este tema» como botón grande verde con su ✓ (proyecto_ui.BotonEstado)
-        self.usar_btn = proyecto_ui.BotonEstado('uso', tr('Usar este tema') if plantillas.SOLO_TEMAS else tr('Usar este estilo'), self._usar_central)
-        cb.addWidget(self.usar_btn)
+        # en la barra: «En uso» / «Usar este tema» y, a la derecha, «Edición PRO» y las acciones de la tarjeta (🗑, ⋯)
+        self.usar_btn = proyecto_ui.BotonCompacto('uso', tr('Usar este tema') if plantillas.SOLO_TEMAS else tr('Usar este estilo'), self._usar_central)
         self.info_acciones_w = QWidget()
         self.info_acciones = QHBoxLayout(self.info_acciones_w)
         self.info_acciones.setContentsMargins(0, 0, 0, 0)
         self.info_acciones.setSpacing(6)
-        cb.addWidget(self.info_acciones_w)
-        cb.addStretch(1)
-        iv.addWidget(fila_b)
+        self.barra_tema.poner(self.usar_btn, self.info_acciones_w)
         self.tarjeta.capa.addWidget(self.info_w)
         self.ocultos_lnk = ui.Enlace('', self._mostrar_ocultos, 12, color=TEXT_MUTED, color_hover=ui.ACCENT_CLARO)
         self.ocultos_lnk.hide()
@@ -2131,7 +2126,7 @@ class PlantillasWindow(QWidget):
             self.info_w.hide()
             return
         self.info_w.show()
-        self.info_nombre.setText(tr('Crea tu estilo') if carta.tipo == 'anadir' else carta.titulo)
+        self.barra_tema.nombre(tr('Crea tu estilo') if carta.tipo == 'anadir' else carta.titulo)
         if carta.pack is not None and carta.estado and carta.color_estado not in (ui.VERDE, TEXT_MUTED):
             self.info_fuentes.configure(text='⚠ ' + carta.estado + ' · ' + tr('instalar'))
             self.info_fuentes.show()
@@ -2139,7 +2134,7 @@ class PlantillasWindow(QWidget):
             self.info_fuentes.hide()
         solo_temas = plantillas.SOLO_TEMAS and carta.pack is not None and plantillas.es_de_fabrica(carta.pack.nombre)       # v5.4.22: de un tema de fábrica solo se ve el NOMBRE y el BOTÓN (sin frase, descripción, leyenda, lápiz ni «⋯»)
         self.info_sub.setVisible(False)
-        texto = '' if solo_temas else (carta.nota or carta.detalle)
+        texto = '' if (solo_temas or carta.tipo == 'anadir') else (carta.nota or carta.detalle)     # (v5.62: la carta «Crea tu estilo» ya lo dice; si no, el slider encogía al llegar a ella)
         self.info_nota.setText(texto)
         self.info_nota.setVisible(bool(texto))
         if carta.estructura and not solo_temas and not carta.estructura.get('mezcla'):          # (un estilo mezclado no tiene arriba / principal / abajo: su nota lista los looks)
@@ -2149,14 +2144,9 @@ class PlantillasWindow(QWidget):
         if carta.extra is not None:
             self.info_extra.addWidget(carta.extra(), 0, Qt.AlignmentFlag.AlignHCenter)
         con_pro = carta.pack is not None and plantillas.es_de_fabrica(carta.pack.nombre)   # v5.4.49: los temas → la Edición PRO (el mismo interruptor que el chip de Inicio)
-        import proyecto_ui
-        if con_pro:                                                                     # v5.5.9: AL LADO de «Usar este tema» (antes, encima)
-            b_pro = self._boton_pro()
-            self.info_acciones.addWidget(b_pro)
-            proyecto_ui.BotonEstado.emparejar(self.usar_btn, b_pro)                     # v5.32: los dos del mismo ancho (simétricos)
-        else:
-            proyecto_ui.BotonEstado.emparejar(self.usar_btn, None)
-        for icono, glifo, ayuda, fn in ([] if solo_temas else carta.acciones):         # v5.8: ✎ editar en Resolve y 🗑 quitar
+        if con_pro:                                                                     # v5.5.9: AL LADO de «Usar este tema» (v5.62: en la barra)
+            self.info_acciones.addWidget(self._boton_pro())
+        for icono, glifo, ayuda, fn in ([] if solo_temas else carta.acciones):         # v5.8: 🗑 quitar (v5.62: sin ✎)
             ic = ui.icono_linea(icono, '#C9D6EC')
             b = Boton('' if ic is not None else glifo, lambda _=False, f=fn: f(), tipo='fantasma', alto=36, ancho=40, tam=14, icono=ic)
             b.setFixedWidth(42)
@@ -2167,9 +2157,8 @@ class PlantillasWindow(QWidget):
             m = Boton('⋯', lambda menu=menu_carta: self._menu_carta(menu), tipo='fantasma', alto=36, ancho=40, tam=16)
             m.setFixedWidth(42)
             self.info_acciones.addWidget(m)
-        self.info_izq.setVisible(self.info_acciones.count() > 0 and not con_pro)     # con la PRO, la pareja va centrada
-        self.info_izq.setFixedWidth(max(0, self.info_acciones.count() * 48 - 6))
         self._pintar_boton_usar()
+        self.barra_tema.ajustar()
     def _menu_carta(self, opciones):
         menu = Menu(self)
         for texto, fn in opciones:
@@ -2182,8 +2171,8 @@ class PlantillasWindow(QWidget):
             activa = edicion_pro.activado()
         except Exception:
             activa = False
-        import proyecto_ui                              # v5.32 (maqueta del usuario): el botón grande dorado con su corona
-        b = proyecto_ui.BotonEstado('pro', tr('Edición PRO activada') if activa else tr('Activar edición PRO'), self._alternar_pro, activo=activa)
+        import proyecto_ui                              # v5.62 (propuesta C): la píldora dorada de la barra (antes, el botón grande con su corona)
+        b = proyecto_ui.BotonCompacto('pro', tr('Edición PRO activada') if activa else tr('Activar edición PRO'), self._alternar_pro, activo=activa)
         Tooltip(b,tr('Además de los captions de este tema, GO edita el video en Resolve: los captions y titulares DETRÁS de la persona (Magic Mask), '
                       'escenas de motion graphics y B-roll, cifras, listas, marcos, ficha final y sonidos, con un estilo propio para cada video (bodas, XV años, restaurantes, inmobiliaria, detrás de cámara…). '
                       'El estilo se elige en el chip «Edición PRO» de Inicio.'))
@@ -2225,16 +2214,18 @@ class PlantillasWindow(QWidget):
         if c is None:
             return
         if c.tipo == 'anadir':
-            self.usar_btn.poner(False, tr('Crea tu estilo'))
+            self.usar_btn.poner(False, tr('Crear mi estilo'), icono='sparkle')
             self.usar_btn.setEnabled(True)
             self.usar_btn.setVisible(True)
+            self.barra_tema.ajustar()
             return
         # en el modo «normal» la elección es la combinación (chips de abajo), no el pack
         self.usar_btn.setVisible(not (self.modo == 'normal' and c.valor != '__clasica__'))
         en_uso = c.valor == self._valor_actual()
         # «En uso» no es un botón apagado: es una confirmación (verde, encendido)
-        self.usar_btn.poner(en_uso, tr('En uso') if en_uso else (tr('Usar este tema') if plantillas.SOLO_TEMAS else tr('Usar este estilo')))
+        self.usar_btn.poner(en_uso, tr('En uso') if en_uso else (tr('Usar este tema') if plantillas.SOLO_TEMAS else tr('Usar este estilo')), icono='check')
         self.usar_btn.setEnabled(not en_uso)
+        self.barra_tema.ajustar()
     def _usar_central(self):
         c = getattr(self, '_carta_actual', None)
         if c is None:

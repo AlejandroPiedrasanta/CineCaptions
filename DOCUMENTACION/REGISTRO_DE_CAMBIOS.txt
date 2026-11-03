@@ -12,6 +12,33 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-03 08:22  ·  v5.62  ·  (automático)
+    modificados (21):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      … y 9 más
+
+2026-11-03 08:21  ·  v5.61  ·  cambio explicado
+    Proyecto, propuesta C (elegida por el usuario): el nombre grande, los dos botones grandes y el halo con arcos de debajo del slider pasan a una barra de cristal compacta (nombre · En uso/Usar este tema · Edición PRO) con puntos de posición; el slider gana ~80 px y en su monitor la tarjeta pasa de ~634 a 706 px
+    modificados (7):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/proyecto_ui.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+
 2026-11-02 23:23  ·  v5.61  ·  cambio explicado
     Proyecto sin la franja del audio (Obtener, duración, motor de transcripción y «Crea tu estilo»), a petición del usuario: queda construida y escondida porque el programa lee sus valores; GO trae el audio solo y el motor se elige en Ajustes; el recorrido se ajustó
     modificados (6):

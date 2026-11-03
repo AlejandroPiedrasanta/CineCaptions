@@ -17,9 +17,9 @@ import math
 import time
 import weakref
 
-from PySide6.QtCore import QPoint, QPointF, QRect, QRectF, QSize, QSizeF, Qt, QTimer
+from PySide6.QtCore import QEvent, QPoint, QPointF, QRect, QRectF, QSize, QSizeF, Qt, QTimer
 from PySide6.QtGui import QFont, QFontMetricsF, QLinearGradient, QPainter, QPainterPath, QPen, QRadialGradient
-from PySide6.QtWidgets import QAbstractButton, QWidget
+from PySide6.QtWidgets import QAbstractButton, QHBoxLayout, QSizePolicy, QWidget
 
 import qt_kit as ui
 from qt_kit import Boton, QColor, QColorReal, fuente
@@ -523,4 +523,269 @@ class BotonEstado(_Latente, QAbstractButton):
         else:
             p.setPen(col['texto'] if on else QColorReal(214, 224, 240))
         p.drawText(QRectF(x + d + self.HUECO, r.top(), w_txt + 8, r.height()), int(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter), self.text())
+        p.end()
+
+
+# ======================================================================================================================== v5.62: el tema en una barra
+# El usuario eligió la propuesta C («Tarjeta más grande»): el nombre grande, los dos botones grandes y su halo con arcos (TituloGo, BotonEstado,
+# FondoTema) ocupaban ~170 px debajo del slider. Ahora van en UNA barra de cristal compacta, con unos puntos que dicen en qué tarjeta va. El
+# slider gana ese alto (la tarjeta crece donde manda el alto, como en su monitor de 2293×960).
+class BarraTema(QWidget):
+    """La barra de cristal: [nombre del tema] [En uso / Usar este tema] | [Edición PRO y las acciones de la tarjeta]. `poner(usar, acciones)`
+    mete los botones que maneja la página; `nombre(texto)` cambia el nombre; la raya del medio solo se ve si hay algo a la derecha."""
+    ALTO = 56
+
+    def __init__(self, padre=None):
+        super().__init__(padre)
+        self.setFixedHeight(self.ALTO)
+        self.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+        self._capa = QHBoxLayout(self)
+        self._capa.setContentsMargins(22, 8, 8, 8)
+        self._capa.setSpacing(16)
+        self._nombre = NombreTema()
+        self._capa.addWidget(self._nombre)
+        self._sep = Separador(alto=26)
+        self._derecha = None
+
+    def poner(self, usar, acciones):
+        self._capa.addWidget(usar)
+        self._capa.addWidget(self._sep)
+        self._capa.addWidget(acciones)
+        self._derecha = acciones
+
+    def nombre(self, texto):
+        self._nombre.poner(texto)
+
+    def ajustar(self):
+        """Tras cambiar los botones: la raya solo con algo a la derecha, y el ancho justo."""
+        capa = self._derecha.layout() if self._derecha is not None else None
+        hay = bool(capa is not None and capa.count() > 0)
+        self._sep.setVisible(hay)
+        if self._derecha is not None:
+            self._derecha.setVisible(hay)                                     # (vacío seguía ocupando su hueco en la capa)
+        self.adjustSize()
+
+    def paintEvent(self, _e):
+        p = QPainter(self)
+        p.setRenderHint(QPainter.RenderHint.Antialiasing)
+        r = QRectF(self.rect()).adjusted(0.5, 0.5, -0.5, -0.5)
+        rad = r.height() / 2.0
+        g = QLinearGradient(0, 0, 0, self.height())
+        g.setColorAt(0.0, QColorReal(20, 34, 54, 235))
+        g.setColorAt(1.0, QColorReal(9, 17, 31, 235))
+        p.setPen(QPen(QColorReal(255, 255, 255, 23), 1.0))
+        p.setBrush(g)
+        p.drawRoundedRect(r, rad, rad)
+        p.setPen(QPen(QColorReal(255, 255, 255, 18), 1.0))                    # el filo de arriba del cristal
+        p.drawLine(QPointF(rad, 1.5), QPointF(self.width() - rad, 1.5))
+        p.end()
+
+
+class NombreTema(QWidget):
+    """El nombre del tema en la barra: ExtraBold 24 con el degradado del título de antes (blanco → celeste → lila)."""
+    def __init__(self, padre=None):
+        super().__init__(padre)
+        self._texto = ''
+        self._f = fuente(24, peso='extra')
+        self.setFixedHeight(40)
+
+    def poner(self, texto):
+        self._texto = str(texto or '')
+        self.updateGeometry()
+        self.update()
+
+    def sizeHint(self):
+        return QSize(int(math.ceil(QFontMetricsF(self._f).horizontalAdvance(self._texto))) + 2, 40)
+
+    def minimumSizeHint(self):
+        return self.sizeHint()
+
+    def paintEvent(self, _e):
+        p = QPainter(self)
+        p.setRenderHint(QPainter.RenderHint.TextAntialiasing)
+        p.setFont(self._f)
+        g = QLinearGradient(0, 0, max(1, self.width()), 0)
+        g.setColorAt(0.0, QColorReal(255, 255, 255))
+        g.setColorAt(0.55, QColorReal(191, 227, 255))
+        g.setColorAt(1.0, QColorReal(201, 181, 255))
+        p.setPen(QPen(g, 1))
+        p.drawText(QRectF(self.rect()), int(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter), self._texto)
+        p.end()
+
+
+class BotonCompacto(QAbstractButton):
+    """Los botones de la barra. tipo 'uso': activo = «✓ En uso» (texto verde, sin relleno: es una confirmación), si no, la píldora verde
+    rellena («Usar este tema», «Crear mi estilo»); tipo 'pro': la píldora dorada («Edición PRO activada»; apagada, «Activar edición PRO» con
+    el borde tenue). Misma API que BotonEstado: poner(activo, texto, icono)."""
+
+    def __init__(self, tipo, texto, comando=None, activo=False, padre=None):
+        super().__init__(padre)
+        self.tipo = tipo
+        self._activo = bool(activo)
+        self._icono_n = 'crown' if tipo == 'pro' else 'check'
+        self._h = 0.0
+        self.setAttribute(Qt.WidgetAttribute.WA_Hover)
+        self.setText(texto)
+        if comando is not None:
+            self.clicked.connect(lambda _c=False: comando())
+        self._cursor()
+
+    def poner(self, activo, texto=None, icono=None):
+        self._activo = bool(activo)
+        if texto is not None:
+            self.setText(texto)
+        if icono is not None:
+            self._icono_n = icono
+        self._cursor()
+        self.updateGeometry()
+        self.update()
+
+    def setEnabled(self, si):
+        super().setEnabled(si)
+        self._cursor()
+
+    def _cursor(self):
+        quieto = self.tipo == 'uso' and self._activo
+        self.setCursor(Qt.CursorShape.ArrowCursor if quieto or not self.isEnabled() else Qt.CursorShape.PointingHandCursor)
+
+    def _fuente(self):
+        return fuente(13, peso='medio') if (self.tipo == 'uso' and self._activo) else fuente(13, peso='negrita')
+
+    def sizeHint(self):
+        w = QFontMetricsF(self._fuente()).horizontalAdvance(self.text())
+        if self.tipo == 'uso' and self._activo:
+            return QSize(int(math.ceil(20 + 7 + w + 4)), 36)
+        return QSize(int(math.ceil((12 if self.tipo == 'pro' else 14) + 16 + 8 + w + 16)), 40 if self.tipo == 'pro' else 36)
+
+    def minimumSizeHint(self):
+        return self.sizeHint()
+
+    def enterEvent(self, e):
+        self._h = 1.0
+        self.update()
+        super().enterEvent(e)
+
+    def leaveEvent(self, e):
+        self._h = 0.0
+        self.update()
+        super().leaveEvent(e)
+
+    def _glifo(self, color, lado):
+        ic = _icono(self._icono_n, color)
+        return ic.pixmap(QSize(lado, lado), self.devicePixelRatioF()) if ic is not None else None
+
+    def paintEvent(self, _e):
+        p = QPainter(self)
+        p.setRenderHint(QPainter.RenderHint.Antialiasing)
+        r = QRectF(self.rect()).adjusted(0.5, 0.5, -0.5, -0.5)
+        alin = int(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
+        p.setFont(self._fuente())
+        w_txt = QFontMetricsF(self._fuente()).horizontalAdvance(self.text())
+        verde = _real(ui.ACCENT_CLARO)
+        if self.tipo == 'uso' and self._activo:                              # «✓ En uso»
+            c = QColorReal(verde)
+            c.setAlpha(41)
+            p.setPen(Qt.PenStyle.NoPen)
+            p.setBrush(c)
+            p.drawEllipse(QPointF(10.0, r.center().y()), 10.0, 10.0)
+            pm = self._glifo(verde.name(), 12)
+            if pm is not None:
+                p.drawPixmap(QPointF(4.0, r.center().y() - 6.0), pm)
+            p.setPen(verde)
+            p.drawText(QRectF(27.0, 0, w_txt + 4, self.height()), alin, self.text())
+            p.end()
+            return
+        rad = r.height() / 2.0
+        if self.tipo == 'pro':
+            oro = _real(ui.AMBAR)
+            fondo = QColorReal(oro)
+            fondo.setAlpha(int((26 if self._activo else 0) + 20 * self._h))
+            borde = QColorReal(oro)
+            borde.setAlpha(140 if self._activo else 77 + int(50 * self._h))
+            p.setPen(QPen(borde, 1.0))
+            p.setBrush(fondo)
+            p.drawRoundedRect(r, rad, rad)
+            tinta = QColorReal(oro)
+            if not self._activo:
+                tinta.setAlpha(215)
+            pm = self._glifo(oro.name(), 16)
+            if pm is not None:
+                p.drawPixmap(QPointF(12.0, r.center().y() - 8.0), pm)
+            p.setPen(tinta)
+            p.drawText(QRectF(36.0, 0, w_txt + 4, self.height()), alin, self.text())
+            p.end()
+            return
+        g = QLinearGradient(r.topLeft(), r.topRight())                       # «Usar este tema» / «Crear mi estilo»
+        g.setColorAt(0.0, _mezcla(verde, QColorReal(255, 255, 255), 0.12 * self._h))
+        g.setColorAt(1.0, _mezcla(_real(ui.ACCENT), QColorReal(255, 255, 255), 0.12 * self._h))
+        p.setPen(Qt.PenStyle.NoPen)
+        p.setBrush(g)
+        p.drawRoundedRect(r, rad, rad)
+        oscuro = QColorReal(11, 20, 36)
+        pm = self._glifo(oscuro.name(), 14)
+        if pm is not None:
+            p.drawPixmap(QPointF(14.0, r.center().y() - 7.0), pm)
+        p.setPen(oscuro)
+        p.drawText(QRectF(36.0, 0, w_txt + 4, self.height()), alin, self.text())
+        p.end()
+
+
+class PuntosSlider(QWidget):
+    """Los puntos de debajo de la barra: uno por tarjeta del slider; el de la que está al centro se alarga en verde y lo sigue mientras se
+    desliza (lee CarruselPacks._pos al repintarse el slider). El de «Crea tu estilo», verde tenue. Un clic en un punto lleva a esa tarjeta."""
+    LADO, HUECO, LARGO = 6.0, 7.0, 12.0
+
+    def __init__(self, carrusel, padre=None):
+        super().__init__(padre)
+        self._car = carrusel
+        self._visto = None
+        self._xs = []
+        self.setFixedHeight(14)
+        self.setCursor(Qt.CursorShape.PointingHandCursor)
+        carrusel.installEventFilter(self)
+
+    def _n(self):
+        return len(getattr(self._car, '_cartas', None) or [])
+
+    def sizeHint(self):
+        n = self._n()
+        return QSize(int(n * self.LADO + self.LARGO + max(0, n - 1) * self.HUECO) + 2, 14)
+
+    def eventFilter(self, obj, e):
+        if obj is self._car and e.type() == QEvent.Type.Paint:
+            ahora = (round(float(getattr(self._car, '_pos', 0.0)), 3), self._n())
+            if ahora != self._visto:
+                if self._visto is None or ahora[1] != self._visto[1]:
+                    self.updateGeometry()
+                self._visto = ahora
+                self.update()
+        return False
+
+    def mousePressEvent(self, e):
+        x = e.position().x()
+        if self._xs:
+            k = min(range(len(self._xs)), key=lambda i: abs(self._xs[i] - x))
+            self._car._ir_a(k)
+
+    def paintEvent(self, _e):
+        n = self._n()
+        if not n:
+            return
+        p = QPainter(self)
+        p.setRenderHint(QPainter.RenderHint.Antialiasing)
+        pos = float(getattr(self._car, '_pos', 0.0))
+        anchos = [self.LADO + self.LARGO * max(0.0, 1.0 - abs(pos - i)) for i in range(n)]
+        x = (self.width() - (sum(anchos) + self.HUECO * (n - 1))) / 2.0
+        y = (self.height() - self.LADO) / 2.0
+        verde = _real(ui.ACCENT_CLARO)
+        self._xs = []
+        p.setPen(Qt.PenStyle.NoPen)
+        for i, w in enumerate(anchos):
+            q = max(0.0, 1.0 - abs(pos - i))
+            carta = self._car._cartas[i]
+            base = _mezcla(verde, QColorReal(9, 17, 31), 0.55) if getattr(carta, 'tipo', '') == 'anadir' else QColorReal(57, 64, 82)
+            p.setBrush(_mezcla(base, verde, q))
+            p.drawRoundedRect(QRectF(x, y, w, self.LADO), self.LADO / 2.0, self.LADO / 2.0)
+            self._xs.append(x + w / 2.0)
+            x += w + self.HUECO
         p.end()

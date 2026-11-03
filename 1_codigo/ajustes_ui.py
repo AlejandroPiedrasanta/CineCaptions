@@ -495,6 +495,12 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.62', [
+        'Proyecto más limpio y con la tarjeta más grande: el nombre del tema, «En uso» y «Edición PRO» van en una barra compacta debajo del slider, con puntos que dicen en qué tarjeta estás (un clic en un punto te lleva a ella).',
+        'La última tarjeta del slider es «Crea tu estilo»: mezcla los temas con tu letra y tus colores. Ya no hay franja de audio arriba (GO trae el audio solo; el motor de voz se elige en Ajustes).',
+        'Inicio: las opciones de GO (Estilo, Edición PRO, Motions completo) en píldoras de cristal que se leen bien sobre el astrolabio, y la línea de Resolve con su punto de estado.',
+        'El ejemplo de «Captions detrás de ti» en el móvil de Proyecto se ve como lo pone GO (la cabeza tapa la mitad de la palabra) y el móvil ya no queda en la esquina: se centra junto al slider.',
+    ]),
     ('5.61', [
         '«Captions detrás de ti» pone el caption de verdad DETRÁS de la persona: su cabeza tapa parte de la palabra grande (antes el texto quedaba apoyado encima de la cabeza).',
         '«Captions detrás de ti» es un solo interruptor para los Temas 1 a 6: si lo enciendes con un tema, también vale al hacer GO con otro.',

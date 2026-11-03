@@ -110,7 +110,11 @@
         "RELOJ",
         "_boton_pro",
         "_pintar_boton_usar",
-        "emparejar"
+        "emparejar",
+        "BarraTema",
+        "NombreTema",
+        "BotonCompacto",
+        "PuntosSlider"
       ],
       "resumen": "PlantillasWindow: _asegurar_estilos, _fila_pack · v5.32: aspecto de las maquetas (proyecto_ui: franja del audio y bloque del tema animado)."
     },
