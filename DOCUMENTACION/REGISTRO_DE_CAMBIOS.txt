@@ -12,6 +12,19 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-03 14:07  ·  v5.64  ·  cambio explicado
+    v5.65: la página Proyecto se llama «Tema» (el usuario) y su cielo va de borde a borde como Inicio (TarjetaCielo sin_marco, página sin márgenes, _margenes_cielo). La Edición PRO ya venía apagada de fábrica (go_edicion_pro False; comprobado como recién instalado).
+    modificados (9):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/proyecto_ui.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+
 2026-11-03 13:36  ·  v5.64  ·  cambio explicado
     v5.64 (el usuario: «puedes prevenir más errores futuros de clientes»): la voz y la IA de texto cargan del snapshot local entero (motor_texto.ruta_local) sin preguntar a Hugging Face: la versión nueva de Gemma 4 E4B de Google ponía a bajar 16 GB en el primer GO; cabe_en_disco y 3,5 GB libres para CUDA antes de descargar.
     modificados (4):
