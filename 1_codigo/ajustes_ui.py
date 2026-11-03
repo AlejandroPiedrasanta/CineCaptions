@@ -495,6 +495,9 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.64', [
+        'De fábrica, la interfaz vuelve al azul noche con el azul CineCaptions como color de resaltado. ¿Prefieres el negro y blanco? Ajustes › Interfaz › «Fondo de la interfaz»: Negro.',
+    ]),
     ('5.63', [
         'CineCaptions en negro y blanco: todas las páginas (Inicio, Proyecto, Creativo, Sonido, Efectos y Ajustes) en negros neutros con el blanco como color de resaltado; lo elegido, «en uso» y encendido, en blanco, sin verdes sueltos.',
         '¿Prefieres el azul de siempre? Ajustes › Interfaz › «Fondo de la interfaz»: Negro o Azul (con su verde).',
@@ -2716,11 +2719,11 @@ class VentanaAjustes(_Panel):
                              'enseñar el proceso de GO. También cambian la luz de fondo de TODAS las páginas. Pasa el ratón por una tarjeta para verla en movimiento.'),
                           caja_est, vertical=True, expandir=True)
         # v5.63 (el usuario: «deja la opción de azul en Ajustes › Interfaz por si el usuario no quiere tanto negro»): el fondo de toda la
-        # interfaz, Negro (de fábrica, con el acento blanco) o Azul (el azul noche de siempre, con el verde)
-        fondos = {'negro': tr('Negro'), 'noche': tr('Azul')}
+        # interfaz, Azul (el azul noche, con su acento azul; de fábrica desde la v5.64) o Negro (con el acento blanco)
+        fondos = {'noche': tr('Azul'), 'negro': tr('Negro')}
         fondo_var = StringVar(fondos.get(self._borrador['tema'], fondos['negro']))
         f_fondo = _Fila(tr('Fondo de la interfaz'),
-                        tr('Negro (de fábrica) o el azul noche de siempre, en todas las páginas. Se aplica al reiniciar.'),
+                        tr('Azul noche (de fábrica) o negro, en todas las páginas. Se aplica al reiniciar.'),
                         Segmentado(list(fondos.values()), fondo_var,
                                    lambda *_: self._elegir_fondo(next((k for k, v in fondos.items() if v == fondo_var.get()), 'negro')),
                                    alto=34, tam=13))
@@ -2765,11 +2768,11 @@ class VentanaAjustes(_Panel):
             pass
 
     def _elegir_fondo(self, clave):
-        """v5.63: Negro o Azul (noche). Con su color de siempre: el blanco va con el negro y el verde con el azul (si tenías el otro de los dos,
-        cambia con el fondo; un color elegido aparte se respeta)."""
+        """v5.63: Negro o Azul (noche). Con su color de siempre: el blanco va con el negro y (v5.64) el azul con el azul (si tenías el otro de
+        los dos, o el verde de antes, cambia con el fondo; un color elegido aparte se respeta)."""
         self._cambio('tema', clave)
-        pareja = {'negro': ('verde', 'blanco'), 'noche': ('blanco', 'verde')}[clave]
-        if self._borrador.get('acento') == pareja[0]:
+        pareja = {'negro': (('azul', 'verde'), 'blanco'), 'noche': (('blanco',), 'azul')}[clave]
+        if self._borrador.get('acento') in pareja[0]:
             self._elegir_acento(pareja[1])
 
     def _elegir_tema(self, clave):
