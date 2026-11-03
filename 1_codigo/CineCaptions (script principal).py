@@ -10466,6 +10466,12 @@ class SubtitleApp(QWidget):
         cv.addWidget(t, 0, Qt.AlignmentFlag.AlignHCenter)
         cv.addStretch(3)
         capa.addWidget(self._editor_vacio, 1)
+        # v5.66 (el usuario: «un poco de fondo de interfaz siguiendo el patrón de la página de Inicio y Tema»): el cielo de constelaciones de
+        # borde a borde detrás del aviso (solo sin sesión: con el editor abierto no se ve, para no repintar debajo de sus palabras). La tarjeta
+        # no se repinta en cada tic del cielo (zonas_vivas); su frase animada se repinta sola
+        import proyecto_ui
+        self._cielo_corrector = proyecto_ui.CieloDePagina(_pag)
+        self._cielo_corrector.zonas_vivas = lambda: [QRect(t.mapTo(_pag, QPoint(0, 0)), t.size())] if t.isVisible() else []
     # -- v5.3.2: Creativo detecta solo el audio / la línea de tiempo de Proyecto ----------------------------------------
     def _estado_creativo(self):
         """Qué hay disponible para retocar, SIN tocar Resolve ni leer archivos grandes (corre en el hilo de la interfaz):
@@ -10568,6 +10574,7 @@ class SubtitleApp(QWidget):
         «Cancelar» (ventana.esperar) y lo retira. Devuelve su resultado."""
         self._editor = ventana
         self._editor_vacio.hide()
+        self._cielo_corrector.hide()                     # (v5.66: el cielo, solo detrás del aviso sin sesión)
         self._editor_capa.addWidget(ventana, 1)
         try:
             ventana.ajustar_densidad(getattr(self, '_densidad', 0) or 0)
@@ -10597,6 +10604,8 @@ class SubtitleApp(QWidget):
             except Exception:
                 pass
             self._editor_vacio.show()
+            self._cielo_corrector.show()
+            self._cielo_corrector.lower()
             t.configure(text=tr('Retocar las palabras'))
             s.configure(text=tr('Pinta cada palabra con su rol; el bloque se arma solo'))
             if vivo(self) and self.isVisible() and tras is None:

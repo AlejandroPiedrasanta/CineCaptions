@@ -12,6 +12,14 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-03 15:42  ·  v5.65  ·  cambio explicado
+    v5.66: aviso del Corrector pulido (el usuario): frase de ejemplo animada (corrige una errata y pinta la principal; el halo ya no se corta) y el cielo de constelaciones de fondo como Inicio y Tema (proyecto_ui.CieloDePagina).
+    modificados (4):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/editor_ui.py
+      ~ 1_codigo/proyecto_ui.py
+
 2026-11-03 15:33  ·  v5.65  ·  cambio explicado
     v5.66: Creativo → «Corrector» (el usuario); la sesión abierta se cierra sola (guardando) al pedir GO/retocar/transcribir y cuando Resolve se cierra; aviso sin audio pulido (MuestraPalabras, tres pasos, solo «Ir a Inicio»); «RCS · » → «CC · » en bins, temporales y emojis que van a Resolve, reconociendo los de antes.
     modificados (29):

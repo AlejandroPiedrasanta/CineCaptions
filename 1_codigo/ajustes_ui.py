@@ -498,7 +498,7 @@ NOTAS_VERSION = [
     ('5.66', [
         'La página Creativo ahora se llama «Corrector».',
         'Corrector sin bloqueos: si pulsas GO (o retocas otro video) con una sesión abierta, se cierra sola con tus marcas guardadas y sigue; ya no sale «Termina o cancela primero la sesión». Y si cierras DaVinci Resolve con una sesión abierta, también se cierra sola.',
-        'Corrector sin audio: un aviso más claro, con una frase de ejemplo pintada por roles y los tres pasos para empezar.',
+        'Corrector sin audio: un aviso más claro sobre el cielo de constelaciones (como Inicio y Tema), con los tres pasos para empezar y una frase de ejemplo animada: las palabras entran una a una, una mal oída se corrige sola y la principal se pinta con su brillo.',
         'En Resolve, las carpetas y timelines que crea CineCaptions se llaman «CC · …» (antes «RCS · …») y los emojis «cc_emoji_…»; los de proyectos anteriores se siguen reconociendo.',
     ]),
     ('5.65', [
