@@ -501,6 +501,7 @@ NOTAS_VERSION = [
         'Acerca de muestra que CineCaptions se actualiza solo, y Atajos ya no enseña un atajo de sonido que no existía.',
         'Edición PRO: con el «Gancho del inicio» encendido, una marca de «Captions detrás de ti» ya no cae sobre la intro (salía un recuadro con la cabeza de la persona encima del destello); el Registro dice por qué.',
         'Slider de estilos: nuevos ejemplos del Tema 3 (solo captions y con PRO: detrás de ti y gancho del inicio).',
+        'Edición PRO en la página Tema: el menú de al lado del slider ahora es el del tema que ves al centro. Con el Tema 1 al centro y otro tema elegido, lo que encendías se guardaba en los demás temas y el Tema 1 «no hacía nada». Para la PRO de siempre del Tema 1, enciende «Kit de motions».',
     ]),
     ('5.69', [
         'Registro: nuevo botón «Enviar informe»: copia el informe completo y abre WhatsApp de soporte con un resumen ya escrito (tu equipo y los errores); solo pegas el informe y lo envías.',

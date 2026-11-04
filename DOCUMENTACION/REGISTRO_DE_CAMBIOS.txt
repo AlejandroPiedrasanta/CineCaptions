@@ -12,6 +12,13 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-04 09:28  ·  v5.69  ·  cambio explicado
+    Página Tema: el menú de la PRO sigue a la tarjeta del centro; con el Tema 1 al centro y otro tema elegido, sus interruptores se guardaban en los de los demás temas y el Tema 1 no hacía nada con la PRO.
+    modificados (3):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/pro_lateral_ui.py
+
 2026-11-04 00:42  ·  v5.69  ·  cambio explicado
     Detrás de ti: la intro del gancho es zona vetada también para las marcas de Efectos › Posición (una marca llevada al caption de 0 s dejaba el recorte de la persona como un recuadro sobre el destello). Ejemplos del slider del Tema 3 rehechos con detrás de ti marcado + gancho.
     modificados (6):
