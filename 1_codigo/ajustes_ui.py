@@ -499,7 +499,8 @@ NOTAS_VERSION = [
         'Registro: nuevo botón «Enviar informe»: copia el informe completo y abre WhatsApp de soporte con un resumen ya escrito (tu equipo y los errores); solo pegas el informe y lo envías.',
         'El Registro ya no tiene «Limpiar» ni «Abrir el archivo»: lo que pasó queda siempre ahí para el informe.',
         'Ajustes más simple: «Avisarme al terminar» y «Reparar Resolve solo si se traba» van siempre encendidos y ya no salen en Ajustes.',
-        'Acerca de CineCaptions sin «Notas de la versión» ni «Actualizaciones»: las novedades salen solas al actualizar y la versión nueva se avisa sola (el panel rápido de Ajustes las conserva).',
+        'Acerca de CineCaptions sin «Notas de la versión», «Actualizaciones» ni «Avisarme de las actualizaciones»: la versión nueva se avisa siempre sola y las novedades salen al actualizar (el panel rápido de Ajustes conserva notas y botón).',
+        'Ayuda sin «Qué respondió Resolve» ni «Carpeta de datos».',
     ]),
     ('5.68', [
         'La voz vuelve a transcribirse con Qwen3-ASR (más precisa): desde la 5.64 fallaba en silencio y GO, tras tres intentos, seguía con Whisper. Un GO de 1 minuto pasa de unos 7 minutos a menos de 3.',
@@ -2872,11 +2873,7 @@ class VentanaAjustes(_Panel):
         self._pintar_licencia()
         # v5.69: quitadas «Notas de la versión» y «Actualizaciones» (el usuario lo pidió): las novedades salen solas tras actualizar, la versión
         # nueva se vigila sola (cada 10 s) y el panel rápido de Ajustes conserva «Leer notas de la versión» y el botón de actualizar
-        # actualizaciones automáticas (v5.3.5): el aviso de Inicio y la descarga con un clic
-        auto_var = BooleanVar(bool(self._borrador.get('actualizaciones_auto', True)))
-        f_auto = _Fila(tr('Avisarme de las actualizaciones'),
-                       tr('CineCaptions mira solo si hay una versión nueva (cada 10 segundos) y te lo dice al momento; tú decides cuándo instalarla.'),
-                       Interruptor('', var=auto_var, comando=lambda: self._cambio('actualizaciones_auto', bool(auto_var.get()))))
+        # v5.69: quitada también «Avisarme de las actualizaciones»: el aviso de una versión nueva va SIEMPRE ('actualizaciones_auto' ya no se lee)
         # creditos
         cred, ccr = caja_v(espacio=6)
         # v5.3.5: el logo «CINEMA PRODUCTIONS» en vez del texto (si el archivo faltara, vuelve el texto)
@@ -2902,7 +2899,7 @@ class VentanaAjustes(_Panel):
         f_cred = _Fila(tr('Créditos'), tr('Transcripción: Qwen3-ASR y Whisper · Traducción: Argos · Interfaz: Qt (PySide6).'),
                        cred, 380, ultima=True)
         capa.addWidget(g_cab)
-        capa.addWidget(_grupo(f_lic, f_auto, f_cred))
+        capa.addWidget(_grupo(f_lic, f_cred))
 
     def _pintar_licencia(self):
         if not ui.vivo(getattr(self, 'lic_estado', None)):
@@ -2945,16 +2942,12 @@ class VentanaAjustes(_Panel):
         f_scripts = _Fila(tr('Scripts de Resolve'), tr('Vuelve a poner los scripts de CineCaptions en Área de trabajo > '
                                                       'Scripts (para Resolve Free).'),
                           Boton(tr('Reinstalar scripts'), lambda: llamar('_instalar_en_resolve'), tipo='neutro', alto=46, tam=15), 340)
-        f_resp = _Fila(tr('Qué respondió Resolve'), tr('El último resultado que dejó un script dentro de Resolve.'),
-                       Boton(tr('Ver respuesta'), lambda: llamar('_ver_ultimo_resultado'), tipo='neutro', alto=46, tam=15), 340)
-        f_datos = _Fila(tr('Carpeta de datos'), str(Path.home() / 'DaVinciSubtitles'),
-                        Boton(tr('Abrir carpeta'), lambda: abrir_carpeta(Path.home() / 'DaVinciSubtitles'), tipo='neutro',
-                              alto=46, tam=15), 340)
+        # v5.69: quitadas «Qué respondió Resolve» y «Carpeta de datos» (el usuario lo pidió)
         f_contacto = _Fila(tr('Contacto'), tr('Copia el diagnóstico y envíalo a Cinema Productions por el canal donde '
                                              'compraste CineCaptions.'),
                            Boton(tr('Copiar diagnóstico'), lambda: llamar('_ejecutar_diagnostico'),
                                  tipo='neutro', alto=46, tam=15), 340, ultima=True)
-        capa.addWidget(_grupo(f_diag, f_scripts, f_resp, f_datos, f_contacto))
+        capa.addWidget(_grupo(f_diag, f_scripts, f_contacto))
 
     # -- aplicar / cerrar -----------------------------------------------------
     def aplicar(self):
