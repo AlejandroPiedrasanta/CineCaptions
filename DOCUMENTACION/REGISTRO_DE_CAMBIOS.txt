@@ -12,6 +12,51 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-03 18:36  ·  v5.66  ·  cambio explicado
+    v5.67 (el usuario: «busca actualizaciones en todas las librerías, actualiza todo y Python a la última versión»): Python ya era lo último (3.15.2 / 3.14.10); motores con transformers 5.22.1, huggingface_hub 2.4.0, ctranslate2 4.8.5, hf-xet 1.8.0 y menores (probadas aisladas: mismo resultado); Remotion 4.0.540 + Chrome 158 + three 0.187 + mediabunny 1.65.1 (renders A/B ≤ 1,4/255).
+    nuevos (168):
+      + 1_codigo/remotion/node_modules/@remotion/bundler/dist/get-rspack.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/bundler/dist/get-rspack.js
+      + 1_codigo/remotion/node_modules/@remotion/cli/dist/get-crf-for-codec.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/cli/dist/get-crf-for-codec.js
+      + 1_codigo/remotion/node_modules/@remotion/media/dist/helpers/has-frame-started.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/renderer/dist/options/preferred-effect-backend.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/renderer/dist/options/preferred-effect-backend.js
+      + 1_codigo/remotion/node_modules/@remotion/studio-server/dist/preview-server/routes/get-keyframe-mutation-results.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/studio-server/dist/preview-server/routes/get-keyframe-mutation-results.js
+      + 1_codigo/remotion/node_modules/@remotion/studio-shared/dist/source-file-version.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/studio-shared/dist/source-file-version.js
+      + 1_codigo/remotion/node_modules/@remotion/studio/dist/components/NewComposition/CompositionIdField.d.ts
+      … y 156 más
+    modificados (1945):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/remotion/node_modules/.bin/remotion
+      ~ 1_codigo/remotion/node_modules/.bin/remotion.cmd
+      ~ 1_codigo/remotion/node_modules/.bin/remotionb
+      ~ 1_codigo/remotion/node_modules/.bin/remotionb.cmd
+      ~ 1_codigo/remotion/node_modules/.bin/remotiond
+      ~ 1_codigo/remotion/node_modules/.bin/remotiond.cmd
+      ~ 1_codigo/remotion/node_modules/.package-lock.json
+      ~ 1_codigo/remotion/node_modules/@babel/core/node_modules/.bin/parser
+      ~ 1_codigo/remotion/node_modules/@babel/core/node_modules/.bin/parser.cmd
+      ~ 1_codigo/remotion/node_modules/@babel/core/node_modules/@babel/parser/lib/index.js
+      ~ 1_codigo/remotion/node_modules/@babel/core/node_modules/@babel/parser/lib/index.js.map
+      … y 1933 más
+    quitados (264):
+      - 1_codigo/remotion/node_modules/@remotion/bundler/dist/define-plugin-definitions.d.ts
+      - 1_codigo/remotion/node_modules/@remotion/bundler/dist/define-plugin-definitions.js
+      - 1_codigo/remotion/node_modules/@remotion/codemods/dist/add-component.d.ts
+      - 1_codigo/remotion/node_modules/@remotion/codemods/dist/add-media.d.ts
+      - 1_codigo/remotion/node_modules/@remotion/codemods/dist/add-solid.d.ts
+      - 1_codigo/remotion/node_modules/@remotion/codemods/dist/apply-visual-control.d.ts
+      - 1_codigo/remotion/node_modules/@remotion/codemods/dist/composition-source-edits.d.ts
+      - 1_codigo/remotion/node_modules/@remotion/codemods/dist/delete-jsx-nodes.d.ts
+      - 1_codigo/remotion/node_modules/@remotion/codemods/dist/duplicate-jsx-nodes.d.ts
+      - 1_codigo/remotion/node_modules/@remotion/codemods/dist/get-jsx-elements-with-node-paths.d.ts
+      - 1_codigo/remotion/node_modules/@remotion/codemods/dist/get-jsx-node-props.d.ts
+      - 1_codigo/remotion/node_modules/@remotion/codemods/dist/get-jsx-nodes.d.ts
+      … y 252 más
+
 2026-11-03 15:44  ·  v5.66  ·  (automático)
     modificados (20):
       ~ 1_codigo/version.py

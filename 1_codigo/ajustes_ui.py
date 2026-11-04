@@ -495,6 +495,9 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.67', [
+        'Librerías al día: motores de voz e IA con transformers 5.22.1, huggingface_hub 2.4.0, CTranslate2 4.8.5 y más; animaciones de la Edición PRO con Remotion 4.0.540 y su Chrome 158. Python sigue en la última versión (3.15.2 y 3.14.10).',
+    ]),
     ('5.66', [
         'La página Creativo ahora se llama «Corrector».',
         'Corrector sin bloqueos: si pulsas GO (o retocas otro video) con una sesión abierta, se cierra sola con tus marcas guardadas y sigue; ya no sale «Termina o cancela primero la sesión». Y si cierras DaVinci Resolve con una sesión abierta, también se cierra sola.',
