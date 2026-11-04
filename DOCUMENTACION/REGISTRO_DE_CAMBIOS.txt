@@ -12,6 +12,22 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-04 10:12  ·  v5.70  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
 2026-11-04 10:05  ·  v5.69  ·  cambio explicado
     GO sin Resolve con un audio suelto: el MP4 sale vertical con los captions sobre un fondo oscuro (antes «el archivo no tiene imagen»; el Tema 1, IndexError); el Registro ya no lo explica como «Resolve no está listo».
     modificados (10):
