@@ -1,29 +1,29 @@
 {
   "estable": {
-    "version": "5.66.0",
-    "notas": "• La página Creativo ahora se llama «Corrector».\r\n• Corrector sin bloqueos: si pulsas GO (o retocas otro video) con una sesión abierta, se cierra sola con tus marcas guardadas y sigue; ya no sale «Termina o cancela primero la sesión». Y si cierras DaVinci Resolve con una sesión abierta, también se cierra sola.\r\n• Corrector sin audio: un aviso más claro sobre el cielo de constelaciones (como Inicio y Tema), con los tres pasos para empezar y una frase de ejemplo animada: las palabras entran una a una, una mal oída se corrige sola y la principal se pinta con su brillo.\r\n• En Resolve, las carpetas y timelines que crea CineCaptions se llaman «CC · …» (antes «RCS · …») y los emojis «cc_emoji_…»; los de proyectos anteriores se siguen reconociendo.",
+    "version": "5.67.0",
+    "notas": "• Página Sonido nueva, tipo mezclador: a la izquierda el estilo, las opciones y la biblioteca; en el centro la mezcla a lo ancho (tu voz, los captions, cada carril de sonidos y la música) con zoom y un panel que dice por qué suena cada sonido; a la derecha el video en vertical y las 3 músicas. Todo sobre el cielo de constelaciones, como Inicio y Tema.\r\n• Sonido con un audio suelto (.wav o .mp3): la página ya no se queda vacía.\r\n• Librerías al día: motores de voz e IA con transformers 5.22.1, huggingface_hub 2.4.0, CTranslate2 4.8.5 y más; animaciones de la Edición PRO con Remotion 4.0.540 y su Chrome 158. Python sigue en la última versión (3.15.2 y 3.14.10).",
     "fecha": "2026-11-03",
     "archivos": {
       "windows": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.66/Instalar_CineCaptions_5.66.exe",
-        "sha256": "c6ab40e6c43133e010bc116be26f9530faff897adaaac3c4fc89e30fb287870d",
-        "tam": 572317613
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.67/Instalar_CineCaptions_5.67.exe",
+        "sha256": "0f9077416bcad25e3f5276c987836032bfe63e87da5104ae2aa45d3f86ee4956",
+        "tam": 575125260
       },
       "mac_arm64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.66/CineCaptions_Mac_AppleSilicon_5.66.dmg",
-        "sha256": "6d7355971e41e1ec0e48df47c0a5a42f87012e6570732b9a823e7f059d5fb7e7",
-        "tam": 547715751
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.67/CineCaptions_Mac_AppleSilicon_5.67.dmg",
+        "sha256": "5a66fd474d5b9cc20bffb6c64261e784ee8e55b120883ae8d1f41326975610c6",
+        "tam": 549540125
       },
       "mac_x86_64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.66/CineCaptions_Mac_Intel_5.66.dmg",
-        "sha256": "c04bc0896cf93ce0f997951cf3859f47dd8f61c8f9f602ff6d5b1ee2a69b2181",
-        "tam": 574915926
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.67/CineCaptions_Mac_Intel_5.67.dmg",
+        "sha256": "2fb9589c0b9e2af037fce9354b7283e307fb0972359f11520ee4dd395488183e",
+        "tam": 577990711
       }
     }
   },
   "firma": {
     "alg": "ed25519",
     "clave": "7a4e413e",
-    "valor": "d5YWQXq+AZU7en7jWEF/UiFBIsPWkVuGFkUpKU5SnfE2M6vSFiyQGvNKHDwPB+YwriPF3VkNpku5hythDzz+AQ=="
+    "valor": "JJf2rXE5+IfUvgb+plFMk7TD9dUvlDT0se6YcbrJ2oQ9CRSexMEQArlf79MZkTjDW9eHxOJj3FVXvU1R9JhiAw=="
   }
 }
