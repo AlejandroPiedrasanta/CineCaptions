@@ -12,6 +12,16 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-04 00:42  ·  v5.69  ·  cambio explicado
+    Detrás de ti: la intro del gancho es zona vetada también para las marcas de Efectos › Posición (una marca llevada al caption de 0 s dejaba el recorte de la persona como un recuadro sobre el destello). Ejemplos del slider del Tema 3 rehechos con detrás de ti marcado + gancho.
+    modificados (6):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 2_recursos/vistas_slider/VIRAL.jpg
+      ~ 2_recursos/vistas_slider/VIRAL.mp4
+      ~ 2_recursos/vistas_slider/VIRAL_captions.jpg
+      ~ 2_recursos/vistas_slider/VIRAL_captions.mp4
+
 2026-11-04 00:01  ·  v5.69  ·  cambio explicado
     Ajustes sin el título de cada página (el menú ya lo dice) y con el sobrante del desplazable abajo: las páginas cortas ya no quedan empujadas hacia abajo.
     modificados (1):

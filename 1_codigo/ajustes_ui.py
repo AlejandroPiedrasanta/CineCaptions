@@ -499,6 +499,8 @@ NOTAS_VERSION = [
         'Ajustes renovado: cada pestaña y cada ajuste con su ícono, y sin el título repetido en cada página (el menú ya dice dónde estás): lo importante empieza arriba.',
         'Ayuda: tarjeta de soporte con «Escribir por WhatsApp» (copia el informe de tu equipo y abre el chat con el mensaje ya escrito) y «Visitar cinecaptions.shop».',
         'Acerca de muestra que CineCaptions se actualiza solo, y Atajos ya no enseña un atajo de sonido que no existía.',
+        'Edición PRO: con el «Gancho del inicio» encendido, una marca de «Captions detrás de ti» ya no cae sobre la intro (salía un recuadro con la cabeza de la persona encima del destello); el Registro dice por qué.',
+        'Slider de estilos: nuevos ejemplos del Tema 3 (solo captions y con PRO: detrás de ti y gancho del inicio).',
     ]),
     ('5.69', [
         'Registro: nuevo botón «Enviar informe»: copia el informe completo y abre WhatsApp de soporte con un resumen ya escrito (tu equipo y los errores); solo pegas el informe y lo envías.',
