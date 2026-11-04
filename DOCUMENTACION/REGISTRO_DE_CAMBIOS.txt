@@ -12,6 +12,12 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-03 21:02  ·  v5.67  ·  cambio explicado
+    Qwen3-ASR caía siempre a Whisper desde la 5.64: el Python embebido del motor no pone la carpeta del script en sys.path y fallaba 'from motor_texto import ruta_local'. motor_qwen.py añade su carpeta. Hallado con un GO real (419 s con Whisper → 162 s con Qwen3-ASR).
+    modificados (2):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 2_recursos/motor_qwen/motor_qwen.py
+
 2026-11-03 19:38  ·  v5.67  ·  (automático)
     modificados (20):
       ~ 1_codigo/version.py
