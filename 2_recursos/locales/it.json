@@ -4242,6 +4242,14 @@
     "debajo de tu voz, baja sola al hablar": "sotto la tua voce, si abbassa da sola quando parli",
     "sonidos": "suoni",
     "▶ Escuchar": "▶ Ascolta",
-    "● cambios sin aplicar": "● modifiche non applicate"
+    "● cambios sin aplicar": "● modifiche non applicate",
+    "Enviar informe": "Invia il report",
+    "Hola, te envío el informe de CineCaptions.": "Ciao, ti invio il report di CineCaptions.",
+    "Errores:": "Errori:",
+    "Avisos:": "Avvisi:",
+    "Sin errores en esta sesión.": "Nessun errore in questa sessione.",
+    "El informe completo ya está copiado: lo pego aquí abajo.": "Il report completo è già copiato: lo incollo qui sotto.",
+    "No pude abrir WhatsApp ({e}). El informe ya está copiado: mándalo a +502 3657 3658.": "Non sono riuscito ad aprire WhatsApp ({e}). Il report è già copiato: invialo al +502 3657 3658.",
+    "sin navegador": "nessun browser"
   }
 }

@@ -10106,5 +10106,61 @@
   "fr": "● modifications non appliquées",
   "de": "● nicht angewendete Änderungen",
   "it": "● modifiche non applicate"
+ },
+ "Enviar informe": {
+  "en": "Send report",
+  "pt": "Enviar relatório",
+  "fr": "Envoyer le rapport",
+  "de": "Bericht senden",
+  "it": "Invia il report"
+ },
+ "Hola, te envío el informe de CineCaptions.": {
+  "en": "Hi, here is my CineCaptions report.",
+  "pt": "Olá, envio o relatório do CineCaptions.",
+  "fr": "Bonjour, voici mon rapport CineCaptions.",
+  "de": "Hallo, hier ist mein CineCaptions-Bericht.",
+  "it": "Ciao, ti invio il report di CineCaptions."
+ },
+ "Errores:": {
+  "en": "Errors:",
+  "pt": "Erros:",
+  "fr": "Erreurs :",
+  "de": "Fehler:",
+  "it": "Errori:"
+ },
+ "Avisos:": {
+  "en": "Warnings:",
+  "pt": "Avisos:",
+  "fr": "Avertissements :",
+  "de": "Warnungen:",
+  "it": "Avvisi:"
+ },
+ "Sin errores en esta sesión.": {
+  "en": "No errors in this session.",
+  "pt": "Sem erros nesta sessão.",
+  "fr": "Aucune erreur dans cette session.",
+  "de": "Keine Fehler in dieser Sitzung.",
+  "it": "Nessun errore in questa sessione."
+ },
+ "El informe completo ya está copiado: lo pego aquí abajo.": {
+  "en": "The full report is already copied: I’m pasting it below.",
+  "pt": "O relatório completo já está copiado: colo aqui embaixo.",
+  "fr": "Le rapport complet est déjà copié : je le colle ci-dessous.",
+  "de": "Der vollständige Bericht ist schon kopiert: ich füge ihn unten ein.",
+  "it": "Il report completo è già copiato: lo incollo qui sotto."
+ },
+ "No pude abrir WhatsApp ({e}). El informe ya está copiado: mándalo a +502 3657 3658.": {
+  "en": "Couldn’t open WhatsApp ({e}). The report is already copied: send it to +502 3657 3658.",
+  "pt": "Não consegui abrir o WhatsApp ({e}). O relatório já está copiado: envie para +502 3657 3658.",
+  "fr": "Impossible d’ouvrir WhatsApp ({e}). Le rapport est déjà copié : envoyez-le au +502 3657 3658.",
+  "de": "WhatsApp ließ sich nicht öffnen ({e}). Der Bericht ist schon kopiert: sende ihn an +502 3657 3658.",
+  "it": "Non sono riuscito ad aprire WhatsApp ({e}). Il report è già copiato: invialo al +502 3657 3658."
+ },
+ "sin navegador": {
+  "en": "no browser",
+  "pt": "sem navegador",
+  "fr": "aucun navigateur",
+  "de": "kein Browser",
+  "it": "nessun browser"
  }
 }

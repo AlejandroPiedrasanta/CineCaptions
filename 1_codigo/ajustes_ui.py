@@ -496,7 +496,8 @@ def desactivar_licencia(app, al_terminar=None):
 
 NOTAS_VERSION = [
     ('5.69', [
-        'El Registro ya no tiene el botón «Limpiar»: lo que pasó queda siempre ahí para «Copiar informe».',
+        'Registro: nuevo botón «Enviar informe»: copia el informe completo y abre WhatsApp de soporte con un resumen ya escrito (tu equipo y los errores); solo pegas el informe y lo envías.',
+        'El Registro ya no tiene «Limpiar» ni «Abrir el archivo»: lo que pasó queda siempre ahí para el informe.',
     ]),
     ('5.68', [
         'La voz vuelve a transcribirse con Qwen3-ASR (más precisa): desde la 5.64 fallaba en silencio y GO, tras tres intentos, seguía con Whisper. Un GO de 1 minuto pasa de unos 7 minutos a menos de 3.',

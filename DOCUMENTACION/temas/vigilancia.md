@@ -12,7 +12,12 @@
 
 `DialogoRegistro`: segmentado «Errores» (primera vista) / «Información» (info y ok); los avisos no se enseñan en ningún sitio de la interfaz
 (ni en la línea de la barra de título, `SubtituloVivo._nuevo`, ni en el salto del botón del Registro) y siguen en `errores.log` y en «Copiar informe».
-Pie: «Copiar informe», «Abrir el archivo» y «Cerrar»; el botón «Limpiar» se quitó en la v5.69 (pedido del usuario: así el informe que copia el cliente
-siempre trae lo que pasó; `registro.limpiar()` sigue para uso interno).
+Pie (v5.69, pedido del usuario): «Copiar informe», «Enviar informe» y «Cerrar». Se quitaron «Limpiar» (así el informe siempre trae lo que pasó;
+`registro.limpiar()` sigue para uso interno) y «Abrir el archivo». **Enviar informe** (`DialogoRegistro._enviar`): copia `reporte_soporte` entero y
+abre `registro.enlace_whatsapp(registro.mensaje_whatsapp(lista))` = `https://wa.me/50236573658?text=…` (`WHATSAPP_SOPORTE`): saludo, las 2
+primeras líneas de `equipo()`, los errores (si no hay, los avisos; el más reciente primero, hasta 6) y «El informe completo ya está copiado: lo
+pego aquí abajo.». El enlace codificado se recorta a 1800 caracteres (Windows corta los de más de ~2000): primero quita los errores más viejos y,
+si ni uno cabe entero, acorta cada línea (240/140/80). El navegador se abre en un hilo; si falla, aviso al Registro con el número. El cliente
+pega (el informe cabe: ~23 K de los ~65 K que admite un mensaje) y pulsa enviar.
 
 **Informe ordenado (v5.64, el usuario: «que si el usuario copia el error esté más especificado y ordenado»):** «Copiar este error» = `registro.informe_de_error(e)`: cabecera (cuándo, con «se repitió N veces desde las …» gracias a `Entrada.primera`; dónde; gravedad = nivel + `ETIQUETA_IMPACTO`) y secciones QUÉ PASÓ / QUÉ SIGNIFICA / QUÉ HACER / DETALLE TÉCNICO (las últimas 60 líneas) / LO QUE PASÓ JUSTO ANTES (las 8 anotaciones previas de la sesión) / EQUIPO (`registro.equipo()`) / LIBRERÍAS Y MOTORES (solo lo que no está bien). «Copiar todo» = `reporte_soporte(80, entradas=…)`: equipo, todos los motores, las anotaciones de la pantalla numeradas (la más reciente primero; las notas sin explicación), tareas, errores.log, final del log y volcados. Sin subprocess (antes «Copiar todo» llamaba a nvidia-smi en el hilo de la interfaz): la GPU sale de `_ENTORNO`, que llena `entorno_detallado()` en su hilo al abrir; Resolve de `resolve_mcp.estado_cacheado` solo si el módulo ya está cargado. `_sin_usuario` cambia por «~» la carpeta del usuario en todas sus formas (con /, con barras dobles de un repr y la corta 8.3) antes de partir las líneas a 100 columnas. Títulos con `tr` (5 idiomas). Probar: apuntar `registro.ARCHIVO/ARCHIVO_ERRORES/FALLOS_NATIVOS` a una carpeta temporal y llamar a las dos funciones (~50 ms).
