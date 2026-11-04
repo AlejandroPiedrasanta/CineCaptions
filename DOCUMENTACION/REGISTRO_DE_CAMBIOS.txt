@@ -12,6 +12,23 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-03 22:22  ·  v5.68  ·  cambio explicado
+    Ajustes aún más simple: fuera «IA de texto» (siempre Gemma 4 E4B con su bajada automática), «Otras IA», «GPU para la voz» (se repara sola al abrir), «Animaciones» y «Animaciones de Inicio» (siempre completas; la calidad adaptativa aligera).
+    modificados (13):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/cuda_libs.py
+      ~ 1_codigo/efectos_ui.py
+      ~ 1_codigo/escena_go.py
+      ~ 1_codigo/motor_voz.py
+      ~ 1_codigo/registro_ayuda.py
+      ~ 1_codigo/subtitle_transcriber.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      … y 1 más
+
 2026-11-03 22:16  ·  v5.68  ·  cambio explicado
     Más Ajustes simple: «Avisarme de las actualizaciones» siempre encendido y fuera de Acerca de; Ayuda sin «Qué respondió Resolve» ni «Carpeta de datos».
     modificados (2):

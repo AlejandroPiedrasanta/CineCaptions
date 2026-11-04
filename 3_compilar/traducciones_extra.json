@@ -10162,5 +10162,19 @@
   "fr": "aucun navigateur",
   "de": "kein Browser",
   "it": "nessun browser"
+ },
+ "Motor de voz, espacio de las cachés y video MP4.": {
+  "en": "Voice engine, cache space and MP4 video.",
+  "pt": "Motor de voz, espaço dos caches e vídeo MP4.",
+  "fr": "Moteur vocal, espace des caches et vidéo MP4.",
+  "de": "Sprach-Engine, Cache-Speicher und MP4-Video.",
+  "it": "Motore vocale, spazio delle cache e video MP4."
+ },
+ "La GPU falló; sigo con la CPU (más lento). Al volver a abrir CineCaptions se repara sola.": {
+  "en": "The GPU failed; continuing on the CPU (slower). It repairs itself the next time you open CineCaptions.",
+  "pt": "A GPU falhou; sigo com a CPU (mais lento). Ela se repara sozinha ao abrir o CineCaptions de novo.",
+  "fr": "Le GPU a échoué ; je continue sur le CPU (plus lent). Il se répare tout seul à la prochaine ouverture de CineCaptions.",
+  "de": "Die GPU ist ausgefallen; ich mache mit der CPU weiter (langsamer). Beim nächsten Öffnen von CineCaptions repariert sie sich selbst.",
+  "it": "La GPU non ha funzionato; continuo con la CPU (più lento). Si ripara da sola alla prossima apertura di CineCaptions."
  }
 }
