@@ -498,6 +498,8 @@ NOTAS_VERSION = [
     ('5.69', [
         'Registro: nuevo botón «Enviar informe»: copia el informe completo y abre WhatsApp de soporte con un resumen ya escrito (tu equipo y los errores); solo pegas el informe y lo envías.',
         'El Registro ya no tiene «Limpiar» ni «Abrir el archivo»: lo que pasó queda siempre ahí para el informe.',
+        'Ajustes más simple: «Avisarme al terminar» y «Reparar Resolve solo si se traba» van siempre encendidos y ya no salen en Ajustes.',
+        'Acerca de CineCaptions sin «Notas de la versión» ni «Actualizaciones»: las novedades salen solas al actualizar y la versión nueva se avisa sola (el panel rápido de Ajustes las conserva).',
     ]),
     ('5.68', [
         'La voz vuelve a transcribirse con Qwen3-ASR (más precisa): desde la 5.64 fallaba en silencio y GO, tras tres intentos, seguía con Whisper. Un GO de 1 minuto pasa de unos 7 minutos a menos de 3.',
@@ -2420,16 +2422,8 @@ class VentanaAjustes(_Panel):
         f_con.setParent(self)                            # v5.21: «Conexión con DaVinci Resolve» quitada de Ajustes (el usuario lo pidió); GO se conecta solo
         f_con.hide()
         # v5.22: «Mantener CineCaptions encima» quitada de Ajustes (el usuario lo pidió); sigue el alfiler del menú lateral
-        avisos_var = BooleanVar(self._borrador['avisos_sistema'])
-        f_avisos = _Fila(tr('Avisarme al terminar'),
-                         tr('Cuando GO termina y CineCaptions no está al frente (estás en Resolve u otro programa), sale un aviso del sistema.'),
-                         Interruptor('', var=avisos_var, comando=lambda: self._cambio('avisos_sistema', bool(avisos_var.get()))))
-        # v5.56 (el usuario: «pon un parámetro para cerrar todo lo de Resolve si se traba, que se auto repare»): salud_resolve.reparar lo lee en cada reparación
-        reparar_var = BooleanVar(bool(leer_prefs().get('reparar_resolve_auto', True)))
-        f_reparar = _Fila(tr('Reparar Resolve solo si se traba'),
-                          tr('Si Resolve se queda abierto sin ventana o pasa un minuto sin responder, GO lo cierra del todo, lo vuelve a abrir y repite el paso. '
-                             'Apagado, GO solo te dice qué le pasa y se detiene.'),
-                          Interruptor('', var=reparar_var, comando=lambda: guardar_prefs({'reparar_resolve_auto': bool(reparar_var.get())})))
+        # v5.69: quitados «Avisarme al terminar» y «Reparar Resolve solo si se traba» (el usuario lo pidió): van SIEMPRE encendidos
+        # (avisos_sistema.activado y salud_resolve.reparar_permitido ya no leen 'avisos_sistema' / 'reparar_resolve_auto')
         # v5.4.48: GO sin Resolve también a petición (render_sin_resolve.py): sin Resolve instalado ya lo hace solo
         mp4_var = BooleanVar(bool(leer_prefs().get('go_salida_mp4', False)))
         f_mp4 = _Fila(tr('Video MP4 en lugar de Resolve'),
@@ -2439,7 +2433,7 @@ class VentanaAjustes(_Panel):
         # v5.22: «Copias de seguridad» quitada de Ajustes (el usuario lo pidió); copias.py queda sin uso
         # v5.52: quitadas «Reproducir al terminar», «Abrir siempre en vertical» y «Vista de Resolve al terminar» (el usuario lo pidió): van SIEMPRE
         # activadas (go_reproducir / go_vertical / go_vista_resolve ya no se leen); la vista que GO aplica es la que ya estuviera guardada
-        capa.addWidget(_grupo(f_motor, f_ia, f_otras, f_gpu, f_cache, f_avisos, f_reparar, f_mp4))
+        capa.addWidget(_grupo(f_motor, f_ia, f_otras, f_gpu, f_cache, f_mp4))
 
     def _pintar_motor(self):
         import motor_voz
@@ -2876,20 +2870,13 @@ class VentanaAjustes(_Panel):
         f_lic = _Fila(tr('Licencia'), tr('Tu clave de cinecaptions.shop. Desactiva este equipo para activarla en otra computadora.'),
                       caja_lic, 380)
         self._pintar_licencia()
-        # notas
-        f_notas = _Fila(tr('Notas de la versión'), tr('Lo nuevo de esta versión, también sin conexión.'),
-                        Boton(tr('Leer notas de la versión'), lambda: mostrar_notas(self.app), tipo='neutro', alto=46, tam=15), 380)
+        # v5.69: quitadas «Notas de la versión» y «Actualizaciones» (el usuario lo pidió): las novedades salen solas tras actualizar, la versión
+        # nueva se vigila sola (cada 10 s) y el panel rápido de Ajustes conserva «Leer notas de la versión» y el botón de actualizar
         # actualizaciones automáticas (v5.3.5): el aviso de Inicio y la descarga con un clic
         auto_var = BooleanVar(bool(self._borrador.get('actualizaciones_auto', True)))
         f_auto = _Fila(tr('Avisarme de las actualizaciones'),
                        tr('CineCaptions mira solo si hay una versión nueva (cada 10 segundos) y te lo dice al momento; tú decides cuándo instalarla.'),
                        Interruptor('', var=auto_var, comando=lambda: self._cambio('actualizaciones_auto', bool(auto_var.get()))))
-        # actualizaciones
-        caja_act, ca = caja_v(espacio=8)
-        self.control_act = ControlActualizacion(self.app)
-        self.act_estado = self.control_act.estado
-        ca.addWidget(self.control_act)
-        f_act = _Fila(tr('Actualizaciones'), tr('CineCaptions vigila solo si hay una versión nueva (cada 10 segundos) y te avisa; aquí puedes buscarla a mano y leer sus mejoras.'), caja_act, 380)
         # creditos
         cred, ccr = caja_v(espacio=6)
         # v5.3.5: el logo «CINEMA PRODUCTIONS» en vez del texto (si el archivo faltara, vuelve el texto)
@@ -2915,7 +2902,7 @@ class VentanaAjustes(_Panel):
         f_cred = _Fila(tr('Créditos'), tr('Transcripción: Qwen3-ASR y Whisper · Traducción: Argos · Interfaz: Qt (PySide6).'),
                        cred, 380, ultima=True)
         capa.addWidget(g_cab)
-        capa.addWidget(_grupo(f_lic, f_notas, f_auto, f_act, f_cred))
+        capa.addWidget(_grupo(f_lic, f_auto, f_cred))
 
     def _pintar_licencia(self):
         if not ui.vivo(getattr(self, 'lic_estado', None)):

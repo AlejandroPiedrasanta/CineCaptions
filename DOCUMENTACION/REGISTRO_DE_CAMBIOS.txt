@@ -12,6 +12,13 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-03 22:14  ·  v5.68  ·  cambio explicado
+    Ajustes más simple: «Avisarme al terminar» y «Reparar Resolve solo si se traba» siempre encendidos y fuera de Ajustes; Acerca de sin «Notas de la versión» ni «Actualizaciones» (el panel rápido las conserva).
+    modificados (3):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/avisos_sistema.py
+      ~ 1_codigo/salud_resolve.py
+
 2026-11-03 22:10  ·  v5.68  ·  cambio explicado
     Registro: «Enviar informe» (copia el informe completo y abre wa.me/50236573658 con un resumen: equipo y errores, recortado para que el enlace quepa) en lugar de «Abrir el archivo»; sin «Limpiar».
     modificados (9):

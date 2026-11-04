@@ -3258,7 +3258,8 @@
         "resolve_scripts/CineCaptions_Vista.lua",
         "uia_resolve.py",
         "resolve_mcp.py",
-        "registro_ayuda.py"
+        "registro_ayuda.py",
+        "salud_resolve.py"
       ],
       "simbolos": [
         "estado_resolve",
