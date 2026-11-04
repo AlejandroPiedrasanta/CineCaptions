@@ -1,29 +1,29 @@
 {
   "estable": {
-    "version": "5.67.0",
-    "notas": "• Página Sonido nueva, tipo mezclador: a la izquierda el estilo, las opciones y la biblioteca; en el centro la mezcla a lo ancho (tu voz, los captions, cada carril de sonidos y la música) con zoom y un panel que dice por qué suena cada sonido; a la derecha el video en vertical y las 3 músicas. Todo sobre el cielo de constelaciones, como Inicio y Tema.\r\n• Sonido con un audio suelto (.wav o .mp3): la página ya no se queda vacía.\r\n• Librerías al día: motores de voz e IA con transformers 5.22.1, huggingface_hub 2.4.0, CTranslate2 4.8.5 y más; animaciones de la Edición PRO con Remotion 4.0.540 y su Chrome 158. Python sigue en la última versión (3.15.2 y 3.14.10).",
+    "version": "5.68.0",
+    "notas": "• La voz vuelve a transcribirse con Qwen3-ASR (más precisa): desde la 5.64 fallaba en silencio y GO, tras tres intentos, seguía con Whisper. Un GO de 1 minuto pasa de unos 7 minutos a menos de 3.",
     "fecha": "2026-11-03",
     "archivos": {
       "windows": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.67/Instalar_CineCaptions_5.67.exe",
-        "sha256": "0f9077416bcad25e3f5276c987836032bfe63e87da5104ae2aa45d3f86ee4956",
-        "tam": 575125260
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.68/Instalar_CineCaptions_5.68.exe",
+        "sha256": "8afe93a70c3a3d41475e6597844d170430bc72277d48f3560caf59346e77b6c6",
+        "tam": 575125535
       },
       "mac_arm64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.67/CineCaptions_Mac_AppleSilicon_5.67.dmg",
-        "sha256": "5a66fd474d5b9cc20bffb6c64261e784ee8e55b120883ae8d1f41326975610c6",
-        "tam": 549540125
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.68/CineCaptions_Mac_AppleSilicon_5.68.dmg",
+        "sha256": "f60d38433a392140a997ebcd39edf12b96619a5a24b89c5b822a1119df3dd96e",
+        "tam": 549691340
       },
       "mac_x86_64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.67/CineCaptions_Mac_Intel_5.67.dmg",
-        "sha256": "2fb9589c0b9e2af037fce9354b7283e307fb0972359f11520ee4dd395488183e",
-        "tam": 577990711
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.68/CineCaptions_Mac_Intel_5.68.dmg",
+        "sha256": "622fac190b23b175b80fc7a19bdd1c40c97a95a2641531b92b3b3e38c966d14d",
+        "tam": 578026927
       }
     }
   },
   "firma": {
     "alg": "ed25519",
     "clave": "7a4e413e",
-    "valor": "JJf2rXE5+IfUvgb+plFMk7TD9dUvlDT0se6YcbrJ2oQ9CRSexMEQArlf79MZkTjDW9eHxOJj3FVXvU1R9JhiAw=="
+    "valor": "W18f64BW21f/9wgf/qaNoN1bquswAQFTIkmyCETc2VUT3rizxmH3F+KEvSlFgdKy3msJElCoyWA9JU+HdZYHBA=="
   }
 }
