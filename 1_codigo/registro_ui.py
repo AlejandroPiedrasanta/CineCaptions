@@ -488,7 +488,6 @@ class DialogoRegistro(Dialogo):
         cp.addWidget(self._cuenta, 1)
         cp.addWidget(Boton(tr('Copiar informe'), self._copiar, alto=38, ancho=140, tam=13))
         cp.addWidget(Boton(tr('Abrir el archivo'), self._abrir, alto=38, ancho=140, tam=13))
-        cp.addWidget(Boton(tr('Limpiar'), self._limpiar, alto=38, ancho=100, tam=13))
         cp.addWidget(Boton(tr('Cerrar'), self.close, tipo='primario', alto=38, ancho=110, tam=13, negrita=True))
         capa.addWidget(pie)
         self._pendiente = QTimer(self)
@@ -578,10 +577,6 @@ class DialogoRegistro(Dialogo):
                     subprocess.Popen(['open' if sys.platform == 'darwin' else 'xdg-open', str(registro.ruta_archivo())])
         except Exception as ex:
             registro.aviso(tr('No pude abrir el archivo del registro: {e}', e=ex), 'registro')
-
-    def _limpiar(self):
-        registro.registro().limpiar()
-        self._refrescar()
 
 
 _ABIERTO = [None]

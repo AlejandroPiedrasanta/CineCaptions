@@ -12,6 +12,12 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-03 22:03  ·  v5.68  ·  cambio explicado
+    Registro sin el botón «Limpiar» (pedido del usuario): lo que pasó queda siempre para «Copiar informe».
+    modificados (2):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/registro_ui.py
+
 2026-11-03 21:04  ·  v5.68  ·  (automático)
     modificados (20):
       ~ 1_codigo/version.py

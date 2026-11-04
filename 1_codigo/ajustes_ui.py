@@ -495,6 +495,9 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.69', [
+        'El Registro ya no tiene el botón «Limpiar»: lo que pasó queda siempre ahí para «Copiar informe».',
+    ]),
     ('5.68', [
         'La voz vuelve a transcribirse con Qwen3-ASR (más precisa): desde la 5.64 fallaba en silencio y GO, tras tres intentos, seguía con Whisper. Un GO de 1 minuto pasa de unos 7 minutos a menos de 3.',
     ]),
