@@ -1,29 +1,29 @@
 {
   "estable": {
-    "version": "5.68.0",
-    "notas": "• La voz vuelve a transcribirse con Qwen3-ASR (más precisa): desde la 5.64 fallaba en silencio y GO, tras tres intentos, seguía con Whisper. Un GO de 1 minuto pasa de unos 7 minutos a menos de 3.",
+    "version": "5.69.0",
+    "notas": "• Registro: nuevo botón «Enviar informe»: copia el informe completo y abre WhatsApp de soporte con un resumen ya escrito (tu equipo y los errores); solo pegas el informe y lo envías.\r\n• El Registro ya no tiene «Limpiar» ni «Abrir el archivo»: lo que pasó queda siempre ahí para el informe.\r\n• Ajustes más simple: «Avisarme al terminar» y «Reparar Resolve solo si se traba» van siempre encendidos y ya no salen en Ajustes.\r\n• Acerca de CineCaptions sin «Notas de la versión», «Actualizaciones» ni «Avisarme de las actualizaciones»: la versión nueva se avisa siempre sola y las novedades salen al actualizar (el panel rápido de Ajustes conserva notas y botón).\r\n• Ayuda sin «Qué respondió Resolve» ni «Carpeta de datos».\r\n• General sin «IA de texto», «Otras IA» ni «GPU para la voz»: la IA de texto es siempre la recomendada (Gemma 4 E4B, que pasa sola a una más ligera si no cabe) y la GPU se prepara sola al abrir.\r\n• Interfaz sin «Animaciones» ni «Animaciones de Inicio»: siempre completas; Inicio se aligera solo si el equipo va justo.",
     "fecha": "2026-11-03",
     "archivos": {
       "windows": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.68/Instalar_CineCaptions_5.68.exe",
-        "sha256": "8afe93a70c3a3d41475e6597844d170430bc72277d48f3560caf59346e77b6c6",
-        "tam": 575125535
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.69/Instalar_CineCaptions_5.69.exe",
+        "sha256": "4004a6d76fbb6467b5a2a9cb8afe9923453f5b0c1e849fd9b37ae3c23dd18a35",
+        "tam": 575120100
       },
       "mac_arm64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.68/CineCaptions_Mac_AppleSilicon_5.68.dmg",
-        "sha256": "f60d38433a392140a997ebcd39edf12b96619a5a24b89c5b822a1119df3dd96e",
-        "tam": 549691340
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.69/CineCaptions_Mac_AppleSilicon_5.69.dmg",
+        "sha256": "4c3d8462865d86500933e7b8382d55881bf888657852ce15c446a001097e9d99",
+        "tam": 549673906
       },
       "mac_x86_64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.68/CineCaptions_Mac_Intel_5.68.dmg",
-        "sha256": "622fac190b23b175b80fc7a19bdd1c40c97a95a2641531b92b3b3e38c966d14d",
-        "tam": 578026927
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.69/CineCaptions_Mac_Intel_5.69.dmg",
+        "sha256": "b53805b563bee71d2009a3f4bdf93dbe4a9643eff6653443b0de024f28648f3f",
+        "tam": 578142134
       }
     }
   },
   "firma": {
     "alg": "ed25519",
     "clave": "7a4e413e",
-    "valor": "W18f64BW21f/9wgf/qaNoN1bquswAQFTIkmyCETc2VUT3rizxmH3F+KEvSlFgdKy3msJElCoyWA9JU+HdZYHBA=="
+    "valor": "fE0T7SYbC4CUpaclEVeLhs13SUA9dIb6jCBDtm46l20rLAAeBcbA8mEUrasxdqAh59JLzlK9AYl86qYLW/ZMCg=="
   }
 }
