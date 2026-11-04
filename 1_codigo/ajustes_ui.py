@@ -496,7 +496,7 @@ def desactivar_licencia(app, al_terminar=None):
 
 NOTAS_VERSION = [
     ('5.70', [
-        'Ajustes renovado: cada pestaña y cada ajuste con su ícono, cabeceras más compactas y la ventana con más sitio para lo importante.',
+        'Ajustes renovado: cada pestaña y cada ajuste con su ícono, y sin el título repetido en cada página (el menú ya dice dónde estás): lo importante empieza arriba.',
         'Ayuda: tarjeta de soporte con «Escribir por WhatsApp» (copia el informe de tu equipo y abre el chat con el mensaje ya escrito) y «Visitar cinecaptions.shop».',
         'Acerca de muestra que CineCaptions se actualiza solo, y Atajos ya no enseña un atajo de sonido que no existía.',
     ]),
@@ -2365,8 +2365,9 @@ class VentanaAjustes(_Panel):
         self.pestanas = _Pestanas(nombres, self.pila.setCurrentIndex)
         c.addWidget(self.pestanas)
         for armar in (self._pag_general, self._pag_interfaz, self._pag_atajos, self._pag_acerca, self._pag_ayuda):
-            d = Desplazable(espacio=22, margenes=(60, 34, 56, 34), estirar_final=True)
+            d = Desplazable(espacio=22, margenes=(60, 30, 56, 34), estirar_final=False)
             armar(d.capa)
+            d.capa.addStretch(1)               # v5.70: el sobrante va ABAJO (con estirar_final las páginas cortas quedaban empujadas hacia abajo)
             self.pila.addWidget(d)
         c.addWidget(self.pila, 1)
         pie = QFrame()
@@ -2406,16 +2407,9 @@ class VentanaAjustes(_Panel):
         self.estado.configure(text=tr('Hay cambios sin aplicar.') if pendiente else tr('Las preferencias están actualizadas.'))
 
     def _cabeza_pagina(self, capa, sobre, titulo, texto, icono=None):
-        """v5.70: más compacta (sin el rótulo de arriba, que repetía la pestaña): el cuadrito con el ícono de la página, el título y su línea."""
-        fila, cf = caja_h(espacio=18)
-        if icono:
-            cf.addWidget(_azulejo(icono, 56, 28), 0, Qt.AlignmentFlag.AlignVCenter)
-        col, cc = caja_v(espacio=4)
-        cc.addWidget(Etiqueta(titulo, 28, peso='extra', color='#FFFFFF'))
-        cc.addWidget(TextoAjustable(texto, 15))
-        cf.addWidget(col, 1, Qt.AlignmentFlag.AlignVCenter)
-        capa.addWidget(fila)
-        capa.addSpacing(2)
+        """v5.70 (el usuario: «quita los títulos de cada página, solo deja los del menú, es redundante»): las páginas ya no llevan encabezado;
+        la pestaña dice dónde estás. Se deja la llamada en cada página por si vuelve."""
+        return
 
     # -- General --------------------------------------------------------------
     def _pag_general(self, capa):
@@ -2707,6 +2701,7 @@ class VentanaAjustes(_Panel):
         for i, (tecla, que) in enumerate(atajos):
             filas.append(_FilaAtajo(tecla, que, ultima=i == len(atajos) - 1))
         capa.addWidget(_etiqueta_seccion(tr('Corrector')))
+        capa.addWidget(TextoAjustable(tr('Los atajos de Corrector funcionan mientras el editor está abierto.'), 14))   # (v5.70: era la línea del encabezado)
         capa.addWidget(_grupo(*filas))
         # v5.70: quitada la sección «Sonido» («Tu atajo … se configura en SFX Lab»): ese atajo global ya no existe en el programa
 

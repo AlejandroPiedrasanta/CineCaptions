@@ -12,6 +12,11 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-04 00:01  ·  v5.69  ·  cambio explicado
+    Ajustes sin el título de cada página (el menú ya lo dice) y con el sobrante del desplazable abajo: las páginas cortas ya no quedan empujadas hacia abajo.
+    modificados (1):
+      ~ 1_codigo/ajustes_ui.py
+
 2026-11-03 23:57  ·  v5.69  ·  cambio explicado
     Ajustes renovado: íconos en pestañas, páginas y cada ajuste; cabeceras compactas; Ayuda con tarjeta de soporte (WhatsApp con el informe + cinecaptions.shop); Acerca «Se actualiza sola»; Atajos sin el atajo de sonido que ya no existía.
     modificados (9):
