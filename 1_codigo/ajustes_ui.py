@@ -501,6 +501,7 @@ NOTAS_VERSION = [
         'Acerca de muestra que CineCaptions se actualiza solo, y Atajos ya no enseña un atajo de sonido que no existía.',
         'Edición PRO: con el «Gancho del inicio» encendido, una marca de «Captions detrás de ti» ya no cae sobre la intro (salía un recuadro con la cabeza de la persona encima del destello); el Registro dice por qué.',
         'Slider de estilos: nuevos ejemplos del Tema 3 (solo captions y con PRO: detrás de ti y gancho del inicio).',
+        'Video MP4 sin Resolve con un audio suelto (.wav, .mp3…): ya no se detiene con «el archivo no tiene imagen»; sale un video vertical con los captions sobre un fondo oscuro. Y el Registro ya no lo confunde con «Resolve no está listo».',
         'Edición PRO en la página Tema: el menú de al lado del slider ahora es el del tema que ves al centro. Con el Tema 1 al centro y otro tema elegido, lo que encendías se guardaba en los demás temas y el Tema 1 «no hacía nada». Para la PRO de siempre del Tema 1, enciende «Kit de motions».',
     ]),
     ('5.69', [

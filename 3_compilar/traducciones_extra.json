@@ -10239,5 +10239,40 @@
   "fr": "Impossible d’ouvrir {u} ({e}).",
   "de": "{u} ließ sich nicht öffnen ({e}).",
   "it": "Non sono riuscito ad aprire {u} ({e})."
+ },
+ "No se pudo grabar el video MP4": {
+  "en": "Couldn’t write the MP4 video",
+  "pt": "Não foi possível gravar o vídeo MP4",
+  "fr": "Impossible d’enregistrer la vidéo MP4",
+  "de": "Das MP4-Video konnte nicht geschrieben werden",
+  "it": "Impossibile registrare il video MP4"
+ },
+ "GO sin Resolve graba los subtítulos en una copia MP4 de tu archivo (sin usar DaVinci Resolve) y algo falló al leer tu archivo o al escribir el MP4.": {
+  "en": "GO without Resolve burns the subtitles into an MP4 copy of your file (without DaVinci Resolve) and something failed while reading your file or writing the MP4.",
+  "pt": "O GO sem Resolve grava as legendas numa cópia MP4 do seu arquivo (sem o DaVinci Resolve) e algo falhou ao ler o arquivo ou ao gravar o MP4.",
+  "fr": "GO sans Resolve incruste les sous-titres dans une copie MP4 de votre fichier (sans DaVinci Resolve) et quelque chose a échoué en lisant le fichier ou en écrivant le MP4.",
+  "de": "GO ohne Resolve brennt die Untertitel in eine MP4-Kopie deiner Datei (ohne DaVinci Resolve) und beim Lesen der Datei oder Schreiben des MP4 ist etwas schiefgelaufen.",
+  "it": "GO senza Resolve imprime i sottotitoli in una copia MP4 del tuo file (senza DaVinci Resolve) e qualcosa non ha funzionato leggendo il file o scrivendo l’MP4."
+ },
+ "Comprueba que tu archivo se reproduce bien en la computadora (video o audio).": {
+  "en": "Check that your file plays correctly on the computer (video or audio).",
+  "pt": "Verifique se o arquivo toca bem no computador (vídeo ou áudio).",
+  "fr": "Vérifiez que votre fichier se lit bien sur l’ordinateur (vidéo ou audio).",
+  "de": "Prüfe, ob sich deine Datei am Computer richtig abspielen lässt (Video oder Audio).",
+  "it": "Controlla che il file si riproduca bene sul computer (video o audio)."
+ },
+ "Si el disco está casi lleno, libera espacio: el MP4 se guarda junto a tu archivo (o en Videos › CineCaptions).": {
+  "en": "If the disk is almost full, free up space: the MP4 is saved next to your file (or in Videos › CineCaptions).",
+  "pt": "Se o disco estiver quase cheio, libere espaço: o MP4 é salvo junto ao arquivo (ou em Vídeos › CineCaptions).",
+  "fr": "Si le disque est presque plein, libérez de l’espace : le MP4 est enregistré à côté de votre fichier (ou dans Vidéos › CineCaptions).",
+  "de": "Wenn die Festplatte fast voll ist, schaffe Platz: das MP4 wird neben deiner Datei gespeichert (oder in Videos › CineCaptions).",
+  "it": "Se il disco è quasi pieno, libera spazio: l’MP4 si salva accanto al tuo file (o in Video › CineCaptions)."
+ },
+ "Si se repite, pulsa «Enviar informe» en el Registro.": {
+  "en": "If it happens again, press “Send report” in the Log.",
+  "pt": "Se acontecer de novo, clique em «Enviar relatório» no Registro.",
+  "fr": "Si cela se reproduit, appuyez sur « Envoyer le rapport » dans le Journal.",
+  "de": "Wenn es wieder passiert, drücke „Bericht senden“ im Protokoll.",
+  "it": "Se si ripete, premi «Invia il report» nel Registro."
  }
 }

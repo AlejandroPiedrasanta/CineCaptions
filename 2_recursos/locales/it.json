@@ -4261,6 +4261,11 @@
     "Escríbenos por WhatsApp: el informe de tu equipo se copia solo y el mensaje ya va escrito; pegas el informe y lo envías.": "Scrivici su WhatsApp: il report del tuo computer si copia da solo e il messaggio è già scritto; incolla il report e invialo.",
     "Escribir por WhatsApp": "Scrivi su WhatsApp",
     "Visitar cinecaptions.shop": "Visita cinecaptions.shop",
-    "No pude abrir {u} ({e}).": "Non sono riuscito ad aprire {u} ({e})."
+    "No pude abrir {u} ({e}).": "Non sono riuscito ad aprire {u} ({e}).",
+    "No se pudo grabar el video MP4": "Impossibile registrare il video MP4",
+    "GO sin Resolve graba los subtítulos en una copia MP4 de tu archivo (sin usar DaVinci Resolve) y algo falló al leer tu archivo o al escribir el MP4.": "GO senza Resolve imprime i sottotitoli in una copia MP4 del tuo file (senza DaVinci Resolve) e qualcosa non ha funzionato leggendo il file o scrivendo l’MP4.",
+    "Comprueba que tu archivo se reproduce bien en la computadora (video o audio).": "Controlla che il file si riproduca bene sul computer (video o audio).",
+    "Si el disco está casi lleno, libera espacio: el MP4 se guarda junto a tu archivo (o en Videos › CineCaptions).": "Se il disco è quasi pieno, libera spazio: l’MP4 si salva accanto al tuo file (o in Video › CineCaptions).",
+    "Si se repite, pulsa «Enviar informe» en el Registro.": "Se si ripete, premi «Invia il report» nel Registro."
   }
 }
