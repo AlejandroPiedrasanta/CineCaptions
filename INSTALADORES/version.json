@@ -1,29 +1,29 @@
 {
   "estable": {
-    "version": "5.69.0",
-    "notas": "• Registro: nuevo botón «Enviar informe»: copia el informe completo y abre WhatsApp de soporte con un resumen ya escrito (tu equipo y los errores); solo pegas el informe y lo envías.\r\n• El Registro ya no tiene «Limpiar» ni «Abrir el archivo»: lo que pasó queda siempre ahí para el informe.\r\n• Ajustes más simple: «Avisarme al terminar» y «Reparar Resolve solo si se traba» van siempre encendidos y ya no salen en Ajustes.\r\n• Acerca de CineCaptions sin «Notas de la versión», «Actualizaciones» ni «Avisarme de las actualizaciones»: la versión nueva se avisa siempre sola y las novedades salen al actualizar (el panel rápido de Ajustes conserva notas y botón).\r\n• Ayuda sin «Qué respondió Resolve» ni «Carpeta de datos».\r\n• General sin «IA de texto», «Otras IA» ni «GPU para la voz»: la IA de texto es siempre la recomendada (Gemma 4 E4B, que pasa sola a una más ligera si no cabe) y la GPU se prepara sola al abrir.\r\n• Interfaz sin «Animaciones» ni «Animaciones de Inicio»: siempre completas; Inicio se aligera solo si el equipo va justo.",
-    "fecha": "2026-11-03",
+    "version": "5.70.0",
+    "notas": "• Ajustes renovado: cada pestaña y cada ajuste con su ícono, y sin el título repetido en cada página (el menú ya dice dónde estás): lo importante empieza arriba.\r\n• Ayuda: tarjeta de soporte con «Escribir por WhatsApp» (copia el informe de tu equipo y abre el chat con el mensaje ya escrito) y «Visitar cinecaptions.shop».\r\n• Acerca de muestra que CineCaptions se actualiza solo, y Atajos ya no enseña un atajo de sonido que no existía.\r\n• Edición PRO: con el «Gancho del inicio» encendido, una marca de «Captions detrás de ti» ya no cae sobre la intro (salía un recuadro con la cabeza de la persona encima del destello); el Registro dice por qué.\r\n• Slider de estilos: nuevos ejemplos del Tema 3 (solo captions y con PRO: detrás de ti y gancho del inicio).\r\n• Video MP4 sin Resolve con un audio suelto (.wav, .mp3…): ya no se detiene con «el archivo no tiene imagen»; sale un video vertical con los captions sobre un fondo oscuro. Y el Registro ya no lo confunde con «Resolve no está listo».\r\n• Edición PRO en la página Tema: el menú de al lado del slider ahora es el del tema que ves al centro. Con el Tema 1 al centro y otro tema elegido, lo que encendías se guardaba en los demás temas y el Tema 1 «no hacía nada». Para la PRO de siempre del Tema 1, enciende «Kit de motions».",
+    "fecha": "2026-11-04",
     "archivos": {
       "windows": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.69/Instalar_CineCaptions_5.69.exe",
-        "sha256": "4004a6d76fbb6467b5a2a9cb8afe9923453f5b0c1e849fd9b37ae3c23dd18a35",
-        "tam": 575120100
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.70/Instalar_CineCaptions_5.70.exe",
+        "sha256": "4da789bfa9d5fad71e1140a826a5243671eac7116d3451216be966872792872c",
+        "tam": 576109920
       },
       "mac_arm64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.69/CineCaptions_Mac_AppleSilicon_5.69.dmg",
-        "sha256": "4c3d8462865d86500933e7b8382d55881bf888657852ce15c446a001097e9d99",
-        "tam": 549673906
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.70/CineCaptions_Mac_AppleSilicon_5.70.dmg",
+        "sha256": "809e163d69d73052d323a34971f9ef15d6d43e9284b0c3c13fcbfd922771092a",
+        "tam": 550682776
       },
       "mac_x86_64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.69/CineCaptions_Mac_Intel_5.69.dmg",
-        "sha256": "b53805b563bee71d2009a3f4bdf93dbe4a9643eff6653443b0de024f28648f3f",
-        "tam": 578142134
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.70/CineCaptions_Mac_Intel_5.70.dmg",
+        "sha256": "88dbb089992eb8014b025641f8d812c5972bc6f1a65ea1c41831afe9f3f1922a",
+        "tam": 579079999
       }
     }
   },
   "firma": {
     "alg": "ed25519",
     "clave": "7a4e413e",
-    "valor": "fE0T7SYbC4CUpaclEVeLhs13SUA9dIb6jCBDtm46l20rLAAeBcbA8mEUrasxdqAh59JLzlK9AYl86qYLW/ZMCg=="
+    "valor": "7d72Mnjmrn7bTqFPlmcw/eIMOiR9Kh5wQv2stRu8woCDWzc7/RrfSZjzzMwXeaFPNx9uSMrI4ebKzgJR1Mq/Dw=="
   }
 }
