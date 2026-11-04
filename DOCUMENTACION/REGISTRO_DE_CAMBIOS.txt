@@ -12,6 +12,22 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-03 19:34  ·  v5.66  ·  cambio explicado
+    Sonido «Mezclador» (propuesta C): tres columnas sobre el cielo — estilo/opciones/biblioteca, mezcla a lo ancho con inspector, video vertical y música. sonido_skill.visual ya no rompe con un audio suelto (la página quedaba vacía). Textos de Sonido traducidos (37).
+    nuevos (1):
+      + 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/chrome_debug.log
+    modificados (10):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/sonido_skill.py
+      ~ 1_codigo/sonido_skill_ui.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 3_compilar/traducciones_extra.json
+
 2026-11-03 18:36  ·  v5.66  ·  cambio explicado
     v5.67 (el usuario: «busca actualizaciones en todas las librerías, actualiza todo y Python a la última versión»): Python ya era lo último (3.15.2 / 3.14.10); motores con transformers 5.22.1, huggingface_hub 2.4.0, ctranslate2 4.8.5, hf-xet 1.8.0 y menores (probadas aisladas: mismo resultado); Remotion 4.0.540 + Chrome 158 + three 0.187 + mediabunny 1.65.1 (renders A/B ≤ 1,4/255).
     nuevos (168):
