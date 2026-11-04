@@ -10176,5 +10176,68 @@
   "fr": "Le GPU a échoué ; je continue sur le CPU (plus lent). Il se répare tout seul à la prochaine ouverture de CineCaptions.",
   "de": "Die GPU ist ausgefallen; ich mache mit der CPU weiter (langsamer). Beim nächsten Öffnen von CineCaptions repariert sie sich selbst.",
   "it": "La GPU non ha funzionato; continuo con la CPU (più lento). Si ripara da sola alla prossima apertura di CineCaptions."
+ },
+ "Se actualiza sola": {
+  "en": "Updates itself",
+  "pt": "Atualiza-se sozinho",
+  "fr": "Se met à jour tout seul",
+  "de": "Aktualisiert sich selbst",
+  "it": "Si aggiorna da solo"
+ },
+ "Versión, licencia y créditos.": {
+  "en": "Version, license and credits.",
+  "pt": "Versão, licença e créditos.",
+  "fr": "Version, licence et crédits.",
+  "de": "Version, Lizenz und Mitwirkende.",
+  "it": "Versione, licenza e crediti."
+ },
+ "¿Algo no funciona? Escríbenos: el informe de tu equipo va listo para enviar.": {
+  "en": "Something not working? Write to us: your computer’s report is ready to send.",
+  "pt": "Algo não funciona? Escreva para nós: o relatório do seu computador já vai pronto.",
+  "fr": "Quelque chose ne marche pas ? Écrivez-nous : le rapport de votre ordinateur est prêt à envoyer.",
+  "de": "Funktioniert etwas nicht? Schreib uns: der Bericht deines Computers ist versandbereit.",
+  "it": "Qualcosa non funziona? Scrivici: il report del tuo computer è pronto da inviare."
+ },
+ "Herramientas": {
+  "en": "Tools",
+  "pt": "Ferramentas",
+  "fr": "Outils",
+  "de": "Werkzeuge",
+  "it": "Strumenti"
+ },
+ "¿Necesitas ayuda?": {
+  "en": "Need help?",
+  "pt": "Precisa de ajuda?",
+  "fr": "Besoin d’aide ?",
+  "de": "Brauchst du Hilfe?",
+  "it": "Ti serve aiuto?"
+ },
+ "Escríbenos por WhatsApp: el informe de tu equipo se copia solo y el mensaje ya va escrito; pegas el informe y lo envías.": {
+  "en": "Write to us on WhatsApp: your computer’s report is copied automatically and the message is already written; just paste the report and send it.",
+  "pt": "Escreva para nós no WhatsApp: o relatório do seu computador é copiado sozinho e a mensagem já vai escrita; cole o relatório e envie.",
+  "fr": "Écrivez-nous sur WhatsApp : le rapport de votre ordinateur est copié tout seul et le message est déjà écrit ; collez le rapport et envoyez-le.",
+  "de": "Schreib uns auf WhatsApp: der Bericht deines Computers wird automatisch kopiert und die Nachricht ist schon geschrieben; füge den Bericht ein und sende ihn.",
+  "it": "Scrivici su WhatsApp: il report del tuo computer si copia da solo e il messaggio è già scritto; incolla il report e invialo."
+ },
+ "Escribir por WhatsApp": {
+  "en": "Message on WhatsApp",
+  "pt": "Escrever pelo WhatsApp",
+  "fr": "Écrire sur WhatsApp",
+  "de": "Über WhatsApp schreiben",
+  "it": "Scrivi su WhatsApp"
+ },
+ "Visitar cinecaptions.shop": {
+  "en": "Visit cinecaptions.shop",
+  "pt": "Visitar cinecaptions.shop",
+  "fr": "Visiter cinecaptions.shop",
+  "de": "cinecaptions.shop besuchen",
+  "it": "Visita cinecaptions.shop"
+ },
+ "No pude abrir {u} ({e}).": {
+  "en": "Couldn’t open {u} ({e}).",
+  "pt": "Não consegui abrir {u} ({e}).",
+  "fr": "Impossible d’ouvrir {u} ({e}).",
+  "de": "{u} ließ sich nicht öffnen ({e}).",
+  "it": "Non sono riuscito ad aprire {u} ({e})."
  }
 }

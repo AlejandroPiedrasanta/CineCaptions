@@ -12,6 +12,19 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-03 23:57  ·  v5.69  ·  cambio explicado
+    Ajustes renovado: íconos en pestañas, páginas y cada ajuste; cabeceras compactas; Ayuda con tarjeta de soporte (WhatsApp con el informe + cinecaptions.shop); Acerca «Se actualiza sola»; Atajos sin el atajo de sonido que ya no existía.
+    modificados (9):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/registro.py
+      ~ 1_codigo/registro_ui.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 3_compilar/traducciones_extra.json
+
 2026-11-03 22:23  ·  v5.69  ·  (automático)
     modificados (20):
       ~ 1_codigo/version.py

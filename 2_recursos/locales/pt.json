@@ -4252,6 +4252,15 @@
     "No pude abrir WhatsApp ({e}). El informe ya está copiado: mándalo a +502 3657 3658.": "Não consegui abrir o WhatsApp ({e}). O relatório já está copiado: envie para +502 3657 3658.",
     "sin navegador": "sem navegador",
     "Motor de voz, espacio de las cachés y video MP4.": "Motor de voz, espaço dos caches e vídeo MP4.",
-    "La GPU falló; sigo con la CPU (más lento). Al volver a abrir CineCaptions se repara sola.": "A GPU falhou; sigo com a CPU (mais lento). Ela se repara sozinha ao abrir o CineCaptions de novo."
+    "La GPU falló; sigo con la CPU (más lento). Al volver a abrir CineCaptions se repara sola.": "A GPU falhou; sigo com a CPU (mais lento). Ela se repara sozinha ao abrir o CineCaptions de novo.",
+    "Se actualiza sola": "Atualiza-se sozinho",
+    "Versión, licencia y créditos.": "Versão, licença e créditos.",
+    "¿Algo no funciona? Escríbenos: el informe de tu equipo va listo para enviar.": "Algo não funciona? Escreva para nós: o relatório do seu computador já vai pronto.",
+    "Herramientas": "Ferramentas",
+    "¿Necesitas ayuda?": "Precisa de ajuda?",
+    "Escríbenos por WhatsApp: el informe de tu equipo se copia solo y el mensaje ya va escrito; pegas el informe y lo envías.": "Escreva para nós no WhatsApp: o relatório do seu computador é copiado sozinho e a mensagem já vai escrita; cole o relatório e envie.",
+    "Escribir por WhatsApp": "Escrever pelo WhatsApp",
+    "Visitar cinecaptions.shop": "Visitar cinecaptions.shop",
+    "No pude abrir {u} ({e}).": "Não consegui abrir {u} ({e})."
   }
 }
