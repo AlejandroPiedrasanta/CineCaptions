@@ -30,7 +30,7 @@ Python con dependencias (`$PY`): `6_compilacion/venv315/Scripts/python.exe`.
 - **sonido** (Sonido y emojis (SFX Lab, reglas, emojis)): sfx-lab ducking-energia sonido-palabra sonido-emojis sonido-extra sonido-estilo emojis-estilos emojis-posicion-free biblioteca-sonidos emojis-coherentes sonido-pro sonido-biblioteca ai-sound-director
 - **guion** (Estilo «guion» (pack Referencia, palabra a palabra)): guion-planificador creativo-guion estilo-oracion barrido-referencia
 - **kinetic** (Estilo «Kinetic» (títulos de gancho: héroe, cintas, anillos)): kinetic-planificador kinetic-pack kinetic-neon-kit kinetic-app-resolve kinetic-pruebas
-- **viral** (Estilo «VIRAL» (pila fina + negrita cursiva y los efectos shatter, select, drag)): viral-planificador viral-pack viral-app-resolve viral-pruebas viral-select-drag viral-colores
+- **viral** (Estilo «VIRAL» (pila fina + negrita cursiva y los efectos shatter, select, drag)): viral-planificador viral-pack viral-app-resolve viral-pruebas viral-select-drag viral-crea-efectos viral-colores
 - **voz-ia** (Voz e IA de texto): voz-ia texto-ayudas ortografia-temas voz-vocabulario
 - **resolve** (Resolve (API, MCP, scripts, vistas reales)): resolve-api fluidez-resolve vista-real-previo resolve-mcp-mac free-sin-io resolve-colgado scripts-resolve-inventario conexion-auto
 - **compilar** (Compilar, versiones, instaladores (Windows y Mac)): instalador-cs version mac compilar-win actualizaciones mac-actualizar equipo-al-dia

@@ -79,7 +79,8 @@ MOTOR_DE_PACK = {l['pack']: l['motor'] for l in TEMAS_ENTEROS}
 
 # ----------------------------------------------------------------------------------------------------------------------------- el catálogo de looks (packs de antes)
 NOMBRES_T1 = {'lima': 'Círculo lima', 'blanco-rojo': 'Pegatina roja', 'magenta': 'Magenta subrayado', 'amarillo': 'A mano y pegatina', 'serif': 'Lazo magenta', 'blanco-cian': 'A mano subrayada'}   # v5.5.13: tema neón
-NOMBRES_T3 = {'pila': 'Pila y negrita', 'v shatter': 'Shatter (cristal)', 'v select': 'Select (caja)', 'v drag': 'Drag (mano)'}
+NOMBRES_T3 = {'pila': 'Pila y negrita', 'v shatter': 'Shatter (cristal)', 'v select': 'Select (caja)', 'v drag': 'Drag (mano)',
+              'v corte': 'Corte', 'v shine': 'Giro 3D', 'v resalta': 'Resaltado'}   # v5.75: EJEMPLO 2 (se parte), EJEMPLO3 (letras con volumen que giran), selección del iPhone
 
 
 def catalogo():
@@ -124,6 +125,9 @@ PRINCIPALES_CREA = (
     {'id': 'p_t3_select', 'tema': 3, 'look': 't3:select', 'efecto': 'Caja'},
     {'id': 'p_t3_shatter', 'tema': 3, 'look': 't3:shatter', 'efecto': 'Cristal'},
     {'id': 'p_t3_drag', 'tema': 3, 'look': 't3:drag', 'efecto': 'Arrastre'},
+    {'id': 'p_t3_corte', 'tema': 3, 'look': 't3:corte', 'efecto': 'Corte'},           # v5.75: rosa con volumen que se parte en 6 trozos
+    {'id': 'p_t3_shine', 'tema': 3, 'look': 't3:shine', 'efecto': 'Giro 3D'},         # v5.75: naranja con volumen, letras que giran una tras otra
+    {'id': 'p_t3_resalta', 'tema': 3, 'look': 't3:resalta', 'efecto': 'Resaltado'},   # v5.75: la selección azul del iPhone con su asa
     {'id': 'p_t4', 'tema': 4, 'look': 't4', 'efecto': 'Brillo'},
     {'id': 'p_t5', 'tema': 5, 'look': 't5', 'efecto': 'Brillo'},
     {'id': 'p_t6', 'tema': 6, 'look': 't6', 'efecto': 'Brillo'},

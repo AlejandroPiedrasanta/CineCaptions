@@ -3281,6 +3281,53 @@
       "resumen": "v5.55: letra blanco roto con brillo y sin contorno, guiones gruesos, cursor grande (con sitio en apilar); Drag: la mano entra, agarra y arrastra la palabra 0,9 em, gris → blanco, y se va por detrás. Text+ SUMA el espaciado: 0,97 ya casaba"
     },
     {
+      "id": "viral-crea-efectos",
+      "grupo": "viral",
+      "tema": "Corte, Giro 3D y Resaltado: tres textos principales nuevos del Tema 3 para «Crea tu estilo», copiados de EJEMPLO 2, EJEMPLO3 y la selección del iPhone",
+      "claves": [
+        "corte",
+        "shatter rosa",
+        "giro 3d",
+        "shine",
+        "resaltado",
+        "selección",
+        "iphone",
+        "volumen",
+        "bisel",
+        "relieve",
+        "follower",
+        "delaytype",
+        "timestretcher",
+        "crea tu estilo",
+        "principales"
+      ],
+      "archivos": [
+        "2_recursos/generador_packs/viral_elementos.py",
+        "viral_captions.py",
+        "viral_planificador.py",
+        "mezcla_planificador.py",
+        "render_temas.py",
+        "mezcla_vista.py",
+        "herramientas_dev/hacer_vistas_crea.py"
+      ],
+      "simbolos": [
+        "comp_corte",
+        "comp_shine",
+        "comp_resalta",
+        "_relieve",
+        "_spline",
+        "_curva",
+        "SHINE_LETRA_Y",
+        "SHINE_CARA",
+        "CORTE_TROZOS",
+        "RESALTA_ARRIBA",
+        "LADOS",
+        "PRINCIPALES_CREA",
+        "NOMBRES_T3"
+      ],
+      "resumen": "v5.75: «v corte», «v shine» y «v resalta» solo salen pedidos (looks t3:corte / t3:shine / t3:resalta), fuera de la rotación del Tema 3. Volumen 2D con _relieve (dos Custom; luz arriba a la izquierda), Follower con claves y DelayType 1, TimeStretcher para fps."
+    },
+    {
       "id": "viral-colores",
       "grupo": "viral",
       "tema": "Colores de los efectos de VIRAL (4 por efecto, rotan)",

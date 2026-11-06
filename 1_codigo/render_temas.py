@@ -48,6 +48,9 @@ SHATTER_V = {'': [(0.0, (0.10, 0.52, 0.98)), (0.5, (0.42, 0.74, 1.0)), (1.0, (0.
              'lima': [(0.0, (0.30, 0.74, 0.08)), (0.5, (0.60, 0.94, 0.28)), (1.0, (0.88, 1.0, 0.70))],
              'oro': [(0.0, (0.93, 0.50, 0.03)), (0.5, (1.0, 0.77, 0.24)), (1.0, (1.0, 0.94, 0.68))]}
 BISEL_V = {'': (0.05, 0.38, 0.86), 'rosa': (0.72, 0.05, 0.34), 'lima': (0.18, 0.50, 0.04), 'oro': (0.68, 0.32, 0.0)}
+# v5.75 (= viral_elementos.comp_corte / comp_shine, ya quietos): rosa con el centro claro y filo oscuro; naranja con franjas amarillas y filo rojo
+CORTE_V, BISEL_CORTE_V = [(0.0, (0.99, 0.13, 0.82)), (0.5, (1.0, 0.55, 0.90)), (1.0, (0.99, 0.13, 0.82))], (0.68, 0.10, 0.51)
+SHINE_V, BISEL_SHINE_V = [(0.0, (0.99, 0.30, 0.0)), (0.27, (0.99, 0.73, 0.03)), (0.5, (0.99, 0.30, 0.0)), (0.73, (0.99, 0.73, 0.03)), (1.0, (0.99, 0.30, 0.0))], (0.80, 0.16, 0.0)
 CAJA_V = {'': (1.0, 0.04, 0.04), 'azul': (0.10, 0.45, 1.0), 'verde': (0.05, 0.85, 0.35), 'naranja': (1.0, 0.50, 0.05)}
 TINTE_V = {'': (1.0, 1.0, 1.0), 'amarillo': (1.0, 0.92, 0.25), 'cian': (0.30, 0.92, 1.0), 'rosa': (1.0, 0.55, 0.80)}
 INCLINACION_V = 0.21                   # ShearX de la negrita (cursiva sintética)
@@ -611,6 +614,14 @@ def _elemento_viral(r, s, aj=None):
             grad, bisel = degradado_usuario(grad, nuevo), _derivar(_base_de(grad), bisel, nuevo, brillo=True)
         sp = texto(txt, par, em * s, degradado=grad, esp=1.0, apretar=apretar, contorno=0.025, color_contorno=bisel,
                    halo=(0.12, 0.45), sombra=(0.5, 0.03, 0.06))
+    elif base in ('v corte', 'v shine'):                           # v5.75 (la vista: ya quieta, sin trozos ni giro)
+        grad, bisel = (CORTE_V, BISEL_CORTE_V) if base == 'v corte' else (SHINE_V, BISEL_SHINE_V)
+        if nuevo:
+            grad, bisel = degradado_usuario(grad, nuevo), _derivar(_base_de(grad), bisel, nuevo, brillo=True)
+        sp = texto(txt, par, em * s, degradado=grad, esp=1.0, apretar=apretar, contorno=0.012, color_contorno=bisel, sombra=(0.5, 0.03, 0.06))
+    elif base == 'v resalta':                                      # v5.75: la selección del iPhone ya hecha (viral_elementos.RESALTA_*; sin el asa)
+        color = _rgb01(nuevo) if nuevo else (0.98, 0.98, 0.98)
+        sp = texto(txt, par, em * s, color=color, esp=1.0, apretar=apretar, caja=dict(color=(0.02, 0.0, 0.96), pad_x=0.05, arriba=0.834, abajo=0.17))
     elif base == 'v select':                                       # (su caja punteada es otra capa: _caja_select)
         color = _rgb01(nuevo) if nuevo else (EFECTO_V,) * 3
         brillo = BRILLO_EFECTO_V[:2] + (_derivar((EFECTO_V,) * 3, BRILLO_EFECTO_V[2], nuevo, brillo=True),) if nuevo else BRILLO_EFECTO_V

@@ -1,12 +1,12 @@
 # CineCaptions · By Cinema Productions
-# 1_codigo/herramientas_dev/hacer_vistas_crea.py — las 20 previas animadas de «Crea tu estilo» (2_recursos/guia_estilo/crea): GO real en un proyecto temporal y troceado.
+# 1_codigo/herramientas_dev/hacer_vistas_crea.py — las 23 previas animadas de «Crea tu estilo» (2_recursos/guia_estilo/crea): GO real en un proyecto temporal y troceado.
 r"""
 hacer_vistas_crea.py  (v5.75)
 -----------------------------
 Las previas de la página (cada texto base y cada texto principal SOLO, animado sobre negro) salen de UN render real de Resolve:
 
   1. entrar  : Resolve abierto y LIBRE (nada del usuario en uso) → proyecto temporal zz_CREA_CC (proyecto_pruebas; el del usuario se guarda)
-  2. go      : GO de la app sin pantalla (hacer_vistas_mezcla._go) sobre un video negro con la frase de muestra una vez por look (16 tramos de
+  2. go      : GO de la app sin pantalla (hacer_vistas_mezcla._go) sobre un video negro con la frase de muestra una vez por look (19 tramos de
                6,5 s), «increíbles» forzada como principal en todos (sin marcas el Tema 4 se queda sin principal y el 6 marca «vean»), solo
                captions. Trampas: LOCALAPPDATA = \\localhost\c$\... (la AppData de Claude guarda motores viejos) y ui.crear_app.
                Después de GO: APAGAR la pista «PRO · Motions completo» si salió y ESPERAR a que la caché de Fusion deje de crecer
@@ -32,7 +32,7 @@ AQUI = Path(__file__).resolve().parent
 CODIGO = AQUI.parent
 TRABAJO = Path.home() / 'DaVinciSubtitles' / 'vistas_crea'
 LOOKS = ['t1:lima', 't1:magenta', 't1:amarillo', 't2:1', 't2:2', 't2:3', 't2:6', 't2:7', 't2:8', 't3:pila', 't3:select', 't3:shatter', 't3:drag',
-         't4', 't5', 't6']
+         't3:corte', 't3:shine', 't3:resalta', 't4', 't5', 't6']
 
 SEG, T_MAIN = 6.5, 2.40
 W, H = 1080, 1100
@@ -44,7 +44,8 @@ QUIETO = 0.9
 CORTES = {0: ('p_t1_circulo', 'b_t1_serif', T_MAIN - 0.05), 1: ('p_t1_subrayado', None, 0), 2: (None, 'b_t1_amano', T_MAIN - 0.05),
           3: ('p_t2_impacto', 'b_t2', 1.62), 4: ('p_t2_editorial', None, 0), 5: ('p_t2_highlight', None, 0), 6: ('p_t2_fire', None, 0),
           7: ('p_t2_strike', None, 0), 8: ('p_t2_underline', None, 0), 9: (None, 'b_t3', T_MAIN - 0.05), 10: ('p_t3_select', None, 0),
-          11: ('p_t3_shatter', None, 0), 12: ('p_t3_drag', None, 0), 13: ('p_t4', 'b_t4', 2.34), 14: ('p_t5', None, 0), 15: ('p_t6', 'b_t6', 2.34)}
+          11: ('p_t3_shatter', None, 0), 12: ('p_t3_drag', None, 0), 13: ('p_t3_corte', None, 0), 14: ('p_t3_shine', None, 0),
+          15: ('p_t3_resalta', None, 0), 16: ('p_t4', 'b_t4', 2.34), 17: ('p_t5', None, 0), 18: ('p_t6', 'b_t6', 2.34)}
 
 
 def leer(ruta, t0, t1, gris=False):
@@ -120,7 +121,7 @@ def hacer(render, salida, k, p_id, b_id, fin_base, solo):
             print(f'{b_id}: {t0 + i0 / FPS:.2f}-{t0 + i1 / FPS:.2f} s, caja {c}', flush=True)
     if p_id and (not solo or p_id in solo):
         fr = leer(render, t0 + T_MAIN - 0.12, t0 + SEG - 0.1).copy()
-        if k <= 12:                                                     # Temas 1-3: la base SIGUE en pantalla con la principal: se borra
+        if k <= 15:                                                     # Temas 1-3: la base SIGUE en pantalla con la principal: se borra
             antes = leer(render, t0 + T_MAIN - 0.10, t0 + T_MAIN - 0.05)   # (Temas 4-6: la base es otro bloque que ya se fue; borrarla agujereaba)
             base = dilatar(antes.max(axis=3).max(axis=0) > 14, 5)   # (umbral bajo: también el halo de la base)
             for i in range(len(fr)):

@@ -12,6 +12,28 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-06 16:25  ·  v5.74  ·  cambio explicado
+    v5.75: tres textos principales nuevos del Tema 3 para Crea tu estilo copiados de los ejemplos del usuario: Corte (EJEMPLO 2), Giro 3D (EJEMPLO3) y Resaltado (seleccion del iPhone); volumen 2D con la luz arriba a la izquierda; el Follower solo reparte con DelayType 1
+    nuevos (4):
+      + 1_codigo/herramientas_dev/hacer_vistas_crea.py
+      + 2_recursos/guia_estilo/crea/p_t3_corte.mp4
+      + 2_recursos/guia_estilo/crea/p_t3_resalta.mp4
+      + 2_recursos/guia_estilo/crea/p_t3_shine.mp4
+    modificados (32):
+      ~ 1_codigo/crea_estilo_ui.py
+      ~ 1_codigo/director_sonido_diseno.py
+      ~ 1_codigo/mezcla_planificador.py
+      ~ 1_codigo/mezcla_vista.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/recomendaciones.py
+      ~ 1_codigo/render_temas.py
+      ~ 1_codigo/viral_captions.py
+      ~ 1_codigo/viral_planificador.py
+      ~ 2_recursos/generador_packs/viral_elementos.py
+      ~ 2_recursos/guia_estilo/crea/b_t1_amano.mp4
+      ~ 2_recursos/guia_estilo/crea/b_t1_serif.mp4
+      … y 20 más
+
 2026-11-06 13:29  ·  v5.74  ·  cambio explicado
     v5.75 «Crea tu estilo» nueva: el usuario dijo que la página estaba horrible y pidió ver los captions animados sobre negro, separar texto base (6, sin repetidos) de textos principales (14, todos con efecto), quitar los que solo cambiaban de color (recetas 1 y 5 del Tema 1 idénticas; estilos 4 y 5 del Tema 2) y una lista con TODAS las letras instaladas para el texto principal. La base pone su letra en arriba y abajo de todos los principales (fuente_secundaria): llevar la línea base entera de un tema a otro pedía tocar los gemelos de Resolve. Previas en 2_recursos/guia_estilo/crea con Reproductor.tam (decodifica al tamaño de la tarjeta; ancho múltiplo de 16 por un fallo de PyAV 19 a 290/292 px).
     nuevos (20):
