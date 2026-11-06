@@ -1,29 +1,29 @@
 {
   "estable": {
     "version": "5.72.0",
-    "notas": "• El instalador revisa tu equipo (procesador, memoria, tarjeta gráfica y su driver) y lo pone al día solo, sin abrir ventanas: instala Microsoft Visual C++ si falta y, con DaVinci Resolve cerrado, el driver más nuevo de tu tarjeta desde Windows Update. Windows pide permiso una sola vez.\r\n• En los portátiles con dos tarjetas gráficas, CineCaptions y su IA usan la de alto rendimiento.\r\n• Si a la voz o a la IA les falta alguna librería, se ponen al día solas al abrir CineCaptions, sin reinstalar.\r\n• Lo que le falte a tu equipo (un driver antiguo, poca memoria o poco disco) aparece en el Registro.\r\n• Para darte soporte, CineCaptions envía una ficha técnica de tu equipo y, con cada error, una captura de la pantalla (sin tus videos, nombres ni archivos).\r\n• Cuando una versión deja de poder usarse, CineCaptions pide actualizar antes de seguir.",
+    "notas": "• El instalador revisa tu equipo (procesador, memoria, tarjeta gráfica y su driver) y lo pone al día solo, sin abrir ventanas: instala Microsoft Visual C++ si falta y, con DaVinci Resolve cerrado, el driver más nuevo de tu tarjeta desde Windows Update. Windows pide permiso una sola vez.\r\n• En los portátiles con dos tarjetas gráficas, CineCaptions y su IA usan la de alto rendimiento.\r\n• Si a la voz o a la IA les falta alguna librería, se ponen al día solas al abrir CineCaptions, sin reinstalar.\r\n• Lo que le falte a tu equipo (un driver antiguo, poca memoria o poco disco) aparece en el Registro.\r\n• Mac con DaVinci Resolve gratuito: GO espera bien el audio del timeline y, si algo falla, dice el motivo real (por ejemplo, un permiso de macOS que hay que volver a dar).\r\n• Windows: si el «Control inteligente de aplicaciones» bloquea una parte de CineCaptions, el Registro lo explica y dice cómo resolverlo.\r\n• Para darte soporte, CineCaptions envía una ficha técnica de tu equipo y, con cada error, una captura de la pantalla (sin tus videos, nombres ni archivos).\r\n• Cuando una versión deja de poder usarse, CineCaptions pide actualizar antes de seguir.",
     "fecha": "2026-11-06",
     "archivos": {
       "windows": {
         "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.72/Instalar_CineCaptions_5.72.exe",
-        "sha256": "92bc442e68ddae3da8e83f695c506639c8fff6ffc53ebb78b1492191443d196a",
-        "tam": 576996315
+        "sha256": "0f4038d1f09b94490d5c4d41c9b660b0d15faf621bf70d181b8f164b745d5c40",
+        "tam": 577011106
       },
       "mac_arm64": {
         "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.72/CineCaptions_Mac_AppleSilicon_5.72.dmg",
-        "sha256": "9a0880f28d07d3eef703203f68d3a92236ce5f93f5aee2ccb25047a87a3121c4",
-        "tam": 554973018
+        "sha256": "cc8721f51f4a68855666b2d5f725df29c3be3e717c0b4e287af936509a8b88fd",
+        "tam": 554973538
       },
       "mac_x86_64": {
         "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.72/CineCaptions_Mac_Intel_5.72.dmg",
-        "sha256": "e24412fc1a01f06f0c23bf09ba9ca26be8737c7b36aab69365148eb58ae3b42d",
-        "tam": 580237639
+        "sha256": "acb0374628635f3cb4ec885e9b2052da1db3451462e8e9bb9eda64b787346110",
+        "tam": 579861101
       }
     }
   },
   "firma": {
     "alg": "ed25519",
     "clave": "7a4e413e",
-    "valor": "7NRO4U/t6JLsKApr5fNmBSGc4suY808jDHPH/EmIHFI3a/Qnz1WDhKvj1PbdI8xwy2kDKx3UHmg19GZ+IVkSDg=="
+    "valor": "vfZbJISPfBuFYYsBTvpK6d1qBAy/sfSJxpnfkJt1y2hgR8Hj4Cbpjn/p0e+HqltNOlcFyAjnAjqkGveTLWisAQ=="
   }
 }
