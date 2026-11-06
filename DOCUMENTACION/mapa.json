@@ -2097,7 +2097,8 @@
         "firma",
         "_enviar",
         "_pedir_captura",
-        "_tomar_captura",
+        "_tomar_capturas",
+        "_ventana_del_programa",
         "_guardar_capturas",
         "datos_equipo"
       ],
