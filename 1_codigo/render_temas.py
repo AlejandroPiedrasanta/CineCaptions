@@ -196,6 +196,8 @@ def texto(txt, par, em, color=(1, 1, 1), degradado=None, esp=1.0, contorno=0.0, 
             ancho_c = max(1, int(round(cx1 - cx0)))
             banda = Image.fromarray(np.ascontiguousarray(np.broadcast_to(fila[:, None, :], (alto_c, ancho_c, 3)).astype(np.uint8)), 'RGB').convert('RGBA')
             img.alpha_composite(banda, (int(round(cx0)), int(round(cy0))))
+        elif caja.get('radio'):                                      # v5.75: la caja redondeada del Tema 3 (radio × alto de la caja)
+            dc.rounded_rectangle([cx0, cy0, cx1, cy1], radius=caja['radio'] * (cy1 - cy0), fill=col)
         else:
             dc.rectangle([cx0, cy0, cx1, cy1], fill=col)
     if solo_caja:
@@ -598,6 +600,19 @@ def _elemento_viral(r, s, aj=None):
     par_tema, esp = VC.CLIPS.get(base, (VC.INTER_18, 1.0))
     par = par_usuario(par_tema, aj)
     nuevo = (aj or {}).get('color')                                # v5.55: el color elegido para su rol (la caja del select no lo recibe)
+    if base.startswith('v linea'):                                 # v5.75: el Tema 3 de una línea (otra letra: su em por Size es el de linea_planificador)
+        import linea_planificador as LP
+        em = float(r.get('size') or 0.1) * LP.K_PX
+        par = par_usuario(par_tema, aj)
+        txt = str(r.get('texto') or '')
+        apretar = (1.0 - esp) * K_ESP_TEXTPLUS * em * s
+        color_caja = _rgb01(nuevo) if nuevo else ((0.12, 0.36, 1.0) if base.endswith('azul') else (0.075, 0.075, 0.075))
+        caja = (dict(color=color_caja, pad_x=0.35 * LP.CAP_EM, arriba=1.53 * LP.CAP_EM, abajo=0.52 * LP.CAP_EM, radio=LP.RADIO_CAJA)
+                if base.startswith('v linea activa') else None)
+        sp = texto(txt, par, em * s, color=(0.98, 0.98, 0.98), esp=1.0, apretar=apretar, contorno=0.045,
+                   color_contorno=(0.078, 0.078, 0.078), sombra=(0.65, 0.0, 0.1), caja=caja)
+        _anotar(sp, par_tema, em, par, em, txt)
+        return sp, em, _centro(par)
     em = float(r.get('size') or 0.05) * VC.K_PX
     txt = str(r.get('texto') or '')
     em_tema = em
@@ -719,6 +734,8 @@ def capas_de_cue(estilo, cue, s, dx, dy):
                 # v5.5.10: qué es cada capa, para que la vista de Creativo (vista_tema.py) la anime como su macro (el MP4 no lo usa)
                 'tipo': tipo, 'k': str(r.get('k') or ''), 'rol': r.get('rol'), 'pack': (estilo or {}).get('pack'), 'em': em * s,
                 'cue_t0': ini}
+        if capa['k'].startswith('v linea activa'):                 # v5.75: la caja del Tema 3 salta de palabra en palabra (corte seco, como el clip)
+            capa.update(entrada=0.0, sube=0.0)
         total = getattr(sp, 'total', 0.0)
         if tipo == 'viral' and total:                               # v5.55: dónde va la palabra dentro del sprite y cuántas letras «mide» (lo que escribe el «select»)
             capa.update(tinta=(0.5 - total / (2.0 * W), 0.5 + total / (2.0 * W)), letras=total / (0.62 * em * s))

@@ -80,7 +80,7 @@ MOTOR_DE_PACK = {l['pack']: l['motor'] for l in TEMAS_ENTEROS}
 # ----------------------------------------------------------------------------------------------------------------------------- el catálogo de looks (packs de antes)
 NOMBRES_T1 = {'lima': 'Círculo lima', 'blanco-rojo': 'Pegatina roja', 'magenta': 'Magenta subrayado', 'amarillo': 'A mano y pegatina', 'serif': 'Lazo magenta', 'blanco-cian': 'A mano subrayada'}   # v5.5.13: tema neón
 NOMBRES_T3 = {'pila': 'Pila y negrita', 'v shatter': 'Shatter (cristal)', 'v select': 'Select (caja)', 'v drag': 'Drag (mano)',
-              'v corte': 'Corte', 'v shine': 'Giro 3D', 'v resalta': 'Resaltado'}   # v5.75: EJEMPLO 2 (se parte), EJEMPLO3 (letras con volumen que giran), selección del iPhone
+              'v corte': 'Corte', 'v shine': 'Giro 3D', 'v resalta': 'Resaltado', 'v linea': 'Línea con caja'}   # v5.75: EJEMPLO 2 (se parte), EJEMPLO3 (letras con volumen que giran), selección del iPhone
 
 
 def catalogo():
@@ -128,6 +128,7 @@ PRINCIPALES_CREA = (
     {'id': 'p_t3_corte', 'tema': 3, 'look': 't3:corte', 'efecto': 'Corte'},           # v5.75: rosa con volumen que se parte en 6 trozos
     {'id': 'p_t3_shine', 'tema': 3, 'look': 't3:shine', 'efecto': 'Giro 3D'},         # v5.75: naranja con volumen, letras que giran una tras otra
     {'id': 'p_t3_resalta', 'tema': 3, 'look': 't3:resalta', 'efecto': 'Resaltado'},   # v5.75: la selección azul del iPhone con su asa
+    {'id': 'p_t3_linea', 'tema': 3, 'look': 't3:linea', 'efecto': 'Línea'},            # v5.75: el Tema 3 nuevo (una línea, caja que salta); caja azul
     {'id': 'p_t4', 'tema': 4, 'look': 't4', 'efecto': 'Brillo'},
     {'id': 'p_t5', 'tema': 5, 'look': 't5', 'efecto': 'Brillo'},
     {'id': 'p_t6', 'tema': 6, 'look': 't6', 'efecto': 'Brillo'},
@@ -757,6 +758,10 @@ def planificar(palabras, looks, idioma='es', ancho_tl=1080, alto_tl=1920, ancla_
                 cues, _plan = _tema3(sub, idioma, ancho_tl, alto_tl, ancla_viral, m_sub, t['fin'], estado)
             elif look['motor'] == 'kinetic':
                 cues, _plan = _cues_kinetic(sub, look, idioma, ancho_tl, alto_tl, ancla_kinetic, m_sub, t['fin'])
+            elif look.get('efecto') == 'v linea':        # v5.75: la línea con la caja azul (linea_planificador; el color lo pone el «color principal»)
+                import linea_planificador as LP
+                res_l = LP.planificar(sub, idioma=idioma, ancho_tl=ancho_tl, alto_tl=alto_tl, ancla=ancla_viral, fin_video=t['fin'], clip_activa=LP.CLIP_ACTIVA_CREA)
+                cues, _plan = res_l['cues'], res_l['plan']
             elif look['motor'] == 'viral':
                 cues, _plan = _cues_viral(sub, look, idioma, ancho_tl, alto_tl, ancla_viral, m_sub, t['fin'])
                 _rotar_colores(cues, estado['colores'])   # (los looks sueltos de antes, como siempre)

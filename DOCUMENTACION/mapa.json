@@ -3328,6 +3328,46 @@
       "resumen": "v5.75: «v corte», «v shine» y «v resalta» solo salen pedidos (looks t3:corte / t3:shine / t3:resalta), fuera de la rotación del Tema 3. Volumen 2D con _relieve (dos Custom; luz arriba a la izquierda), Follower con claves y DelayType 1, TimeStretcher para fps."
     },
     {
+      "id": "tema3-linea",
+      "grupo": "viral",
+      "tema": "El Tema 3 de una línea: mayúsculas condensadas y una caja negra de esquinas sutiles que salta de palabra en palabra (GO, slider, vistas)",
+      "claves": [
+        "tema 3",
+        "linea",
+        "una línea",
+        "caja negra",
+        "resaltado",
+        "karaoke",
+        "barlow",
+        "slider",
+        "exacto",
+        "border fill",
+        "round"
+      ],
+      "archivos": [
+        "linea_planificador.py",
+        "2_recursos/generador_packs/viral_elementos.py",
+        "render_temas.py",
+        "vista_tema.py",
+        "hacer_vista_viral.py",
+        "2_recursos/resolve_scripts/CineCaptions.py",
+        "2_recursos/resolve_scripts/CineCaptions_Subtitulos.lua",
+        "plantillas.py"
+      ],
+      "simbolos": [
+        "planificar",
+        "_lineas_de_frase",
+        "comp_linea",
+        "_elementos_linea",
+        "K_PX",
+        "CAP_REFERENCIA",
+        "RADIO_CAJA",
+        "place_kinetic_track",
+        "_generar_con_kinetic"
+      ],
+      "resumen": "v5.75: GO del Tema 3 usa linea_planificador (clips v linea / v linea activa con run exacto); los looks viejos siguen en Crea tu estilo."
+    },
+    {
       "id": "viral-colores",
       "grupo": "viral",
       "tema": "Colores de los efectos de VIRAL (4 por efecto, rotan)",

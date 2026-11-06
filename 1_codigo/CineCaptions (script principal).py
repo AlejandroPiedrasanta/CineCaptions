@@ -13985,7 +13985,7 @@ class SubtitleApp(QWidget):
             return None          # el estilo «VIRAL» comparte este camino (mismo contrato de bloques, sonidos y colocador de Resolve): otro planificador y otros clips
         if es_viral:
             import viral_captions as kc
-            import viral_planificador as kp
+            import linea_planificador as kp       # v5.75: el Tema 3 es UNA línea con la caja negra que salta de palabra en palabra (los looks de antes siguen en «Crea tu estilo»)
         else:
             import kinetic_captions as kc
             import kinetic_planificador as kp
@@ -14053,7 +14053,7 @@ class SubtitleApp(QWidget):
         track = {'language': base_lang, 'style': 'kinetic', 'data_path': str(json_path), 'srt_path': str(srt_path), 'fonts': {}, 'adelanto_frames': 0,
                  'offset_frames': self._offset_frames(), **pista_plantilla, **pista_sfx, **pista_emojis}
         if es_viral:
-            track['clip_prueba'] = 'v fina'                       # el clip que prueba que el bin del pack VIRAL está completo (el de Kinetic es «k hero blanco»)
+            track['clip_prueba'] = 'v linea'                      # el clip que prueba que el bin del pack VIRAL está completo (el de Kinetic es «k hero blanco»; v5.75: el de la línea)
         else:
             # v5.45 (el usuario: «los rings se quedan a medias»): en el kit el bloque EMPIEZA a salir al acabar y la salida dura 0,32 s; los clips del pack
             # la hacen en sus últimos 0,32 s, así que se alargan eso (antes salían 0,32 s antes y el aro, que tarda 0,45 s, no acababa de dibujarse)

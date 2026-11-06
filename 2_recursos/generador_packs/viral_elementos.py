@@ -843,6 +843,47 @@ def comp_resalta():
     return K.armar_comp(MK.envolver(t), 'CineCaptions VIRAL - resalta')
 
 
+# «Línea» (v5.75, el Tema 3 nuevo: referencia del usuario «ESTE ES EL ACABADO FINO»): toda la frase en UNA línea de mayúsculas condensadas blancas
+# con contorno y sombra oscuros, y una caja negra redondeada que salta de palabra en palabra con la voz. Cada palabra es un clip «v linea» desde que
+# empieza el bloque; la que suena lleva ENCIMA un «v linea activa» (la misma palabra + la caja) que dura exactamente lo que dura (corte seco, sin
+# entrada ni salida: el colocador lo pone sin el mínimo de 0,45 s, run['exacto']). Caja medida en la referencia: 0,53 mayúsculas sobre ellas, 0,52 bajo
+# la base, 0,35 a los lados, esquinas de 0,17.
+LINEA_FUENTE = ('Barlow Semi Condensed', 'Bold')
+LINEA_ESP = 0.975
+LINEA_TEXTO, LINEA_BORDE, LINEA_CAJA = (0.98, 0.98, 0.98), (0.078, 0.078, 0.078), (0.075, 0.075, 0.075)
+LINEA_CAJA_AZUL = (0.12, 0.36, 1.0)            # #1F5CFF: la del look de «Crea tu estilo» (el usuario: «en el ejemplo deja azul para que se aprecie»)
+
+
+def _elementos_linea(caja, color_caja=None):
+    """Elementos de sombreado del Text+ de la línea: 2 contorno oscuro, 3 sombra suave alrededor (forma de letra) y, con caja, 4 = caja negra redondeada."""
+    r, g, b = LINEA_BORDE
+    e = ['Enabled2 = Input { Value = 1, },', 'ElementShape2 = Input { Value = 1, },', 'Thickness2 = Input { Value = Number { Value = 0.03 }, },',
+         f'Red2 = Input {{ Value = Number {{ Value = {n(r)} }}, }},', f'Green2 = Input {{ Value = Number {{ Value = {n(g)} }}, }},',
+         f'Blue2 = Input {{ Value = Number {{ Value = {n(b)} }}, }},', 'Opacity2 = Input { Value = Number { Value = 1 }, },']
+    e += _halo(3, (0.0, 0.0, 0.0), 0.65, 0.0, 9)
+    if caja:
+        r, g, b = color_caja or LINEA_CAJA
+        e += ['Enabled4 = Input { Value = 1, },', 'ElementShape4 = Input { Value = 2, },', 'Level4 = Input { Value = Number { Value = 0 }, },',
+              f'Red4 = Input {{ Value = Number {{ Value = {n(r)} }}, }},', f'Green4 = Input {{ Value = Number {{ Value = {n(g)} }}, }},',
+              f'Blue4 = Input {{ Value = Number {{ Value = {n(b)} }}, }},', 'Opacity4 = Input { Value = Number { Value = 1 }, },',
+              'ExtendHorizontal4 = Input { Value = Number { Value = 0 }, },',      # (el Extend va en em de la letra; sin él ya sale 0,36 mayúsculas a los lados)
+              'ExtendVertical4 = Input { Value = Number { Value = 0.067 }, },',
+              'Offset4 = Input { Value = { 0, -0.003 }, Expression = "Point(0, -Template.Size * 0.0301)", },',       # (fracción del ANCHO) 0,53 arriba y 0,52 abajo
+              'Round4 = Input { Value = Number { Value = 0.1 }, },']      # esquinas sutiles (el usuario: «no es un óvalo»; 0,25 daba radio de 0,45 mayúsculas)
+    return e
+
+
+def comp_linea(activa=False, color_caja=None):
+    """«v linea»: la palabra blanca (entra de golpe con la línea entera y se va con la salida de 5 fotogramas). «v linea activa»: la misma palabra con la
+    caja negra detrás, sin animación (va encima de su «v linea» mientras suena)."""
+    t = texto_plus('Template', -220, 40, 'LINEA', LINEA_FUENTE[0], LINEA_FUENTE[1], 0.09, color=LINEA_TEXTO, esp=LINEA_ESP, extra=_elementos_linea(activa, color_caja))
+    if activa:
+        t += cadena('Template', dict(size='1', blend='1'))
+    else:                        # (entra de golpe, como la caja: con un fundido la palabra con caja salía 1-2 fotogramas antes que las demás; GO real)
+        t += cadena('Template', dict(size=f'(0.96 + 0.04 * {SALIDA})', blend=f'{SALIDA}'))
+    return K.armar_comp(MK.envolver(t), 'CineCaptions VIRAL - linea' + (' activa' if activa else '') + (' azul' if color_caja else ''))
+
+
 # ------------------------------------------------------------------------------------------------------------------ el catálogo
 def todos(formato='v'):
     """{nombre del clip: texto de la comp} para el formato 'v' (vertical) o 'h' (horizontal). Los tamaños (Size) son los de partida: la app fija el real por clip."""
@@ -855,6 +896,9 @@ def todos(formato='v'):
     comps['v corte'] = comp_corte()                         # v5.75: copias exactas de EJEMPLO 2 y EJEMPLO3 (un solo color: el de la referencia)
     comps['v shine'] = comp_shine()
     comps['v resalta'] = comp_resalta()                     # v5.75: la selección del iPhone (imagen del usuario)
+    comps['v linea'] = comp_linea()                         # v5.75: el Tema 3 nuevo (una línea y la caja negra que salta de palabra en palabra)
+    comps['v linea activa'] = comp_linea(True)
+    comps['v linea activa azul'] = comp_linea(True, LINEA_CAJA_AZUL)  # (el look 't3:linea' de «Crea tu estilo»)
     return comps
 
 

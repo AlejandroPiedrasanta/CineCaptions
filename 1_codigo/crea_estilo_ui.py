@@ -5,8 +5,8 @@ Dos ventanas:
 
   * CreaEstiloDialogo : v5.75 (la maqueta animada que eligió el usuario: «que no sean repetidos; en base 4-6 como mucho y en principales todo lo
     que tenga efecto»). 1 · TEXTO BASE: 6 previas (mezcla_planificador.BASES_CREA), una o ninguna; su letra va en las líneas de arriba y abajo de
-    todos los principales. 2 · TEXTOS PRINCIPALES: 17 previas con efecto (PRINCIPALES_CREA: círculo, barrido, fondo, fuego, tachado, caja, cristal,
-    arrastre, corte, giro 3D, resaltado, brillo…), las que se quieran, numeradas en el orden en que se turnan por frases. Lo que solo cambiaba de color sale una vez. Cada previa
+    todos los principales. 2 · TEXTOS PRINCIPALES: 18 previas con efecto (PRINCIPALES_CREA: círculo, barrido, fondo, fuego, tachado, caja, cristal,
+    arrastre, corte, giro 3D, resaltado, línea, brillo…), las que se quieran, numeradas en el orden en que se turnan por frases. Lo que solo cambiaba de color sale una vez. Cada previa
     es 2_recursos/guia_estilo/crea/<id>.mp4 (el caption solo, animado sobre negro; vistas_slider.Reproductor, solo mientras la ventana se ve). Abajo
     «Así queda» (la base y los principales turnándose), «Tu tema», el nombre y «Crear mi tema» → al_crear(nombre, looks, terminado, ajustes, base):
     looks = ['t2:6', 't3:select', 't5'], base = 'b_t2' | None, ajustes = {'fuente_principal': 'Familia|Estilo' | '', 'fuente_secundaria': '' (la
@@ -1151,7 +1151,7 @@ class _Cajon(QWidget):
 
 
 class CreaEstiloDialogo(Dialogo):
-    """«Crea tu estilo» (v5.75, la maqueta animada que eligió el usuario): 1 · TEXTO BASE (6 previas; una o ninguna) y 2 · TEXTOS PRINCIPALES (17
+    """«Crea tu estilo» (v5.75, la maqueta animada que eligió el usuario): 1 · TEXTO BASE (6 previas; una o ninguna) y 2 · TEXTOS PRINCIPALES (18
     previas con efecto; las que se quieran, numeradas en el orden en que se turnan), todo animado sobre negro; abajo «Así queda» (la base y los
     principales turnándose), «Tu tema», el nombre y «Crear mi tema». El cajón «Letra y colores» elige la letra del texto principal y los colores
     (la letra de arriba y abajo la da el texto base). al_crear(nombre, looks, terminado, ajustes, base): looks = ['t2:6', 't3:select', 't5'] en el

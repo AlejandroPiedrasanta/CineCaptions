@@ -23,6 +23,8 @@ INTER_28_NEGRA = ('Inter 28pt', 'Black')
 # lo que sabe la geometría de cada clip del pack (debe coincidir con generador_packs/viral_elementos.py): (tipografía, espaciado de letras)
 CLIPS = {'v fina': (INTER_18, 1.0), 'v negrita': (INTER_28_EXTRA, 0.99), 'v shatter': (INTER_28_NEGRA, 0.97), 'v select': (INTER_28_NEGRA, 0.97), 'v drag': (INTER_28_NEGRA, 0.97),
          'v corte': (INTER_28_NEGRA, 0.97), 'v shine': (INTER_28_NEGRA, 0.97), 'v resalta': (INTER_28_EXTRA, 0.97)}   # v5.75: «Crea tu estilo» (fuera de la rotación del Tema 3)
+BARLOW = ('Barlow Semi Condensed', 'Bold')
+CLIPS.update({'v linea': (BARLOW, 0.975), 'v linea activa': (BARLOW, 0.975), 'v linea activa azul': (BARLOW, 0.975)})      # v5.75: el Tema 3 nuevo (linea_planificador; su geometría va allí)
 EFECTOS = ('v shatter', 'v select', 'v drag')
 # v5.5: cada efecto viene en 4 COLORES (el primero es el de siempre: shatter azul cielo, select con caja roja, drag blanco); el planificador los va alternando para que el color no se repita.
 # El clip de la variante se llama «<efecto> <color>» («v shatter rosa»); la geometría (tipografía, tamaño, espacio) es la del efecto base.
@@ -49,9 +51,9 @@ def nombre_variante(base, k):
 def todos_los_clips():
     """Los nombres de todos los clips de efecto (cada efecto con sus variantes de color)."""
     return [nombre_variante(b, k) for b in COLORES for k in range(len(COLORES[b]))]
-CAP = {'Inter 18pt': 0.737, 'Inter 28pt': 0.728}            # altura de las mayúsculas / em (medida con Pillow)
+CAP = {'Inter 18pt': 0.737, 'Inter 28pt': 0.728, 'Barlow Semi Condensed': 0.70}            # altura de las mayúsculas / em (medida con Pillow)
 # el centro del cuadro de Text+ queda a esta fracción del em por ENCIMA/DEBAJO del centro de las mayúsculas (medido contra el render de Resolve; Inter: 0)
-DY_EM = {'Inter 18pt': 0.0, 'Inter 28pt': 0.0}
+DY_EM = {'Inter 18pt': 0.0, 'Inter 28pt': 0.0, 'Barlow Semi Condensed': 0.0}
 INCLINADA = {'v negrita': 0.21}                              # cuánto ensancha la cursiva sintética (× altura de mayúsculas)
 TINTA = 0.985                                                # lo que se ve de una palabra respecto a su avance tipográfico
 

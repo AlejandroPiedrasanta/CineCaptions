@@ -251,6 +251,8 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         v5.5.13: la PLACA de video del Tema 1 neón: el motor/plate.py del kit «TEMA 1» del usuario, portado a Pillow + numpy +
     licencia.py
         la licencia (claves CC- de cinecaptions.shop): activar, verificar, desactivar, estado firmado, 7 días sin internet.
+    linea_planificador.py
+        el Tema 3 (v5.75): toda la frase en UNA línea de mayúsculas condensadas y una caja negra que salta de palabra en palabra.
     mantenimiento.py
         límite y limpieza automática de las cachés del programa (secuencias, vistas, voz, emojis…).
     mapa_codigo.py
