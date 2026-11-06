@@ -1,5 +1,269 @@
 REGISTRO DE CAMBIOS ARCHIVADO · 2026-11 (la entrada más nueva arriba)
 
+2026-11-03 15:33  ·  v5.65  ·  cambio explicado
+    v5.66: Creativo → «Corrector» (el usuario); la sesión abierta se cierra sola (guardando) al pedir GO/retocar/transcribir y cuando Resolve se cierra; aviso sin audio pulido (MuestraPalabras, tres pasos, solo «Ir a Inicio»); «RCS · » → «CC · » en bins, temporales y emojis que van a Resolve, reconociendo los de antes.
+    modificados (29):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/banco_pruebas.py
+      ~ 1_codigo/colocacion.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/editor_ui.py
+      ~ 1_codigo/emojis.py
+      ~ 1_codigo/emojis_animados.py
+      ~ 1_codigo/hacer_vistas_guia_video.py
+      ~ 1_codigo/pack_personalizado.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/registro_ayuda.py
+      … y 17 más
+
+2026-11-03 14:27  ·  v5.65  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-11-03 14:07  ·  v5.64  ·  cambio explicado
+    v5.65: la página Proyecto se llama «Tema» (el usuario) y su cielo va de borde a borde como Inicio (TarjetaCielo sin_marco, página sin márgenes, _margenes_cielo). La Edición PRO ya venía apagada de fábrica (go_edicion_pro False; comprobado como recién instalado).
+    modificados (9):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/proyecto_ui.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+
+2026-11-03 13:36  ·  v5.64  ·  cambio explicado
+    v5.64 (el usuario: «puedes prevenir más errores futuros de clientes»): la voz y la IA de texto cargan del snapshot local entero (motor_texto.ruta_local) sin preguntar a Hugging Face: la versión nueva de Gemma 4 E4B de Google ponía a bajar 16 GB en el primer GO; cabe_en_disco y 3,5 GB libres para CUDA antes de descargar.
+    modificados (4):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/cuda_libs.py
+      ~ 2_recursos/motor_qwen/motor_qwen.py
+      ~ 2_recursos/motor_qwen/motor_texto.py
+
+2026-11-03 13:31  ·  v5.64  ·  (automático)
+    modificados (6):
+      ~ 1_codigo/registro_ayuda.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+
+2026-11-03 13:27  ·  v5.64  ·  cambio explicado
+    v5.64: «Copiar este error» y «Copiar todo» del Registro por secciones (qué pasó, qué significa, qué hacer, detalle técnico, lo de justo antes, equipo, motores), sin el usuario en las rutas y sin subprocess en el hilo de la interfaz (registro.informe_de_error, equipo, reporte_soporte).
+    modificados (8):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/registro.py
+      ~ 1_codigo/registro_ui.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+
+2026-11-03 13:18  ·  v5.64  ·  cambio explicado
+    v5.64: (1) GPU NVIDIA sin cuBLAS/cuDNN ya no es «Falla al iniciar» (reporte de un usuario con RTX 3050 Ti): aviso + descarga sola en un hilo (vigilancia.preparar_gpu_voz). (2) El instalador no vuelve a bajar Gemma 4 E4B (16 GB) cuando Google publica otra versión: motor_texto.ya_descargado.
+    modificados (6):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/cuda_libs.py
+      ~ 1_codigo/registro_ayuda.py
+      ~ 1_codigo/salud.py
+      ~ 1_codigo/vigilancia.py
+      ~ 2_recursos/motor_qwen/motor_texto.py
+
+2026-11-03 10:15  ·  v5.64  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-11-03 10:14  ·  v5.63  ·  cambio explicado
+    v5.64: el color de resaltado de fábrica es el verde (con el azul noche); el usuario lo mandó con una captura de Ajustes. La pareja del Fondo vuelve a blanco ↔ verde.
+    modificados (2):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/tema.py
+
+2026-11-03 10:11  ·  v5.63  ·  cambio explicado
+    v5.64: de fábrica vuelve el azul noche con el acento azul (el usuario lo eligió en Ajustes y pidió dejarlo por defecto); el negro + blanco queda como opción «Negro» en Ajustes › Interfaz. La pareja del Fondo pasa a blanco ↔ azul.
+    modificados (7):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/tema.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+
+2026-11-03 09:29  ·  v5.63  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-11-03 09:24  ·  v5.62  ·  cambio explicado
+    Toda la interfaz en negro + blanco de fábrica (C, elegida por el usuario): tema Negro profundo con acento blanco, texto oscuro sobre el acento, verdes de interfaz al blanco, cielos de Inicio y Proyecto en negro; en Ajustes › Interfaz, «Fondo de la interfaz» Negro/Azul para quien prefiera el azul
+    modificados (18):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/estilos_inicio.py
+      ~ 1_codigo/isla_ui.py
+      ~ 1_codigo/posiciones_pro.py
+      ~ 1_codigo/pro_lateral_ui.py
+      ~ 1_codigo/proyecto_ui.py
+      ~ 1_codigo/qt_kit.py
+      ~ 1_codigo/registro_ayuda.py
+      ~ 1_codigo/sonido_skill_ui.py
+      ~ 1_codigo/tema.py
+      … y 6 más
+
+2026-11-03 08:51  ·  v5.62  ·  cambio explicado
+    Proyecto con fondo de constelaciones (C, elegido por el usuario): estrellas en paralaje que titilan, constelaciones de Inicio y estrella fugaz; cuadro cacheado a 5/s, solo se repinta lo que no se repinta solo; mismo gasto de CPU que la tarjeta de vidrio de antes
+    modificados (4):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/pro_lateral_ui.py
+      ~ 1_codigo/proyecto_ui.py
+
+2026-11-03 08:22  ·  v5.62  ·  (automático)
+    modificados (21):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      … y 9 más
+
+2026-11-03 08:21  ·  v5.61  ·  cambio explicado
+    Proyecto, propuesta C (elegida por el usuario): el nombre grande, los dos botones grandes y el halo con arcos de debajo del slider pasan a una barra de cristal compacta (nombre · En uso/Usar este tema · Edición PRO) con puntos de posición; el slider gana ~80 px y en su monitor la tarjeta pasa de ~634 a 706 px
+    modificados (7):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/proyecto_ui.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+
+2026-11-02 23:23  ·  v5.61  ·  cambio explicado
+    Proyecto sin la franja del audio (Obtener, duración, motor de transcripción y «Crea tu estilo»), a petición del usuario: queda construida y escondida porque el programa lee sus valores; GO trae el audio solo y el motor se elige en Ajustes; el recorrido se ajustó
+    modificados (6):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+
+2026-11-02 23:07  ·  v5.61  ·  cambio explicado
+    Proyecto: la carta del final del slider pasa de «Añadir plantilla (.drb)» a «Crea tu estilo» (abre la misma ventana que el botón de arriba); se quitó la importación de .drb/.drt y el ✎ «Editar en Resolve» que dependía de ella, a petición del usuario
+    modificados (7):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/estilos_slider.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+
+2026-11-02 23:00  ·  v5.61  ·  cambio explicado
+    Inicio, debajo de «Un clic y listo» (propuesta A elegida entre tres maquetas): chips de cristal oscuro con icono, nombre y valor (PRO en dorado, lo apagado en gris) porque el anillo del astrolabio tapaba las letras; la línea de Resolve con punto de estado y un velo oscuro detrás
+    modificados (7):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/un_clic_ui.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+
+2026-11-02 22:40  ·  v5.61  ·  cambio explicado
+    Proyecto con la PRO: el móvil del ejemplo ya no queda esquinado; se centra en el hueco libre a la izquierda del slider (junto al Tema 1 cuando no hay vecinas) y sigue al slider al deslizar, sin tapar tarjetas ni quitarles el ratón
+    modificados (1):
+      ~ 1_codigo/pro_lateral_ui.py
+
+2026-11-02 22:33  ·  v5.61  ·  cambio explicado
+    Ejemplo de «Captions detrás de ti» en el móvil de Proyecto rehecho: el texto ya no va a una altura fija (la cara tapaba el centro entero de la palabra y tocaba los bordes); ahora va donde lo pone GO (tapa_detras bajo la coronilla, media palabra tapada) y ocupa como mucho el 80 % del ancho
+    modificados (3):
+      ~ 1_codigo/herramientas_dev/hacer_ejemplos_pro.py
+      ~ 2_recursos/edicion_pro/ejemplos_pro/detras.jpg
+      ~ 2_recursos/edicion_pro/ejemplos_pro/detras.mp4
+
+2026-11-02 19:45  ·  v5.61  ·  (automático)
+    modificados (27):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      … y 15 más
+
+2026-11-02 19:31  ·  v5.60  ·  cambio explicado
+    v5.61: «detrás de ti» pone el caption DETRÁS de la persona (antes quedaba apoyado encima de la cabeza): edicion_pro.tapa_detras baja el pie una palabra grande entera bajo la coronilla; los Text+ del Tema 1 dicen si abajo va la palabra grande. Probado con GO real en un proyecto temporal (ESPAÑOL.mov, 5 tramos).
+    modificados (2):
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/posiciones_pro.py
+
+2026-11-02 18:46  ·  v5.60  ·  cambio explicado
+    v5.61: «Captions detrás de ti» es un solo interruptor para los Temas 1 a 6 (antes Tema 1 en pro_neon_extras y Temas 2-6 en pro_mascara: encenderlo con un tema y hacer GO con otro lo dejaba apagado).
+    modificados (6):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/herramientas_dev/probar_detras_posiciones.py
+      ~ 1_codigo/herramientas_dev/probar_pro_lateral.py
+      ~ 1_codigo/posiciones_pro.py
+      ~ 1_codigo/pro_lateral_ui.py
+
+
+(Lo anterior está archivado por mes en DOCUMENTACION/historial/REGISTRO_<aaaa-mm>.txt)
 2026-11-02 18:35  ·  v5.60  ·  cambio explicado
     v5.61: «Listo» de detrás de ti funciona tras un GO sin detrás de ti (cada GO guarda su contexto) y con Resolve cerrado dice eso en vez de «otro timeline»; tarjeta del Registro para «otro timeline».
     modificados (9):
