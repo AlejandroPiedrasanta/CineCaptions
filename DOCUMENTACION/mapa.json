@@ -1654,7 +1654,10 @@
         "chip",
         "firma",
         "ed25519",
-        "seguridad"
+        "seguridad",
+        "obligatoria",
+        "force_update",
+        "minima"
       ],
       "archivos": [
         "1_codigo/actualizaciones.py",
@@ -1674,7 +1677,10 @@
         "_ofrecer_actualizacion",
         "_descargar_actualizacion",
         "buscar_actualizaciones",
-        "corta"
+        "corta",
+        "_obligatoria",
+        "_exigir_actualizacion",
+        "exigir_actualizacion"
       ],
       "resumen": "actualizaciones.py (comprobar/descargar/instalar), Publicar_Version.ps1; cliente en el script principal"
     },
@@ -2074,6 +2080,8 @@
         "telemetria",
         "errores",
         "clientes",
+        "captura",
+        "pantalla",
         "notificar",
         "ventas",
         "informe",
@@ -2087,9 +2095,89 @@
         "iniciar",
         "_al_anotar",
         "firma",
-        "_enviar"
+        "_enviar",
+        "_pedir_captura",
+        "_tomar_captura",
+        "_guardar_capturas",
+        "datos_equipo"
       ],
       "resumen": "cada «error» del Registro → pagos/errores.php en un hilo (sin la carpeta del usuario); la app de ventas lo muestra y avisa"
+    },
+    {
+      "id": "ficha-equipo",
+      "grupo": "datos",
+      "tema": "Ficha técnica del equipo: hardware, driver de la GPU, Resolve, motores y qué le falta",
+      "claves": [
+        "ficha",
+        "equipo",
+        "hardware",
+        "gpu",
+        "driver",
+        "controladores",
+        "vram",
+        "ram",
+        "cpu",
+        "telemetria",
+        "ventas",
+        "visual",
+        "requisitos"
+      ],
+      "archivos": [
+        "ficha_equipo.py"
+      ],
+      "simbolos": [
+        "recoger",
+        "revisar",
+        "resumen",
+        "de_esta_sesion",
+        "huella",
+        "_adaptadores_dxgi",
+        "_driver_nvidia",
+        "vcredist_x64"
+      ],
+      "resumen": "sistema, CPU, RAM, GPU con driver (registro + DXGI, sin consolas), Resolve y motores; revisar() dice ok/aviso/falta; va a pagos/equipo.php y al Registro"
+    },
+    {
+      "id": "equipo-al-dia",
+      "grupo": "compilar",
+      "tema": "El instalador pone el equipo al día («Tu equipo»): Visual C++, driver por Windows Update, GPU de alto rendimiento",
+      "claves": [
+        "instalador",
+        "equipo",
+        "actualizar",
+        "driver",
+        "controladores",
+        "winget",
+        "visual",
+        "vcredist",
+        "windows update",
+        "uac",
+        "gpu",
+        "silencioso",
+        "dependencias",
+        "motores",
+        "librerias"
+      ],
+      "archivos": [
+        "equipo_al_dia.py",
+        "tareas_instalador.py",
+        "3_compilar/Instalador.cs",
+        "vigilancia.py"
+      ],
+      "simbolos": [
+        "poner_al_dia",
+        "ejecutar_admin",
+        "buscar_driver",
+        "instalar_driver",
+        "instalar_vcredist",
+        "gpu_preferida",
+        "_lanzar_elevado",
+        "_tarea_equipo",
+        "_tarea_equipo_admin",
+        "poner_motores_al_dia",
+        "avisar_equipo"
+      ],
+      "resumen": "paso «Tu equipo»: una sola ventana de permiso y solo si hace falta; nada en /silencioso; driver solo con Resolve cerrado; motores al día al abrir"
     },
     {
       "id": "creativo-detecta-audio",

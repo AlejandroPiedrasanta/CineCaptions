@@ -33,9 +33,9 @@ Python con dependencias (`$PY`): `6_compilacion/venv315/Scripts/python.exe`.
 - **viral** (Estilo «VIRAL» (pila fina + negrita cursiva y los efectos shatter, select, drag)): viral-planificador viral-pack viral-app-resolve viral-pruebas viral-select-drag viral-colores
 - **voz-ia** (Voz e IA de texto): voz-ia texto-ayudas ortografia-temas voz-vocabulario
 - **resolve** (Resolve (API, MCP, scripts, vistas reales)): resolve-api fluidez-resolve vista-real-previo resolve-mcp-mac free-sin-io resolve-colgado scripts-resolve-inventario conexion-auto
-- **compilar** (Compilar, versiones, instaladores (Windows y Mac)): instalador-cs version mac compilar-win actualizaciones mac-actualizar
+- **compilar** (Compilar, versiones, instaladores (Windows y Mac)): instalador-cs version mac compilar-win actualizaciones mac-actualizar equipo-al-dia
 - **vigilancia** (Vigilancia, logs y respaldo de modelos): vigilancia
-- **datos** (Datos del usuario, licencia y ajustes): licencia archivos-seguros carpetas-del-usuario proyectos-usuario telemetria-errores
+- **datos** (Datos del usuario, licencia y ajustes): licencia archivos-seguros carpetas-del-usuario proyectos-usuario telemetria-errores ficha-equipo
 - **pruebas** (Pruebas y MCP del programa): banco-mcp pruebas-sin-pantalla simular-equipos herramientas-dev
 - **efectos** (Efectos visuales (intro, transiciones en los cortes, iconos flotantes)): efectos-visuales efectos-movimiento efectos-extra quitar-pausas broll edicion-pro kit8 escenas-pantalla internet-broll motions-pro pro-lateral estilos-pro intros-gancho motions-completo vigilante-pro motions-editables video-rotado-monedas personajes-3d posiciones-pro emojis-pro
 <!-- MAPA:FIN -->

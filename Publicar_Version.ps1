@@ -5,6 +5,11 @@
 #   powershell -ExecutionPolicy Bypass -File Publicar_Version.ps1 -SinSubir                                  solo genera INSTALADORES\version.json (para revisarlo)
 #   powershell -ExecutionPolicy Bypass -File Publicar_Version.ps1 -CrearRepo -Notas "..."                     crea (una vez) el repositorio PUBLICO de instaladores
 #   powershell -ExecutionPolicy Bypass -File Publicar_Version.ps1 -Canal beta -Notas "..."                    publica como beta (solo la ven quienes activaron 'Recibir versiones beta')
+#   powershell -ExecutionPolicy Bypass -File Publicar_Version.ps1 -Minima 5.72 -Notas "..."                  publica y OBLIGA a actualizar a quien tenga menos de la 5.72 (force_update)
+#   powershell -ExecutionPolicy Bypass -File Publicar_Version.ps1 -SoloMinima -Minima 5.72                   solo cambia la minima obligatoria de lo ya publicado (sin instaladores nuevos)
+#   powershell -ExecutionPolicy Bypass -File Publicar_Version.ps1 -SoloMinima -SinObligatoria                quita la actualizacion obligatoria
+# v5.72: force_update y version_minima van en la raiz del manifiesto (firmados); se conservan de una publicacion a la siguiente hasta -SinObligatoria.
+# Solo los programas desde la 5.72 los entienden (los anteriores siguen con el aviso normal).
 # Antes: Actualizar_Windows.ps1 y Actualizar_Mac.ps1 (los instaladores de la version actual tienen que estar en INSTALADORES\).
 # El repositorio de instaladores es PUBLICO y solo trae los .exe/.dmg y version.json; el codigo sigue en el repositorio privado.
 # Cada instalador va con su SHA-256: el programa NO instala nada cuya huella no coincida. Y el manifiesto va FIRMADO (v5.52, firmar_manifiesto.py).
@@ -14,7 +19,10 @@ param(
     [string]$Repo = 'AlejandroPiedrasanta/CineCaptions-releases',
     [ValidateSet('estable', 'beta')][string]$Canal = 'estable',
     [switch]$SinSubir,
-    [switch]$CrearRepo
+    [switch]$CrearRepo,
+    [string]$Minima = '',         # v5.72: version minima obligatoria (force_update): por debajo, el programa no se usa hasta actualizar
+    [switch]$SinObligatoria,      # quita force_update / version_minima
+    [switch]$SoloMinima           # no publica version nueva: solo reescribe (y firma) el version.json de la ultima publicacion
 )
 $ErrorActionPreference = 'Stop'
 Set-Location (Split-Path -Parent $MyInvocation.MyCommand.Path)
@@ -34,6 +42,46 @@ if ([string]::IsNullOrWhiteSpace($Notas)) {
     if ([string]::IsNullOrWhiteSpace($Notas)) { $Notas = 'Mejoras y correcciones.' }
 }
 $base = "https://github.com/$Repo/releases/download/$etiqueta"
+
+# v5.72: la minima obligatoria (x.y o x.y.z) en la raiz del manifiesto
+function Normalizar($v) { if ($v.Split('.').Count -eq 2) { "$v.0" } else { $v } }
+function PartesVersion($v) { return [version](Normalizar $v) }
+if ($Minima -and $Minima -notmatch '^\d+\.\d+(\.\d+)?$') { throw "Minima '$Minima' no es una version (p. ej. 5.72)" }
+if ($Minima -and $SinObligatoria) { throw 'Usa -Minima o -SinObligatoria, no los dos' }
+function PonerObligatoria($m, $previo) {
+    $m.Remove('force_update'); $m.Remove('version_minima')
+    if ($SinObligatoria) { return }
+    $min = if ($Minima) { Normalizar $Minima } elseif ($previo -and $previo.force_update -eq $true -and $previo.version_minima) { [string]$previo.version_minima } else { '' }
+    if (-not $min) { return }
+    $estable = if ($m['estable']) { [string]$m['estable'].version } else { '' }
+    if ($estable -and (PartesVersion $min) -gt (PartesVersion $estable)) { throw "La minima $min es mayor que la version estable publicada ($estable)" }
+    $m['force_update'] = $true
+    $m['version_minima'] = $min
+    Write-Host "    OBLIGATORIA: quien tenga menos de la $min no podra usar CineCaptions hasta actualizar" -ForegroundColor Yellow
+}
+
+if ($SoloMinima) {
+    if (-not $Minima -and -not $SinObligatoria) { throw '-SoloMinima necesita -Minima x.y o -SinObligatoria' }
+    Paso 'Cambiando solo la minima obligatoria de lo ya publicado'
+    $previo = Join-Path ([IO.Path]::GetTempPath()) 'cc_version_previa.json'
+    Remove-Item -LiteralPath $previo -ErrorAction SilentlyContinue
+    $tag = (gh release view --repo $Repo --json tagName -q .tagName)
+    if ($LASTEXITCODE -ne 0 -or -not $tag) { throw 'No pude leer la ultima publicacion' }
+    Nativo { gh release download $tag --repo $Repo --pattern 'version.json' --output $previo }
+    $p = Get-Content $previo -Raw | ConvertFrom-Json
+    $manifiesto = [ordered]@{}
+    foreach ($c in 'estable', 'beta') { if ($p.$c) { $manifiesto[$c] = $p.$c } }
+    PonerObligatoria $manifiesto $p
+    $salida = Join-Path (Get-Location) 'INSTALADORES\version.json'
+    [IO.File]::WriteAllText($salida, ($manifiesto | ConvertTo-Json -Depth 8), (New-Object Text.UTF8Encoding $false))
+    $vpy = Join-Path (Get-Location) '6_compilacion/venv315/Scripts/python.exe'
+    Nativo { & $vpy -X utf8 '3_compilar/firmar_manifiesto.py' $salida }
+    if ($SinSubir) { Write-Host "Listo (sin subir): $salida" -ForegroundColor Green; return }
+    Nativo { gh release upload $tag $salida --repo $Repo --clobber }
+    Write-Host "Listo: version.json de $tag con " -NoNewline -ForegroundColor Green
+    Write-Host $(if ($manifiesto['force_update']) { "minima obligatoria $($manifiesto['version_minima'])" } else { 'sin actualizacion obligatoria' }) -ForegroundColor Green
+    return
+}
 Paso "Version $version ($Canal)"
 
 # Los instaladores de ESTA version, uno por plataforma
@@ -58,6 +106,7 @@ if (-not $archivos.Contains('windows')) { Write-Host '    (aviso) sin el .exe de
 
 # El manifiesto: la entrada de este canal es la nueva; la del otro canal se conserva de la publicacion anterior (si la hay)
 $manifiesto = [ordered]@{}
+$p = $null
 if (-not $SinSubir) {
     $previo = Join-Path ([IO.Path]::GetTempPath()) 'cc_version_previa.json'
     Remove-Item -LiteralPath $previo -ErrorAction SilentlyContinue
@@ -69,6 +118,7 @@ if (-not $SinSubir) {
 # v5.20: las versiones son de DOS numeros (5.20); los programas 5.5.x instalados solo entienden x.y.z: el manifiesto lleva 5.20.0
 $versionManifiesto = if ($version.Split('.').Count -eq 2) { "$version.0" } else { $version }
 $manifiesto[$Canal] = [ordered]@{ version = $versionManifiesto; notas = $Notas; fecha = (Get-Date -Format 'yyyy-MM-dd'); archivos = $archivos }
+PonerObligatoria $manifiesto $p
 $json = $manifiesto | ConvertTo-Json -Depth 8
 $salida = Join-Path (Get-Location) 'INSTALADORES\version.json'
 [IO.File]::WriteAllText($salida, $json, (New-Object Text.UTF8Encoding $false))       # UTF-8 SIN BOM (el programa lo lee con json.loads)
