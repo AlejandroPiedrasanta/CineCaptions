@@ -1,29 +1,29 @@
 {
   "estable": {
-    "version": "5.70.0",
-    "notas": "• Ajustes renovado: cada pestaña y cada ajuste con su ícono, y sin el título repetido en cada página (el menú ya dice dónde estás): lo importante empieza arriba.\r\n• Ayuda: tarjeta de soporte con «Escribir por WhatsApp» (copia el informe de tu equipo y abre el chat con el mensaje ya escrito) y «Visitar cinecaptions.shop».\r\n• Acerca de muestra que CineCaptions se actualiza solo, y Atajos ya no enseña un atajo de sonido que no existía.\r\n• Edición PRO: con el «Gancho del inicio» encendido, una marca de «Captions detrás de ti» ya no cae sobre la intro (salía un recuadro con la cabeza de la persona encima del destello); el Registro dice por qué.\r\n• Slider de estilos: nuevos ejemplos del Tema 3 (solo captions y con PRO: detrás de ti y gancho del inicio).\r\n• Video MP4 sin Resolve con un audio suelto (.wav, .mp3…): ya no se detiene con «el archivo no tiene imagen»; sale un video vertical con los captions sobre un fondo oscuro. Y el Registro ya no lo confunde con «Resolve no está listo».\r\n• Edición PRO en la página Tema: el menú de al lado del slider ahora es el del tema que ves al centro. Con el Tema 1 al centro y otro tema elegido, lo que encendías se guardaba en los demás temas y el Tema 1 «no hacía nada». Para la PRO de siempre del Tema 1, enciende «Kit de motions».",
-    "fecha": "2026-11-04",
+    "version": "5.71.0",
+    "notas": "• Siete idiomas nuevos para la interfaz: japonés, coreano, chino, ruso, neerlandés, turco y polaco (13 en total).\r\n• Idioma de la interfaz renovado: en Ajustes › Interfaz se elige en un panel de tarjetas con la bandera de cada idioma, su saludo y su nombre; la elegida ondea.\r\n• DaVinci Resolve instalado en otro disco o en otra carpeta ya se encuentra: antes GO decía «No hay DaVinci Resolve en este equipo».\r\n• La IA de texto ya no se corta en equipos con poca memoria de video (por ejemplo, 8 GB con Resolve abierto): sigue trabajando aunque vaya más lenta, y si de verdad falla la ortografía se corrige con el diccionario sin llenar el Registro de errores.\r\n• Si te sale un error, CineCaptions le envía el informe a soporte en segundo plano (sin tus videos ni la carpeta de tu usuario), para arreglarlo antes de que tengas que escribirnos.",
+    "fecha": "2026-11-05",
     "archivos": {
       "windows": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.70/Instalar_CineCaptions_5.70.exe",
-        "sha256": "4da789bfa9d5fad71e1140a826a5243671eac7116d3451216be966872792872c",
-        "tam": 576109920
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.71/Instalar_CineCaptions_5.71.exe",
+        "sha256": "db88bb799d2b43c23d7ea2ab045290e656555fcd958aae925b3aa34eb78f47ab",
+        "tam": 576920155
       },
       "mac_arm64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.70/CineCaptions_Mac_AppleSilicon_5.70.dmg",
-        "sha256": "809e163d69d73052d323a34971f9ef15d6d43e9284b0c3c13fcbfd922771092a",
-        "tam": 550682776
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.71/CineCaptions_Mac_AppleSilicon_5.71.dmg",
+        "sha256": "1099dc8e0c87306b4daefa05ee0c36e6992b63ba823ca34c4ad54370a27cc577",
+        "tam": 554975303
       },
       "mac_x86_64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.70/CineCaptions_Mac_Intel_5.70.dmg",
-        "sha256": "88dbb089992eb8014b025641f8d812c5972bc6f1a65ea1c41831afe9f3f1922a",
-        "tam": 579079999
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.71/CineCaptions_Mac_Intel_5.71.dmg",
+        "sha256": "f9ec1437ccc2c22eddb74bc330cb0d419ff01360cfb0d3106c85503f15cfe1d0",
+        "tam": 580083628
       }
     }
   },
   "firma": {
     "alg": "ed25519",
     "clave": "7a4e413e",
-    "valor": "7d72Mnjmrn7bTqFPlmcw/eIMOiR9Kh5wQv2stRu8woCDWzc7/RrfSZjzzMwXeaFPNx9uSMrI4ebKzgJR1Mq/Dw=="
+    "valor": "e3D8Ev8hmNWdwuCsFVCjgtSxP8wVMQA644cDqVwrZF7zMozD17vBm/19grYMTyoaRa7EkZa11HkXh/bjd8J9Dg=="
   }
 }
