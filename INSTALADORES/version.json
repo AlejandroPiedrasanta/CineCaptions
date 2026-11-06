@@ -1,29 +1,29 @@
 {
   "estable": {
-    "version": "5.72.0",
-    "notas": "• El instalador revisa tu equipo (procesador, memoria, tarjeta gráfica y su driver) y lo pone al día solo, sin abrir ventanas: instala Microsoft Visual C++ si falta y, con DaVinci Resolve cerrado, el driver más nuevo de tu tarjeta desde Windows Update. Windows pide permiso una sola vez.\r\n• En los portátiles con dos tarjetas gráficas, CineCaptions y su IA usan la de alto rendimiento.\r\n• Si a la voz o a la IA les falta alguna librería, se ponen al día solas al abrir CineCaptions, sin reinstalar.\r\n• Lo que le falte a tu equipo (un driver antiguo, poca memoria o poco disco) aparece en el Registro.\r\n• Mac con DaVinci Resolve gratuito: GO espera bien el audio del timeline y, si algo falla, dice el motivo real (por ejemplo, un permiso de macOS que hay que volver a dar).\r\n• Windows: si el «Control inteligente de aplicaciones» bloquea una parte de CineCaptions, el Registro lo explica y dice cómo resolverlo.\r\n• Para darte soporte, CineCaptions envía una ficha técnica de tu equipo y, con cada error, una captura de la pantalla (sin tus videos, nombres ni archivos).\r\n• Cuando una versión deja de poder usarse, CineCaptions pide actualizar antes de seguir.",
+    "version": "5.73.0",
+    "notas": "• Si algo falla, el informe para soporte lleva dos capturas: la pantalla completa y la ventana de CineCaptions (sale aunque otra ventana la tape o esté minimizada).",
     "fecha": "2026-11-06",
     "archivos": {
       "windows": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.72/Instalar_CineCaptions_5.72.exe",
-        "sha256": "0f4038d1f09b94490d5c4d41c9b660b0d15faf621bf70d181b8f164b745d5c40",
-        "tam": 577011106
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.73/Instalar_CineCaptions_5.73.exe",
+        "sha256": "8f5746aca0f89f40cd21f702b20220a2d9d280490a5f88eaddc01bfb10bdab0c",
+        "tam": 577013702
       },
       "mac_arm64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.72/CineCaptions_Mac_AppleSilicon_5.72.dmg",
-        "sha256": "cc8721f51f4a68855666b2d5f725df29c3be3e717c0b4e287af936509a8b88fd",
-        "tam": 554973538
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.73/CineCaptions_Mac_AppleSilicon_5.73.dmg",
+        "sha256": "042ba0d059a4ec125a044cfc2972a9792c155faa59ce65539ff394799dfe2767",
+        "tam": 554976661
       },
       "mac_x86_64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.72/CineCaptions_Mac_Intel_5.72.dmg",
-        "sha256": "acb0374628635f3cb4ec885e9b2052da1db3451462e8e9bb9eda64b787346110",
-        "tam": 579861101
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.73/CineCaptions_Mac_Intel_5.73.dmg",
+        "sha256": "10bfd8e5cd8b1d733008f6a943b60355802bfdab665e0716443cb12c9b96f136",
+        "tam": 580092477
       }
     }
   },
   "firma": {
     "alg": "ed25519",
     "clave": "7a4e413e",
-    "valor": "vfZbJISPfBuFYYsBTvpK6d1qBAy/sfSJxpnfkJt1y2hgR8Hj4Cbpjn/p0e+HqltNOlcFyAjnAjqkGveTLWisAQ=="
+    "valor": "L2TRBHW4K37TKZ+bn9cif3CTXZD/ihdmQxM3nqYl3SZJTc3dnwcmLx/yddBnLbThFQ6mgHN+8TljqcoTiwXDCw=="
   }
 }
