@@ -154,7 +154,8 @@ $archivoNotas = Join-Path ([IO.Path]::GetTempPath()) 'cc_notas_publicacion.txt'
 [IO.File]::WriteAllText($archivoNotas, $Notas, (New-Object Text.UTF8Encoding $false))
 if ((Sondear { gh release view $etiqueta --repo $Repo }) -eq 0) {
     Nativo { gh release upload $etiqueta @($subir + $salida) --repo $Repo --clobber }
-    Nativo { gh release edit $etiqueta --repo $Repo --notes-file $archivoNotas }
+    # v5.72: si la subida anterior se cortó, gh dejó la publicación en BORRADOR (nadie la ve): al reintentar se publica y queda como la última
+    Nativo { gh release edit $etiqueta --repo $Repo --notes-file $archivoNotas --draft=false --latest }
 } else {
     Nativo { gh release create $etiqueta @($subir + $salida) --repo $Repo --title "CineCaptions $version" --notes-file $archivoNotas --latest }
 }

@@ -1,29 +1,29 @@
 {
   "estable": {
-    "version": "5.71.0",
-    "notas": "• Siete idiomas nuevos para la interfaz: japonés, coreano, chino, ruso, neerlandés, turco y polaco (13 en total).\r\n• Idioma de la interfaz renovado: en Ajustes › Interfaz se elige en un panel de tarjetas con la bandera de cada idioma, su saludo y su nombre; la elegida ondea.\r\n• DaVinci Resolve instalado en otro disco o en otra carpeta ya se encuentra: antes GO decía «No hay DaVinci Resolve en este equipo».\r\n• La IA de texto ya no se corta en equipos con poca memoria de video (por ejemplo, 8 GB con Resolve abierto): sigue trabajando aunque vaya más lenta, y si de verdad falla la ortografía se corrige con el diccionario sin llenar el Registro de errores.\r\n• Si te sale un error, CineCaptions le envía el informe a soporte en segundo plano (sin tus videos ni la carpeta de tu usuario), para arreglarlo antes de que tengas que escribirnos.",
-    "fecha": "2026-11-05",
+    "version": "5.72.0",
+    "notas": "• El instalador revisa tu equipo (procesador, memoria, tarjeta gráfica y su driver) y lo pone al día solo, sin abrir ventanas: instala Microsoft Visual C++ si falta y, con DaVinci Resolve cerrado, el driver más nuevo de tu tarjeta desde Windows Update. Windows pide permiso una sola vez.\r\n• En los portátiles con dos tarjetas gráficas, CineCaptions y su IA usan la de alto rendimiento.\r\n• Si a la voz o a la IA les falta alguna librería, se ponen al día solas al abrir CineCaptions, sin reinstalar.\r\n• Lo que le falte a tu equipo (un driver antiguo, poca memoria o poco disco) aparece en el Registro.\r\n• Para darte soporte, CineCaptions envía una ficha técnica de tu equipo y, con cada error, una captura de la pantalla (sin tus videos, nombres ni archivos).\r\n• Cuando una versión deja de poder usarse, CineCaptions pide actualizar antes de seguir.",
+    "fecha": "2026-11-06",
     "archivos": {
       "windows": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.71/Instalar_CineCaptions_5.71.exe",
-        "sha256": "db88bb799d2b43c23d7ea2ab045290e656555fcd958aae925b3aa34eb78f47ab",
-        "tam": 576920155
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.72/Instalar_CineCaptions_5.72.exe",
+        "sha256": "92bc442e68ddae3da8e83f695c506639c8fff6ffc53ebb78b1492191443d196a",
+        "tam": 576996315
       },
       "mac_arm64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.71/CineCaptions_Mac_AppleSilicon_5.71.dmg",
-        "sha256": "1099dc8e0c87306b4daefa05ee0c36e6992b63ba823ca34c4ad54370a27cc577",
-        "tam": 554975303
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.72/CineCaptions_Mac_AppleSilicon_5.72.dmg",
+        "sha256": "9a0880f28d07d3eef703203f68d3a92236ce5f93f5aee2ccb25047a87a3121c4",
+        "tam": 554973018
       },
       "mac_x86_64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.71/CineCaptions_Mac_Intel_5.71.dmg",
-        "sha256": "f9ec1437ccc2c22eddb74bc330cb0d419ff01360cfb0d3106c85503f15cfe1d0",
-        "tam": 580083628
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.72/CineCaptions_Mac_Intel_5.72.dmg",
+        "sha256": "e24412fc1a01f06f0c23bf09ba9ca26be8737c7b36aab69365148eb58ae3b42d",
+        "tam": 580237639
       }
     }
   },
   "firma": {
     "alg": "ed25519",
     "clave": "7a4e413e",
-    "valor": "e3D8Ev8hmNWdwuCsFVCjgtSxP8wVMQA644cDqVwrZF7zMozD17vBm/19grYMTyoaRa7EkZa11HkXh/bjd8J9Dg=="
+    "valor": "7NRO4U/t6JLsKApr5fNmBSGc4suY808jDHPH/EmIHFI3a/Qnz1WDhKvj1PbdI8xwy2kDKx3UHmg19GZ+IVkSDg=="
   }
 }

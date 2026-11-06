@@ -12,6 +12,23 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-06 08:48  ·  v5.72  ·  cambio explicado
+    v5.72 (informes de clientes con la 5.71): Windows con el Control inteligente de aplicaciones activado bloquea el motor auxiliar con [WinError 4551] y salía como error interno o faltan librerías: ahora registro_ayuda y salud lo reconocen y la ficha del equipo lo marca. Mac con Resolve Free: GO decía solo Abre DaVinci Resolve con tu timeline; ahora lanzar_puente_mac guarda el motivo (permisos de Accesibilidad o Automatización, menú, latido, tiempo), GO espera hasta 6 s el resultado de Resolve (llega en diferido por su registro) y crea la carpeta de audio en Mac. Publicar_Version.ps1 saca de borrador una publicación que quedó a medias.
+    modificados (16):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/ficha_equipo.py
+      ~ 1_codigo/registro_ayuda.py
+      ~ 1_codigo/resolve_bridge.py
+      ~ 1_codigo/salud.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      … y 4 más
+
 2026-11-05 23:46  ·  v5.72  ·  (automático)
     modificados (22):
       ~ 1_codigo/equipo_al_dia.py
