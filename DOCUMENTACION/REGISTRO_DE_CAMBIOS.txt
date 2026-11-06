@@ -12,6 +12,28 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-06 13:29  ·  v5.74  ·  cambio explicado
+    v5.75 «Crea tu estilo» nueva: el usuario dijo que la página estaba horrible y pidió ver los captions animados sobre negro, separar texto base (6, sin repetidos) de textos principales (14, todos con efecto), quitar los que solo cambiaban de color (recetas 1 y 5 del Tema 1 idénticas; estilos 4 y 5 del Tema 2) y una lista con TODAS las letras instaladas para el texto principal. La base pone su letra en arriba y abajo de todos los principales (fuente_secundaria): llevar la línea base entera de un tema a otro pedía tocar los gemelos de Resolve. Previas en 2_recursos/guia_estilo/crea con Reproductor.tam (decodifica al tamaño de la tarjeta; ancho múltiplo de 16 por un fallo de PyAV 19 a 290/292 px).
+    nuevos (20):
+      + 2_recursos/guia_estilo/crea/b_t1_amano.mp4
+      + 2_recursos/guia_estilo/crea/b_t1_serif.mp4
+      + 2_recursos/guia_estilo/crea/b_t2.mp4
+      + 2_recursos/guia_estilo/crea/b_t3.mp4
+      + 2_recursos/guia_estilo/crea/b_t4.mp4
+      + 2_recursos/guia_estilo/crea/b_t6.mp4
+      + 2_recursos/guia_estilo/crea/p_t1_circulo.mp4
+      + 2_recursos/guia_estilo/crea/p_t1_subrayado.mp4
+      + 2_recursos/guia_estilo/crea/p_t2_editorial.mp4
+      + 2_recursos/guia_estilo/crea/p_t2_fire.mp4
+      + 2_recursos/guia_estilo/crea/p_t2_highlight.mp4
+      + 2_recursos/guia_estilo/crea/p_t2_impacto.mp4
+      … y 8 más
+    modificados (4):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/crea_estilo_ui.py
+      ~ 1_codigo/mezcla_planificador.py
+      ~ 1_codigo/vistas_slider.py
+
 2026-11-06 12:08  ·  v5.74  ·  (automático)
     modificados (20):
       ~ 1_codigo/version.py

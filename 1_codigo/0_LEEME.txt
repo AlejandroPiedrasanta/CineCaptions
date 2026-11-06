@@ -50,7 +50,7 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
     copias.py
         copias de seguridad de ~/DaVinciSubtitles (crear y restaurar un .zip).
     crea_estilo_ui.py
-        «Crea tu estilo»: la lista de los Temas 1-6 sobre negro (se tocan en el orden que se quiera) con el cajón de letra y colores, y el popup de la estructura de nombres.
+        «Crea tu estilo»: texto base + textos principales con su previa ANIMADA sobre negro, el cajón de letra y colores, y el popup de la estructura de nombres.
     cuda_libs.py
         las librerías CUDA que necesita Whisper en la GPU: detectarlas, registrarlas y repararlas.
     descargas.py
