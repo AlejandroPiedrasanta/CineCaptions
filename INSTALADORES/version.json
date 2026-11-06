@@ -1,29 +1,29 @@
 {
   "estable": {
-    "version": "5.73.0",
-    "notas": "• Si algo falla, el informe para soporte lleva dos capturas: la pantalla completa y la ventana de CineCaptions (sale aunque otra ventana la tape o esté minimizada).",
+    "version": "5.74.0",
+    "notas": "• Mac con DaVinci Resolve gratuito: antes de pedirle el audio del timeline, CineCaptions detiene la reproducción que dejó el GO anterior, y si Resolve se cierra lo dice claro en vez de un código.\r\n• Los informes de error traen un diagnóstico de Resolve del momento del fallo, para arreglarlo antes sin tener que preguntarte.",
     "fecha": "2026-11-06",
     "archivos": {
       "windows": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.73/Instalar_CineCaptions_5.73.exe",
-        "sha256": "8f5746aca0f89f40cd21f702b20220a2d9d280490a5f88eaddc01bfb10bdab0c",
-        "tam": 577013702
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.74/Instalar_CineCaptions_5.74.exe",
+        "sha256": "ef9bf67656dcd1e36882d8135e1ea13916c40952f7bc1096d6064237013e08c6",
+        "tam": 577026103
       },
       "mac_arm64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.73/CineCaptions_Mac_AppleSilicon_5.73.dmg",
-        "sha256": "042ba0d059a4ec125a044cfc2972a9792c155faa59ce65539ff394799dfe2767",
-        "tam": 554976661
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.74/CineCaptions_Mac_AppleSilicon_5.74.dmg",
+        "sha256": "8dde9badedec2238ea7dbe8c7501079793d679d8a7b974eaab766b4029c60ea3",
+        "tam": 554620657
       },
       "mac_x86_64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.73/CineCaptions_Mac_Intel_5.73.dmg",
-        "sha256": "10bfd8e5cd8b1d733008f6a943b60355802bfdab665e0716443cb12c9b96f136",
-        "tam": 580092477
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.74/CineCaptions_Mac_Intel_5.74.dmg",
+        "sha256": "a8d820a3a9d600f58c5520420d551ab358af2fbc13b2b5c0d4f0c289fa1a8d47",
+        "tam": 580041911
       }
     }
   },
   "firma": {
     "alg": "ed25519",
     "clave": "7a4e413e",
-    "valor": "L2TRBHW4K37TKZ+bn9cif3CTXZD/ihdmQxM3nqYl3SZJTc3dnwcmLx/yddBnLbThFQ6mgHN+8TljqcoTiwXDCw=="
+    "valor": "hQgzq23HPv4R6sXd51cDDU76jlNDNM0qzDzrEBv9DaImFejZbGVh//EzlaqFC/chNje4AuX7CYUiAAoiXybQDw=="
   }
 }
