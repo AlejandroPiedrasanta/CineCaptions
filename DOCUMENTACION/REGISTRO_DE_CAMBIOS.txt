@@ -12,6 +12,23 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-05 20:16  ·  v5.71  ·  cambio explicado
+    Revision adversarial de la 5.71 antes de publicar (36 agentes): 13 fallos confirmados y arreglados. Telemetria: informe sin 'lo que paso justo antes' (tema del video, proyecto), rutas y nombres de archivos anonimizados, errores de arranque enviados, cola guardada al cerrar, lote parcial. Resolve: .lnk real (WORKING_DIR/RELATIVE_PATH, sin LinkInfo) y 'no esta' recordado 60 s (antes repetia procesos y discos en el hilo de la interfaz). IA en CPU: lotes de 2, tope total por largo, motivo claro. Servidor: tope por licencia con GET_LOCK y 300 filas, borrado al liberar/desactivar, contador = lista, venta eliminada que se paga vuelve. Traducciones de los textos nuevos.
+    modificados (16):
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/ia_texto.py
+      ~ 1_codigo/registro.py
+      ~ 1_codigo/resolve_bridge.py
+      ~ 1_codigo/telemetria_errores.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      … y 4 más
+
 2026-11-05 19:19  ·  v5.71  ·  (automático)
     modificados (20):
       ~ 1_codigo/version.py
