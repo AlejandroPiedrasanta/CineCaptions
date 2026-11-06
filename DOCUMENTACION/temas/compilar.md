@@ -21,7 +21,7 @@
 **Voz dentro del programa (v5.58):** desde la 5.34 Whisper, Argos y ONNX corren en un Python 3.14 aparte que solo existe en Windows
 (`motor_compat`), y el Mac salía SIN ellos: GO fallaba en «Transcribiendo» con «El motor auxiliar Python 3.14 está configurado para Windows
 x64» (la autoprueba solo lo daba como aviso). Ahora `Construir_Instalador_Mac.sh` instala `2_recursos/motor_compat/requirements.txt` con
-`--no-deps --only-binary` (onnxruntime 1.24.4 en Apple Silicon y 1.23.2 en Intel, la última con rueda Intel, en vez de onnxruntime-directml) y
+`--no-deps --only-binary` (onnxruntime 1.31.1 en Apple Silicon —2026-11-05; Windows sigue en onnxruntime-directml 1.24.4, la última con DirectML— y 1.23.2 en Intel, la última con rueda Intel, en vez de onnxruntime-directml) y
 comprueba que se importan; `cinecaptions_mac.spec` las declara (worker.py viaja como dato y PyInstaller no lo analiza: hiddenimports,
 collect_submodules, `copy_metadata`, obligatorio para httpx2/httpcore2, y `collect_dynamic_libs('ctranslate2')`) y corta la compilación si
 falta alguna; la autoprueba del motor es CRÍTICA fuera de Windows (`tareas_instalador`, con VAD, int8, audio a 16 kHz y Argos sin red). En

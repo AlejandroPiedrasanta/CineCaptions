@@ -27,3 +27,13 @@ Se conserva al actualizar; al desinstalar el usuario elige.
 ## proyectos-usuario — Registro de proyectos (vídeos) trabajados
 
 `proyectos.py`: lista de vídeos trabajados (recientes, abrir, borrar). Su estado se guarda con `archivos_seguros`.
+
+## telemetria-errores — Los errores de los clientes le llegan al vendedor
+
+**Qué (v5.71, pedido del usuario: «telemetría para ver si a los usuarios les da error, que lo notifique»):** `telemetria_errores.py` manda cada anotación de nivel «error» del Registro a `https://cinecaptions.shop/pagos/errores.php` con la clave de la licencia, el id del equipo, la versión y el sistema. La app «CineCaptions Ventas» (`Desktop\WEB\programa\ventas.py`, página Errores) la muestra y avisa al dueño con una notificación de Windows. El servidor (`Desktop\WEB\web\pagos\`): `errores.php` recibe, `telemetria.php` crea la tabla `errores_equipos` (una fila por equipo y firma, con `veces` y `visto`), `admin.php` da `errores`, `error_detalle`, `error_visto` y `errores` dentro de `panel`.
+
+**Qué se manda:** el texto de «Copiar este error» (`registro.informe_de_error`) sin la carpeta del usuario (`registro._sin_usuario`), cortado a 11 000 caracteres; nunca videos, audio ni subtítulos. Lo cuenta `privacidad.html` (punto 3). El servidor borra lo de equipos liberados y lo de más de 90 días.
+
+**Reglas:** `_al_anotar` (lo llama el Registro desde cualquier hilo, también el de la interfaz) solo toca memoria; el hilo «telemetria-errores» arma, guarda (`~/DaVinciSubtitles/errores_por_enviar.json` con `archivos_seguros`) y manda. La misma firma (origen + mensaje sin números) va como mucho cada 10 min, sumando `veces` sin contar doble (el Registro reutiliza la entrada al repetirse). 40 envíos por sesión. Sin licencia activada queda pendiente; 404 se descarta; 429/503/sin red esperan. Desde el código fuente NO manda (`CINECAPTIONS_TELEMETRIA=1` lo fuerza); `CINECAPTIONS_SIN_TELEMETRIA=1` o la preferencia oculta `enviar_errores: false` lo apagan.
+
+**Probar:** `simular_equipos.py` (grupo «Telemetría de errores») con un servidor falso en 127.0.0.1: envío sin la carpeta del usuario, repeticiones, sin red → disco → reintento, sin licencia, 404, 429, tope, que no frene la interfaz y el hilo de punta a punta (con logs temporales: `registro.error` escribe en los del usuario).

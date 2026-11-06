@@ -1,5 +1,189 @@
 REGISTRO DE CAMBIOS ARCHIVADO · 2026-11 (la entrada más nueva arriba)
 
+2026-11-02 18:35  ·  v5.60  ·  cambio explicado
+    v5.61: «Listo» de detrás de ti funciona tras un GO sin detrás de ti (cada GO guarda su contexto) y con Resolve cerrado dice eso en vez de «otro timeline»; tarjeta del Registro para «otro timeline».
+    modificados (9):
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/posiciones_pro.py
+      ~ 1_codigo/registro_ayuda.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 3_compilar/traducciones_extra.json
+
+2026-11-02 17:52  ·  v5.60  ·  (automático)
+    modificados (21):
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      … y 9 más
+
+2026-11-02 17:42  ·  v5.59  ·  cambio explicado
+    v5.60: «Captions detrás de ti» encendido y ningún caption detrás (persona pequeña, de espaldas, moviéndose o muchos cortes) acababa igual que sin la opción y el usuario creía que no funcionaba: ahora el Registro avisa con los motivos (_avisar_sin_detras; motivos de _captions_detras) en GO y en «Listo».
+    modificados (12):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/vistas_slider/Referencia.jpg
+      ~ 2_recursos/vistas_slider/Referencia.mp4
+      ~ 2_recursos/vistas_slider/Referencia_captions.jpg
+      ~ 2_recursos/vistas_slider/Referencia_captions.mp4
+      ~ 3_compilar/traducciones_extra.json
+
+2026-11-02 12:13  ·  v5.59  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-11-02 11:52  ·  v5.58  ·  cambio explicado
+    v5.59 revisión independiente del arreglo «Studio ocupado»: _reconectar_mcp ya no toma «ocupado» por reconectado (mentía en el Registro y no esperaba); _PROYECTO y _CREAR_TIMELINE devuelven producto/version/pagina para que la caché anotada no deje a Studio como Free si GO abrió Resolve, y _anotar_estado solo fía «ocupado» con el producto; _sigue_ocupado con estado_resolve (ventana «No responde» y registro mudo 60 s, fantasma, caído; Mac por el registro) porque un Resolve ocupado importando también «No responde»; crear_timeline_con_video anota el proyecto. Probado contra un Resolve falso y con un 2.º GO real «¡Listo!».
+    modificados (2):
+      ~ 1_codigo/resolve_bridge.py
+      ~ 1_codigo/resolve_mcp.py
+
+2026-11-02 11:46  ·  v5.58  ·  cambio explicado
+    v5.59 Studio ocupado, en el Resolve REAL (pedido «toca resolve real»): ResolveMCP atiende una petición cada vez, así que con un script largo delante también get_resolve_status caduca a los 10 s (HEAD lo daba por «desconectado»): estado() trata ese TimeoutError igual (_sigue_ocupado: contestó hace menos de OCUPADO_S y la ventana no está colgada). Un script en cola no caduca por esperar: el «Script timed out» del usuario fue Resolve lento dentro del script. GO real desde el código con su video: «¡Listo!» sin «Falta un clic» ni reconexión, colocación 0,3 s tras armar el timeline. Sin resolver: en cada GO con video Resolve se calla 7-34 s tras «refreshing color gallery» (mcp.log y ResolveDebug.txt); fuera de GO no pasa (0,1-0,2 s).
+    modificados (1):
+      ~ 1_codigo/resolve_mcp.py
+
+2026-11-02 11:19  ·  v5.58  ·  cambio explicado
+    v5.59 GO con Resolve Studio acabó en «Falta un clic en Resolve» (camino de Free) y lo marcó como fallo aunque colocó 27 s después (Registro del usuario 02-11 11:09). Causa: tras crear el timeline, resolve_mcp._refrescar_estado() preguntó el estado con un script que Resolve, aún ocupado con el video recién importado, no acabó en 10 s; estado() lo tomaba por «desconectado» y la mirada pasiva de _go_lanzar (modo_actual(pasivo=True) == 'manual') cortaba GO mientras el hilo de colocar reconectaba y seguía. Arreglo: estado() trata el script a destiempo (timed out / ocupado) como OCUPADO si Resolve contestó en los últimos 2 min (OCUPADO_S); crear proyecto y crear timeline anotan en la caché lo que devolvió su propio script (_anotar_estado) en vez de otro script de estado (sin esa espera); y _go_lanzar ya no decide «Falta un clic» con Studio o camino MCP/API detectado (lo decide el hilo de colocar). Probado con Resolve simulado (11 casos); sin compilar.
+    modificados (9):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/resolve_mcp.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 3_compilar/traducciones_extra.json
+
+2026-11-02 09:13  ·  v5.58  ·  cambio explicado
+    v5.58 Mac sin voz desde la 5.34 (captura del usuario: GO falla en «Transcribiendo» con «El motor auxiliar Python 3.14 está configurado para Windows x64»): Whisper, Argos y ONNX corren en un Python 3.14 aparte que solo existe en Windows, y el Mac salía sin esas librerías (la autoprueba solo daba un aviso). Arreglo: motor_compat.EN_PROCESO (fuera de Windows worker.atender corre dentro del programa con _EnProceso, la misma interfaz que _Servidor; «detrás de ti» sigue fuera del Mac), Construir_Instalador_Mac.sh instala el requirements del motor con onnxruntime 1.24.4 / 1.23.2 Intel, el .spec las declara (copy_metadata obligatorio para httpx2/httpcore2) y la autoprueba del motor es crítica fuera de Windows (VAD, int8, audio a 16 kHz, Argos, sin red). De paso, dos fallos que también tenía Windows: motor_compat.traducir devolvía el dict y la pista traducida salía con «textos»; y cancelar GO durante la transcripción desordenaba las respuestas del servicio hasta reiniciar. macOS 14 como mínimo real. Probado simulando el Mac con el Python 3.14 del motor real (transcribe 42 palabras, cancela y sigue) y Windows igual; falta la compilación de Mac en GitHub.
+    modificados (10):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/motor_compat.py
+      ~ 1_codigo/salud.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/motor_compat/requirements.txt
+      ~ 3_compilar/traducciones_extra.json
+
+2026-11-02 08:59  ·  v5.58  ·  cambio explicado
+    v5.58 tiempo de GO probado con 2 GO reales del video del usuario (58 s, Tema 1 solo captions): con un GO de historia el error medio fue 0,9 s. Ajustes tras la prueba: tambien se apuntan los pasos de un instante y lo que tardan la voz y la IA reutilizadas (voz_reuso/ia_reuso; antes la IA reutilizada contaba 7 s y tarda 0,3), minimo por paso 0,2 s, suelo del paso en curso 2 s (antes 5) y nunca baja mas de 1 s entre dos refrescos aunque un tic llegue tarde; la cuenta de la cache se refresca cada 0,5 s.
+    modificados (10):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/fluidez_resolve.py
+      ~ 1_codigo/tareas_instalador.py
+      ~ 1_codigo/un_clic_ui.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 3_compilar/traducciones_extra.json
+
+2026-11-02 08:45  ·  v5.58  ·  cambio explicado
+    v5.58 tiempo de GO exacto y sin saltos: el usuario vio 2 min anunciados que caian de golpe a 30 y 20 s. Causas: la media movil dejo la voz en x5,26 (68 s previstos para ~26 reales) y la tabla repartia mal sonido y Resolve; y el texto era la cuenta cruda redondeada a 5-10 s. Ahora EstimadorGo preve cada paso con los ultimos 9 GO del equipo (go_historial, recta por medianas Theil-Sen, sin los GO raros) y eta_segundos ensena una cuenta atras al segundo que baja con el reloj y se corrige sin saltos (hasta 4x con el reloj de 250 ms, se frena si va lento). Y la espera a la cache dice cuanto falta para reproducir (fluidez_resolve.falta_cache).
+    modificados (11):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro_persona.py
+      ~ 1_codigo/fluidez_resolve.py
+      ~ 1_codigo/motor_compat.py
+      ~ 1_codigo/salud.py
+      ~ 1_codigo/tareas_instalador.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+
+2026-11-02 08:43  ·  v5.58  ·  cambio explicado
+    v5.58 Temas 1 y 3 (Kin 22, Vir 10): kinetic_comps.armar_comp pone en la cabecera de cada comp Prefs.Comp.Memory.Render/Interactive.SimultaneousBranching = true (Fusion renderiza las ramas de la comp a la vez). Por que: el usuario pidio que el render cache vaya mas rapido usando el equipo; Resolve cachea con ~3,3 de 12 hilos. Ponerlo en GO con comp.SetPrefs costaba 0,26 s por clip (Resolve guarda el proyecto en cada uno), dentro de la plantilla no cuesta nada y Resolve lo conserva (8 de 8 comps). Medido: banco 24 s Tema 1 -12 %, Tema 3 -7 %; GO real del usuario (58 s, 137 clips) cache 251 -> 235 s y reproduce 15 s antes. Packs regenerados: solo cambia la cabecera, Tools identicas (comparadas comp a comp).
+    modificados (14):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/motor_compat.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/tareas_instalador.py
+      ~ 1_codigo/un_clic_ui.py
+      ~ 2_recursos/generador_packs/kinetic_comps.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/plantillas_incluidas/Kinetic/Kinetic vertical.drb
+      … y 2 más
+
+2026-11-02 00:59  ·  v5.58  ·  cambio explicado
+    v5.58 reproduccion fluida: la espera en un hilo tras GO ya no se rinde a los 240 s mientras los clips de la cache avancen (fluidez_resolve.esperar_cache mientras_avance, tope de fondo 20 min). Por que: el GO real del usuario (Tema 1, 58 s, 137 clips) arrancaba con la cache al 86-92 % y el final iba a tirones; medido con GO real: Listo a los 41 s, cache hecha y reproduccion a los 304 s. Medido tambien que Resolve usa ~3,8 de 12 hilos al cachear (GPU 8 %, disco 8 MB/s): el limite es Resolve, no el equipo; SimultaneousBranching en las comps da -12 % en el Tema 1 pero SetPrefs cuesta 0,26 s por comp: solo valdria dentro de las plantillas (propuesto).
+    modificados (7):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/fluidez_resolve.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+
+2026-11-01 23:34  ·  v5.58  ·  (automático)
+    modificados (1):
+      ~ 1_codigo/herramientas_dev/probar_detras_temas.py
+
+2026-11-01 23:18  ·  v5.58  ·  cambio explicado
+    5.58 «detrás de ti»: solo humanos con dos detectores (el usuario: «que solo detecte humanos»). Una silueta cuenta si tiene cara (YuNet) o, sin cara (de espaldas o de lado), si NanoDet-Plus (OpenCV Zoo, Apache 2.0, 3,8 MB, aprobado por el usuario) ve ahí a una persona cuya cabeza cae en la silueta. En 9 videos: fuera los 29 fotogramas de objetos (cojines, camas, balón, mesa de DJ, piscina) y vuelven 10 de 14 de espaldas. Umbral 0,5: un cojín saca 0,38. Y el recorte, más rápido («testea la rapidez»): con destellos y pegotes iba a 115 ms por fotograma (5.57: 89). Ahora usa etiquetas (todas las manchas de una vez) en _sin_destellos y _quitar_pegotes, la anticipación solo en los píxeles que cambian, _luz en el hilo que lee y limpiar en su propio hilo: 82 contra 90 de la 5.57, con el mismo recorte (salvo el ruido de DirectML).
+    nuevos (4):
+      + 2_recursos/edicion_pro/modelos/LICENCIA_nanodet.txt
+      + 2_recursos/edicion_pro/modelos/LICENCIA_yunet.txt
+      + 2_recursos/edicion_pro/modelos/face_detection_yunet_2026may.onnx
+      + 2_recursos/edicion_pro/modelos/object_detection_nanodet_2022nov.onnx
+    modificados (15):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_persona.py
+      ~ 1_codigo/herramientas_dev/probar_detras_temas.py
+      ~ 1_codigo/herramientas_dev/probar_detras_timeline.py
+      ~ 1_codigo/herramientas_dev/probar_pro_lateral.py
+      ~ 1_codigo/motor_compat.py
+      ~ 1_codigo/posiciones_pro.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      … y 3 más
+
+
+(Lo anterior está archivado por mes en DOCUMENTACION/historial/REGISTRO_<aaaa-mm>.txt)
 2026-11-01 14:18  ·  v5.58  ·  cambio explicado
     5.58: la Edición PRO y «Captions detrás de ti» en Resolve Free (el usuario: «el menú PRO debe funcionar en Resolve Free, todas sus funciones, y detrás de ti igual; testea el Tema 1 con la PRO y detrás de ti»). Al probar salieron dos fallos que impedían la PRO entera en Free: el inicio del timeline se leía de una clave que «Detectar video» no trae (todo iba al fotograma 0) y los clips de V1 del Puente llegaban con otras claves (KeyError «ini»): ahora la info de Free sale de efectos_visuales._info_libre y _v1_libre la traduce. El .lua de Free no tenía lo del Tema 1 con «detrás de ti» que sí tenía colocar_pro.py (placa, recorte por abajo, captions neón, Pan en horizontal, Motions por tramos, «Listo»): portado y comprobado con el mismo plan en los dos sobre un Resolve simulado (timeline idéntico, también sin io). «Listo» del Tema 1 sin «Kit de motions» pedía una placa que GO ya no hace (5.56): arreglado también para Studio. El recorte metía destellos de 1 a 7 fotogramas (columna, sombra, un trozo de edificio pegado a la cabeza): quita-destellos por manchas con 8 fotogramas de adelanto y prerrollo, la pasada fina manda en la cabeza cuando el color dice fondo, y el tramo no cruza un corte de toma (VERSION_MATTE 5). La prueba mide ahora el parpadeo en lo visible y con la imagen quieta.
     modificados (17):

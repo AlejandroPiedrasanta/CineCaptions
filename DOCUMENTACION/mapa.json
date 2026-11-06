@@ -1858,6 +1858,33 @@
       "resumen": "QT_QPA_PLATFORM=offscreen + licencia.vigente parcheada; los arneses escriben las prefs REALES: parchear guardar_prefs"
     },
     {
+      "id": "simular-equipos",
+      "grupo": "pruebas",
+      "tema": "Simular equipos de clientes (Windows y Mac): Resolve en otro disco, IA lenta, VRAM, drivers",
+      "claves": [
+        "simular",
+        "simulacion",
+        "equipos",
+        "clientes",
+        "mac",
+        "windows",
+        "casos",
+        "regresion",
+        "prevenir",
+        "errores"
+      ],
+      "archivos": [
+        "herramientas_dev/simular_equipos.py"
+      ],
+      "simbolos": [
+        "disco_falso",
+        "_resolve_dir_extra",
+        "_resolve_en_marcha",
+        "_discos_fijos"
+      ],
+      "resumen": "banco sin Resolve/GPU/red: disco y procesos falsos; cada error de un cliente = un caso nuevo; sale 1 si algo falla"
+    },
+    {
       "id": "herramientas-dev",
       "grupo": "pruebas",
       "tema": "Arneses de prueba con Resolve real (cuelgue, previo, ciclos, emojis) y de estilos",
@@ -2038,6 +2065,31 @@
       ],
       "simbolos": [],
       "resumen": "proyectos.py: recientes, abrir, borrar (estado con archivos_seguros)"
+    },
+    {
+      "id": "telemetria-errores",
+      "grupo": "datos",
+      "tema": "Telemetría de errores: los errores de los clientes le llegan al vendedor (app de ventas)",
+      "claves": [
+        "telemetria",
+        "errores",
+        "clientes",
+        "notificar",
+        "ventas",
+        "informe",
+        "soporte",
+        "servidor"
+      ],
+      "archivos": [
+        "telemetria_errores.py"
+      ],
+      "simbolos": [
+        "iniciar",
+        "_al_anotar",
+        "firma",
+        "_enviar"
+      ],
+      "resumen": "cada «error» del Registro → pagos/errores.php en un hilo (sin la carpeta del usuario); la app de ventas lo muestra y avisa"
     },
     {
       "id": "creativo-detecta-audio",
@@ -4756,6 +4808,42 @@
         "con_controles"
       ],
       "resumen": "apagado = GO de siempre; encendido analiza tema/voz/ruido/música/ambiente/captions/motions/narrativa, pone la voz restaurada (copia) en AI VOICE apagando A1 solo tras verificarla y es el ÚNICO dueño del sonido: decide caption a caption y motion a motion (la mayoría en silencio), hace cada sonido a la medida (híbrido) en las pistas AI SFX, apaga los de Simple y toma los de la PRO; fallback al motor original"
+    },
+    {
+      "id": "idioma-ui",
+      "grupo": "ui",
+      "tema": "Idioma de la interfaz: panel de tarjetas con banderas y 13 idiomas",
+      "claves": [
+        "idioma",
+        "idiomas",
+        "bandera",
+        "banderas",
+        "selector",
+        "interfaz",
+        "japones",
+        "coreano",
+        "chino",
+        "ruso",
+        "neerlandes",
+        "turco",
+        "polaco",
+        "cjk",
+        "traduccion"
+      ],
+      "archivos": [
+        "idioma_ui.py",
+        "i18n.py",
+        "ajustes_ui.py",
+        "qt_kit.py"
+      ],
+      "simbolos": [
+        "HojaIdioma",
+        "BotonIdioma",
+        "pintar_bandera",
+        "_respaldo_cjk",
+        "_abrir_idiomas"
+      ],
+      "resumen": "Ajustes › Interfaz: BotonIdioma abre HojaIdioma (13 tarjetas, banderas dibujadas que ondean); 7 idiomas nuevos traducidos con Gemma 4; respaldo CJK en qt_kit.fuente"
     }
   ]
 }

@@ -22,7 +22,7 @@ Python con dependencias (`$PY`): `6_compilacion/venv315/Scripts/python.exe`.
 ## Mapa de temas — `id` (su archivo: `donde("id")`)
 <!-- MAPA:INICIO (lo escribe 1_codigo/mapa_codigo.py generar; no lo edites a mano) -->
 - **general** (Visión general del programa): documentacion acoplamientos
-- **ui** (Interfaz Qt: ventana, diseño, rendimiento, ajustes): ventana-paginas fondo-animado liquid-glass ritmo-fps qt-kit ajustes-tema isla-nav aurora recorrido reglas-rendimiento rendimiento-base ui-menores
+- **ui** (Interfaz Qt: ventana, diseño, rendimiento, ajustes): ventana-paginas fondo-animado liquid-glass ritmo-fps qt-kit ajustes-tema isla-nav aurora recorrido reglas-rendimiento rendimiento-base ui-menores idioma-ui
 - **go** (GO e Inicio (botón, escena, arrastrar un video)): go-inicio estilos-inicio orbe-go arrastrar-video fuente-unica go-progreso go-control go-colocacion-real go-sin-resolve
 - **creativo** (Editor Creativo (palabras, Asistencia, Generar)): editor-palabras creativo-ui creativo-vista-tema creativo-detecta-audio
 - **estilos** (Estilos y packs (.drb/.drt, Luxe, Crea tu estilo)): pantalla-estilos estilos-slider packs-drt fuentes generador-packs crea-tu-estilo mezcla-temas tema4 tema5 temas-ligero editar-quitar-pack luxe-packs captions-premium tema6 banner-inspector motions-resolve
@@ -35,8 +35,8 @@ Python con dependencias (`$PY`): `6_compilacion/venv315/Scripts/python.exe`.
 - **resolve** (Resolve (API, MCP, scripts, vistas reales)): resolve-api fluidez-resolve vista-real-previo resolve-mcp-mac free-sin-io resolve-colgado scripts-resolve-inventario conexion-auto
 - **compilar** (Compilar, versiones, instaladores (Windows y Mac)): instalador-cs version mac compilar-win actualizaciones mac-actualizar
 - **vigilancia** (Vigilancia, logs y respaldo de modelos): vigilancia
-- **datos** (Datos del usuario, licencia y ajustes): licencia archivos-seguros carpetas-del-usuario proyectos-usuario
-- **pruebas** (Pruebas y MCP del programa): banco-mcp pruebas-sin-pantalla herramientas-dev
+- **datos** (Datos del usuario, licencia y ajustes): licencia archivos-seguros carpetas-del-usuario proyectos-usuario telemetria-errores
+- **pruebas** (Pruebas y MCP del programa): banco-mcp pruebas-sin-pantalla simular-equipos herramientas-dev
 - **efectos** (Efectos visuales (intro, transiciones en los cortes, iconos flotantes)): efectos-visuales efectos-movimiento efectos-extra quitar-pausas broll edicion-pro kit8 escenas-pantalla internet-broll motions-pro pro-lateral estilos-pro intros-gancho motions-completo vigilante-pro motions-editables video-rotado-monedas personajes-3d posiciones-pro emojis-pro
 <!-- MAPA:FIN -->
 
