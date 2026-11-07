@@ -12,6 +12,161 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-06 23:01  ·  v5.76  ·  (automático)
+    nuevos (1329):
+      + 2_recursos/edicion_pro/remotion/bundle/129.bundle.js
+      + 2_recursos/edicion_pro/remotion/bundle/129.bundle.js.map
+      + 2_recursos/edicion_pro/remotion/bundle/161.bundle.js
+      + 2_recursos/edicion_pro/remotion/bundle/161.bundle.js.map
+      + 2_recursos/edicion_pro/remotion/bundle/177.bundle.js
+      + 2_recursos/edicion_pro/remotion/bundle/177.bundle.js.map
+      + 2_recursos/edicion_pro/remotion/bundle/208.bundle.js
+      + 2_recursos/edicion_pro/remotion/bundle/208.bundle.js.map
+      + 2_recursos/edicion_pro/remotion/bundle/226.bundle.js
+      + 2_recursos/edicion_pro/remotion/bundle/226.bundle.js.map
+      + 2_recursos/edicion_pro/remotion/bundle/304.bundle.js
+      + 2_recursos/edicion_pro/remotion/bundle/304.bundle.js.map
+      … y 1317 más
+    modificados (2):
+      ~ 1_codigo/recorrido_ui.py
+      ~ 1_codigo/version.py
+
+2026-11-06 23:00  ·  v5.76  ·  cambio explicado
+    5.76: guía con videos por página (Ajustes › Tutoriales, una vez por versión), zona segura de reels en todos los estilos y en Crea tu estilo, Estilo 5 tipográfico (también principal «Tipografía»), Crea tu estilo rediseñada (previa vertical + Letra/Color), Estilo 2 siempre al centro y sin color en el texto base, y en la interfaz todo se llama «Estilo».
+    modificados (54):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/director_sonido_capas.py
+      ~ 1_codigo/director_sonido_eventos.py
+      ~ 1_codigo/director_sonido_identidad.py
+      ~ 1_codigo/director_sonido_musica.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_tema5.py
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/estilos_pro.py
+      ~ 1_codigo/guion_captions.py
+      ~ 1_codigo/guion_planificador.py
+      ~ 1_codigo/herramientas_dev/hacer_base_t2.py
+      … y 42 más
+    quitados (1329):
+      - 2_recursos/edicion_pro/remotion/bundle/129.bundle.js
+      - 2_recursos/edicion_pro/remotion/bundle/129.bundle.js.map
+      - 2_recursos/edicion_pro/remotion/bundle/161.bundle.js
+      - 2_recursos/edicion_pro/remotion/bundle/161.bundle.js.map
+      - 2_recursos/edicion_pro/remotion/bundle/177.bundle.js
+      - 2_recursos/edicion_pro/remotion/bundle/177.bundle.js.map
+      - 2_recursos/edicion_pro/remotion/bundle/208.bundle.js
+      - 2_recursos/edicion_pro/remotion/bundle/208.bundle.js.map
+      - 2_recursos/edicion_pro/remotion/bundle/226.bundle.js
+      - 2_recursos/edicion_pro/remotion/bundle/226.bundle.js.map
+      - 2_recursos/edicion_pro/remotion/bundle/304.bundle.js
+      - 2_recursos/edicion_pro/remotion/bundle/304.bundle.js.map
+      … y 1317 más
+
+2026-11-06 21:50  ·  v5.75  ·  cambio explicado
+    Zona segura del reel (v5.76): el usuario pidió que todos los estilos y los creados en «Crea tu estilo» respeten la interfaz de TikTok/Reels/Shorts; eligió la propuesta A (13 % arriba, 25 % abajo, 16 % a cada lado, centrada, sin dibujarla). zona_segura.py es la única fuente; cada planificador la usa como su ancho máximo/alto (los Estilos 1 y 2 con AIRE_TINTA porque su dibujo sobresale de lo medido; el 3 cuenta la caja activa; el «Fondo» Amro se achica con un ancho aproximado). La PRO (cara, detrás de ti, escenas, neón, emojis) tampoco saca captions de ella; los gemelos de Resolve repiten los números para los emojis del tema.
+    modificados (10):
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_tema5.py
+      ~ 1_codigo/guion_captions.py
+      ~ 1_codigo/guion_planificador.py
+      ~ 1_codigo/kinetic_captions.py
+      ~ 1_codigo/kit_neon.py
+      ~ 1_codigo/linea_planificador.py
+      ~ 1_codigo/zona_segura.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_Subtitulos.lua
+
+2026-11-06 21:29  ·  v5.75  ·  cambio explicado
+    Subtítulos en los videos de la guía y de Ajustes › Tutoriales (el usuario eligió el estilo A: una píldora oscura centrada encima de la barra de avance). No van quemados en el mp4: el generador guarda en subtitulos.json el momento real de cada frase (g.texto en el guion) y el reproductor la pinta traducida, así el mismo video vale para los 10 idiomas; 37 frases en 9 idiomas.
+    nuevos (2):
+      + 1_codigo/zona_segura.py
+      + 2_recursos/tutoriales/subtitulos.json
+    modificados (37):
+      ~ 1_codigo/guion_planificador.py
+      ~ 1_codigo/herramientas_dev/hacer_videos_tutorial.py
+      ~ 1_codigo/kinetic_captions.py
+      ~ 1_codigo/kit_neon.py
+      ~ 1_codigo/kit_neon_motions.py
+      ~ 1_codigo/linea_planificador.py
+      ~ 1_codigo/tema4_planificador.py
+      ~ 1_codigo/tipo_planificador.py
+      ~ 1_codigo/tutoriales.py
+      ~ 1_codigo/tutoriales_ui.py
+      ~ 1_codigo/viral_captions.py
+      ~ 2_recursos/locales/de.json
+      … y 25 más
+
+2026-11-06 21:07  ·  v5.75  ·  cambio explicado
+    Guía con video (C1) y Ajustes › Tutoriales (B2), pedido del usuario: un paso por página (Inicio, Estilo, Crea tu estilo, Corrector, Sonido, Efectos, Ajustes) con un video grabado con la interfaz REAL sin pantalla (hacer_videos_tutorial.py: clics de verdad, cursor y cámara); sale sola UNA vez por versión nueva (guia_activa/guia_version, después de las novedades) y se apaga en Ajustes › Tutoriales, que tiene el video grande con la lista de las páginas. Sin toasts: «No volver a mostrar» va al Registro. Videos sin texto encima: la explicación va traducida (9 idiomas).
+    nuevos (19):
+      + 1_codigo/herramientas_dev/hacer_base_t2.py
+      + 1_codigo/herramientas_dev/hacer_videos_tutorial.py
+      + 1_codigo/tutoriales.py
+      + 1_codigo/tutoriales_ui.py
+      + 2_recursos/tutoriales/ajustes.jpg
+      + 2_recursos/tutoriales/ajustes.mp4
+      + 2_recursos/tutoriales/corrector.jpg
+      + 2_recursos/tutoriales/corrector.mp4
+      + 2_recursos/tutoriales/crea.jpg
+      + 2_recursos/tutoriales/crea.mp4
+      + 2_recursos/tutoriales/duraciones.json
+      + 2_recursos/tutoriales/efectos.jpg
+      … y 7 más
+    modificados (24):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_temas.py
+      ~ 1_codigo/herramientas_dev/hacer_vistas_crea.py
+      ~ 1_codigo/posiciones_pro.py
+      ~ 1_codigo/recorrido_ui.py
+      ~ 1_codigo/tipo_planificador.py
+      ~ 1_codigo/vistas_slider.py
+      ~ 2_recursos/guia_estilo/crea/b_t2.mp4
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      … y 12 más
+
+2026-11-06 19:56  ·  v5.75  ·  cambio explicado
+    v5.76 Tema 5 nuevo (pedido: «aplícalo en Tema 5, elimina el estilo del Tema 5, coloca este y mételo en texto principal en Crea tu estilo»): la palabra clave GRANDE (Montserrat Black) y la serif cursiva (DM Serif Italic) que la muerde, palabra a palabra, con bisel y sombra. UN clip «v tipo» por bloque con todo codificado en el texto de su Template (run['codigo']; run['texto'] queda legible porque la PRO «Motions completo» enseñaba el código). El pack Tema5 pasa a ser de elementos (guion viral) con solo ese clip; sus escenas PRO no cambian. En Crea, t5 = motor viral y el principal p_t5 «Tipografía».
+    modificados (45):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/crea_estilo_ui.py
+      ~ 1_codigo/director_sonido_capas.py
+      ~ 1_codigo/director_sonido_diseno.py
+      ~ 1_codigo/director_sonido_eventos.py
+      ~ 1_codigo/director_sonido_identidad.py
+      ~ 1_codigo/director_sonido_musica.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/estilos_pro.py
+      ~ 1_codigo/estilos_slider.py
+      … y 33 más
+
+2026-11-06 19:36  ·  v5.75  ·  cambio explicado
+    Crea tu estilo v5.76: tarjetas sin texto debajo y página rediseñada (pedido del usuario: más moderna, previa vertical a la derecha, Letra y Color que se abren bajo la previa y se ven en ella). El color se ve en vivo tiñendo las previas (son videos de Resolve); la letra no cambia dentro de esos videos, así que la previa escribe la palabra principal con ella.
+    nuevos (2):
+      + 1_codigo/tipo_planificador.py
+      + 1_codigo/tipo_vista.py
+    modificados (26):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/crea_estilo_ui.py
+      ~ 1_codigo/edicion_pro_tema5.py
+      ~ 1_codigo/fuente_usuario.py
+      ~ 1_codigo/mezcla_planificador.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/render_sin_resolve.py
+      ~ 1_codigo/render_temas.py
+      ~ 1_codigo/vista_tema.py
+      ~ 2_recursos/generador_packs/pack_tema5.py
+      ~ 2_recursos/generador_packs/pack_viral.py
+      ~ 2_recursos/generador_packs/viral_elementos.py
+      … y 14 más
+    quitados (2):
+      - 2_recursos/plantillas_incluidas/Tema5/Tema5 vertical.posiciones.json
+      - 2_recursos/plantillas_incluidas/Tema5/Tema5 vertical.variantes.json
+
 2026-11-06 17:58  ·  v5.75  ·  (automático)
     modificados (25):
       ~ 1_codigo/crea_estilo_ui.py
@@ -353,281 +508,6 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
       ~ 1_codigo/CineCaptions (script principal).py
       ~ 1_codigo/registro_ayuda.py
       ~ 1_codigo/resolve_bridge.py
-
-2026-11-05 18:09  ·  v5.70  ·  cambio explicado
-    IA de texto en equipos lentos (reporte de un cliente): una tanda de generate() pasaba de 100 s sin señal y ia_texto la mataba por colgada; 2 veces = IA desactivada y un ERROR en el Registro en cada corrección de ortografía. Ahora motor_texto manda LATIDO cada 15 s mientras trabaja (corte real: 420 s sin terminar una tanda), el editor cae al diccionario con un aviso, el «falló N veces» es aviso, y GO sin video ni Resolve tiene su propia tarjeta («Falta el video»).
-    nuevos (5):
-      + 1_codigo/idioma_ui.py
-      + 2_recursos/locales/ja.json
-      + 2_recursos/locales/ko.json
-      + 2_recursos/locales/ru.json
-      + 2_recursos/locales/zh.json
-    modificados (12):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/i18n.py
-      ~ 1_codigo/ia_texto.py
-      ~ 1_codigo/qt_kit.py
-      ~ 1_codigo/registro_ayuda.py
-      ~ 2_recursos/motor_qwen/motor_texto.py
-      ~ 3_compilar/aplicar_traducciones.py
-      ~ 3_compilar/auditar_traducciones.py
-      ~ 3_compilar/documentar.py
-      ~ 3_compilar/encabezados.py
-      ~ 3_compilar/traducciones_extra.json
-
-2026-11-04 10:12  ·  v5.70  ·  (automático)
-    modificados (20):
-      ~ 1_codigo/version.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
-      ~ 2_recursos/resolve_scripts/CineCaptions.py
-      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
-      … y 8 más
-
-2026-11-04 10:05  ·  v5.69  ·  cambio explicado
-    GO sin Resolve con un audio suelto: el MP4 sale vertical con los captions sobre un fondo oscuro (antes «el archivo no tiene imagen»; el Tema 1, IndexError); el Registro ya no lo explica como «Resolve no está listo».
-    modificados (10):
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/kit_neon_mp4.py
-      ~ 1_codigo/registro_ayuda.py
-      ~ 1_codigo/render_sin_resolve.py
-      ~ 2_recursos/locales/de.json
-      ~ 2_recursos/locales/en.json
-      ~ 2_recursos/locales/fr.json
-      ~ 2_recursos/locales/it.json
-      ~ 2_recursos/locales/pt.json
-      ~ 3_compilar/traducciones_extra.json
-
-2026-11-04 09:28  ·  v5.69  ·  cambio explicado
-    Página Tema: el menú de la PRO sigue a la tarjeta del centro; con el Tema 1 al centro y otro tema elegido, sus interruptores se guardaban en los de los demás temas y el Tema 1 no hacía nada con la PRO.
-    modificados (3):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/pro_lateral_ui.py
-
-2026-11-04 00:42  ·  v5.69  ·  cambio explicado
-    Detrás de ti: la intro del gancho es zona vetada también para las marcas de Efectos › Posición (una marca llevada al caption de 0 s dejaba el recorte de la persona como un recuadro sobre el destello). Ejemplos del slider del Tema 3 rehechos con detrás de ti marcado + gancho.
-    modificados (6):
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/edicion_pro.py
-      ~ 2_recursos/vistas_slider/VIRAL.jpg
-      ~ 2_recursos/vistas_slider/VIRAL.mp4
-      ~ 2_recursos/vistas_slider/VIRAL_captions.jpg
-      ~ 2_recursos/vistas_slider/VIRAL_captions.mp4
-
-2026-11-04 00:01  ·  v5.69  ·  cambio explicado
-    Ajustes sin el título de cada página (el menú ya lo dice) y con el sobrante del desplazable abajo: las páginas cortas ya no quedan empujadas hacia abajo.
-    modificados (1):
-      ~ 1_codigo/ajustes_ui.py
-
-2026-11-03 23:57  ·  v5.69  ·  cambio explicado
-    Ajustes renovado: íconos en pestañas, páginas y cada ajuste; cabeceras compactas; Ayuda con tarjeta de soporte (WhatsApp con el informe + cinecaptions.shop); Acerca «Se actualiza sola»; Atajos sin el atajo de sonido que ya no existía.
-    modificados (9):
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/registro.py
-      ~ 1_codigo/registro_ui.py
-      ~ 2_recursos/locales/de.json
-      ~ 2_recursos/locales/en.json
-      ~ 2_recursos/locales/fr.json
-      ~ 2_recursos/locales/it.json
-      ~ 2_recursos/locales/pt.json
-      ~ 3_compilar/traducciones_extra.json
-
-2026-11-03 22:23  ·  v5.69  ·  (automático)
-    modificados (20):
-      ~ 1_codigo/version.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
-      ~ 2_recursos/resolve_scripts/CineCaptions.py
-      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
-      … y 8 más
-
-2026-11-03 22:22  ·  v5.68  ·  cambio explicado
-    Ajustes aún más simple: fuera «IA de texto» (siempre Gemma 4 E4B con su bajada automática), «Otras IA», «GPU para la voz» (se repara sola al abrir), «Animaciones» y «Animaciones de Inicio» (siempre completas; la calidad adaptativa aligera).
-    modificados (13):
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/cuda_libs.py
-      ~ 1_codigo/efectos_ui.py
-      ~ 1_codigo/escena_go.py
-      ~ 1_codigo/motor_voz.py
-      ~ 1_codigo/registro_ayuda.py
-      ~ 1_codigo/subtitle_transcriber.py
-      ~ 2_recursos/locales/de.json
-      ~ 2_recursos/locales/en.json
-      ~ 2_recursos/locales/fr.json
-      ~ 2_recursos/locales/it.json
-      ~ 2_recursos/locales/pt.json
-      … y 1 más
-
-2026-11-03 22:16  ·  v5.68  ·  cambio explicado
-    Más Ajustes simple: «Avisarme de las actualizaciones» siempre encendido y fuera de Acerca de; Ayuda sin «Qué respondió Resolve» ni «Carpeta de datos».
-    modificados (2):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/ajustes_ui.py
-
-2026-11-03 22:14  ·  v5.68  ·  cambio explicado
-    Ajustes más simple: «Avisarme al terminar» y «Reparar Resolve solo si se traba» siempre encendidos y fuera de Ajustes; Acerca de sin «Notas de la versión» ni «Actualizaciones» (el panel rápido las conserva).
-    modificados (3):
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/avisos_sistema.py
-      ~ 1_codigo/salud_resolve.py
-
-2026-11-03 22:10  ·  v5.68  ·  cambio explicado
-    Registro: «Enviar informe» (copia el informe completo y abre wa.me/50236573658 con un resumen: equipo y errores, recortado para que el enlace quepa) en lugar de «Abrir el archivo»; sin «Limpiar».
-    modificados (9):
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/registro.py
-      ~ 1_codigo/registro_ui.py
-      ~ 2_recursos/locales/de.json
-      ~ 2_recursos/locales/en.json
-      ~ 2_recursos/locales/fr.json
-      ~ 2_recursos/locales/it.json
-      ~ 2_recursos/locales/pt.json
-      ~ 3_compilar/traducciones_extra.json
-
-2026-11-03 22:03  ·  v5.68  ·  cambio explicado
-    Registro sin el botón «Limpiar» (pedido del usuario): lo que pasó queda siempre para «Copiar informe».
-    modificados (2):
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/registro_ui.py
-
-2026-11-03 21:04  ·  v5.68  ·  (automático)
-    modificados (20):
-      ~ 1_codigo/version.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
-      ~ 2_recursos/resolve_scripts/CineCaptions.py
-      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
-      … y 8 más
-
-2026-11-03 21:02  ·  v5.67  ·  cambio explicado
-    Qwen3-ASR caía siempre a Whisper desde la 5.64: el Python embebido del motor no pone la carpeta del script en sys.path y fallaba 'from motor_texto import ruta_local'. motor_qwen.py añade su carpeta. Hallado con un GO real (419 s con Whisper → 162 s con Qwen3-ASR).
-    modificados (2):
-      ~ 1_codigo/ajustes_ui.py
-      ~ 2_recursos/motor_qwen/motor_qwen.py
-
-2026-11-03 19:38  ·  v5.67  ·  (automático)
-    modificados (20):
-      ~ 1_codigo/version.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
-      ~ 2_recursos/resolve_scripts/CineCaptions.py
-      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
-      … y 8 más
-
-2026-11-03 19:34  ·  v5.66  ·  cambio explicado
-    Sonido «Mezclador» (propuesta C): tres columnas sobre el cielo — estilo/opciones/biblioteca, mezcla a lo ancho con inspector, video vertical y música. sonido_skill.visual ya no rompe con un audio suelto (la página quedaba vacía). Textos de Sonido traducidos (37).
-    nuevos (1):
-      + 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/chrome_debug.log
-    modificados (10):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/sonido_skill.py
-      ~ 1_codigo/sonido_skill_ui.py
-      ~ 2_recursos/locales/de.json
-      ~ 2_recursos/locales/en.json
-      ~ 2_recursos/locales/fr.json
-      ~ 2_recursos/locales/it.json
-      ~ 2_recursos/locales/pt.json
-      ~ 3_compilar/traducciones_extra.json
-
-2026-11-03 18:36  ·  v5.66  ·  cambio explicado
-    v5.67 (el usuario: «busca actualizaciones en todas las librerías, actualiza todo y Python a la última versión»): Python ya era lo último (3.15.2 / 3.14.10); motores con transformers 5.22.1, huggingface_hub 2.4.0, ctranslate2 4.8.5, hf-xet 1.8.0 y menores (probadas aisladas: mismo resultado); Remotion 4.0.540 + Chrome 158 + three 0.187 + mediabunny 1.65.1 (renders A/B ≤ 1,4/255).
-    nuevos (168):
-      + 1_codigo/remotion/node_modules/@remotion/bundler/dist/get-rspack.d.ts
-      + 1_codigo/remotion/node_modules/@remotion/bundler/dist/get-rspack.js
-      + 1_codigo/remotion/node_modules/@remotion/cli/dist/get-crf-for-codec.d.ts
-      + 1_codigo/remotion/node_modules/@remotion/cli/dist/get-crf-for-codec.js
-      + 1_codigo/remotion/node_modules/@remotion/media/dist/helpers/has-frame-started.d.ts
-      + 1_codigo/remotion/node_modules/@remotion/renderer/dist/options/preferred-effect-backend.d.ts
-      + 1_codigo/remotion/node_modules/@remotion/renderer/dist/options/preferred-effect-backend.js
-      + 1_codigo/remotion/node_modules/@remotion/studio-server/dist/preview-server/routes/get-keyframe-mutation-results.d.ts
-      + 1_codigo/remotion/node_modules/@remotion/studio-server/dist/preview-server/routes/get-keyframe-mutation-results.js
-      + 1_codigo/remotion/node_modules/@remotion/studio-shared/dist/source-file-version.d.ts
-      + 1_codigo/remotion/node_modules/@remotion/studio-shared/dist/source-file-version.js
-      + 1_codigo/remotion/node_modules/@remotion/studio/dist/components/NewComposition/CompositionIdField.d.ts
-      … y 156 más
-    modificados (1945):
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/remotion/node_modules/.bin/remotion
-      ~ 1_codigo/remotion/node_modules/.bin/remotion.cmd
-      ~ 1_codigo/remotion/node_modules/.bin/remotionb
-      ~ 1_codigo/remotion/node_modules/.bin/remotionb.cmd
-      ~ 1_codigo/remotion/node_modules/.bin/remotiond
-      ~ 1_codigo/remotion/node_modules/.bin/remotiond.cmd
-      ~ 1_codigo/remotion/node_modules/.package-lock.json
-      ~ 1_codigo/remotion/node_modules/@babel/core/node_modules/.bin/parser
-      ~ 1_codigo/remotion/node_modules/@babel/core/node_modules/.bin/parser.cmd
-      ~ 1_codigo/remotion/node_modules/@babel/core/node_modules/@babel/parser/lib/index.js
-      ~ 1_codigo/remotion/node_modules/@babel/core/node_modules/@babel/parser/lib/index.js.map
-      … y 1933 más
-    quitados (264):
-      - 1_codigo/remotion/node_modules/@remotion/bundler/dist/define-plugin-definitions.d.ts
-      - 1_codigo/remotion/node_modules/@remotion/bundler/dist/define-plugin-definitions.js
-      - 1_codigo/remotion/node_modules/@remotion/codemods/dist/add-component.d.ts
-      - 1_codigo/remotion/node_modules/@remotion/codemods/dist/add-media.d.ts
-      - 1_codigo/remotion/node_modules/@remotion/codemods/dist/add-solid.d.ts
-      - 1_codigo/remotion/node_modules/@remotion/codemods/dist/apply-visual-control.d.ts
-      - 1_codigo/remotion/node_modules/@remotion/codemods/dist/composition-source-edits.d.ts
-      - 1_codigo/remotion/node_modules/@remotion/codemods/dist/delete-jsx-nodes.d.ts
-      - 1_codigo/remotion/node_modules/@remotion/codemods/dist/duplicate-jsx-nodes.d.ts
-      - 1_codigo/remotion/node_modules/@remotion/codemods/dist/get-jsx-elements-with-node-paths.d.ts
-      - 1_codigo/remotion/node_modules/@remotion/codemods/dist/get-jsx-node-props.d.ts
-      - 1_codigo/remotion/node_modules/@remotion/codemods/dist/get-jsx-nodes.d.ts
-      … y 252 más
-
-2026-11-03 15:44  ·  v5.66  ·  (automático)
-    modificados (20):
-      ~ 1_codigo/version.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
-      ~ 2_recursos/resolve_scripts/CineCaptions.py
-      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
-      … y 8 más
-
-2026-11-03 15:42  ·  v5.65  ·  cambio explicado
-    v5.66: aviso del Corrector pulido (el usuario): frase de ejemplo animada (corrige una errata y pinta la principal; el halo ya no se corta) y el cielo de constelaciones de fondo como Inicio y Tema (proyecto_ui.CieloDePagina).
-    modificados (4):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/editor_ui.py
-      ~ 1_codigo/proyecto_ui.py
 
 
 (Lo anterior está archivado por mes en DOCUMENTACION/historial/REGISTRO_<aaaa-mm>.txt)

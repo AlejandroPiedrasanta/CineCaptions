@@ -2,7 +2,7 @@
 
 App PySide6 (v5.38, Python 3.15.2) que subtitula vídeos con IA local y los coloca en DaVinci Resolve (Free y Studio, Windows y Mac).
 Carpetas: `1_codigo` programa · `2_recursos` lo que viaja en el .exe · `3_compilar` · `4_diseno` · `5_SFX` (biblioteca de sonido del autor, 8 GB, fuera de Git; `Desktop\SFX` es un enlace a ella; reglas en su `MAPA_SFX.md`: nunca borrar, mover ni renombrar sonidos) · `6_compilacion` (temporal, no tocar) · `7_mac` · `INSTALADORES/{Windows,Mac}` · `DOCUMENTACION` · `MEDIOS` (icono, renders 4K de Inicio, capturas 4K de las páginas y banners; fuera de Git).
-«Tema N» de la interfaz → `id`: 1 `kinetic-planificador` · 2 `guion-planificador` · 3 `viral-planificador` · 4 `tema4` · 5 `tema5` · 6 `tema6`.
+«Estilo N» de la interfaz (antes «Tema N»; en el código siguen siendo temas) → `id`: 1 `kinetic-planificador` · 2 `guion-planificador` · 3 `viral-planificador` · 4 `tema4` · 5 `tema5` · 6 `tema6`.
 Python con dependencias (`$PY`): `6_compilacion/venv315/Scripts/python.exe`.
 
 ## Encontrar algo sin leer archivos (en este orden)
@@ -25,7 +25,7 @@ Python con dependencias (`$PY`): `6_compilacion/venv315/Scripts/python.exe`.
 - **ui** (Interfaz Qt: ventana, diseño, rendimiento, ajustes): ventana-paginas fondo-animado liquid-glass ritmo-fps qt-kit ajustes-tema isla-nav aurora recorrido reglas-rendimiento rendimiento-base ui-menores idioma-ui
 - **go** (GO e Inicio (botón, escena, arrastrar un video)): go-inicio estilos-inicio orbe-go arrastrar-video fuente-unica go-progreso go-control go-colocacion-real go-sin-resolve
 - **creativo** (Editor Creativo (palabras, Asistencia, Generar)): editor-palabras creativo-ui creativo-vista-tema creativo-detecta-audio
-- **estilos** (Estilos y packs (.drb/.drt, Luxe, Crea tu estilo)): pantalla-estilos estilos-slider packs-drt fuentes generador-packs crea-tu-estilo mezcla-temas tema4 tema5 temas-ligero editar-quitar-pack luxe-packs captions-premium tema6 banner-inspector motions-resolve
+- **estilos** (Estilos y packs (.drb/.drt, Luxe, Crea tu estilo)): pantalla-estilos estilos-slider packs-drt fuentes generador-packs crea-tu-estilo mezcla-temas tema4 tema5 zona-segura tema5-tipo temas-ligero editar-quitar-pack luxe-packs captions-premium tema6 banner-inspector motions-resolve
 - **bloques** (Bloques de subtítulos (cerebro, estilo por bloque, pausas)): bloques anim-cortos estilo-bloque colgantes
 - **sonido** (Sonido y emojis (SFX Lab, reglas, emojis)): sfx-lab ducking-energia sonido-palabra sonido-emojis sonido-extra sonido-estilo emojis-estilos emojis-posicion-free biblioteca-sonidos emojis-coherentes sonido-pro sonido-biblioteca ai-sound-director
 - **guion** (Estilo «guion» (pack Referencia, palabra a palabra)): guion-planificador creativo-guion estilo-oracion barrido-referencia
@@ -48,7 +48,7 @@ Python con dependencias (`$PY`): `6_compilacion/venv315/Scripts/python.exe`.
 - Rutas de recursos con `base_recursos()` (en el .exe no están junto al .py).
 - Python 3.15: nada de `from concurrent.futures import ThreadPoolExecutor` (el paquete la expone «lazy» y en el .exe salió `'lazy_import' object is not callable`, Tema 1 placa): `from concurrent.futures.thread import ThreadPoolExecutor`.
 - Estilo «guion»: la palabra grande cabe SIN zoom; las grandes van en pistas inferiores.
-- Interfaz simple: sin toasts ni tooltips (avisos al Registro); en la UI solo «Tema N».
+- Interfaz simple: sin toasts ni tooltips (avisos al Registro); en la UI solo «Estilo N» y «estilo», nunca «tema».
 
 ## Ejemplos visuales («dame ejemplos de cómo queda»)
 - Son SOLO propuestas: no se toca el código hasta que el usuario elige una.
