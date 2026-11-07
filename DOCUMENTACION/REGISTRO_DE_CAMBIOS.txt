@@ -12,6 +12,22 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-06 17:58  ·  v5.75  ·  (automático)
+    modificados (25):
+      ~ 1_codigo/crea_estilo_ui.py
+      ~ 1_codigo/fuente_usuario.py
+      ~ 1_codigo/linea_planificador.py
+      ~ 1_codigo/pack_personalizado.py
+      ~ 1_codigo/version.py
+      ~ 1_codigo/vista_tema.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      … y 13 más
+
 2026-11-06 17:57  ·  v5.74  ·  cambio explicado
     v5.75: prueba real con GO en proyecto temporal (Tema 3 y estilo de Crea tu estilo con la linea); la linea entra de golpe como la caja; notas 5.75 y 40 textos traducidos a 9 idiomas
     modificados (14):
