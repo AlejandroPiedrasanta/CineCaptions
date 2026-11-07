@@ -1,29 +1,29 @@
 {
   "estable": {
-    "version": "5.75.0",
-    "notas": "• «Crea tu estilo» nueva: eliges un texto base y los textos principales que quieras viéndolos animados, y la letra entre todas las de tu computadora.\r\n• El Tema 3 ahora es una sola línea con una caja que resalta cada palabra mientras se dice.\r\n• Textos principales nuevos en «Crea tu estilo»: Corte, Giro 3D, Resaltado y Línea, con el color que elijas.",
+    "version": "5.76.0",
+    "notas": "• Guía con videos: después de cada actualización, cada página te enseña una vez cómo se usa. En Ajustes › Tutoriales están todos los videos y puedes apagar la guía.\r\n• Zona segura en todos los estilos, también en los que creas: los subtítulos ya no quedan debajo de los botones y textos de TikTok, Reels y Shorts.\r\n• Estilo 5 nuevo: una palabra grande que muerde otra en cursiva, palabra a palabra. También está en «Crea tu estilo» como texto principal «Tipografía».\r\n• «Crea tu estilo» renovada: la vista vertical a la derecha y, debajo, «Letra» y «Color» para verlos al momento.\r\n• Estilo 2: los subtítulos siempre van al centro y solo los textos principales llevan color.\r\n• Ahora todo se llama «Estilo»: la página Estilo y del Estilo 1 al Estilo 6.",
     "fecha": "2026-11-06",
     "archivos": {
       "windows": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.75/Instalar_CineCaptions_5.75.exe",
-        "sha256": "6749c4df0f503d1baefebc9c3aa721fd0defbb63d55d191c2bab68133a86d435",
-        "tam": 577576753
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.76/Instalar_CineCaptions_5.76.exe",
+        "sha256": "d46f933fbdb8b24a2b2b67810203fee74b386e5a93991eaa7a8ae231a04611b2",
+        "tam": 591668283
       },
       "mac_arm64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.75/CineCaptions_Mac_AppleSilicon_5.75.dmg",
-        "sha256": "31818872075a4144fd6ed746fdf7a8dbfacbcb9f7aeae81d55e3e973de40a802",
-        "tam": 555959572
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.76/CineCaptions_Mac_AppleSilicon_5.76.dmg",
+        "sha256": "2ad9c3ba71e002a1bf7f6f11341cc3512390d87b0ddea1d4323ca4fc7a8fb1ae",
+        "tam": 569682455
       },
       "mac_x86_64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.75/CineCaptions_Mac_Intel_5.75.dmg",
-        "sha256": "7c52cca61a20349a1e5bd4149f3925e5a3a349690b7f40a142652ea374779193",
-        "tam": 581175004
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.76/CineCaptions_Mac_Intel_5.76.dmg",
+        "sha256": "6bcd6ea5d4a1f1925d7db4267f5017e34fae7f680d27eb27aede2b2de19012b5",
+        "tam": 594912831
       }
     }
   },
   "firma": {
     "alg": "ed25519",
     "clave": "7a4e413e",
-    "valor": "Cfc2dJmZpUv4roCjhM6aX2IEFG+J4SYa6KEzx0Jmwn01dMWBURv6J93ZRaOKg7hDm0MiLuLlG+x3EymyyBZYDA=="
+    "valor": "M1inY2mFbd6Jy5oqbf6i88mthRzMQvy0TB+3tdfOPpA0N6aWvpt8WUZK4vn1WtU202xirbvYXVFJQpkMbW9dAg=="
   }
 }
