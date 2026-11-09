@@ -12,6 +12,30 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-09 11:21  ·  v5.77  ·  (automático)
+    modificados (34):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_planificador.py
+      ~ 1_codigo/edicion_pro_temas.py
+      ~ 1_codigo/kit_neon_motions.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      … y 22 más
+
+2026-11-06 23:55  ·  v5.76  ·  cambio explicado
+    Zona segura en la Edición PRO (v5.77): el usuario pidió probar motions arriba/abajo y emojis con la PRO en todos los estilos. GO reales con PRO (6 estilos) mostraron la píldora bajo el caption al 77-81 %, el marco de borde a borde y la etiqueta de sección en x 93 % / y 74 %; además los gráficos sin personas ni captions en su tramo se quedaban en el y del plan. Ahora _fuera_de_la_cara/_a_la_zona los mantienen en la zona, la píldora llega como mucho al 75 %, en vertical no hay marco y la maqueta del kit neón usa SUELO/ARRIBA_KIT/IZQ_KIT (solo argumentos: el bundle de Remotion no cambia).
+    modificados (4):
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_planificador.py
+      ~ 1_codigo/edicion_pro_temas.py
+      ~ 1_codigo/kit_neon_motions.py
+
 2026-11-06 23:01  ·  v5.76  ·  (automático)
     nuevos (1329):
       + 2_recursos/edicion_pro/remotion/bundle/129.bundle.js

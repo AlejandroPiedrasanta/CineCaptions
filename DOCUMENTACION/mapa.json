@@ -1194,10 +1194,15 @@
         "tipo_planificador.py",
         "edicion_pro.py",
         "edicion_pro_tema5.py",
+        "edicion_pro_temas.py",
+        "edicion_pro_planificador.py",
         "2_recursos/resolve_scripts/CineCaptions.py",
         "2_recursos/resolve_scripts/CineCaptions_Subtitulos.lua"
       ],
       "simbolos": [
+        "_a_la_zona",
+        "_fuera_de_la_cara",
+        "_ajustar_posiciones",
         "ancho",
         "ancho_tinta",
         "limites_y",
@@ -1215,7 +1220,7 @@
         "_detras_bloque",
         "ajustar_captions"
       ],
-      "resumen": "v5.76 (propuesta A elegida): zona_segura.py = 13 % arriba, 25 % abajo, 16 % a cada lado, solo en vertical y sin dibujarla; cada planificador la usa como su ancho máximo y su alto (Estilos 1 y 2 con AIRE_TINTA; Estilo 3 con la caja activa); la PRO no saca captions ni emojis de ella; los emojis del tema en los gemelos de Resolve repiten los números."
+      "resumen": "v5.76 (propuesta A elegida): zona_segura.py = 13 % arriba, 25 % abajo, 16 % a cada lado, solo en vertical y sin dibujarla; cada planificador la usa como su ancho máximo y su alto (Estilos 1 y 2 con AIRE_TINTA; Estilo 3 con la caja activa); la PRO no saca captions, emojis ni motions de ella (gráficos que esquivan caras dentro de la zona, píldora hasta el 75 %, sin marco en vertical, maqueta del kit neón con SUELO/ARRIBA_KIT/IZQ_KIT); los emojis del tema en los gemelos de Resolve repiten los números."
     },
     {
       "id": "tema5-tipo",
