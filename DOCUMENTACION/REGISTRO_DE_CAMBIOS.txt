@@ -12,6 +12,22 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-09 13:55  ·  v5.78  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
 2026-11-09 13:54  ·  v5.77  ·  cambio explicado
     v5.78 · Inicio con Premiere Pro y librerías al día (pedidos del usuario: «que en Inicio diga conexión con Premiere Pro, que ya no diga DaVinci Resolve» y «busca actualizaciones de librerías y actualiza todo, compila y publica»). Inicio/barra/tarjeta leen premiere.estado() con «Usar con Premiere Pro»; no hay MCP oficial de Adobe para Premiere (los de terceros usan el mismo CEP), se queda el panel propio. Librerías: el programa ya estaba al día; motores: transformers 5.22.2, typer 0.29.0, click 8.5.1, filelock 4.2.10, regex 2026.11.9 (A/B con el motor real: voz e IA idénticas; el Python embebido ignora PYTHONPATH); Remotion 4.0.542 (mismo Chrome 158; 98/100 plantillas idénticas, 2 con ±2/255).
     nuevos (844):
