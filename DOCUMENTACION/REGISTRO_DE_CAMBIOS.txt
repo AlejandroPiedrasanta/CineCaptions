@@ -12,6 +12,22 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-09 14:27  ·  v5.78  ·  (automático)
+    modificados (24):
+      ~ 2_recursos/vistas_slider/Kinetic.jpg
+      ~ 2_recursos/vistas_slider/Kinetic.mp4
+      ~ 2_recursos/vistas_slider/Kinetic_captions.jpg
+      ~ 2_recursos/vistas_slider/Kinetic_captions.mp4
+      ~ 2_recursos/vistas_slider/Referencia.jpg
+      ~ 2_recursos/vistas_slider/Referencia.mp4
+      ~ 2_recursos/vistas_slider/Referencia_captions.jpg
+      ~ 2_recursos/vistas_slider/Referencia_captions.mp4
+      ~ 2_recursos/vistas_slider/Tema4.jpg
+      ~ 2_recursos/vistas_slider/Tema4.mp4
+      ~ 2_recursos/vistas_slider/Tema4_captions.jpg
+      ~ 2_recursos/vistas_slider/Tema4_captions.mp4
+      … y 12 más
+
 2026-11-09 13:55  ·  v5.78  ·  (automático)
     modificados (20):
       ~ 1_codigo/version.py
