@@ -196,7 +196,8 @@
         "un_clic_ui.py",
         "escena_go.py",
         "mograf_ui.py",
-        "menu_estilo_ui.py"
+        "menu_estilo_ui.py",
+        "menu_pro_ui.py"
       ],
       "simbolos": [
         "TituloGo",
@@ -204,6 +205,8 @@
         "LineaGo",
         "PanelEstilo",
         "_menu_estilo_go",
+        "PanelPro",
+        "_menu_pro_go",
         "_politica",
         "_precalentar_ondas_sfx",
         "_calma",
@@ -739,11 +742,15 @@
         "panel"
       ],
       "archivos": [
-        "editor_ui.py"
+        "editor_ui.py",
+        "herramientas_dev/hacer_demo_principal.py"
       ],
       "simbolos": [
         "BarraHerramientas",
         "MarcoPapel",
+        "DemoPrincipal",
+        "_MedioPrincipal",
+        "_refrescar_editor_vacio",
         "ControlTamano",
         "BotonPlay",
         "PanelAsistencia",

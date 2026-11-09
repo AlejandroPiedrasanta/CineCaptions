@@ -12,7 +12,11 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
     .cf\   (1 archivos)
         icono.ico
     biblioteca_sonido\   (67 archivos)
-    creativo\   (4 archivos)
+    creativo\   (8 archivos)
+        demo_principal_antes.jpg
+        demo_principal_antes.mp4
+        demo_principal_despues.jpg
+        demo_principal_despues.mp4
         desktop.ini
         movil.json
         movil_fondo.jpg
@@ -89,6 +93,9 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         preparar_sonidos.py
             prepara los sonidos que el usuario aportó para los estilos (riser de gancho, golpecito del iPhone, obturadores de transición).
     guia_estilo\   (435 archivos)
+    iconos_programas\   (2 archivos)
+        premiere.png
+        resolve.png
     locales\   (11 archivos)  — textos de la interfaz en en, pt, fr, de, it, ja, ko, zh, ru, nl, tr, pl (la clave es el español)
         .cf\   (1 archivos)
         de.json

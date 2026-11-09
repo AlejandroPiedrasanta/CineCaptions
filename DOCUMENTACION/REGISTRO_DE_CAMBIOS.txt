@@ -12,6 +12,57 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-09 15:52  ·  v5.78  ·  cambio explicado
+    Corrector sin audio: demo «Principal» con video real (propuesta B elegida entre tres): editor_ui.DemoPrincipal con dos móviles que reproducen 2_recursos/creativo/demo_principal_{antes,despues}.mp4 (Estilo 2: sin marcar sale CUENTA grande; con «nadie» Principal, NADIE), el pincel y la palabra que se pinta en medio, y los pasos en fila junto a «Ir a Inicio». Videos hechos con herramientas_dev/hacer_demo_principal.py (vista_tema).
+    nuevos (5):
+      + 1_codigo/herramientas_dev/hacer_demo_principal.py
+      + 2_recursos/creativo/demo_principal_antes.jpg
+      + 2_recursos/creativo/demo_principal_antes.mp4
+      + 2_recursos/creativo/demo_principal_despues.jpg
+      + 2_recursos/creativo/demo_principal_despues.mp4
+    modificados (13):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/editor_ui.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/locales/ru.json
+      ~ 2_recursos/locales/zh.json
+      ~ 3_compilar/encabezados.py
+      … y 1 más
+
+2026-11-09 15:43  ·  v5.78  ·  cambio explicado
+    Ajustes › General: «Usar con DaVinci Resolve» y «Usar con Premiere Pro» con el icono del programa (el usuario: «usa icono de los programas»): 2_recursos/iconos_programas (Resolve sacado de Resolve.exe a 256 px; Premiere dibujado con los colores de Adobe, sin Premiere en este equipo), _logo_programa y _Fila(logo=); si falta el archivo, el cuadrito de antes. Carpeta añadida a los .spec de Windows y Mac.
+    nuevos (2):
+      + 2_recursos/iconos_programas/premiere.png
+      + 2_recursos/iconos_programas/resolve.png
+    modificados (2):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 3_compilar/cinecaptions.spec
+
+2026-11-09 15:21  ·  v5.78  ·  cambio explicado
+    Chip «Edición PRO» de Inicio: panel compacto (propuesta C elegida entre tres): menu_pro_ui.PanelPro con interruptor y una fila por ajuste (tipo de video, persona, animación, otra combinación); se queda abierto mientras se ajusta. Textos nuevos traducidos a los 9 idiomas; si falla, la lista de siempre + aviso al Registro.
+    nuevos (1):
+      + 1_codigo/menu_pro_ui.py
+    modificados (13):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/menu_estilo_ui.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/locales/ru.json
+      ~ 2_recursos/locales/zh.json
+      ~ 3_compilar/encabezados.py
+      … y 1 más
+
 2026-11-09 15:05  ·  v5.78  ·  cambio explicado
     Chip «Estilo» de Inicio: tira de pósters (propuesta C elegida entre seis): menu_estilo_ui.PanelEstilo con el póster real de cada estilo, número, el elegido con anillo y ✓, y debajo la frase y qué hace del señalado; ChipGo.poner_abierto gira la flecha. Si falla, la lista de siempre + aviso al Registro.
     nuevos (1):

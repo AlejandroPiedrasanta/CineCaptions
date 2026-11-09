@@ -4538,6 +4538,21 @@
     "Premiere Pro no encontrado": "Premiere Pro not found",
     "Comprobando Premiere Pro…": "Checking Premiere Pro…",
     "Inicio dice con qué editor trabaja GO: con Premiere Pro, si está conectado, cerrado o sin instalar, como hace con DaVinci Resolve.": "Home shows which editor GO works with: with Premiere Pro, whether it’s connected, closed or not installed, just like with DaVinci Resolve.",
-    "Librerías al día: motores de voz e IA con transformers 5.22.2 y las últimas de click, filelock, regex y typer; animaciones de la Edición PRO con Remotion 4.0.542. Lo demás ya estaba en su última versión.": "Libraries up to date: speech and AI engines with transformers 5.22.2 and the latest click, filelock, regex and typer; PRO Edit animations with Remotion 4.0.542. Everything else was already on its latest version."
+    "Librerías al día: motores de voz e IA con transformers 5.22.2 y las últimas de click, filelock, regex y typer; animaciones de la Edición PRO con Remotion 4.0.542. Lo demás ya estaba en su última versión.": "Libraries up to date: speech and AI engines with transformers 5.22.2 and the latest click, filelock, regex and typer; PRO Edit animations with Remotion 4.0.542. Everything else was already on its latest version.",
+    "Intro, gancho y motion graphics": "Intro, hook and motion graphics",
+    "Tipo de video": "Video type",
+    "Persona": "Person",
+    "Animación": "Animation",
+    "Colores y tipografías": "Colors and fonts",
+    "Otra combinación": "Another combination",
+    "Recorte con IA": "AI cutout",
+    "Combinación {n}": "Combination {n}",
+    "Mira cómo funciona con un ejemplo real: marca una palabra como «Principal» y en el video pasa a ser la grande.": "See how it works with a real example: mark a word as «Main» and it becomes the big one in the video.",
+    "Abre tu timeline o suelta un video": "Open your timeline or drop a video",
+    "Pulsa GO en Inicio": "Press GO on Home",
+    "Vuelve aquí a retocar": "Come back here to fine-tune",
+    "Sin marcar:": "Unmarked:",
+    "el programa elige «cuenta»": "the app picks «cuenta»",
+    "«nadie» como Principal": "«nadie» as Main"
   }
 }

@@ -57,6 +57,38 @@ def _pix(ruta, w, h, dpr):
     return _CACHE[clave]
 
 
+def pintar_fondo(p, r):
+    """La sombra (capas cada vez más grandes y más tenues) y el panel redondeado de `r` (también lo usa menu_pro_ui)."""
+    p.setPen(Qt.PenStyle.NoPen)
+    for i in range(10, 0, -1):
+        s = i * 2.0
+        p.setBrush(QColor(0, 0, 0, int(14 * (1.0 - i / 11.0) ** 1.6) + 2))
+        p.drawRoundedRect(r.adjusted(-s * 0.7, -s * 0.3, s * 0.7, s * 0.9), 18 + s * 0.6, 18 + s * 0.6)
+    p.setPen(QPen(QColor(ui.BORDER_COLOR), 1.0))
+    p.setBrush(QColor(ui.CARD_COLOR))
+    p.drawRoundedRect(r, 18, 18)
+
+
+def colocar(w, ancla=None):
+    """Mueve la ventana `w` (con SOMBRA px de margen alrededor de su panel) encima del chip `ancla`, centrada, SEPARA px por encima;
+    debajo si no cabe; sin ancla, junto al cursor. Siempre dentro de la pantalla."""
+    if ancla is not None:
+        g = ancla.mapToGlobal(ancla.rect().topLeft())
+        cx, arriba_chip, abajo_chip = g.x() + ancla.width() / 2.0, g.y(), g.y() + ancla.height()
+    else:
+        c = QCursor.pos()
+        cx, arriba_chip, abajo_chip = c.x(), c.y(), c.y()
+    pantalla = QGuiApplication.screenAt(QCursor.pos()) or w.screen() or QGuiApplication.primaryScreen()
+    zona = pantalla.availableGeometry()
+    x = int(round(cx - w.width() / 2.0))
+    y = int(round(arriba_chip - SEPARA - (w.height() - SOMBRA)))
+    if y + SOMBRA < zona.top():
+        y = int(round(abajo_chip + SEPARA - SOMBRA))
+    x = max(zona.left() - SOMBRA, min(zona.right() + SOMBRA - w.width(), x))
+    y = max(zona.top() - SOMBRA, min(zona.bottom() + SOMBRA - w.height(), y))
+    w.move(x, y)
+
+
 def _numero(etiqueta):
     m = re.search(r'(\d+)\s*$', str(etiqueta or ''))
     return m.group(1) if m else None
@@ -145,21 +177,7 @@ class PanelEstilo(QWidget):
 
     # -- mostrar -----------------------------------------------------------------------------------------------------------------------------
     def mostrar(self, ancla=None):
-        if ancla is not None:
-            g = ancla.mapToGlobal(ancla.rect().topLeft())
-            cx, arriba_chip, abajo_chip = g.x() + ancla.width() / 2.0, g.y(), g.y() + ancla.height()
-        else:
-            c = QCursor.pos()
-            cx, arriba_chip, abajo_chip = c.x(), c.y(), c.y()
-        pantalla = QGuiApplication.screenAt(QCursor.pos()) or self.screen() or QGuiApplication.primaryScreen()
-        zona = pantalla.availableGeometry()
-        x = int(round(cx - self.width() / 2.0))
-        y = int(round(arriba_chip - SEPARA - (self.height() - SOMBRA)))             # el borde del panel, SEPARA px encima del chip
-        if y + SOMBRA < zona.top():                                                 # no cabe encima: debajo
-            y = int(round(abajo_chip + SEPARA - SOMBRA))
-        x = max(zona.left() - SOMBRA, min(zona.right() + SOMBRA - self.width(), x))
-        y = max(zona.top() - SOMBRA, min(zona.bottom() + SOMBRA - self.height(), y))
-        self.move(x, y)
+        colocar(self, ancla)
         self.show()
         self.setFocus(Qt.FocusReason.PopupFocusReason)
         self._a.start()
@@ -235,16 +253,7 @@ class PanelEstilo(QWidget):
         p.setOpacity(self._k)
         p.translate(0, (1.0 - self._k) * 8.0)
         verde, verde_claro = QColor(ui.ACCENT), QColor(ui.ACCENT_CLARO)
-        r = self._panel()
-        for i in range(10, 0, -1):                                          # la sombra (capas cada vez más grandes y más tenues)
-            s = i * 2.0
-            c = QColor(0, 0, 0, int(14 * (1.0 - i / 11.0) ** 1.6) + 2)
-            p.setPen(Qt.PenStyle.NoPen)
-            p.setBrush(c)
-            p.drawRoundedRect(r.adjusted(-s * 0.7, -s * 0.3, s * 0.7, s * 0.9), 18 + s * 0.6, 18 + s * 0.6)
-        p.setPen(QPen(QColor(ui.BORDER_COLOR), 1.0))
-        p.setBrush(QColor(ui.CARD_COLOR))
-        p.drawRoundedRect(r, 18, 18)
+        pintar_fondo(p, self._panel())
         dpr = self.devicePixelRatioF()
         sel = self._indice(self._actual)
         for i, pk in enumerate(self._packs):

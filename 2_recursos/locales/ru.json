@@ -4463,6 +4463,21 @@
     "Ahora todo se llama «Estilo»: la página Estilo y del Estilo 1 al Estilo 6.": "Теперь всё называется «Стиль»: страница «Стиль» и стили с 1 по 6.",
     "Estilo «{n}» creado con {t}{b}{a}. Está en el slider: tócalo para usarlo.": "Стиль «{n}» создан с {t}{b}{a}. Он в ползунке: нажмите, чтобы использовать.",
     " · texto base del {x}": " · базовый текст: {x}",
-    "Zona segura también en la Edición PRO: en videos verticales, los gráficos, títulos y etiquetas ya no quedan debajo de la barra de búsqueda, los botones ni la descripción de TikTok, Reels y Shorts.": "Безопасная зона теперь и в PRO-монтаже: в вертикальных видео графика, заголовки и метки больше не попадают под строку поиска, кнопки и описание TikTok, Reels и Shorts."
+    "Zona segura también en la Edición PRO: en videos verticales, los gráficos, títulos y etiquetas ya no quedan debajo de la barra de búsqueda, los botones ni la descripción de TikTok, Reels y Shorts.": "Безопасная зона теперь и в PRO-монтаже: в вертикальных видео графика, заголовки и метки больше не попадают под строку поиска, кнопки и описание TikTok, Reels и Shorts.",
+    "Intro, gancho y motion graphics": "Интро, хук и моушн-графика",
+    "Tipo de video": "Тип видео",
+    "Persona": "Человек",
+    "Animación": "Анимация",
+    "Colores y tipografías": "Цвета и шрифты",
+    "Otra combinación": "Другая комбинация",
+    "Recorte con IA": "Вырезка ИИ",
+    "Combinación {n}": "Комбинация {n}",
+    "Mira cómo funciona con un ejemplo real: marca una palabra como «Principal» y en el video pasa a ser la grande.": "Посмотрите на реальном примере: отметьте слово как «Основной», и в видео оно станет крупным.",
+    "Abre tu timeline o suelta un video": "Откройте таймлайн или перетащите видео",
+    "Pulsa GO en Inicio": "Нажмите GO на главной",
+    "Vuelve aquí a retocar": "Вернитесь сюда, чтобы доработать",
+    "Sin marcar:": "Без отметок:",
+    "el programa elige «cuenta»": "программа выбирает «cuenta»",
+    "«nadie» como Principal": "«nadie» как Основной"
   }
 }

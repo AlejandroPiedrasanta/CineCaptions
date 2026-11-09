@@ -4538,6 +4538,21 @@
     "Premiere Pro no encontrado": "Premiere Pro introuvable",
     "Comprobando Premiere Pro…": "Vérification de Premiere Pro…",
     "Inicio dice con qué editor trabaja GO: con Premiere Pro, si está conectado, cerrado o sin instalar, como hace con DaVinci Resolve.": "L’accueil indique avec quel logiciel GO travaille : avec Premiere Pro, s’il est connecté, fermé ou non installé, comme pour DaVinci Resolve.",
-    "Librerías al día: motores de voz e IA con transformers 5.22.2 y las últimas de click, filelock, regex y typer; animaciones de la Edición PRO con Remotion 4.0.542. Lo demás ya estaba en su última versión.": "Bibliothèques à jour : moteurs vocal et IA avec transformers 5.22.2 et les dernières versions de click, filelock, regex et typer ; animations de l’Édition PRO avec Remotion 4.0.542. Le reste était déjà à jour."
+    "Librerías al día: motores de voz e IA con transformers 5.22.2 y las últimas de click, filelock, regex y typer; animaciones de la Edición PRO con Remotion 4.0.542. Lo demás ya estaba en su última versión.": "Bibliothèques à jour : moteurs vocal et IA avec transformers 5.22.2 et les dernières versions de click, filelock, regex et typer ; animations de l’Édition PRO avec Remotion 4.0.542. Le reste était déjà à jour.",
+    "Intro, gancho y motion graphics": "Intro, accroche et motion design",
+    "Tipo de video": "Type de vidéo",
+    "Persona": "Personne",
+    "Animación": "Animation",
+    "Colores y tipografías": "Couleurs et typographies",
+    "Otra combinación": "Autre combinaison",
+    "Recorte con IA": "Détourage IA",
+    "Combinación {n}": "Combinaison {n}",
+    "Mira cómo funciona con un ejemplo real: marca una palabra como «Principal» y en el video pasa a ser la grande.": "Voyez comment ça marche avec un vrai exemple : marquez un mot comme «Principal» et il devient le grand dans la vidéo.",
+    "Abre tu timeline o suelta un video": "Ouvrez votre timeline ou déposez une vidéo",
+    "Pulsa GO en Inicio": "Appuyez sur GO dans Accueil",
+    "Vuelve aquí a retocar": "Revenez ici pour retoucher",
+    "Sin marcar:": "Non marqué :",
+    "el programa elige «cuenta»": "le programme choisit «cuenta»",
+    "«nadie» como Principal": "«nadie» comme Principal"
   }
 }

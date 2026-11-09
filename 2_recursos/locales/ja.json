@@ -4463,6 +4463,21 @@
     "Ahora todo se llama «Estilo»: la página Estilo y del Estilo 1 al Estilo 6.": "すべて「スタイル」という名前になりました：スタイルページと、スタイル 1〜6。",
     "Estilo «{n}» creado con {t}{b}{a}. Está en el slider: tócalo para usarlo.": "スタイル「{n}」は{t}{b}{a}で作成されました。スライダーにあります：タップして使用。",
     " · texto base del {x}": "・ベーステキスト：{x}",
-    "Zona segura también en la Edición PRO: en videos verticales, los gráficos, títulos y etiquetas ya no quedan debajo de la barra de búsqueda, los botones ni la descripción de TikTok, Reels y Shorts.": "PRO 編集にもセーフゾーン：縦型動画で、グラフィック・タイトル・ラベルが TikTok・Reels・Shorts の検索バー、ボタン、説明文の下に隠れなくなりました。"
+    "Zona segura también en la Edición PRO: en videos verticales, los gráficos, títulos y etiquetas ya no quedan debajo de la barra de búsqueda, los botones ni la descripción de TikTok, Reels y Shorts.": "PRO 編集にもセーフゾーン：縦型動画で、グラフィック・タイトル・ラベルが TikTok・Reels・Shorts の検索バー、ボタン、説明文の下に隠れなくなりました。",
+    "Intro, gancho y motion graphics": "イントロ、フック、モーショングラフィックス",
+    "Tipo de video": "動画の種類",
+    "Persona": "人物",
+    "Animación": "アニメーション",
+    "Colores y tipografías": "色と書体",
+    "Otra combinación": "別の組み合わせ",
+    "Recorte con IA": "AI切り抜き",
+    "Combinación {n}": "組み合わせ {n}",
+    "Mira cómo funciona con un ejemplo real: marca una palabra como «Principal» y en el video pasa a ser la grande.": "実際の例で見てみましょう：単語を「メイン」にすると、動画でその単語が大きくなります。",
+    "Abre tu timeline o suelta un video": "タイムラインを開くか動画をドロップ",
+    "Pulsa GO en Inicio": "ホームでGOを押す",
+    "Vuelve aquí a retocar": "ここに戻って仕上げる",
+    "Sin marcar:": "未マーク：",
+    "el programa elige «cuenta»": "アプリが「cuenta」を選ぶ",
+    "«nadie» como Principal": "「nadie」をメインに"
   }
 }

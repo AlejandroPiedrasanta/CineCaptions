@@ -4538,6 +4538,21 @@
     "Premiere Pro no encontrado": "Premiere Pro non trovato",
     "Comprobando Premiere Pro…": "Controllo Premiere Pro…",
     "Inicio dice con qué editor trabaja GO: con Premiere Pro, si está conectado, cerrado o sin instalar, como hace con DaVinci Resolve.": "Home mostra con quale editor lavora GO: con Premiere Pro, se è collegato, chiuso o non installato, come fa con DaVinci Resolve.",
-    "Librerías al día: motores de voz e IA con transformers 5.22.2 y las últimas de click, filelock, regex y typer; animaciones de la Edición PRO con Remotion 4.0.542. Lo demás ya estaba en su última versión.": "Librerie aggiornate: motori vocale e IA con transformers 5.22.2 e le ultime click, filelock, regex e typer; animazioni dell’Edizione PRO con Remotion 4.0.542. Il resto era già all’ultima versione."
+    "Librerías al día: motores de voz e IA con transformers 5.22.2 y las últimas de click, filelock, regex y typer; animaciones de la Edición PRO con Remotion 4.0.542. Lo demás ya estaba en su última versión.": "Librerie aggiornate: motori vocale e IA con transformers 5.22.2 e le ultime click, filelock, regex e typer; animazioni dell’Edizione PRO con Remotion 4.0.542. Il resto era già all’ultima versione.",
+    "Intro, gancho y motion graphics": "Intro, gancio e motion graphics",
+    "Tipo de video": "Tipo di video",
+    "Persona": "Persona",
+    "Animación": "Animazione",
+    "Colores y tipografías": "Colori e caratteri",
+    "Otra combinación": "Altra combinazione",
+    "Recorte con IA": "Scontorno con IA",
+    "Combinación {n}": "Combinazione {n}",
+    "Mira cómo funciona con un ejemplo real: marca una palabra como «Principal» y en el video pasa a ser la grande.": "Guarda come funziona con un esempio reale: segna una parola come «Principale» e nel video diventa quella grande.",
+    "Abre tu timeline o suelta un video": "Apri la tua timeline o trascina un video",
+    "Pulsa GO en Inicio": "Premi GO in Home",
+    "Vuelve aquí a retocar": "Torna qui per ritoccare",
+    "Sin marcar:": "Senza marcatura:",
+    "el programa elige «cuenta»": "il programma sceglie «cuenta»",
+    "«nadie» como Principal": "«nadie» come Principale"
   }
 }

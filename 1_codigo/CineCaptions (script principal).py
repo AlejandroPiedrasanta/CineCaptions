@@ -7764,10 +7764,22 @@ class SubtitleApp(QWidget):
     def _menu_pro_go(self):
         """El chip «Edición PRO» de Inicio: activarla y elegir el estilo del video, el recorte de la persona y cuánta animación."""
         try:
+            chip = self.sender()                        # el chip pulsado: el panel sale encima de él
+        except Exception:
+            chip = None
+        try:
             import edicion_pro
             op, activa = edicion_pro.opciones_guardadas(), edicion_pro.activado()
         except Exception:
             return
+        try:                                            # v5.78 (el usuario eligió la propuesta C): un panel compacto, una fila por ajuste
+            import menu_pro_ui
+            self._panel_pro = menu_pro_ui.abrir(self, lambda: (edicion_pro.opciones_guardadas(), edicion_pro.activado()), self._poner_pro_go,
+                                                self._alternar_pro_go, edicion_pro.magic_mask_disponible(),
+                                                ancla=chip if hasattr(chip, 'mapToGlobal') else None)
+            return
+        except Exception as e:                          # (si algo falla, la lista de siempre)
+            registro.aviso(f'Panel de la Edición PRO: {str(e)[:160]}', 'interfaz')
         menu = Menu(self)
         menu.agregar(('✓  ' + tr('Edición PRO activada · desactivar')) if activa else ('      ' + tr('Activar la Edición PRO')), self._alternar_pro_go)
         if activa:                             # v5.4.49: la PRO sustituye a los efectos visuales (intro, gancho, punch-ins, motion graphics)
@@ -10733,35 +10745,40 @@ class SubtitleApp(QWidget):
         # v5.3.2: esta tarjeta MIRA lo que hay en Proyecto (el audio traído de Resolve o el video elegido, y si ya tiene palabras transcritas / la línea de
         # tiempo abierta en Resolve) y se adapta sola; si ya hay palabras, el editor se abre solo al entrar (ver _refrescar_editor_vacio)
         import editor_ui
-        t.capa.addWidget(editor_ui.MuestraPalabras(), 0, Qt.AlignmentFlag.AlignLeft)
+        self._ev_muestra = editor_ui.MuestraPalabras()
+        t.capa.addWidget(self._ev_muestra, 0, Qt.AlignmentFlag.AlignLeft)
         t.capa.addSpacing(4)
         self._ev_titulo = Etiqueta(tr('Todavía no hay palabras para corregir'), 22, peso='extra', color='#FFFFFF')
         t.capa.addWidget(self._ev_titulo)
         self._ev_texto = Etiqueta('', 14, color=TEXT_MUTED, envolver=True)
         t.capa.addWidget(self._ev_texto)
-        self._ev_pasos, cp = caja_v(espacio=8)
-        for i, paso in enumerate((tr('Abre tu timeline en Resolve o suelta un video en esta ventana.'),
-                                  tr('Pulsa GO en Inicio: transcribe y coloca los subtítulos.'),
-                                  tr('Vuelve aquí: las palabras aparecen solas para retocarlas.')), 1):
-            fp, cpp = caja_h(espacio=12)
-            fp.setMinimumHeight(28)
-            num = Etiqueta(str(i), 12, peso='negrita', color=ui.ACCENT_CLARO, alineacion=Qt.AlignmentFlag.AlignCenter)
-            num.setFixedSize(26, 26)
-            num.setStyleSheet(ui.traducir_hoja('QLabel { background: rgba(34, 181, 115, 0.12); border: 1px solid rgba(34, 181, 115, 0.45); border-radius: 13px; padding: 0px; }'))
-            cpp.addWidget(num, 0, Qt.AlignmentFlag.AlignVCenter)
-            cpp.addWidget(Etiqueta(paso, 14, color='#DCE4F2', envolver=True), 1)
-            cp.addWidget(fp)
-        self._ev_pasos.setMinimumHeight(3 * 28 + 2 * 8 + 6)        # (con el texto que se parte, la última fila salía recortada)
-        t.capa.addWidget(self._ev_pasos)
+        # v5.78 (el usuario eligió la propuesta B): sin audio, la demo «Principal» con dos videos reales (sin marcar / «nadie» Principal)
+        # en lugar de la frase pequeña; los tres pasos van en una fila, junto a «Ir a Inicio»
+        self._ev_demo = editor_ui.DemoPrincipal()
+        self._ev_demo.hide()
+        t.capa.addWidget(self._ev_demo, 1)
         self._ev_detalle = Etiqueta('', 13, color=ui.ACCENT_CLARO, envolver=True)
         t.capa.addWidget(self._ev_detalle)
         t.capa.addSpacing(8)
         fila, cf = caja_h(espacio=12)
+        self._ev_pasos, cp = caja_h(espacio=24)
+        for i, paso in enumerate((tr('Abre tu timeline o suelta un video'), tr('Pulsa GO en Inicio'), tr('Vuelve aquí a retocar')), 1):
+            fp, cpp = caja_h(espacio=10)
+            num = Etiqueta(str(i), 12, peso='negrita', color=ui.ACCENT_CLARO, alineacion=Qt.AlignmentFlag.AlignCenter)
+            num.setFixedSize(26, 26)
+            num.setStyleSheet(ui.traducir_hoja('QLabel { background: rgba(34, 181, 115, 0.12); border: 1px solid rgba(34, 181, 115, 0.45); border-radius: 13px; padding: 0px; }'))
+            cpp.addWidget(num, 0, Qt.AlignmentFlag.AlignVCenter)
+            cpp.addWidget(Etiqueta(paso, 13, color='#DCE4F2'), 0, Qt.AlignmentFlag.AlignVCenter)
+            cp.addWidget(fp)
+        cp.addStretch(1)
+        cf.addWidget(self._ev_pasos, 1)
         self.editar_btn2 = Boton(tr('Editar marcas del video elegido'), self._on_update, tipo='primario', alto=42)
         cf.addWidget(self.editar_btn2)
         self._ev_btn2 = Boton(tr('Ir a Estilo'), lambda: self.ir_a('estilos'), alto=42)
         cf.addWidget(self._ev_btn2)
-        cf.addStretch(1)
+        self._ev_relleno = QWidget()                                  # (sin los pasos, los botones siguen a la izquierda)
+        self._ev_relleno.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
+        cf.addWidget(self._ev_relleno, 1)
         t.capa.addWidget(fila)
         cv.addWidget(t, 0, Qt.AlignmentFlag.AlignHCenter)
         cv.addStretch(3)
@@ -10813,8 +10830,14 @@ class SubtitleApp(QWidget):
         b1.setVisible(True)
         b2.setVisible(True)
         b1.configure(state='normal')
-        self._ev_pasos.setVisible(modo == 'nada')              # (v5.66: los tres pasos, solo sin audio)
-        self._ev_tarjeta.setMinimumHeight(430 if modo == 'nada' else 300)
+        nada = modo == 'nada'
+        self._ev_pasos.setVisible(nada)                        # (v5.66: los tres pasos, solo sin audio)
+        self._ev_relleno.setVisible(not nada)
+        self._ev_demo.setVisible(nada)                         # (v5.78: sin audio, la demo con los dos videos en vez de la frase pequeña)
+        self._ev_muestra.setVisible(not nada)
+        self._ev_tarjeta.setMaximumWidth(1140 if nada else 720)
+        self._ev_tarjeta.setMinimumWidth(900 if nada else 640)
+        self._ev_tarjeta.setMinimumHeight(0 if nada else 300)
         if modo == 'ocupado':
             titulo, texto = tr('Transcribiendo…'), tr('En cuanto termine la transcripción, el editor se abre solo con todas las palabras para que pintes su rol.')
             b1.setVisible(False)
@@ -10836,7 +10859,7 @@ class SubtitleApp(QWidget):
         else:
             titulo = tr('Todavía no hay palabras para corregir')
             # (v5.63: «Obtener» ya no está en Proyecto: se quitó la franja del audio. v5.66: tres pasos y «Elegir un video…»)
-            texto = tr('Aquí retocas cada palabra de tus subtítulos: corriges lo que se oyó mal y eliges cuál va grande. Se llena solo en cuanto hay audio:')
+            texto = tr('Mira cómo funciona con un ejemplo real: marca una palabra como «Principal» y en el video pasa a ser la grande.')
             b1.configure(text=tr('Ir a Inicio'))               # (el botón principal; el oculto deja su hueco: va el primero)
             b1.poner_comando(lambda: self.ir_a('inicio'))
             b2.setVisible(False)                               # (v5.66: sin «Elegir un video…», lo pidió el usuario)

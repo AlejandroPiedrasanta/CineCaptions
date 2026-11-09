@@ -615,6 +615,251 @@ class MuestraPalabras(QWidget):
         return QSize(int(sum(r.width() + self.HUECO for r, _p, _r in self._cajas(fm)) + 4), int(self.ALTO))
 
 
+class _MedioPrincipal(QWidget):
+    """El centro de DemoPrincipal: el pincel «Principal», la fila «truco que nadie te cuenta» y la flecha hacia el video de después. Bucle de
+    CICLO s: el puntero va a «nadie», la toca (una onda) y la palabra se pinta de ámbar de izquierda a derecha; la flecha late; vuelve a
+    empezar. Quieta (pintada, sin puntero) con «Reducir animaciones». La repinta el reloj de DemoPrincipal."""
+    PALABRAS = ('truco', 'que', 'nadie', 'te', 'cuenta')
+    OBJ = 2
+    CICLO = 5.0
+
+    def __init__(self, padre=None):
+        super().__init__(padre)
+        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+        self.t0 = time.perf_counter()
+        self.quieto = False
+
+    def _estado(self):
+        if self.quieto:
+            return {'puntero': None, 'onda': None, 'pintado': 1.0, 'flecha': 1.0}
+        u = (time.perf_counter() - self.t0) % self.CICLO
+        apagar = 1.0 - _tramo(u, 4.4, 4.9)
+        onda = (u - 1.3) / 0.6 if 1.3 <= u <= 1.9 else None
+        return {'puntero': (_tramo(u, 0.35, 1.25), _tramo(u, 0.15, 0.45) * (1.0 - _tramo(u, 3.4, 3.9))), 'onda': onda,
+                'pintado': _tramo(u, 1.35, 1.8) * apagar,
+                'flecha': _tramo(u, 1.8, 2.2) * apagar * (0.75 + 0.25 * math.sin(2.0 * math.pi * u / 1.2))}
+
+    def paintEvent(self, _e):
+        p = QPainter(self)
+        p.setRenderHint(QPainter.RenderHint.Antialiasing)
+        st = self._estado()
+        ambar, verde = QColor(ui.ROL_PRINCIPAL), QColor(ui.ACCENT_CLARO)
+        f = fuente(20)
+        fb = fuente(20, peso='negrita')
+        fm, fmb = QFontMetricsF(f), QFontMetricsF(fb)
+        hueco, alto = 8.0, 46.0
+        anchos = [max(fm.horizontalAdvance(w), fmb.horizontalAdvance(w)) + 30.0 for w in self.PALABRAS]
+        total = sum(anchos) + hueco * (len(anchos) - 1)
+        k = min(1.0, (self.width() - 12.0) / total) if total > 0 else 1.0       # (si el centro es estrecho, la fila se encoge entera)
+        cy = self.height() * 0.5
+        p.save()
+        p.translate(self.width() / 2.0, cy)
+        p.scale(k, k)
+        # el pincel «Principal», como en la barra del Corrector
+        fp = fuente(15, peso='medio')
+        nombre = tr('Principal')
+        wp = QFontMetricsF(fp).horizontalAdvance(nombre) + 46.0
+        rp = QRectF(-wp / 2.0, -alto / 2.0 - 78.0, wp, 36.0)
+        p.setPen(QPen(ambar, 1.6))
+        p.setBrush(QColor(ambar.red(), ambar.green(), ambar.blue(), 22))
+        p.drawRoundedRect(rp, 18.0, 18.0)
+        p.setPen(Qt.PenStyle.NoPen)
+        p.setBrush(ambar)
+        p.drawEllipse(QPointF(rp.left() + 19.0, rp.center().y()), 4.5, 4.5)
+        p.setPen(QColor('#FFFFFF'))
+        p.setFont(fp)
+        p.drawText(rp.adjusted(30.0, 0, 0, 0), int(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft), nombre)
+        # la fila de palabras (como las del Corrector); «nadie» se pinta de ámbar
+        fila = QRectF(-total / 2.0 - 10.0, -alto / 2.0 - 10.0, total + 20.0, alto + 20.0)
+        p.setPen(QPen(QColor(ui.BORDER_COLOR), 1.0))
+        p.setBrush(QColor(255, 255, 255, 6))
+        p.drawRoundedRect(fila, 16.0, 16.0)
+        x = -total / 2.0
+        caja_obj = None
+        for i, (palabra, w) in enumerate(zip(self.PALABRAS, anchos)):
+            r = QRectF(x, -alto / 2.0, w, alto)
+            p.setPen(QPen(QColor('#26324A'), 1.0))
+            p.setBrush(QColor('#111A2C'))
+            p.drawRoundedRect(r, 12.0, 12.0)
+            pint = st['pintado'] if i == self.OBJ else 0.0
+            if pint > 0.0:
+                p.save()
+                p.setClipRect(QRectF(r.left() - 2.0, r.top() - 2.0, (r.width() + 4.0) * pint, r.height() + 4.0))
+                p.setPen(QPen(ambar, 1.8))
+                p.setBrush(QColor(ambar.red(), ambar.green(), ambar.blue(), 46))
+                p.drawRoundedRect(r, 12.0, 12.0)
+                p.restore()
+            p.setFont(fb if pint > 0.5 else f)
+            p.setPen(QColor('#FFFFFF') if pint > 0.5 else QColor('#D2DCEB'))
+            p.drawText(r, int(Qt.AlignmentFlag.AlignCenter), palabra)
+            if i == self.OBJ:
+                caja_obj = r
+            x += w + hueco
+        if caja_obj is not None and st['onda'] is not None:                # la onda del toque
+            o = st['onda']
+            p.setPen(QPen(QColor(ambar.red(), ambar.green(), ambar.blue(), int(200 * (1.0 - o))), 2.0))
+            p.setBrush(Qt.BrushStyle.NoBrush)
+            rad = 10.0 + 30.0 * o
+            p.drawEllipse(caja_obj.center(), rad, rad)
+        if caja_obj is not None and st['puntero'] is not None:              # el puntero: llega desde abajo a la izquierda hasta «nadie»
+            ida, alfa = st['puntero']
+            if alfa > 0.0:
+                a0 = QPointF(-total / 2.0 + 20.0, alto / 2.0 + 60.0)
+                a1 = QPointF(caja_obj.center().x() + 6.0, caja_obj.center().y() + 4.0)
+                pos = a0 + (a1 - a0) * ida
+                flecha = [QPointF(0, 0), QPointF(0, 21), QPointF(5.2, 16.3), QPointF(8.9, 24.0), QPointF(12.1, 22.5), QPointF(8.5, 15.1),
+                          QPointF(15.1, 15.1)]
+                p.save()
+                p.setOpacity(alfa)
+                p.translate(pos)
+                p.setPen(QPen(QColor(8, 12, 22, 220), 1.5))
+                p.setBrush(QColor('#FFFFFF'))
+                p.drawPolygon(flecha)
+                p.restore()
+        # la flecha hacia el video de después
+        a = st['flecha']
+        c = QColor(verde)
+        c.setAlpha(int(90 + 165 * a))
+        lapiz = QPen(c, 3.2, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap, Qt.PenJoinStyle.RoundJoin)
+        p.setPen(lapiz)
+        y = alto / 2.0 + 62.0
+        dx = 6.0 * a
+        p.drawLine(QPointF(-26.0 + dx, y), QPointF(22.0 + dx, y))
+        p.drawPolyline([QPointF(10.0 + dx, y - 12.0), QPointF(22.0 + dx, y), QPointF(10.0 + dx, y + 12.0)])
+        p.restore()
+        p.end()
+
+
+class _MovilDemo(ui.MarcoVista):
+    """El móvil del Corrector sin el resplandor de abajo: en la tarjeta, su halo se cortaba en el borde del widget (un rectángulo)."""
+    def _resplandor(self, p, caja):
+        return
+
+
+class DemoPrincipal(QWidget):
+    """v5.78 (el usuario eligió la propuesta B: «la preview cuando no hay audio que sea un video de que si cambia una palabra por principal lo
+    cambia en video, pero un ejemplo real»): en el Corrector sin audio, dos móviles como el del Corrector con un VIDEO real cada uno
+    (2_recursos/creativo/demo_principal_{antes,despues}.mp4, hechos con herramientas_dev/hacer_demo_principal.py: el mismo dibujo del
+    Estilo 2 que el móvil del Corrector): sin marcar el programa elige «cuenta»; con «nadie» como Principal, «NADIE» va grande. En medio,
+    _MedioPrincipal. Los videos los decodifica vistas_slider.Reproductor en un hilo y solo mientras se ve; con «Reducir animaciones», los
+    .jpg quietos."""
+    ETIQUETA = 26                     # el alto de la línea de debajo de cada móvil
+
+    def __init__(self, padre=None):
+        super().__init__(padre)
+        self.antes = _MovilDemo(self, alto_min=120, movil=True)
+        self.despues = _MovilDemo(self, alto_min=120, movil=True)
+        self.medio = _MedioPrincipal(self)
+        self._rep = {}
+        self._ultimo = {}
+        self._reloj = QTimer(self)
+        self._reloj.timeout.connect(self._tic)
+        for nombre, marco in (('antes', self.antes), ('despues', self.despues)):
+            ruta = self._ruta(nombre, '.jpg')
+            if ruta is not None:
+                from PySide6.QtGui import QImage
+                marco.poner_cuadro(QImage(str(ruta)))
+        self.setMinimumHeight(240)
+        self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+
+    @staticmethod
+    def _ruta(nombre, ext):
+        try:
+            import instalador_scripts
+            from pathlib import Path
+            ruta = Path(instalador_scripts.BASE_RECURSOS) / 'creativo' / f'demo_principal_{nombre}{ext}'
+            return ruta if ruta.is_file() else None
+        except Exception:
+            return None
+
+    def sizeHint(self):
+        return QSize(1000, 520)
+
+    def minimumSizeHint(self):
+        return QSize(560, 240)
+
+    # -- videos -------------------------------------------------------------------------------------------------------------------------
+    def showEvent(self, e):
+        super().showEvent(e)
+        self.medio.t0 = time.perf_counter()
+        quieto = MuestraPalabras._quieto()
+        self.medio.quieto = quieto
+        if not quieto:
+            try:
+                import vistas_slider
+                for nombre in ('antes', 'despues'):
+                    ruta = self._ruta(nombre, '.mp4')
+                    if ruta is not None and nombre not in self._rep:
+                        self._rep[nombre] = vistas_slider.Reproductor(ruta, pausa_s=0.9)
+                for r in self._rep.values():
+                    r.arrancar()
+            except Exception:
+                self._rep = {}
+            self._reloj.start(33)
+        self.medio.update()
+
+    def hideEvent(self, e):
+        super().hideEvent(e)
+        self._reloj.stop()
+        for r in self._rep.values():
+            r.parar()
+
+    def _tic(self):
+        v = self.window()
+        if v is not None and v.isMinimized():
+            return
+        if MuestraPalabras._quieto():
+            self._reloj.stop()
+            self.medio.quieto = True
+        for nombre, marco in (('antes', self.antes), ('despues', self.despues)):
+            r = self._rep.get(nombre)
+            if r is None:
+                continue
+            r.tam = marco.tamano_pantalla()
+            img = r.imagen()
+            if img is not None and img is not self._ultimo.get(nombre):
+                self._ultimo[nombre] = img
+                marco.poner_cuadro(img)
+        self.medio.update()
+
+    # -- sitio y dibujo -----------------------------------------------------------------------------------------------------------------
+    def resizeEvent(self, e):
+        super().resizeEvent(e)
+        w, h = self.width(), self.height()
+        alto_m = max(120, h)                                                     # (la etiqueta cabe en el hueco de abajo del móvil)
+        ancho_m = int(min(w * 0.30, (alto_m - 54) * 0.499 + 36))                # (MarcoVista deja 18 a los lados, 8 arriba y 46 abajo)
+        self.antes.setGeometry(0, 0, ancho_m, alto_m)
+        self.despues.setGeometry(w - ancho_m, 0, ancho_m, alto_m)
+        self.medio.setGeometry(ancho_m, 0, max(0, w - 2 * ancho_m), alto_m)
+
+    def paintEvent(self, _e):
+        p = QPainter(self)
+        p.setRenderHint(QPainter.RenderHint.Antialiasing)
+        ambar = QColor(ui.ROL_PRINCIPAL)
+        caja, _pant, _r = self.despues.geometria_movil()                         # el de después, con un filo ámbar
+        caja = caja.translated(QPointF(self.despues.pos()))
+        rad = caja.width() * 0.165
+        for g, a in ((7.0, 26), (4.0, 50)):
+            p.setPen(QPen(QColor(ambar.red(), ambar.green(), ambar.blue(), a), g))
+            p.setBrush(Qt.BrushStyle.NoBrush)
+            p.drawRoundedRect(caja.adjusted(-3, -3, 3, 3), rad + 3, rad + 3)
+        p.setPen(QPen(ambar, 1.8))
+        p.drawRoundedRect(caja.adjusted(-3, -3, 3, 3), rad + 3, rad + 3)
+        f, fb = fuente(13), fuente(13, peso='negrita')
+        y = caja.bottom() + 12.0                                                 # (bajo el móvil, no al fondo del hueco de su sombra)
+        for marco, partes in ((self.antes, ((tr('Sin marcar:'), fb, '#FFFFFF'), (' ' + tr('el programa elige «cuenta»'), f, ui.TEXT_MUTED))),
+                              (self.despues, ((tr('«nadie» como Principal'), fb, '#FFFFFF'),))):
+            anchos = [QFontMetricsF(fo).horizontalAdvance(t) for t, fo, _c in partes]
+            x = marco.x() + (marco.width() - sum(anchos)) / 2.0
+            x = max(0.0, min(float(self.width()) - sum(anchos) - 2.0, x))          # (con la ventana baja el móvil es estrecho: no se sale)
+            for (t, fo, c), a in zip(partes, anchos):
+                p.setFont(fo)
+                p.setPen(QColor(c))
+                p.drawText(QRectF(x, y, a + 2, self.ETIQUETA), int(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft), t)
+                x += a
+        p.end()
+
+
 class PistaPincel(QWidget):
     """Una línea sobre el párrafo que dice, con el color del pincel elegido, QUÉ pasa al tocar una palabra."""
 

@@ -4538,6 +4538,21 @@
     "Premiere Pro no encontrado": "Premiere Pro nicht gefunden",
     "Comprobando Premiere Pro…": "Prüfe Premiere Pro…",
     "Inicio dice con qué editor trabaja GO: con Premiere Pro, si está conectado, cerrado o sin instalar, como hace con DaVinci Resolve.": "Start zeigt, mit welchem Schnittprogramm GO arbeitet: bei Premiere Pro, ob es verbunden, geschlossen oder nicht installiert ist, wie bei DaVinci Resolve.",
-    "Librerías al día: motores de voz e IA con transformers 5.22.2 y las últimas de click, filelock, regex y typer; animaciones de la Edición PRO con Remotion 4.0.542. Lo demás ya estaba en su última versión.": "Bibliotheken aktuell: Sprach- und KI-Engines mit transformers 5.22.2 und den neuesten click, filelock, regex und typer; Animationen der PRO-Bearbeitung mit Remotion 4.0.542. Alles andere war bereits auf dem neuesten Stand."
+    "Librerías al día: motores de voz e IA con transformers 5.22.2 y las últimas de click, filelock, regex y typer; animaciones de la Edición PRO con Remotion 4.0.542. Lo demás ya estaba en su última versión.": "Bibliotheken aktuell: Sprach- und KI-Engines mit transformers 5.22.2 und den neuesten click, filelock, regex und typer; Animationen der PRO-Bearbeitung mit Remotion 4.0.542. Alles andere war bereits auf dem neuesten Stand.",
+    "Intro, gancho y motion graphics": "Intro, Hook und Motion Graphics",
+    "Tipo de video": "Videotyp",
+    "Persona": "Person",
+    "Animación": "Animation",
+    "Colores y tipografías": "Farben und Schriften",
+    "Otra combinación": "Andere Kombination",
+    "Recorte con IA": "KI-Freistellung",
+    "Combinación {n}": "Kombination {n}",
+    "Mira cómo funciona con un ejemplo real: marca una palabra como «Principal» y en el video pasa a ser la grande.": "So funktioniert es, an einem echten Beispiel: Markiere ein Wort als «Schlüsselwort» und im Video wird es das große.",
+    "Abre tu timeline o suelta un video": "Öffne deine Timeline oder zieh ein Video herein",
+    "Pulsa GO en Inicio": "Drücke GO auf Start",
+    "Vuelve aquí a retocar": "Komm hierher zurück zum Feinschliff",
+    "Sin marcar:": "Unmarkiert:",
+    "el programa elige «cuenta»": "das Programm wählt «cuenta»",
+    "«nadie» como Principal": "«nadie» als Schlüsselwort"
   }
 }

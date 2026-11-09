@@ -11342,5 +11342,170 @@
   "fr": "Bibliothèques à jour : moteurs vocal et IA avec transformers 5.22.2 et les dernières versions de click, filelock, regex et typer ; animations de l’Édition PRO avec Remotion 4.0.542. Le reste était déjà à jour.",
   "de": "Bibliotheken aktuell: Sprach- und KI-Engines mit transformers 5.22.2 und den neuesten click, filelock, regex und typer; Animationen der PRO-Bearbeitung mit Remotion 4.0.542. Alles andere war bereits auf dem neuesten Stand.",
   "it": "Librerie aggiornate: motori vocale e IA con transformers 5.22.2 e le ultime click, filelock, regex e typer; animazioni dell’Edizione PRO con Remotion 4.0.542. Il resto era già all’ultima versione."
+ },
+ "Intro, gancho y motion graphics": {
+  "en": "Intro, hook and motion graphics",
+  "pt": "Intro, gancho e motion graphics",
+  "fr": "Intro, accroche et motion design",
+  "de": "Intro, Hook und Motion Graphics",
+  "it": "Intro, gancio e motion graphics",
+  "ja": "イントロ、フック、モーショングラフィックス",
+  "ko": "인트로, 훅, 모션 그래픽",
+  "ru": "Интро, хук и моушн-графика",
+  "zh": "片头、钩子和动态图形"
+ },
+ "Tipo de video": {
+  "en": "Video type",
+  "pt": "Tipo de vídeo",
+  "fr": "Type de vidéo",
+  "de": "Videotyp",
+  "it": "Tipo di video",
+  "ja": "動画の種類",
+  "ko": "영상 유형",
+  "ru": "Тип видео",
+  "zh": "视频类型"
+ },
+ "Persona": {
+  "en": "Person",
+  "pt": "Pessoa",
+  "fr": "Personne",
+  "de": "Person",
+  "it": "Persona",
+  "ja": "人物",
+  "ko": "인물",
+  "ru": "Человек",
+  "zh": "人物"
+ },
+ "Animación": {
+  "en": "Animation",
+  "pt": "Animação",
+  "fr": "Animation",
+  "de": "Animation",
+  "it": "Animazione",
+  "ja": "アニメーション",
+  "ko": "애니메이션",
+  "ru": "Анимация",
+  "zh": "动画"
+ },
+ "Colores y tipografías": {
+  "en": "Colors and fonts",
+  "pt": "Cores e tipografias",
+  "fr": "Couleurs et typographies",
+  "de": "Farben und Schriften",
+  "it": "Colori e caratteri",
+  "ja": "色と書体",
+  "ko": "색상과 글꼴",
+  "ru": "Цвета и шрифты",
+  "zh": "颜色和字体"
+ },
+ "Otra combinación": {
+  "en": "Another combination",
+  "pt": "Outra combinação",
+  "fr": "Autre combinaison",
+  "de": "Andere Kombination",
+  "it": "Altra combinazione",
+  "ja": "別の組み合わせ",
+  "ko": "다른 조합",
+  "ru": "Другая комбинация",
+  "zh": "换一种组合"
+ },
+ "Recorte con IA": {
+  "en": "AI cutout",
+  "pt": "Recorte com IA",
+  "fr": "Détourage IA",
+  "de": "KI-Freistellung",
+  "it": "Scontorno con IA",
+  "ja": "AI切り抜き",
+  "ko": "AI 누끼",
+  "ru": "Вырезка ИИ",
+  "zh": "AI 抠像"
+ },
+ "Combinación {n}": {
+  "en": "Combination {n}",
+  "pt": "Combinação {n}",
+  "fr": "Combinaison {n}",
+  "de": "Kombination {n}",
+  "it": "Combinazione {n}",
+  "ja": "組み合わせ {n}",
+  "ko": "조합 {n}",
+  "ru": "Комбинация {n}",
+  "zh": "组合 {n}"
+ },
+ "Mira cómo funciona con un ejemplo real: marca una palabra como «Principal» y en el video pasa a ser la grande.": {
+  "en": "See how it works with a real example: mark a word as «Main» and it becomes the big one in the video.",
+  "pt": "Veja como funciona com um exemplo real: marque uma palavra como «Principal» e no vídeo ela vira a grande.",
+  "fr": "Voyez comment ça marche avec un vrai exemple : marquez un mot comme «Principal» et il devient le grand dans la vidéo.",
+  "de": "So funktioniert es, an einem echten Beispiel: Markiere ein Wort als «Schlüsselwort» und im Video wird es das große.",
+  "it": "Guarda come funziona con un esempio reale: segna una parola come «Principale» e nel video diventa quella grande.",
+  "ja": "実際の例で見てみましょう：単語を「メイン」にすると、動画でその単語が大きくなります。",
+  "ko": "실제 예시로 확인하세요: 단어를 «기본»으로 표시하면 영상에서 그 단어가 크게 나옵니다.",
+  "ru": "Посмотрите на реальном примере: отметьте слово как «Основной», и в видео оно станет крупным.",
+  "zh": "用真实示例看看效果：把一个词标为「主」，它在视频里就会变成大字。"
+ },
+ "Abre tu timeline o suelta un video": {
+  "en": "Open your timeline or drop a video",
+  "pt": "Abra sua timeline ou solte um vídeo",
+  "fr": "Ouvrez votre timeline ou déposez une vidéo",
+  "de": "Öffne deine Timeline oder zieh ein Video herein",
+  "it": "Apri la tua timeline o trascina un video",
+  "ja": "タイムラインを開くか動画をドロップ",
+  "ko": "타임라인을 열거나 영상을 끌어다 놓기",
+  "ru": "Откройте таймлайн или перетащите видео",
+  "zh": "打开时间线或拖入视频"
+ },
+ "Pulsa GO en Inicio": {
+  "en": "Press GO on Home",
+  "pt": "Aperte GO no Início",
+  "fr": "Appuyez sur GO dans Accueil",
+  "de": "Drücke GO auf Start",
+  "it": "Premi GO in Home",
+  "ja": "ホームでGOを押す",
+  "ko": "홈에서 GO 누르기",
+  "ru": "Нажмите GO на главной",
+  "zh": "在首页按 GO"
+ },
+ "Vuelve aquí a retocar": {
+  "en": "Come back here to fine-tune",
+  "pt": "Volte aqui para ajustar",
+  "fr": "Revenez ici pour retoucher",
+  "de": "Komm hierher zurück zum Feinschliff",
+  "it": "Torna qui per ritoccare",
+  "ja": "ここに戻って仕上げる",
+  "ko": "여기로 돌아와 다듬기",
+  "ru": "Вернитесь сюда, чтобы доработать",
+  "zh": "回到这里精修"
+ },
+ "Sin marcar:": {
+  "en": "Unmarked:",
+  "pt": "Sem marcação:",
+  "fr": "Non marqué :",
+  "de": "Unmarkiert:",
+  "it": "Senza marcatura:",
+  "ja": "未マーク：",
+  "ko": "표시 안 함:",
+  "ru": "Без отметок:",
+  "zh": "未标记："
+ },
+ "el programa elige «cuenta»": {
+  "en": "the app picks «cuenta»",
+  "pt": "o programa escolhe «cuenta»",
+  "fr": "le programme choisit «cuenta»",
+  "de": "das Programm wählt «cuenta»",
+  "it": "il programma sceglie «cuenta»",
+  "ja": "アプリが「cuenta」を選ぶ",
+  "ko": "프로그램이 «cuenta»를 고름",
+  "ru": "программа выбирает «cuenta»",
+  "zh": "程序选了「cuenta」"
+ },
+ "«nadie» como Principal": {
+  "en": "«nadie» as Main",
+  "pt": "«nadie» como Principal",
+  "fr": "«nadie» comme Principal",
+  "de": "«nadie» als Schlüsselwort",
+  "it": "«nadie» come Principale",
+  "ja": "「nadie」をメインに",
+  "ko": "«nadie»를 기본으로",
+  "ru": "«nadie» как Основной",
+  "zh": "「nadie」设为主"
  }
 }
