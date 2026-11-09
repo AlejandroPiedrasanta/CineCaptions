@@ -11244,5 +11244,103 @@
   "fr": "Premiere Pro prêt : GO y place vos vidéos ({r}).",
   "de": "Premiere Pro bereit: GO legt deine Videos dort an ({r}).",
   "it": "Premiere Pro pronto: GO inserisce lì i tuoi video ({r})."
+ },
+ "{n} detectado · conectado": {
+  "en": "{n} detected · connected",
+  "pt": "{n} detectado · conectado",
+  "fr": "{n} détecté · connecté",
+  "de": "{n} erkannt · verbunden",
+  "it": "{n} rilevato · collegato"
+ },
+ "proyecto «{p}»": {
+  "en": "project «{p}»",
+  "pt": "projeto «{p}»",
+  "fr": "projet «{p}»",
+  "de": "Projekt «{p}»",
+  "it": "progetto «{p}»"
+ },
+ "{n} abierto · conectando… (si no conecta, reinícialo una vez)": {
+  "en": "{n} open · connecting… (if it doesn’t connect, restart it once)",
+  "pt": "{n} aberto · conectando… (se não conectar, reinicie-o uma vez)",
+  "fr": "{n} ouvert · connexion… (s’il ne se connecte pas, redémarrez-le une fois)",
+  "de": "{n} geöffnet · verbinde… (falls es sich nicht verbindet, einmal neu starten)",
+  "it": "{n} aperto · collegamento… (se non si collega, riavvialo una volta)"
+ },
+ "{n} detectado · cerrado: GO lo abre solo": {
+  "en": "{n} detected · closed: GO opens it by itself",
+  "pt": "{n} detectado · fechado: o GO abre sozinho",
+  "fr": "{n} détecté · fermé : GO l’ouvre tout seul",
+  "de": "{n} erkannt · geschlossen: GO öffnet es von selbst",
+  "it": "{n} rilevato · chiuso: GO lo apre da solo"
+ },
+ "No encuentro Adobe Premiere Pro · instálalo o elige «Usar con DaVinci Resolve» en Ajustes": {
+  "en": "I can’t find Adobe Premiere Pro · install it or choose «Use with DaVinci Resolve» in Settings",
+  "pt": "Não encontro o Adobe Premiere Pro · instale-o ou escolha «Usar com o DaVinci Resolve» em Ajustes",
+  "fr": "Adobe Premiere Pro introuvable · installez-le ou choisissez «Utiliser avec DaVinci Resolve» dans Réglages",
+  "de": "Adobe Premiere Pro nicht gefunden · installiere es oder wähle «Mit DaVinci Resolve verwenden» in den Einstellungen",
+  "it": "Non trovo Adobe Premiere Pro · installalo o scegli «Usa con DaVinci Resolve» in Impostazioni"
+ },
+ "Premiere Pro conectado": {
+  "en": "Premiere Pro connected",
+  "pt": "Premiere Pro conectado",
+  "fr": "Premiere Pro connecté",
+  "de": "Premiere Pro verbunden",
+  "it": "Premiere Pro collegato"
+ },
+ "Premiere Pro · conectando…": {
+  "en": "Premiere Pro · connecting…",
+  "pt": "Premiere Pro · conectando…",
+  "fr": "Premiere Pro · connexion…",
+  "de": "Premiere Pro · verbinde…",
+  "it": "Premiere Pro · collegamento…"
+ },
+ "Si no conecta: reinícialo una vez": {
+  "en": "If it doesn’t connect: restart it once",
+  "pt": "Se não conectar: reinicie-o uma vez",
+  "fr": "S’il ne se connecte pas : redémarrez-le une fois",
+  "de": "Falls keine Verbindung: einmal neu starten",
+  "it": "Se non si collega: riavvialo una volta"
+ },
+ "Premiere Pro cerrado": {
+  "en": "Premiere Pro closed",
+  "pt": "Premiere Pro fechado",
+  "fr": "Premiere Pro fermé",
+  "de": "Premiere Pro geschlossen",
+  "it": "Premiere Pro chiuso"
+ },
+ "GO lo abre solo": {
+  "en": "GO opens it by itself",
+  "pt": "O GO abre sozinho",
+  "fr": "GO l’ouvre tout seul",
+  "de": "GO öffnet es von selbst",
+  "it": "GO lo apre da solo"
+ },
+ "Premiere Pro no encontrado": {
+  "en": "Premiere Pro not found",
+  "pt": "Premiere Pro não encontrado",
+  "fr": "Premiere Pro introuvable",
+  "de": "Premiere Pro nicht gefunden",
+  "it": "Premiere Pro non trovato"
+ },
+ "Comprobando Premiere Pro…": {
+  "en": "Checking Premiere Pro…",
+  "pt": "Verificando o Premiere Pro…",
+  "fr": "Vérification de Premiere Pro…",
+  "de": "Prüfe Premiere Pro…",
+  "it": "Controllo Premiere Pro…"
+ },
+ "Inicio dice con qué editor trabaja GO: con Premiere Pro, si está conectado, cerrado o sin instalar, como hace con DaVinci Resolve.": {
+  "en": "Home shows which editor GO works with: with Premiere Pro, whether it’s connected, closed or not installed, just like with DaVinci Resolve.",
+  "pt": "O Início mostra com qual editor o GO trabalha: com o Premiere Pro, se está conectado, fechado ou não instalado, como faz com o DaVinci Resolve.",
+  "fr": "L’accueil indique avec quel logiciel GO travaille : avec Premiere Pro, s’il est connecté, fermé ou non installé, comme pour DaVinci Resolve.",
+  "de": "Start zeigt, mit welchem Schnittprogramm GO arbeitet: bei Premiere Pro, ob es verbunden, geschlossen oder nicht installiert ist, wie bei DaVinci Resolve.",
+  "it": "Home mostra con quale editor lavora GO: con Premiere Pro, se è collegato, chiuso o non installato, come fa con DaVinci Resolve."
+ },
+ "Librerías al día: motores de voz e IA con transformers 5.22.2 y las últimas de click, filelock, regex y typer; animaciones de la Edición PRO con Remotion 4.0.542. Lo demás ya estaba en su última versión.": {
+  "en": "Libraries up to date: speech and AI engines with transformers 5.22.2 and the latest click, filelock, regex and typer; PRO Edit animations with Remotion 4.0.542. Everything else was already on its latest version.",
+  "pt": "Bibliotecas em dia: motores de voz e IA com transformers 5.22.2 e as últimas versões de click, filelock, regex e typer; animações da Edição PRO com Remotion 4.0.542. O resto já estava na última versão.",
+  "fr": "Bibliothèques à jour : moteurs vocal et IA avec transformers 5.22.2 et les dernières versions de click, filelock, regex et typer ; animations de l’Édition PRO avec Remotion 4.0.542. Le reste était déjà à jour.",
+  "de": "Bibliotheken aktuell: Sprach- und KI-Engines mit transformers 5.22.2 und den neuesten click, filelock, regex und typer; Animationen der PRO-Bearbeitung mit Remotion 4.0.542. Alles andere war bereits auf dem neuesten Stand.",
+  "it": "Librerie aggiornate: motori vocale e IA con transformers 5.22.2 e le ultime click, filelock, regex e typer; animazioni dell’Edizione PRO con Remotion 4.0.542. Il resto era già all’ultima versione."
  }
 }

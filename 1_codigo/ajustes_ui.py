@@ -498,6 +498,8 @@ NOTAS_VERSION = [
     ('5.78', [                                       # (la 5.77 ya se publicó sin esto; se ve cuando version.py pase a 5.78)
         'Adobe Premiere Pro: elige «Usar con Premiere Pro» en Ajustes › General y GO coloca todo en Premiere como en Resolve, en una secuencia nueva: tu video, los subtítulos del estilo elegido encima (con sus emojis), los sonidos en sus pistas y la música. Si Premiere está cerrado, se abre solo.',
         'En Ajustes › General eliges con qué trabaja GO, uno a la vez: «Usar con DaVinci Resolve» (de fábrica), «Usar con Premiere Pro» o «Video sin editores (DaVinci y Premiere)», el antiguo «Video MP4 en lugar de Resolve».',
+        'Inicio dice con qué editor trabaja GO: con Premiere Pro, si está conectado, cerrado o sin instalar, como hace con DaVinci Resolve.',
+        'Librerías al día: motores de voz e IA con transformers 5.22.2 y las últimas de click, filelock, regex y typer; animaciones de la Edición PRO con Remotion 4.0.542. Lo demás ya estaba en su última versión.',
     ]),
     ('5.77', [
         'Zona segura también en la Edición PRO: en videos verticales, los gráficos, títulos y etiquetas ya no quedan debajo de la barra de búsqueda, los botones ni la descripción de TikTok, Reels y Shorts.',
@@ -2544,6 +2546,10 @@ class VentanaAjustes(_Panel):
             guardar_prefs({'go_premiere': m == 'premiere', 'go_salida_mp4': m == 'mp4'})
             if m == 'premiere':
                 self._preparar_premiere()
+            try:                                         # Inicio y la barra pasan a hablar del editor elegido sin esperar a la vigilancia
+                self.app._refrescar_estado()
+            except Exception:
+                pass
         f_resolve = _Fila(tr('Usar con DaVinci Resolve'),
                           tr('GO coloca los subtítulos, los sonidos y los efectos en tu timeline de DaVinci Resolve (Studio o Free). '
                              'Si Resolve no está instalado, te devuelve el video con los subtítulos grabados en un MP4.'),
@@ -2698,7 +2704,8 @@ class VentanaAjustes(_Panel):
                 registro.aviso(tr('Cierra Premiere Pro y vuelve a abrirlo una vez: así carga el panel de CineCaptions. Después GO coloca ahí.'),
                                'Ajustes · Premiere Pro')
             else:
-                registro.ok(tr('Premiere Pro listo: GO coloca tus videos ahí ({r}).', r=Path(r['premiere']).parent.name), 'Ajustes · Premiere Pro')
+                import premiere
+                registro.ok(tr('Premiere Pro listo: GO coloca tus videos ahí ({r}).', r=premiere.nombre_de(r['premiere'])), 'Ajustes · Premiere Pro')
         correr_en_hilo(self.app, trabajo, fin)
 
     # -- Interfaz -------------------------------------------------------------

@@ -4525,6 +4525,19 @@
     "No pude instalar el panel de CineCaptions en Premiere Pro": "I couldn’t install the CineCaptions panel in Premiere Pro",
     "No encuentro Adobe Premiere Pro en este equipo: instálalo para que GO coloque ahí. El panel de CineCaptions ya quedó listo.": "I can’t find Adobe Premiere Pro on this computer: install it so GO can place there. The CineCaptions panel is already set up.",
     "Cierra Premiere Pro y vuelve a abrirlo una vez: así carga el panel de CineCaptions. Después GO coloca ahí.": "Close Premiere Pro and open it again once: that way it loads the CineCaptions panel. Then GO places there.",
-    "Premiere Pro listo: GO coloca tus videos ahí ({r}).": "Premiere Pro ready: GO places your videos there ({r})."
+    "Premiere Pro listo: GO coloca tus videos ahí ({r}).": "Premiere Pro ready: GO places your videos there ({r}).",
+    "{n} detectado · conectado": "{n} detected · connected",
+    "{n} abierto · conectando… (si no conecta, reinícialo una vez)": "{n} open · connecting… (if it doesn’t connect, restart it once)",
+    "{n} detectado · cerrado: GO lo abre solo": "{n} detected · closed: GO opens it by itself",
+    "No encuentro Adobe Premiere Pro · instálalo o elige «Usar con DaVinci Resolve» en Ajustes": "I can’t find Adobe Premiere Pro · install it or choose «Use with DaVinci Resolve» in Settings",
+    "Premiere Pro conectado": "Premiere Pro connected",
+    "Premiere Pro · conectando…": "Premiere Pro · connecting…",
+    "Si no conecta: reinícialo una vez": "If it doesn’t connect: restart it once",
+    "Premiere Pro cerrado": "Premiere Pro closed",
+    "GO lo abre solo": "GO opens it by itself",
+    "Premiere Pro no encontrado": "Premiere Pro not found",
+    "Comprobando Premiere Pro…": "Checking Premiere Pro…",
+    "Inicio dice con qué editor trabaja GO: con Premiere Pro, si está conectado, cerrado o sin instalar, como hace con DaVinci Resolve.": "Home shows which editor GO works with: with Premiere Pro, whether it’s connected, closed or not installed, just like with DaVinci Resolve.",
+    "Librerías al día: motores de voz e IA con transformers 5.22.2 y las últimas de click, filelock, regex y typer; animaciones de la Edición PRO con Remotion 4.0.542. Lo demás ya estaba en su última versión.": "Libraries up to date: speech and AI engines with transformers 5.22.2 and the latest click, filelock, regex and typer; PRO Edit animations with Remotion 4.0.542. Everything else was already on its latest version."
   }
 }

@@ -232,6 +232,44 @@ def panel_vivo(max_s=LATIDO_S):
         return False
 
 
+def nombre_de(exe):
+    """«Adobe Premiere Pro 2026» (la carpeta del .exe en Windows, la .app en Mac); «Adobe Premiere Pro» si no se sabe."""
+    if not exe:
+        return 'Adobe Premiere Pro'
+    exe = Path(exe)
+    nombre = exe.stem if exe.suffix == '.app' else exe.parent.name
+    return nombre if nombre.lower().startswith('adobe premiere pro') else 'Adobe Premiere Pro'
+
+
+def estado():
+    """v5.78 (el usuario: «que en Inicio diga conexión con Premiere Pro, que ya no diga DaVinci Resolve»): lo que Inicio y la barra enseñan
+    con «Usar con Premiere Pro». Desde un hilo (en Mac lanza pgrep); barato: archivos, latido y procesos.
+    → {'instalado', 'nombre', 'abierto', 'conectado', 'version', 'proyecto'}"""
+    exe = ejecutable()
+    vivo = panel_vivo()
+    lat = (latido() or {}) if vivo else {}
+    return {'instalado': exe is not None or vivo, 'nombre': nombre_de(exe), 'abierto': vivo or (exe is not None and abierto()),
+            'conectado': vivo, 'version': str(lat.get('version') or ''), 'proyecto': str(lat.get('proyecto') or '')}
+
+
+def textos_estado(est):
+    """(línea de Inicio, tono, (título, detalle) de la barra y la tarjeta lateral) para el estado de `estado()`. tono: 'ok' | 'aviso' | 'error'.
+    La línea lleva «detectado» como la de Resolve: el nombre en claro y desde ahí en el color del estado (un_clic_ui.LineaGo)."""
+    from i18n import tr
+    est = est or {}
+    n = est.get('nombre') or 'Adobe Premiere Pro'
+    if est.get('conectado'):
+        detalle = ' · '.join(x for x in (n, est.get('version'), tr('proyecto «{p}»', p=est['proyecto']) if est.get('proyecto') else '') if x)
+        return tr('{n} detectado · conectado', n=n), 'ok', (tr('Premiere Pro conectado'), detalle)
+    if est.get('abierto'):
+        return (tr('{n} abierto · conectando… (si no conecta, reinícialo una vez)', n=n), 'aviso',
+                (tr('Premiere Pro · conectando…'), tr('Si no conecta: reinícialo una vez')))
+    if est.get('instalado'):
+        return tr('{n} detectado · cerrado: GO lo abre solo', n=n), 'aviso', (tr('Premiere Pro cerrado'), tr('GO lo abre solo'))
+    return (tr('No encuentro Adobe Premiere Pro · instálalo o elige «Usar con DaVinci Resolve» en Ajustes'), 'error',
+            (tr('Premiere Pro no encontrado'), tr('¿Está instalado?')))
+
+
 def _ruta_libre(ruta):
     ruta = Path(ruta)
     if not ruta.exists():

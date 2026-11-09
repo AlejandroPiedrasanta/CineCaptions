@@ -4525,6 +4525,19 @@
     "No pude instalar el panel de CineCaptions en Premiere Pro": "Konnte das CineCaptions-Panel nicht in Premiere Pro installieren",
     "No encuentro Adobe Premiere Pro en este equipo: instálalo para que GO coloque ahí. El panel de CineCaptions ya quedó listo.": "Adobe Premiere Pro ist auf diesem Computer nicht zu finden: Installiere es, damit GO dort anlegen kann. Das CineCaptions-Panel ist schon bereit.",
     "Cierra Premiere Pro y vuelve a abrirlo una vez: así carga el panel de CineCaptions. Después GO coloca ahí.": "Schließe Premiere Pro und öffne es einmal erneut: So lädt es das CineCaptions-Panel. Danach legt GO dort an.",
-    "Premiere Pro listo: GO coloca tus videos ahí ({r}).": "Premiere Pro bereit: GO legt deine Videos dort an ({r})."
+    "Premiere Pro listo: GO coloca tus videos ahí ({r}).": "Premiere Pro bereit: GO legt deine Videos dort an ({r}).",
+    "{n} detectado · conectado": "{n} erkannt · verbunden",
+    "{n} abierto · conectando… (si no conecta, reinícialo una vez)": "{n} geöffnet · verbinde… (falls es sich nicht verbindet, einmal neu starten)",
+    "{n} detectado · cerrado: GO lo abre solo": "{n} erkannt · geschlossen: GO öffnet es von selbst",
+    "No encuentro Adobe Premiere Pro · instálalo o elige «Usar con DaVinci Resolve» en Ajustes": "Adobe Premiere Pro nicht gefunden · installiere es oder wähle «Mit DaVinci Resolve verwenden» in den Einstellungen",
+    "Premiere Pro conectado": "Premiere Pro verbunden",
+    "Premiere Pro · conectando…": "Premiere Pro · verbinde…",
+    "Si no conecta: reinícialo una vez": "Falls keine Verbindung: einmal neu starten",
+    "Premiere Pro cerrado": "Premiere Pro geschlossen",
+    "GO lo abre solo": "GO öffnet es von selbst",
+    "Premiere Pro no encontrado": "Premiere Pro nicht gefunden",
+    "Comprobando Premiere Pro…": "Prüfe Premiere Pro…",
+    "Inicio dice con qué editor trabaja GO: con Premiere Pro, si está conectado, cerrado o sin instalar, como hace con DaVinci Resolve.": "Start zeigt, mit welchem Schnittprogramm GO arbeitet: bei Premiere Pro, ob es verbunden, geschlossen oder nicht installiert ist, wie bei DaVinci Resolve.",
+    "Librerías al día: motores de voz e IA con transformers 5.22.2 y las últimas de click, filelock, regex y typer; animaciones de la Edición PRO con Remotion 4.0.542. Lo demás ya estaba en su última versión.": "Bibliotheken aktuell: Sprach- und KI-Engines mit transformers 5.22.2 und den neuesten click, filelock, regex und typer; Animationen der PRO-Bearbeitung mit Remotion 4.0.542. Alles andere war bereits auf dem neuesten Stand."
   }
 }

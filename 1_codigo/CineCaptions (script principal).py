@@ -6834,7 +6834,12 @@ class SubtitleApp(QWidget):
         fila, cf = caja_h(espacio=10)
         self.lat_punto_resolve = Punto(TEXT_MUTED, 10)
         cf.addWidget(self.lat_punto_resolve, 0, Qt.AlignmentFlag.AlignVCenter)
-        self.lat_resolve = _Elidida(tr('Comprobando Resolve…'), 15, peso='negrita', color='#FFFFFF')
+        try:
+            import ajustes_ui as _aj
+            _con_premiere = bool(_aj.leer_prefs().get('go_premiere'))
+        except Exception:
+            _con_premiere = False
+        self.lat_resolve = _Elidida(tr('Comprobando Premiere Pro…') if _con_premiere else tr('Comprobando Resolve…'), 15, peso='negrita', color='#FFFFFF')
         cf.addWidget(self.lat_resolve, 1)
         ct2.addWidget(fila)
         self.lat_resolve_det = _Elidida('', 12, color=TEXT_MUTED)
@@ -7048,9 +7053,12 @@ class SubtitleApp(QWidget):
     def _comprobar_conexion_lateral(self):
         """«Comprobar conexión»: rehace el estado de Resolve ahora (MCP)."""
         self.lat_punto_resolve.poner(TEXT_MUTED)
-        self.lat_resolve.configure(text=tr('Comprobando Resolve…'))
+        premiere_si = self._motivo_mp4() == 'premiere'
+        self.lat_resolve.configure(text=tr('Comprobando Premiere Pro…') if premiere_si else tr('Comprobando Resolve…'))
         self.lat_resolve_det.configure(text='')
         def trabajo():
+            if premiere_si:                                 # v5.78: con Premiere el estado lo da su panel (premiere.estado, en _recoger_estado)
+                return None
             import resolve_mcp
             return resolve_mcp.estado(refrescar=True)
         _correr_en_hilo(self, trabajo, lambda _r, _e: self._refrescar_estado())
@@ -7467,6 +7475,17 @@ class SubtitleApp(QWidget):
         archivo_ok = archivo and Path(archivo).exists()
         ruta_ok = bool(ruta) and Path(ruta).exists()
         motivo_mp4 = self._motivo_mp4()          # v5.4.48: GO entrega un MP4: Inicio lo dice (sin el rojo de «No encuentro DaVinci Resolve»)
+        est_p = (getattr(self, '_estado_sistema', None) or {}).get('premiere')
+        if motivo_mp4 == 'premiere' and est_p is not None:
+            # v5.78 (el usuario: «que en Inicio diga conexión con Premiere Pro, que ya no diga DaVinci Resolve»): como la de Resolve, con su punto
+            import premiere
+            texto_p, tono_p, _lat = premiere.textos_estado(est_p)
+            if archivo_ok or ruta_ok:
+                panel.reposo(_ajusta(texto_p, tr('«{n}»', n=Path(archivo if archivo_ok else ruta).name), tr('suelta otro vídeo para cambiarlo')),
+                             tono=tono_p)
+            else:
+                panel.reposo(_ajusta(texto_p, tr('suelta un video aquí')), listo=True, tono=tono_p)
+            return
         if motivo_mp4:
             if motivo_mp4 == 'premiere':                   # v5.78
                 texto_mp4 = tr('GO coloca en Adobe Premiere Pro (Ajustes)')
@@ -7525,6 +7544,8 @@ class SubtitleApp(QWidget):
                  # v5.5.8 (pedido: «a la par de Edición PRO un botón que diga Motions completo»): el último paso de GO
                  ('ph.film-strip', tr('Motions completo'), tr('Sí') if mc else tr('No'), 'verde' if mc else 'apagado', self._alternar_motions_completo_go,
                   tr('Motions completo: al final de GO, un video de solo motions de todo el video en el estilo de los mejores reels (un titular arriba y una tarjeta que explica lo que se dice; sin captions) en la pista de más arriba, encima de captions y efectos, para que lo cortes donde quieras ver tu video. Clic: sí o no.'), None)]
+        if self._motivo_mp4() == 'premiere':            # v5.78: la Edición PRO y Motions completo son de Resolve (no viajan a Premiere): no se ofrecen
+            chips = [c for c in chips if c[0] not in ('ph.crown', 'ph.film-strip')]
         act = getattr(self, '_actualizacion', None)
         if isinstance(act, dict) and act.get('version'):
             try:
@@ -8486,7 +8507,14 @@ class SubtitleApp(QWidget):
         if getattr(self, '_go_sin_resolve', False):         # v5.4.48: sin Resolve no hay edición que anunciar (ni un «No encuentro DaVinci Resolve» en rojo)
             self._go_resolve = None
             if getattr(self, '_go_motivo', None) == 'premiere':
-                self.go_panel.linea.configure(text=tr('GO coloca tu video en Adobe Premiere Pro'))
+                est_p = (getattr(self, '_estado_sistema', None) or {}).get('premiere')
+                if est_p:                                   # v5.78: la misma línea de conexión de Inicio
+                    import premiere
+                    texto_p = premiere.textos_estado(est_p)[0]
+                    self.go_panel.linea.configure(text=texto_p)
+                    registro.info(texto_p, 'GO · Premiere Pro')
+                else:
+                    self.go_panel.linea.configure(text=tr('GO coloca tu video en Adobe Premiere Pro'))
             else:
                 self.go_panel.linea.configure(text=tr('GO graba tu video con los subtítulos (sin Resolve)'))
             return
@@ -9878,6 +9906,13 @@ class SubtitleApp(QWidget):
     def _recoger_estado():
         """Corre en un hilo: NO toca widgets."""
         d = {}
+        try:                                              # v5.78: con «Usar con Premiere Pro», Inicio y la barra hablan de Premiere (premiere.estado)
+            import ajustes_ui
+            if ajustes_ui.leer_prefs().get('go_premiere'):
+                import premiere
+                d['premiere'] = premiere.estado()
+        except Exception:
+            d['premiere'] = {}
         try:
             # v5.1: la conexion MCP oficial (Resolve 21.1+) se pregunta de
             # verdad aqui, en el hilo; arrancar ResolveMCP cuesta 0,2-4 s
@@ -9988,6 +10023,11 @@ class SubtitleApp(QWidget):
         else:
             tarjeta = (ui.AMBAR, tr('Free · sin Puente'), tr('Scripts instalados: {a} de {b}', a=hechos, b=total))
             lateral = (ui.AMBAR, tr('Resolve · sin Puente'), tr('Lanza CineCaptions_Puente en Resolve'))
+        if 'premiere' in d and self._motivo_mp4() == 'premiere':       # v5.78: la conexión que importa es la de Premiere Pro
+            import premiere
+            _l, tono_p, (titulo_p, detalle_p) = premiere.textos_estado(d['premiere'])
+            color_p = {'ok': ui.VERDE, 'aviso': ui.AMBAR}.get(tono_p, ui.ROJO)
+            tarjeta = lateral = (color_p, titulo_p, detalle_p)
         self.tarjeta_resolve.poner(*tarjeta)
         self.lat_punto_resolve.poner(lateral[0])
         if hasattr(self, 'isla'):
