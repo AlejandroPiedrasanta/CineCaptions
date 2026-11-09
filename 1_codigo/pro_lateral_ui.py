@@ -59,8 +59,8 @@ OPCIONES = [
 ]
 _POR_CLAVE = {o['clave']: o for o in OPCIONES}
 # las que ya no se enseñan (ni en el menú ni en Efectos) y GO no pone aunque sigan guardadas (el usuario: «elimina esto»):
-# v5.20 «Plantillas por frase» · v5.78 «B-roll con fotos» y «Escenas completas»
-QUITADAS = ('plantillas', 'broll', 'escenas')
+# v5.20 «Plantillas por frase» · v5.78 «B-roll con fotos», «Escenas completas» y «Gráficos»
+QUITADAS = ('plantillas', 'broll', 'escenas', 'graficos')
 # v5.5.20: la intensidad de una opción, en la píldora del nombre (v5.25: la de «Emojis animados»; la de «Captions detrás de ti» se quitó en la
 # v5.58: el usuario: «si se activa, ya sabrá en qué momento aplicarlo»)
 NIVELES = (('suave', 'Suave'), ('media', 'Media'), ('fuerte', 'Fuerte'))
