@@ -110,6 +110,7 @@ DESCRIPCIONES = {
     '1_codigo/tipo_vista.py': 'el bloque del Tema 5 («v tipo») dibujado con Pillow: vistas, GO sin Resolve y la vista de Creativo.',
     '1_codigo/ui_toast.py': 'avisos que se cierran solos (toasts).',
     '1_codigo/un_clic_ui.py': 'la pantalla de Inicio: botón GO, pasos animados, cinta viral y vista previa.',
+    '1_codigo/menu_estilo_ui.py': 'el panel del chip «Estilo» de Inicio: los estilos en una tira de pósters.',
     '1_codigo/ventana_licencia.py': 'la ventana «Activa tu licencia» (formato CineSlide: panel animado, clave, confeti).',
     '1_codigo/version.py': 'la versión del programa (APP_VERSION) y el autor, en un solo sitio.',
     '1_codigo/vistas_reales.py': 'vistas previas renderizadas DE VERDAD por Resolve (packs y bloques de GO).',

@@ -195,12 +195,15 @@
       "archivos": [
         "un_clic_ui.py",
         "escena_go.py",
-        "mograf_ui.py"
+        "mograf_ui.py",
+        "menu_estilo_ui.py"
       ],
       "simbolos": [
         "TituloGo",
         "ChipGo",
         "LineaGo",
+        "PanelEstilo",
+        "_menu_estilo_go",
         "_politica",
         "_precalentar_ondas_sfx",
         "_calma",

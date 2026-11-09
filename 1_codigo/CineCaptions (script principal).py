@@ -7579,7 +7579,10 @@ class SubtitleApp(QWidget):
             panel.opciones_capa.addWidget(ch)
     def _menu_estilo_go(self):
         """El chip «Estilo» de Inicio: elegir el estilo de GO sin salir de la página."""
-        menu = Menu(self)
+        try:
+            chip = self.sender()                        # el chip pulsado: el panel sale encima de él
+        except Exception:
+            chip = None
         actual = self._plantilla_un_clic()
         base = 'Base títulos dinámicos'
         try:
@@ -7594,6 +7597,17 @@ class SubtitleApp(QWidget):
         formato = self._formato_para_temas()
         guion = [p for p in packs if getattr(p, 'guion', None)]
         otros = [p for p in packs if not getattr(p, 'guion', None) and p.nombre != base]
+        if plantillas.SOLO_TEMAS and guion + otros:     # v5.78 (el usuario eligió la propuesta C): los estilos en una tira de pósters
+            try:
+                import menu_estilo_ui
+                lista = [{'nombre': p.nombre, 'etiqueta': plantillas.nombre_visible(p.nombre),
+                          'sirve': bool(plantillas.sirve_en_go(p, formato)) if p in guion else True} for p in guion + otros]
+                self._panel_estilo = menu_estilo_ui.abrir(self, lista, actual, self._poner_go_pack, lambda: self.ir_a('estilos'),
+                                                          ancla=chip if hasattr(chip, 'mapToGlobal') else None)
+                return
+            except Exception as e:                      # (si algo falla, la lista de siempre)
+                registro.aviso(f'Panel de estilos: {str(e)[:160]}', 'interfaz')
+        menu = Menu(self)
         for p in guion:
             marca = '✓  ' if p.nombre == actual else '      '
             extra = '' if plantillas.sirve_en_go(p, formato) else tr('  (solo vertical)')

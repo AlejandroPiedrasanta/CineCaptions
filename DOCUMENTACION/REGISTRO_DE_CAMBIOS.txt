@@ -12,6 +12,19 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-09 15:05  ·  v5.78  ·  cambio explicado
+    Chip «Estilo» de Inicio: tira de pósters (propuesta C elegida entre seis): menu_estilo_ui.PanelEstilo con el póster real de cada estilo, número, el elegido con anillo y ✓, y debajo la frase y qué hace del señalado; ChipGo.poner_abierto gira la flecha. Si falla, la lista de siempre + aviso al Registro.
+    nuevos (1):
+      + 1_codigo/menu_estilo_ui.py
+    modificados (2):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/un_clic_ui.py
+
+2026-11-09 14:45  ·  v5.78  ·  cambio explicado
+    Gráficos quitado (el usuario: «elimina esto»): añadido a pro_lateral_ui.QUITADAS; fuera del menú PRO y de Efectos, y GO no pone ninguno de sus motions aunque estuviera encendido.
+    modificados (1):
+      ~ 1_codigo/pro_lateral_ui.py
+
 2026-11-09 14:44  ·  v5.78  ·  cambio explicado
     Escenas completas quitada (el usuario: «elimina esto»): fuera del menú lateral PRO y de Efectos; pro_lateral_ui.QUITADAS (plantillas, broll, escenas) es la lista única y el Estilo 1 la descarta aunque siga en pro_neon_extras. Las marcas manuales del Creativo siguen.
     modificados (2):
