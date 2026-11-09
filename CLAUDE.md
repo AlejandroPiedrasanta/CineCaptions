@@ -23,7 +23,7 @@ Python con dependencias (`$PY`): `6_compilacion/venv315/Scripts/python.exe`.
 <!-- MAPA:INICIO (lo escribe 1_codigo/mapa_codigo.py generar; no lo edites a mano) -->
 - **general** (Visión general del programa): documentacion acoplamientos
 - **ui** (Interfaz Qt: ventana, diseño, rendimiento, ajustes): ventana-paginas fondo-animado liquid-glass ritmo-fps qt-kit ajustes-tema isla-nav aurora recorrido reglas-rendimiento rendimiento-base ui-menores idioma-ui
-- **go** (GO e Inicio (botón, escena, arrastrar un video)): go-inicio estilos-inicio orbe-go arrastrar-video fuente-unica go-progreso go-control go-colocacion-real go-sin-resolve
+- **go** (GO e Inicio (botón, escena, arrastrar un video)): go-inicio estilos-inicio orbe-go arrastrar-video fuente-unica go-progreso go-control go-colocacion-real go-sin-resolve go-premiere
 - **creativo** (Editor Creativo (palabras, Asistencia, Generar)): editor-palabras creativo-ui creativo-vista-tema creativo-detecta-audio
 - **estilos** (Estilos y packs (.drb/.drt, Luxe, Crea tu estilo)): pantalla-estilos estilos-slider packs-drt fuentes generador-packs crea-tu-estilo mezcla-temas tema4 tema5 zona-segura tema5-tipo temas-ligero editar-quitar-pack luxe-packs captions-premium tema6 banner-inspector motions-resolve
 - **bloques** (Bloques de subtítulos (cerebro, estilo por bloque, pausas)): bloques anim-cortos estilo-bloque colgantes

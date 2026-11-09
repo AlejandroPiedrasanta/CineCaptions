@@ -3043,6 +3043,53 @@
       "resumen": "Sin Resolve en el equipo, GO graba el tema elegido (render_temas.py dibuja los 6) (Pillow + PyAV/libx264) en «<video> (CineCaptions).mp4» junto al original"
     },
     {
+      "id": "go-premiere",
+      "grupo": "go",
+      "tema": "GO en Adobe Premiere Pro: el panel CineCaptions (CEP + ExtendScript) coloca video, captions (ProRes 4444 con alfa), sonidos y música",
+      "claves": [
+        "premiere",
+        "adobe",
+        "premiere pro",
+        "cep",
+        "extendscript",
+        "jsx",
+        "panel",
+        "extension",
+        "prores",
+        "alfa",
+        "transparente",
+        "capa",
+        "secuencia",
+        "prproj",
+        "playerdebugmode",
+        "go_premiere"
+      ],
+      "archivos": [
+        "premiere.py",
+        "render_sin_resolve.py",
+        "ajustes_ui.py",
+        "premiere/com.cinecaptions.premiere/jsx/colocar.jsx",
+        "premiere/com.cinecaptions.premiere/js/cc.js"
+      ],
+      "simbolos": [
+        "colocar",
+        "instalar_panel",
+        "preparar",
+        "sonido_de_go",
+        "armar_pedido",
+        "panel_vivo",
+        "renderizar_capa",
+        "planos_yuva10",
+        "componer_rgba",
+        "medir_video",
+        "eventos_sfx",
+        "_go_colocar_premiere",
+        "_preparar_premiere",
+        "_motivo_mp4"
+      ],
+      "resumen": "Ajustes › General «Adobe Premiere Pro en lugar de Resolve» (go_premiere): GO dibuja la capa transparente y el panel de Premiere arma la secuencia (V1 video, V2 captions, A2… sonidos, música)"
+    },
+    {
       "id": "rendimiento-base",
       "grupo": "ui",
       "tema": "Rendimiento y robustez: caché de voz, GPU (CUDA), descargas, cola de fondo, Resolve colgado",

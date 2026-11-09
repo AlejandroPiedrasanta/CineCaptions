@@ -12,6 +12,27 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-09 11:55  ·  v5.77  ·  cambio explicado
+    v5.78 · GO en Adobe Premiere Pro (pedido del usuario: opción en Ajustes > General para que GO coloque todo en Premiere como en Resolve). Premiere no tiene API externa: panel CEP propio (2_recursos/premiere) con ExtendScript que lee una cola de archivos; premiere.py lo instala (PlayerDebugMode, va sin firmar) y le pasa el pedido. Los captions van como capa ProRes 4444 con alfa (render_sin_resolve.renderizar_capa, mismo dibujo que GO sin Resolve) porque los estilos son macros de Fusion que no existen en Premiere; sonidos y música son los mismos que recibiría Resolve (premiere.sonido_de_go). Conversión a YUV con numpy: el reformat de PyAV/swscale estropeaba el alfa en el borde izquierdo. Probado con un Premiere simulado en Node que corre el panel real; sin probar en un Premiere real (no instalado aquí) ni en Mac.
+    nuevos (6):
+      + 1_codigo/premiere.py
+      + 2_recursos/premiere/com.cinecaptions.premiere/CSXS/manifest.xml
+      + 2_recursos/premiere/com.cinecaptions.premiere/fondo.html
+      + 2_recursos/premiere/com.cinecaptions.premiere/index.html
+      + 2_recursos/premiere/com.cinecaptions.premiere/js/cc.js
+      + 2_recursos/premiere/com.cinecaptions.premiere/jsx/colocar.jsx
+    modificados (10):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/render_sin_resolve.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 3_compilar/cinecaptions.spec
+      ~ 3_compilar/traducciones_extra.json
+
 2026-11-09 11:21  ·  v5.77  ·  (automático)
     modificados (34):
       ~ 1_codigo/ajustes_ui.py

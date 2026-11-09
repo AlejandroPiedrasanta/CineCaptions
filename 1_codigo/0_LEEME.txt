@@ -302,6 +302,8 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         Efectos › «Captions detrás de ti» › Posición con el diseño nuevo (v5.32): cabecera, visor, panel y tira.
     posiciones_pro.py
         «Posición» de cada efecto de la Edición PRO: el usuario marca en la línea de tiempo de SU video (con sus
+    premiere.py
+        GO en Adobe Premiere Pro (v5.78): el panel CineCaptions de Premiere coloca el video, los captions y los sonidos.
     preparar_efectos.py
         herramienta de desarrollo: convierte las imágenes de iconos sobre fondo blanco en SPRITES con transparencia (uno por icono).
     pro_lateral_ui.py
