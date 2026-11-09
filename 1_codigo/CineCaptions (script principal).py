@@ -7776,9 +7776,7 @@ class SubtitleApp(QWidget):
             menu.agregar(marca + tr(nombre), lambda c=clave: self._poner_pro_go('pro_densidad', c))
         menu.separador()
         menu.agregar('      ' + tr('Otra combinación de colores y tipografías'), lambda: self._poner_pro_go('pro_variacion', int(op.get('pro_variacion') or 0) + 1))
-        internet = bool(op.get('pro_internet', True))         # v5.5.3: fotos de internet con licencia en las escenas (fuentes_web)
-        menu.agregar(('✓  ' if internet else '      ') + tr('Fotos de internet con licencia (B-roll)'), lambda: self._poner_pro_go('pro_internet', not internet))
-        menu.mostrar(QCursor.pos())
+        menu.mostrar(QCursor.pos())                     # (v5.78: sin «Fotos de internet (B-roll)»: el B-roll con fotos se quitó)
     def _alternar_sfx_go(self):
         try:
             import ajustes_ui

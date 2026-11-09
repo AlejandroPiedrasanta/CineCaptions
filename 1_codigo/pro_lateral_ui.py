@@ -75,7 +75,8 @@ def opciones_visibles():
     """Las que se enseñan: «Captions detrás de ti» con cualquier Resolve, Free o Studio (v5.58; de la 5.5.20 a la 5.57, solo Studio); en el
     video MP4 sin Resolve no se enseña (la persona recortada va en el timeline de Resolve)."""
     cr = _con_resolve()
-    return [o for o in OPCIONES if (cr or not o.get('con_resolve')) and o['clave'] != 'plantillas']   # v5.20: «Plantillas por frase» quitado (el usuario lo pidió)
+    # v5.20: «Plantillas por frase» quitado · v5.78: «B-roll con fotos» quitado del menú y de Efectos (el usuario: «elimina esto»)
+    return [o for o in OPCIONES if (cr or not o.get('con_resolve')) and o['clave'] not in ('plantillas', 'broll')]
 
 
 def _pref_niveles(clave):
