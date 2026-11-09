@@ -9,6 +9,8 @@ Resolve, que coloca todo en el timeline».
 Premiere no tiene una API que se pueda llamar desde fuera (Resolve sí: MCP / fusionscript). Lo que sí tiene es ExtendScript dentro de un
 panel CEP. Así que:
 
+  0. Ajustes › General: «Usar con Premiere Pro» (pref `go_premiere`), excluyente con «Usar con DaVinci Resolve» (de fábrica) y «Video sin
+     editores (DaVinci y Premiere)» (`go_salida_mp4`).
   1. `instalar_panel()` copia `2_recursos/premiere/com.cinecaptions.premiere` (un panel CEP: index.html + fondo.html + jsx/colocar.jsx)
      en la carpeta de extensiones del usuario y enciende `PlayerDebugMode` en CSXS.9-13 (el panel no va firmado; sin eso Premiere no lo
      carga). Premiere lo carga al ARRANCAR: si ya estaba abierto, hay que reiniciarlo una vez.
@@ -360,7 +362,7 @@ def colocar(pedido, cancelado=None, aviso=None, espera_abrir_s=ESPERA_ABRIR_S, e
     exe = ejecutable()
     if exe is None and not panel_vivo():
         return {'ok': False, 'causa': 'sin_premiere',
-                'error': 'No encuentro Adobe Premiere Pro en este equipo. Instálalo (o apaga «Adobe Premiere Pro» en Ajustes > General).'}
+                'error': 'No encuentro Adobe Premiere Pro en este equipo. Instálalo (o elige «Usar con DaVinci Resolve» en Ajustes > General).'}
     estaba_abierto = abierto()
     id_pedido = enviar(pedido)
     if not panel_vivo():

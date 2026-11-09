@@ -8333,10 +8333,10 @@ class SubtitleApp(QWidget):
             return
         if self._go_sin_resolve:
             if getattr(self, '_go_motivo', None) == 'premiere':
-                self._go_fallo('timeline', tr('Tienes encendido «Adobe Premiere Pro en lugar de Resolve» (Ajustes > General). Suelta un video en CineCaptions y pulsa GO: lo coloco en Premiere Pro.'))
+                self._go_fallo('timeline', tr('Tienes elegido «Usar con Premiere Pro» (Ajustes > General). Suelta un video en CineCaptions y pulsa GO: lo coloco en Premiere Pro.'))
                 return
-            if self._motivo_mp4() == 'ajuste':      # v5.71: con Resolve instalado y «Video MP4» encendido, no decir «No hay DaVinci Resolve»
-                self._go_fallo('timeline', tr('Tienes encendido «Video MP4 en lugar de Resolve» (Ajustes > General). Suelta un video en CineCaptions y pulsa GO, o apágalo para trabajar con el timeline de Resolve.'))
+            if self._motivo_mp4() == 'ajuste':      # v5.71: con Resolve instalado y el video sin editores elegido, no decir «No hay DaVinci Resolve»
+                self._go_fallo('timeline', tr('Tienes elegido «Video sin editores (DaVinci y Premiere)» (Ajustes > General). Suelta un video en CineCaptions y pulsa GO, o elige «Usar con DaVinci Resolve» para trabajar con el timeline de Resolve.'))
                 return
             self._go_fallo('timeline', tr('No hay DaVinci Resolve en este equipo. Suelta un video en CineCaptions y pulsa GO: te lo devuelvo con los subtítulos puestos.'))
             return
@@ -8431,15 +8431,17 @@ class SubtitleApp(QWidget):
                                diagnostico=diag)
         _correr_en_hilo(self, trabajo, fin)
     def _motivo_mp4(self):
-        """Por qué GO entregaría AHORA un MP4 con los subtítulos grabados en vez de colocarlos en Resolve: 'prueba' (CINECAPTIONS_SIN_RESOLVE=1),
-        'ajuste' (Ajustes > General: «Video MP4 en lugar de Resolve», go_salida_mp4), 'sin_resolve' (no está el PROGRAMA DaVinci Resolve ni su MCP;
-        v5.4.48: se mira Resolve.exe / la app, no la carpeta de ajustes que queda al desinstalar) o None. Barato: prefs y existencia de archivos."""
+        """Por qué GO NO coloca AHORA en Resolve: 'prueba' (CINECAPTIONS_SIN_RESOLVE=1: MP4), 'premiere' (Ajustes > General «Usar con Premiere
+        Pro», go_premiere: premiere.py), 'ajuste' (Ajustes > General «Video sin editores (DaVinci y Premiere)», go_salida_mp4: MP4; hasta la 5.77
+        «Video MP4 en lugar de Resolve»), 'sin_resolve' (no está el PROGRAMA DaVinci Resolve ni su MCP: MP4; v5.4.48: se mira Resolve.exe / la
+        app, no la carpeta de ajustes que queda al desinstalar) o None. Ajustes deja solo uno de los dos encendido; si hubiera dos, gana Premiere.
+        Barato: prefs y existencia de archivos."""
         if os.environ.get('CINECAPTIONS_SIN_RESOLVE') == '1':
             return 'prueba'
         try:
             import ajustes_ui
             prefs_go = ajustes_ui.leer_prefs()
-            if prefs_go.get('go_premiere'):          # v5.78: Ajustes > General «Adobe Premiere Pro en lugar de Resolve» (premiere.py)
+            if prefs_go.get('go_premiere'):
                 return 'premiere'
             if prefs_go.get('go_salida_mp4'):
                 return 'ajuste'
@@ -8458,9 +8460,9 @@ class SubtitleApp(QWidget):
         motivo = self._motivo_mp4()
         self._go_motivo = motivo
         if motivo == 'premiere':
-            registro.info(tr('GO coloca en Adobe Premiere Pro (Ajustes > General: «Adobe Premiere Pro en lugar de Resolve»).'), 'GO')
+            registro.info(tr('GO coloca en Adobe Premiere Pro (Ajustes > General: «Usar con Premiere Pro»).'), 'GO')
         elif motivo == 'ajuste':
-            registro.info(tr('GO entrega un video MP4 (Ajustes > General: «Video MP4 en lugar de Resolve»).'), 'GO')
+            registro.info(tr('GO entrega un video MP4 (Ajustes > General: «Video sin editores (DaVinci y Premiere)»).'), 'GO')
         elif motivo == 'sin_resolve':
             registro.info(tr('No encuentro DaVinci Resolve en este equipo: GO entrega el video con los subtítulos grabados.'), 'GO')
         return motivo is not None

@@ -3087,7 +3087,7 @@
         "_preparar_premiere",
         "_motivo_mp4"
       ],
-      "resumen": "Ajustes › General «Adobe Premiere Pro en lugar de Resolve» (go_premiere): GO dibuja la capa transparente y el panel de Premiere arma la secuencia (V1 video, V2 captions, A2… sonidos, música)"
+      "resumen": "Ajustes › General: uno de tres (Usar con DaVinci Resolve · Usar con Premiere Pro = go_premiere · Video sin editores = go_salida_mp4); con Premiere GO dibuja la capa transparente y el panel arma la secuencia (V1 video, V2 captions, A2… sonidos, música)"
     },
     {
       "id": "rendimiento-base",
