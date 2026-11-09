@@ -1,29 +1,29 @@
 {
   "estable": {
-    "version": "5.77.0",
-    "notas": "• Zona segura también en la Edición PRO: en videos verticales, los gráficos, títulos y etiquetas ya no quedan debajo de la barra de búsqueda, los botones ni la descripción de TikTok, Reels y Shorts.",
+    "version": "5.78.0",
+    "notas": "• Adobe Premiere Pro: elige «Usar con Premiere Pro» en Ajustes › General y GO coloca todo en Premiere como en Resolve, en una secuencia nueva: tu video, los subtítulos del estilo elegido encima (con sus emojis), los sonidos en sus pistas y la música. Si Premiere está cerrado, se abre solo.\r\n• En Ajustes › General eliges con qué trabaja GO, uno a la vez: «Usar con DaVinci Resolve» (de fábrica), «Usar con Premiere Pro» o «Video sin editores (DaVinci y Premiere)», el antiguo «Video MP4 en lugar de Resolve».\r\n• Inicio dice con qué editor trabaja GO: con Premiere Pro, si está conectado, cerrado o sin instalar, como hace con DaVinci Resolve.\r\n• Librerías al día: motores de voz e IA con transformers 5.22.2 y las últimas de click, filelock, regex y typer; animaciones de la Edición PRO con Remotion 4.0.542. Lo demás ya estaba en su última versión.",
     "fecha": "2026-11-09",
     "archivos": {
       "windows": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.77/Instalar_CineCaptions_5.77.exe",
-        "sha256": "6ed4d1bd330dbe79caaa0134956a1e6fffc36d83484199967478d247c67e2ff5",
-        "tam": 591673282
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.78/Instalar_CineCaptions_5.78.exe",
+        "sha256": "ef149836db997329184050920e12782e77a4077672c3646efd2a77ce8bf48f4b",
+        "tam": 586580254
       },
       "mac_arm64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.77/CineCaptions_Mac_AppleSilicon_5.77.dmg",
-        "sha256": "128880b9f357b0a3bea3591b3fa58a6654704eb612c8aa621e10f23353895a04",
-        "tam": 569780162
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.78/CineCaptions_Mac_AppleSilicon_5.78.dmg",
+        "sha256": "a8f2488cdd490a7f306beb8bd25130fd7f9ad9435702ddc0a3a8a77583c3f673",
+        "tam": 564341488
       },
       "mac_x86_64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.77/CineCaptions_Mac_Intel_5.77.dmg",
-        "sha256": "31f365b2eeeea22725eff53dbe85eb9ffb6e7d1ea95aef44a1dab34602faf462",
-        "tam": 594646151
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.78/CineCaptions_Mac_Intel_5.78.dmg",
+        "sha256": "3c99be5d7995b0266bebc420e4f2faf0b83187414ca48ef152826c421e8fb92c",
+        "tam": 589370608
       }
     }
   },
   "firma": {
     "alg": "ed25519",
     "clave": "7a4e413e",
-    "valor": "cvFrfOCK6dBpAwFMk2Ag/z5fEZadBFTAU8ye2vrr/pjpiZa3BO85xk3HQL463XhzWskbkBexen6/UE00Uhc5Ag=="
+    "valor": "Vx0PKQOA+ZoPQlqXwj1or81kQUFBcg7nEXIUVoYziKGnra/Zy+Eevj19u85vSkuNpvn9jTiN8bW5XJGqWYrQDw=="
   }
 }
