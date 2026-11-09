@@ -12,6 +12,12 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-09 14:44  ·  v5.78  ·  cambio explicado
+    Escenas completas quitada (el usuario: «elimina esto»): fuera del menú lateral PRO y de Efectos; pro_lateral_ui.QUITADAS (plantillas, broll, escenas) es la lista única y el Estilo 1 la descarta aunque siga en pro_neon_extras. Las marcas manuales del Creativo siguen.
+    modificados (2):
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/pro_lateral_ui.py
+
 2026-11-09 14:39  ·  v5.78  ·  cambio explicado
     B-roll con fotos quitado (el usuario: «elimina esto»): fuera del menú lateral PRO (opciones_visibles) y por eso de la página Efectos; el Tema 1 lo ignora aunque siga en pro_neon_extras y el menú del chip PRO de Inicio ya no ofrece «Fotos de internet (B-roll)». Las marcas manuales de B-roll del Creativo siguen.
     modificados (3):
