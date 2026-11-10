@@ -311,6 +311,24 @@ verdad). `REVISION_BIN` 'T5 2' / 'T6 2'.
 
 **Pruebas:** vista del móvil con y sin ajustes, derivado de Crea (letra en las dos, amarillo en la roja, cian en las blancas, contorno y sombra negros), mezcla t7 sola y con t4, y GO de punta a punta sin Resolve (`probar_go_sin_resolve.py --tema Tema7`). Sin GO real en Resolve todavía.
 
+
+## tema8 — Estilo 8 «Ámbar elegante» (v5.80)
+
+**Qué:** el usuario, con un TikTok de referencia (una línea pequeña y elegante; «crea el estilo 8»; eligió la A, fiel; «acuérdate de la zona segura»): cada bloque es UNA línea centrada de Montserrat Regular ámbar claro (#F2C275) con la palabra clave en Montserrat ExtraBold ámbar (#F6B856), colores medidos en la referencia. Cada palabra entra cuando se dice, subiendo un poco, enfocándose y apareciendo en 7 fotogramas; todas se van a la vez.
+
+**Planificador:** `ambar_planificador` (bloques de `tipo_planificador._trozos` / `_sin_colgantes`; la clave = la Principal de Creativo o `tipo_planificador._clave`, y un nombre propio se lleva las palabras con mayúscula de al lado). Tamaño de la referencia («para el tráfico de Guatemala» = 60 % del ancho), línea de base al 70,5 % del alto, la línea dentro de la zona segura (si no cabe, se achica). K_PX 707,1 (Montserrat, medido en Resolve). Cada run lleva `sin_cola` y la clave `principal`.
+
+**Pack y colocador:** pack `Tema8` (`pack_viral.py --tema8`, «guion»: «viral») con «v ambar» / «v ambar clave» (`viral_elementos.comp_ambar`: sombra suave, Blur de entrada). `run.sin_cola`: el colocador (`CineCaptions_Subtitulos.lua` y su gemelo `CineCaptions.py`) no le pone el mínimo de 0,45 s ni la cola, como a `exacto`: la última palabra no tapa el bloque siguiente. `REVISION_BIN` «T8 1».
+
+**Dónde más:** `vista_tema` (estilo viral, su planificador, la entrada), `render_temas._elemento_viral` (vista, MP4 y Premiere), «Crea tu estilo» (`mezcla_planificador.TEMAS_ENTEROS` / `PLANIFICADOR_PROPIO`, `p_t8` «Ámbar», `mezcla_vista`), la letra del usuario (`fuente_usuario.es_principal`, `kinetic_captions._espec`). Muestras del slider y de Crea hechas sin Resolve (vista_tema). Falta un GO real en Resolve.
+
+## tema9 — Estilo 9 «Editorial cursiva» (v5.80)
+
+**Qué:** el usuario, con un TikTok de referencia («Polish your *reels* before *posting*»; eligió la A y «el estilo 9 debe estar centrado y abajo», dentro de la zona segura): tres líneas centradas, lo de antes de la clave en Inter Regular fina, la CLAVE grande en DM Serif Text Italic montada sobre la de arriba, y lo de después en Inter con su última palabra en serif cursiva pequeña si dice algo. Blanco con sombra ancha y suave (abajo suele haber fondos claros). Cada palabra entra con un fundido de 8 fotogramas al decirse.
+
+**Planificador:** `editorial_planificador` (mismos bloques y clave que el 8). Maqueta aprobada a 1080 de ancho: palo seco 60 px de em, la grande 172, la serif pequeña 74; la base de la GRANDE es fija (la pila no salta de un bloque a otro) y la línea de abajo acaba justo encima del borde inferior de la zona segura. Lo que no cabe a lo ancho se achica. K_PX: Inter 691, DM Serif 627,8 (medidos en Resolve).
+
+**Pack y colocador:** pack `Tema9` (`pack_viral.py --tema9`) con «v edi» / «v edi serif» (`viral_elementos.comp_edi`); `sin_cola` como el 8; `REVISION_BIN` «T9 1». El resto, como el Estilo 8 (`p_t9` «Serif cursiva» en Crea). Falta un GO real en Resolve.
 ## temas-ligero — Temas 1–4: pase ligero sin la Edición PRO
 
 `edicion_pro_temas.piezas` (v5.4.51): sin activar la PRO, los captions Text+ de los Temas 1–4 se ven mejor: velo oscuro suave detrás de cada

@@ -12,6 +12,56 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-10 01:48  ·  v5.81  ·  cambio explicado
+    5.81: Estilos 8 (una línea ámbar con la clave en negrita, entra subiendo y enfocándose) y 9 (bloque editorial centrado y abajo con la clave grande en serif cursiva), pedidos por el usuario con referencias de TikTok; en «Crea tu estilo» como «Ámbar» y «Serif cursiva»; probados con GO real en Resolve Studio.
+
+2026-11-10 01:45  ·  v5.81  ·  (automático)
+    modificados (32):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/mapa_codigo.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/locales/ru.json
+      ~ 2_recursos/locales/zh.json
+      … y 20 más
+
+2026-11-09 22:43  ·  v5.80  ·  cambio explicado
+    Estilos 8 y 9 nuevos (el usuario: «Sí, créalos», con sus TikToks de referencia). Estilo 8 = una línea pequeña Montserrat ámbar con la clave en ExtraBold (ambar_planificador, pack Tema8 «v ambar»). Estilo 9 = bloque editorial centrado y abajo, Inter fina y la clave grande en DM Serif cursiva (editorial_planificador, pack Tema9 «v edi»). Cada palabra entra al decirse y lleva run['sin_cola'] (colocador .lua/.py sin mínimo ni cola). Dentro de la zona segura. En GO, vista, render, Crea tu estilo (t8/t9, p_t8/p_t9) y slider (muestras sin Resolve).
+    nuevos (18):
+      + 1_codigo/ambar_planificador.py
+      + 1_codigo/editorial_planificador.py
+      + 2_recursos/guia_estilo/crea/p_t8.mp4
+      + 2_recursos/guia_estilo/crea/p_t9.mp4
+      + 2_recursos/plantillas_incluidas/Tema8/Tema8 horizontal.drb
+      + 2_recursos/plantillas_incluidas/Tema8/Tema8 vertical.drb
+      + 2_recursos/plantillas_incluidas/Tema8/pack.json
+      + 2_recursos/plantillas_incluidas/Tema9/Tema9 horizontal.drb
+      + 2_recursos/plantillas_incluidas/Tema9/Tema9 vertical.drb
+      + 2_recursos/plantillas_incluidas/Tema9/pack.json
+      + 2_recursos/vistas_slider/Tema8.jpg
+      + 2_recursos/vistas_slider/Tema8.mp4
+      … y 6 más
+    modificados (24):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/fuente_usuario.py
+      ~ 1_codigo/kinetic_captions.py
+      ~ 1_codigo/mezcla_planificador.py
+      ~ 1_codigo/mezcla_vista.py
+      ~ 1_codigo/pack_personalizado.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/render_temas.py
+      ~ 1_codigo/viral_captions.py
+      ~ 1_codigo/vista_tema.py
+      ~ 2_recursos/generador_packs/pack_viral.py
+      ~ 2_recursos/generador_packs/viral_elementos.py
+      … y 12 más
+
 2026-11-09 21:49  ·  v5.80  ·  cambio explicado
     5.80: el Estilo 7 se va de golpe al acabar cada bloque (blancas y roja a la vez): la blanca tenía la salida de 5 fotogramas y la roja no, y al final del bloque las blancas desaparecían antes (el usuario: «el estilo 7 desaparece palabras»). comp_rojo sin SALIDA (pack Tema7 regenerado, REVISION_BIN T7 2), vista_tema sin salida para «v rojo», render_temas con la capa seca. Muestras del Estilo 7 rehechas.
     modificados (40):

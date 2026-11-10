@@ -1,15 +1,14 @@
 # CineCaptions — leer SOLO esto; lo demás se consulta por demanda
 
-App PySide6 (v5.38, Python 3.15.2) que subtitula vídeos con IA local y los coloca en DaVinci Resolve (Free y Studio, Windows y Mac).
+App PySide6 (v5.81, Python 3.15.2) que subtitula vídeos con IA local y los coloca en DaVinci Resolve (Free y Studio, Windows y Mac).
 Carpetas: `1_codigo` programa · `2_recursos` lo que viaja en el .exe · `3_compilar` · `4_diseno` · `5_SFX` (biblioteca de sonido del autor, 8 GB, fuera de Git; `Desktop\SFX` es un enlace a ella; reglas en su `MAPA_SFX.md`: nunca borrar, mover ni renombrar sonidos) · `6_compilacion` (temporal, no tocar) · `7_mac` · `INSTALADORES/{Windows,Mac}` · `DOCUMENTACION` · `MEDIOS` (icono, renders 4K de Inicio, capturas 4K de las páginas y banners; fuera de Git).
-«Estilo N» de la interfaz (antes «Tema N»; en el código siguen siendo temas) → `id`: 1 `kinetic-planificador` · 2 `guion-planificador` · 3 `viral-planificador` · 4 `tema4` · 5 `tema5` · 6 `tema6` · 7 `tema7`.
+«Estilo N» de la interfaz (antes «Tema N»; en el código siguen siendo temas) → `id`: 1 `kinetic-planificador` · 2 `guion-planificador` · 3 `viral-planificador` · 4 `tema4` · 5 `tema5` · 6 `tema6` · 7 `tema7` · 8 `tema8` · 9 `tema9`.
 Python con dependencias (`$PY`): `6_compilacion/venv315/Scripts/python.exe`.
 
 ## Encontrar algo sin leer archivos (en este orden)
-1. MCP `cinecaptions`: `mapa("palabras")` → temas · `mapa(id="…")` → detalle (largo: índice; `parte="N"`/`"2-4"`/`"palabras"`/`"archivos"`) · `donde("x")` → archivo:línea en una línea · `simbolo("nombre")` → solo esa función (`desde=N` sigue) · `modulo("archivo", filtro=)` · `llamadas("nombre")` → quién la usa (`sentido="sale"`: a qué llama; `niveles=3`: qué se rompe si la cambias) · `ruta("A","B")` · `cambios(n)` · `resumen()`.
-   Sin MCP: `$PY 1_codigo/mapa_codigo.py mapa|tema|donde|simbolo|modulo|llamadas|ruta|cambios <x>` (`tema <id> <parte>`).
+1. MCP `cinecaptions` (ToolSearch «cinecaptions» las carga; cada una explica sus opciones): `mapa("palabras")`/`mapa(id=…)` temas · `donde` archivo:línea · `simbolo` solo esa función · `modulo` · `llamadas` quién la usa (`niveles=3`: qué se rompe) · `ruta` · `cambios` · `resumen`. Sin MCP: `$PY 1_codigo/mapa_codigo.py <orden> <x>`.
 2. Si falta: Grep del nombre + Read con `offset`/`limit` (~60 líneas).
-3. NUNCA leer enteros: `CineCaptions (script principal).py` (13 600 líneas), `DOCUMENTACION/{LEEME.txt,REGISTRO_DE_CAMBIOS.txt,historial/}`, `6_compilacion/`, `2_recursos/`, `5_SFX/` (salvo su `MAPA_SFX.md`), `*.drb/.drt`, `.json` de packs, `__pycache__`. Primera vez: `DOCUMENTACION/RESUMEN.md`.
+3. NUNCA leer enteros: `CineCaptions (script principal).py` (~15 600 líneas), `DOCUMENTACION/{LEEME.txt,REGISTRO_DE_CAMBIOS.txt,historial/}`, `6_compilacion/`, `2_recursos/`, `5_SFX/` (salvo su `MAPA_SFX.md`), `*.drb/.drt`, `.json` de packs, `__pycache__`. Primera vez: `DOCUMENTACION/RESUMEN.md`.
 
 ## Al cambiar algo
 - Cambio grande: avisa antes qué archivos tocarás.
@@ -25,7 +24,7 @@ Python con dependencias (`$PY`): `6_compilacion/venv315/Scripts/python.exe`.
 - **ui** (Interfaz Qt: ventana, diseño, rendimiento, ajustes): ventana-paginas fondo-animado liquid-glass ritmo-fps qt-kit ajustes-tema isla-nav aurora recorrido reglas-rendimiento rendimiento-base ui-menores idioma-ui
 - **go** (GO e Inicio (botón, escena, arrastrar un video)): go-inicio estilos-inicio orbe-go arrastrar-video fuente-unica go-progreso go-control go-colocacion-real go-sin-resolve go-premiere
 - **creativo** (Editor Creativo (palabras, Asistencia, Generar)): editor-palabras creativo-ui creativo-vista-tema creativo-detecta-audio
-- **estilos** (Estilos y packs (.drb/.drt, Luxe, Crea tu estilo)): pantalla-estilos estilos-slider packs-drt fuentes generador-packs crea-tu-estilo mezcla-temas tema4 tema5 zona-segura tema5-tipo temas-ligero editar-quitar-pack luxe-packs captions-premium tema6 tema7 banner-inspector motions-resolve
+- **estilos** (Estilos y packs (.drb/.drt, Luxe, Crea tu estilo)): pantalla-estilos estilos-slider packs-drt fuentes generador-packs crea-tu-estilo mezcla-temas tema4 tema5 zona-segura tema5-tipo temas-ligero editar-quitar-pack luxe-packs captions-premium tema6 tema7 tema8 tema9 banner-inspector motions-resolve
 - **bloques** (Bloques de subtítulos (cerebro, estilo por bloque, pausas)): bloques anim-cortos estilo-bloque colgantes
 - **sonido** (Sonido y emojis (SFX Lab, reglas, emojis)): sfx-lab ducking-energia sonido-palabra sonido-emojis sonido-extra sonido-estilo emojis-estilos emojis-posicion-free biblioteca-sonidos emojis-coherentes sonido-pro sonido-biblioteca ai-sound-director
 - **guion** (Estilo «guion» (pack Referencia, palabra a palabra)): guion-planificador creativo-guion estilo-oracion barrido-referencia
@@ -51,11 +50,10 @@ Python con dependencias (`$PY`): `6_compilacion/venv315/Scripts/python.exe`.
 - Interfaz simple: sin toasts ni tooltips (avisos al Registro); en la UI solo «Estilo N» y «estilo», nunca «tema».
 
 ## Ejemplos visuales («dame ejemplos de cómo queda»)
-- Son SOLO propuestas: no se toca el código hasta que el usuario elige una.
-- Siempre REALISTAS: HTML a tamaño real con los recursos de verdad (banner, logo, capas, colores y fuentes del programa o instalador), capturado a PNG con `2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/chrome-headless-shell.exe --headless --force-device-scale-factor=1.5 --window-size=W,H --screenshot=…` y enviado con SendUserFile. Nada de esquemas genéricos.
-- Normalmente 3 (A, B, C); se mantiene el estilo actual salvo que pida otro. Todo en el scratchpad, nunca en el proyecto.
+- Solo propuestas (normalmente A, B, C; estilo actual salvo que pida otro): el código no se toca hasta que elija. Todo en el scratchpad.
+- REALISTAS: HTML a tamaño real con los recursos de verdad (banner, logo, capas, colores, fuentes), a PNG con `2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/chrome-headless-shell.exe --headless --force-device-scale-factor=1.5 --window-size=W,H --screenshot=…` y SendUserFile. Nada de esquemas.
 
 ## Probar (detalle: `mapa(id="pruebas-sin-pantalla")`)
-- **Nada de pruebas dentro de esta carpeta.** Scripts, videos, renders, logs y salidas de prueba van al scratchpad de la sesión (o una carpeta temporal fuera del proyecto). Si algo de prueba tiene que crearse aquí, se BORRA al terminar y se comprueba con `git status --short` que no queda nada suelto.
+- **Nada de pruebas en esta carpeta**: al scratchpad; lo que haya que crear aquí se BORRA al terminar (comprobar con `git status --short`).
 - Sin pantalla: `QT_QPA_PLATFORM=offscreen` y parchear `ajustes_ui.guardar_prefs` (los arneses escriben las prefs REALES).
 - El usuario usa Resolve a la vez: NO `go_real` ni lanzar el Puente en Studio; probar efectos con Resolve simulado. MCP: `probar_video`, `probar_referencia`, `arrastrar_video`, `evaluar` (tras tocar `mcp_cinecaptions.py`, reconectar el MCP).
