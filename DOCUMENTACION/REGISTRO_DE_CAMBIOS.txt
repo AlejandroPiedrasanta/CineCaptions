@@ -12,6 +12,116 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-10 15:42  ·  v5.82  ·  cambio explicado
+    5.82: Estilo 4 nuevo copiado del reel de referencia (ESTILO 7.mp4) con tres alturas MEDIDAS fotograma a fotograma (a ojo no se parecia) y sus motions para la PRO (avion de papel con la trayectoria del ejemplo trasladada, tachado, REC, aro, persianas, zoom con desenfoque, pildora Reflejo rojo); el Corrector se acerca a los captions para ver cada cambio; 4K sin perdida; paginas y fondos mas fluidos (Ajustes construye al abrir); Cancelar inmediato porque el usuario esperaba con 'Resolve tarda en abrirse (intento 2)': las esperas de resolve_mcp se cortan con un evento; tutoriales con voz ElevenLabs (Andre, ~13,5 creditos aprobados) en vez del TTS local de 11,7 GB; arreglos de informes de clientes (aviso de la IA Qwen3 que decia faltan modelos sin ser verdad, WinError 32 en .tmp, arranque trabado 46 s cargando la referencia de Inicio). El cuelgue del Mac 5.78 sigue pendiente de sus registros.
+
+2026-11-10 15:38  ·  v5.82  ·  (automático)
+    modificados (83):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro_persona.py
+      ~ 1_codigo/escena_go.py
+      ~ 1_codigo/herramientas_dev/hacer_videos_tutorial.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/herramientas_dev/voz_tutoriales.py
+      ~ 1_codigo/motor_voz.py
+      ~ 1_codigo/proyecto_ui.py
+      ~ 1_codigo/qt_kit.py
+      ~ 1_codigo/registro_ayuda.py
+      ~ 1_codigo/tareas_instalador.py
+      ~ 1_codigo/version.py
+      … y 71 más
+
+2026-11-10 14:48  ·  v5.81  ·  cambio explicado
+    v5.82 GO real con la PRO (Estilo 4): avión, aro y zoom de entrada colocados y renderizados en Resolve Studio; arreglado que la PRO leía los cortes (t, fuerza) como nada (sin persianas y el zoom pegado a un corte): _cortes_de; el zoom de entrada va justo en un corte o lejos de él, y a 1,5 s de las persianas.
+    modificados (18):
+      ~ 1_codigo/edicion_pro_pila.py
+      ~ 1_codigo/herramientas_dev/probar_go_sin_resolve.py
+      ~ 1_codigo/herramientas_dev/probar_ventanas_humo.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/registro.py
+      ~ 1_codigo/registro_ayuda.py
+      ~ 1_codigo/salud.py
+      ~ 1_codigo/vigilancia.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      … y 6 más
+
+2026-11-10 14:22  ·  v5.81  ·  cambio explicado
+    v5.82 zoom con desenfoque de entrada (último motion de la referencia del Estilo 4, kit:zoom): edicion_pro_pila.entradas_zoom elige hasta 2 entradas de bloque y aplicar las pasa al zoom de la PRO; los gemelos colocar_pro._zoom/_comp_zoom y CineCaptions_EdicionPro.lua poner_zoom/comp_zoom ponen una copia de V1 en PRO-ZOOM (bajo los captions) con Transform 1,12→1 + Blur 16→0 (mismo texto en los dos; probado con Resolve simulado y LuaJIT).
+    modificados (16):
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_pila.py
+      ~ 1_codigo/herramientas_dev/voz_tutoriales.py
+      ~ 1_codigo/motions_catalogo.py
+      ~ 2_recursos/edicion_pro/colocar_pro.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      … y 4 más
+
+2026-11-10 14:07  ·  v5.81  ·  cambio explicado
+    v5.82 motions de la referencia del Estilo 4 en la Edición PRO (con «Kit de motions»): avión de papel con las poses medidas, tachado rojo, visor REC, aro de luz en la cara con mini píldora y persianas en un corte (remotion/src/MotionsPila.tsx + edicion_pro_pila.py, enganchados en edicion_pro.aplicar tras la píldora; carrusel, miniaturas, sonidos y traducciones). Falta el zoom con desenfoque (toca el video).
+    nuevos (32):
+      + 1_codigo/edicion_pro_pila.py
+      + 1_codigo/herramientas_dev/voz_tutoriales.py
+      + 1_codigo/remotion/src/MotionsPila.tsx
+      + 2_recursos/edicion_pro/estilos_pro/pildora_reflejo.jpg
+      + 2_recursos/edicion_pro/estilos_pro/pildora_reflejo.mp4
+      + 2_recursos/edicion_pro/previas_motions/kit_aro.jpg
+      + 2_recursos/edicion_pro/previas_motions/kit_avion.jpg
+      + 2_recursos/edicion_pro/previas_motions/kit_persianas.jpg
+      + 2_recursos/edicion_pro/previas_motions/kit_rec.jpg
+      + 2_recursos/edicion_pro/previas_motions/kit_tachado.jpg
+      + 2_recursos/tutoriales/ayuda.jpg
+      + 2_recursos/tutoriales/ayuda.mp4
+      … y 20 más
+    modificados (88):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/broll.py
+      ~ 1_codigo/crea_estilo_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_escenas.py
+      ~ 1_codigo/edicion_pro_persona.py
+      ~ 1_codigo/edicion_pro_sonido.py
+      ~ 1_codigo/edicion_pro_tema5_mm.py
+      ~ 1_codigo/efectos_pagina.py
+      ~ 1_codigo/efectos_ui.py
+      ~ 1_codigo/efectos_visuales.py
+      … y 76 más
+
+2026-11-10 09:35  ·  v5.81  ·  cambio explicado
+    Corrector: cámara que acerca el móvil a los captions del bloque (sigue al bloque y al reproducir; acercamiento corto al llegar un cambio) para apreciar el cambio; capas rasterizadas 1,75× más finas; resplandor sin corte; demos del Corrector rehechas acercadas con un encuadre por video y móviles ~20 % más grandes (pedido del usuario: «que haga zoom a los captions para apreciar mejor el cambio y en general hazlo mejor todo»).
+
+2026-11-10 09:33  ·  v5.81  ·  cambio explicado
+    Estilo 4 nuevo (sin compilar, pedido del usuario con su referencia: «crea este estilo… y reemplázalo por el Estilo 4»): la pila de tres alturas —arriba lo dicho antes en blanco, la clave grande en lima con brillo, abajo a la derecha lo que sigue— con pila_planificador y el pack Tema4 de elementos («v pila», «v pila peq», «v pila lima»). Letras, sitios, colores, brillo y sombra medidos en 6 bloques de la referencia; las pequeñas se apoyan en la silueta de la grande sin pisarse y la tinta queda dentro de la zona segura. Vista de la app, GO sin Resolve, «Crea tu estilo» («Lima») y muestras al día. tema4_planificador sigue para el Estilo 6.
+    nuevos (2):
+      + 1_codigo/pila_planificador.py
+      + 2_recursos/plantillas_incluidas/Tema4/Tema4 horizontal.drb
+    modificados (39):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/editor_ui.py
+      ~ 1_codigo/estilos_slider.py
+      ~ 1_codigo/herramientas_dev/hacer_demos_corrector.py
+      ~ 1_codigo/kinetic_captions.py
+      ~ 1_codigo/mezcla_planificador.py
+      ~ 1_codigo/mezcla_vista.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/qt_kit.py
+      ~ 1_codigo/render_temas.py
+      ~ 1_codigo/resolve_mcp.py
+      … y 27 más
+    quitados (2):
+      - 2_recursos/plantillas_incluidas/Tema4/Tema4 vertical.posiciones.json
+      - 2_recursos/plantillas_incluidas/Tema4/Tema4 vertical.variantes.json
+
 2026-11-10 01:48  ·  v5.81  ·  cambio explicado
     5.81: Estilos 8 (una línea ámbar con la clave en negrita, entra subiendo y enfocándose) y 9 (bloque editorial centrado y abajo con la clave grande en serif cursiva), pedidos por el usuario con referencias de TikTok; en «Crea tu estilo» como «Ámbar» y «Serif cursiva»; probados con GO real en Resolve Studio.
 
@@ -378,274 +488,6 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
     modificados (2):
       ~ 1_codigo/recorrido_ui.py
       ~ 1_codigo/version.py
-
-2026-11-06 23:00  ·  v5.76  ·  cambio explicado
-    5.76: guía con videos por página (Ajustes › Tutoriales, una vez por versión), zona segura de reels en todos los estilos y en Crea tu estilo, Estilo 5 tipográfico (también principal «Tipografía»), Crea tu estilo rediseñada (previa vertical + Letra/Color), Estilo 2 siempre al centro y sin color en el texto base, y en la interfaz todo se llama «Estilo».
-    modificados (54):
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/director_sonido_capas.py
-      ~ 1_codigo/director_sonido_eventos.py
-      ~ 1_codigo/director_sonido_identidad.py
-      ~ 1_codigo/director_sonido_musica.py
-      ~ 1_codigo/edicion_pro.py
-      ~ 1_codigo/edicion_pro_tema5.py
-      ~ 1_codigo/efectos_pro_ui.py
-      ~ 1_codigo/estilos_pro.py
-      ~ 1_codigo/guion_captions.py
-      ~ 1_codigo/guion_planificador.py
-      ~ 1_codigo/herramientas_dev/hacer_base_t2.py
-      … y 42 más
-    quitados (1329):
-      - 2_recursos/edicion_pro/remotion/bundle/129.bundle.js
-      - 2_recursos/edicion_pro/remotion/bundle/129.bundle.js.map
-      - 2_recursos/edicion_pro/remotion/bundle/161.bundle.js
-      - 2_recursos/edicion_pro/remotion/bundle/161.bundle.js.map
-      - 2_recursos/edicion_pro/remotion/bundle/177.bundle.js
-      - 2_recursos/edicion_pro/remotion/bundle/177.bundle.js.map
-      - 2_recursos/edicion_pro/remotion/bundle/208.bundle.js
-      - 2_recursos/edicion_pro/remotion/bundle/208.bundle.js.map
-      - 2_recursos/edicion_pro/remotion/bundle/226.bundle.js
-      - 2_recursos/edicion_pro/remotion/bundle/226.bundle.js.map
-      - 2_recursos/edicion_pro/remotion/bundle/304.bundle.js
-      - 2_recursos/edicion_pro/remotion/bundle/304.bundle.js.map
-      … y 1317 más
-
-2026-11-06 21:50  ·  v5.75  ·  cambio explicado
-    Zona segura del reel (v5.76): el usuario pidió que todos los estilos y los creados en «Crea tu estilo» respeten la interfaz de TikTok/Reels/Shorts; eligió la propuesta A (13 % arriba, 25 % abajo, 16 % a cada lado, centrada, sin dibujarla). zona_segura.py es la única fuente; cada planificador la usa como su ancho máximo/alto (los Estilos 1 y 2 con AIRE_TINTA porque su dibujo sobresale de lo medido; el 3 cuenta la caja activa; el «Fondo» Amro se achica con un ancho aproximado). La PRO (cara, detrás de ti, escenas, neón, emojis) tampoco saca captions de ella; los gemelos de Resolve repiten los números para los emojis del tema.
-    modificados (10):
-      ~ 1_codigo/edicion_pro.py
-      ~ 1_codigo/edicion_pro_tema5.py
-      ~ 1_codigo/guion_captions.py
-      ~ 1_codigo/guion_planificador.py
-      ~ 1_codigo/kinetic_captions.py
-      ~ 1_codigo/kit_neon.py
-      ~ 1_codigo/linea_planificador.py
-      ~ 1_codigo/zona_segura.py
-      ~ 2_recursos/resolve_scripts/CineCaptions.py
-      ~ 2_recursos/resolve_scripts/CineCaptions_Subtitulos.lua
-
-2026-11-06 21:29  ·  v5.75  ·  cambio explicado
-    Subtítulos en los videos de la guía y de Ajustes › Tutoriales (el usuario eligió el estilo A: una píldora oscura centrada encima de la barra de avance). No van quemados en el mp4: el generador guarda en subtitulos.json el momento real de cada frase (g.texto en el guion) y el reproductor la pinta traducida, así el mismo video vale para los 10 idiomas; 37 frases en 9 idiomas.
-    nuevos (2):
-      + 1_codigo/zona_segura.py
-      + 2_recursos/tutoriales/subtitulos.json
-    modificados (37):
-      ~ 1_codigo/guion_planificador.py
-      ~ 1_codigo/herramientas_dev/hacer_videos_tutorial.py
-      ~ 1_codigo/kinetic_captions.py
-      ~ 1_codigo/kit_neon.py
-      ~ 1_codigo/kit_neon_motions.py
-      ~ 1_codigo/linea_planificador.py
-      ~ 1_codigo/tema4_planificador.py
-      ~ 1_codigo/tipo_planificador.py
-      ~ 1_codigo/tutoriales.py
-      ~ 1_codigo/tutoriales_ui.py
-      ~ 1_codigo/viral_captions.py
-      ~ 2_recursos/locales/de.json
-      … y 25 más
-
-2026-11-06 21:07  ·  v5.75  ·  cambio explicado
-    Guía con video (C1) y Ajustes › Tutoriales (B2), pedido del usuario: un paso por página (Inicio, Estilo, Crea tu estilo, Corrector, Sonido, Efectos, Ajustes) con un video grabado con la interfaz REAL sin pantalla (hacer_videos_tutorial.py: clics de verdad, cursor y cámara); sale sola UNA vez por versión nueva (guia_activa/guia_version, después de las novedades) y se apaga en Ajustes › Tutoriales, que tiene el video grande con la lista de las páginas. Sin toasts: «No volver a mostrar» va al Registro. Videos sin texto encima: la explicación va traducida (9 idiomas).
-    nuevos (19):
-      + 1_codigo/herramientas_dev/hacer_base_t2.py
-      + 1_codigo/herramientas_dev/hacer_videos_tutorial.py
-      + 1_codigo/tutoriales.py
-      + 1_codigo/tutoriales_ui.py
-      + 2_recursos/tutoriales/ajustes.jpg
-      + 2_recursos/tutoriales/ajustes.mp4
-      + 2_recursos/tutoriales/corrector.jpg
-      + 2_recursos/tutoriales/corrector.mp4
-      + 2_recursos/tutoriales/crea.jpg
-      + 2_recursos/tutoriales/crea.mp4
-      + 2_recursos/tutoriales/duraciones.json
-      + 2_recursos/tutoriales/efectos.jpg
-      … y 7 más
-    modificados (24):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/edicion_pro.py
-      ~ 1_codigo/edicion_pro_temas.py
-      ~ 1_codigo/herramientas_dev/hacer_vistas_crea.py
-      ~ 1_codigo/posiciones_pro.py
-      ~ 1_codigo/recorrido_ui.py
-      ~ 1_codigo/tipo_planificador.py
-      ~ 1_codigo/vistas_slider.py
-      ~ 2_recursos/guia_estilo/crea/b_t2.mp4
-      ~ 2_recursos/locales/de.json
-      ~ 2_recursos/locales/en.json
-      … y 12 más
-
-2026-11-06 19:56  ·  v5.75  ·  cambio explicado
-    v5.76 Tema 5 nuevo (pedido: «aplícalo en Tema 5, elimina el estilo del Tema 5, coloca este y mételo en texto principal en Crea tu estilo»): la palabra clave GRANDE (Montserrat Black) y la serif cursiva (DM Serif Italic) que la muerde, palabra a palabra, con bisel y sombra. UN clip «v tipo» por bloque con todo codificado en el texto de su Template (run['codigo']; run['texto'] queda legible porque la PRO «Motions completo» enseñaba el código). El pack Tema5 pasa a ser de elementos (guion viral) con solo ese clip; sus escenas PRO no cambian. En Crea, t5 = motor viral y el principal p_t5 «Tipografía».
-    modificados (45):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/crea_estilo_ui.py
-      ~ 1_codigo/director_sonido_capas.py
-      ~ 1_codigo/director_sonido_diseno.py
-      ~ 1_codigo/director_sonido_eventos.py
-      ~ 1_codigo/director_sonido_identidad.py
-      ~ 1_codigo/director_sonido_musica.py
-      ~ 1_codigo/edicion_pro.py
-      ~ 1_codigo/efectos_pro_ui.py
-      ~ 1_codigo/estilos_pro.py
-      ~ 1_codigo/estilos_slider.py
-      … y 33 más
-
-2026-11-06 19:36  ·  v5.75  ·  cambio explicado
-    Crea tu estilo v5.76: tarjetas sin texto debajo y página rediseñada (pedido del usuario: más moderna, previa vertical a la derecha, Letra y Color que se abren bajo la previa y se ven en ella). El color se ve en vivo tiñendo las previas (son videos de Resolve); la letra no cambia dentro de esos videos, así que la previa escribe la palabra principal con ella.
-    nuevos (2):
-      + 1_codigo/tipo_planificador.py
-      + 1_codigo/tipo_vista.py
-    modificados (26):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/crea_estilo_ui.py
-      ~ 1_codigo/edicion_pro_tema5.py
-      ~ 1_codigo/fuente_usuario.py
-      ~ 1_codigo/mezcla_planificador.py
-      ~ 1_codigo/plantillas.py
-      ~ 1_codigo/render_sin_resolve.py
-      ~ 1_codigo/render_temas.py
-      ~ 1_codigo/vista_tema.py
-      ~ 2_recursos/generador_packs/pack_tema5.py
-      ~ 2_recursos/generador_packs/pack_viral.py
-      ~ 2_recursos/generador_packs/viral_elementos.py
-      … y 14 más
-    quitados (2):
-      - 2_recursos/plantillas_incluidas/Tema5/Tema5 vertical.posiciones.json
-      - 2_recursos/plantillas_incluidas/Tema5/Tema5 vertical.variantes.json
-
-2026-11-06 17:58  ·  v5.75  ·  (automático)
-    modificados (25):
-      ~ 1_codigo/crea_estilo_ui.py
-      ~ 1_codigo/fuente_usuario.py
-      ~ 1_codigo/linea_planificador.py
-      ~ 1_codigo/pack_personalizado.py
-      ~ 1_codigo/version.py
-      ~ 1_codigo/vista_tema.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
-      … y 13 más
-
-2026-11-06 17:57  ·  v5.74  ·  cambio explicado
-    v5.75: prueba real con GO en proyecto temporal (Tema 3 y estilo de Crea tu estilo con la linea); la linea entra de golpe como la caja; notas 5.75 y 40 textos traducidos a 9 idiomas
-    modificados (14):
-      ~ 1_codigo/ajustes_ui.py
-      ~ 1_codigo/plantillas.py
-      ~ 2_recursos/generador_packs/viral_elementos.py
-      ~ 2_recursos/locales/de.json
-      ~ 2_recursos/locales/en.json
-      ~ 2_recursos/locales/fr.json
-      ~ 2_recursos/locales/it.json
-      ~ 2_recursos/locales/ja.json
-      ~ 2_recursos/locales/ko.json
-      ~ 2_recursos/locales/pt.json
-      ~ 2_recursos/locales/ru.json
-      ~ 2_recursos/locales/zh.json
-      … y 2 más
-
-2026-11-06 17:31  ·  v5.74  ·  cambio explicado
-    v5.75: la linea con caja del Tema 3 tambien es texto principal de Crea tu estilo (Tema 3 - Linea): caja azul de fabrica para que se aprecie en la previa y su color lo cambia el color principal de Letra y colores (solo la caja; la letra sigue blanca)
-    nuevos (1):
-      + 2_recursos/guia_estilo/crea/p_t3_linea.mp4
-    modificados (12):
-      ~ 1_codigo/crea_estilo_ui.py
-      ~ 1_codigo/fuente_usuario.py
-      ~ 1_codigo/linea_planificador.py
-      ~ 1_codigo/mezcla_planificador.py
-      ~ 1_codigo/mezcla_vista.py
-      ~ 1_codigo/pack_personalizado.py
-      ~ 1_codigo/plantillas.py
-      ~ 1_codigo/render_temas.py
-      ~ 1_codigo/viral_captions.py
-      ~ 2_recursos/generador_packs/viral_elementos.py
-      ~ 2_recursos/plantillas_incluidas/VIRAL/VIRAL horizontal.drb
-      ~ 2_recursos/plantillas_incluidas/VIRAL/VIRAL vertical.drb
-
-2026-11-06 17:22  ·  v5.74  ·  cambio explicado
-    v5.75: el Tema 3 pasa a ser una sola linea en mayusculas condensadas (Barlow Semi Condensed Bold) con una caja negra de esquinas sutiles que salta de palabra en palabra (pedido del usuario con su referencia); los captions de antes del Tema 3 siguen en Crea tu estilo; la caja dura exactamente su palabra (run exacto en los dos colocadores gemelos)
-    nuevos (3):
-      + 1_codigo/linea_planificador.py
-      + 2_recursos/fonts/BarlowSemiCondensed-Bold.ttf
-      + 2_recursos/plantillas_incluidas/VIRAL/vista/vir_05.jpg
-    modificados (25):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/crea_estilo_ui.py
-      ~ 1_codigo/director_sonido_diseno.py
-      ~ 1_codigo/hacer_vista_viral.py
-      ~ 1_codigo/plantillas.py
-      ~ 1_codigo/recomendaciones.py
-      ~ 1_codigo/render_temas.py
-      ~ 1_codigo/viral_captions.py
-      ~ 1_codigo/vista_tema.py
-      ~ 2_recursos/fonts/LICENCIAS.txt
-      ~ 2_recursos/generador_packs/viral_elementos.py
-      ~ 2_recursos/plantillas_incluidas/VIRAL/VIRAL horizontal.drb
-      … y 13 más
-
-2026-11-06 16:25  ·  v5.74  ·  cambio explicado
-    v5.75: tres textos principales nuevos del Tema 3 para Crea tu estilo copiados de los ejemplos del usuario: Corte (EJEMPLO 2), Giro 3D (EJEMPLO3) y Resaltado (seleccion del iPhone); volumen 2D con la luz arriba a la izquierda; el Follower solo reparte con DelayType 1
-    nuevos (4):
-      + 1_codigo/herramientas_dev/hacer_vistas_crea.py
-      + 2_recursos/guia_estilo/crea/p_t3_corte.mp4
-      + 2_recursos/guia_estilo/crea/p_t3_resalta.mp4
-      + 2_recursos/guia_estilo/crea/p_t3_shine.mp4
-    modificados (32):
-      ~ 1_codigo/crea_estilo_ui.py
-      ~ 1_codigo/director_sonido_diseno.py
-      ~ 1_codigo/mezcla_planificador.py
-      ~ 1_codigo/mezcla_vista.py
-      ~ 1_codigo/plantillas.py
-      ~ 1_codigo/recomendaciones.py
-      ~ 1_codigo/render_temas.py
-      ~ 1_codigo/viral_captions.py
-      ~ 1_codigo/viral_planificador.py
-      ~ 2_recursos/generador_packs/viral_elementos.py
-      ~ 2_recursos/guia_estilo/crea/b_t1_amano.mp4
-      ~ 2_recursos/guia_estilo/crea/b_t1_serif.mp4
-      … y 20 más
-
-2026-11-06 13:29  ·  v5.74  ·  cambio explicado
-    v5.75 «Crea tu estilo» nueva: el usuario dijo que la página estaba horrible y pidió ver los captions animados sobre negro, separar texto base (6, sin repetidos) de textos principales (14, todos con efecto), quitar los que solo cambiaban de color (recetas 1 y 5 del Tema 1 idénticas; estilos 4 y 5 del Tema 2) y una lista con TODAS las letras instaladas para el texto principal. La base pone su letra en arriba y abajo de todos los principales (fuente_secundaria): llevar la línea base entera de un tema a otro pedía tocar los gemelos de Resolve. Previas en 2_recursos/guia_estilo/crea con Reproductor.tam (decodifica al tamaño de la tarjeta; ancho múltiplo de 16 por un fallo de PyAV 19 a 290/292 px).
-    nuevos (20):
-      + 2_recursos/guia_estilo/crea/b_t1_amano.mp4
-      + 2_recursos/guia_estilo/crea/b_t1_serif.mp4
-      + 2_recursos/guia_estilo/crea/b_t2.mp4
-      + 2_recursos/guia_estilo/crea/b_t3.mp4
-      + 2_recursos/guia_estilo/crea/b_t4.mp4
-      + 2_recursos/guia_estilo/crea/b_t6.mp4
-      + 2_recursos/guia_estilo/crea/p_t1_circulo.mp4
-      + 2_recursos/guia_estilo/crea/p_t1_subrayado.mp4
-      + 2_recursos/guia_estilo/crea/p_t2_editorial.mp4
-      + 2_recursos/guia_estilo/crea/p_t2_fire.mp4
-      + 2_recursos/guia_estilo/crea/p_t2_highlight.mp4
-      + 2_recursos/guia_estilo/crea/p_t2_impacto.mp4
-      … y 8 más
-    modificados (4):
-      ~ 1_codigo/CineCaptions (script principal).py
-      ~ 1_codigo/crea_estilo_ui.py
-      ~ 1_codigo/mezcla_planificador.py
-      ~ 1_codigo/vistas_slider.py
-
-2026-11-06 12:08  ·  v5.74  ·  (automático)
-    modificados (20):
-      ~ 1_codigo/version.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
-      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
-      ~ 2_recursos/resolve_scripts/CineCaptions.py
-      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
-      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
-      … y 8 más
 
 
 (Lo anterior está archivado por mes en DOCUMENTACION/historial/REGISTRO_<aaaa-mm>.txt)

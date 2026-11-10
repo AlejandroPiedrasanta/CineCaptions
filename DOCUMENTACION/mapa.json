@@ -227,18 +227,33 @@
     "animado",
     "aurora",
     "tarjetas",
-    "entrada"
+    "entrada",
+    "fluidez",
+    "tapado",
+    "capas",
+    "grano",
+    "preciso"
    ],
    "archivos": [
     "efectos_ui.py",
-    "mograf_ui.py"
+    "mograf_ui.py",
+    "proyecto_ui.py",
+    "estilos_slider.py",
+    "efectos_pagina.py"
    ],
    "simbolos": [
     "FondoVivo",
     "entrada_escalonada",
-    "_EfectoEntrada"
+    "_EfectoEntrada",
+    "tapar_con",
+    "_tapado",
+    "_grano_real",
+    "_capas_quietas",
+    "_repintar_tic",
+    "refrescar_vista",
+    "_repartir_vidrio"
    ],
-   "resumen": "efectos_ui.FondoVivo, mograf_ui.entrada_escalonada"
+   "resumen": "efectos_ui.FondoVivo (tapar_con: no se pinta tapado), mograf_ui.entrada_escalonada; v5.82 fluidez: slider por capas, Efectos solo la imagen, grano real, relojes precisos"
   },
   {
    "id": "estilos-inicio",
@@ -625,9 +640,12 @@
     "texto_acento",
     "_elegir_fondo",
     "_elegir_estilo",
-    "_cielo_negro"
+    "_cielo_negro",
+    "VentanaAjustes",
+    "_ir_a_pestana",
+    "_armar_pagina"
    ],
-   "resumen": "ajustes_ui.py, tema.py · v5.63: negro + blanco de fábrica (Fondo de la interfaz: Negro / Azul), texto oscuro sobre el acento claro"
+   "resumen": "ajustes_ui.py, tema.py · v5.63: negro + blanco de fábrica (Fondo de la interfaz: Negro / Azul), texto oscuro sobre el acento claro · v5.82: Ajustes arma cada página al elegirla (el clic, ~260 → ~55 ms)"
   },
   {
    "id": "version",
@@ -976,19 +994,67 @@
   {
    "id": "tema4",
    "grupo": "estilos",
-   "tema": "Tema 4 («Captions limpios»: recuadro, tres tamaños, palabras una a una)",
+   "tema": "Estilo 4 (v5.82): la pila de tres alturas de la referencia del usuario: arriba lo de antes en blanco, la clave grande en lima con brillo, abajo a la derecha lo que sigue (clips «v pila»; GO, Crea tu estilo, vistas)",
    "claves": [
-    "tema",
-    "4",
+    "tema 4",
+    "estilo 4",
     "tema4",
-    "limpio",
+    "pila",
+    "pila lima",
+    "v pila",
+    "lima",
+    "tres alturas",
+    "p_t4",
+    "t4",
+    "sin_cola",
+    "silueta"
+   ],
+   "archivos": [
+    "pila_planificador.py",
+    "2_recursos/generador_packs/viral_elementos.py",
+    "2_recursos/generador_packs/pack_viral.py",
+    "render_temas.py",
+    "vista_tema.py",
+    "mezcla_planificador.py",
+    "mezcla_vista.py",
+    "kinetic_captions.py",
+    "viral_captions.py",
+    "plantillas.py",
+    "2_recursos/resolve_scripts/CineCaptions_Subtitulos.lua",
+    "2_recursos/resolve_scripts/CineCaptions.py"
+   ],
+   "simbolos": [
+    "planificar",
+    "maquetar",
+    "_grande",
+    "_clave",
+    "_frases",
+    "_letra_peq",
+    "_perfil",
+    "comp_pila",
+    "_difuso",
+    "construir_tema4",
+    "PLANIFICADOR_PROPIO",
+    "_generar_con_kinetic"
+   ],
+   "resumen": "v5.82: pack Tema4 (guion viral) con «v pila», «v pila peq» y «v pila lima»; pila_planificador (bloques ≤ 7 palabras, la clave en medio, tres alturas con la letra de cada línea pequeña medida en la referencia y apoyadas en la silueta de la grande, dentro de la zona segura); run['sin_cola']; muestras hechas sin Resolve.",
+   "titulo": "Estilo 4 · Pila lima"
+  },
+  {
+   "id": "tema4-recuadro",
+   "grupo": "estilos",
+   "tema": "El Estilo 4 de antes («Captions limpios»: recuadro, tres tamaños, palabras una a una); su planificador sigue para el Estilo 6",
+   "claves": [
+    "captions limpios",
     "recuadro",
+    "tema4_planificador",
+    "limpio",
     "inter",
     "brillo",
     "glow",
-    "referencia",
     "TEMA",
-    "palabras"
+    "palabras",
+    "estilo 6"
    ],
    "archivos": [
     "tema4_planificador.py",
@@ -1013,7 +1079,7 @@
     "_cortes_oracion",
     "_empieza_oracion"
    ],
-   "resumen": "tema4_planificador (bloques, tamaños, recuadro) + pack_tema4 (Inter Bold, brillo) + probar_tema4 (render por tramos en Resolve Free)"
+   "resumen": "tema4_planificador (bloques, tamaños, recuadro; lo usan el Estilo 6 y render_sin_resolve) + pack_tema4 (ya no se entrega: el Estilo 4 es la pila desde la 5.82) + probar_tema4 (render por tramos en Resolve Free)"
   },
   {
    "id": "tema5",
@@ -1700,6 +1766,59 @@
    "resumen": "_soltar_archivo, _go, resolve_mcp.preparar_proyecto/crear_timeline_con_video"
   },
   {
+   "id": "nitidez-4k",
+   "grupo": "go",
+   "tema": "Nitidez en 4K y 5K: todo a la resolución del timeline o del video (v5.82)",
+   "claves": [
+    "4k",
+    "5k",
+    "uhd",
+    "nitidez",
+    "calidad",
+    "resolucion",
+    "escalon",
+    "estirado",
+    "zoom",
+    "recorte",
+    "broll",
+    "fotos"
+   ],
+   "archivos": [
+    "resolve_mcp.py",
+    "edicion_pro_persona.py",
+    "kit_neon_mp4.py",
+    "kit_neon_motions.py",
+    "edicion_pro_tema5_mm.py",
+    "motions_completo.py",
+    "broll.py",
+    "render_sin_resolve.py",
+    "resolve_scripts/CineCaptions_ArmarVideo.lua",
+    "edicion_pro_escenas.py",
+    "resolve_scripts/CineCaptions.py",
+    "resolve_scripts/CineCaptions_Subtitulos.lua"
+   ],
+   "simbolos": [
+    "tamano_timeline",
+    "ESCALONES_TIMELINE",
+    "TOPE_TIMELINE_STUDIO",
+    "TOPE_TIMELINE_FREE",
+    "lado_recorte",
+    "mascara_guardada",
+    "_tamano",
+    "_lado_foto",
+    "_ESCALA_IMG",
+    "_escala_fotos",
+    "_alto_fotos",
+    "_puntos_tam",
+    "_sprite_emoji",
+    "_abrir_codificador",
+    "escala_video",
+    "agrandar_sin_zoom",
+    "AGRANDAR_LUXE"
+   ],
+   "resumen": "timeline de GO al escalón del video (tamano_timeline); recorte, MP4 del Estilo 1, fotos de la PRO y B-roll a la resolución del timeline"
+  },
+  {
    "id": "estilo-oracion",
    "grupo": "guion",
    "tema": "Estilo por oración y animación de Amro en «guion»",
@@ -1830,7 +1949,7 @@
   {
    "id": "recorrido",
    "grupo": "ui",
-   "tema": "La guía con video y Ajustes › Tutoriales (v5.76)",
+   "tema": "La guía con video y Ajustes › Tutoriales (v5.76; voz y «paso a paso» en la v5.82)",
    "claves": [
     "recorrido",
     "tour",
@@ -1842,14 +1961,22 @@
     "tutoriales",
     "video",
     "version",
-    "onboarding"
+    "onboarding",
+    "voz",
+    "locucion",
+    "narracion",
+    "tts",
+    "elevenlabs",
+    "higgsfield",
+    "altavoz"
    ],
    "archivos": [
     "recorrido_ui.py",
     "tutoriales.py",
     "tutoriales_ui.py",
     "ajustes_ui.py",
-    "herramientas_dev/hacer_videos_tutorial.py"
+    "herramientas_dev/hacer_videos_tutorial.py",
+    "herramientas_dev/voz_tutoriales.py"
    ],
    "simbolos": [
     "Paso",
@@ -1870,9 +1997,16 @@
     "PanelTutoriales",
     "_pag_tutoriales",
     "Grabadora",
-    "Guion"
+    "Guion",
+    "_Voz",
+    "_sincronizar_voz",
+    "ruta_voz",
+    "voz_activa",
+    "montar_voz",
+    "duracion_voz",
+    "GRUPOS"
    ],
-   "resumen": "guía C1 (tira con video bajo la zona, 7 páginas) una vez por versión nueva; Ajustes › Tutoriales B2 (video grande + lista); videos grabados con la interfaz real sin pantalla; subtítulos A pintados por el reproductor (subtitulos.json, traducidos)"
+   "resumen": "guía C1 (tira con video bajo la zona, 7 páginas) una vez por versión nueva; Ajustes › Tutoriales B2 (video grande + lista de 12 en dos grupos); videos grabados con la interfaz real sin pantalla; subtítulos A pintados por el reproductor (subtitulos.json, traducidos); v5.82: locución de ElevenLabs (conector de Higgsfield, voz Andre, enérgica; voz_tutoriales.py --motor archivos) en voz/es/<id>.m4a, sincronizada (g.decir) y con altavoz"
   },
   {
    "id": "fluidez-resolve",
@@ -5076,6 +5210,67 @@
     "quitar"
    ],
    "resumen": "Emojis SOLO con la Edición PRO y su opción «Emojis animados», en todos los temas (v5.54: emojis_del_tema / _emojis_permitidos; antes solo el Tema 2). v5.55: un solo juez edicion_pro.emojis_permitidos (pro_emojis APAGADO de fábrica; Tema 1: «emoji» de pro_neon_extras), la decisión viaja en plan['emojis'] (emojis_del_plan; el pase ligero, nunca), quitar_emojis limpia las piezas de la PRO (EmojiPro, píldoras sticker/saludo, equipo T6, plantillas con sticker, ConceptoK, AbanicoK, pictograma) y acompanantes/T6.elementos/motions_completo reciben con_emojis; Creativo (vista, Comprobar en Resolve, Asistencia) igual. Opción «Emojis animados» del menú de la PRO (píldora Suave/Media/Fuerte) y sección de Efectos con Automático + 5 estilos 2D Lottie (Google Noto, CC BY 4.0) y 5 3D (PNG Fluent movidos en 3D), «Dónde» (auto/lado/encima/cabeza) e «Intensidad»; edicion_pro._emojis_pro saca el emoji de la palabra dicha, lo pone junto al caption sin tapar caras ni otros gráficos y apaga el emoji del tema ahí; render con Remotion EmojiPro (alfa) en la pista de iconos."
+  },
+  {
+   "id": "motions-pila",
+   "grupo": "efectos",
+   "tema": "Motions de la referencia del Estilo 4 en la PRO: avión de papel, tachado rojo, visor REC, aro de luz en la cara, persianas y zoom con desenfoque de entrada (con «Kit de motions»)",
+   "claves": [
+    "avión de papel",
+    "avion",
+    "flecha",
+    "tachado",
+    "tachar",
+    "visor rec",
+    "rec",
+    "grabar",
+    "aro",
+    "anillo",
+    "aro en la cara",
+    "persianas",
+    "cortinilla",
+    "estilo 4",
+    "pila lima",
+    "referencia del estilo 4",
+    "kit de motions",
+    "motions nuevos",
+    "zoom de entrada",
+    "zoom con desenfoque",
+    "desenfoque",
+    "pro-zoom"
+   ],
+   "archivos": [
+    "edicion_pro_pila.py",
+    "remotion/src/MotionsPila.tsx",
+    "remotion/src/Root.tsx",
+    "edicion_pro.py",
+    "motions_catalogo.py",
+    "edicion_pro_sonido.py",
+    "herramientas_dev/hacer_previas_motions.py",
+    "2_recursos/edicion_pro/colocar_pro.py",
+    "resolve_scripts/CineCaptions_EdicionPro.lua"
+   ],
+   "simbolos": [
+    "piezas",
+    "_avion",
+    "_tachado",
+    "_rec",
+    "_aro",
+    "_persianas",
+    "_capa_libre",
+    "_caja",
+    "AvionPapel",
+    "VisorRec",
+    "TachadoRojo",
+    "AroCara",
+    "Persianas",
+    "entradas_zoom",
+    "_zoom",
+    "_comp_zoom",
+    "poner_zoom",
+    "comp_zoom"
+   ],
+   "resumen": "edicion_pro_pila.piezas en aplicar (tras la píldora): uno de cada, anclados a los captions ya movidos, a las caras y a los cortes; el zoom de entrada va al `zoom` de la PRO (gemelos colocar_pro / EdicionPro.lua)"
   },
   {
    "id": "sonido-biblioteca",
