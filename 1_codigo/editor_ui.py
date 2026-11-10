@@ -615,188 +615,84 @@ class MuestraPalabras(QWidget):
         return QSize(int(sum(r.width() + self.HUECO for r, _p, _r in self._cajas(fm)) + 4), int(self.ALTO))
 
 
-class _MedioPrincipal(QWidget):
-    """El centro de DemoPrincipal: el pincel «Principal», la fila «truco que nadie te cuenta» y la flecha hacia el video de después. Bucle de
-    CICLO s: el puntero va a «nadie», la toca (una onda) y la palabra se pinta de ámbar de izquierda a derecha; la flecha late; vuelve a
-    empezar. Quieta (pintada, sin puntero) con «Reducir animaciones». La repinta el reloj de DemoPrincipal."""
-    PALABRAS = ('truco', 'que', 'nadie', 'te', 'cuenta')
-    OBJ = 2
-    CICLO = 5.0
-
-    def __init__(self, padre=None):
-        super().__init__(padre)
-        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
-        self.t0 = time.perf_counter()
-        self.quieto = False
-
-    def _estado(self):
-        if self.quieto:
-            return {'puntero': None, 'onda': None, 'pintado': 1.0, 'flecha': 1.0}
-        u = (time.perf_counter() - self.t0) % self.CICLO
-        apagar = 1.0 - _tramo(u, 4.4, 4.9)
-        onda = (u - 1.3) / 0.6 if 1.3 <= u <= 1.9 else None
-        return {'puntero': (_tramo(u, 0.35, 1.25), _tramo(u, 0.15, 0.45) * (1.0 - _tramo(u, 3.4, 3.9))), 'onda': onda,
-                'pintado': _tramo(u, 1.35, 1.8) * apagar,
-                'flecha': _tramo(u, 1.8, 2.2) * apagar * (0.75 + 0.25 * math.sin(2.0 * math.pi * u / 1.2))}
-
-    def paintEvent(self, _e):
-        p = QPainter(self)
-        p.setRenderHint(QPainter.RenderHint.Antialiasing)
-        st = self._estado()
-        ambar, verde = QColor(ui.ROL_PRINCIPAL), QColor(ui.ACCENT_CLARO)
-        f = fuente(20)
-        fb = fuente(20, peso='negrita')
-        fm, fmb = QFontMetricsF(f), QFontMetricsF(fb)
-        hueco, alto = 8.0, 46.0
-        anchos = [max(fm.horizontalAdvance(w), fmb.horizontalAdvance(w)) + 30.0 for w in self.PALABRAS]
-        total = sum(anchos) + hueco * (len(anchos) - 1)
-        k = min(1.0, (self.width() - 12.0) / total) if total > 0 else 1.0       # (si el centro es estrecho, la fila se encoge entera)
-        cy = self.height() * 0.5
-        p.save()
-        p.translate(self.width() / 2.0, cy)
-        p.scale(k, k)
-        # el pincel «Principal», como en la barra del Corrector
-        fp = fuente(15, peso='medio')
-        nombre = tr('Principal')
-        wp = QFontMetricsF(fp).horizontalAdvance(nombre) + 46.0
-        rp = QRectF(-wp / 2.0, -alto / 2.0 - 78.0, wp, 36.0)
-        p.setPen(QPen(ambar, 1.6))
-        p.setBrush(QColor(ambar.red(), ambar.green(), ambar.blue(), 22))
-        p.drawRoundedRect(rp, 18.0, 18.0)
-        p.setPen(Qt.PenStyle.NoPen)
-        p.setBrush(ambar)
-        p.drawEllipse(QPointF(rp.left() + 19.0, rp.center().y()), 4.5, 4.5)
-        p.setPen(QColor('#FFFFFF'))
-        p.setFont(fp)
-        p.drawText(rp.adjusted(30.0, 0, 0, 0), int(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft), nombre)
-        # la fila de palabras (como las del Corrector); «nadie» se pinta de ámbar
-        fila = QRectF(-total / 2.0 - 10.0, -alto / 2.0 - 10.0, total + 20.0, alto + 20.0)
-        p.setPen(QPen(QColor(ui.BORDER_COLOR), 1.0))
-        p.setBrush(QColor(255, 255, 255, 6))
-        p.drawRoundedRect(fila, 16.0, 16.0)
-        x = -total / 2.0
-        caja_obj = None
-        for i, (palabra, w) in enumerate(zip(self.PALABRAS, anchos)):
-            r = QRectF(x, -alto / 2.0, w, alto)
-            p.setPen(QPen(QColor('#26324A'), 1.0))
-            p.setBrush(QColor('#111A2C'))
-            p.drawRoundedRect(r, 12.0, 12.0)
-            pint = st['pintado'] if i == self.OBJ else 0.0
-            if pint > 0.0:
-                p.save()
-                p.setClipRect(QRectF(r.left() - 2.0, r.top() - 2.0, (r.width() + 4.0) * pint, r.height() + 4.0))
-                p.setPen(QPen(ambar, 1.8))
-                p.setBrush(QColor(ambar.red(), ambar.green(), ambar.blue(), 46))
-                p.drawRoundedRect(r, 12.0, 12.0)
-                p.restore()
-            p.setFont(fb if pint > 0.5 else f)
-            p.setPen(QColor('#FFFFFF') if pint > 0.5 else QColor('#D2DCEB'))
-            p.drawText(r, int(Qt.AlignmentFlag.AlignCenter), palabra)
-            if i == self.OBJ:
-                caja_obj = r
-            x += w + hueco
-        if caja_obj is not None and st['onda'] is not None:                # la onda del toque
-            o = st['onda']
-            p.setPen(QPen(QColor(ambar.red(), ambar.green(), ambar.blue(), int(200 * (1.0 - o))), 2.0))
-            p.setBrush(Qt.BrushStyle.NoBrush)
-            rad = 10.0 + 30.0 * o
-            p.drawEllipse(caja_obj.center(), rad, rad)
-        if caja_obj is not None and st['puntero'] is not None:              # el puntero: llega desde abajo a la izquierda hasta «nadie»
-            ida, alfa = st['puntero']
-            if alfa > 0.0:
-                a0 = QPointF(-total / 2.0 + 20.0, alto / 2.0 + 60.0)
-                a1 = QPointF(caja_obj.center().x() + 6.0, caja_obj.center().y() + 4.0)
-                pos = a0 + (a1 - a0) * ida
-                flecha = [QPointF(0, 0), QPointF(0, 21), QPointF(5.2, 16.3), QPointF(8.9, 24.0), QPointF(12.1, 22.5), QPointF(8.5, 15.1),
-                          QPointF(15.1, 15.1)]
-                p.save()
-                p.setOpacity(alfa)
-                p.translate(pos)
-                p.setPen(QPen(QColor(8, 12, 22, 220), 1.5))
-                p.setBrush(QColor('#FFFFFF'))
-                p.drawPolygon(flecha)
-                p.restore()
-        # la flecha hacia el video de después
-        a = st['flecha']
-        c = QColor(verde)
-        c.setAlpha(int(90 + 165 * a))
-        lapiz = QPen(c, 3.2, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap, Qt.PenJoinStyle.RoundJoin)
-        p.setPen(lapiz)
-        y = alto / 2.0 + 62.0
-        dx = 6.0 * a
-        p.drawLine(QPointF(-26.0 + dx, y), QPointF(22.0 + dx, y))
-        p.drawPolyline([QPointF(10.0 + dx, y - 12.0), QPointF(22.0 + dx, y), QPointF(10.0 + dx, y + 12.0)])
-        p.restore()
-        p.end()
-
-
 class _MovilDemo(ui.MarcoVista):
     """El móvil del Corrector sin el resplandor de abajo: en la tarjeta, su halo se cortaba en el borde del widget (un rectángulo)."""
     def _resplandor(self, p, caja):
         return
 
 
-class DemoPrincipal(QWidget):
-    """v5.78 (el usuario eligió la propuesta B: «la preview cuando no hay audio que sea un video de que si cambia una palabra por principal lo
-    cambia en video, pero un ejemplo real»): en el Corrector sin audio, dos móviles como el del Corrector con un VIDEO real cada uno
-    (2_recursos/creativo/demo_principal_{antes,despues}.mp4, hechos con herramientas_dev/hacer_demo_principal.py: el mismo dibujo del
-    Estilo 2 que el móvil del Corrector): sin marcar el programa elige «cuenta»; con «nadie» como Principal, «NADIE» va grande. En medio,
-    _MedioPrincipal. Los videos los decodifica vistas_slider.Reproductor en un hilo y solo mientras se ve; con «Reducir animaciones», los
-    .jpg quietos."""
-    ETIQUETA = 26                     # el alto de la línea de debajo de cada móvil
+def _ruta_creativo(nombre):
+    """2_recursos/creativo/<nombre> si existe (base_recursos: en el .exe no está junto al .py), o None."""
+    try:
+        import instalador_scripts
+        from pathlib import Path
+        ruta = Path(instalador_scripts.BASE_RECURSOS) / 'creativo' / nombre
+        return ruta if ruta.is_file() else None
+    except Exception:
+        return None
+
+
+class DemoCorrector(QWidget):
+    """v5.78 (el usuario: «mejora el ejemplo y da más ejemplos, ortografía, y que se puedan cambiar los colores y tipografías»; eligió la
+    propuesta B): en el Corrector sin audio, TRES ejemplos reales a la vez, cada uno un móvil como el del Corrector con su VIDEO
+    (2_recursos/creativo/demo_{principal,ortografia,colores}.mp4, hechos con herramientas_dev/hacer_demos_corrector.py: el mismo dibujo que
+    el móvil del Corrector) y encima lo que se toca, al compás del video (demo_corrector.json = dónde empieza cada tramo):
+        Principal        «que nadie te»: el puntero toca «nadie» y se pinta de ámbar → «NADIE» pasa a ser la grande (Estilo 2)
+        Ortografía       «ganamoz» (ola roja) → «ganamos ✓» → el video lo corrige (Estilo 2)
+        Colores y letra  el círculo elegido y el nombre de la letra (de fábrica → amarillo · Montserrat → violeta · serif → verde · Antagon; Estilo 1)
+    Los videos los decodifica vistas_slider.Reproductor (un hilo cada uno, solo mientras se ve); con «Reducir animaciones», los .jpg quietos y
+    lo de encima en su último paso."""
+    DEMOS = (('principal', 'ph.sparkle', 'Principal'), ('ortografia', 'ph.pencil-simple', 'Ortografía'), ('colores', 'ph.palette', 'Colores y letra'))
+    TRAMOS = {'principal': [0.0, 2.233], 'ortografia': [0.0, 3.533], 'colores': [0.0, 3.167, 6.333, 9.5]}
+    COLORES = (('#FFFFFF', ''), ('#FFD23F', 'Montserrat|Black'), ('#B388FF', 'Instrument Serif|Regular'), ('#24D18F', 'Antagon|Regular'))
+    TITULO, TIRA, PIE = 24, 52, 28
 
     def __init__(self, padre=None):
         super().__init__(padre)
-        self.antes = _MovilDemo(self, alto_min=120, movil=True)
-        self.despues = _MovilDemo(self, alto_min=120, movil=True)
-        self.medio = _MedioPrincipal(self)
-        self._rep = {}
-        self._ultimo = {}
+        self.moviles = {ident: _MovilDemo(self, alto_min=120, movil=True) for ident, _i, _t in self.DEMOS}
+        self._tramos = dict(self.TRAMOS)
+        try:
+            import json
+            ruta = _ruta_creativo('demo_corrector.json')
+            if ruta is not None:
+                self._tramos.update({k: [float(x) for x in v] for k, v in json.loads(ruta.read_text(encoding='utf-8')).items() if k in self.TRAMOS})
+        except Exception:
+            pass
+        from PySide6.QtGui import QImage
+        for ident, marco in self.moviles.items():
+            ruta = _ruta_creativo(f'demo_{ident}.jpg')
+            if ruta is not None:
+                marco.poner_cuadro(QImage(str(ruta)))
+        self._rep, self._ultimo, self._iconos = {}, {}, {}
+        self.quieto = False
         self._reloj = QTimer(self)
         self._reloj.timeout.connect(self._tic)
-        for nombre, marco in (('antes', self.antes), ('despues', self.despues)):
-            ruta = self._ruta(nombre, '.jpg')
-            if ruta is not None:
-                from PySide6.QtGui import QImage
-                marco.poner_cuadro(QImage(str(ruta)))
-        self.setMinimumHeight(240)
+        self.setMinimumHeight(250)
         self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
 
-    @staticmethod
-    def _ruta(nombre, ext):
-        try:
-            import instalador_scripts
-            from pathlib import Path
-            ruta = Path(instalador_scripts.BASE_RECURSOS) / 'creativo' / f'demo_principal_{nombre}{ext}'
-            return ruta if ruta.is_file() else None
-        except Exception:
-            return None
-
     def sizeHint(self):
-        return QSize(1000, 520)
+        return QSize(1000, 540)
 
     def minimumSizeHint(self):
-        return QSize(560, 240)
+        return QSize(560, 250)
 
     # -- videos -------------------------------------------------------------------------------------------------------------------------
     def showEvent(self, e):
         super().showEvent(e)
-        self.medio.t0 = time.perf_counter()
-        quieto = MuestraPalabras._quieto()
-        self.medio.quieto = quieto
-        if not quieto:
+        self.quieto = MuestraPalabras._quieto()
+        if not self.quieto:
             try:
                 import vistas_slider
-                for nombre in ('antes', 'despues'):
-                    ruta = self._ruta(nombre, '.mp4')
-                    if ruta is not None and nombre not in self._rep:
-                        self._rep[nombre] = vistas_slider.Reproductor(ruta, pausa_s=0.9)
+                for ident in self.moviles:
+                    ruta = _ruta_creativo(f'demo_{ident}.mp4')
+                    if ruta is not None and ident not in self._rep:
+                        self._rep[ident] = vistas_slider.Reproductor(ruta, pausa_s=0.4)
                 for r in self._rep.values():
                     r.arrancar()
             except Exception:
                 self._rep = {}
             self._reloj.start(33)
-        self.medio.update()
+        self.update()
 
     def hideEvent(self, e):
         super().hideEvent(e)
@@ -810,54 +706,442 @@ class DemoPrincipal(QWidget):
             return
         if MuestraPalabras._quieto():
             self._reloj.stop()
-            self.medio.quieto = True
-        for nombre, marco in (('antes', self.antes), ('despues', self.despues)):
-            r = self._rep.get(nombre)
+            self.quieto = True
+        for ident, marco in self.moviles.items():
+            r = self._rep.get(ident)
             if r is None:
                 continue
             r.tam = marco.tamano_pantalla()
             img = r.imagen()
-            if img is not None and img is not self._ultimo.get(nombre):
-                self._ultimo[nombre] = img
+            if img is not None and img is not self._ultimo.get(ident):
+                self._ultimo[ident] = img
                 marco.poner_cuadro(img)
-        self.medio.update()
+        for i in range(len(self.DEMOS)):                                      # (solo las tiras de encima: los móviles se repintan solos)
+            self.update(self._tira(i).toAlignedRect().adjusted(-40, -10, 40, 40))
 
-    # -- sitio y dibujo -----------------------------------------------------------------------------------------------------------------
+    def _estado(self, ident):
+        """(tramo, k, t): el tramo del video que se ve, cuánto lleva (0→1 en 0,35 s) y el instante del video."""
+        tr_ = self._tramos.get(ident) or [0.0]
+        r = self._rep.get(ident)
+        if self.quieto or r is None:
+            return len(tr_) - 1, 1.0, 1e9
+        t = float(r.posicion or 0.0)
+        i = max(j for j, a in enumerate(tr_) if a <= t + 1e-6) if any(a <= t + 1e-6 for a in tr_) else 0
+        return i, _suave((t - tr_[i]) / 0.35) if i > 0 else 1.0, t
+
+    # -- sitio --------------------------------------------------------------------------------------------------------------------------
+    def _columna(self, i):
+        w = self.width() / float(len(self.DEMOS))
+        return QRectF(i * w, 0, w, self.height())
+
+    def _tira(self, i):
+        c = self._columna(i)
+        return QRectF(c.left() + 6, self.TITULO + 6, c.width() - 12, self.TIRA)
+
     def resizeEvent(self, e):
         super().resizeEvent(e)
-        w, h = self.width(), self.height()
-        alto_m = max(120, h)                                                     # (la etiqueta cabe en el hueco de abajo del móvil)
-        ancho_m = int(min(w * 0.30, (alto_m - 54) * 0.499 + 36))                # (MarcoVista deja 18 a los lados, 8 arriba y 46 abajo)
-        self.antes.setGeometry(0, 0, ancho_m, alto_m)
-        self.despues.setGeometry(w - ancho_m, 0, ancho_m, alto_m)
-        self.medio.setGeometry(ancho_m, 0, max(0, w - 2 * ancho_m), alto_m)
+        arriba = self.TITULO + 6 + self.TIRA + 6
+        alto_m = max(140, self.height() - arriba - self.PIE + 46)        # (MarcoVista deja 46 abajo: ahí va el pie)
+        for i, (ident, _ic, _t) in enumerate(self.DEMOS):
+            c = self._columna(i)
+            ancho_m = int(min(c.width() - 8, (alto_m - 54) * 0.499 + 36))
+            self.moviles[ident].setGeometry(int(c.center().x() - ancho_m / 2.0), arriba, ancho_m, alto_m)
+
+    # -- dibujo -------------------------------------------------------------------------------------------------------------------------
+    def _icono(self, nombre, color):
+        clave = (nombre, color, round(self.devicePixelRatioF(), 2))
+        if clave not in self._iconos:
+            ic = ui.icono_linea(nombre, color)
+            self._iconos[clave] = ic.pixmap(QSize(17, 17), self.devicePixelRatioF()) if ic is not None else None
+        return self._iconos[clave]
+
+    def _chip(self, p, r, texto, f, borde=None, fondo=None, color='#D2DCEB', alfa=1.0):
+        p.save()
+        p.setOpacity(p.opacity() * alfa)
+        p.setPen(QPen(QColor(borde or '#26324A'), 1.6 if borde else 1.0))
+        p.setBrush(QColor(fondo or '#111A2C'))
+        p.drawRoundedRect(r, 10.0, 10.0)
+        p.setFont(f)
+        p.setPen(QColor(color))
+        p.drawText(r, int(Qt.AlignmentFlag.AlignCenter), texto)
+        p.restore()
+
+    @staticmethod
+    def _puntero(p, punta, alfa):
+        if alfa <= 0.0:
+            return
+        flecha = [QPointF(0, 0), QPointF(0, 19), QPointF(4.7, 14.7), QPointF(8.0, 21.6), QPointF(10.9, 20.3), QPointF(7.7, 13.6), QPointF(13.6, 13.6)]
+        p.save()
+        p.setOpacity(alfa)
+        p.translate(punta)
+        p.setPen(QPen(QColor(8, 12, 22, 220), 1.4))
+        p.setBrush(QColor('#FFFFFF'))
+        p.drawPolygon(flecha)
+        p.restore()
+
+    @staticmethod
+    def _toque(t, cambio):
+        """(ida 0→1, alfa del puntero, onda 0→1 o None) para un toque en `cambio` s (el puntero llega 1 s antes)."""
+        ida = _tramo(t, cambio - 1.05, cambio - 0.2)
+        alfa = _tramo(t, cambio - 1.25, cambio - 1.0) * (1.0 - _tramo(t, cambio + 0.5, cambio + 0.8))
+        onda = (t - (cambio - 0.12)) / 0.55 if cambio - 0.12 <= t <= cambio + 0.43 else None
+        return ida, alfa, onda
+
+    def _onda(self, p, centro, o):
+        if o is None:
+            return
+        c = QColor(ui.ROL_PRINCIPAL)
+        p.setPen(QPen(QColor(c.red(), c.green(), c.blue(), int(210 * (1.0 - o))), 2.0))
+        p.setBrush(Qt.BrushStyle.NoBrush)
+        rad = 8.0 + 26.0 * o
+        p.drawEllipse(centro, rad, rad)
+
+    def _tira_principal(self, p, r):
+        i, k, t = self._estado('principal')
+        f, fb = fuente(15), fuente(15, peso='negrita')
+        ambar = QColor(ui.ROL_PRINCIPAL)
+        palabras = ('que', 'nadie', 'te')
+        anchos = [QFontMetricsF(fb).horizontalAdvance(w) + 26.0 for w in palabras]
+        x = r.center().x() - (sum(anchos) + 6.0 * (len(anchos) - 1)) / 2.0
+        y = r.center().y() - 18.0
+        obj = None
+        for w, a in zip(palabras, anchos):
+            caja = QRectF(x, y, a, 36.0)
+            if w == 'nadie':
+                obj = caja
+                pint = k if i >= 1 else 0.0
+                self._chip(p, caja, w, f)
+                if pint > 0.0:
+                    p.save()
+                    p.setClipRect(QRectF(caja.left() - 2, caja.top() - 2, (caja.width() + 4) * pint, caja.height() + 4))
+                    self._chip(p, caja, w, fb, borde=ambar.name(), fondo=QColor(ambar.red(), ambar.green(), ambar.blue(), 46).name(QColor.NameFormat.HexArgb),
+                               color='#FFFFFF')
+                    p.restore()
+            else:
+                self._chip(p, caja, w, f)
+            x += a + 6.0
+        tr_ = self._tramos.get('principal') or [0.0, 0.0]
+        if obj is not None and len(tr_) > 1 and not self.quieto:
+            ida, alfa, onda = self._toque(t, tr_[1])
+            self._onda(p, obj.center(), onda)
+            a0 = QPointF(obj.left() - 30.0, obj.bottom() + 22.0)
+            self._puntero(p, a0 + (QPointF(obj.center().x() + 4.0, obj.center().y() + 2.0) - a0) * ida, alfa)
+
+    def _tira_ortografia(self, p, r):
+        i, k, t = self._estado('ortografia')
+        f, fb = fuente(15), fuente(15, peso='negrita')
+        verde, rojo = QColor(ui.ACCENT_CLARO), QColor(ui.ROJO)
+        a_mala = QFontMetricsF(f).horizontalAdvance('ganamoz') + 26.0
+        a_buena = QFontMetricsF(fb).horizontalAdvance('ganamos') + 46.0
+        total = a_mala + 34.0 + a_buena
+        x = r.center().x() - total / 2.0
+        y = r.center().y() - 18.0
+        mala, buena = QRectF(x, y, a_mala, 36.0), QRectF(x + a_mala + 34.0, y, a_buena, 36.0)
+        hecho = k if i >= 1 else 0.0
+        self._chip(p, mala, 'ganamoz', f, color='#FFFFFF', alfa=1.0 - 0.55 * hecho)
+        if hecho < 1.0:                                                      # la ola roja de «mal oída»
+            ancho = QFontMetricsF(f).horizontalAdvance('ganamoz')
+            x0, y0 = mala.center().x() - ancho / 2.0, mala.bottom() - 8.0
+            ola = QPainterPath(QPointF(x0, y0))
+            j = 0.0
+            while j < ancho:
+                j += 3.0
+                ola.lineTo(QPointF(x0 + j, y0 + (1.5 if int(j / 3) % 2 else -1.5)))
+            p.setPen(QPen(QColor(rojo.red(), rojo.green(), rojo.blue(), int(220 * (1.0 - hecho))), 1.3))
+            p.setBrush(Qt.BrushStyle.NoBrush)
+            p.drawPath(ola)
+        lapiz = QPen(verde, 2.0, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap, Qt.PenJoinStyle.RoundJoin)
+        p.setPen(lapiz)
+        cy = y + 18.0
+        ax = mala.right() + 8.0
+        p.drawLine(QPointF(ax, cy), QPointF(ax + 17.0, cy))
+        p.drawPolyline([QPointF(ax + 11.0, cy - 6.0), QPointF(ax + 17.0, cy), QPointF(ax + 11.0, cy + 6.0)])
+        self._chip(p, buena, 'ganamos', fb, borde=verde.name() if hecho > 0.5 else None,
+                   fondo=QColor(verde.red(), verde.green(), verde.blue(), 36).name(QColor.NameFormat.HexArgb) if hecho > 0.5 else None,
+                   color='#FFFFFF', alfa=0.4 + 0.6 * hecho)
+        if hecho > 0.0:                                                      # el ✓
+            p.save()
+            p.setOpacity(hecho)
+            c = QPointF(buena.right() - 15.0, buena.center().y())
+            p.setPen(QPen(verde, 2.0, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap, Qt.PenJoinStyle.RoundJoin))
+            p.drawPolyline([c + QPointF(-4.0, 0.3), c + QPointF(-1.2, 3.1), c + QPointF(4.0, -2.8)])
+            p.restore()
+        tr_ = self._tramos.get('ortografia') or [0.0, 0.0]
+        if len(tr_) > 1 and not self.quieto:
+            ida, alfa, onda = self._toque(t, tr_[1])
+            self._onda(p, mala.center(), onda)
+            a0 = QPointF(mala.left() - 26.0, mala.bottom() + 22.0)
+            self._puntero(p, a0 + (QPointF(mala.center().x() + 4.0, mala.center().y() + 2.0) - a0) * ida, alfa)
+
+    def _tira_colores(self, p, r):
+        i, _k, _t = self._estado('colores')
+        i = max(0, min(i, len(self.COLORES) - 1))
+        lado, paso = 24.0, 32.0
+        letra = self.COLORES[i][1]
+        familia = letra.split('|')[0]
+        fl = fuente(16, peso='negrita') if not familia else ui.QFont(familia)
+        if familia:
+            fl.setPixelSize(17)
+            estilo = letra.split('|')[1] if '|' in letra else ''
+            if estilo:
+                fl.setStyleName(estilo)
+        nombre = familia or tr('Del estilo')
+        an = QFontMetricsF(fl).horizontalAdvance(nombre)
+        total = len(self.COLORES) * paso + 10.0 + an
+        x = r.center().x() - total / 2.0
+        cy = r.center().y()
+        fondo = QRectF(x - 12.0, cy - 22.0, total + 24.0, 44.0)
+        p.setPen(QPen(QColor(ui.BORDER_COLOR), 1.0))
+        p.setBrush(QColor(255, 255, 255, 6))
+        p.drawRoundedRect(fondo, 14.0, 14.0)
+        for j, (c, _l) in enumerate(self.COLORES):
+            centro = QPointF(x + j * paso + lado / 2.0, cy)
+            p.setPen(QPen(QColor(255, 255, 255, 46), 1.0))
+            p.setBrush(QColor(c))
+            p.drawEllipse(centro, lado / 2.0, lado / 2.0)
+            if j == i:
+                p.setPen(QPen(QColor('#FFFFFF'), 2.0))
+                p.setBrush(Qt.BrushStyle.NoBrush)
+                p.drawEllipse(centro, lado / 2.0 + 4.0, lado / 2.0 + 4.0)
+        p.setFont(fl)
+        p.setPen(QColor(self.COLORES[i][0]) if i else QColor('#FFFFFF'))
+        p.drawText(QRectF(x + len(self.COLORES) * paso + 6.0, cy - 16.0, an + 8.0, 32.0), int(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft), nombre)
 
     def paintEvent(self, _e):
         p = QPainter(self)
         p.setRenderHint(QPainter.RenderHint.Antialiasing)
-        ambar = QColor(ui.ROL_PRINCIPAL)
-        caja, _pant, _r = self.despues.geometria_movil()                         # el de después, con un filo ámbar
-        caja = caja.translated(QPointF(self.despues.pos()))
-        rad = caja.width() * 0.165
-        for g, a in ((7.0, 26), (4.0, 50)):
-            p.setPen(QPen(QColor(ambar.red(), ambar.green(), ambar.blue(), a), g))
-            p.setBrush(Qt.BrushStyle.NoBrush)
-            p.drawRoundedRect(caja.adjusted(-3, -3, 3, 3), rad + 3, rad + 3)
-        p.setPen(QPen(ambar, 1.8))
-        p.drawRoundedRect(caja.adjusted(-3, -3, 3, 3), rad + 3, rad + 3)
-        f, fb = fuente(13), fuente(13, peso='negrita')
-        y = caja.bottom() + 12.0                                                 # (bajo el móvil, no al fondo del hueco de su sombra)
-        for marco, partes in ((self.antes, ((tr('Sin marcar:'), fb, '#FFFFFF'), (' ' + tr('el programa elige «cuenta»'), f, ui.TEXT_MUTED))),
-                              (self.despues, ((tr('«nadie» como Principal'), fb, '#FFFFFF'),))):
-            anchos = [QFontMetricsF(fo).horizontalAdvance(t) for t, fo, _c in partes]
-            x = marco.x() + (marco.width() - sum(anchos)) / 2.0
-            x = max(0.0, min(float(self.width()) - sum(anchos) - 2.0, x))          # (con la ventana baja el móvil es estrecho: no se sale)
-            for (t, fo, c), a in zip(partes, anchos):
-                p.setFont(fo)
-                p.setPen(QColor(c))
-                p.drawText(QRectF(x, y, a + 2, self.ETIQUETA), int(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft), t)
-                x += a
+        p.setRenderHint(QPainter.RenderHint.TextAntialiasing)
+        verde = QColor(ui.ACCENT_CLARO).name()
+        pies = (tr('«nadie» pasa a ser la GRANDE'), tr('Lo mal oído se corrige en el video'), tr('Tu color y tu letra en el estilo'))
+        for i, (ident, icono, titulo) in enumerate(self.DEMOS):
+            c = self._columna(i)
+            f = fuente(15, peso='negrita')
+            texto = tr(titulo)
+            an = QFontMetricsF(f).horizontalAdvance(texto)
+            x = c.center().x() - (an + 24.0) / 2.0
+            pm = self._icono(icono, verde)
+            if pm is not None and not pm.isNull():
+                p.drawPixmap(QPointF(x, (self.TITULO - 17) / 2.0), pm)
+            p.setFont(f)
+            p.setPen(QColor('#FFFFFF'))
+            p.drawText(QRectF(x + 24.0, 0, an + 4.0, self.TITULO), int(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft), texto)
+            r = self._tira(i)
+            if ident == 'principal':
+                self._tira_principal(p, r)
+            elif ident == 'ortografia':
+                self._tira_ortografia(p, r)
+            else:
+                self._tira_colores(p, r)
+            caja, _pant, _r = self.moviles[ident].geometria_movil()
+            y = self.moviles[ident].y() + caja.bottom() + 10.0
+            p.setFont(fuente(13))
+            p.setPen(QColor(ui.TEXT_MUTED))
+            p.drawText(QRectF(c.left(), y, c.width(), 22.0), int(Qt.AlignmentFlag.AlignCenter), pies[i])
         p.end()
+
+
+class _BotonLetra(QAbstractButton):
+    """La letra elegida («Del estilo» o su familia, escrita con ella) y el chevrón; abre la lista de letras del equipo."""
+
+    def __init__(self, padre=None):
+        super().__init__(padre)
+        self.valor = ''
+        self._h = False
+        self.setFixedHeight(30)
+        self.setMinimumWidth(92)                          # (crece con el hueco que deja la paleta: «Montserrat» entero)
+        self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        self.setCursor(Qt.CursorShape.PointingHandCursor)
+
+    def poner(self, valor):
+        self.valor = str(valor or '')
+        self.update()
+
+    def enterEvent(self, e):
+        self._h = True
+        self.update()
+        super().enterEvent(e)
+
+    def leaveEvent(self, e):
+        self._h = False
+        self.update()
+        super().leaveEvent(e)
+
+    def paintEvent(self, _e):
+        p = QPainter(self)
+        p.setRenderHint(QPainter.RenderHint.Antialiasing)
+        r = QRectF(0.5, 0.5, self.width() - 1.0, self.height() - 1.0)
+        p.setPen(QPen(QColor('#3A4D72' if self._h else '#2A3854'), 1.0))
+        p.setBrush(QColor(255, 255, 255, 14 if self._h else 8))
+        p.drawRoundedRect(r, 9.0, 9.0)
+        partes = self.valor.split('|')
+        if partes[0]:
+            f = ui.QFont(partes[0])
+            f.setPixelSize(13)
+            if len(partes) > 1 and partes[1]:
+                f.setStyleName(partes[1])
+            texto = partes[0]
+        else:
+            f, texto = fuente(12, peso='medio'), tr('Del estilo')
+        p.setFont(f)
+        p.setPen(QColor('#FFFFFF'))
+        p.drawText(QRectF(9, 0, self.width() - 28, self.height()), int(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft),
+                   QFontMetricsF(f).elidedText(texto, Qt.TextElideMode.ElideRight, self.width() - 30))
+        x, cy = self.width() - 15.0, self.height() / 2.0
+        p.setPen(QPen(QColor(ui.TEXT_MUTED), 1.4, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap, Qt.PenJoinStyle.RoundJoin))
+        p.drawLine(QPointF(x - 3.5, cy - 1.8), QPointF(x, cy + 1.8))
+        p.drawLine(QPointF(x, cy + 1.8), QPointF(x + 3.5, cy - 1.8))
+        p.end()
+
+
+class _PopupLetras(QWidget):
+    """La lista de letras del equipo (crea_estilo_ui._ListaLetras: buscador, cada nombre con su letra, sus estilos) en una ventana Popup."""
+
+    def __init__(self, padre, valor, al_elegir):
+        super().__init__(padre, Qt.WindowType.Popup | Qt.WindowType.FramelessWindowHint | Qt.WindowType.NoDropShadowWindowHint)
+        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground, True)
+        self.setAttribute(Qt.WidgetAttribute.WA_DeleteOnClose, True)
+        import crea_estilo_ui
+        capa = QVBoxLayout(self)
+        capa.setContentsMargins(12, 12, 12, 12)
+        self._al_elegir = al_elegir
+        self.lista = crea_estilo_ui._ListaLetras(self._elegida, alto_lista=250)
+        self.lista._poner_estilos = lambda: None          # (sin los estilos debajo: se montaban sobre la lista; va el más grueso, estilo_grueso)
+        self.lista.marcar(valor)
+        capa.addWidget(self.lista)
+        self.setFixedWidth(300)
+
+    def _elegida(self, valor):
+        """Se aplica y se cierra (con su estilo más grueso: Bold, Black…)."""
+        self.close()
+        self._al_elegir(valor)
+
+    def keyPressEvent(self, e):
+        if e.key() == Qt.Key.Key_Escape:
+            self.close()
+            return
+        super().keyPressEvent(e)
+
+    def paintEvent(self, _e):
+        p = QPainter(self)
+        p.setRenderHint(QPainter.RenderHint.Antialiasing)
+        p.setPen(QPen(QColor(ui.BORDER_COLOR), 1.0))
+        p.setBrush(QColor(ui.CARD_COLOR))
+        p.drawRoundedRect(QRectF(self.rect()).adjusted(0.5, 0.5, -0.5, -0.5), 14.0, 14.0)
+        p.end()
+
+
+class TarjetaColores(QFrame):
+    """v5.78 (propuesta B): «Colores y letra» bajo el móvil del Corrector: el color y la letra de la palabra GRANDE y del texto pequeño del
+    estilo elegido (los cuatro ajustes de «Crea tu estilo»: color_principal, fuente_principal, color_secundario, fuente_secundaria). Cada fila,
+    la paleta de «Crea tu estilo» (crea_estilo_ui._Paleta, más pequeña: «del estilo», 4 colores y «+» = el que quieras) y la letra (lista de
+    letras del equipo). «Del estilo» lo deja como venía. al_cambiar(ajustes) a cada toque; quien la usa los guarda y rehace la vista."""
+    CLAVES = ('color_principal', 'fuente_principal', 'color_secundario', 'fuente_secundaria')
+    COLORES_P = ('#FDE047', '#22D3EE', '#F472B6', '#EF4444')
+    COLORES_S = ('#FFFFFF', '#FDE047', '#22D3EE', '#9CA3AF')
+
+    def __init__(self, al_cambiar, padre=None):
+        super().__init__(padre)
+        import crea_estilo_ui as CE
+
+        class _PaletaChica(CE._Paleta):
+            LADO, PASO = 22, 29
+
+        self._al_cambiar = al_cambiar
+        self._aj = {k: '' for k in self.CLAVES}
+        self._propios = {}
+        self.setObjectName('tarjetaColores')
+        self.setStyleSheet(ui.traducir_hoja('QFrame#tarjetaColores { background-color: #0E1729; border: 1px solid #1E2A42; border-radius: 14px; }'))
+        capa = QVBoxLayout(self)
+        capa.setContentsMargins(12, 10, 12, 10)
+        capa.setSpacing(6)
+        cab = QHBoxLayout()
+        cab.setSpacing(8)
+        ic = ui.icono_linea('ph.palette', QColor(ui.ACCENT_CLARO).name())
+        if ic is not None:
+            from PySide6.QtWidgets import QLabel
+            lbl = QLabel()
+            lbl.setStyleSheet('background: transparent; border: none;')
+            lbl.setPixmap(ic.pixmap(QSize(16, 16), self.devicePixelRatioF()))
+            cab.addWidget(lbl)
+        cab.addWidget(Etiqueta(tr('Colores y letra'), 14, peso='negrita', color='#FFFFFF'))
+        self._etq_estilo = Etiqueta('', 12, color=ui.TEXT_MUTED)
+        cab.addWidget(self._etq_estilo)
+        cab.addStretch(1)
+        self._volver = ui.Enlace(tr('Del estilo'), self._volver_al_estilo, tam=12, color=ui.TEXT_MUTED)
+        cab.addWidget(self._volver)
+        capa.addLayout(cab)
+        self._paletas, self._letras = {}, {}
+        for clave_c, clave_f, etq, colores in (('color_principal', 'fuente_principal', tr('Grande'), self.COLORES_P),
+                                               ('color_secundario', 'fuente_secundaria', tr('Pequeño'), self.COLORES_S)):
+            fila = QHBoxLayout()
+            fila.setSpacing(6)
+            e = Etiqueta(etq, 12.5, color=ui.TEXT_MUTED)
+            e.setFixedWidth(52)
+            fila.addWidget(e)
+            pal = _PaletaChica(colores, lambda val, c=clave_c: self._poner(c, val), lambda c=clave_c: self._color_propio(c))
+            self._paletas[clave_c] = pal
+            fila.addWidget(pal)
+            b = _BotonLetra()
+            b.clicked.connect(lambda _=False, c=clave_f, bt=b: self._abrir_letras(c, bt))
+            self._letras[clave_f] = b
+            fila.addWidget(b, 1)
+            capa.addLayout(fila)
+        self._nota = Etiqueta('', 11, color='#6B7891', envolver=True)
+        self._nota.hide()
+        capa.addWidget(self._nota)
+        self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+
+    def poner(self, ajustes, nombre_estilo='', nota=''):
+        """Lo que hay ahora (sin avisar a nadie): los cuatro ajustes, el nombre del estilo y una nota (o '')."""
+        a = ajustes or {}
+        self._aj = {k: str(a.get(k) or '') for k in self.CLAVES}
+        self._etq_estilo.configure(text=('· ' + nombre_estilo) if nombre_estilo else '')
+        self._nota.configure(text=nota or '')
+        self._nota.setVisible(bool(nota))
+        self._marcar()
+
+    def _marcar(self):
+        for clave, pal in self._paletas.items():
+            valor = self._aj.get(clave, '')
+            colores = self.COLORES_P if clave == 'color_principal' else self.COLORES_S
+            propio = self._propios.get(clave) or (valor if valor and valor not in colores else '')
+            pal.poner(valor, propio)
+        for clave, b in self._letras.items():
+            b.poner(self._aj.get(clave, ''))
+        self._volver.setVisible(any(self._aj.values()))
+
+    def _poner(self, clave, valor):
+        if self._aj.get(clave, '') == (valor or ''):
+            return
+        self._aj[clave] = valor or ''
+        self._marcar()
+        self._al_cambiar(dict(self._aj))
+
+    def _color_propio(self, clave):
+        inicial = self._propios.get(clave) or self._aj.get(clave) or '#FFFFFF'
+        _rgb, hexa = ui.elegir_color(self, inicial, tr('Color personalizado'))
+        if not hexa or not ui.vivo(self):
+            return
+        hexa = str(hexa).upper()
+        colores = self.COLORES_P if clave == 'color_principal' else self.COLORES_S
+        if hexa not in colores:
+            self._propios[clave] = hexa
+        self._poner(clave, hexa)
+
+    def _abrir_letras(self, clave, boton):
+        pop = _PopupLetras(self.window(), self._aj.get(clave, ''), lambda val, c=clave: self._poner(c, val))
+        pop.adjustSize()
+        g = boton.mapToGlobal(boton.rect().topRight())
+        pop.move(int(g.x() - pop.width()), int(g.y() - pop.height() - 6))       # (la tarjeta va abajo del todo: la lista sale encima)
+        pop.show()
+
+    def _volver_al_estilo(self):
+        if not any(self._aj.values()):
+            return
+        self._aj = {k: '' for k in self.CLAVES}
+        self._propios = {}
+        self._marcar()
+        self._al_cambiar(dict(self._aj))
 
 
 class PistaPincel(QWidget):

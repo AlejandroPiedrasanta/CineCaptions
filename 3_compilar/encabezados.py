@@ -74,7 +74,7 @@ DESCRIPCIONES = {
     '1_codigo/director_sonido_nr.py': '«AI Sound Director»: reducción de ruido de la voz (numpy, sin dependencias nuevas), natural antes que cero ruido.',
     '1_codigo/director_sonido_voz.py': '«AI Sound Director»: diagnóstico de la voz y su restauración (una COPIA), con guardas para que nunca suene robótica.',
     '1_codigo/herramientas_dev/probar_director_sonido.py': 'pruebas del «AI Sound Director» SIN pantalla y SIN el Resolve del usuario.',
-    '1_codigo/herramientas_dev/hacer_demo_principal.py': 'los dos videos de la demo «Principal» del Corrector sin audio (2_recursos/creativo).',
+    '1_codigo/herramientas_dev/hacer_demos_corrector.py': 'los tres videos de ejemplo del Corrector sin audio (2_recursos/creativo).',
     '1_codigo/herramientas_dev/resolve_falso.py': 'un DaVinci Resolve FALSO en memoria para probar los scripts de colocación (colocar_efectos.py) sin el Resolve del usuario.',
     '1_codigo/herramientas_dev/_voz_sapi.py': 'una voz LIMPIA de referencia (SAPI de Windows, por COM) para los casos sintéticos de probar_director_sonido.py.',
     '1_codigo/director_sonido_epidemic.py': '«AI Sound Director»: cliente de la API de Epidemic Sound (solo backend; la clave, solo del entorno).',

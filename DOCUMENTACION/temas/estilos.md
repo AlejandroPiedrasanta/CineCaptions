@@ -291,6 +291,22 @@ La tipografía: `2_recursos/fonts/InstrumentSerif-Regular.ttf` (OFL; convertida 
 suave (10 · 0,30), entrada/salida 0,16/0,10 s. Tipografías, tamaños y espaciado salen de `tema4_planificador.DISENOS` (una sola fuente de
 verdad). `REVISION_BIN` 'T5 2' / 'T6 2'.
 
+## tema7 — Estilo 7 «Rojo palabra a palabra» (v5.78)
+
+**Qué:** el usuario, con un video de referencia de 2-3 palabras («crea un estilo 7 así de captions»; «solo los captions, no me pongas nada al inicio»; «el color pasa palabra por palabra»; eligió la A, fiel, corte seco): la frase en UNA línea de 1-3 palabras en Anton (minúscula normal, ~5 % del alto de mayúsculas), blanca con contorno negro y sombra negra DURA abajo a la derecha; la palabra que se dice va en rojo #E20612. Sin intro, sin animación: entra y sale de golpe con su bloque.
+
+**Clips:** `viral_elementos.comp_rojo` → «v rojo» (la blanca, todo el bloque) y «v rojo activa» (la misma en rojo, ENCIMA, solo mientras suena: `run['exacto']`, como la caja del Estilo 3). Elementos del Text+: 2 = contorno, 3 = contorno desplazado, 4 = forma de letra (`ElementShape 0`) desplazada por expresión `Size × (0,022; −0,030)` (fracción del ANCHO). Pack `plantillas_incluidas/Tema7` (`pack_viral.py --tema7`, `guion: viral`, vertical y horizontal); `REVISION_BIN['Tema7']`. Letra: `2_recursos/fonts/Anton-Regular.ttf` (OFL).
+
+**Planificador:** `linea_planificador` con el perfil `ROJO` (`perfil_de`, `planificar(perfil=…)`): K_PX de Anton 571 (deducido de la regla de las letras ya medidas en Resolve; falta comprobarlo en Resolve real), máx. 3 palabras y 1,6 s por bloque, sin caja, y 0,75 en vertical (queda ~0,70 por la zona segura). El perfil `LINEA` (Estilo 3) sale idéntico a antes.
+
+**Color y letra:** una sola letra para todas las palabras (la roja va encima de la blanca y deben coincidir: `fuente_usuario.es_principal` da «main» a las dos); el color principal pinta la roja y el secundario las blancas (`pack_personalizado.ajuste_de_clip` / `es_rojo_blanco`; `render_temas` igual). La tarjeta «Colores y letra» del Corrector lo explica con una nota.
+
+**GO y vistas:** `_generar_con_kinetic` (`es_rojo`: perfil ROJO, `clip_prueba` «v rojo»); en una mezcla, `prueba_k['Tema7']`. Vistas: `render_temas` (rama «v rojo»: sombra dura con `texto(dura=…)`), `vista_tema` (corte seco; la roja no tiene salida), `mezcla_vista` (póster: una sola palabra roja; el póster lee la `caja` (x0, y0, x1, y1) de las líneas). **Crea tu estilo:** `t7` entero y el principal `p_t7` («Palabra roja»); su previa se tiñe con `_tenido_rojo` (rojo → color principal, blanco → secundario).
+
+**Muestras:** `vistas_slider/Tema7*.mp4/.jpg` y `guia_estilo/crea/p_t7.mp4` hechos SIN Resolve (el dibujo de `vista_tema` sobre `PRUEBAS-EN-ESPAÑOL (3).mp4`): rehacerlos con GO real cuando Resolve esté libre (el de «con PRO» es igual al de solo captions).
+
+**Pruebas:** vista del móvil con y sin ajustes, derivado de Crea (letra en las dos, amarillo en la roja, cian en las blancas, contorno y sombra negros), mezcla t7 sola y con t4, y GO de punta a punta sin Resolve (`probar_go_sin_resolve.py --tema Tema7`). Sin GO real en Resolve todavía.
+
 ## temas-ligero — Temas 1–4: pase ligero sin la Edición PRO
 
 `edicion_pro_temas.piezas` (v5.4.51): sin activar la PRO, los captions Text+ de los Temas 1–4 se ven mejor: velo oscuro suave detrás de cada

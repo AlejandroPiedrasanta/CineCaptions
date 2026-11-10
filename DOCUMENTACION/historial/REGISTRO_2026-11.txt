@@ -1,5 +1,217 @@
 REGISTRO DE CAMBIOS ARCHIVADO · 2026-11 (la entrada más nueva arriba)
 
+2026-11-06 12:04  ·  v5.73  ·  cambio explicado
+    v5.74 (cliente de Mac con Resolve Free 21.0.4 y la 5.72: GO paraba con solo RESOLVE_CAIDO): en Mac la reproducción que deja GO se anota y se detiene por el menú Reproducción > Detener antes de pedir el audio (renderizar con Resolve reproduciendo lo tumba), estado_resolve confirma cerrado con una segunda mirada a los 1,5 s, el código se dice para el usuario (texto_de_atasco) con su regla del Registro, y (pedido: mejora los logs) el error del paso timeline lleva informe_de_fallo: procesos, estado, reproducción, motivo del lanzamiento, cuelgues recientes de Resolve y el diagnóstico del Puente.
+    modificados (15):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/colocacion.py
+      ~ 1_codigo/registro_ayuda.py
+      ~ 1_codigo/resolve_bridge.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      … y 3 más
+
+2026-11-06 09:55  ·  v5.73  ·  (automático)
+    modificados (33):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/telemetria_errores.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/locales/ru.json
+      … y 21 más
+
+2026-11-06 08:48  ·  v5.72  ·  cambio explicado
+    v5.72 (informes de clientes con la 5.71): Windows con el Control inteligente de aplicaciones activado bloquea el motor auxiliar con [WinError 4551] y salía como error interno o faltan librerías: ahora registro_ayuda y salud lo reconocen y la ficha del equipo lo marca. Mac con Resolve Free: GO decía solo Abre DaVinci Resolve con tu timeline; ahora lanzar_puente_mac guarda el motivo (permisos de Accesibilidad o Automatización, menú, latido, tiempo), GO espera hasta 6 s el resultado de Resolve (llega en diferido por su registro) y crea la carpeta de audio en Mac. Publicar_Version.ps1 saca de borrador una publicación que quedó a medias.
+    modificados (16):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/ficha_equipo.py
+      ~ 1_codigo/registro_ayuda.py
+      ~ 1_codigo/resolve_bridge.py
+      ~ 1_codigo/salud.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      … y 4 más
+
+2026-11-05 23:46  ·  v5.72  ·  (automático)
+    modificados (22):
+      ~ 1_codigo/equipo_al_dia.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      … y 10 más
+
+2026-11-05 23:36  ·  v5.71  ·  cambio explicado
+    v5.72 (pedido: «que el .exe actualice el PC sin ventanas y que la app Ventas reciba más información del equipo»): ficha técnica del equipo (ficha_equipo.py: registro + DXGI, sin consolas; driver NVIDIA como lo llama el fabricante; revisión ok/aviso/falta) que va con cada error y entera a pagos/equipo.php una vez al día; paso «Tu equipo» del instalador (equipo_al_dia.py): Visual C++ y driver de la GPU por Windows Update en UN proceso elevado (la ventana de permiso de Windows no se puede esconder; nada en modo silencioso; driver solo con Resolve cerrado) y GPU de alto rendimiento por usuario; motores al día al abrir (vigilancia.poner_motores_al_dia) con candados para que pip no choque con un GO. Drivers y Visual C++ solo de Microsoft; nunca se actualizan otros programas del usuario.
+    nuevos (2):
+      + 1_codigo/equipo_al_dia.py
+      + 1_codigo/ficha_equipo.py
+    modificados (18):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/ia_texto.py
+      ~ 1_codigo/motor_compat.py
+      ~ 1_codigo/motor_voz.py
+      ~ 1_codigo/tareas_instalador.py
+      ~ 1_codigo/telemetria_errores.py
+      ~ 1_codigo/vigilancia.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      … y 6 más
+
+2026-11-05 22:09  ·  v5.71  ·  cambio explicado
+    v5.72: telemetría con captura de pantalla completa (Windows; solo la ventana en Mac) y datos del equipo (GPU, RAM, CPU, pantalla) por cada error distinto, guardada en errores_capturas del servidor y vista en Ventas 2.3 (miniatura, visor, traceback con colores). Y actualización obligatoria: force_update + version_minima dentro del version.json firmado; aviso fijo cuya X cierra el programa; Publicar_Version.ps1 con -Minima, -SoloMinima y -SinObligatoria. El usuario eligió pantalla completa y que cerrar el aviso cierre la app; sin internet no se bloquea.
+    modificados (15):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/actualizaciones.py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/telemetria_errores.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      … y 3 más
+
+2026-11-05 20:16  ·  v5.71  ·  cambio explicado
+    Revision adversarial de la 5.71 antes de publicar (36 agentes): 13 fallos confirmados y arreglados. Telemetria: informe sin 'lo que paso justo antes' (tema del video, proyecto), rutas y nombres de archivos anonimizados, errores de arranque enviados, cola guardada al cerrar, lote parcial. Resolve: .lnk real (WORKING_DIR/RELATIVE_PATH, sin LinkInfo) y 'no esta' recordado 60 s (antes repetia procesos y discos en el hilo de la interfaz). IA en CPU: lotes de 2, tope total por largo, motivo claro. Servidor: tope por licencia con GET_LOCK y 300 filas, borrado al liberar/desactivar, contador = lista, venta eliminada que se paga vuelve. Traducciones de los textos nuevos.
+    modificados (16):
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/ia_texto.py
+      ~ 1_codigo/registro.py
+      ~ 1_codigo/resolve_bridge.py
+      ~ 1_codigo/telemetria_errores.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      … y 4 más
+
+2026-11-05 19:19  ·  v5.71  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-11-05 19:18  ·  v5.70  ·  cambio explicado
+    Telemetria de errores (pedido del usuario): telemetria_errores.py manda cada error del Registro a cinecaptions.shop/pagos/errores.php (clave + equipo + informe sin la carpeta del usuario), en un hilo, con pendientes en disco, firma sin numeros, tope por sesion; desde el codigo fuente no manda. La app de ventas tiene pagina Errores y notificacion. Privacidad punto 3 actualizado. 12 casos nuevos en simular_equipos.
+    nuevos (1):
+      + 1_codigo/telemetria_errores.py
+    modificados (3):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+
+2026-11-05 19:07  ·  v5.70  ·  cambio explicado
+    IA de texto con poca VRAM (8 GB + Resolve): MEDIDO con la 1.7B y 168 palabras: GPU libre 23 s, GPU con 2,5 GB libres 28 s (Windows desaloja la VRAM sin usar), CPU 297 s. No se pasa a la CPU: se queda en la GPU y los LATIDOS evitan el corte. Caso en simular_equipos.py.
+    modificados (1):
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+
+2026-11-05 18:51  ·  v5.70  ·  cambio explicado
+    Nuevo banco simular_equipos.py (herramientas_dev): 38 casos de equipos de clientes Windows/Mac sin Resolve, GPU ni red (disco y procesos falsos). Cazó que latidos seguidos escondian un cuelgue de la IA de texto en _Servidor.pedir (arreglado). Regla: cada error reportado por un cliente se vuelve un caso.
+    nuevos (1):
+      + 1_codigo/herramientas_dev/simular_equipos.py
+    modificados (2):
+      ~ 1_codigo/ia_texto.py
+      ~ 1_codigo/resolve_bridge.py
+
+2026-11-05 18:29  ·  v5.70  ·  cambio explicado
+    Librerías al día (2026-11-05, pedido: «todas actualizadas, sin excepción»): revisadas 86 de Python + npm de Remotion contra PyPI/npm. Suben filelock 4.2.9 (motor_compat y Qwen), platformdirs 4.14.5 y threadpoolctl 3.8.0 (Qwen), sentencepiece 0.2.3 (motor_compat), onnxruntime 1.31.1 en Mac Apple Silicon (Windows sigue en directml 1.24.4, la última con DirectML; Intel en 1.23.2) y Remotion 4.0.541 + mediabunny 1.65.2 (Chrome 158 igual). Probadas en Python 3.14 aislado (no el motor real) e imports/sentencepiece/sklearn/librosa; Remotion: 52 fotogramas A/B idénticos y ProRes OK. requirements.txt de la app y salud.LIBRERIAS sin cambios (nada de la app se movió). Mac sin compilar: probar el .dmg.
+    nuevos (79):
+      + 1_codigo/remotion/node_modules/@remotion/bundler/dist/fast-refresh/rspack-jsx-source-loader.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/bundler/dist/fast-refresh/rspack-jsx-source-loader.js
+      + 1_codigo/remotion/node_modules/@remotion/codemods/dist/replace-jsx-element-with-source.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/codemods/dist/replace-node-child.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/codemods/dist/unused-imports.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/studio-server/dist/preview-server/commit-node-codemod.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/studio-server/dist/preview-server/commit-node-codemod.js
+      + 1_codigo/remotion/node_modules/@remotion/studio-server/dist/preview-server/prerendered-scene.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/studio-server/dist/preview-server/prerendered-scene.js
+      + 1_codigo/remotion/node_modules/@remotion/studio-server/dist/preview-server/resolve-compiled-sequence-paths.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/studio-server/dist/preview-server/resolve-compiled-sequence-paths.js
+      + 1_codigo/remotion/node_modules/@remotion/studio-server/dist/preview-server/routes/prerendered-scene-info.d.ts
+      … y 67 más
+    modificados (385):
+      ~ 1_codigo/remotion/node_modules/.package-lock.json
+      ~ 1_codigo/remotion/node_modules/@babel/core/lib/config/files/module-types.js
+      ~ 1_codigo/remotion/node_modules/@babel/core/lib/config/files/module-types.js.map
+      ~ 1_codigo/remotion/node_modules/@babel/core/lib/config/index.js
+      ~ 1_codigo/remotion/node_modules/@babel/core/lib/config/index.js.map
+      ~ 1_codigo/remotion/node_modules/@babel/core/lib/index.js
+      ~ 1_codigo/remotion/node_modules/@babel/core/lib/index.js.map
+      ~ 1_codigo/remotion/node_modules/@babel/core/node_modules/@babel/parser/lib/index.js
+      ~ 1_codigo/remotion/node_modules/@babel/core/node_modules/@babel/parser/lib/index.js.map
+      ~ 1_codigo/remotion/node_modules/@babel/core/node_modules/@babel/parser/package.json
+      ~ 1_codigo/remotion/node_modules/@babel/core/package.json
+      ~ 1_codigo/remotion/node_modules/@babel/generator/lib/generators/expressions.js
+      … y 373 más
+    quitados (29):
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/CaptionQueueProcessor-apfvqd8d.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/LazyModels-mfvdxvwz.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/LazyModels-q2tr41rm.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/TranscriptionModal-qkhdexmq.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/VideoMattingModal-70w5p658.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/VideoMattingQueueProcessor-rahh2f9y.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/index-0rhz1ydw.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/index-6k01te75.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/index-k22tz863.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/index-t3z3tw8x.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/index-v1bw1xsp.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/index-wt48pvr4.mjs
+      … y 17 más
+
+2026-11-05 18:11  ·  v5.70  ·  cambio explicado
+    Resolve Studio en otra carpeta o disco (mismo cliente): el instalador de Blackmagic solo deja Version en el registro, asi que GO decia No hay DaVinci Resolve en este equipo. _resolve_dir_windows ahora busca Resolve.exe en el proceso abierto, el acceso del menu Inicio y los discos fijos; fusionscript.dll sale de esa carpeta. Con Video MP4 encendido el mensaje lo dice.
+    modificados (3):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/registro_ayuda.py
+      ~ 1_codigo/resolve_bridge.py
+
+
+(Lo anterior está archivado por mes en DOCUMENTACION/historial/REGISTRO_<aaaa-mm>.txt)
 2026-11-05 18:09  ·  v5.70  ·  cambio explicado
     IA de texto en equipos lentos (reporte de un cliente): una tanda de generate() pasaba de 100 s sin señal y ia_texto la mataba por colgada; 2 veces = IA desactivada y un ERROR en el Registro en cada corrección de ortografía. Ahora motor_texto manda LATIDO cada 15 s mientras trabaja (corte real: 420 s sin terminar una tanda), el editor cae al diccionario con un aviso, el «falló N veces» es aviso, y GO sin video ni Resolve tiene su propia tarjeta («Falta el video»).
     nuevos (5):
