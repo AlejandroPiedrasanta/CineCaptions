@@ -12,6 +12,30 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-09 21:49  ·  v5.80  ·  cambio explicado
+    5.80: el Estilo 7 se va de golpe al acabar cada bloque (blancas y roja a la vez): la blanca tenía la salida de 5 fotogramas y la roja no, y al final del bloque las blancas desaparecían antes (el usuario: «el estilo 7 desaparece palabras»). comp_rojo sin SALIDA (pack Tema7 regenerado, REVISION_BIN T7 2), vista_tema sin salida para «v rojo», render_temas con la capa seca. Muestras del Estilo 7 rehechas.
+    modificados (40):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/render_temas.py
+      ~ 1_codigo/version.py
+      ~ 1_codigo/vista_tema.py
+      ~ 2_recursos/generador_packs/viral_elementos.py
+      ~ 2_recursos/guia_estilo/crea/p_t7.mp4
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      … y 28 más
+
+2026-11-09 20:46  ·  v5.79  ·  cambio explicado
+    GO real del Estilo 7 en Resolve (proyecto temporal, ajustes reales del usuario): (1) «Motions completo» repetía las palabras del titular («Ventas Ventas») porque edicion_pro.bloques_de_cues juntaba también la capa activa (run['exacto']: la roja del Estilo 7, la caja de la línea del Estilo 3); ahora se salta, igual que en director_sonido_eventos._texto_de. (2) linea_planificador._turnos: si la voz da dos palabras en el mismo instante («el» y «Knockout»), se reparten el turno por letras; antes la primera nunca se ponía roja.
+    modificados (3):
+      ~ 1_codigo/director_sonido_eventos.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/linea_planificador.py
+
 2026-11-09 18:16  ·  v5.79  ·  (automático)
     modificados (33):
       ~ 1_codigo/ajustes_ui.py
