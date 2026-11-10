@@ -1,5 +1,5 @@
 # CineCaptions · By Cinema Productions
-# 1_codigo/menu_pro_ui.py — el panel del chip «Edición PRO» de Inicio: compacto, una fila por ajuste (v5.78, propuesta C).
+# 1_codigo/menu_pro_ui.py — el panel del chip «Edición PRO» de Inicio: interruptor y una fila por ajuste.
 """
 El usuario («mejora esto, dame propuestas» → eligió la C): en vez de la lista larga de píldoras (activar, 7 «Estilo de video», 3 «Persona», 3
 «Animación», «Otra combinación»), un panel con «Edición PRO» y su interruptor arriba y una fila por ajuste:

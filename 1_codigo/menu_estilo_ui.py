@@ -1,5 +1,5 @@
 # CineCaptions · By Cinema Productions
-# 1_codigo/menu_estilo_ui.py — el panel del chip «Estilo» de Inicio: los estilos en una TIRA DE PÓSTERS (v5.78, propuesta C).
+# 1_codigo/menu_estilo_ui.py — el panel del chip «Estilo» de Inicio: los estilos en una tira de pósters.
 """
 El usuario («mejora esto, dame más propuestas» → eligió la C): en vez de la lista de píldoras «Estilo 1 … Estilo 6», una tira con el póster real
 de cada estilo (2_recursos/vistas_slider/<pack>_captions.jpg, el de «Solo captions» del slider), su número arriba a la izquierda y el elegido con

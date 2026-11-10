@@ -12,6 +12,22 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-09 18:16  ·  v5.79  ·  (automático)
+    modificados (33):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/menu_estilo_ui.py
+      ~ 1_codigo/menu_pro_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/locales/ru.json
+      … y 21 más
+
 2026-11-09 18:03  ·  v5.78  ·  cambio explicado
     Estilo 7 nuevo (pedido con un video de referencia): 1-3 palabras en Anton blanca con contorno y sombra dura y la palabra que se dice en rojo, sin intro y con corte seco. Pack Tema7 (v rojo + v rojo activa) planificado por linea_planificador con el perfil ROJO; en Crea tu estilo (t7 y p_t7) y en el Corrector la letra es una sola para todas las palabras (la roja va encima de la blanca) y el color principal pinta la roja y el secundario las blancas. Muestras del slider y de Crea hechas sin Resolve: rehacerlas con GO real cuando Resolve este libre.
     nuevos (9):
