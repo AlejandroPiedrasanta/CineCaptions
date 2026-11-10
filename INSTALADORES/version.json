@@ -1,29 +1,29 @@
 {
   "estable": {
-    "version": "5.79.0",
-    "notas": "• Estilo 7 nuevo: dos o tres palabras en letra gruesa blanca y la palabra que se dice se pone roja. También está en «Crea tu estilo» como texto principal «Palabra roja».\r\n• Corrector: tres ejemplos en video de lo que cambias (palabra principal, ortografía, colores y letra) y la tarjeta «Colores y letra» para cambiar ahí mismo el color y la letra del estilo.\r\n• Menús más simples: el chip «Estilo» de Inicio enseña cada estilo con su póster, el de Edición PRO es un panel compacto y salen «B-roll con fotos», «Escenas completas» y «Gráficos».\r\n• Ajustes › General enseña el icono de DaVinci Resolve y el de Premiere Pro.",
+    "version": "5.80.0",
+    "notas": "• Estilo 7: las palabras ya no desaparecen al final de cada frase; la línea entera se va de golpe, como entra.\r\n• Estilo 7: si dos palabras se dicen casi a la vez, las dos se ponen rojas por turnos (antes una se saltaba).\r\n• Motions completo: el titular ya no repite las palabras con el Estilo 7.",
     "fecha": "2026-11-09",
     "archivos": {
       "windows": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.79/Instalar_CineCaptions_5.79.exe",
-        "sha256": "8c281d7f2986373f91d7ff32ea9ae4a8dc309fa67c92b0b8c373dd16d0dfe8c7",
-        "tam": 593026429
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.80/Instalar_CineCaptions_5.80.exe",
+        "sha256": "d566d6ab0c58919664b8df7c669383a2a8f483bd0fd755066540d11a82db782c",
+        "tam": 592981686
       },
       "mac_arm64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.79/CineCaptions_Mac_AppleSilicon_5.79.dmg",
-        "sha256": "5053f59a91ac411207165b35539cfffa4899d7ee1f7d0b6cca6e4d2295eb49a8",
-        "tam": 570824940
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.80/CineCaptions_Mac_AppleSilicon_5.80.dmg",
+        "sha256": "4b8153bf0cba4c0bdf7a6e6dc8c5d4168545a6f46135249c3f0adfbdc3470ac8",
+        "tam": 570703302
       },
       "mac_x86_64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.79/CineCaptions_Mac_Intel_5.79.dmg",
-        "sha256": "6fafc1c68f9028184f5facd0bd9315bf62524fca58e5eaf6d705f9b20c85869e",
-        "tam": 595882214
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.80/CineCaptions_Mac_Intel_5.80.dmg",
+        "sha256": "f658bcb08df51c794ee41febb6c0a2f5e10ebfa9e3c0325c8af5d76f0c77f522",
+        "tam": 595906485
       }
     }
   },
   "firma": {
     "alg": "ed25519",
     "clave": "7a4e413e",
-    "valor": "kjNMioX69jvlYJYUB7jVYHj32YKL+v0YWMauna/JB3TmoxikOlYTIqSFZIoX6V/nNXaifKXOzTfTIvX7Km+9BA=="
+    "valor": "MCmrU3Ao7lCOejCUgLa+Y/0VBsd7kU/jcASt+EMYruoMMgHApHAuwCKICTvSwcTPN5pehR1aXqD+bOoqK9JQBg=="
   }
 }
