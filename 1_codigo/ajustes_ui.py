@@ -495,6 +495,12 @@ def desactivar_licencia(app, al_terminar=None):
 
 
 NOTAS_VERSION = [
+    ('5.79', [
+        'Estilo 7 nuevo: dos o tres palabras en letra gruesa blanca y la palabra que se dice se pone roja. También está en «Crea tu estilo» como texto principal «Palabra roja».',
+        'Corrector: tres ejemplos en video de lo que cambias (palabra principal, ortografía, colores y letra) y la tarjeta «Colores y letra» para cambiar ahí mismo el color y la letra del estilo.',
+        'Menús más simples: el chip «Estilo» de Inicio enseña cada estilo con su póster, el de Edición PRO es un panel compacto y salen «B-roll con fotos», «Escenas completas» y «Gráficos».',
+        'Ajustes › General enseña el icono de DaVinci Resolve y el de Premiere Pro.',
+    ]),
     ('5.78', [                                       # (la 5.77 ya se publicó sin esto; se ve cuando version.py pase a 5.78)
         'Adobe Premiere Pro: elige «Usar con Premiere Pro» en Ajustes › General y GO coloca todo en Premiere como en Resolve, en una secuencia nueva: tu video, los subtítulos del estilo elegido encima (con sus emojis), los sonidos en sus pistas y la música. Si Premiere está cerrado, se abre solo.',
         'En Ajustes › General eliges con qué trabaja GO, uno a la vez: «Usar con DaVinci Resolve» (de fábrica), «Usar con Premiere Pro» o «Video sin editores (DaVinci y Premiere)», el antiguo «Video MP4 en lugar de Resolve».',

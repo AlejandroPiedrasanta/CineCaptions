@@ -11639,5 +11639,49 @@
   "ko": "스타일 7에서는 모든 단어가 큰 단어의 글꼴을 씁니다. 그 색은 말하는 단어의 색입니다.",
   "ru": "В стиле 7 все слова набраны шрифтом крупного слова; его цвет — цвет произносимого слова.",
   "zh": "在样式 7 中，所有词都用大词的字体；它的颜色就是正在说的词的颜色。"
+ },
+ "Estilo 7 nuevo: dos o tres palabras en letra gruesa blanca y la palabra que se dice se pone roja. También está en «Crea tu estilo» como texto principal «Palabra roja».": {
+  "en": "New Style 7: two or three words in bold white letters, and the word being spoken turns red. It is also in «Create your style» as the main text «Red word».",
+  "pt": "Novo Estilo 7: duas ou três palavras em letra grossa branca e a palavra que está sendo dita fica vermelha. Também está em «Crie o seu estilo» como texto principal «Palavra vermelha».",
+  "fr": "Nouveau Style 7 : deux ou trois mots en lettres blanches épaisses, et le mot prononcé passe au rouge. Il est aussi dans «Créez votre style» comme texte principal «Mot rouge».",
+  "de": "Neuer Stil 7: zwei oder drei Wörter in dicker weißer Schrift, und das gesprochene Wort wird rot. Auch in «Erstelle deinen Stil» als Haupttext «Rotes Wort».",
+  "it": "Nuovo Stile 7: due o tre parole in lettere bianche spesse e la parola pronunciata diventa rossa. È anche in «Crea il tuo stile» come testo principale «Parola rossa».",
+  "ja": "新しいスタイル7：太い白文字で2〜3語、話している単語が赤くなります。「スタイルを作成」でもメインテキスト「赤い単語」として使えます。",
+  "ko": "새 스타일 7: 굵은 흰 글자로 두세 단어, 말하는 단어는 빨간색이 됩니다. 「스타일 만들기」에서도 메인 텍스트 「빨간 단어」로 쓸 수 있습니다.",
+  "ru": "Новый стиль 7: два-три слова толстыми белыми буквами, а произносимое слово становится красным. Он есть и в «Создайте свой стиль» как основной текст «Красное слово».",
+  "zh": "全新样式 7：两三个词用粗白字，正在说的词变成红色。在「创建你的样式」中也可作为主文字「红色单词」使用。"
+ },
+ "Corrector: tres ejemplos en video de lo que cambias (palabra principal, ortografía, colores y letra) y la tarjeta «Colores y letra» para cambiar ahí mismo el color y la letra del estilo.": {
+  "en": "Proofreader: three video examples of what you change (main word, spelling, colors and font) and the «Colors and font» card to change the style's color and font right there.",
+  "pt": "Corretor: três exemplos em vídeo do que você muda (palavra principal, ortografia, cores e letra) e o cartão «Cores e letra» para mudar ali mesmo a cor e a letra do estilo.",
+  "fr": "Correcteur : trois exemples en vidéo de ce que vous changez (mot principal, orthographe, couleurs et police) et la carte «Couleurs et police» pour changer sur place la couleur et la police du style.",
+  "de": "Korrektor: drei Videobeispiele für das, was du änderst (Hauptwort, Rechtschreibung, Farben und Schrift), und die Karte «Farben und Schrift», um Farbe und Schrift des Stils direkt dort zu ändern.",
+  "it": "Correttore: tre esempi video di ciò che cambi (parola principale, ortografia, colori e carattere) e la scheda «Colori e carattere» per cambiare lì stesso colore e carattere dello stile.",
+  "ja": "校正：変更内容（メインの単語、つづり、色とフォント）の動画例を3つと、その場でスタイルの色とフォントを変えられる「色とフォント」カード。",
+  "ko": "교정: 바꾸는 내용(메인 단어, 맞춤법, 색과 글꼴)의 영상 예시 3개와, 그 자리에서 스타일의 색과 글꼴을 바꾸는 「색과 글꼴」 카드.",
+  "ru": "Корректор: три видеопримера того, что вы меняете (главное слово, орфография, цвета и шрифт), и карточка «Цвета и шрифт», чтобы прямо там менять цвет и шрифт стиля.",
+  "zh": "校对器：三个视频示例展示你改了什么（主词、拼写、颜色和字体），以及「颜色和字体」卡片，可直接在那里修改样式的颜色和字体。"
+ },
+ "Menús más simples: el chip «Estilo» de Inicio enseña cada estilo con su póster, el de Edición PRO es un panel compacto y salen «B-roll con fotos», «Escenas completas» y «Gráficos».": {
+  "en": "Simpler menus: the «Style» chip on Home shows each style with its poster, the PRO Edit one is a compact panel, and «B-roll with photos», «Full scenes» and «Graphics» are gone.",
+  "pt": "Menus mais simples: o chip «Estilo» do Início mostra cada estilo com seu pôster, o da Edição PRO é um painel compacto e saem «B-roll com fotos», «Cenas completas» e «Gráficos».",
+  "fr": "Menus plus simples : la puce «Style» de l'Accueil montre chaque style avec son affiche, celle d'Édition PRO est un panneau compact, et «B-roll avec photos», «Scènes complètes» et «Graphiques» disparaissent.",
+  "de": "Einfachere Menüs: Der Chip «Stil» auf «Start» zeigt jeden Stil mit seinem Poster, der von PRO-Bearbeitung ist ein kompaktes Feld, und «B-Roll mit Fotos», «Ganze Szenen» und «Grafiken» fallen weg.",
+  "it": "Menu più semplici: il chip «Stile» della Home mostra ogni stile con il suo poster, quello di Edizione PRO è un pannello compatto ed escono «B-roll con foto», «Scene complete» e «Grafica».",
+  "ja": "メニューをシンプルに：ホームの「スタイル」チップは各スタイルをポスター付きで表示、PRO編集はコンパクトなパネルに。「写真のBロール」「フルシーン」「グラフィック」は削除しました。",
+  "ko": "더 간단한 메뉴: 홈의 「스타일」 칩은 각 스타일을 포스터와 함께 보여 주고, PRO 편집은 작은 패널이 되었으며 「사진 B롤」, 「전체 장면」, 「그래픽」은 빠졌습니다.",
+  "ru": "Меню проще: чип «Стиль» на главной показывает каждый стиль с постером, меню «PRO Редактирование» стало компактной панелью, а «B-roll с фото», «Полные сцены» и «Графика» убраны.",
+  "zh": "菜单更简洁：主页的「样式」标签用海报展示每种样式，PRO 编辑变成紧凑面板，并移除了「照片 B-roll」「完整场景」和「图形」。"
+ },
+ "Ajustes › General enseña el icono de DaVinci Resolve y el de Premiere Pro.": {
+  "en": "Settings › General shows the DaVinci Resolve and Premiere Pro icons.",
+  "pt": "Ajustes › Geral mostra o ícone do DaVinci Resolve e o do Premiere Pro.",
+  "fr": "Réglages › Général affiche l'icône de DaVinci Resolve et celle de Premiere Pro.",
+  "de": "Einstellungen › Allgemein zeigt das Symbol von DaVinci Resolve und das von Premiere Pro.",
+  "it": "Impostazioni › Generale mostra l'icona di DaVinci Resolve e quella di Premiere Pro.",
+  "ja": "設定 › 一般 に DaVinci Resolve と Premiere Pro のアイコンを表示します。",
+  "ko": "설정 › 일반에 DaVinci Resolve와 Premiere Pro 아이콘이 보입니다.",
+  "ru": "Настройки › Общие показывают значки DaVinci Resolve и Premiere Pro.",
+  "zh": "设置 › 常规 显示 DaVinci Resolve 和 Premiere Pro 的图标。"
  }
 }

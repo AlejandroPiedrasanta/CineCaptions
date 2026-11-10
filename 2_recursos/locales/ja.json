@@ -4490,6 +4490,10 @@
     "Rojo palabra a palabra": "一語ずつ赤",
     "Dos o tres palabras en letra gruesa blanca con sombra negra; la palabra que se dice se pone en rojo.": "黒い影付きの太い白文字で2〜3語。話している単語が赤くなります。",
     "Palabra roja": "赤い単語",
-    "En el Estilo 7 todas las palabras llevan la letra de la palabra grande; su color es el de la palabra que se dice.": "スタイル7ではすべての単語が大きい単語のフォントになります。その色は話している単語の色です。"
+    "En el Estilo 7 todas las palabras llevan la letra de la palabra grande; su color es el de la palabra que se dice.": "スタイル7ではすべての単語が大きい単語のフォントになります。その色は話している単語の色です。",
+    "Estilo 7 nuevo: dos o tres palabras en letra gruesa blanca y la palabra que se dice se pone roja. También está en «Crea tu estilo» como texto principal «Palabra roja».": "新しいスタイル7：太い白文字で2〜3語、話している単語が赤くなります。「スタイルを作成」でもメインテキスト「赤い単語」として使えます。",
+    "Corrector: tres ejemplos en video de lo que cambias (palabra principal, ortografía, colores y letra) y la tarjeta «Colores y letra» para cambiar ahí mismo el color y la letra del estilo.": "校正：変更内容（メインの単語、つづり、色とフォント）の動画例を3つと、その場でスタイルの色とフォントを変えられる「色とフォント」カード。",
+    "Menús más simples: el chip «Estilo» de Inicio enseña cada estilo con su póster, el de Edición PRO es un panel compacto y salen «B-roll con fotos», «Escenas completas» y «Gráficos».": "メニューをシンプルに：ホームの「スタイル」チップは各スタイルをポスター付きで表示、PRO編集はコンパクトなパネルに。「写真のBロール」「フルシーン」「グラフィック」は削除しました。",
+    "Ajustes › General enseña el icono de DaVinci Resolve y el de Premiere Pro.": "設定 › 一般 に DaVinci Resolve と Premiere Pro のアイコンを表示します。"
   }
 }
