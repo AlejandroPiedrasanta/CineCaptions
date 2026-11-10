@@ -1,29 +1,29 @@
 {
   "estable": {
-    "version": "5.80.0",
-    "notas": "• Estilo 7: las palabras ya no desaparecen al final de cada frase; la línea entera se va de golpe, como entra.\r\n• Estilo 7: si dos palabras se dicen casi a la vez, las dos se ponen rojas por turnos (antes una se saltaba).\r\n• Motions completo: el titular ya no repite las palabras con el Estilo 7.",
-    "fecha": "2026-11-09",
+    "version": "5.81.0",
+    "notas": "• Estilo 8 nuevo: una línea pequeña en letra fina color ámbar con la palabra clave en negrita; cada palabra entra subiendo y enfocándose cuando se dice. También está en «Crea tu estilo» como texto principal «Ámbar».\r\n• Estilo 9 nuevo: tres líneas centradas abajo, texto fino y la palabra clave grande en serif cursiva; cada palabra aparece cuando se dice. También está en «Crea tu estilo» como texto principal «Serif cursiva».",
+    "fecha": "2026-11-10",
     "archivos": {
       "windows": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.80/Instalar_CineCaptions_5.80.exe",
-        "sha256": "d566d6ab0c58919664b8df7c669383a2a8f483bd0fd755066540d11a82db782c",
-        "tam": 592981686
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.81/Instalar_CineCaptions_5.81.exe",
+        "sha256": "b89efd51f4f2e4e2c7f874d6e97fa6c1d1da92ab08822d541ca6e5beea7ad62b",
+        "tam": 603747621
       },
       "mac_arm64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.80/CineCaptions_Mac_AppleSilicon_5.80.dmg",
-        "sha256": "4b8153bf0cba4c0bdf7a6e6dc8c5d4168545a6f46135249c3f0adfbdc3470ac8",
-        "tam": 570703302
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.81/CineCaptions_Mac_AppleSilicon_5.81.dmg",
+        "sha256": "2652362d8c1810f14a946b83a0c304155b69e7697f8672b79ac68790386dc695",
+        "tam": 581250917
       },
       "mac_x86_64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.80/CineCaptions_Mac_Intel_5.80.dmg",
-        "sha256": "f658bcb08df51c794ee41febb6c0a2f5e10ebfa9e3c0325c8af5d76f0c77f522",
-        "tam": 595906485
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.81/CineCaptions_Mac_Intel_5.81.dmg",
+        "sha256": "f0cd689026867acdedab935625c326ef198df517f8481facf30490e7cdabe30b",
+        "tam": 606425330
       }
     }
   },
   "firma": {
     "alg": "ed25519",
     "clave": "7a4e413e",
-    "valor": "MCmrU3Ao7lCOejCUgLa+Y/0VBsd7kU/jcASt+EMYruoMMgHApHAuwCKICTvSwcTPN5pehR1aXqD+bOoqK9JQBg=="
+    "valor": "wqDBrZ3qTIJOKTp4KDxxlTdpwZVH55AqwXrCIfeh85Rg4LJqR0naklRxuucVMcwC9KY0Twe31apItsu/7rKpBw=="
   }
 }
