@@ -31,16 +31,41 @@
     "pestaña",
     "ir_a",
     "SubtitleApp",
-    "build_ui"
+    "build_ui",
+    "primera visita",
+    "por partes",
+    "prearmar",
+    "precargar",
+    "posters"
    ],
-   "archivos": [],
+   "archivos": [
+    "efectos_pagina.py",
+    "efectos_pro_ui.py",
+    "efectos_extra_ui.py",
+    "vistas_slider.py",
+    "estilos_slider.py",
+    "sonido_skill_ui.py"
+   ],
    "simbolos": [
     "ir_a",
     "SubtitleApp",
     "_build_ui",
-    "_nueva_pagina"
+    "_nueva_pagina",
+    "_prearmar_paginas",
+    "_armar_por_partes",
+    "_crear_por_partes",
+    "_MODULOS_POR_PARTES",
+    "_asegurar_efectos",
+    "_asegurar_estilos",
+    "_asegurar_sfx",
+    "_ajustar_linea",
+    "armar_paso",
+    "_asegurar_tira",
+    "_precalentar_imagenes",
+    "precargar",
+    "imagen_de"
    ],
-   "resumen": "SubtitleApp (script principal): _build_ui, _nueva_pagina, ir_a"
+   "resumen": "SubtitleApp (script principal): _build_ui, _nueva_pagina, ir_a · v5.83: Efectos, Estilo y Sonido se arman por partes en Inicio (_armar_por_partes; primer clic ~3-20 ms) y sus imágenes se decodifican en hilos (vistas_slider.precargar); misma imagen comprobada armándolas de las dos maneras; la mezcla de Sonido sigue al alto de su recuadro (PaginaSonido.eventFilter)"
   },
   {
    "id": "editor-palabras",
@@ -643,9 +668,13 @@
     "_cielo_negro",
     "VentanaAjustes",
     "_ir_a_pestana",
-    "_armar_pagina"
+    "_armar_pagina",
+    "preparar_ajustes",
+    "tomar_preparada",
+    "_preparar_en_reposo",
+    "_EfectoFundido"
    ],
-   "resumen": "ajustes_ui.py, tema.py · v5.63: negro + blanco de fábrica (Fondo de la interfaz: Negro / Azul), texto oscuro sobre el acento claro · v5.82: Ajustes arma cada página al elegirla (el clic, ~260 → ~55 ms)"
+   "resumen": "ajustes_ui.py, tema.py · v5.63: negro + blanco de fábrica (Fondo de la interfaz: Negro / Azul), texto oscuro sobre el acento claro · v5.82: Ajustes arma cada página al elegirla · v5.83: se prepara en reposo al abrir el engranaje («Expandir» ~47 → ~14 ms)"
   },
   {
    "id": "version",
@@ -1949,7 +1978,7 @@
   {
    "id": "recorrido",
    "grupo": "ui",
-   "tema": "La guía con video y Ajustes › Tutoriales (v5.76; voz y «paso a paso» en la v5.82)",
+   "tema": "La guía con video y Ajustes › Tutoriales (v5.76; voz y «paso a paso» en la v5.82; en inglés en la v5.83)",
    "claves": [
     "recorrido",
     "tour",
@@ -1968,7 +1997,9 @@
     "tts",
     "elevenlabs",
     "higgsfield",
-    "altavoz"
+    "altavoz",
+    "ingles",
+    "idioma"
    ],
    "archivos": [
     "recorrido_ui.py",
@@ -1976,7 +2007,8 @@
     "tutoriales_ui.py",
     "ajustes_ui.py",
     "herramientas_dev/hacer_videos_tutorial.py",
-    "herramientas_dev/voz_tutoriales.py"
+    "herramientas_dev/voz_tutoriales.py",
+    "plantillas.py"
    ],
    "simbolos": [
     "Paso",
@@ -2004,9 +2036,12 @@
     "voz_activa",
     "montar_voz",
     "duracion_voz",
-    "GRUPOS"
+    "GRUPOS",
+    "carpeta_de",
+    "ANIMO_EN",
+    "nombre_para_ui"
    ],
-   "resumen": "guía C1 (tira con video bajo la zona, 7 páginas) una vez por versión nueva; Ajustes › Tutoriales B2 (video grande + lista de 12 en dos grupos); videos grabados con la interfaz real sin pantalla; subtítulos A pintados por el reproductor (subtitulos.json, traducidos); v5.82: locución de ElevenLabs (conector de Higgsfield, voz Andre, enérgica; voz_tutoriales.py --motor archivos) en voz/es/<id>.m4a, sincronizada (g.decir) y con altavoz"
+   "resumen": "guía C1 (tira con video bajo la zona, 7 páginas) una vez por versión nueva; Ajustes › Tutoriales B2 (video grande + lista de 12 en dos grupos); videos grabados con la interfaz real sin pantalla; subtítulos A pintados por el reproductor (subtitulos.json, traducidos); v5.82: locución de ElevenLabs (conector de Higgsfield, voz Andre, enérgica; voz_tutoriales.py --motor archivos) en voz/es/<id>.m4a, sincronizada (g.decir) y con altavoz; v5.83: con la interfaz en inglés, su propia grabación en tutoriales/en/ (interfaz y voz en inglés; carpeta_de, grabador --idioma-ui en)"
   },
   {
    "id": "fluidez-resolve",
@@ -3289,7 +3324,10 @@
     "argos",
     "i18n",
     "tr",
-    "traducciones"
+    "traducciones",
+    "cortado",
+    "no cabe",
+    "textos largos"
    ],
    "archivos": [
     "brillo_ui.py",
@@ -3298,8 +3336,12 @@
     "i18n.py",
     "ensure_lang_pack.py"
    ],
-   "simbolos": [],
-   "resumen": "brillo_ui (ondas al pulsar), registro_ui (ventana Registro), ui_toast (sin uso visible desde 5.4.22), i18n.tr + locales, ensure_lang_pack"
+   "simbolos": [
+    "_TituloQueCabe",
+    "_acomodar_botones_licencia",
+    "_acomodar_bajar"
+   ],
+   "resumen": "brillo_ui (ondas al pulsar), registro_ui (ventana Registro), ui_toast (sin uso visible desde 5.4.22), i18n.tr + locales, ensure_lang_pack; textos que no caben (títulos que encogen, botones que cambian de fila)"
   },
   {
    "id": "efectos-movimiento",

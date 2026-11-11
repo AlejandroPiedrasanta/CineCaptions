@@ -12,6 +12,70 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-10 21:43  ·  v5.83  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-11-10 21:42  ·  v5.82  ·  cambio explicado
+    5.83 (antes de compilar): (1) Fluidez (el usuario: mejora la fluidez de todas las paginas y de los fondos; utiliza todos los hilos y memoria): Efectos, Estilo y Sonido se arman por partes en Inicio desde los ~4 s (_armar_por_partes) y sus imagenes se decodifican en hilos; primer clic Estilo ~100 -> ~3,5 ms, Sonido ~85 -> ~3,5 ms, Efectos ~300 -> ~14 ms; Ajustes se prepara en reposo. La sesion de Fluidez paro por el limite de uso sin comprobar la imagen de Estilo y Sonido: lo compruebo armando cada pagina de las dos maneras y comparando widget a widget y pixel a pixel; sale igual salvo la mezcla de Sonido, que ya se salia por abajo en la 5.82 (se medía antes de que la pista de musica y el inspector tomaran su sitio) y armada en Inicio quedaba corta: PaginaSonido.eventFilter la mide con cada cambio de alto de su recuadro. (2) Fallos visibles del .exe (el usuario: el .exe tiene fallos y fallos esteticos, arreglalos; busca tu): Proyectos con nombres largos o repetidos, panel de emojis del Corrector, botones y titulos de Ajustes en aleman/frances/ruso, avisos de arranque y Reparar sin IA de texto como error en el Registro, 1 anotacion, pista de musica, nombre de la GPU, Corrigiendo; 7 pruebas nuevas (88/0). (3) Con los nombres de estilo traducidos, en coreano el numero va delante (4 스타일) y el poster del menu de GO lo perdia: menu_estilo_ui._numero lo saca del nombre en espanol.
+    modificados (22):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/efectos_extra_ui.py
+      ~ 1_codigo/efectos_pagina.py
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/estilos_slider.py
+      ~ 1_codigo/menu_estilo_ui.py
+      ~ 1_codigo/mograf_ui.py
+      ~ 1_codigo/registro_ui.py
+      ~ 1_codigo/sonido_skill_ui.py
+      ~ 1_codigo/vigilancia.py
+      ~ 1_codigo/vistas_slider.py
+      … y 10 más
+
+2026-11-10 16:44  ·  v5.82  ·  cambio explicado
+    5.83 (sin compilar): tutoriales EN INGLES. El usuario: 'si el usuario coloca ingles los videos tutoriales siguen en espanol' (captions y audio). Grabacion propia en 2_recursos/tutoriales/en/ con la interfaz en ingles y la voz inglesa de Andre (68 frases, 13,65 creditos de Higgsfield aprobados 'hasta 15'); tutoriales.carpeta_de elige la carpeta del idioma y de ella salen juntos video, miniatura, duraciones, subtitulos y voz. Grabador --idioma-ui en (CINECAPTIONS_IDIOMA antes de importar; botones con M.tr). Al grabar salieron textos de la app sin traducir que veia cualquier usuario en ingles: 'Estilo N' (plantillas.nombre_para_ui) y 161 textos de las tablas de Efectos y Sonido (solo ingles en traducciones_extra). Los videos en espanol no cambian.
+    nuevos (38):
+      + 2_recursos/tutoriales/en/ajustes.jpg
+      + 2_recursos/tutoriales/en/ajustes.mp4
+      + 2_recursos/tutoriales/en/ayuda.jpg
+      + 2_recursos/tutoriales/en/ayuda.mp4
+      + 2_recursos/tutoriales/en/corrector.jpg
+      + 2_recursos/tutoriales/en/corrector.mp4
+      + 2_recursos/tutoriales/en/crea.jpg
+      + 2_recursos/tutoriales/en/crea.mp4
+      + 2_recursos/tutoriales/en/duraciones.json
+      + 2_recursos/tutoriales/en/efectos.jpg
+      + 2_recursos/tutoriales/en/efectos.mp4
+      + 2_recursos/tutoriales/en/estilo.jpg
+      … y 26 más
+    modificados (27):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/efectos_extra_ui.py
+      ~ 1_codigo/efectos_pagina.py
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/estilos_slider.py
+      ~ 1_codigo/herramientas_dev/hacer_videos_tutorial.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/herramientas_dev/voz_tutoriales.py
+      ~ 1_codigo/mograf_ui.py
+      ~ 1_codigo/motor_voz.py
+      ~ 1_codigo/plantillas.py
+      … y 15 más
+
 2026-11-10 15:42  ·  v5.82  ·  cambio explicado
     5.82: Estilo 4 nuevo copiado del reel de referencia (ESTILO 7.mp4) con tres alturas MEDIDAS fotograma a fotograma (a ojo no se parecia) y sus motions para la PRO (avion de papel con la trayectoria del ejemplo trasladada, tachado, REC, aro, persianas, zoom con desenfoque, pildora Reflejo rojo); el Corrector se acerca a los captions para ver cada cambio; 4K sin perdida; paginas y fondos mas fluidos (Ajustes construye al abrir); Cancelar inmediato porque el usuario esperaba con 'Resolve tarda en abrirse (intento 2)': las esperas de resolve_mcp se cortan con un evento; tutoriales con voz ElevenLabs (Andre, ~13,5 creditos aprobados) en vez del TTS local de 11,7 GB; arreglos de informes de clientes (aviso de la IA Qwen3 que decia faltan modelos sin ser verdad, WinError 32 en .tmp, arranque trabado 46 s cargando la referencia de Inicio). El cuelgue del Mac 5.78 sigue pendiente de sus registros.
 

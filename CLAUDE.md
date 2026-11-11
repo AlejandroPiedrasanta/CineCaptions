@@ -1,6 +1,6 @@
 # CineCaptions — leer SOLO esto; lo demás se consulta por demanda
 
-App PySide6 (v5.82, Python 3.15.2) que subtitula vídeos con IA local y los coloca en DaVinci Resolve (Free y Studio, Windows y Mac).
+App PySide6 (v5.83, Python 3.15.2) que subtitula vídeos con IA local y los coloca en DaVinci Resolve (Free y Studio, Windows y Mac).
 Carpetas: `1_codigo` programa · `2_recursos` lo que viaja en el .exe · `3_compilar` · `4_diseno` · `5_SFX` (biblioteca de sonido del autor, 8 GB, fuera de Git; `Desktop\SFX` es un enlace a ella; reglas en su `MAPA_SFX.md`: nunca borrar, mover ni renombrar sonidos) · `6_compilacion` (temporal, no tocar) · `7_mac` · `INSTALADORES/{Windows,Mac}` · `DOCUMENTACION` · `MEDIOS` (icono, renders 4K de Inicio, capturas 4K de las páginas y banners; fuera de Git).
 «Estilo N» de la interfaz (antes «Tema N»; en el código siguen siendo temas) → `id`: 1 `kinetic-planificador` · 2 `guion-planificador` · 3 `viral-planificador` · 4 `tema4` · 5 `tema5` · 6 `tema6` · 7 `tema7` · 8 `tema8` · 9 `tema9`.
 Python con dependencias (`$PY`): `6_compilacion/venv315/Scripts/python.exe`.
