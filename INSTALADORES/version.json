@@ -1,29 +1,29 @@
 {
   "estable": {
-    "version": "5.83.0",
-    "notas": "• Tutoriales en inglés: con la interfaz en inglés, los 12 tutoriales salen con la interfaz, la voz y los subtítulos en inglés.\r\n• Más fluido: Efectos, Estilo y Sonido se preparan mientras estás en Inicio y se abren al momento, y «Expandir ajustes» va más rápido.\r\n• Los estilos se llaman en el idioma de la interfaz y, en inglés, Efectos y Sonido ya no tienen textos en español.\r\n• Arreglos: en Proyectos, los nombres muy largos ya no esconden «Abrir» y «Eliminar», y si dos videos se llaman igual se ve su carpeta; el panel de emojis del Corrector ya se lee bien.\r\n• En alemán, francés y ruso ya no salen botones ni títulos cortados en Ajustes, y el Registro enseña los avisos al abrir y cuando «Reparar el motor» no puede bajar la IA de texto.\r\n• En Sonido, la mezcla ya cabe entera en su recuadro: en ventanas bajas escondía las últimas pistas.",
+    "version": "5.84.0",
+    "notas": "• Resolve reproduce antes los captions: el Estilo 5 llena su caché en menos de la mitad de tiempo y el Estilo 1 en un 22 % menos, con la misma imagen.\r\n• «Video sin editores» graba hasta un 50 % más rápido: usa varios núcleos a la vez y el video sale idéntico.\r\n• Inicio va más fluido mientras se preparan las páginas: el fondo animado se compone en otro hilo.\r\n• Volver a pulsar el botón que abrió un panel o una lista lo cierra (el chip Estilo, Edición PRO, la letra y los demás).\r\n• Arreglos: el neón del Estilo 1 queda dentro de la zona segura, y con videos largos «Video sin editores» ya no avisa en falso de que GO está atascado.",
     "fecha": "2026-11-11",
     "archivos": {
       "windows": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.83/Instalar_CineCaptions_5.83.exe",
-        "sha256": "b99cfeaf33096f341563e394b935ea611c02ccb213234475b3f1790bd040f367",
-        "tam": 642004723
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.84/Instalar_CineCaptions_5.84.exe",
+        "sha256": "dc765c62755711744446f0091eafd4ad12b45d811f7b99338ea75bec86c81430",
+        "tam": 639535098
       },
       "mac_arm64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.83/CineCaptions_Mac_AppleSilicon_5.83.dmg",
-        "sha256": "1e09aa2b68d1f498172e56d6473ca73aec4274d2282c2e487761fff6a859b83c",
-        "tam": 619565525
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.84/CineCaptions_Mac_AppleSilicon_5.84.dmg",
+        "sha256": "b9357399511d8233956d1b7da992e8e1ca1237c20cb64009445046209303cf0f",
+        "tam": 616901116
       },
       "mac_x86_64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.83/CineCaptions_Mac_Intel_5.83.dmg",
-        "sha256": "bc474d96e53226fc4fd9019d3007f1afb8d5b7aa05def580748686c699cc952c",
-        "tam": 644810357
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.84/CineCaptions_Mac_Intel_5.84.dmg",
+        "sha256": "7aead10937c679d9830af78452bd0df872e07c06fe35dc37f75fb377b2b9cc7f",
+        "tam": 642003104
       }
     }
   },
   "firma": {
     "alg": "ed25519",
     "clave": "7a4e413e",
-    "valor": "66hWGgipQWxG6VIuDNmIt4BUIkyBw34eXWsy//rvkz1oakhWLj+Pqx5M5DIXNnV5TmfhWChCPvjt2x+h2kU4CA=="
+    "valor": "iAhRgi4vp6w+BBaXzYuRCy/cMu6kj6sNI1+xnPs2kEVv4a/5wCrJfuJgEIU3rwch0lX7ewo5Z2iOX6zI4uyZCQ=="
   }
 }
