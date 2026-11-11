@@ -53,6 +53,8 @@
     "_nueva_pagina",
     "_prearmar_paginas",
     "_armar_por_partes",
+    "_TrasPintar",
+    "_PARTES_TRAS_PINTAR",
     "_crear_por_partes",
     "_MODULOS_POR_PARTES",
     "_asegurar_efectos",
@@ -65,7 +67,7 @@
     "precargar",
     "imagen_de"
    ],
-   "resumen": "SubtitleApp (script principal): _build_ui, _nueva_pagina, ir_a · v5.83: Efectos, Estilo y Sonido se arman por partes en Inicio (_armar_por_partes; primer clic ~3-20 ms) y sus imágenes se decodifican en hilos (vistas_slider.precargar); misma imagen comprobada armándolas de las dos maneras; la mezcla de Sonido sigue al alto de su recuadro (PaginaSonido.eventFilter)"
+   "resumen": "SubtitleApp (script principal): _build_ui, _nueva_pagina, ir_a · v5.83: Efectos, Estilo y Sonido se arman por partes en Inicio (_armar_por_partes; primer clic ~3-20 ms) y sus imágenes se decodifican en hilos (vistas_slider.precargar); misma imagen comprobada armándolas de las dos maneras; la mezcla de Sonido sigue al alto de su recuadro (PaginaSonido.eventFilter) · v5.84: cada trozo justo tras un cuadro de la escena de Inicio (_TrasPintar): Inicio igual que sin armar nada"
   },
   {
    "id": "editor-palabras",
@@ -276,9 +278,21 @@
     "_capas_quietas",
     "_repintar_tic",
     "refrescar_vista",
-    "_repartir_vidrio"
+    "_repartir_vidrio",
+    "_taller",
+    "_componer_debajo",
+    "_componer_rejilla",
+    "_adelantar_aurora",
+    "_capa_encima",
+    "_hacer_grano",
+    "preparador",
+    "capas_listas",
+    "_Preparador",
+    "pedir_fijo",
+    "_fijo_compartido",
+    "_dibujar_fijo"
    ],
-   "resumen": "efectos_ui.FondoVivo (tapar_con: no se pinta tapado), mograf_ui.entrada_escalonada; v5.82 fluidez: slider por capas, Efectos solo la imagen, grano real, relojes precisos"
+   "resumen": "efectos_ui.FondoVivo (tapar_con: no se pinta tapado), mograf_ui.entrada_escalonada; v5.82 fluidez: slider por capas, Efectos solo la imagen, grano real, relojes precisos · v5.84: capas del fondo compuestas en otro hilo (_taller) y grano ya hecho (fondos_estilos/grano_fondo.png)"
   },
   {
    "id": "estilos-inicio",
@@ -1325,7 +1339,7 @@
     "_sitio_emoji",
     "_detras_bloque",
     "ajustar_captions"
-   ],
+   , "_bloque_en_zona", "_medio_ancho"],
    "resumen": "v5.76 (propuesta A elegida): zona_segura.py = 13 % arriba, 25 % abajo, 16 % a cada lado, solo en vertical y sin dibujarla; cada planificador la usa como su ancho máximo y su alto (Estilos 1 y 2 con AIRE_TINTA; Estilo 3 con la caja activa); la PRO no saca captions, emojis ni motions de ella (gráficos que esquivan caras dentro de la zona, píldora hasta el 75 %, sin marco en vertical, maqueta del kit neón con SUELO/ARRIBA_KIT/IZQ_KIT); los emojis del tema en los gemelos de Resolve repiten los números."
   },
   {
@@ -2068,7 +2082,7 @@
     "fluidez_resolve.py",
     "colocacion.py",
     "2_recursos/resolve_scripts/CineCaptions_Vista.lua"
-   ],
+   , "2_recursos/generador_packs/viral_elementos.py", "2_recursos/generador_packs/kinetic_elementos.py"],
    "simbolos": [
     "preparar",
     "esperar_cache",
@@ -2083,7 +2097,7 @@
     "falta_cache",
     "cuenta_atras",
     "texto_tiempo"
-   ],
+   , "_relieve", "_trama"],
    "resumen": "fluidez_resolve.preparar (marca con resolve.CACHE_ENABLED) + esperar_y_reproducir en un hilo tras «Listo» (v5.58: sigue mientras los clips avancen; Resolve usa ~3,8 hilos al cachear)"
   },
   {
@@ -3219,7 +3233,7 @@
     "_elemento_guion",
     "_elemento_kinetic",
     "_elemento_viral"
-   ],
+   , "_senal_sin_editores", "_capas_de_cue", "_max_cuadrado", "HILOS_COMPONER"],
    "resumen": "Sin Resolve en el equipo, GO graba el tema elegido (render_temas.py dibuja los 6) (Pillow + PyAV/libx264) en «<video> (CineCaptions).mp4» junto al original"
   },
   {
@@ -3327,7 +3341,11 @@
     "traducciones",
     "cortado",
     "no cabe",
-    "textos largos"
+    "textos largos",
+    "segundo clic",
+    "cerrar panel",
+    "popup",
+    "reabre"
    ],
    "archivos": [
     "brillo_ui.py",
@@ -3339,9 +3357,10 @@
    "simbolos": [
     "_TituloQueCabe",
     "_acomodar_botones_licencia",
-    "_acomodar_bajar"
+    "_acomodar_bajar",
+    "no_reabrir"
    ],
-   "resumen": "brillo_ui (ondas al pulsar), registro_ui (ventana Registro), ui_toast (sin uso visible desde 5.4.22), i18n.tr + locales, ensure_lang_pack; textos que no caben (títulos que encogen, botones que cambian de fila)"
+   "resumen": "brillo_ui (ondas al pulsar), registro_ui (ventana Registro), ui_toast (sin uso visible desde 5.4.22), i18n.tr + locales, ensure_lang_pack; textos que no caben (títulos que encogen, botones que cambian de fila); segundo clic en su botón cierra el panel (no_reabrir)"
   },
   {
    "id": "efectos-movimiento",

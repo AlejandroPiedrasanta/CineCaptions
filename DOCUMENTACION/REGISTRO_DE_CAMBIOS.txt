@@ -12,6 +12,54 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-11 13:48  ·  v5.84  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-11-11 13:48  ·  v5.83  ·  cambio explicado
+    5.84 (antes de compilar): (1) Cache de Resolve (el usuario: testea todos los estilos y mejora la rapidez y el cache para que reproduzca mas rapido): medidos los 9 estilos en Resolve Studio 21.2 (proyecto temporal); bisel de los Estilos 3 y 5 y trama del heroe del Estilo 1 calculados una vez por pixel: Estilo 5 63 -> 29 s y Estilo 1 61 -> 47 s de cache por 24 s, render identico bit a bit (Kin 23, Vir 16, T5 10); en los Estilos 2 y 6 lo caro es la animacion del texto Luxe, que se ve: no se toca. (2) Video sin editores (el usuario: usa el maximo en paralelo para que lo haga mas rapido): render_sin_resolve compone varios fotogramas y dibuja los bloques a la vez con fuentes por hilo y un maximo separable para el contorno del Estilo 7: mismo MP4 byte a byte, 17-52 % mas rapido; Remotion del Estilo 1 sin cambiar porque movia las letras 1 px. (3) Inicio (el usuario: pule mas eso que aprovecha al maximo la PC): capas del fondo y del cielo compuestas en un hilo aparte y grano ya hecho. (4) Segundo clic en el boton que abrio un panel lo cierra (el usuario: cuando vuelva a darle clic que se cierre). (5) Arreglos: neon del Estilo 1 dentro de la zona segura y vigia de GO sin editores con el avance del render. Comprobado todo junto: simular_equipos 89/0, humo de ventanas 0 fallos, Efectos/Estilo/Sonido iguales armadas en Inicio o al primer clic.
+    nuevos (1):
+      + 2_recursos/fondos_estilos/grano_fondo.png
+    modificados (34):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/director_sonido_ui.py
+      ~ 1_codigo/editor_ui.py
+      ~ 1_codigo/efectos_ui.py
+      ~ 1_codigo/guion_captions.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/kinetic_captions.py
+      ~ 1_codigo/menu_estilo_ui.py
+      ~ 1_codigo/menu_pro_ui.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/proyecto_ui.py
+      … y 22 más
+
+2026-11-11 10:37  ·  v5.83  ·  cambio explicado
+    v5.84 (sin compilar), prueba de los 9 estilos: GO sin editores (MP4/Premiere) ya da al vigía el avance del render (antes «sin avanzar en el paso diseno» y, con videos de ~3 min, un falso «parece atascado» que cerraba el motor de voz); Estilo 1 neón (MP4 y PRO): aros, cintas giradas, letra a mano y serif dentro de la zona segura (kit_neon._bloque_en_zona, medido en los clips de Remotion: 6, 6 y 9 bloques fuera -> 0); caché de Resolve: el bisel de los Estilos 3 y 5 (viral_elementos._relieve) calcula la pendiente una vez por píxel con Intermediate1 (i1) en vez de 8 veces: render idéntico bit a bit y la caché del Estilo 5 de 63 a 29 s por 24 s de video (REVISION_BIN Vir 16, T5 10)
+    modificados (9):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/kit_neon.py
+      ~ 1_codigo/kit_neon_motions.py
+      ~ 1_codigo/plantillas.py
+      ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/debug.log
+      ~ 2_recursos/generador_packs/viral_elementos.py
+      ~ 2_recursos/plantillas_incluidas/Tema5/Tema5 vertical.drb
+      ~ 2_recursos/plantillas_incluidas/VIRAL/VIRAL horizontal.drb
+      ~ 2_recursos/plantillas_incluidas/VIRAL/VIRAL vertical.drb
+
 2026-11-10 21:43  ·  v5.83  ·  (automático)
     modificados (20):
       ~ 1_codigo/version.py
