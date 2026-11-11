@@ -1,29 +1,29 @@
 {
   "estable": {
-    "version": "5.82.0",
-    "notas": "• Estilo 4 nuevo: tres alturas como en los reels: arriba lo que se dice antes, la palabra clave grande en lima con brillo y debajo lo que sigue; cada palabra aparece cuando se dice.\r\n• Edición PRO: motions nuevos que salen solos cuando encajan: el avión de papel que se posa junto a los captions, el tachado rojo, el visor REC, el aro de luz en la cara, las persianas, el zoom con desenfoque de entrada y la píldora «Reflejo rojo» bajo los captions.\r\n• Corrector: el móvil se acerca a los captions de cada bloque para que veas bien cada cambio, y los ejemplos también van acercados.\r\n• Tutoriales nuevos con voz: cambiar a Premiere Pro o a «Video sin editores», la interfaz, probar los estilos y la ayuda.\r\n• Más nítido en 4K y Cancelar inmediato: GO vuelve a Inicio al momento y Resolve se cierra detrás.\r\n• Ajustes abre más rápido y «Acerca de CineCaptions» va ahora dentro de Ayuda; en Estilo, el slider es más grande.\r\n• Arreglos: el aviso de la IA dice qué falta de verdad (y «Reparar» avisa si no pudo bajarla), el programa ya no se queda trabado al abrir y desaparecen los avisos falsos de «no se puede escribir».",
-    "fecha": "2026-11-10",
+    "version": "5.83.0",
+    "notas": "• Tutoriales en inglés: con la interfaz en inglés, los 12 tutoriales salen con la interfaz, la voz y los subtítulos en inglés.\r\n• Más fluido: Efectos, Estilo y Sonido se preparan mientras estás en Inicio y se abren al momento, y «Expandir ajustes» va más rápido.\r\n• Los estilos se llaman en el idioma de la interfaz y, en inglés, Efectos y Sonido ya no tienen textos en español.\r\n• Arreglos: en Proyectos, los nombres muy largos ya no esconden «Abrir» y «Eliminar», y si dos videos se llaman igual se ve su carpeta; el panel de emojis del Corrector ya se lee bien.\r\n• En alemán, francés y ruso ya no salen botones ni títulos cortados en Ajustes, y el Registro enseña los avisos al abrir y cuando «Reparar el motor» no puede bajar la IA de texto.\r\n• En Sonido, la mezcla ya cabe entera en su recuadro: en ventanas bajas escondía las últimas pistas.",
+    "fecha": "2026-11-11",
     "archivos": {
       "windows": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.82/Instalar_CineCaptions_5.82.exe",
-        "sha256": "579a9609b04bf385f50126350bd311b2f0780bfbb9ef564e19e2388a84b767b4",
-        "tam": 618448711
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.83/Instalar_CineCaptions_5.83.exe",
+        "sha256": "b99cfeaf33096f341563e394b935ea611c02ccb213234475b3f1790bd040f367",
+        "tam": 642004723
       },
       "mac_arm64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.82/CineCaptions_Mac_AppleSilicon_5.82.dmg",
-        "sha256": "c665776e2854bb7797be767b26f90d1a707a3a2cb189158866c075e530c35aec",
-        "tam": 595936714
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.83/CineCaptions_Mac_AppleSilicon_5.83.dmg",
+        "sha256": "1e09aa2b68d1f498172e56d6473ca73aec4274d2282c2e487761fff6a859b83c",
+        "tam": 619565525
       },
       "mac_x86_64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.82/CineCaptions_Mac_Intel_5.82.dmg",
-        "sha256": "0a75d10c550fa10810cd6baf8cb2a0237417b9c41b138f68eae1ce1d1dcbbbeb",
-        "tam": 620913374
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.83/CineCaptions_Mac_Intel_5.83.dmg",
+        "sha256": "bc474d96e53226fc4fd9019d3007f1afb8d5b7aa05def580748686c699cc952c",
+        "tam": 644810357
       }
     }
   },
   "firma": {
     "alg": "ed25519",
     "clave": "7a4e413e",
-    "valor": "o5d9SjvwhTYzOey5sB3CEHqeMNKDCrkhlnWjhdZ91yOKQkI+nSLpveTnZ+LrRPeCZ4JSYKFi8jDYBzVHgd9JAw=="
+    "valor": "66hWGgipQWxG6VIuDNmIt4BUIkyBw34eXWsy//rvkz1oakhWLj+Pqx5M5DIXNnV5TmfhWChCPvjt2x+h2kU4CA=="
   }
 }
