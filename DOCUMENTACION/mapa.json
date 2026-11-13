@@ -597,7 +597,8 @@
     "compat_av.py",
     "audio_compatible.py",
     "motor_compat.py",
-    "2_recursos/motor_compat/worker.py"
+    "2_recursos/motor_compat/worker.py",
+    "vigilancia.py"
    ],
    "simbolos": [
     "completar_requisitos",
@@ -607,7 +608,14 @@
     "EN_PROCESO",
     "_EnProceso",
     "_worker",
-    "traducir"
+    "traducir",
+    "SOPORTADO",
+    "_python_mac",
+    "instalando",
+    "_memoria_mac",
+    "_chip_mac",
+    "mps_disponible",
+    "_motor_ia_en_mac"
    ],
    "resumen": "subtitle_transcriber, motor_voz, ia_texto"
   },
@@ -1583,13 +1591,17 @@
     "Construir_Instalador_Mac.sh",
     "cinecaptions_mac.spec",
     "1_codigo/motor_compat.py",
-    "1_codigo/tareas_instalador.py"
+    "1_codigo/tareas_instalador.py",
+    "2_recursos/motor_compat/worker.py",
+    "1_codigo/motor_voz.py"
    ],
    "simbolos": [
     "scripts",
     "fuentes",
     "EN_PROCESO",
-    "_motor_en_proceso_sin_red"
+    "_motor_en_proceso_sin_red",
+    "_comparar_con_cpu",
+    "_motor_ia_en_mac"
    ],
    "resumen": "7_mac/Construir_Instalador_Mac.sh, cinecaptions_mac.spec; Actualizar_Mac.ps1"
   },

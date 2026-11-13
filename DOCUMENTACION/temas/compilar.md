@@ -54,6 +54,14 @@ la Mac o forzar la salida de «CineCaptions» en el Monitor de Actividad. Probar
 workflow que instala el .dmg publicado, lo abre con `open -a` y guarda capturas, ventanas (`CGWindowListCopyWindowInfo`), `sample`, el
 candado y `~/DaVinciSubtitles` (bloquear `cinecaptions.shop` en `/etc/hosts` para no ensuciar los errores de Ventas); borrar la rama al acabar.
 
+**Todos los estilos y funciones (v5.86; el usuario: «en Mac aún no están todos los estilos y funciones»):** el .app lleva los mismos
+`2_recursos` y estilos que Windows (comprobado carpeta por carpeta contra el espejo); lo que faltaba eran dos motores: el recorte de persona
+(«detrás de ti», persona delante de la PRO, cara de la placa del Kinetic, posiciones PRO), apagado en el Mac «por no estar probado», y el motor
+de voz e IA Qwen3 (solo Windows). Ahora el recorte corre dentro del programa (ver `edicion-pro`) y el motor Qwen3 se instala en las Mac con
+Apple Silicon (ver `voz-ia`); en las Intel no hay PyTorch nuevo: Whisper y reglas. Probar sin compilar: ramas temporales del espejo con un
+workflow que monta el entorno como `Construir_Instalador_Mac.sh` y corre un script de prueba (el video de la vista del Kinetic para el
+recorte; una voz de `say` para Qwen, porque las vistas no tienen audio). En las Macs de GitHub no hay tarjeta (`mps` no disponible): Qwen va en la CPU.
+
 **Dónde:** `7_mac/` · `Construir_Instalador_Mac.sh`, `cinecaptions_mac.spec`, `pkg/scripts/postinstall` (corre `--tarea scripts`, `fuentes` y `modelo` como el usuario y quita los huérfanos de multiprocessing); leer `7_mac/0_LEEME.txt`. SIN PROBAR en una Mac real
 
 ## compilar-win — Compilar, versiones y desinstalador de Windows

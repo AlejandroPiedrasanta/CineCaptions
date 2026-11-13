@@ -12,6 +12,39 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-13 00:48  ·  v5.86  ·  (automático)
+    modificados (34):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/ia_texto.py
+      ~ 1_codigo/motor_voz.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      … y 22 más
+
+2026-11-12 23:58  ·  v5.85  ·  cambio explicado
+    Mac con todos los estilos y funciones (pedido: «en Mac aún no están todos los estilos y funciones»). El .app ya llevaba los mismos recursos y estilos; faltaban dos motores. 1) Recorte de persona («detrás de ti», persona delante de la PRO, cara de la placa del Kinetic, posiciones PRO): el Mac lo apagaba por no estar probado; ahora corre dentro del programa con CoreML solo si su primer alfa es igual al de la CPU (≤ 2/255; medido 0,04/255 en Apple Silicon y 0,01/255 en Intel en Macs de GitHub). 2) Motor de voz e IA Qwen3 en Mac con Apple Silicon: Python portátil de python-build-standalone (sha256 fijo), torch 2.15 de PyPI con «mps», modelos según la memoria unificada (Gemma entera pide 17 GB); lo instala el programa solo al abrir y en segundo plano (el .pkg no puede esperar los GB), con reintento a las 24 h si falla; Ajustes enseña el avance. En las Mac Intel no hay PyTorch nuevo: Whisper y reglas.
+    modificados (21):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro_persona.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/motor_compat.py
+      ~ 1_codigo/motor_voz.py
+      ~ 1_codigo/salud.py
+      ~ 1_codigo/tareas_instalador.py
+      ~ 1_codigo/vigilancia.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      … y 9 más
+
 2026-11-12 20:36  ·  v5.85  ·  (automático)
     modificados (32):
       ~ 1_codigo/ajustes_ui.py
