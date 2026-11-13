@@ -41,7 +41,20 @@ el programa, `motor_compat.EN_PROCESO` corre `worker.atender` en el mismo proces
 numpy y onnxruntime): desde la 5.58 lo piden el .pkg (`os-version min`), la app (`LSMinimumSystemVersion`) y la bienvenida; antes decía 12 y en
 12-13 se instalaba y no abría. Si cambia la línea `onnxruntime-directml==` del requirements del motor, el `sed` del .sh lo detecta y corta.
 
-**Dónde:** `7_mac/` · `Construir_Instalador_Mac.sh`, `cinecaptions_mac.spec`, `pkg/scripts/postinstall` (corre `--tarea scripts` y `fuentes` como el usuario); leer `7_mac/0_LEEME.txt`. SIN PROBAR en una Mac real
+**«No abre» tras instalar (v5.85; clientes de la 5.78 y la 5.84):** reproducido instalando el .dmg PUBLICADO en Macs de GitHub con pantalla
+(macOS 15, 26 e Intel): la tarea `modelo` del postinstall baja Whisper con barras `tqdm`, que crean un candado de `multiprocessing`; en Mac eso
+lanza el `resource_tracker` con el propio ejecutable y `-c from multiprocessing.resource_tracker import main;main(N)`. Sin `freeze_support` ese
+hijo arrancaba CineCaptions ENTERO (offscreen, heredado del postinstall), se quedaba para siempre en la ventana de licencia invisible
+(`QDialog::exec`, 30-60 % de CPU, padre 1) y con `~/.cinecaptions.lock`: cada clic en la app salía en silencio («ya se encuentra en
+ejecución») hasta reiniciar la Mac. Arreglo (tema `arranque-seguro`): `arranque_seguro.atender_hijo()` lo primero del script principal
+congelado (cualquier hijo `-c`/`-m` de una librería corre su código y sale), candado que se cura (una copia atascada se cierra), arranque con
+tope (4 min sin ventana y sin latir → sale solo), el postinstall quita los huérfanos de versiones anteriores y pone tope a cada tarea, y la
+autoprueba CRÍTICA «Procesos auxiliares» hace fallar la compilación si vuelve a pasar. Mientras tanto, al cliente le basta con reiniciar
+la Mac o forzar la salida de «CineCaptions» en el Monitor de Actividad. Probar en Mac sin compilar: rama temporal del espejo con un
+workflow que instala el .dmg publicado, lo abre con `open -a` y guarda capturas, ventanas (`CGWindowListCopyWindowInfo`), `sample`, el
+candado y `~/DaVinciSubtitles` (bloquear `cinecaptions.shop` en `/etc/hosts` para no ensuciar los errores de Ventas); borrar la rama al acabar.
+
+**Dónde:** `7_mac/` · `Construir_Instalador_Mac.sh`, `cinecaptions_mac.spec`, `pkg/scripts/postinstall` (corre `--tarea scripts`, `fuentes` y `modelo` como el usuario y quita los huérfanos de multiprocessing); leer `7_mac/0_LEEME.txt`. SIN PROBAR en una Mac real
 
 ## compilar-win — Compilar, versiones y desinstalador de Windows
 

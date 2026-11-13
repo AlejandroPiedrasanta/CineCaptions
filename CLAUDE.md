@@ -1,6 +1,6 @@
 # CineCaptions — leer SOLO esto; lo demás se consulta por demanda
 
-App PySide6 (v5.84, Python 3.15.2) que subtitula vídeos con IA local y los coloca en DaVinci Resolve (Free y Studio, Windows y Mac).
+App PySide6 (v5.85, Python 3.15.2) que subtitula vídeos con IA local y los coloca en DaVinci Resolve (Free y Studio, Windows y Mac).
 Carpetas: `1_codigo` programa · `2_recursos` lo que viaja en el .exe · `3_compilar` · `4_diseno` · `5_SFX` (biblioteca de sonido del autor, 8 GB, fuera de Git; `Desktop\SFX` es un enlace a ella; reglas en su `MAPA_SFX.md`: nunca borrar, mover ni renombrar sonidos) · `6_compilacion` (temporal, no tocar) · `7_mac` · `INSTALADORES/{Windows,Mac}` · `DOCUMENTACION` · `MEDIOS` (icono, renders 4K de Inicio, capturas 4K de las páginas y banners; fuera de Git).
 «Estilo N» de la interfaz (antes «Tema N»; en el código siguen siendo temas) → `id`: 1 `kinetic-planificador` · 2 `guion-planificador` · 3 `viral-planificador` · 4 `tema4` · 5 `tema5` · 6 `tema6` · 7 `tema7` · 8 `tema8` · 9 `tema9`.
 Python con dependencias (`$PY`): `6_compilacion/venv315/Scripts/python.exe`.
@@ -33,7 +33,7 @@ Python con dependencias (`$PY`): `6_compilacion/venv315/Scripts/python.exe`.
 - **voz-ia** (Voz e IA de texto): voz-ia texto-ayudas ortografia-temas voz-vocabulario
 - **resolve** (Resolve (API, MCP, scripts, vistas reales)): resolve-api fluidez-resolve vista-real-previo resolve-mcp-mac free-sin-io resolve-colgado scripts-resolve-inventario conexion-auto
 - **compilar** (Compilar, versiones, instaladores (Windows y Mac)): instalador-cs version mac compilar-win actualizaciones mac-actualizar equipo-al-dia
-- **vigilancia** (Vigilancia, logs y respaldo de modelos): vigilancia
+- **vigilancia** (Vigilancia, logs y respaldo de modelos): vigilancia arranque-seguro
 - **datos** (Datos del usuario, licencia y ajustes): licencia archivos-seguros carpetas-del-usuario proyectos-usuario telemetria-errores ficha-equipo
 - **pruebas** (Pruebas y MCP del programa): banco-mcp pruebas-sin-pantalla simular-equipos herramientas-dev
 - **efectos** (Efectos visuales (intro, transiciones en los cortes, iconos flotantes)): efectos-visuales efectos-movimiento efectos-extra quitar-pausas broll edicion-pro kit8 escenas-pantalla internet-broll motions-pro pro-lateral estilos-pro intros-gancho motions-completo vigilante-pro motions-editables video-rotado-monedas personajes-3d posiciones-pro emojis-pro motions-pila

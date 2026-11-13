@@ -1338,8 +1338,10 @@
     "_lado_coherente",
     "_sitio_emoji",
     "_detras_bloque",
-    "ajustar_captions"
-   , "_bloque_en_zona", "_medio_ancho"],
+    "ajustar_captions",
+    "_bloque_en_zona",
+    "_medio_ancho"
+   ],
    "resumen": "v5.76 (propuesta A elegida): zona_segura.py = 13 % arriba, 25 % abajo, 16 % a cada lado, solo en vertical y sin dibujarla; cada planificador la usa como su ancho máximo y su alto (Estilos 1 y 2 con AIRE_TINTA; Estilo 3 con la caja activa); la PRO no saca captions, emojis ni motions de ella (gráficos que esquivan caras dentro de la zona, píldora hasta el 75 %, sin marco en vertical, maqueta del kit neón con SUELO/ARRIBA_KIT/IZQ_KIT); los emojis del tema en los gemelos de Resolve repiten los números."
   },
   {
@@ -1789,7 +1791,14 @@
     "proyecto",
     "pack",
     "por",
-    "defecto"
+    "defecto",
+    "icono",
+    "abrir con",
+    "otra copia",
+    "ya abierto",
+    "candado",
+    "relevo",
+    "instancia"
    ],
    "archivos": [
     "resolve_mcp.py"
@@ -1804,9 +1813,14 @@
     "crear_timeline_con_video",
     "_plantilla_un_clic",
     "_menu_estilo_go",
-    "_dibujo_guion"
+    "_dibujo_guion",
+    "_pasar_video_a_la_abierta",
+    "_ruta_relevo",
+    "_mirar_relevo",
+    "_recibir_video_de_fuera",
+    "_asegurar_instancia_unica"
    ],
-   "resumen": "_soltar_archivo, _go, resolve_mcp.preparar_proyecto/crear_timeline_con_video"
+   "resumen": "_soltar_archivo, _go, resolve_mcp.preparar_proyecto/crear_timeline_con_video; con el programa ya abierto, el video del icono / «Abrir con» pasa a la ventana (~/.cinecaptions.abrir)"
   },
   {
    "id": "nitidez-4k",
@@ -1913,9 +1927,41 @@
     "vigilar_arranque",
     "arranque_listo",
     "revisar_salud_al_arrancar",
-    "_vigilar_tarea"
+    "_vigilar_tarea",
+    "tope_de_salida"
    ],
-   "resumen": "vigilancia.py, registro.py, motor_voz.abortar, ia_texto.abortar"
+   "resumen": "vigilancia.py, registro.py, motor_voz.abortar, ia_texto.abortar; v5.85 registro.tope_de_salida (cerrar nunca se cuelga)"
+  },
+  {
+   "id": "arranque-seguro",
+   "grupo": "vigilancia",
+   "tema": "Arranque seguro: nada deja el programa sin abrir",
+   "claves": [
+    "no abre",
+    "candado",
+    "instancia",
+    "atascado",
+    "multiprocessing",
+    "freeze_support",
+    "resource_tracker",
+    "postinstall",
+    "huérfanos",
+    "arranque"
+   ],
+   "archivos": [
+    "arranque_seguro.py"
+   ],
+   "simbolos": [
+    "atender_hijo",
+    "como_interprete",
+    "copia_atascada",
+    "terminar",
+    "info_proceso",
+    "_asegurar_instancia_unica",
+    "_cortar_arranque",
+    "segundos_sin_pulso_ui"
+   ],
+   "resumen": "v5.85: hijos de librerías no reabren el programa, copia atascada con el candado se cierra, arranque con tope, postinstall de Mac con topes"
   },
   {
    "id": "compilar-win",
@@ -2081,8 +2127,10 @@
    "archivos": [
     "fluidez_resolve.py",
     "colocacion.py",
-    "2_recursos/resolve_scripts/CineCaptions_Vista.lua"
-   , "2_recursos/generador_packs/viral_elementos.py", "2_recursos/generador_packs/kinetic_elementos.py"],
+    "2_recursos/resolve_scripts/CineCaptions_Vista.lua",
+    "2_recursos/generador_packs/viral_elementos.py",
+    "2_recursos/generador_packs/kinetic_elementos.py"
+   ],
    "simbolos": [
     "preparar",
     "esperar_cache",
@@ -2096,8 +2144,10 @@
     "_fluidez_esperando",
     "falta_cache",
     "cuenta_atras",
-    "texto_tiempo"
-   , "_relieve", "_trama"],
+    "texto_tiempo",
+    "_relieve",
+    "_trama"
+   ],
    "resumen": "fluidez_resolve.preparar (marca con resolve.CACHE_ENABLED) + esperar_y_reproducir en un hilo tras «Listo» (v5.58: sigue mientras los clips avancen; Resolve usa ~3,8 hilos al cachear)"
   },
   {
@@ -3112,7 +3162,8 @@
     "un_clic_ui.py",
     "avisos_sistema.py",
     "novedades_visuales.py",
-    "ajustes_ui.py"
+    "ajustes_ui.py",
+    "motor_voz.py"
    ],
    "simbolos": [
     "_go_pausar",
@@ -3128,9 +3179,12 @@
     "avisar",
     "clips_de",
     "ClipNovedad",
-    "perfil_del_equipo"
+    "perfil_del_equipo",
+    "permitir",
+    "motivo_de_errores",
+    "_go_reparar_resolve"
    ],
-   "resumen": "Pausar/Cancelar (puntos de control en el hilo), go_en_curso.json (reanudar tras un cierre), chip Idioma, avisos_sistema.avisar, novedades_visuales (clips en bucle)"
+   "resumen": "Pausar/Cancelar (puntos de control en el hilo; v5.85 motor_voz.cancelar/permitir: cancelar no es un fallo ni deja procesos), go_en_curso.json (reanudar tras un cierre), chip Idioma, avisos_sistema.avisar, novedades_visuales (clips en bucle)"
   },
   {
    "id": "go-colocacion-real",
@@ -3232,14 +3286,18 @@
     "texto",
     "_elemento_guion",
     "_elemento_kinetic",
-    "_elemento_viral"
-   , "_senal_sin_editores", "_capas_de_cue", "_max_cuadrado", "HILOS_COMPONER"],
+    "_elemento_viral",
+    "_senal_sin_editores",
+    "_capas_de_cue",
+    "_max_cuadrado",
+    "HILOS_COMPONER"
+   ],
    "resumen": "Sin Resolve en el equipo, GO graba el tema elegido (render_temas.py dibuja los 6) (Pillow + PyAV/libx264) en «<video> (CineCaptions).mp4» junto al original"
   },
   {
    "id": "go-premiere",
    "grupo": "go",
-   "tema": "GO en Adobe Premiere Pro: el panel CineCaptions (CEP + ExtendScript) coloca video, captions (ProRes 4444 con alfa), sonidos y música",
+   "tema": "GO en Adobe Premiere Pro: el panel CineCaptions (CEP + ExtendScript) coloca video, textos editables (un .mogrt por texto) o la capa ProRes, sonidos y música",
    "claves": [
     "premiere",
     "adobe",
@@ -3256,14 +3314,25 @@
     "secuencia",
     "prproj",
     "playerdebugmode",
-    "go_premiere"
+    "go_premiere",
+    "mogrt",
+    "textos editables",
+    "basic title",
+    "importmgt",
+    "texto de origen",
+    "proyecto vacio",
+    "pantalla de inicio",
+    "abrir premiere"
    ],
    "archivos": [
     "premiere.py",
+    "premiere_textos.py",
     "render_sin_resolve.py",
+    "render_temas.py",
     "ajustes_ui.py",
     "premiere/com.cinecaptions.premiere/jsx/colocar.jsx",
-    "premiere/com.cinecaptions.premiere/js/cc.js"
+    "premiere/com.cinecaptions.premiere/js/cc.js",
+    "premiere/proyecto_vacio.xml"
    ],
    "simbolos": [
     "colocar",
@@ -3279,9 +3348,25 @@
     "eventos_sfx",
     "_go_colocar_premiere",
     "_preparar_premiere",
-    "_motivo_mp4"
+    "_motivo_mp4",
+    "_con_premiere",
+    "_go_pide_video",
+    "_texto_pide_video",
+    "admite_textos",
+    "plantilla_texto",
+    "texto_base",
+    "mogrt_de_texto",
+    "json_de_texto",
+    "fuente_de",
+    "_lineas_tipo",
+    "_carriles",
+    "_a_fotogramas",
+    "_registrada",
+    "crear_proyecto",
+    "plantilla_proyecto",
+    "abrir"
    ],
-   "resumen": "Ajustes › General: uno de tres (Usar con DaVinci Resolve · Usar con Premiere Pro = go_premiere · Video sin editores = go_salida_mp4); con Premiere GO dibuja la capa transparente y el panel arma la secuencia (V1 video, V2 captions, A2… sonidos, música)"
+   "resumen": "Ajustes › General: uno de tres (Usar con DaVinci Resolve · Usar con Premiere Pro = go_premiere · Video sin editores = go_salida_mp4); con Premiere GO dibuja la capa transparente y el panel arma la secuencia (V1 video, V2 captions, A2… sonidos, música); v5.85: con Premiere nada toca Resolve (ni el arrastre ni lo de fondo: _con_premiere); textos editables en V2… (premiere_textos: un .mogrt por texto hecho de la «Basic Title» de Premiere) y la capa solo de respaldo; v5.85: Premiere cerrado → GO escribe «<video> (CineCaptions).prproj» (proyecto_vacio.xml, crear_proyecto) y lo abre con él (sin proyecto Premiere se queda en su inicio y el panel no carga)"
   },
   {
    "id": "rendimiento-base",

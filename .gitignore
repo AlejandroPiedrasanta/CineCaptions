@@ -34,3 +34,7 @@ desktop.ini
 
 # 2026-10-27: icono, renders 4K de Inicio, capturas 4K de cada página y banners juntos para usarlos (videos pesados: NO van a Git)
 MEDIOS/
+
+# 2026-11-12: el proyecto de la web (web, app de Ventas, respaldos del servidor) vive aquí pero tiene su propio Git: nunca en el de CineCaptions
+# (Actualizar_Mac.ps1 hace «git add -A» y lo subiría entero)
+WEB CINECAPTIONS/

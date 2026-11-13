@@ -1,5 +1,257 @@
 REGISTRO DE CAMBIOS ARCHIVADO · 2026-11 (la entrada más nueva arriba)
 
+2026-11-09 16:56  ·  v5.78  ·  cambio explicado
+    Corrector: tres ejemplos con video sin audio (Principal, Ortografía, Colores y letra) y la tarjeta «Colores y letra» bajo el móvil (propuesta B + B): color y letra de la palabra grande y del texto pequeño por estilo (prefs corrector_ajustes), encima de los de «Crea tu estilo»; el móvil, GO con y sin Resolve, la letra de las pistas y la PRO los usan; un estilo de fábrica con ajustes va por pack_personalizado con su propio nombre de base.
+    nuevos (8):
+      + 1_codigo/herramientas_dev/hacer_demos_corrector.py
+      + 2_recursos/creativo/demo_colores.jpg
+      + 2_recursos/creativo/demo_colores.mp4
+      + 2_recursos/creativo/demo_corrector.json
+      + 2_recursos/creativo/demo_ortografia.jpg
+      + 2_recursos/creativo/demo_ortografia.mp4
+      + 2_recursos/creativo/demo_principal.jpg
+      + 2_recursos/creativo/demo_principal.mp4
+    modificados (13):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/editor_ui.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/locales/ru.json
+      ~ 2_recursos/locales/zh.json
+      ~ 3_compilar/encabezados.py
+      … y 1 más
+    quitados (5):
+      - 1_codigo/herramientas_dev/hacer_demo_principal.py
+      - 2_recursos/creativo/demo_principal_antes.jpg
+      - 2_recursos/creativo/demo_principal_antes.mp4
+      - 2_recursos/creativo/demo_principal_despues.jpg
+      - 2_recursos/creativo/demo_principal_despues.mp4
+
+2026-11-09 15:52  ·  v5.78  ·  cambio explicado
+    Corrector sin audio: demo «Principal» con video real (propuesta B elegida entre tres): editor_ui.DemoPrincipal con dos móviles que reproducen 2_recursos/creativo/demo_principal_{antes,despues}.mp4 (Estilo 2: sin marcar sale CUENTA grande; con «nadie» Principal, NADIE), el pincel y la palabra que se pinta en medio, y los pasos en fila junto a «Ir a Inicio». Videos hechos con herramientas_dev/hacer_demo_principal.py (vista_tema).
+    nuevos (5):
+      + 1_codigo/herramientas_dev/hacer_demo_principal.py
+      + 2_recursos/creativo/demo_principal_antes.jpg
+      + 2_recursos/creativo/demo_principal_antes.mp4
+      + 2_recursos/creativo/demo_principal_despues.jpg
+      + 2_recursos/creativo/demo_principal_despues.mp4
+    modificados (13):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/editor_ui.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/locales/ru.json
+      ~ 2_recursos/locales/zh.json
+      ~ 3_compilar/encabezados.py
+      … y 1 más
+
+2026-11-09 15:43  ·  v5.78  ·  cambio explicado
+    Ajustes › General: «Usar con DaVinci Resolve» y «Usar con Premiere Pro» con el icono del programa (el usuario: «usa icono de los programas»): 2_recursos/iconos_programas (Resolve sacado de Resolve.exe a 256 px; Premiere dibujado con los colores de Adobe, sin Premiere en este equipo), _logo_programa y _Fila(logo=); si falta el archivo, el cuadrito de antes. Carpeta añadida a los .spec de Windows y Mac.
+    nuevos (2):
+      + 2_recursos/iconos_programas/premiere.png
+      + 2_recursos/iconos_programas/resolve.png
+    modificados (2):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 3_compilar/cinecaptions.spec
+
+2026-11-09 15:21  ·  v5.78  ·  cambio explicado
+    Chip «Edición PRO» de Inicio: panel compacto (propuesta C elegida entre tres): menu_pro_ui.PanelPro con interruptor y una fila por ajuste (tipo de video, persona, animación, otra combinación); se queda abierto mientras se ajusta. Textos nuevos traducidos a los 9 idiomas; si falla, la lista de siempre + aviso al Registro.
+    nuevos (1):
+      + 1_codigo/menu_pro_ui.py
+    modificados (13):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/menu_estilo_ui.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/locales/ru.json
+      ~ 2_recursos/locales/zh.json
+      ~ 3_compilar/encabezados.py
+      … y 1 más
+
+2026-11-09 15:05  ·  v5.78  ·  cambio explicado
+    Chip «Estilo» de Inicio: tira de pósters (propuesta C elegida entre seis): menu_estilo_ui.PanelEstilo con el póster real de cada estilo, número, el elegido con anillo y ✓, y debajo la frase y qué hace del señalado; ChipGo.poner_abierto gira la flecha. Si falla, la lista de siempre + aviso al Registro.
+    nuevos (1):
+      + 1_codigo/menu_estilo_ui.py
+    modificados (2):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/un_clic_ui.py
+
+2026-11-09 14:45  ·  v5.78  ·  cambio explicado
+    Gráficos quitado (el usuario: «elimina esto»): añadido a pro_lateral_ui.QUITADAS; fuera del menú PRO y de Efectos, y GO no pone ninguno de sus motions aunque estuviera encendido.
+    modificados (1):
+      ~ 1_codigo/pro_lateral_ui.py
+
+2026-11-09 14:44  ·  v5.78  ·  cambio explicado
+    Escenas completas quitada (el usuario: «elimina esto»): fuera del menú lateral PRO y de Efectos; pro_lateral_ui.QUITADAS (plantillas, broll, escenas) es la lista única y el Estilo 1 la descarta aunque siga en pro_neon_extras. Las marcas manuales del Creativo siguen.
+    modificados (2):
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/pro_lateral_ui.py
+
+2026-11-09 14:39  ·  v5.78  ·  cambio explicado
+    B-roll con fotos quitado (el usuario: «elimina esto»): fuera del menú lateral PRO (opciones_visibles) y por eso de la página Efectos; el Tema 1 lo ignora aunque siga en pro_neon_extras y el menú del chip PRO de Inicio ya no ofrece «Fotos de internet (B-roll)». Las marcas manuales de B-roll del Creativo siguen.
+    modificados (3):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/pro_lateral_ui.py
+
+2026-11-09 14:27  ·  v5.78  ·  (automático)
+    modificados (24):
+      ~ 2_recursos/vistas_slider/Kinetic.jpg
+      ~ 2_recursos/vistas_slider/Kinetic.mp4
+      ~ 2_recursos/vistas_slider/Kinetic_captions.jpg
+      ~ 2_recursos/vistas_slider/Kinetic_captions.mp4
+      ~ 2_recursos/vistas_slider/Referencia.jpg
+      ~ 2_recursos/vistas_slider/Referencia.mp4
+      ~ 2_recursos/vistas_slider/Referencia_captions.jpg
+      ~ 2_recursos/vistas_slider/Referencia_captions.mp4
+      ~ 2_recursos/vistas_slider/Tema4.jpg
+      ~ 2_recursos/vistas_slider/Tema4.mp4
+      ~ 2_recursos/vistas_slider/Tema4_captions.jpg
+      ~ 2_recursos/vistas_slider/Tema4_captions.mp4
+      … y 12 más
+
+2026-11-09 13:55  ·  v5.78  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-11-09 13:54  ·  v5.77  ·  cambio explicado
+    v5.78 · Inicio con Premiere Pro y librerías al día (pedidos del usuario: «que en Inicio diga conexión con Premiere Pro, que ya no diga DaVinci Resolve» y «busca actualizaciones de librerías y actualiza todo, compila y publica»). Inicio/barra/tarjeta leen premiere.estado() con «Usar con Premiere Pro»; no hay MCP oficial de Adobe para Premiere (los de terceros usan el mismo CEP), se queda el panel propio. Librerías: el programa ya estaba al día; motores: transformers 5.22.2, typer 0.29.0, click 8.5.1, filelock 4.2.10, regex 2026.11.9 (A/B con el motor real: voz e IA idénticas; el Python embebido ignora PYTHONPATH); Remotion 4.0.542 (mismo Chrome 158; 98/100 plantillas idénticas, 2 con ±2/255).
+    nuevos (844):
+      + 1_codigo/remotion/node_modules/@remotion/cli/dist/elements/index.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/cli/dist/elements/index.js
+      + 1_codigo/remotion/node_modules/@remotion/cli/dist/elements/use.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/cli/dist/elements/use.js
+      + 1_codigo/remotion/node_modules/@remotion/codemods/OPEN_TIMELINE_SUPPORT.md
+      + 1_codigo/remotion/node_modules/@remotion/codemods/dist/add-open-timeline-composition.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/codemods/dist/get-lazy-component-import.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/codemods/dist/is-referenced.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/codemods/dist/open-timeline/generate.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/codemods/dist/open-timeline/normalize.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/codemods/dist/open-timeline/time.d.ts
+      + 1_codigo/remotion/node_modules/@remotion/codemods/dist/open-timeline/types.d.ts
+      … y 832 más
+    modificados (542):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/herramientas_dev/probar_go_sin_resolve.py
+      ~ 1_codigo/herramientas_dev/probar_pro_lateral.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/premiere.py
+      ~ 1_codigo/registro_ayuda.py
+      ~ 1_codigo/remotion/node_modules/.package-lock.json
+      ~ 1_codigo/remotion/node_modules/@remotion/bundler/dist/bundle.js
+      ~ 1_codigo/remotion/node_modules/@remotion/bundler/dist/copy-dir.js
+      ~ 1_codigo/remotion/node_modules/@remotion/bundler/dist/index.d.ts
+      … y 530 más
+    quitados (70):
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/components/EffectPickerModal.d.ts
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/components/EffectPickerModal.js
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/CaptionQueueProcessor-e7e3j9z3.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/LazyModels-41w8gbe3.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/LazyModels-x17cev17.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/TranscriptionModal-m4jpxan6.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/VideoMattingModal-3ksyyvea.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/VideoMattingQueueProcessor-wa9rtkb4.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/index-212b6p4m.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/index-64zf3yar.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/index-7h7pdx09.mjs
+      - 1_codigo/remotion/node_modules/@remotion/studio/dist/esm/index-g9jfz9s4.mjs
+      … y 58 más
+
+2026-11-09 11:55  ·  v5.77  ·  cambio explicado
+    v5.78 · GO en Adobe Premiere Pro (pedido del usuario: opción en Ajustes > General para que GO coloque todo en Premiere como en Resolve). Premiere no tiene API externa: panel CEP propio (2_recursos/premiere) con ExtendScript que lee una cola de archivos; premiere.py lo instala (PlayerDebugMode, va sin firmar) y le pasa el pedido. Los captions van como capa ProRes 4444 con alfa (render_sin_resolve.renderizar_capa, mismo dibujo que GO sin Resolve) porque los estilos son macros de Fusion que no existen en Premiere; sonidos y música son los mismos que recibiría Resolve (premiere.sonido_de_go). Conversión a YUV con numpy: el reformat de PyAV/swscale estropeaba el alfa en el borde izquierdo. Probado con un Premiere simulado en Node que corre el panel real; sin probar en un Premiere real (no instalado aquí) ni en Mac.
+    nuevos (6):
+      + 1_codigo/premiere.py
+      + 2_recursos/premiere/com.cinecaptions.premiere/CSXS/manifest.xml
+      + 2_recursos/premiere/com.cinecaptions.premiere/fondo.html
+      + 2_recursos/premiere/com.cinecaptions.premiere/index.html
+      + 2_recursos/premiere/com.cinecaptions.premiere/js/cc.js
+      + 2_recursos/premiere/com.cinecaptions.premiere/jsx/colocar.jsx
+    modificados (10):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/render_sin_resolve.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/pt.json
+      ~ 3_compilar/cinecaptions.spec
+      ~ 3_compilar/traducciones_extra.json
+
+2026-11-09 11:21  ·  v5.77  ·  (automático)
+    modificados (34):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_planificador.py
+      ~ 1_codigo/edicion_pro_temas.py
+      ~ 1_codigo/kit_neon_motions.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      … y 22 más
+
+2026-11-06 23:55  ·  v5.76  ·  cambio explicado
+    Zona segura en la Edición PRO (v5.77): el usuario pidió probar motions arriba/abajo y emojis con la PRO en todos los estilos. GO reales con PRO (6 estilos) mostraron la píldora bajo el caption al 77-81 %, el marco de borde a borde y la etiqueta de sección en x 93 % / y 74 %; además los gráficos sin personas ni captions en su tramo se quedaban en el y del plan. Ahora _fuera_de_la_cara/_a_la_zona los mantienen en la zona, la píldora llega como mucho al 75 %, en vertical no hay marco y la maqueta del kit neón usa SUELO/ARRIBA_KIT/IZQ_KIT (solo argumentos: el bundle de Remotion no cambia).
+    modificados (4):
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_planificador.py
+      ~ 1_codigo/edicion_pro_temas.py
+      ~ 1_codigo/kit_neon_motions.py
+
+2026-11-06 23:01  ·  v5.76  ·  (automático)
+    nuevos (1329):
+      + 2_recursos/edicion_pro/remotion/bundle/129.bundle.js
+      + 2_recursos/edicion_pro/remotion/bundle/129.bundle.js.map
+      + 2_recursos/edicion_pro/remotion/bundle/161.bundle.js
+      + 2_recursos/edicion_pro/remotion/bundle/161.bundle.js.map
+      + 2_recursos/edicion_pro/remotion/bundle/177.bundle.js
+      + 2_recursos/edicion_pro/remotion/bundle/177.bundle.js.map
+      + 2_recursos/edicion_pro/remotion/bundle/208.bundle.js
+      + 2_recursos/edicion_pro/remotion/bundle/208.bundle.js.map
+      + 2_recursos/edicion_pro/remotion/bundle/226.bundle.js
+      + 2_recursos/edicion_pro/remotion/bundle/226.bundle.js.map
+      + 2_recursos/edicion_pro/remotion/bundle/304.bundle.js
+      + 2_recursos/edicion_pro/remotion/bundle/304.bundle.js.map
+      … y 1317 más
+    modificados (2):
+      ~ 1_codigo/recorrido_ui.py
+      ~ 1_codigo/version.py
+
+
+(Lo anterior está archivado por mes en DOCUMENTACION/historial/REGISTRO_<aaaa-mm>.txt)
 2026-11-06 23:00  ·  v5.76  ·  cambio explicado
     5.76: guía con videos por página (Ajustes › Tutoriales, una vez por versión), zona segura de reels en todos los estilos y en Crea tu estilo, Estilo 5 tipográfico (también principal «Tipografía»), Crea tu estilo rediseñada (previa vertical + Letra/Color), Estilo 2 siempre al centro y sin color en el texto base, y en la interfaz todo se llama «Estilo».
     modificados (54):
