@@ -62,6 +62,15 @@ Apple Silicon (ver `voz-ia`); en las Intel no hay PyTorch nuevo: Whisper y regla
 workflow que monta el entorno como `Construir_Instalador_Mac.sh` y corre un script de prueba (el video de la vista del Kinetic para el
 recorte; una voz de `say` para Qwen, porque las vistas no tienen audio). En las Macs de GitHub no hay tarjeta (`mps` no disponible): Qwen va en la CPU.
 
+**La ventana del .dmg (v5.87; el usuario: «en Mac el instalador hazlo más intuitivo, se verá mejor», con la del de VirtualBox):**
+fondo CLARO con la marca y dos tarjetas («1 Doble clic para instalar» sobre «Instalar CineCaptions», «2 Ábrelo desde Aplicaciones» sobre
+el acceso «Aplicaciones»), y en el pie los consejos que antes iban en un LEEME.txt (clic derecho › Abrir si macOS lo bloquea; scripting externo
+de Resolve en Local) junto a «Desinstalar»; textos en español y, debajo, en inglés; sin extensiones ni barras. Claro a propósito:
+con imagen de fondo el Finder escribe los nombres de los iconos en negro también en modo oscuro (comprobado). Lo arma `dmgbuild` 1.6.7
+(`7_mac/dmg/ajustes_dmg.py`: posiciones de los iconos = centro, en puntos; la ventana mide 660 × 548: 520 del fondo, con la franja 460-520 de reserva, + 28 de barra de título) escribiendo el
+.DS_Store sin el Finder; el fondo, `7_mac/dmg/fondo.png` + `fondo@2x.png` (→ TIFF con `tiffutil`), sale de `4_diseno/instalador_mac/fondo_dmg.html`.
+La actualización automática (`actualizaciones._pkg_de_dmg`) toma cualquier `*.pkg` de la raíz del disco: el nombre del .pkg da igual.
+
 **Dónde:** `7_mac/` · `Construir_Instalador_Mac.sh`, `cinecaptions_mac.spec`, `pkg/scripts/postinstall` (corre `--tarea scripts`, `fuentes` y `modelo` como el usuario y quita los huérfanos de multiprocessing); leer `7_mac/0_LEEME.txt`. SIN PROBAR en una Mac real
 
 ## compilar-win — Compilar, versiones y desinstalador de Windows
@@ -79,6 +88,41 @@ Tras CUALQUIER mejora del programa (`1_codigo`, `2_recursos`, `3_compilar` o `7_
 **Espejo privado (v5.52):** `CineCaptions-mac-build` pasó a PRIVADO (siendo público, cualquiera leía todo el código y la sal de `licencia.dat`). Coste: los minutos de macOS cuentan ×10 contra los 2000 gratis del mes (unas 14 compilaciones de ~14 min); pasado el cupo GitHub no arranca la compilación («spending limit», ya pasó el 2026-10-09 en el repo privado) hasta el mes siguiente o hasta poner un pago. Volver a público es `gh repo edit … --visibility public`. El espejo sube SOLO lo que el repo privado no ignora: su `.gitignore` = el del privado + certificados y claves (`*.pfx *.p12 *.pem *.key firma.json .env*`, también excluidos en robocopy) y `git rm --cached` + `add` antes de cada commit (antes subía `desktop.ini` y habría subido `firma.json` o un `.pfx`).
 
 ## actualizaciones — Actualizaciones automáticas (cliente y publicación)
+
+**Con el programa CERRADO (v5.87; el usuario: «que de verdad notifiquen si sale una versión nueva aunque esté cerrado, que auto lo descargue y
+se instalen tanto en Mac como en Windows»; en Mac eligió «sin contraseña»):** `1_codigo/actualizar_fondo.py`, corrido como
+`CineCaptions --tarea actualizar_fondo`. Consulta el version.json FIRMADO; si hay versión nueva y CineCaptions no está abierto (el candado
+`~/.cinecaptions.lock` libre: `programa_abierto`), avisa con una notificación del sistema, descarga con el SHA-256 firmado e instala. Un fallo
+no se reintenta solo antes de 6 h. Registro: `carpeta_estado()/actualizar_fondo.log`.
+- **Windows:** tarea programada del USUARIO «CineCaptions Actualizaciones» (cada 4 h y «en cuanto se pueda» si el equipo estaba apagado; sin
+  disparador de inicio de sesión ni carpeta propia: los dos piden administrador). La crea el programa al abrirse (`asegurar_programada`, desde
+  `vigilancia.revisar_salud_al_arrancar`) y la quita el desinstalador (`Instalador.cs`). Instala con `/silencioso /noabrir /sinmodelo` (por
+  usuario, sin UAC; los motores los pone al día el programa al abrirse). Notificación: el icono de la bandeja de Qt unos segundos.
+- **Mac:** servicio del sistema `com.cinemaproductions.cinecaptions.actualizar` (`/Library/LaunchDaemons`, de root; lo pone el `postinstall`):
+  al encender, cada 4 h y al momento con un pedido en `/Users/Shared/CineCaptions/pedidos` (QueueDirectories). Instala el .pkg SIN contraseña.
+  Si ya estaba cargado, el postinstall no lo recarga (podría ser él quien instala). Seguridad: carpetas de root (la de pedidos 1777 con sticky
+  bit; si alguien la cambió por un enlace se rehace), descargas en una carpeta solo de root (`actualizaciones.carpeta_descargas`), de un pedido
+  solo «reabrir», el PID que esperar (nunca lo mata) y un .dmg que copia y comprueba con el SHA-256 firmado. Notificación: `osascript` como el
+  usuario que está frente a la Mac. El desinstalador lo quita.
+- **Con el programa abierto:** la versión nueva se descarga sola en cuanto sale (`_predescargar_actualizacion`) y se instala SIN ventanas al
+  cerrarlo (`_instalar_al_cerrar`: Windows en silencio; Mac por el servicio). «Actualizar ahora» aprovecha esa descarga; en la Mac va por el
+  servicio (sin contraseña) y, si no está, con la ventana de la contraseña de antes.
+
+**Mac: se instala y se vuelve a abrir sola (v5.87; el usuario: «en Mac al actualizar no se actualiza bien, no se abre solo, tengo que
+cerrarlo y volverlo a abrir»):** hasta la 5.86 la Mac solo abría el .dmg y pedía abrir el .pkg a mano CON EL PROGRAMA ABIERTO; nada lo cerraba ni
+lo volvía a abrir. Ahora `actualizaciones._instalar_mac` (en el hilo de la descarga) saca el .pkg del .dmg (`hdiutil attach -nobrowse`, copia y
+desmonta), deja en marcha `SCRIPT_MAC` aparte (`start_new_session`) y el programa se cierra como en Windows. El script espera a que se cierre
+(60 s; si no, lo cierra), instala con `installer -pkg … -target /` (primero `sudo -n`, que en una Mac normal no vale; luego la ventana de la
+contraseña de macOS por `osascript … with administrator privileges`; sin contraseña, el instalador de macOS de siempre con `open -W`) y abre
+`/Applications/CineCaptions.app`. Registro: `~/DaVinciSubtitles/actualizacion_mac.log`. Caso `actualizar_en_mac_se_instala_y_vuelve_a_abrir`.
+Probado en una Mac de GitHub con el .dmg publicado de la 5.86: «The install was successful» y se volvió a abrir solo.
+
+**Previsiones (v5.87; pedido: «previene más errores o situaciones reales de futuros problemas»):** 1) quien actualiza desde la 5.86 (o instala
+el .pkg a mano) tiene la versión VIEJA abierta mientras el .pkg la reemplaza: el `postinstall` la cierra con SIGTERM (solo la ventana: la orden
+exacta, sin `--tarea` ni hijos) y al terminar abre la nueva; el programa, con SIGTERM, cierra la ventana como el botón y guarda
+(`_cerrar_bien_al_terminar`). 2) El instalador descargado (hasta 1,2 GB en la Mac) ya no se queda en la carpeta temporal: al abrir se quita lo
+de más de una hora (`limpiar_descargas_viejas`, desde `vigilancia.revisar_salud_al_arrancar`). Casos `instalar_a_mano_con_la_vieja_abierta_…`
+y `descargas_viejas_de_actualizacion_se_quitan`.
 
 **Qué:** v5.3.5. El programa lee un `version.json` público, avisa con el chip «Nueva versión X ↑» de Inicio, descarga el instalador de SU plataforma, comprueba el SHA-256 y lo lanza. Nunca instala sin que el usuario pulse y confirme.
 

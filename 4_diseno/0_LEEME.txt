@@ -23,6 +23,8 @@ QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
         logo_original.jpg
             el logo original del que sale el icono
         muestra_iconos.png
+    instalador_mac\   (1 archivos)
+        fondo_dmg.html
     notas\   (3 archivos)  — notas y pedidos sueltos (no van al programa)
         .cf\   (1 archivos)
         desktop.ini

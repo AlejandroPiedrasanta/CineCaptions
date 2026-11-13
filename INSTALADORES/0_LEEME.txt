@@ -10,7 +10,7 @@ siempre con la versión en el nombre. Los de versiones anteriores se borran solo
                (instalador + programa + desinstalador, sin internet; Windows 10/11 x64)
     Mac\       CineCaptions_Mac_AppleSilicon_<versión>.dmg
                CineCaptions_Mac_Intel_<versión>.dmg
-               (cada .dmg trae Instalar_CineCaptions.pkg + Desinstalar_CineCaptions.command)
+               (cada .dmg trae «Instalar CineCaptions.pkg» + «Desinstalar.command», en una ventana con los dos pasos)
 
 CÓMO SE ACTUALIZAN (después de CUALQUIER mejora del programa; salen del mismo código):
 

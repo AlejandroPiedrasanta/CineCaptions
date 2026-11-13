@@ -36,7 +36,7 @@ la tarjeta de Apple); sus procesos no heredan las `DYLD_*` del programa empaquet
 programa la memoria sale de `_memoria_mac` (~2/3 de la RAM, ~3/4 desde 36 GB; libre con `vm_stat`), y Gemma 4 E4B va ENTERA a la tarjeta
 (`NECESITA_MAC` 17 GB; IA de texto: Gemma ≥ 20 GB, Qwen3-4B ≥ 12, si no 1.7B). El .pkg no puede esperar los GB: lo instala el programa al abrir, en
 segundo plano (`vigilancia._motor_ia_en_mac`, 90 s después; si falla, el siguiente intento automático pasado un día:
-`motor_qwen/instalacion_auto.json`); una sola instalación a la vez (`instalar` con candado; `instalando()` = su avance, que Ajustes pinta cada
+`motor_qwen/instalacion_auto.json`; y no empieza con menos de `MAC_IA_DISCO_GB` = 12 GB libres: lo dice en el Registro); una sola instalación a la vez (`instalar` con candado; `instalando()` = su avance, que Ajustes pinta cada
 2 s y `salud` no cuenta como falla). **Probado en una Mac de GitHub** (M1 virtual, 7 GB, SIN `mps`: allí no hay tarjeta): instalación de cero
 en 144 s, Qwen3-ASR 0.6B en la CPU transcribió una voz de `say` con tiempos por palabra (20 palabras), y la IA de texto 1.7B en la CPU (fp32,
 ~7 GB) no avanzó en 420 s y GO siguió con las reglas, como debe. La tarjeta de Apple (`mps`) queda SIN probar: pedirlo en una Mac real.

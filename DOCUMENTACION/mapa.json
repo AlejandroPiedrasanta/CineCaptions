@@ -119,7 +119,8 @@
    "archivos": [
     "proyecto_ui.py",
     "un_clic_ui.py",
-    "herramientas_dev/captura_proyecto.py"
+    "herramientas_dev/captura_proyecto.py",
+    "1_codigo/tareas_instalador.py"
    ],
    "simbolos": [
     "PlantillasWindow",
@@ -143,7 +144,10 @@
     "BotonCompacto",
     "PuntosSlider",
     "TarjetaCielo",
-    "_zonas_vivas_cielo"
+    "_zonas_vivas_cielo",
+    "modo_al_abrir",
+    "_cargar_preferencias",
+    "_cartas_basicos"
    ],
    "resumen": "PlantillasWindow: _asegurar_estilos, _fila_pack · v5.32: aspecto de las maquetas (proyecto_ui: franja del audio y bloque del tema animado)."
   },
@@ -444,7 +448,10 @@
     "correr_en_hilo",
     "despues",
     "pila",
-    "qt_kit"
+    "qt_kit",
+    "interruptor",
+    "toggle",
+    "switch"
    ],
    "archivos": [
     "qt_kit.py"
@@ -452,7 +459,8 @@
    "simbolos": [
     "correr_en_hilo",
     "despues",
-    "Pila"
+    "Pila",
+    "Interruptor"
    ],
    "resumen": "qt_kit: correr_en_hilo, despues, Pila, Boton, Tarjeta"
   },
@@ -615,7 +623,9 @@
     "_memoria_mac",
     "_chip_mac",
     "mps_disponible",
-    "_motor_ia_en_mac"
+    "_motor_ia_en_mac",
+    "_gb_libres",
+    "MAC_IA_DISCO_GB"
    ],
    "resumen": "subtitle_transcriber, motor_voz, ia_texto"
   },
@@ -1593,7 +1603,9 @@
     "1_codigo/motor_compat.py",
     "1_codigo/tareas_instalador.py",
     "2_recursos/motor_compat/worker.py",
-    "1_codigo/motor_voz.py"
+    "1_codigo/motor_voz.py",
+    "7_mac/dmg/ajustes_dmg.py",
+    "4_diseno/instalador_mac/fondo_dmg.html"
    ],
    "simbolos": [
     "scripts",
@@ -2028,7 +2040,8 @@
     "Publicar_Version.ps1",
     "1_codigo/ajustes_ui.py",
     "1_codigo/firma_ed25519.py",
-    "3_compilar/firmar_manifiesto.py"
+    "3_compilar/firmar_manifiesto.py",
+    "1_codigo/actualizar_fondo.py"
    ],
    "simbolos": [
     "comprobar",
@@ -2043,7 +2056,20 @@
     "corta",
     "_obligatoria",
     "_exigir_actualizacion",
-    "exigir_actualizacion"
+    "exigir_actualizacion",
+    "_instalar_mac",
+    "_pkg_de_dmg",
+    "SCRIPT_MAC",
+    "limpiar_descargas_viejas",
+    "_cerrar_bien_al_terminar",
+    "correr",
+    "programa_abierto",
+    "asegurar_programada",
+    "pedir_al_servicio",
+    "notificar",
+    "_tomar_pedidos",
+    "_predescargar_actualizacion",
+    "_instalar_al_cerrar"
    ],
    "resumen": "actualizaciones.py (comprobar/descargar/instalar), Publicar_Version.ps1; cliente en el script principal"
   },
@@ -2284,16 +2310,28 @@
     "casos",
     "regresion",
     "prevenir",
-    "errores"
+    "errores",
+    "verificar mac",
+    "mac real",
+    "github actions",
+    "premiere falso",
+    "todas las opciones",
+    "verificar_mac"
    ],
    "archivos": [
-    "herramientas_dev/simular_equipos.py"
+    "herramientas_dev/simular_equipos.py",
+    "herramientas_dev/verificar_mac.py",
+    "herramientas_dev/premiere_falso.js"
    ],
    "simbolos": [
     "disco_falso",
     "_resolve_dir_extra",
     "_resolve_en_marcha",
-    "_discos_fijos"
+    "_discos_fijos",
+    "plantilla_falsa",
+    "video_de_prueba",
+    "dentro_opciones",
+    "dentro_go"
    ],
    "resumen": "banco sin Resolve/GPU/red: disco y procesos falsos; cada error de un cliente = un caso nuevo; sale 1 si algo falla"
   },
@@ -3302,7 +3340,9 @@
     "_senal_sin_editores",
     "_capas_de_cue",
     "_max_cuadrado",
-    "HILOS_COMPONER"
+    "HILOS_COMPONER",
+    "_texto_pide_video",
+    "_go_pide_video"
    ],
    "resumen": "Sin Resolve en el equipo, GO graba el tema elegido (render_temas.py dibuja los 6) (Pillow + PyAV/libx264) en «<video> (CineCaptions).mp4» junto al original"
   },
@@ -3334,7 +3374,21 @@
     "texto de origen",
     "proyecto vacio",
     "pantalla de inicio",
-    "abrir premiere"
+    "abrir premiere",
+    "animacion",
+    "fotogramas clave",
+    "keyframes",
+    "mac",
+    "panel viejo",
+    "reiniciar premiere",
+    "rev",
+    "latido",
+    "resolver fuentes",
+    "fuente sustituida",
+    "instrument serif",
+    "letra no cargada",
+    "addfontresource",
+    "enumfontfamilies"
    ],
    "archivos": [
     "premiere.py",
@@ -3376,7 +3430,19 @@
     "_registrada",
     "crear_proyecto",
     "plantilla_proyecto",
-    "abrir"
+    "abrir",
+    "animacion",
+    "_reducir",
+    "_encoger_respaldo",
+    "_la_ve_premiere",
+    "_premiere_abierto_desde",
+    "rev_instalada",
+    "panel_viejo",
+    "_buscar_plantilla",
+    "textos_estado",
+    "_familias_sesion",
+    "_en_la_sesion",
+    "_cargar_en_la_sesion"
    ],
    "resumen": "Ajustes › General: uno de tres (Usar con DaVinci Resolve · Usar con Premiere Pro = go_premiere · Video sin editores = go_salida_mp4); con Premiere GO dibuja la capa transparente y el panel arma la secuencia (V1 video, V2 captions, A2… sonidos, música); v5.85: con Premiere nada toca Resolve (ni el arrastre ni lo de fondo: _con_premiere); textos editables en V2… (premiere_textos: un .mogrt por texto hecho de la «Basic Title» de Premiere) y la capa solo de respaldo; v5.85: Premiere cerrado → GO escribe «<video> (CineCaptions).prproj» (proyecto_vacio.xml, crear_proyecto) y lo abre con él (sin proyecto Premiere se queda en su inicio y el panel no carga)"
   },

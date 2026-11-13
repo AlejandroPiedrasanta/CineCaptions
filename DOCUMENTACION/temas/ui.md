@@ -70,6 +70,8 @@
 
 **Dónde:** `qt_kit.py`
 
+**Interruptor limpio (v5.87; el usuario mandó una captura del interruptor verde de Ajustes: «hay problemas visuales»):** el `Interruptor` encendido pintaba un «neón»: dos rectángulos redondeados del acento casi transparentes (alfa 22 y 52) más grandes que la pista. Sobre el fondo oscuro se veían como un borde verde sucio y, como sobresalían del widget, quedaban recortados en una CAJA oscura cuadrada alrededor del interruptor; además la pista caía en medio píxel a 150 % (borde de abajo borroso, el de arriba nítido). Ahora: sin neón; la pista en píxeles enteros de la pantalla (`p.deviceTransform()` dice dónde cae el widget y se redondea `x` e `y` en píxeles físicos) y la bolita con una sombra corta y suave debajo (dos elipses negras al 10 % y 16 %). Es el único interruptor del programa (todas las pantallas usan este). Comprobado dibujándolo sin pantalla a dpr 1,5 con alturas de 24 a 27 px, apagado, encendido y desactivado.
+
 ## ajustes-tema — Ajustes y tema
 
 **Qué:** Ajustes / tema
