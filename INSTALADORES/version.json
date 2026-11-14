@@ -1,29 +1,29 @@
 {
   "estable": {
-    "version": "5.88.0",
-    "notas": "Ejemplos de los estilos en alta calidad, deslizador suave con el trackpad, tipografías de Mac y más equipos sin sorpresas",
+    "version": "5.89.0",
+    "notas": "Actualizar enseña el avance de la descarga desde el primer momento y, en Mac, se instala sola aunque cierres CineCaptions antes de que termine",
     "fecha": "2026-11-13",
     "archivos": {
       "windows": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.88/Instalar_CineCaptions_5.88.exe",
-        "sha256": "7e115a32d36abb54762a3d1c2ec8ac7da934418d1ad396046aa1229bb5f412db",
-        "tam": 767734318
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.89/Instalar_CineCaptions_5.89.exe",
+        "sha256": "3109c9a8de3a8feba5ec8bd20f239b0d2608d854e49ee7171771d929bf4ad1bc",
+        "tam": 767734847
       },
       "mac_arm64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.88/CineCaptions_Mac_AppleSilicon_5.88.dmg",
-        "sha256": "f0e223aa8bcf37b7f4e534e836cbb1042bcbfab30c866956e5d179d7b6e2306a",
-        "tam": 745414921
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.89/CineCaptions_Mac_AppleSilicon_5.89.dmg",
+        "sha256": "76e387d699f984a12250c56f3c419a3dcec38578ee3ef1075196258d93d95dd3",
+        "tam": 745413400
       },
       "mac_x86_64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.88/CineCaptions_Mac_Intel_5.88.dmg",
-        "sha256": "855a9737a53442de52158526a595f007943f4124b0cc71e9b7806cbb55fb0b87",
-        "tam": 770737830
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.89/CineCaptions_Mac_Intel_5.89.dmg",
+        "sha256": "4ab42fc38d38c2626099cddc10a4945f53e6fa9f7777bca244bd714d1aa75566",
+        "tam": 770659185
       }
     }
   },
   "firma": {
     "alg": "ed25519",
     "clave": "7a4e413e",
-    "valor": "fpA7VGtaA2SlV75OLOOJuQvSO73mpeL7E9cDqLcQ39HeH3mulnp0YnGOcrjh45AYRZZ23Of1855O2pI5YPP0DQ=="
+    "valor": "+ysV0+F95CLgLFt0rxEGi8kCOoMrTFCQ4vlGKbI2dzxKFgEF2VfS7UYzGm4jfyKhe72V7A8T0O3WzMBq/6IsDQ=="
   }
 }
