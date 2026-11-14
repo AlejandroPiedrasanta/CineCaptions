@@ -12,6 +12,41 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-13 22:45  ·  v5.90  ·  (automático)
+    modificados (24):
+      ~ 1_codigo/actualizaciones.py
+      ~ 1_codigo/actualizar_fondo.py
+      ~ 1_codigo/aviso_mac.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      … y 12 más
+
+2026-11-13 22:02  ·  v5.89  ·  cambio explicado
+    v5.90 Mac: la notificación de osascript no sale en pantalla (medido en Macs de GitHub con la 5.88 publicada; el servicio sí instalaba). El aviso con el programa cerrado es la tarjeta de CineCaptions (aviso_mac) que abre el servicio en la sesión del usuario: pregunta Más tarde / Actualizar ahora (sin respuesta se instala en 2 min), enseña la instalación y el final; el servicio mira cada hora; el Dock rebota con versión nueva.
+    nuevos (1):
+      + 1_codigo/aviso_mac.py
+    modificados (15):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/actualizar_fondo.py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/tareas_instalador.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      … y 3 más
+
 2026-11-13 20:00  ·  v5.89  ·  (automático)
     modificados (20):
       ~ 1_codigo/version.py

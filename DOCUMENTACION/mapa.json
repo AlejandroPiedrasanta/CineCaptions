@@ -2032,7 +2032,12 @@
     "seguridad",
     "obligatoria",
     "force_update",
-    "minima"
+    "minima",
+    "notificacion",
+    "aviso",
+    "tarjeta",
+    "mac",
+    "posponer"
    ],
    "archivos": [
     "1_codigo/actualizaciones.py",
@@ -2041,7 +2046,9 @@
     "1_codigo/ajustes_ui.py",
     "1_codigo/firma_ed25519.py",
     "3_compilar/firmar_manifiesto.py",
-    "1_codigo/actualizar_fondo.py"
+    "1_codigo/actualizar_fondo.py",
+    "1_codigo/aviso_mac.py",
+    "7_mac/pkg/scripts/postinstall"
    ],
    "simbolos": [
     "comprobar",
@@ -2069,7 +2076,14 @@
     "notificar",
     "_tomar_pedidos",
     "_predescargar_actualizacion",
-    "_instalar_al_cerrar"
+    "_instalar_al_cerrar",
+    "tarjeta_mac",
+    "cerrar_tarjeta_mac",
+    "_esperar_respuesta",
+    "_motivo_claro",
+    "mostrar",
+    "responder",
+    "resultado"
    ],
    "resumen": "actualizaciones.py (comprobar/descargar/instalar), Publicar_Version.ps1; cliente en el script principal"
   },
