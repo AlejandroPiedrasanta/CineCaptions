@@ -1,5 +1,265 @@
 REGISTRO DE CAMBIOS ARCHIVADO · 2026-11 (la entrada más nueva arriba)
 
+2026-11-10 16:44  ·  v5.82  ·  cambio explicado
+    5.83 (sin compilar): tutoriales EN INGLES. El usuario: 'si el usuario coloca ingles los videos tutoriales siguen en espanol' (captions y audio). Grabacion propia en 2_recursos/tutoriales/en/ con la interfaz en ingles y la voz inglesa de Andre (68 frases, 13,65 creditos de Higgsfield aprobados 'hasta 15'); tutoriales.carpeta_de elige la carpeta del idioma y de ella salen juntos video, miniatura, duraciones, subtitulos y voz. Grabador --idioma-ui en (CINECAPTIONS_IDIOMA antes de importar; botones con M.tr). Al grabar salieron textos de la app sin traducir que veia cualquier usuario en ingles: 'Estilo N' (plantillas.nombre_para_ui) y 161 textos de las tablas de Efectos y Sonido (solo ingles en traducciones_extra). Los videos en espanol no cambian.
+    nuevos (38):
+      + 2_recursos/tutoriales/en/ajustes.jpg
+      + 2_recursos/tutoriales/en/ajustes.mp4
+      + 2_recursos/tutoriales/en/ayuda.jpg
+      + 2_recursos/tutoriales/en/ayuda.mp4
+      + 2_recursos/tutoriales/en/corrector.jpg
+      + 2_recursos/tutoriales/en/corrector.mp4
+      + 2_recursos/tutoriales/en/crea.jpg
+      + 2_recursos/tutoriales/en/crea.mp4
+      + 2_recursos/tutoriales/en/duraciones.json
+      + 2_recursos/tutoriales/en/efectos.jpg
+      + 2_recursos/tutoriales/en/efectos.mp4
+      + 2_recursos/tutoriales/en/estilo.jpg
+      … y 26 más
+    modificados (27):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/efectos_extra_ui.py
+      ~ 1_codigo/efectos_pagina.py
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/estilos_slider.py
+      ~ 1_codigo/herramientas_dev/hacer_videos_tutorial.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/herramientas_dev/voz_tutoriales.py
+      ~ 1_codigo/mograf_ui.py
+      ~ 1_codigo/motor_voz.py
+      ~ 1_codigo/plantillas.py
+      … y 15 más
+
+2026-11-10 15:42  ·  v5.82  ·  cambio explicado
+    5.82: Estilo 4 nuevo copiado del reel de referencia (ESTILO 7.mp4) con tres alturas MEDIDAS fotograma a fotograma (a ojo no se parecia) y sus motions para la PRO (avion de papel con la trayectoria del ejemplo trasladada, tachado, REC, aro, persianas, zoom con desenfoque, pildora Reflejo rojo); el Corrector se acerca a los captions para ver cada cambio; 4K sin perdida; paginas y fondos mas fluidos (Ajustes construye al abrir); Cancelar inmediato porque el usuario esperaba con 'Resolve tarda en abrirse (intento 2)': las esperas de resolve_mcp se cortan con un evento; tutoriales con voz ElevenLabs (Andre, ~13,5 creditos aprobados) en vez del TTS local de 11,7 GB; arreglos de informes de clientes (aviso de la IA Qwen3 que decia faltan modelos sin ser verdad, WinError 32 en .tmp, arranque trabado 46 s cargando la referencia de Inicio). El cuelgue del Mac 5.78 sigue pendiente de sus registros.
+
+2026-11-10 15:38  ·  v5.82  ·  (automático)
+    modificados (83):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro_persona.py
+      ~ 1_codigo/escena_go.py
+      ~ 1_codigo/herramientas_dev/hacer_videos_tutorial.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/herramientas_dev/voz_tutoriales.py
+      ~ 1_codigo/motor_voz.py
+      ~ 1_codigo/proyecto_ui.py
+      ~ 1_codigo/qt_kit.py
+      ~ 1_codigo/registro_ayuda.py
+      ~ 1_codigo/tareas_instalador.py
+      ~ 1_codigo/version.py
+      … y 71 más
+
+2026-11-10 14:48  ·  v5.81  ·  cambio explicado
+    v5.82 GO real con la PRO (Estilo 4): avión, aro y zoom de entrada colocados y renderizados en Resolve Studio; arreglado que la PRO leía los cortes (t, fuerza) como nada (sin persianas y el zoom pegado a un corte): _cortes_de; el zoom de entrada va justo en un corte o lejos de él, y a 1,5 s de las persianas.
+    modificados (18):
+      ~ 1_codigo/edicion_pro_pila.py
+      ~ 1_codigo/herramientas_dev/probar_go_sin_resolve.py
+      ~ 1_codigo/herramientas_dev/probar_ventanas_humo.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/registro.py
+      ~ 1_codigo/registro_ayuda.py
+      ~ 1_codigo/salud.py
+      ~ 1_codigo/vigilancia.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      … y 6 más
+
+2026-11-10 14:22  ·  v5.81  ·  cambio explicado
+    v5.82 zoom con desenfoque de entrada (último motion de la referencia del Estilo 4, kit:zoom): edicion_pro_pila.entradas_zoom elige hasta 2 entradas de bloque y aplicar las pasa al zoom de la PRO; los gemelos colocar_pro._zoom/_comp_zoom y CineCaptions_EdicionPro.lua poner_zoom/comp_zoom ponen una copia de V1 en PRO-ZOOM (bajo los captions) con Transform 1,12→1 + Blur 16→0 (mismo texto en los dos; probado con Resolve simulado y LuaJIT).
+    modificados (16):
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_pila.py
+      ~ 1_codigo/herramientas_dev/voz_tutoriales.py
+      ~ 1_codigo/motions_catalogo.py
+      ~ 2_recursos/edicion_pro/colocar_pro.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      … y 4 más
+
+2026-11-10 14:07  ·  v5.81  ·  cambio explicado
+    v5.82 motions de la referencia del Estilo 4 en la Edición PRO (con «Kit de motions»): avión de papel con las poses medidas, tachado rojo, visor REC, aro de luz en la cara con mini píldora y persianas en un corte (remotion/src/MotionsPila.tsx + edicion_pro_pila.py, enganchados en edicion_pro.aplicar tras la píldora; carrusel, miniaturas, sonidos y traducciones). Falta el zoom con desenfoque (toca el video).
+    nuevos (32):
+      + 1_codigo/edicion_pro_pila.py
+      + 1_codigo/herramientas_dev/voz_tutoriales.py
+      + 1_codigo/remotion/src/MotionsPila.tsx
+      + 2_recursos/edicion_pro/estilos_pro/pildora_reflejo.jpg
+      + 2_recursos/edicion_pro/estilos_pro/pildora_reflejo.mp4
+      + 2_recursos/edicion_pro/previas_motions/kit_aro.jpg
+      + 2_recursos/edicion_pro/previas_motions/kit_avion.jpg
+      + 2_recursos/edicion_pro/previas_motions/kit_persianas.jpg
+      + 2_recursos/edicion_pro/previas_motions/kit_rec.jpg
+      + 2_recursos/edicion_pro/previas_motions/kit_tachado.jpg
+      + 2_recursos/tutoriales/ayuda.jpg
+      + 2_recursos/tutoriales/ayuda.mp4
+      … y 20 más
+    modificados (88):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/broll.py
+      ~ 1_codigo/crea_estilo_ui.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/edicion_pro_escenas.py
+      ~ 1_codigo/edicion_pro_persona.py
+      ~ 1_codigo/edicion_pro_sonido.py
+      ~ 1_codigo/edicion_pro_tema5_mm.py
+      ~ 1_codigo/efectos_pagina.py
+      ~ 1_codigo/efectos_ui.py
+      ~ 1_codigo/efectos_visuales.py
+      … y 76 más
+
+2026-11-10 09:35  ·  v5.81  ·  cambio explicado
+    Corrector: cámara que acerca el móvil a los captions del bloque (sigue al bloque y al reproducir; acercamiento corto al llegar un cambio) para apreciar el cambio; capas rasterizadas 1,75× más finas; resplandor sin corte; demos del Corrector rehechas acercadas con un encuadre por video y móviles ~20 % más grandes (pedido del usuario: «que haga zoom a los captions para apreciar mejor el cambio y en general hazlo mejor todo»).
+
+2026-11-10 09:33  ·  v5.81  ·  cambio explicado
+    Estilo 4 nuevo (sin compilar, pedido del usuario con su referencia: «crea este estilo… y reemplázalo por el Estilo 4»): la pila de tres alturas —arriba lo dicho antes en blanco, la clave grande en lima con brillo, abajo a la derecha lo que sigue— con pila_planificador y el pack Tema4 de elementos («v pila», «v pila peq», «v pila lima»). Letras, sitios, colores, brillo y sombra medidos en 6 bloques de la referencia; las pequeñas se apoyan en la silueta de la grande sin pisarse y la tinta queda dentro de la zona segura. Vista de la app, GO sin Resolve, «Crea tu estilo» («Lima») y muestras al día. tema4_planificador sigue para el Estilo 6.
+    nuevos (2):
+      + 1_codigo/pila_planificador.py
+      + 2_recursos/plantillas_incluidas/Tema4/Tema4 horizontal.drb
+    modificados (39):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/editor_ui.py
+      ~ 1_codigo/estilos_slider.py
+      ~ 1_codigo/herramientas_dev/hacer_demos_corrector.py
+      ~ 1_codigo/kinetic_captions.py
+      ~ 1_codigo/mezcla_planificador.py
+      ~ 1_codigo/mezcla_vista.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/qt_kit.py
+      ~ 1_codigo/render_temas.py
+      ~ 1_codigo/resolve_mcp.py
+      … y 27 más
+    quitados (2):
+      - 2_recursos/plantillas_incluidas/Tema4/Tema4 vertical.posiciones.json
+      - 2_recursos/plantillas_incluidas/Tema4/Tema4 vertical.variantes.json
+
+2026-11-10 01:48  ·  v5.81  ·  cambio explicado
+    5.81: Estilos 8 (una línea ámbar con la clave en negrita, entra subiendo y enfocándose) y 9 (bloque editorial centrado y abajo con la clave grande en serif cursiva), pedidos por el usuario con referencias de TikTok; en «Crea tu estilo» como «Ámbar» y «Serif cursiva»; probados con GO real en Resolve Studio.
+
+2026-11-10 01:45  ·  v5.81  ·  (automático)
+    modificados (32):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/mapa_codigo.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/locales/ru.json
+      ~ 2_recursos/locales/zh.json
+      … y 20 más
+
+2026-11-09 22:43  ·  v5.80  ·  cambio explicado
+    Estilos 8 y 9 nuevos (el usuario: «Sí, créalos», con sus TikToks de referencia). Estilo 8 = una línea pequeña Montserrat ámbar con la clave en ExtraBold (ambar_planificador, pack Tema8 «v ambar»). Estilo 9 = bloque editorial centrado y abajo, Inter fina y la clave grande en DM Serif cursiva (editorial_planificador, pack Tema9 «v edi»). Cada palabra entra al decirse y lleva run['sin_cola'] (colocador .lua/.py sin mínimo ni cola). Dentro de la zona segura. En GO, vista, render, Crea tu estilo (t8/t9, p_t8/p_t9) y slider (muestras sin Resolve).
+    nuevos (18):
+      + 1_codigo/ambar_planificador.py
+      + 1_codigo/editorial_planificador.py
+      + 2_recursos/guia_estilo/crea/p_t8.mp4
+      + 2_recursos/guia_estilo/crea/p_t9.mp4
+      + 2_recursos/plantillas_incluidas/Tema8/Tema8 horizontal.drb
+      + 2_recursos/plantillas_incluidas/Tema8/Tema8 vertical.drb
+      + 2_recursos/plantillas_incluidas/Tema8/pack.json
+      + 2_recursos/plantillas_incluidas/Tema9/Tema9 horizontal.drb
+      + 2_recursos/plantillas_incluidas/Tema9/Tema9 vertical.drb
+      + 2_recursos/plantillas_incluidas/Tema9/pack.json
+      + 2_recursos/vistas_slider/Tema8.jpg
+      + 2_recursos/vistas_slider/Tema8.mp4
+      … y 6 más
+    modificados (24):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/fuente_usuario.py
+      ~ 1_codigo/kinetic_captions.py
+      ~ 1_codigo/mezcla_planificador.py
+      ~ 1_codigo/mezcla_vista.py
+      ~ 1_codigo/pack_personalizado.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/render_temas.py
+      ~ 1_codigo/viral_captions.py
+      ~ 1_codigo/vista_tema.py
+      ~ 2_recursos/generador_packs/pack_viral.py
+      ~ 2_recursos/generador_packs/viral_elementos.py
+      … y 12 más
+
+2026-11-09 21:49  ·  v5.80  ·  cambio explicado
+    5.80: el Estilo 7 se va de golpe al acabar cada bloque (blancas y roja a la vez): la blanca tenía la salida de 5 fotogramas y la roja no, y al final del bloque las blancas desaparecían antes (el usuario: «el estilo 7 desaparece palabras»). comp_rojo sin SALIDA (pack Tema7 regenerado, REVISION_BIN T7 2), vista_tema sin salida para «v rojo», render_temas con la capa seca. Muestras del Estilo 7 rehechas.
+    modificados (40):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/render_temas.py
+      ~ 1_codigo/version.py
+      ~ 1_codigo/vista_tema.py
+      ~ 2_recursos/generador_packs/viral_elementos.py
+      ~ 2_recursos/guia_estilo/crea/p_t7.mp4
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      … y 28 más
+
+2026-11-09 20:46  ·  v5.79  ·  cambio explicado
+    GO real del Estilo 7 en Resolve (proyecto temporal, ajustes reales del usuario): (1) «Motions completo» repetía las palabras del titular («Ventas Ventas») porque edicion_pro.bloques_de_cues juntaba también la capa activa (run['exacto']: la roja del Estilo 7, la caja de la línea del Estilo 3); ahora se salta, igual que en director_sonido_eventos._texto_de. (2) linea_planificador._turnos: si la voz da dos palabras en el mismo instante («el» y «Knockout»), se reparten el turno por letras; antes la primera nunca se ponía roja.
+    modificados (3):
+      ~ 1_codigo/director_sonido_eventos.py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/linea_planificador.py
+
+2026-11-09 18:16  ·  v5.79  ·  (automático)
+    modificados (33):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/menu_estilo_ui.py
+      ~ 1_codigo/menu_pro_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/locales/ru.json
+      … y 21 más
+
+2026-11-09 18:03  ·  v5.78  ·  cambio explicado
+    Estilo 7 nuevo (pedido con un video de referencia): 1-3 palabras en Anton blanca con contorno y sombra dura y la palabra que se dice en rojo, sin intro y con corte seco. Pack Tema7 (v rojo + v rojo activa) planificado por linea_planificador con el perfil ROJO; en Crea tu estilo (t7 y p_t7) y en el Corrector la letra es una sola para todas las palabras (la roja va encima de la blanca) y el color principal pinta la roja y el secundario las blancas. Muestras del slider y de Crea hechas sin Resolve: rehacerlas con GO real cuando Resolve este libre.
+    nuevos (9):
+      + 2_recursos/fonts/Anton-Regular.ttf
+      + 2_recursos/guia_estilo/crea/p_t7.mp4
+      + 2_recursos/plantillas_incluidas/Tema7/Tema7 horizontal.drb
+      + 2_recursos/plantillas_incluidas/Tema7/Tema7 vertical.drb
+      + 2_recursos/plantillas_incluidas/Tema7/pack.json
+      + 2_recursos/vistas_slider/Tema7.jpg
+      + 2_recursos/vistas_slider/Tema7.mp4
+      + 2_recursos/vistas_slider/Tema7_captions.jpg
+      + 2_recursos/vistas_slider/Tema7_captions.mp4
+    modificados (25):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/crea_estilo_ui.py
+      ~ 1_codigo/fuente_usuario.py
+      ~ 1_codigo/kinetic_captions.py
+      ~ 1_codigo/linea_planificador.py
+      ~ 1_codigo/mezcla_planificador.py
+      ~ 1_codigo/mezcla_vista.py
+      ~ 1_codigo/pack_personalizado.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/render_temas.py
+      ~ 1_codigo/viral_captions.py
+      ~ 1_codigo/vista_tema.py
+      … y 13 más
+
+
+(Lo anterior está archivado por mes en DOCUMENTACION/historial/REGISTRO_<aaaa-mm>.txt)
 2026-11-09 16:56  ·  v5.78  ·  cambio explicado
     Corrector: tres ejemplos con video sin audio (Principal, Ortografía, Colores y letra) y la tarjeta «Colores y letra» bajo el móvil (propuesta B + B): color y letra de la palabra grande y del texto pequeño por estilo (prefs corrector_ajustes), encima de los de «Crea tu estilo»; el móvil, GO con y sin Resolve, la letra de las pistas y la PRO los usan; un estilo de fábrica con ajustes va por pack_personalizado con su propio nombre de base.
     nuevos (8):
