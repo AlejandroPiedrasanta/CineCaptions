@@ -1,29 +1,29 @@
 {
   "estable": {
-    "version": "5.89.0",
-    "notas": "Actualizar enseña el avance de la descarga desde el primer momento y, en Mac, se instala sola aunque cierres CineCaptions antes de que termine",
+    "version": "5.90.0",
+    "notas": "• Mac: cuando sale una versión nueva aparece un aviso de CineCaptions arriba a la derecha, aunque el programa esté cerrado: eliges «Actualizar ahora» o «Más tarde», ves cómo se instala y te dice cuándo terminó.\r\n• Con una versión nueva, el icono de CineCaptions rebota en el Dock (en Windows parpadea en la barra de tareas) para que no se te pase.",
     "fecha": "2026-11-13",
     "archivos": {
       "windows": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.89/Instalar_CineCaptions_5.89.exe",
-        "sha256": "3109c9a8de3a8feba5ec8bd20f239b0d2608d854e49ee7171771d929bf4ad1bc",
-        "tam": 767734847
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.90/Instalar_CineCaptions_5.90.exe",
+        "sha256": "61c3d5b209cb921b18b721c69806c1e0dca356100ff0c03480ef170afef668fe",
+        "tam": 767763955
       },
       "mac_arm64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.89/CineCaptions_Mac_AppleSilicon_5.89.dmg",
-        "sha256": "76e387d699f984a12250c56f3c419a3dcec38578ee3ef1075196258d93d95dd3",
-        "tam": 745413400
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.90/CineCaptions_Mac_AppleSilicon_5.90.dmg",
+        "sha256": "c267e414ed263ff1427f7d65f955bdb3d0b145a8dcd6751f882bc4929f330906",
+        "tam": 745430263
       },
       "mac_x86_64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.89/CineCaptions_Mac_Intel_5.89.dmg",
-        "sha256": "4ab42fc38d38c2626099cddc10a4945f53e6fa9f7777bca244bd714d1aa75566",
-        "tam": 770659185
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.90/CineCaptions_Mac_Intel_5.90.dmg",
+        "sha256": "3ed25a2ab025483204f3c611c27103993acd9dc5d55025c2bca08f4c58041ea1",
+        "tam": 770683152
       }
     }
   },
   "firma": {
     "alg": "ed25519",
     "clave": "7a4e413e",
-    "valor": "+ysV0+F95CLgLFt0rxEGi8kCOoMrTFCQ4vlGKbI2dzxKFgEF2VfS7UYzGm4jfyKhe72V7A8T0O3WzMBq/6IsDQ=="
+    "valor": "/qivvKMSqyfotUXYVKqkvT5DxOMEToFxz2Hq1ZKA7y887R3ReZmHfchNaSb9oQjQQJLt5ixEMFGjLYKUofpXBg=="
   }
 }
