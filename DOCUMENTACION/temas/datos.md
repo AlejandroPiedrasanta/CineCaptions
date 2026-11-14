@@ -18,6 +18,8 @@
 
 **Dónde:** `archivos_seguros.py` · `escribir_json`, `mezclar_json` (atómico + cerrojo). NUNCA `write_text` directo
 
+**Rutas de más de 260 y la carpeta Videos (v5.88):** Windows solo admite rutas largas con `LongPathsEnabled`, que viene APAGADO (en el equipo del autor está encendido y las pruebas nunca lo veían). `rutas_largas_permitidas()` lo lee una vez; `nombre_que_cabe(carpeta, base, resto)` recorta `base` con «…» para que la ruta y su temporal (`MARGEN_TEMPORAL`) quepan: lo usan el MP4 de «Video sin editores» y la capa (`render_sin_resolve.ruta_de_salida/ruta_de_capa`, y `_carpeta_escribible` manda a Videos si ni recortando cabe), la carpeta de textos de Premiere (`premiere_textos`) y el `.prproj` (`premiere._proyecto_junto_al_video`). Los datos de GO en `DaVinciSubtitles` usan el nombre entero: con más de ~190 letras `_run_pipeline` lo dice al empezar («El nombre del video es demasiado largo para este Windows…») en vez de fallar a mitad. `carpeta_videos()` = la Videos de verdad (CSIDL_MYVIDEO: con OneDrive no es `~/Videos`; Movies en Mac). Banco: `video_de_nombre_largo_en_carpeta_profunda_sin_rutas_largas`.
+
 ## carpetas-del-usuario — Dónde vive el estado (fuera del programa)
 
 Se conserva al actualizar; al desinstalar el usuario elige.
@@ -29,6 +31,8 @@ Se conserva al actualizar; al desinstalar el usuario elige.
 `proyectos.py`: lista de vídeos trabajados (recientes, abrir, borrar). Su estado se guarda con `archivos_seguros`.
 
 ## telemetria-errores — Los errores de los clientes le llegan al vendedor
+
+**Pruebas fiables en equipos lentos (v5.88, medido en Windows 11 ARM de GitHub, todo x64 emulado):** `esperar_envios` daba por terminado lo que el hilo ya había sacado de la cola y aún armaba (cola y pendientes vacíos a mitad de camino) y la prueba paraba el hilo antes del envío: «0 errores recibidos en 0 s». El hilo marca `_ESTADO['ocupado']` mientras procesa y `esperar_envios` lo respeta (reproducido con un `_armar` de 1,5 s: sin el arreglo falla igual que en ARM, con él pasa). Los casos que arrancan el hilo lo paran en un `finally` (un fallo ya no deja el hilo vivo estropeando los siguientes). A los clientes no les afectaba: el hilo terminaba y mandaba igual.
 
 **Qué (v5.71, pedido del usuario: «telemetría para ver si a los usuarios les da error, que lo notifique»):** `telemetria_errores.py` manda cada anotación de nivel «error» del Registro a `https://cinecaptions.shop/pagos/errores.php` con la clave de la licencia, el id del equipo, la versión y el sistema. La app «CineCaptions Ventas» (`Desktop\WEB\programa\ventas.py`, página Errores) la muestra y avisa al dueño con una notificación de Windows. El servidor (`Desktop\WEB\web\pagos\`): `errores.php` recibe, `telemetria.php` crea la tabla `errores_equipos` (una fila por equipo y firma, con `veces` y `visto`), `admin.php` da `errores`, `error_detalle`, `error_visto` y `errores` dentro de `panel`.
 

@@ -12,6 +12,76 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-13 18:34  ·  v5.88  ·  (automático)
+    modificados (22):
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/telemetria_errores.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      … y 10 más
+
+2026-11-13 17:09  ·  v5.87  ·  cambio explicado
+    v5.88: la versión Intel con Rosetta en una Mac con chip de Apple se actualiza a la de Apple Silicon (sysctl.proc_translated); prueba de telemetría con margen en equipos lentos (Windows 11 ARM emulado).
+    modificados (15):
+      ~ 1_codigo/actualizaciones.py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/resolve_bridge.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/locales/ru.json
+      … y 3 más
+
+2026-11-13 16:30  ·  v5.87  ·  cambio explicado
+    v5.88 (prueba de equipos): instalador de Windows avisa en equipos no compatibles (7/8, 32 bits, Windows 10 ARM); rutas de más de 260 sin LongPathsEnabled (nombre recortado o aviso claro); carpeta Videos real con OneDrive; Lua de Free lee rutas con tildes (bmd.readfile, medido en 21.2); Mac sin avisos de permisos de Escritorio/Descargas; verificación en GitHub con Windows 2022/2025/11 ARM y macOS 14/15/26 + formatos de video.
+    modificados (35):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/archivos_seguros.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/herramientas_dev/verificar_mac.py
+      ~ 1_codigo/kit_neon_mp4.py
+      ~ 1_codigo/premiere.py
+      ~ 1_codigo/premiere_textos.py
+      ~ 1_codigo/render_sin_resolve.py
+      ~ 1_codigo/sonido_skill.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      … y 23 más
+
+2026-11-13 15:34  ·  v5.87  ·  cambio explicado
+    v5.88: ejemplos de los estilos a 1080x1920 (GO real en Resolve con timeline 2160x3840; 4K en MEDIOS/06_Ejemplos_4K), deslizador con una tarjeta por gesto del trackpad, tipografías de los estilos incluidas y auto-instaladas al abrir (Poppins ExtraBold/Light faltaban: «Faltan 2 tipografías» en Mac).
+    nuevos (2):
+      + 2_recursos/fonts/Poppins-ExtraBold.ttf
+      + 2_recursos/fonts/Poppins-Light.ttf
+    modificados (53):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/estilos_slider.py
+      ~ 1_codigo/hacer_vista_slider.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/tareas_instalador.py
+      ~ 1_codigo/vigilancia.py
+      ~ 2_recursos/fonts/LICENCIAS.txt
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      … y 41 más
+
 2026-11-13 11:53  ·  v5.87  ·  (automático)
     modificados (31):
       ~ 1_codigo/ajustes_ui.py
