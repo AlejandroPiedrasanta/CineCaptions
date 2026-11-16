@@ -1,9 +1,10 @@
 # CineCaptions — leer SOLO esto; lo demás se consulta por demanda
 
 App PySide6 (v5.91, Python 3.15.2) que subtitula vídeos con IA local y los coloca en DaVinci Resolve (Free y Studio, Windows y Mac).
-Carpetas: `1_codigo` programa · `2_recursos` lo que viaja en el .exe · `3_compilar` · `4_diseno` · `5_SFX` (biblioteca de sonido del autor, 8 GB, fuera de Git; `Desktop\SFX` es un enlace a ella; reglas en su `MAPA_SFX.md`: nunca borrar, mover ni renombrar sonidos) · `6_compilacion` (temporal, no tocar) · `7_mac` · `INSTALADORES/{Windows,Mac}` · `DOCUMENTACION` · `MEDIOS` (icono, renders 4K de Inicio, capturas 4K de las páginas y banners; fuera de Git).
+**La raíz solo enseña 2 carpetas (2026-11-16, pedido del usuario): `PROGRAMA/` (todo el programa) e `INSTALADORES/{Windows,Mac}`.** Las rutas de este archivo son DENTRO de `PROGRAMA/` (los scripts y el MCP corren desde ahí). En la raíz quedan ocultos CLAUDE.md, .git, .github, .claude, .gitignore, .mcp.json y un acceso oculto `5_SFX` → `PROGRAMA/5_SFX`.
+Carpetas (en `PROGRAMA/`): `1_codigo` programa · `2_recursos` lo que viaja en el .exe · `3_compilar` · `4_diseno` · `5_SFX` (biblioteca de sonido del autor, 8 GB, fuera de Git; reglas en su `MAPA_SFX.md`: nunca borrar, mover ni renombrar sonidos) · `6_compilacion` (temporal, no tocar; su Python base vive dentro: si se mueve, corregir `venv315/pyvenv.cfg`) · `7_mac` · `DOCUMENTACION` · `MEDIOS` (icono, renders 4K de Inicio, capturas 4K de las páginas y banners; fuera de Git) · `WEB CINECAPTIONS` (la web, su propio Git) · `Actualizar_Windows.ps1`, `Actualizar_Mac.ps1`, `Publicar_Version.ps1`. Cada carpeta lleva su icono negro (`.cf/icono.ico` + `desktop.ini`).
 «Estilo N» de la interfaz (antes «Tema N»; en el código siguen siendo temas) → `id`: 1 `kinetic-planificador` · 2 `guion-planificador` · 3 `viral-planificador` · 4 `tema4` · 5 `tema5` · 6 `tema6` · 7 `tema7` · 8 `tema8` · 9 `tema9`.
-Python con dependencias (`$PY`): `6_compilacion/venv315/Scripts/python.exe`.
+Python con dependencias (`$PY`): `PROGRAMA/6_compilacion/venv315/Scripts/python.exe` (desde `PROGRAMA/`: `6_compilacion/venv315/Scripts/python.exe`).
 
 ## Encontrar algo sin leer archivos (en este orden)
 1. MCP `cinecaptions` (ToolSearch «cinecaptions» las carga; cada una explica sus opciones): `mapa("palabras")`/`mapa(id=…)` temas · `donde` archivo:línea · `simbolo` solo esa función · `modulo` · `llamadas` quién la usa (`niveles=3`: qué se rompe) · `ruta` · `cambios` · `resumen`. Sin MCP: `$PY 1_codigo/mapa_codigo.py <orden> <x>`.

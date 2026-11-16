@@ -1,0 +1,665 @@
+# CineCaptions · By Cinema Productions
+# 1_codigo/tareas_instalador.py — lo que el instalador pide al programa (--tarea verificar/scripts/fuentes/modelo/motor_ia...).
+"""
+tareas_instalador.py
+--------------------
+Lo que el instalador (Instalar_CineCaptions.exe) le pide al
+programa YA INSTALADO, sin abrir la ventana:
+
+    "CineCaptions.exe" --tarea verificar <estado.txt>
+    "CineCaptions.exe" --tarea scripts   <estado.txt>
+    "CineCaptions.exe" --tarea quitar_scripts <estado.txt>   (al desinstalar)
+    "CineCaptions.exe" --tarea fuentes   <estado.txt>
+    "CineCaptions.exe" --tarea modelo    <estado.txt>
+    "CineCaptions.exe" --tarea equipo    <estado.txt> interactivo|silencioso   (v5.72: ficha + poner el equipo al día)
+    "CineCaptions.exe" --tarea equipo_admin <estado.txt> <plan.json> <salida.json>   (la lanza «equipo», elevada)
+
+Y una para soporte (no la usa el instalador): transcribe un audio de punta a
+punta con el .exe compilado, sin tocar la ventana ni Resolve:
+
+    "CineCaptions.exe" --tarea transcribir <estado.txt> <audio> [idioma]
+    CineCaptions (Mac) --tarea pasos_mac <estado.txt> es|en   (v5.92: los pasos 3-7 del instalador de la Mac, instalar_mac.py)
+    CineCaptions (Mac) --tarea motor_fondo <estado.txt>       (v5.92: Whisper y el motor Qwen3 bajándose aparte, lo lanza pasos_mac)
+
+Por que el instalador no lo hace por su cuenta
+==============================================
+Instalar los scripts en Resolve, las tipografias de las plantillas o el
+modelo de Whisper ya lo sabe hacer el programa (instalador_scripts,
+instalar_fuentes, faster_whisper). Si el instalador tuviera su propia
+copia de esa logica, se desactualizaria en la primera version que cambie
+una carpeta o un nombre de script. Asi hay una sola verdad: la del .exe
+que se acaba de instalar.
+
+Y "verificar" es la unica forma de saber, EN EL EQUIPO DEL CLIENTE, que el
+.exe compilado arranca sus DLL (ctranslate2, onnxruntime, av, Qt):
+cada una puede fallar por motivos que en el equipo donde se compila no se
+ven (CPU sin AVX, antivirus, Windows recortado).
+
+Protocolo con el instalador
+===========================
+Cada tarea agrega lineas UTF-8 a <estado.txt>:
+    PROGRESO|NN|texto   avance 0-100 de la tarea
+    INFO|texto          algo que conviene mostrar en el registro
+    OK|texto            termino bien (ultima linea)
+    ERROR|texto         no se pudo (ultima linea)
+y sale con codigo 0 (OK) o 1 (ERROR). El instalador lee el archivo
+mientras la tarea corre: no hay consola (el .exe es de ventana).
+"""
+import os
+import sys
+import threading
+import time
+import traceback
+from pathlib import Path
+
+TAREAS = ('verificar', 'scripts', 'quitar_scripts', 'fuentes', 'modelo', 'motor_ia', 'motor_compat', 'transcribir', 'sonda_resolve',
+          'equipo', 'equipo_admin', 'actualizar_fondo', 'aviso_mac', 'instalar_dmg', 'pasos_mac', 'motor_fondo')
+# v5.1: Whisper queda de respaldo (el motor principal es Qwen3-ASR, motor_ia)
+MODELO_WHISPER = 'large-v3-turbo'
+MODELO_BYTES_APROX = 1_620_000_000
+
+
+class _Estado:
+    """Escribe el archivo de estado que lee el instalador."""
+
+    def __init__(self, ruta):
+        self.ruta = Path(ruta) if ruta else None
+        self.final = None
+
+    def _linea(self, *partes):
+        texto = '|'.join(str(p).replace('\r', ' ').replace('\n', ' ')
+                         for p in partes)
+        if self.ruta is None:
+            print(texto)
+            return
+        for _ in range(20):
+            try:
+                with open(self.ruta, 'a', encoding='utf-8') as f:
+                    f.write(texto + '\n')
+                return
+            except OSError:
+                time.sleep(0.05)
+
+    def progreso(self, pct, texto=''):
+        self._linea('PROGRESO', max(0, min(100, int(pct))), texto)
+
+    def info(self, texto):
+        self._linea('INFO', texto)
+
+    def ok(self, texto=''):
+        self.final = 0
+        self._linea('OK', texto)
+
+    def error(self, texto):
+        self.final = 1
+        self._linea('ERROR', texto)
+
+
+def ejecutar(argv):
+    """Punto de entrada desde main(). Devuelve el codigo de salida."""
+    i = argv.index('--tarea')
+    tarea = argv[i + 1] if len(argv) > i + 1 else ''
+    estado = _Estado(argv[i + 2] if len(argv) > i + 2 else None)
+    if tarea not in TAREAS:
+        estado.error(f'Tarea desconocida: {tarea!r} (validas: {", ".join(TAREAS)})')
+        return 1
+    try:
+        globals()['_tarea_' + tarea](estado, *argv[i + 3:])
+    except Exception as exc:
+        estado.info(traceback.format_exc().strip().splitlines()[-1])
+        estado.error(f'{type(exc).__name__}: {exc}')
+    if estado.final is None:
+        estado.ok()
+    return estado.final
+
+
+# ---------------------------------------------------------------------------
+# actualizar_fondo (v5.87): la versión nueva con el programa CERRADO (la tarea programada de Windows y el servicio del sistema de la Mac)
+# ---------------------------------------------------------------------------
+def _tarea_actualizar_fondo(estado, *_resto):
+    import actualizar_fondo
+    estado.ok(actualizar_fondo.correr(info=estado.info))
+
+
+def _tarea_instalar_dmg(estado, dmg='', modo='', *_resto):
+    """v5.91 (soporte y pruebas): instala en ESTA app la versión de un .dmg de «arrastrar a Aplicaciones», como lo hace el servicio del usuario
+    (copia junto a la instalada y cambia de nombre: sin contraseña si la app es del usuario). Con modo «aqui», como «Actualizar ahora»
+    (actualizaciones.instalar_aqui_mac: se reemplaza con el programa abierto y se vuelve a abrir al cerrarse)."""
+    if modo == 'aqui':
+        import actualizaciones
+        estado.ok('instalada' if actualizaciones.instalar_aqui_mac(dmg) else 'no se instaló')
+        return
+    import actualizar_fondo
+    estado.ok('instalada' if actualizar_fondo._instalar_mac(dmg) else 'no se instaló')
+
+
+def _tarea_pasos_mac(estado, idioma='es', *_resto):
+    """v5.92: los pasos 3-7 del instalador de la Mac (scripts, tipografías, servicio, Dock, motor de voz e IA) en una sola pasada: instalar_mac.pasos."""
+    import instalar_mac
+    instalar_mac.pasos(estado, idioma)
+
+
+def _tarea_motor_fondo(estado, *_resto):
+    """v5.92: el motor de voz e IA bajándose aparte desde el instalador de la Mac (instalar_mac.motor_de_fondo)."""
+    import instalar_mac
+    instalar_mac.motor_de_fondo(estado)
+
+
+def _tarea_aviso_mac(estado, ruta_aviso='', *_resto):
+    """v5.90: la tarjeta de la versión nueva en la Mac (la abre el servicio de root como el usuario: `--tarea aviso_mac /dev/null <aviso.json>`)."""
+    import aviso_mac
+    estado.ok(aviso_mac.mostrar(ruta_aviso))
+
+
+# ---------------------------------------------------------------------------
+# sonda_resolve: ¿acepta Resolve la API externa? (la pide resolve_bridge.conectar)
+# ---------------------------------------------------------------------------
+def _tarea_sonda_resolve(estado):
+    """v5.4.45: en Resolve Free dvr.scriptapp() tarda ~4 s SIN soltar el GIL; corrido aqui, en un proceso aparte,
+    no congela la ventana. Escribe OK|ok, OK|none, OK|hueco u OK|error: ..."""
+    import resolve_bridge
+    estado.ok(resolve_bridge._sondear_aqui())
+
+
+# ---------------------------------------------------------------------------
+# equipo (v5.72): la ficha del equipo + ponerlo al día (equipo_al_dia)
+# ---------------------------------------------------------------------------
+def _tarea_equipo(estado, modo='interactivo', *_resto):
+    """«Tu equipo»: lee el hardware, revisa lo que CineCaptions necesita y lo pone al día (Visual C++, driver de la GPU por Windows
+    Update, GPU de alto rendimiento). `modo` = 'silencioso' en las actualizaciones automáticas: entonces nada que pida permiso. Guarda
+    la ficha (con lo hecho y lo pendiente) para la telemetría y el Registro. Nunca falla la instalación: lo que no se pudo, va de aviso."""
+    import equipo_al_dia
+    import ficha_equipo
+    estado.progreso(5, 'Mirando el procesador, la memoria y la tarjeta gráfica')
+    ficha = ficha_equipo.recoger(origen='instalador')
+    estado.info(ficha_equipo.resumen(ficha, ram_libre=False))
+    for r in ficha_equipo.pendientes(ficha):
+        estado.info(('Falta: ' if r['estado'] == 'falta' else 'Aviso: ') + r['texto'])
+    puesta = equipo_al_dia.poner_al_dia(ficha, interactivo=(modo != 'silencioso'), info=estado.info,
+                                        progreso=lambda p, t='': estado.progreso(10 + p * 0.85, t))
+    for t in puesta['hecho']:
+        estado.info('Puesto al día: ' + t)
+    for t in puesta['pendiente'] + puesta['fallos']:
+        estado.info('Pendiente: ' + t)
+    if puesta['hecho']:
+        ficha = ficha_equipo.recoger(origen='instalador')       # (Visual C++ o el driver ya cambiaron)
+    ficha['puesta_al_dia'] = puesta
+    ficha_equipo.guardar(ficha)
+    g = (ficha.get('gpus') or [{}])[0]
+    partes = [g.get('nombre', '')] + ([f"driver {g['driver']}"] if g.get('driver') else [])
+    ram = (ficha.get('ram') or {}).get('total_mb')
+    if ram:
+        partes.append(f'{round(ram / 1024)} GB')
+    faltan = [r for r in ficha.get('revision') or [] if r['estado'] == 'falta']
+    if puesta['hecho']:
+        partes.append('puesto al día: ' + '; '.join(puesta['hecho'])[:120])
+    if faltan or puesta['fallos']:
+        partes.append('revisa el Registro: ' + (faltan[0]['texto'] if faltan else puesta['fallos'][0])[:120])
+    elif not puesta['pendiente']:
+        partes.append('todo listo')
+    estado.ok(' · '.join(p for p in partes if p))
+
+
+def _tarea_equipo_admin(estado, plan=None, salida=None, *_resto):
+    """El proceso ELEVADO que lanza `_tarea_equipo` (una sola ventana de permiso de Windows): instala lo que el plan pide y escribe el
+    resultado en `salida` (lo lee el proceso normal)."""
+    import json
+    import equipo_al_dia
+    datos = json.loads(Path(plan).read_text(encoding='utf-8')) if plan else {}
+    res = equipo_al_dia.ejecutar_admin(datos, info=estado.info)
+    if salida:
+        Path(salida).write_text(json.dumps(res, ensure_ascii=False), encoding='utf-8')
+    estado.ok('; '.join(res['hecho']) or 'nada que instalar')
+
+
+# ---------------------------------------------------------------------------
+# verificar: que el programa compilado puede cargar todo lo suyo
+# ---------------------------------------------------------------------------
+def _base_recursos():
+    if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
+        return Path(sys._MEIPASS)
+    return Path(__file__).resolve().parent.parent / '2_recursos'
+
+
+def _tarea_motor_compat(estado):
+    """Instala Python 3.14 y las ruedas que no pueden ir en Python 3.15."""
+    import motor_compat
+
+    def progreso(fraccion, texto=''):
+        estado.progreso(fraccion * 100, texto)
+
+    def aviso(texto):
+        estado.info(texto)
+
+    datos = motor_compat.instalar(progreso=progreso, aviso=aviso)
+    estado.progreso(100)
+    estado.ok(f"Python {datos.get('python', '3.14')} y dependencias del motor instalados")
+
+
+def _tarea_verificar(estado):
+    import tempfile
+    import wave
+    base = _base_recursos()
+    fallos, avisos = [], []
+
+    pruebas = []
+
+    def prueba(nombre, critica=True):
+        def registrar(funcion):
+            pruebas.append((nombre, critica, funcion))
+            return funcion
+        return registrar
+
+    @prueba('Archivos del programa')
+    def _():
+        faltan = [n for n in ('resolve_scripts', 'locales', 'plantillas_incluidas',
+                              'fonts', 'sfx_library', 'emojis', 'logo_cinecaptions.png',
+                              'motor_qwen/motor_qwen.py', 'motor_qwen/motor_texto.py',
+                              'motor_qwen/requisitos_motor_qwen.txt',
+                              'motor_compat/worker.py', 'motor_compat/requirements.txt',
+                              'resolve_scripts/CineCaptions - Vista Real.py')
+                  if not (base / n).exists()]
+        if faltan:
+            raise RuntimeError('faltan: ' + ', '.join(faltan))
+
+    @prueba('Estilos de fábrica')
+    def _():
+        # v5.87 (cliente de Mac: «no hay estilos»): que el programa COMPILADO cargue los 9 estilos de fábrica, cada uno con sus formatos (la
+        # carpeta plantillas_incluidas podía estar y no leerse ningún pack); sin esto el instalador no sale
+        import plantillas
+        plantillas.invalidar_packs()
+        cargados = {p.nombre: p for p in plantillas.listar_packs()}
+        faltan = [n for n in plantillas.FABRICA if n not in cargados]
+        vacios = [n for n in plantillas.FABRICA if n in cargados and not cargados[n].formatos]
+        if faltan or vacios:
+            raise RuntimeError(('no cargan: ' + ', '.join(faltan) if faltan else '') + (' · sin formatos: ' + ', '.join(vacios) if vacios else ''))
+        # v5.88 (Mac: «Faltan 2 tipografías» en el Estilo 2): cada letra de los estilos de fábrica tiene que viajar en fonts/ (Poppins
+        # ExtraBold y Light no estaban: en una Mac sin Poppins no había forma de instalarlas)
+        import fuentes_sistema
+        sin_archivo = sorted({f'{fam} {est}' for n in plantillas.FABRICA if n in cargados for fam, est in cargados[n].fuentes()
+                              if fuentes_sistema._buscar(fuentes_sistema._indice_incluidas(), fam, est, exacto=True) is None})
+        if sin_archivo:
+            raise RuntimeError('tipografías de los estilos que no vienen en fonts/: ' + ', '.join(sin_archivo))
+
+    @prueba('Ventanas (Qt)')
+    def _():
+        # v5.0.0: la interfaz es PySide6. Se arranca la aplicacion de verdad
+        # (el plugin de ventanas del sistema, no uno de pruebas), se cargan
+        # las tipografias de la interfaz y se DIBUJA una ventana en memoria,
+        # sin mostrarla: si falta una DLL de Qt o el plugin, falla aqui.
+        import qt_kit
+        from PySide6.QtWidgets import QApplication
+        app = qt_kit.crear_app(['cinecaptions'], carpeta_fuentes=base / 'fonts')
+        if not isinstance(app, QApplication):
+            raise RuntimeError('no se pudo crear la aplicación')
+        if not qt_kit.familia_ui().startswith('Inter'):
+            raise RuntimeError('no cargó la tipografía Inter de fonts/')
+        prueba_w = qt_kit.Tarjeta(titulo='CineCaptions')
+        prueba_w.resize(320, 120)
+        if prueba_w.grab().isNull():
+            raise RuntimeError('no pudo dibujar una ventana')
+        prueba_w.deleteLater()
+
+    @prueba('Imágenes y tipografías (Pillow)')
+    def _():
+        from PIL import ImageFont
+        fuentes = sorted((base / 'fonts').glob('*.[ot]tf'))
+        if fuentes:
+            ImageFont.truetype(str(fuentes[0]), 24)
+
+    @prueba('Lectura de audio y vídeo (PyAV)')
+    def _():
+        import av
+        with tempfile.TemporaryDirectory() as tmp:
+            ruta = Path(tmp) / 'silencio.wav'
+            with wave.open(str(ruta), 'wb') as w:
+                w.setnchannels(1)
+                w.setsampwidth(2)
+                w.setframerate(16000)
+                w.writeframes(b'\x00\x00' * 8000)
+            with av.open(str(ruta)) as contenedor:
+                audio = contenedor.streams.audio[0]
+                # PyAV 19 espera índices de stream en decode(audio=...), no el objeto AudioStream.
+                if next(contenedor.decode(audio=audio.index), None) is None:
+                    raise RuntimeError('no decodificó el silencio de prueba')
+
+    # v5.58: fuera de Windows (el Mac) el motor va DENTRO del programa (motor_compat.EN_PROCESO): sin él no hay voz, así que la prueba es
+    # crítica y una compilación de Mac sin Whisper falla en GitHub (desde la 5.34 salía sin voz y solo quedaba un aviso). En Windows, igual.
+    @prueba('Motor auxiliar Whisper, Argos y ONNX', critica=sys.platform != 'win32')
+    def _():
+        import motor_compat
+        en_proceso = getattr(motor_compat, 'EN_PROCESO', False)
+        if not motor_compat.instalado():
+            if en_proceso:
+                raise RuntimeError('el programa no trae dentro: ' + ', '.join(motor_compat.faltan_requisitos()))
+            raise RuntimeError('Python 3.14 auxiliar aún no está instalado')
+        datos = motor_compat.verificar()
+        faltan = motor_compat.faltan_requisitos()
+        if faltan:
+            raise RuntimeError('faltan versiones: ' + ', '.join(faltan[:5]))
+        if en_proceso:
+            _motor_en_proceso_sin_red()
+        elif not str(datos.get('python') or '').startswith('3.14.'):
+            raise RuntimeError('se esperaba Python 3.14, encontrado ' + str(datos.get('python')))
+
+    def _motor_en_proceso_sin_red():
+        """v5.58 (Mac): lo que GO usa al transcribir y que verificar() no toca, sin red: la VAD (silero en onnxruntime), int8 en la CPU, el
+        audio a 16 kHz por el camino de GO (motor_compat.audio_16k: el worker parchea av.open para el decodificador de Whisper con PyAV 19), las
+        descargas de huggingface_hub (submódulos perezosos) y Argos."""
+        import numpy
+        import ctranslate2
+        import faster_whisper.vad
+        import huggingface_hub
+        import motor_compat
+        import argostranslate.package  # noqa: F401
+        import argostranslate.translate  # noqa: F401
+        import minisbd  # noqa: F401
+        faster_whisper.vad.get_speech_timestamps(numpy.zeros(16000, numpy.float32))
+        if 'int8' not in ctranslate2.get_supported_compute_types('cpu'):
+            raise RuntimeError('ctranslate2 no hace int8 en la CPU')
+        for nombre in ('snapshot_download', 'hf_hub_download'):
+            getattr(huggingface_hub, nombre)
+        with tempfile.TemporaryDirectory() as tmp:
+            ruta = Path(tmp) / 'silencio.wav'
+            with wave.open(str(ruta), 'wb') as w:
+                w.setnchannels(1)
+                w.setsampwidth(2)
+                w.setframerate(16000)
+                w.writeframes(b'\x00\x00' * 8000)
+            salida = Path(motor_compat.audio_16k(ruta))
+            try:
+                with wave.open(str(salida)) as w:
+                    if w.getframerate() != 16000 or w.getnframes() == 0:
+                        raise RuntimeError('el audio a 16 kHz del motor salió vacío')
+            finally:
+                salida.unlink(missing_ok=True)
+
+    @prueba('Revisor de ortografía')
+    def _():
+        from spellchecker import SpellChecker
+        SpellChecker(language='es')
+
+    @prueba('Atajos de teclado (pynput)', critica=False)
+    def _():
+        import pynput  # noqa: F401
+
+    @prueba('Iconos de la interfaz (QtAwesome)', critica=False)
+    def _():
+        # v5.2: los iconos de linea (Phosphor); sin ellos los botones vuelven a su texto
+        import qt_kit
+        icono = qt_kit.icono_linea('ph.magnifying-glass')
+        if icono is None or icono.isNull():
+            raise RuntimeError('no cargaron las fuentes de iconos')
+
+    @prueba('Animaciones de la Edición PRO (Remotion)', critica=False)
+    def _():
+        # v5.4.50: Node + Chrome sin ventana + el renderizador; en la compilación de Mac (sin pantalla) también un render real de 1 s
+        import edicion_pro_remotion
+        falla = edicion_pro_remotion.comprobar(renderizar_prueba=os.environ.get('CINECAPTIONS_SIN_PANTALLA') == '1')
+        if falla:
+            raise RuntimeError(falla)
+
+    # v5.85 (Mac «no abre»): las librerías lanzan hijos con ESTE ejecutable como si fuera Python («-B -S -I -c …»: el resource_tracker de
+    # multiprocessing al bajar el modelo, y otras). Si el programa no los atiende (arranque_seguro.atender_hijo) arrancan CineCaptions entero,
+    # invisible y con el candado de una sola ventana. Se prueba con el ejecutable de verdad (desde el código no aplica): si vuelve a pasar, la
+    # compilación falla en vez de llegar a los clientes.
+    @prueba('Procesos auxiliares (no reabren el programa)', critica=bool(getattr(sys, 'frozen', False)))
+    def _():
+        if not getattr(sys, 'frozen', False):
+            return
+        import subprocess
+        with tempfile.TemporaryDirectory() as tmp:
+            marca = Path(tmp) / 'hijo.txt'
+            codigo = "import sys; open(sys.argv[1], 'w', encoding='utf-8').write('hijo-ok')"
+            try:
+                subprocess.run([sys.executable, '-B', '-S', '-I', '-c', codigo, str(marca)], capture_output=True, timeout=60)
+            except subprocess.TimeoutExpired:
+                raise RuntimeError('un hijo «-c» no terminó en 60 s: abrió el programa en vez de correr su código') from None
+            if (marca.read_text(encoding='utf-8') if marca.is_file() else '') != 'hijo-ok':
+                raise RuntimeError('un hijo «-c» no corrió su código: abriría el programa sin ventana')
+        if sys.platform != 'win32':
+            _resource_tracker_no_toma_el_candado()
+
+    def _resource_tracker_no_toma_el_candado():
+        """Fuera de Windows, el resource_tracker DE VERDAD (multiprocessing lo arranca con este ejecutable) sigue vivo como tracker y nadie se
+        lleva ~/.cinecaptions.lock (lo que pasaba en la 5.84). Con el programa abierto (candado ya ocupado) no se puede saber: se salta."""
+        import fcntl
+        import multiprocessing.resource_tracker as rt
+        candado = Path.home() / '.cinecaptions.lock'
+
+        def libre():
+            try:
+                with open(candado, 'a+', encoding='utf-8') as f:
+                    fcntl.flock(f.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+                    fcntl.flock(f.fileno(), fcntl.LOCK_UN)
+                return True
+            except OSError:
+                return False
+
+        if not libre():
+            return
+        rt.ensure_running()
+        pid = getattr(rt._resource_tracker, '_pid', None)
+        time.sleep(8)                                     # un hijo que abre el programa toma el candado en 1-3 s
+        if not libre():
+            raise RuntimeError('el resource_tracker de multiprocessing abrió el programa y se quedó con el candado de una sola ventana')
+        if pid:
+            try:
+                terminado, _ = os.waitpid(pid, os.WNOHANG)
+            except ChildProcessError:                     # (no es hijo nuestro o ya se recogió): ¿sigue existiendo?
+                try:
+                    os.kill(pid, 0)
+                    terminado = 0
+                except ProcessLookupError:
+                    terminado = pid
+                except OSError:
+                    terminado = 0
+            if terminado:
+                raise RuntimeError('el resource_tracker de multiprocessing se cerró en vez de quedarse vigilando')
+
+    @prueba('Licencia')
+    def _():
+        # v5.2.1: la ventana «Activa tu licencia» se DIBUJA en memoria (sin mostrarla ni hablar con
+        # ninguna tienda) y el ID del equipo se puede leer: sin esto nadie podria activar
+        import licencia
+        import ventana_licencia
+        if len(licencia.id_equipo()) != 19:
+            raise RuntimeError('no se pudo leer el ID del equipo')
+        v = ventana_licencia.VentanaLicencia()
+        v.resize(1000, 640)
+        if v.grab().isNull():
+            raise RuntimeError('no pudo dibujar la ventana de la licencia')
+        v.deleteLater()
+
+    for n, (nombre, critica, funcion) in enumerate(pruebas):
+        estado.progreso(100 * n / len(pruebas), nombre)
+        try:
+            funcion()
+            estado.info(f'OK      {nombre}')
+        except Exception as exc:
+            linea = f'{nombre}: {type(exc).__name__}: {exc}'
+            estado.info(('FALLA   ' if critica else 'AVISO   ') + linea)
+            (fallos if critica else avisos).append(linea)
+    estado.progreso(100)
+    if fallos:
+        estado.error('No funciona en este equipo: ' + '; '.join(fallos))
+    else:
+        estado.ok('Todo funciona' + (f' ({len(avisos)} aviso/s)' if avisos else ''))
+
+
+# ---------------------------------------------------------------------------
+# scripts: los .lua del menu Workspace > Scripts de DaVinci Resolve
+# ---------------------------------------------------------------------------
+def _tarea_scripts(estado):
+    import instalador_scripts as ins
+    estado.progreso(10, 'Buscando DaVinci Resolve')
+    instalado = ins.resolve_esta_instalado()
+    abierto = instalado and ins.resolve_esta_corriendo()
+    estado.progreso(40, 'Copiando los scripts')
+    copiados, error, detalle = ins.instalar_scripts_en_resolve(forzar=True)
+    for carpeta, c, err in detalle:
+        estado.info(f'{carpeta}: ' + (f'error: {err}' if err else f'{len(c)} archivo/s'))
+    if error:
+        if not instalado:
+            estado.ok('DaVinci Resolve no está instalado: el programa dejará los '
+                      'scripts cuando lo instales')
+            return
+        estado.error(error)
+        return
+    estado.progreso(100)
+    texto = f'{len(ins._nuestros_scripts())} scripts listos en el menú de Resolve'
+    if not instalado:
+        texto += ' (Resolve aún no está instalado: quedan listos para cuando lo instales)'
+    elif abierto:
+        texto += ' (Resolve está abierto: aparecen en el menú al reiniciarlo)'
+    estado.ok(texto)
+
+
+def _tarea_quitar_scripts(estado):
+    """Al desinstalar: solo los nombres que son nuestros (un script propio del
+    usuario en la misma carpeta no se toca). Lo de ~/DaVinciSubtitles
+    -proyectos, licencia, ajustes- se conserva."""
+    import instalador_scripts as ins
+    borrados = ins.desinstalar_scripts_del_menu()
+    for ruta in borrados:
+        estado.info(f'Borrado: {ruta}')
+    estado.progreso(100)
+    estado.ok(f'{len(borrados)} scripts quitados del menú de Resolve')
+
+
+# ---------------------------------------------------------------------------
+# fuentes: las tipografias de las plantillas incluidas, solo para este usuario
+# ---------------------------------------------------------------------------
+def _tarea_fuentes(estado):
+    import instalar_fuentes
+    import plantillas
+    from version import APP_VERSION
+    estado.progreso(5, 'Revisando las tipografías de las plantillas')
+    pares = set()
+    for pack in plantillas.packs_incorporados():
+        try:
+            pares.update(pack.fuentes())
+        except Exception as exc:
+            estado.info(f'{pack.nombre}: no pude leer sus tipografías ({exc})')
+    arreglables, sin_remedio = instalar_fuentes.faltantes(sorted(pares))
+    for familia, estilo in sin_remedio:
+        estado.info(f'No viene con el programa: {familia} {estilo}')
+    rutas = sorted({r for _, r in arreglables})
+    if rutas:
+        def progreso(i, total, nombre):
+            estado.progreso(10 + 85 * i / max(1, total), nombre)
+        instaladas, fallos = instalar_fuentes.instalar(rutas, progreso=progreso)
+        for nombre, motivo in fallos:
+            estado.info(f'No pude instalar {nombre}: {motivo}')
+        resumen = f'{len(instaladas)} tipografías instaladas'
+        if fallos:
+            resumen += f', {len(fallos)} con problemas'
+    else:
+        resumen = 'Las tipografías ya estaban instaladas'
+    # el aviso "¿Las instalo ahora?" del primer arranque ya no hace falta
+    try:
+        carpeta = Path.home() / 'DaVinciSubtitles'
+        carpeta.mkdir(parents=True, exist_ok=True)
+        (carpeta / 'fuentes_ofrecidas.txt').write_text(APP_VERSION, encoding='utf-8')
+    except OSError:
+        pass
+    estado.progreso(100)
+    estado.ok(resumen)
+
+
+# ---------------------------------------------------------------------------
+# modelo: los pesos de Whisper que el programa bajaria en la primera
+# transcripcion (sin esto, la primera vez la barra se queda quieta varios
+# minutos mientras baja ~1,5 GB)
+# ---------------------------------------------------------------------------
+def _tamano_carpeta(carpeta):
+    total = 0
+    for raiz, _, archivos in os.walk(carpeta):
+        for a in archivos:
+            try:
+                total += os.path.getsize(os.path.join(raiz, a))
+            except OSError:
+                pass
+    return total
+
+
+def _tarea_modelo(estado):
+    """Descarga Whisper en el motor auxiliar, mostrando avance al instalador."""
+    import motor_compat
+    estado.progreso(0, 'Comprobando si el motor auxiliar está listo')
+
+    def progreso(fraccion, detalle=''):
+        estado.progreso(fraccion * 100, detalle)
+
+    def aviso(texto):
+        estado.info(texto)
+
+    try:
+        motor_compat.descargar_modelo(MODELO_WHISPER, progreso=progreso, aviso=aviso)
+    except Exception as exc:
+        estado.error(f'No pude preparar el modelo de voz ({type(exc).__name__}: {exc}). '
+                     'El programa lo descargará la primera vez que transcribas.')
+        return
+    estado.progreso(100)
+    estado.ok('Modelo de voz descargado')
+
+
+# ---------------------------------------------------------------------------
+# motor_ia (v5.1): Qwen3-ASR + alineador + la IA de texto (Qwen3), en su propio
+# Python 3.14 (motor_voz.instalar). Pesa de 4 a 15 GB segun la tarjeta: si
+# falla, el programa funciona igual con Whisper y se reintenta desde Ajustes.
+# ---------------------------------------------------------------------------
+def _tarea_motor_ia(estado):
+    import motor_voz
+    if not motor_voz.SOPORTADO:          # (v5.86: también la Mac con Apple Silicon; la Intel, sin un PyTorch nuevo, no)
+        estado.ok('El motor Qwen3 necesita Windows o una Mac con Apple Silicon: se usa Whisper')
+        return
+    # v5.2: mirando los archivos (no solo listo.json), en un segundo
+    info = motor_voz.asegurar_listo()
+    if info and info.get('modelo_texto'):
+        # v5.5.8: ya instalado, solo se ponen al dia las librerias que cambiaron en los requisitos (sin torch ni modelos)
+        ya = f"Ya estaba instalado (Qwen3-ASR {info.get('modelo')} + IA de texto)"
+        try:
+            puestas = motor_voz.completar_requisitos(aviso=estado.info)
+        except Exception as e:
+            estado.progreso(100)
+            estado.error(f'{ya}; no pude poner al día sus librerías ({e}): sigue con las que tenía')
+            return
+        estado.progreso(40, 'Comprobando la IA de texto (Gemma 4 E4B y Qwen3.5-4B)')
+        mejor = motor_voz.completar_ia_texto(aviso=estado.info)          # (v5.46: los modelos nuevos también a quien ya lo tenía)
+        if mejor:
+            ya += f'; IA de texto: {mejor}'
+        estado.progreso(100)
+        estado.ok(ya + (f'; {len(puestas)} librería(s) al día' if puestas else ''))
+        return
+    modelo = motor_voz.instalar(progreso=lambda f, texto: estado.progreso(100 * f, texto),
+                                aviso=estado.info)
+    info = motor_voz.info_instalado() or {}
+    estado.progreso(100)
+    # v5.82: sin la IA de texto se dice (el porqué ya quedó en el Registro: motor_voz._avisar_sin_ia_de_texto)
+    estado.ok(f"Qwen3-ASR {modelo} listo" + (' + IA de texto' if info.get('modelo_texto') else
+                                             ', pero sin la IA de texto (no se pudo descargar: el porqué está en el Registro de CineCaptions)'))
+
+
+# ---------------------------------------------------------------------------
+# transcribir (soporte): Whisper de punta a punta con el .exe compilado
+# ---------------------------------------------------------------------------
+def _tarea_transcribir(estado, audio=None, idioma='es'):
+    if not audio or not Path(audio).is_file():
+        estado.error(f'No encuentro el audio: {audio!r}')
+        return
+    import subtitle_transcriber as st
+    inicio = time.time()
+    palabras = st.transcribe(
+        str(audio), idioma, MODELO_WHISPER,
+        progress_callback=lambda f: estado.progreso(100 * f, 'Transcribiendo'),
+        status_callback=estado.info)
+    cues = st.build_cues(palabras, 42, 2)
+    texto = ' '.join(p['word'] for p in palabras)
+    estado.info(f'{len(palabras)} palabras, {len(cues)} bloques, '
+                f'{time.time() - inicio:.0f} s')
+    estado.info('Comienza: ' + texto[:160])
+    if not palabras:
+        estado.error('Whisper no devolvió ninguna palabra')
+        return
+    estado.ok(f'{len(palabras)} palabras transcritas')

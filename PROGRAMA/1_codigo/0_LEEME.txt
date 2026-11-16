@@ -1,0 +1,470 @@
+==============================================================================
+ 1_codigo\  —  EL PROGRAMA
+ CineCaptions · By Cinema Productions
+==============================================================================
+
+Todo CineCaptions en Python. Va DENTRO del .exe (3_compilar lo copia y lo compila).
+El principal es «CineCaptions (script principal).py»: la ventana, el Editor de palabras, GO,
+la licencia y main(). Cada tema pesado tiene su módulo (la lista de abajo).
+Cada archivo dice en su 2.ª línea qué es. La lógica completa: LEEME.txt, sección 4.
+
+QUÉ HAY DENTRO (lo escribe 3_compilar/documentar.py; no lo edites a mano)
+------------------------------------------------------------------------------
+    .cf\   (1 archivos)
+        icono.ico
+    herramientas_dev\   (50 archivos)
+    remotion\   (16767 archivos)
+    actualizaciones.py
+        actualizaciones automáticas: lee un version.json publicado, descarga el instalador, comprueba su huella SHA-256 y lo lanza.
+    actualizar_fondo.py
+        actualizaciones con el programa CERRADO: avisa, descarga, comprueba e instala sola (Windows y Mac).
+    actualizar_ui.py
+        la ventana «Actualizando CineCaptions» (v5.49, propuesta A + B elegida por el usuario; pulida: «más profesional,
+    ajustes_ui.py
+        Ajustes: panel rápido y ventana completa (General, Interfaz, Atajos, Acerca de, Ayuda) + notas de la versión.
+    ambar_planificador.py
+        el Estilo 8 (v5.80): una línea pequeña y elegante en Montserrat ámbar, la clave en ExtraBold, palabra a palabra.
+    archivos_seguros.py
+        escritura atómica de JSON/texto (preferencias, marcas, proyectos): un corte o dos hilos ya no dejan archivos a medias.
+    arranque_seguro.py
+        que nada deje el programa sin abrir: hijos de librerías que no reabren la app y copias atascadas que se quitan.
+    audio_compatible.py
+        v5.4.52 (auditoría de los renders: el video quedaba MUDO): los videos bajados de Pinterest / Instagram / TikTok
+    aviso_mac.py
+        v5.90 (el usuario: «en Mac sigue sin recibir actualizaciones… que cuando salga una actualización DE VERDAD
+    avisos_sistema.py
+    banco_pruebas.py
+        banco de pruebas: timeline temporal con fondo liso + audio, render en Resolve y comparación cuadro a cuadro con un video de referencia.
+    bpm.py
+        detección de BPM y de los golpes de pulso de una música (v5.4.8), solo con numpy.
+    brillo_ui.py
+        barridos de luz y ondas al pulsar para todos los botones.
+    broll.py
+        B-roll de bancos de stock (Pexels) en las palabras que nombran cosas concretas (v5.4.8).
+    cache_voz.py
+        caché de transcripciones: el mismo video con el mismo motor e idioma no se vuelve a transcribir.
+    catalogo_ia.py
+        v5.5.2: EL CATÁLOGO ÚNICO de todo lo que la edición puede poner en un video — motion graphics (antiguos y nuevos),
+    CineCaptions (script principal).py
+        el programa: ventana principal (Inicio/GO, Proyecto, Editor, SFX Lab), editor de palabras, licencia, generar y colocar en Resolve, main().
+    cola_trabajos.py
+        cola de trabajos de FONDO: máximo 2 a la vez y se apartan mientras GO trabaja.
+    colocacion.py
+        qué edición de Resolve hay (Free / Studio), si lo colocado en el timeline es REAL, por qué falló en lenguaje claro, cómo repararlo solo y cómo dejar la vista.
+    compat_av.py
+        puente para usar PyAV 19 con faster-whisper 1.2.1 (que aun llama a av.open(metadata_errors=...)).
+    composicion.py
+        Composición de los bloques dinámicos: layouts (alineación de contexto/complemento) y desplazamientos.
+    copias.py
+        copias de seguridad de ~/DaVinciSubtitles (crear y restaurar un .zip).
+    crea_estilo_ui.py
+        «Crea tu estilo»: texto base + textos principales con su previa ANIMADA sobre negro, la previa vertical con letra y color, y el popup de la estructura de nombres.
+    cuda_libs.py
+        las librerías CUDA que necesita Whisper en la GPU: detectarlas, registrarlas y repararlas.
+    descargas.py
+        descargas grandes que se reanudan y se verifican (SHA-256).
+    desktop.ini
+    director_sonido.py
+        «AI Sound Director» (v5.34): el sound designer de GO. Analiza el video y dirige el sonido ENCIMA de los motores de siempre.
+    director_sonido_ambiente.py
+        «AI Sound Director» · AI AMBIENCE: el entorno de cada escena y qué hacer con su ambiente.
+    director_sonido_biblioteca.py
+        «AI Sound Director»: el ÍNDICE de TODO el material del autor (no solo UTILES) para SFX, música y ambiente.
+    director_sonido_capas.py
+        «AI Sound Director», FASE 4: la MÚSICA y el AMBIENTE (pistas AI MUSIC y AI AMBIENCE).
+    director_sonido_diseno.py
+        «AI Sound Director», FASE 3: qué suena y qué se queda en silencio, evento por evento, en los 6 temas.
+    director_sonido_epidemic.py
+        «AI Sound Director»: cliente de la API de Epidemic Sound (solo backend; la clave, solo del entorno).
+    director_sonido_estado.py
+        «AI Sound Director» (v5.34): el estado `sound_design_project` de cada video (lo analizado, decidido y medido).
+    director_sonido_eventos.py
+        «AI Sound Director»: lo que pasa en pantalla y en la narración, leído de la metadata REAL de GO.
+    director_sonido_fuentes.py
+        «AI Sound Director»: de dónde sale cada sonido (SOUND ASSET STRATEGY) y el QUALITY GATE de cada archivo.
+    director_sonido_identidad.py
+        «AI Sound Director»: THEME → SONIC PROFILE → PROJECT SONIC PALETTE.
+    director_sonido_medir.py
+        «AI Sound Director»: leer, filtrar y medir audio con PyAV (ffmpeg dentro del programa), en streaming.
+    director_sonido_mezcla.py
+        «AI Sound Director», FASE 5: la mezcla completa, el QC en 3 pasadas y el SOUND SCORE (de métricas reales).
+    director_sonido_musica.py
+        «AI Sound Director»: ¿hay música? ¿la necesita? La decisión de la música (no binaria).
+    director_sonido_nr.py
+        «AI Sound Director»: reducción de ruido de la voz (numpy, sin dependencias nuevas), natural antes que cero ruido.
+    director_sonido_recursos_libres.py
+    director_sonido_sesion.py
+        «AI Sound Director», FASE 6: lo que la página necesita (leer el diseño de un video, controles, retocar, oír, aplicar).
+    director_sonido_sfx.py
+        «AI Sound Director», FASE 3: cada sonido del diseño hecho a la medida, en su WAV y listo para su pista AI.
+    director_sonido_sintesis.py
+        «AI Sound Director»: sonido PROCEDURAL diseñado alrededor de cada movimiento (no un WAV genérico).
+    director_sonido_ui.py
+        la página SONIDO = «AI Sound Director» (fase 6): la IA hace el 95 % del sonido; el usuario lo dirige (5 %).
+    director_sonido_vista.py
+    director_sonido_voz.py
+        «AI Sound Director»: diagnóstico de la voz y su restauración (una COPIA), con guardas para que nunca suene robótica.
+    ducking.py
+        baja la música sola mientras hay voz (ducking), calculado desde las palabras de la transcripción.
+    dynamic_subtitles.py
+        el «cerebro» de los subtítulos dinámicos: frases, roles (contexto/PRINCIPAL/complemento) y bloques.
+    edicion_pack.py
+        «Editar en Resolve»: abre un pack de «Pack de estilos» como timeline para modificarlo y exportarlo de nuevo.
+    edicion_pro.py
+        «Edición PRO»: con un interruptor, GO edita el video en la línea de tiempo de Resolve (motion graphics, la persona
+    edicion_pro_catalogo.py
+        las 100 plantillas Remotion reutilizables de la Edición PRO, por ramas (bodas, XV y eventos sociales,
+    edicion_pro_escenas.py
+        v5.5.3: el director de las ESCENAS A PANTALLA COMPLETA (B-roll de motion graphics, remotion/src/Escenas9.tsx)
+    edicion_pro_kit7.py
+        v5.5.2: el kit de motion graphics de la skill (1_codigo/remotion/src/Kit7.tsx), EDITABLE para cualquier video:
+    edicion_pro_ograf.py
+        Edición PRO: los gráficos animados como plantillas OGraf (HTML) de DaVinci Resolve 21.1+.
+    edicion_pro_persona.py
+        Edición PRO: dónde está la persona (IA local) para el Magic Mask de Resolve, y su recorte si no hay Magic Mask.
+    edicion_pro_pila.py
+        v5.82: los motions de la referencia del Estilo 4 («Pila lima») en la Edición PRO, con «Kit de motions».
+    edicion_pro_planificador.py
+        Edición PRO: qué gráfico va en cada momento de CUALQUIER video (sin Resolve, sin pantalla: se prueba solo).
+    edicion_pro_remotion.py
+        las animaciones de la Edición PRO hechas con Remotion (React), renderizadas en el PC del usuario.
+    edicion_pro_sonido.py
+        el diseño de sonido de la «Edición PRO»: cada gráfico suena como lo haría un editor profesional.
+    edicion_pro_tema5.py
+        Tema 5 («Edición total»): la edición completa con el sistema de la skill «Edit VIRAL Reels with AI».
+    edicion_pro_tema5_acomp.py
+        los ACOMPAÑANTES del Tema 5: una animación pequeña justo DEBAJO del caption que ilustra lo que se dice
+    edicion_pro_tema5_escenas.py
+        el «director de escenas» del Tema 5: entiende de qué se habla y lo ILUSTRA en el momento exacto en que se
+    edicion_pro_tema5_mm.py
+        las mejoras de motion graphics y Magic Mask del Tema 5 (pedido del usuario, v5.4.52). Decide CUÁNDO va cada
+    edicion_pro_tema5_video.py
+        el Tema 5 MIRA el video antes de editarlo (ffmpeg, vía PyAV): dónde corta cada toma, lo claro u oscuro que
+    edicion_pro_tema6.py
+        Tema 6 («Editorial», v5.4.52): el motor del Tema 5 (edicion_pro_tema5.planificar con estilo='editorial') con el
+    edicion_pro_temas.py
+        el «pase ligero» de los Temas 1–4 (pedido del usuario, v5.4.51): sus captions (los Text+ de su pack, que se
+    editor_ui.py
+        piezas del editor Creativo: barra de herramientas, tarjeta del párrafo, palabras por línea, play y el panel de avance de Asistencia/Generar.
+    editorial_planificador.py
+        el Estilo 9 (v5.80): bloque editorial centrado y abajo, palo seco fino y la clave GRANDE en serif cursiva.
+    efectos_extra.py
+        más efectos para la página «Efectos» (v5.4.8): números 1-2-3, pegatinas, subrayados, overlays continuos, efectos propios y cierre (outro).
+    efectos_extra_ui.py
+        la sección «Más efectos» de la página Efectos: números, pegatinas, énfasis, ambiente, mis efectos y el cierre (outro).
+    efectos_pagina.py
+        la página «Efectos»: elegir la intro (con su sonido), las transiciones de los cortes y los iconos flotantes (y en qué palabras salen).
+    efectos_pro_ui.py
+        v5.20: la página Efectos › «Edición PRO»: una sección por función de la PRO (las del menú lateral de Proyecto) con
+    efectos_ui.py
+        animaciones de la interfaz: fondo vivo, vistas reales animadas, entrada escalonada de tarjetas.
+    efectos_visuales.py
+        efectos visuales que acompañan a los captions: intro, transiciones en los cortes e iconos flotantes en las frases clave.
+    ejemplos_estilo.py
+        los 48 ejemplos de «Crea tu estilo» (posición, tipografía y colores; 18 con un principal de Amro.Films Captions), su vista y cómo se vuelven un pack o un timeline de Resolve.
+    emojis.py
+        emojis de las palabras clave: catálogo, biblioteca Fluent 3D, PNG propios y sugerencias por idioma.
+    emojis_animados.py
+        emojis ANIMADOS del selector: Noto Animated Emoji (Google, CC BY 4.0), bajados al pedirlos y cacheados.
+    emojis_conceptos.py
+        el emoji que de verdad va con una palabra (v5.5.7)
+    emojis_sets.py
+        SETS de emojis (estilos de imagen) que se bajan al pedirlos: Fluent 3D completo (Microsoft, MIT) y Noto de Google (Apache 2.0).
+    emojis_sfx.py
+        el sonido de cada emoji (fuego → fuego, beso → beso…): qué familia le toca, el que el usuario eligió y los eventos que se mandan a Resolve.
+    emojis_sfx_ui.py
+        pestaña «Emojis» del SFX Lab: todos los emojis en una rejilla y el sonido de cada uno, para cambiarlo.
+    energia.py
+        la «curva de energía» del habla: cuánta intensidad tiene cada tramo del video, calculada desde las palabras.
+    ensure_lang_pack.py
+        instala los paquetes de traducción sin internet (Argos Translate) que falten.
+    equipo_al_dia.py
+        pone el equipo al día para CineCaptions (lo llama la tarea «equipo» del instalador).
+    escena_go.py
+        la escena de Inicio: esfera de partículas 3D, absorción, cometas de pasos y explosión final.
+    estilo_desde_imagen.py
+        «Estilo desde una imagen»: lee un fotograma de un video viral y arma un pack con sus colores, su peso y su posición.
+    estilos_bloque.py
+        qué estilo (variante del pack) lleva CADA bloque: lo decide la app y lo enseña Creativo, ya no el azar de Resolve.
+    estilos_inicio.py
+        los 3 estilos de la pantalla de Inicio (Nebulosa, Astrolabio, Proceso): el astrolabio de bronce con su escena y su proceso de GO.
+    estilos_pro.py
+        v5.20: los ESTILOS y COLORES de cada función de la Edición PRO (página Efectos › Edición PRO), en un solo sitio.
+    estilos_slider.py
+        el carrusel horizontal de «Pack de estilos»: tarjetas verticales sobre fotos de video con los captions de Resolve encima.
+    ficha_equipo.py
+        la ficha técnica del equipo (sistema, CPU, RAM, GPU con su driver, pantallas, discos, Resolve, motores).
+    firma_ed25519.py
+        firma Ed25519 (RFC 8032) en Python puro: el programa comprueba que el version.json lo publicó Cinema Productions.
+    fluidez_resolve.py
+        reproducción fluida al terminar GO: caché de render de Fusion en nuestros clips y espera a que Resolve la llene.
+    fuente_usuario.py
+        v5.5.12: la tipografía que el usuario elige en «Crea tu estilo» para los Temas (texto principal y, aparte, el de
+    fuentes_sistema.py
+        encuentra en el disco el archivo .ttf/.otf de una familia y estilo.
+    fuentes_web.py
+        v5.5.3: FOTOS de internet con licencia para el B-roll de la Edición PRO (escena FotoE y fotos de tablero/polaroid).
+    fusion_v1.py
+    guion_captions.py
+        estilo «guion»: la frase se arma palabra a palabra (cada palabra, su pista, su estilo, su sitio y su momento).
+    guion_editor.py
+        el editor Creativo para el estilo «guion»: las marcas de las palabras → el plan de bloques (el MISMO que usa Generar).
+    guion_planificador.py
+        del texto con tiempos (ASR) a los bloques del estilo «guion»: frases, palabra grande, negritas, pila, estilo y momento.
+    guion_referencia.py
+        los 15 bloques de REFERENCIA.mp4 medidos a mano (tiempos, palabras, pesos, estilos y sitios): la «verdad» contra la que se prueba el planificador.
+    guion_vista.py
+        «Así se verá este bloque» del estilo «guion»: dibuja el bloque con la MISMA geometría que coloca Resolve (cada palabra en su x, y y tamaño).
+    hacer_previas_efectos.py
+        herramienta de desarrollo: las vistas previas (mp4 + jpg) de la página «Efectos».
+    hacer_previas_nuevas.py
+        herramienta de desarrollo: el ejemplo animado de CADA ajuste de la página «Efectos» que aún no lo tenía.
+    hacer_vista_kinetic.py
+        genera la vista previa INCLUIDA del estilo «Kinetic» (los fotogramas que enseña la tarjeta del slider de Estilos).
+    hacer_vista_slider.py
+        genera el VIDEO que se reproduce en la tarjeta de un pack del slider «Pack de estilos» (captions reales de Resolve).
+    hacer_vista_viral.py
+        genera la vista previa INCLUIDA del estilo «VIRAL» (los fotogramas que enseña la tarjeta del slider de Estilos).
+    hacer_vistas_guia_video.py
+        genera los CLIPS de 4 s (entrada, texto sostenido y SALIDA) de los 48 ejemplos de «Crea tu estilo», renderizados por Resolve.
+    hacer_vistas_mezcla.py
+        genera los CLIPS de 6 s de los looks de los Temas 1, 2 y 3 que se ven en «Crea tu estilo», renderizados por Resolve (captions reales).
+    i18n.py
+        idiomas de la interfaz: tr("texto en español") y los catálogos de 2_recursos/locales.
+    ia_texto.py
+        IA de texto local (Qwen3): corrige, elige palabras clave y emojis virales, quita signos.
+    idioma_ui.py
+        el idioma de la interfaz en Ajustes: panel de tarjetas con banderas dibujadas que ondean (13 idiomas).
+    instalador_scripts.py
+        copia los scripts de CineCaptions al menú de DaVinci Resolve y comprueba que estén al día.
+    instalar_fuentes.py
+        instala en el sistema las tipografías de las plantillas (para que Resolve/Fusion las vea).
+    instalar_mac.py
+        los pasos 3-7 del instalador de la Mac («Instalar CineCaptions.app», 7_mac/instalador) con la app ya copiada.
+    intros_gancho.py
+        v5.33: el «Gancho del inicio» de la Edición PRO = una INTRO en el primer segundo: un destello de luz (los overlays
+    isla_ui.py
+        la «isla dinámica»: el menú de navegación flotante de arriba, los controles de la ventana y el borde.
+    kinetic_captions.py
+        estilo «Kinetic»: la geometría de la pila de elementos (tamaños con la tipografía real, posiciones, giros, tiempos) y el .json para Resolve.
+    kinetic_paleta.py
+        v5.5.13: los colores del Tema 1 (Kinetic) en UN solo sitio: el pack (generador_packs/kinetic_elementos.py), la vista
+    kinetic_planificador.py
+        del texto con tiempos (ASR) a los bloques del estilo «Kinetic»: frases, palabra héroe, receta (plantilla), elementos y momentos.
+    kinetic_vista.py
+        vista aproximada (Pillow) de un bloque del estilo «Kinetic»: la pila ya armada, dibujada sin pasar por Resolve.
+    kit_neon.py
+        v5.5.13: el Tema 1 NEÓN para CUALQUIER video, con el motor del kit «TEMA 1» del usuario (Remotion: KitNeon.tsx).
+    kit_neon_completo.py
+        v5.5.17: «Motions completo» del Tema 1 (el usuario: «si se activa Motions completo, utilizar los ejemplos del
+    kit_neon_motions.py
+        v5.5.13: los MOTIONS del Tema 1 neón (modo PRO) para cualquier video, con las piezas del kit «TEMA 1» del usuario.
+    kit_neon_mp4.py
+        v5.5.16: el Tema 1 neón SIN DaVinci Resolve (GO «Video MP4»): los MISMOS clips que la Edición PRO pone en Resolve
+    kit_neon_placa.py
+        v5.5.13: la PLACA de video del Tema 1 neón: el motor/plate.py del kit «TEMA 1» del usuario, portado a Pillow + numpy +
+    licencia.py
+        la licencia (claves CC- de cinecaptions.shop): activar, verificar, desactivar, estado firmado, 7 días sin internet.
+    linea_planificador.py
+        el Tema 3 (v5.75): toda la frase en UNA línea de mayúsculas condensadas y una caja negra que salta de palabra en palabra.
+    mantenimiento.py
+        límite y limpieza automática de las cachés del programa (secuencias, vistas, voz, emojis…).
+    mapa_codigo.py
+        consulta el código y la documentación POR TEMA sin leer archivos enteros (mapa, símbolo, módulo, llamadas, ruta, cambios); lo usan el MCP y la línea de comandos.
+    mcp_cinecaptions.py
+        servidor MCP (stdio, sin dependencias) de CineCaptions: estado, packs, transcribir, planificar, colocar, renderizar y comparar.
+    medir_barrido.py
+        mide, sobre un render de probar_barrido.py, si el barrido de luz recorre TODA la palabra y cuánto dura.
+    medir_texto.py
+        mide cuánto ocupa cada palabra en pantalla (look «pintado»).
+    menu_estilo_ui.py
+        el panel del chip «Estilo» de Inicio: los estilos en una tira de pósters.
+    menu_pro_ui.py
+        el panel del chip «Edición PRO» de Inicio: interruptor y una fila por ajuste.
+    mezcla_planificador.py
+        «Crea tu estilo»: los Temas 1 a 6 ENTEROS mezclados por frases (y los looks sueltos de los packs de antes) y el estilo del usuario en el disco (pack.json).
+    mezcla_vista.py
+        las vistas aproximadas (Pillow) de los looks de los TRES temas para «Crea tu estilo»: cada look se ve sobre una foto de muestra, dibujado con el plan REAL de su tema.
+    mograf_ui.py
+        Motion Graphics de la interfaz: entrada de tarjetas con marcas, título cinético, traza de luz, formas ambiente y HUD de Inicio.
+    monedas.py
+        qué moneda se NOMBRA al hablar de dinero (₦ naira, € euros, Q quetzales…): el precio de las escenas ya no es siempre «$».
+    motions_catalogo.py
+        TODOS los motions de la Edición PRO y cuáles puede usar (v5.5.7)
+    motions_completo.py
+        v5.5.8 «Motions completo»: un video de SOLO motions a pantalla completa para TODO el video, tramo a tramo, que va
+    motions_ui.py
+        la sección «Motions de la Edición PRO» de la página Efectos: un carrusel con TODOS los motions (v5.5.7)
+    motor_compat.py
+        servicio Python 3.14 para Whisper, Argos y ONNX Runtime.
+    motor_voz.py
+        motor de voz e IA Qwen3 en su propio Python 3.12: instalar, detectar y transcribir.
+    musica_go.py
+        música de fondo automática para GO (v5.4.8): elige, alinea al pulso, nivela y baja sola cuando se habla.
+    novedades_visuales.py
+    orbe_mecanica.py
+        el botón GO como un astrolabio mecánico: anillo de runas, engranaje de bronce, filigrana y gema de esmeralda.
+    ortografia.py
+        revisión ortográfica del editor (marca y propone, nunca corrige solo).
+    ortografia_es.py
+        ¿es español de verdad aunque el diccionario no la traiga? (v5.5.7)
+    pack_personalizado.py
+        v5.55 «Crea tu estilo»: el pack DERIVADO de un tema de fábrica (Kinetic, Referencia, VIRAL, Tema4/5/6) con la letra y
+    packs_drt.py
+        lee los packs .drt/.drb SIN abrir Resolve (sets, formatos, tipografías).
+    pausas.py
+        «Quitar pausas» (jump cuts en los silencios) para GO (v5.4.8).
+    pila_planificador.py
+        el Estilo 4 (v5.82): la pila de tres alturas de la referencia del usuario: arriba lo dicho antes de la clave en
+    plantillas.py
+        packs de estilos: leer, guardar, elegir y preparar el pack que se aplica.
+    posiciones_detras_ui.py
+        Efectos › «Captions detrás de ti» › Posición con el diseño nuevo (v5.32): cabecera, visor, panel y tira.
+    posiciones_pro.py
+        «Posición» de cada efecto de la Edición PRO: el usuario marca en la línea de tiempo de SU video (con sus
+    premiere.py
+        GO en Adobe Premiere Pro (v5.78): el panel CineCaptions de Premiere coloca el video, los captions y los sonidos.
+    premiere_textos.py
+        v5.85: GO en Premiere Pro con los TEXTOS en la línea de tiempo (no un video de captions): cada palabra o línea del estilo, un clip de texto editable; lo demás (cajas, aros, rayas, emojis), PNG.
+    preparar_efectos.py
+        herramienta de desarrollo: convierte las imágenes de iconos sobre fondo blanco en SPRITES con transparencia (uno por icono).
+    pro_lateral_ui.py
+        Proyecto con la Edición PRO: a la DERECHA del slider, los motions que GO pondrá (interruptores) y, a la IZQUIERDA,
+    probar_barrido.py
+        prueba en el banco zz_BANCO (Resolve) del BARRIDO DE LUZ de las palabras grandes del pack «Referencia»: ¿llega hasta el final de la palabra, en cuánto tiempo?
+    probar_efectos.py
+        prueba de punta a punta de la página «Efectos»: suelta un video en la app sin pantalla (GO real con los efectos visuales ENCENDIDOS), Resolve renderiza y se saca una hoja de cuadros.
+    probar_estilos_app.py
+        prueba de los 3 estilos (VIRAL, Kinetic, Referencia) DENTRO de la app, sin pantalla y SIN Resolve: sonidos, emojis y colores que salen en cada uno.
+    probar_fusion_v1.py
+        prueba en Resolve del movimiento sobre el video (fusion_v1.py): zoom lento, temblor, transiciones y fondo desenfocado.
+    probar_go.py
+        pulsa GO de la app SIN pantalla sobre un archivo y un pack, y deja los bloques en el timeline actual de Resolve (el banco zz_BANCO).
+    probar_go_variantes.py
+        GO de la app sin pantalla sobre un video REAL con un pack y con los sonidos / emojis / efectos visuales encendidos o apagados a mano (para encontrar qué tumba a Resolve).
+    probar_kinetic.py
+        prueba del estilo «Kinetic» de punta a punta: voz → bloques → Resolve (banco zz_BANCO) → render → hoja de cuadros.
+    probar_mezcla_app.py
+        prueba del estilo MEZCLADO de «Crea tu estilo» (looks de los tres temas) DENTRO de la app, sin pantalla y SIN Resolve.
+    probar_tema4.py
+        pone el Tema 4 en Resolve sobre un video NEGRO con las palabras de una transcripción y lo renderiza por tramos, para compararlo con la referencia.
+    probar_viral.py
+        prueba del estilo «VIRAL»: laboratorio de comps, planificador sobre un video real y render con hoja de cuadros.
+    probar_viral_app.py
+        prueba del estilo «VIRAL» DENTRO de la app (sin pantalla y SIN Resolve): GO, Creativo (palabras marcadas), sonidos y emojis.
+    proyecto_pruebas.py
+        un proyecto TEMPORAL y vacío de Resolve para probar sin ensuciar el del usuario.
+    proyecto_ui.py
+        v5.32: el aspecto nuevo de la página Proyecto (las maquetas del usuario): la franja del audio y el bloque del tema.
+    proyectos.py
+        registro de proyectos (vídeos) trabajados: recientes, abrir, borrar.
+    qt_kit.py
+        kit de interfaz Qt: colores, tipografía Inter, controles, mensajes, hilos (correr_en_hilo, despues).
+    recomendaciones.py
+        lo que recomendamos para cada estilo: al elegir VIRAL, Kinetic o Referencia el sonido y la página Efectos quedan ya configurados.
+    recorrido_ui.py
+        recorrido visual por pasos: una capa sobre la ventana que ilumina cada zona de la interfaz y la explica (se desactiva en Ajustes).
+    recortar_bucle_vistas.py
+        recorta los clips de muestra de «Crea tu estilo» (texto sobre NEGRO) para que den la vuelta sin tiempo muerto.
+    rectificador.py
+        v5.5.2: el RECTIFICADOR. Lo último antes de tocar Resolve: junta lo que planearon los Efectos (efectos_visuales) y la
+    registro.py
+        el registro de avisos y errores: archivo de log, historial y señal para la interfaz.
+    registro_ayuda.py
+        traduce cada aviso o error del Registro a lenguaje claro: qué pasó, qué significa y qué hacer.
+    registro_ui.py
+        el aviso en la barra de título, el botón del registro con contador y la ventana Registro.
+    render_sin_resolve.py
+        GO SIN DaVinci Resolve (v5.4.47): el video con los subtítulos de Tema 4 grabados, sus sonidos y emojis, en un MP4.
+    render_temas.py
+        GO sin DaVinci Resolve con CUALQUIER tema (v5.5.8): cómo se dibuja cada uno con Pillow a partir de los mismos datos que lee Resolve.
+    resolve_bridge.py
+        conexión con Resolve: API externa (Studio), Puente (Free) o paso manual; ejecuta los scripts.
+    resolve_mcp.py
+        conexión con el MCP oficial de Resolve 21.1+: abrir Resolve, proyecto reciente, ejecutar scripts.
+    ritmo_ui.py
+        Regulador del ritmo de las animaciones: si la interfaz va justa (GO usando CPU/GPU, equipo modesto) baja los fotogramas del fondo y de la esfera para que los clics respondan; los sube al aliviarse.
+    rotacion_video.py
+        los videos del celular vienen «acostados» con su giro guardado aparte (display matrix): Resolve lo aplica, PyAV no.
+    salud.py
+        chequeo de librerías al arrancar (versiones fijadas, motor de IA, MCP).
+    salud_resolve.py
+        ¿Resolve está sano? Diagnóstico único (ok / fantasma / colgado / caído) para Studio (MCP) y Free (Puente), Windows y Mac,
+    sentimiento.py
+        si una frase suena positiva o negativa (listas de palabras, sin modelos), para el sonido de los emojis (v5.4.8).
+    sfx_audio.py
+        audio del SFX Lab: cargar, cambiar tono y velocidad, reproducir.
+    sfx_editor.py
+        la ventana «Editar» de un sonido: elegir de forma visual qué parte suena (onda con asas) y su volumen.
+    sfx_rules.py
+        decide el efecto de sonido de cada bloque leyendo resolve_scripts/sfx_rules.json.
+    sfx_studio.py
+        la pantalla SFX Lab (biblioteca, pad XY, marcadores por color, reemplazar).
+    sidecar_lua.py
+        escribe <archivo>.lua junto a cada .json (canal de lectura para Resolve Free 21.1).
+    sonido_musica.py
+        MÚSICA de la biblioteca del autor (5_SFX\02_MUSICA) para la página Sonido (v5.48). Mismo criterio que
+    sonido_skill.py
+        SONIDO con la biblioteca del autor y las reglas de MAPA_SFX.md (reemplaza el diseño de SFX del «AI Sound Director»).
+    sonido_skill_ui.py
+        la página SONIDO (v5.43, diseño A+B elegido por el usuario): editor visual de lo que decidió sonido_skill.
+    sonidos_extra.py
+        los sonidos extra de GO (v5.4.8): música de fondo, sonidos de transición en los cortes, riser + golpe + silencio en el gancho.
+    subtitle_transcriber.py
+        transcripción con Whisper, traducción con Argos y escritura de .srt / manifiestos.
+    sugerencias_ia.py
+        sugiere la palabra PRINCIPAL de cada bloque (motor clásico, sin IA instalada).
+    tareas_instalador.py
+        lo que el instalador pide al programa (--tarea verificar/scripts/fuentes/modelo/motor_ia...).
+    telemetria_errores.py
+        manda al vendedor (cinecaptions.shop/pagos/errores.php) cada error que le sale a un cliente, en segundo plano.
+    tema.py
+        temas de la interfaz (superficies, color de resaltado, tamaño) y su traductor de colores.
+    tema4_planificador.py
+        Tema 4: captions blancos que se arman palabra a palabra en un recuadro, con la palabra clave grande y las conectoras pequeñas.
+    tema4_vista.py
+        vista aproximada (Pillow) de un bloque del Tema 4: las palabras ya dichas en su sitio, con el brillo suave. Para comparar con la referencia sin pasar por Resolve.
+    tipo_planificador.py
+        el Tema 5 (v5.76): bloques tipográficos con la palabra clave GRANDE y lo demás en serif cursiva que la muerde, palabra a palabra.
+    tipo_vista.py
+        el bloque del Tema 5 («v tipo») dibujado con Pillow: vistas, GO sin Resolve y la vista de Creativo.
+    tts_prueba.ps1
+        voz de prueba (Windows SAPI) → WAV: para probar los captions con un video SIN audio útil.
+    tutoriales.py
+        los videos de los tutoriales (uno por página, grabados con la interfaz real) y la guía que sale sola UNA vez por versión nueva.
+    tutoriales_ui.py
+        el reproductor de los videos tutoriales (guía y Ajustes) y el panel «Tutoriales» de Ajustes: el video grande y la lista de las páginas.
+    ui_toast.py
+        avisos que se cierran solos (toasts).
+    uia_resolve.py
+        la Accesibilidad de Windows (UI Automation) sobre DaVinci Resolve, DESDE PYTHON (v5.5.6)
+    un_clic_ui.py
+        la pantalla de Inicio: botón GO, pasos animados, cinta viral y vista previa.
+    ventana_licencia.py
+        la ventana «Activa tu licencia» (formato CineSlide: panel animado, clave, confeti).
+    version.py
+        la versión del programa (APP_VERSION) y el autor, en un solo sitio.
+    vigilancia.py
+        guardián de tareas largas (GO, Generar): detecta atascos, destraba motores, chequeos periódicos y arranque atascado.
+    vigilante_pro.py
+        el VIGILANTE de calidad de la Edición PRO: antes de tocar Resolve revisa el plan con reglas, las animaciones ya hechas
+    viral_captions.py
+        estilo «VIRAL»: la geometría de la pila (tamaños con la tipografía real, posiciones, tiempos) y el .json para Resolve.
+    viral_planificador.py
+        del texto con tiempos (ASR) a los bloques del estilo «VIRAL»: frases, palabra con efecto, líneas finas y negritas, y momentos.
+    vista_estilos.py
+        v5.55 «Crea tu estilo»: la imagen quieta del caption de cada tema (Tema 1…6) sobre NEGRO, con la misma frase en los seis.
+    vista_previa_fx.py
+        la vista previa de 3 segundos de la página «Efectos» (v5.4.8): TODO lo que está encendido, sobre fotos de muestra, sin abrir Resolve.
+    vista_tema.py
+        la vista previa EXACTA del tema elegido en Creativo (v5.5.10): los cues del planificador del tema y el mismo dibujo que GO sin Resolve.
+    vistas_guia.py
+        las vistas REALES (renderizadas por Resolve) de los ejemplos de «Crea tu estilo»: se piden, se reducen y se guardan en caché.
+    vistas_reales.py
+        vistas previas renderizadas DE VERDAD por Resolve (packs y bloques de GO).
+    vistas_slider.py
+        los VIDEOS que se reproducen dentro de las tarjetas del slider «Pack de estilos» (captions reales de Resolve, no imágenes fijas).
+    vocabulario.py
+        v5.5.17: el vocabulario del usuario para la voz: los nombres que corrige en Creativo (lugares, marcas, personas,
+    zona_segura.py
+        la zona que la interfaz de TikTok / Reels / Shorts deja libre en un video vertical (v5.76): ningún caption sale de ella.
