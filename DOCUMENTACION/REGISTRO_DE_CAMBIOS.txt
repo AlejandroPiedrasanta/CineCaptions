@@ -12,6 +12,58 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-16 08:49  ·  v5.91  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-11-14 02:01  ·  v5.90  ·  cambio explicado
+    v5.91: actualizar sin esperas. Windows mantiene la ventana de Actualizar hasta ver la del instalador (Windows lo revisa antes de abrirlo); en Mac la app se reemplaza a la vista y se reabre (sin esperar al servicio); el .dmg en LZFSE abre y copia 5-10 veces más rápido que lzma (medido en Macs de GitHub).
+    modificados (17):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/actualizaciones.py
+      ~ 1_codigo/actualizar_fondo.py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/aviso_mac.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/tareas_instalador.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      … y 5 más
+
+2026-11-14 00:34  ·  v5.90  ·  cambio explicado
+    v5.91 Mac: instalar con un .pkg en /Applications siempre pide contraseña; el usuario pidió quitarla y eligió arrastrar a Aplicaciones (propuesta C). El disco trae la app + Aplicaciones + un paquete oculto sin la app para los servicios de root de 5.87-5.90; el programa crea al abrirse su servicio de actualizaciones del usuario (LaunchAgent) y se actualiza reemplazando la app. Disco en APFS: HFS+ cambia los nombres con tildes y rompe la firma (medido).
+    nuevos (1):
+      + 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/chrome_debug.log
+    modificados (19):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/actualizaciones.py
+      ~ 1_codigo/actualizar_fondo.py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/aviso_mac.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/tareas_instalador.py
+      ~ 1_codigo/vigilancia.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      … y 7 más
+
 2026-11-13 22:45  ·  v5.90  ·  (automático)
     modificados (24):
       ~ 1_codigo/actualizaciones.py

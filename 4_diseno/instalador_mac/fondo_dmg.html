@@ -1,61 +1,34 @@
 <!-- CineCaptions · By Cinema Productions
-     4_diseno/instalador_mac/fondo_dmg.html — el fondo de la ventana del .dmg de la Mac (v5.87), 660 × 520 puntos. Para rehacerlo (desde esta carpeta):
-       chrome-headless-shell --headless --hide-scrollbars --allow-file-access-from-files --force-device-scale-factor=1 --window-size=660,520 --screenshot=../../7_mac/dmg/fondo.png fondo_dmg.html
+     4_diseno/instalador_mac/fondo_dmg.html — el fondo de la ventana del .dmg de la Mac, 600 × 360 puntos. Para rehacerlo (desde esta carpeta):
+       chrome-headless-shell --headless --hide-scrollbars --allow-file-access-from-files --force-device-scale-factor=1 --window-size=600,360 --screenshot=../../7_mac/dmg/fondo.png fondo_dmg.html
        (y con --force-device-scale-factor=2 → ../../7_mac/dmg/fondo@2x.png). Los iconos los pone el Finder: 7_mac/dmg/ajustes_dmg.py (centros, en puntos).
-     ZONA SEGURA: todo lo que importa termina antes de y = 460. La franja de abajo (460-520) es de reserva: en las Mac con la barra de título más
-     alta (macOS 26 en adelante) el Finder enseña menos alto y esa franja se corta sin perder nada (con el diseño justo al milímetro salían barras
-     de desplazamiento y el pie cortado en la Mac del usuario). -->
+     v5.91 (el usuario: «dame propuestas más minimalistas» + «omite que pida contraseña»; eligió la propuesta C y «arrastrar a Aplicaciones»):
+     una frase arriba, CineCaptions → Aplicaciones con la flecha verde y un solo consejo abajo (la primera apertura de una app sin notarizar).
+     ZONA SEGURA: el consejo termina antes de y = 335; los últimos ~25 puntos pueden cortarse en las Mac con la barra de título más alta
+     (macOS 26 en adelante) sin perder nada. El fondo es CLARO a propósito: con una imagen de fondo el Finder escribe los nombres en negro. -->
 <!doctype html>
 <html><head><meta charset="utf-8">
 <style>
-@font-face { font-family: M; src: url('../../2_recursos/fonts/Montserrat-Bold.ttf'); font-weight: 700; }
 @font-face { font-family: M; src: url('../../2_recursos/fonts/Montserrat-ExtraBold.ttf'); font-weight: 800; }
 @font-face { font-family: I; src: url('../../2_recursos/fonts/Inter_18pt-Regular.ttf'); font-weight: 400; }
 @font-face { font-family: I; src: url('../../2_recursos/fonts/Inter_18pt-Medium.ttf'); font-weight: 500; }
+@font-face { font-family: I; src: url('../../2_recursos/fonts/Inter_24pt-Bold.ttf'); font-weight: 600; }
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { width: 660px; height: 520px; overflow: hidden; }
-body { position: relative; background: linear-gradient(165deg, #FFFFFF 0%, #F4F7FC 55%, #ECF1FA 100%); font-family: I, sans-serif; color: #0B1324; }
-.mancha { position: absolute; border-radius: 50%; filter: blur(46px); }
-.m1 { width: 300px; height: 220px; right: -90px; top: -110px; background: #16D9F5; opacity: .20; }
-.m2 { width: 260px; height: 200px; right: 80px; top: -130px; background: #2B5FD9; opacity: .14; }
-.m3 { width: 280px; height: 200px; left: -120px; top: 250px; background: #A23BE0; opacity: .08; }
-.cab { position: absolute; left: 28px; top: 22px; display: flex; align-items: center; gap: 12px; }
-.cab img { width: 42px; height: 42px; border-radius: 10px; box-shadow: 0 4px 12px rgba(16, 32, 72, .16); }
-.marca { font-family: M; font-weight: 800; font-size: 22px; letter-spacing: -.3px; line-height: 1; }
-.marca span { color: #12A874; }
-.sub { font-weight: 500; font-size: 11px; color: #5B6880; margin-top: 5px; letter-spacing: .2px; }
-.carta { position: absolute; top: 92px; width: 286px; height: 216px; border-radius: 18px; background: rgba(255, 255, 255, .80);
-         border: 1px solid #E1E8F3; box-shadow: 0 10px 28px rgba(16, 32, 72, .07); }
-.c1 { left: 22px; }  .c2 { left: 352px; }
-.paso { position: absolute; left: 0; right: 0; top: 16px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
-.fila { display: flex; align-items: center; gap: 9px; }
-.num { width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(160deg, #2FE0A0, #14B07A); color: #fff; font-family: M; font-weight: 800;
-       font-size: 13px; display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 8px rgba(20, 176, 122, .35); }
-.tit { font-family: M; font-weight: 700; font-size: 15px; color: #0B1324; }
-.en { font-size: 11.5px; color: #6B778C; }
-.flecha { position: absolute; left: 50%; transform: translateX(-50%); top: 72px; width: 16px; height: 11px; }
-.pie { position: absolute; left: 0; right: 0; top: 326px; bottom: 0; background: #EDF2F9; border-top: 1px solid #DFE6F1; }
-.consejo { position: absolute; left: 28px; width: 420px; font-size: 11px; line-height: 1.4; color: #3B4659; }
-.consejo b { font-family: M; font-weight: 700; color: #0B1324; font-size: 11px; }
-.consejo .en { display: block; font-size: 10px; color: #7A8599; margin-top: 1px; }
-.k1 { top: 346px; }  .k2 { top: 400px; }
-.hueco { position: absolute; left: 480px; top: 342px; width: 152px; height: 112px; border-radius: 14px; background: rgba(255, 255, 255, .62);
-         border: 1px dashed #CBD6E6; }
+html, body { width: 600px; height: 360px; overflow: hidden; }
+body { position: relative; background: #F7F9FC; font-family: I, sans-serif; }
+.tit { position: absolute; left: 0; right: 0; top: 26px; text-align: center; font: 800 21px M, sans-serif; color: #0B1324; letter-spacing: -.3px; }
+.tit span { color: #12A874; }
+.sub { position: absolute; left: 0; right: 0; top: 56px; text-align: center; font: 500 12px I, sans-serif; color: #7D879B; }
+.flecha { position: absolute; left: 0; top: 0; }
+.pie { position: absolute; left: 0; right: 0; top: 284px; bottom: 0; border-top: 1px solid #E3E8F1; background: #FFFFFF; }
+.consejo { position: absolute; left: 0; right: 0; top: 298px; text-align: center; font: 400 11px I, sans-serif; color: #6B7589; line-height: 1.45; }
+.consejo b { font-weight: 600; color: #3B4659; }
 </style></head>
 <body>
-<div class="mancha m1"></div><div class="mancha m2"></div><div class="mancha m3"></div>
-<div class="cab"><img src="../../2_recursos/logo_cinecaptions.png"><div><div class="marca">Cine<span>Captions</span></div>
-  <div class="sub">Instalador para Mac · By Cinema Productions</div></div></div>
-<div class="carta c1"><div class="paso"><div class="fila"><div class="num">1</div><div class="tit">Doble clic para instalar</div></div>
-  <div class="en">Double-click to install</div></div>
-  <svg class="flecha" viewBox="0 0 14 10"><path d="M1 1 L7 8 L13 1" fill="none" stroke="#14B07A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-<div class="carta c2"><div class="paso"><div class="fila"><div class="num">2</div><div class="tit">Ábrelo desde Aplicaciones</div></div>
-  <div class="en">Then open it from Applications</div></div>
-  <svg class="flecha" viewBox="0 0 14 10"><path d="M1 1 L7 8 L13 1" fill="none" stroke="#14B07A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+<div class="tit">Arrástralo a <span>Aplicaciones</span></div>
+<div class="sub">Drag CineCaptions to Applications</div>
+<svg class="flecha" width="600" height="360"><g fill="none" stroke="#14B07A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M258 168 L342 168"/><path d="M333 159 L342 168 L333 177"/></g></svg>
 <div class="pie"></div>
-<div class="consejo k1"><b>¿macOS no lo deja abrir?</b> Clic derecho sobre «Instalar CineCaptions» › Abrir.
-  <span class="en">macOS won’t open it? Right-click “Instalar CineCaptions” › Open.</span></div>
-<div class="consejo k2"><b>En DaVinci Resolve:</b> Preferencias › Sistema › General › Scripting externo: Local.
-  <span class="en">In DaVinci Resolve: Preferences › System › General › External scripting: Local.</span></div>
-<div class="hueco"></div>
+<div class="consejo"><b>¿macOS no lo abre la primera vez?</b><br>Ajustes del Sistema › Privacidad y seguridad › Abrir igualmente</div>
 </body></html>

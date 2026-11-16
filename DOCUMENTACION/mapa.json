@@ -1595,7 +1595,11 @@
     "whisper",
     "onnxruntime",
     "ctranslate2",
-    "autoprueba"
+    "autoprueba",
+    "arrastrar",
+    "aplicaciones",
+    "contraseña",
+    "launchagent"
    ],
    "archivos": [
     "Construir_Instalador_Mac.sh",
@@ -1605,7 +1609,9 @@
     "2_recursos/motor_compat/worker.py",
     "1_codigo/motor_voz.py",
     "7_mac/dmg/ajustes_dmg.py",
-    "4_diseno/instalador_mac/fondo_dmg.html"
+    "4_diseno/instalador_mac/fondo_dmg.html",
+    "7_mac/pkg/scripts/postinstall",
+    "1_codigo/actualizar_fondo.py"
    ],
    "simbolos": [
     "scripts",
@@ -1613,7 +1619,18 @@
     "EN_PROCESO",
     "_motor_en_proceso_sin_red",
     "_comparar_con_cpu",
-    "_motor_ia_en_mac"
+    "_motor_ia_en_mac",
+    "_asegurar_agente_mac",
+    "plist_agente",
+    "_reemplazar_app",
+    "app_instalada",
+    "app_de_paso",
+    "servicio_mac",
+    "carpeta_pedidos",
+    "pedir_y_correr_aparte",
+    "correr_aparte",
+    "montar_dmg",
+    "app_en_montajes"
    ],
    "resumen": "7_mac/Construir_Instalador_Mac.sh, cinecaptions_mac.spec; Actualizar_Mac.ps1"
   },
