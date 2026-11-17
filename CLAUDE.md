@@ -1,6 +1,6 @@
 # CineCaptions — leer SOLO esto; lo demás se consulta por demanda
 
-App PySide6 (v5.91, Python 3.15.2) que subtitula vídeos con IA local y los coloca en DaVinci Resolve (Free y Studio, Windows y Mac).
+App PySide6 (v5.93, Python 3.15.2) que subtitula vídeos con IA local y los coloca en DaVinci Resolve (Free y Studio, Windows y Mac).
 **La raíz solo enseña 2 carpetas (2026-11-16, pedido del usuario): `PROGRAMA/` (todo el programa) e `INSTALADORES/{Windows,Mac}`.** Las rutas de este archivo son DENTRO de `PROGRAMA/` (los scripts y el MCP corren desde ahí). En la raíz quedan ocultos CLAUDE.md, .git, .github, .claude, .gitignore, .mcp.json y un acceso oculto `5_SFX` → `PROGRAMA/5_SFX`.
 Carpetas (en `PROGRAMA/`): `1_codigo` programa · `2_recursos` lo que viaja en el .exe · `3_compilar` · `4_diseno` · `5_SFX` (biblioteca de sonido del autor, 8 GB, fuera de Git; reglas en su `MAPA_SFX.md`: nunca borrar, mover ni renombrar sonidos) · `6_compilacion` (temporal, no tocar; su Python base vive dentro: si se mueve, corregir `venv315/pyvenv.cfg`) · `7_mac` · `DOCUMENTACION` · `MEDIOS` (icono, renders 4K de Inicio, capturas 4K de las páginas y banners; fuera de Git) · `WEB CINECAPTIONS` (la web, su propio Git) · `Actualizar_Windows.ps1`, `Actualizar_Mac.ps1`, `Publicar_Version.ps1`. Cada carpeta lleva su icono negro (`.cf/icono.ico` + `desktop.ini`).
 «Estilo N» de la interfaz (antes «Tema N»; en el código siguen siendo temas) → `id`: 1 `kinetic-planificador` · 2 `guion-planificador` · 3 `viral-planificador` · 4 `tema4` · 5 `tema5` · 6 `tema6` · 7 `tema7` · 8 `tema8` · 9 `tema9`.
@@ -27,7 +27,7 @@ Python con dependencias (`$PY`): `PROGRAMA/6_compilacion/venv315/Scripts/python.
 - **creativo** (Editor Creativo (palabras, Asistencia, Generar)): editor-palabras creativo-ui creativo-vista-tema creativo-detecta-audio
 - **estilos** (Estilos y packs (.drb/.drt, Luxe, Crea tu estilo)): pantalla-estilos estilos-slider packs-drt fuentes generador-packs crea-tu-estilo mezcla-temas tema4 tema4-recuadro tema5 zona-segura tema5-tipo temas-ligero editar-quitar-pack luxe-packs captions-premium tema6 tema7 tema8 tema9 banner-inspector motions-resolve
 - **bloques** (Bloques de subtítulos (cerebro, estilo por bloque, pausas)): bloques anim-cortos estilo-bloque colgantes
-- **sonido** (Sonido y emojis (SFX Lab, reglas, emojis)): sfx-lab ducking-energia sonido-palabra sonido-emojis sonido-extra sonido-estilo emojis-estilos emojis-posicion-free biblioteca-sonidos emojis-coherentes sonido-pro sonido-biblioteca ai-sound-director
+- **sonido** (Sonido y emojis (SFX Lab, reglas, emojis)): sfx-lab ducking-energia sonido-palabra sonido-emojis sonido-extra sonido-estilo emojis-estilos emojis-posicion-free biblioteca-sonidos emojis-coherentes sonido-pro sonido-biblioteca sonido-oido ai-sound-director
 - **guion** (Estilo «guion» (pack Referencia, palabra a palabra)): guion-planificador creativo-guion estilo-oracion barrido-referencia
 - **kinetic** (Estilo «Kinetic» (títulos de gancho: héroe, cintas, anillos)): kinetic-planificador kinetic-pack kinetic-neon-kit kinetic-app-resolve kinetic-pruebas
 - **viral** (Estilo «VIRAL» (pila fina + negrita cursiva y los efectos shatter, select, drag)): viral-planificador viral-pack viral-app-resolve viral-pruebas viral-select-drag viral-crea-efectos tema3-linea viral-colores
