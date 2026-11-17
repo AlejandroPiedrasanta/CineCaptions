@@ -12,6 +12,45 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-17 15:22  ·  v5.94  ·  (automático)
+    modificados (32):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/locales/ru.json
+      ~ 2_recursos/locales/zh.json
+      … y 20 más
+
+2026-11-17 14:13  ·  v5.93  ·  cambio explicado
+    Premiere: GO sin video trabaja con la secuencia abierta (panel rev 16, protocolo 3): el panel exporta su audio a WAV, GO transcribe y coloca textos y sonidos en una COPIA de la secuencia; la del usuario no se toca. Antes GO usaba el video que quedó elegido de un GO anterior (cliente: «agarra un audio que no es»). Aviso propio cuando falta la plantilla Basic Title.
+    modificados (16):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/premiere.py
+      ~ 1_codigo/premiere_textos.py
+      ~ 1_codigo/render_sin_resolve.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      … y 4 más
+
+2026-11-17 13:55  ·  v5.93  ·  cambio explicado
+    Premiere: si el panel se instaló con Premiere ya abierto (Ajustes o un GO anterior), GO lo sabe (marca panel_instalado.json frente a la hora de arranque de Premiere: premiere.falta_reiniciar) y pide reiniciarlo en vez de esperar 4 min y decir «Premiere Pro no contestó» (informe 5.93, causa sin_panel). El informe del error lleva ahora el detalle: Premiere abierto/cerrado, versión, último latido y rev del panel.
+    modificados (2):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/premiere.py
+
 2026-11-17 08:12  ·  v5.93  ·  (automático)
     modificados (11):
       ~ 1_codigo/ajustes_ui.py
