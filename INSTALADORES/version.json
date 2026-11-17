@@ -1,29 +1,29 @@
 {
   "estable": {
-    "version": "5.92.0",
-    "notas": "• Mac: nuevo instalador. Doble clic en «Instalar CineCaptions» y en un minuto queda todo listo, sin contraseña: la app en Aplicaciones y en el Dock, los scripts de Resolve, las tipografías y las actualizaciones.\r\n• Su ventana enseña el porcentaje y cuánto falta; al terminar abre CineCaptions sola, y el motor de voz e IA se sigue bajando aparte para que el primer GO no lo espere.\r\n• Mac: el aviso de una versión nueva sale en cuanto se encuentra, aunque CineCaptions esté cerrado; con «Actualizar ahora» se instala y se vuelve a abrir con ella.",
-    "fecha": "2026-11-16",
+    "version": "5.93.0",
+    "notas": "• Sonido con «oído», en todos los estilos: cada efecto cae justo en su cuadro (al milisegundo, aunque Resolve coloque por cuadros) y su volumen sigue al de tu voz en cada video.\r\n• La música respira: baja un momento antes de cada golpe fuerte y vuelve en el golpe, como en los anuncios profesionales. Y los sonidos de tu biblioteca se revisan antes de usarlos: fuera los saturados o casi mudos.\r\n• Página Sonido: te dice si la mezcla está lista para publicar (volumen, pico y rango en palabras simples), te enseña cada sonido cuadro a cuadro frente a su animación y lo que conviene revisar se arregla con un toque.\r\n• Página Efectos nueva: cada efecto en su pestaña con iconos animados, el ejemplo en grande en el centro y todas sus opciones a la vista; pasa por encima de una para verla y elígela con «Usar».",
+    "fecha": "2026-11-17",
     "archivos": {
       "windows": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.92/Instalar_CineCaptions_5.92.exe",
-        "sha256": "e52aa38f7de9e3413569df7cfd24730ee461272505bac8a8e5db73a4af65c46e",
-        "tam": 767808270
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.93/Instalar_CineCaptions_5.93.exe",
+        "sha256": "9d3dbc0f3a71967109a45770189d66b900b96c2c882d198f7015a623d6b12885",
+        "tam": 768819036
       },
       "mac_arm64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.92/CineCaptions_Mac_AppleSilicon_5.92.dmg",
-        "sha256": "cb719c414cac1d88d631a30a9075be67ec2a6fb901bdd36bc6960ad8688f68e7",
-        "tam": 746415311
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.93/CineCaptions_Mac_AppleSilicon_5.93.dmg",
+        "sha256": "cdb465cca7a7a029b0790d62186185c1242932b1d09ad43d5a1241588b0197ba",
+        "tam": 748060774
       },
       "mac_x86_64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.92/CineCaptions_Mac_Intel_5.92.dmg",
-        "sha256": "167240a210f7fb5d85d04243bdd40bf83eb0051c66eacaf01d3e1d06878915aa",
-        "tam": 769835063
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.93/CineCaptions_Mac_Intel_5.93.dmg",
+        "sha256": "9890bddda9de18b70e9a8e315ba6416fedb345a2474ac6bff048373a5994f0de",
+        "tam": 771501894
       }
     }
   },
   "firma": {
     "alg": "ed25519",
     "clave": "7a4e413e",
-    "valor": "ldZocCoAcj4vEuYF5YQMpEJmocsvq2lSGB61547nypW1jjXWEOUrNhaQsA9KVx+XvlHz1yPc0MX2BjuKxxBmAg=="
+    "valor": "Wmq9VbF0ZFKk4r+jf0hLXuCGj7IaYR5RND30xXCkGgTVS+x+9AIEY6qXdeqevPm1r0o/KLJauB0xG4mnQJg4Cg=="
   }
 }
