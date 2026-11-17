@@ -1,5 +1,181 @@
 REGISTRO DE CAMBIOS ARCHIVADO · 2026-11 (la entrada más nueva arriba)
 
+2026-11-12 17:14  ·  v5.84  ·  cambio explicado
+    GO con Premiere cerrado: Premiere 26 arranca en su pantalla de inicio y el panel CEP no carga sin proyecto (GO esperaba 240 s y fallaba). premiere.colocar escribe antes «<video> (CineCaptions).prproj» desde 2_recursos/premiere/proyecto_vacio.xml (generado: solo ajustes, GUID nuevo) y abre Premiere con él; el panel (CC.propio) lo guarda al terminar. Real: 12 s. Versión de proyecto 1 no sirve en 26: queda 45.
+    modificados (11):
+      ~ 1_codigo/premiere.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/locales/ru.json
+      ~ 2_recursos/locales/zh.json
+      ~ 3_compilar/traducciones_extra.json
+
+2026-11-12 17:06  ·  v5.84  ·  cambio explicado
+    Informe de un cliente (5.84, Windows 11, «Usar con Premiere Pro»): GO falló en el paso timeline con «Suelta un video en CineCaptions y pulsa GO». Causa: soltó el video en el icono (o «Abrir con») con CineCaptions YA abierto; Windows abre otra copia con el video como argumento, main() veía el candado de instancia única y esa copia se cerraba («ya se encuentra en ejecución»): el video se perdía sin aviso y el GO de Inicio, sin video, fallaba en rojo. Arreglo: main() lee el argumento antes del candado y, si no lo toma, _pasar_video_a_la_abierta lo deja en ~/.cinecaptions.abrir (junto al candado; atómico) y cede el primer plano; la ventana abierta lo mira cada 0,7 s (_mirar_relevo) y lo recibe (_recibir_video_de_fuera): en Inicio como soltarlo ahí (GO arranca solo), en otra página queda elegido sin cambiar de página; trabajando, aviso en el Registro; uno de más de 90 s se ignora. Además GO sin video con Premiere / video sin editores / sin Resolve ya no arranca y cae en rojo (error + telemetría): _go_pide_video dice en ámbar «Primero arrastra tu video aquí…» y deja un AVISO con la explicación de siempre. Probado sin pantalla con dos procesos (A = ventana con el candado; B = main() real con el video), HOME/AppData aislados.
+    nuevos (1):
+      + 2_recursos/premiere/proyecto_vacio.xml
+    modificados (16):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/premiere.py
+      ~ 1_codigo/premiere_textos.py
+      ~ 1_codigo/render_temas.py
+      ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/chrome_debug.log
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      … y 4 más
+
+2026-11-12 16:58  ·  v5.84  ·  cambio explicado
+    Premiere con TEXTOS editables en la línea de tiempo (el usuario: «me pones el video de los captions y no quiero; quiero los textos que se vayan armando en la línea de tiempo», «deben funcionar todos los estilos y poderse editar en Premiere»). GO ya no manda la capa ProRes: premiere_textos convierte la composición de cada estilo (render_sin_resolve.preparar) en textos (letra, tamaño, color, contorno, sombra, giro, tiempos) e imágenes PNG (cajas, aros, emojis), y cada texto lleva SU .mogrt, hecho de la «Basic Title» del Premiere del usuario con el texto y el estilo dentro, porque en Premiere 26 escribir el «Texto de origen» por ExtendScript no se dibuja. El panel (colocar.jsx) los pone con importMGT en V2… al 100 %, en su sitio, con su final y su fundido, y escribe su avance para que trabajos grandes no se corten. Probado en el Premiere real: los 9 estilos, sin tocar Resolve. Si Premiere no los acepta, la capa de antes. Además: con Premiere elegido, nada de CineCaptions habla con Resolve; letras mal registradas en Windows van con Arial y se reinstalan.
+    modificados (15):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/premiere.py
+      ~ 1_codigo/premiere_textos.py
+      ~ 1_codigo/render_temas.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      … y 3 más
+
+2026-11-12 15:43  ·  v5.84  ·  cambio explicado
+    Arranque seguro (pulido del «no abre» de Mac, para que no vuelva): arranque_seguro.atender_hijo hace de intérprete para cualquier hijo -c/-m de librerías; el candado de una sola ventana se cura (copia atascada → se cierra; PID también en ~/.cinecaptions.pid porque en Windows el byte con candado no se lee); arranque con tope (240 s sin ventana y 60 s sin latir → sale solo y lo cuenta); postinstall con tope por tarea; autoprueba crítica «Procesos auxiliares» y 6 casos en simular_equipos.
+    nuevos (2):
+      + 1_codigo/arranque_seguro.py
+      + 1_codigo/premiere_textos.py
+    modificados (19):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/premiere.py
+      ~ 1_codigo/registro.py
+      ~ 1_codigo/render_sin_resolve.py
+      ~ 1_codigo/render_temas.py
+      ~ 1_codigo/tareas_instalador.py
+      ~ 1_codigo/vigilancia.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      … y 7 más
+
+2026-11-12 14:44  ·  v5.84  ·  cambio explicado
+    Premiere elegido = Resolve intacto. El usuario: «cuando activo para Premiere Pro y arrastro un video me abre DaVinci Resolve» y «si activo usar para Premiere Pro ya no tiene que usar DaVinci Resolve». Causa: en _go, la rama del video soltado lanzaba _go_timeline_del_video (abre Resolve, proyecto nuevo, timeline) con solo hay_mcp, sin mirar _go_sin_resolve: con Studio instalado pasaba aunque GO fuera a Premiere o al video sin editores. Ahora solo con hay_mcp and not _go_sin_resolve. Y con Premiere elegido (SubtitleApp._con_premiere) lo de fondo ya no habla con Resolve: vigilancia de la conexión (en Free lanzaba el Puente), estado de Inicio (arrancaba ResolveMCP), sondeo y precalentado del MCP al abrir, vistas reales automáticas de Estilos. Con Resolve elegido, igual que antes (probado A/B con Resolve y Premiere simulados).
+    modificados (1):
+      ~ 1_codigo/CineCaptions (script principal).py
+
+2026-11-12 14:27  ·  v5.84  ·  cambio explicado
+    Mac «no abre» tras instalar (5.78/5.84): el resource_tracker de multiprocessing (tqdm al bajar Whisper en la tarea modelo del postinstall) re-arrancaba CineCaptions entero sin freeze_support, invisible en la ventana de licencia y con el candado de una sola ventana; reproducido en Macs de GitHub (macOS 15, 26, Intel). Arreglo: freeze_support al principio del script principal + el postinstall quita esos huérfanos.
+    modificados (16):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/archivos_seguros.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/ia_texto.py
+      ~ 1_codigo/instalador_scripts.py
+      ~ 1_codigo/licencia.py
+      ~ 1_codigo/motor_compat.py
+      ~ 1_codigo/motor_voz.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/registro.py
+      ~ 1_codigo/sfx_rules.py
+      … y 4 más
+
+2026-11-11 13:48  ·  v5.84  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-11-11 13:48  ·  v5.83  ·  cambio explicado
+    5.84 (antes de compilar): (1) Cache de Resolve (el usuario: testea todos los estilos y mejora la rapidez y el cache para que reproduzca mas rapido): medidos los 9 estilos en Resolve Studio 21.2 (proyecto temporal); bisel de los Estilos 3 y 5 y trama del heroe del Estilo 1 calculados una vez por pixel: Estilo 5 63 -> 29 s y Estilo 1 61 -> 47 s de cache por 24 s, render identico bit a bit (Kin 23, Vir 16, T5 10); en los Estilos 2 y 6 lo caro es la animacion del texto Luxe, que se ve: no se toca. (2) Video sin editores (el usuario: usa el maximo en paralelo para que lo haga mas rapido): render_sin_resolve compone varios fotogramas y dibuja los bloques a la vez con fuentes por hilo y un maximo separable para el contorno del Estilo 7: mismo MP4 byte a byte, 17-52 % mas rapido; Remotion del Estilo 1 sin cambiar porque movia las letras 1 px. (3) Inicio (el usuario: pule mas eso que aprovecha al maximo la PC): capas del fondo y del cielo compuestas en un hilo aparte y grano ya hecho. (4) Segundo clic en el boton que abrio un panel lo cierra (el usuario: cuando vuelva a darle clic que se cierre). (5) Arreglos: neon del Estilo 1 dentro de la zona segura y vigia de GO sin editores con el avance del render. Comprobado todo junto: simular_equipos 89/0, humo de ventanas 0 fallos, Efectos/Estilo/Sonido iguales armadas en Inicio o al primer clic.
+    nuevos (1):
+      + 2_recursos/fondos_estilos/grano_fondo.png
+    modificados (34):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/director_sonido_ui.py
+      ~ 1_codigo/editor_ui.py
+      ~ 1_codigo/efectos_ui.py
+      ~ 1_codigo/guion_captions.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/kinetic_captions.py
+      ~ 1_codigo/menu_estilo_ui.py
+      ~ 1_codigo/menu_pro_ui.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/proyecto_ui.py
+      … y 22 más
+
+2026-11-11 10:37  ·  v5.83  ·  cambio explicado
+    v5.84 (sin compilar), prueba de los 9 estilos: GO sin editores (MP4/Premiere) ya da al vigía el avance del render (antes «sin avanzar en el paso diseno» y, con videos de ~3 min, un falso «parece atascado» que cerraba el motor de voz); Estilo 1 neón (MP4 y PRO): aros, cintas giradas, letra a mano y serif dentro de la zona segura (kit_neon._bloque_en_zona, medido en los clips de Remotion: 6, 6 y 9 bloques fuera -> 0); caché de Resolve: el bisel de los Estilos 3 y 5 (viral_elementos._relieve) calcula la pendiente una vez por píxel con Intermediate1 (i1) en vez de 8 veces: render idéntico bit a bit y la caché del Estilo 5 de 63 a 29 s por 24 s de video (REVISION_BIN Vir 16, T5 10)
+    modificados (9):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/kit_neon.py
+      ~ 1_codigo/kit_neon_motions.py
+      ~ 1_codigo/plantillas.py
+      ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/debug.log
+      ~ 2_recursos/generador_packs/viral_elementos.py
+      ~ 2_recursos/plantillas_incluidas/Tema5/Tema5 vertical.drb
+      ~ 2_recursos/plantillas_incluidas/VIRAL/VIRAL horizontal.drb
+      ~ 2_recursos/plantillas_incluidas/VIRAL/VIRAL vertical.drb
+
+2026-11-10 21:43  ·  v5.83  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-11-10 21:42  ·  v5.82  ·  cambio explicado
+    5.83 (antes de compilar): (1) Fluidez (el usuario: mejora la fluidez de todas las paginas y de los fondos; utiliza todos los hilos y memoria): Efectos, Estilo y Sonido se arman por partes en Inicio desde los ~4 s (_armar_por_partes) y sus imagenes se decodifican en hilos; primer clic Estilo ~100 -> ~3,5 ms, Sonido ~85 -> ~3,5 ms, Efectos ~300 -> ~14 ms; Ajustes se prepara en reposo. La sesion de Fluidez paro por el limite de uso sin comprobar la imagen de Estilo y Sonido: lo compruebo armando cada pagina de las dos maneras y comparando widget a widget y pixel a pixel; sale igual salvo la mezcla de Sonido, que ya se salia por abajo en la 5.82 (se medía antes de que la pista de musica y el inspector tomaran su sitio) y armada en Inicio quedaba corta: PaginaSonido.eventFilter la mide con cada cambio de alto de su recuadro. (2) Fallos visibles del .exe (el usuario: el .exe tiene fallos y fallos esteticos, arreglalos; busca tu): Proyectos con nombres largos o repetidos, panel de emojis del Corrector, botones y titulos de Ajustes en aleman/frances/ruso, avisos de arranque y Reparar sin IA de texto como error en el Registro, 1 anotacion, pista de musica, nombre de la GPU, Corrigiendo; 7 pruebas nuevas (88/0). (3) Con los nombres de estilo traducidos, en coreano el numero va delante (4 스타일) y el poster del menu de GO lo perdia: menu_estilo_ui._numero lo saca del nombre en espanol.
+    modificados (22):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/efectos_extra_ui.py
+      ~ 1_codigo/efectos_pagina.py
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/estilos_slider.py
+      ~ 1_codigo/menu_estilo_ui.py
+      ~ 1_codigo/mograf_ui.py
+      ~ 1_codigo/registro_ui.py
+      ~ 1_codigo/sonido_skill_ui.py
+      ~ 1_codigo/vigilancia.py
+      ~ 1_codigo/vistas_slider.py
+      … y 10 más
+
+
+(Lo anterior está archivado por mes en DOCUMENTACION/historial/REGISTRO_<aaaa-mm>.txt)
 2026-11-10 16:44  ·  v5.82  ·  cambio explicado
     5.83 (sin compilar): tutoriales EN INGLES. El usuario: 'si el usuario coloca ingles los videos tutoriales siguen en espanol' (captions y audio). Grabacion propia en 2_recursos/tutoriales/en/ con la interfaz en ingles y la voz inglesa de Andre (68 frases, 13,65 creditos de Higgsfield aprobados 'hasta 15'); tutoriales.carpeta_de elige la carpeta del idioma y de ella salen juntos video, miniatura, duraciones, subtitulos y voz. Grabador --idioma-ui en (CINECAPTIONS_IDIOMA antes de importar; botones con M.tr). Al grabar salieron textos de la app sin traducir que veia cualquier usuario en ingles: 'Estilo N' (plantillas.nombre_para_ui) y 161 textos de las tablas de Efectos y Sonido (solo ingles en traducciones_extra). Los videos en espanol no cambian.
     nuevos (38):
