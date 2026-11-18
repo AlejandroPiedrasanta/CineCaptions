@@ -5756,6 +5756,42 @@
    ]
   },
   {
+   "id": "correcciones-en-resolve",
+   "grupo": "resolve",
+   "tema": "«Aplicar correcciones en DaVinci» (v5.95): el editor lleva a Resolve solo las palabras corregidas (texto, posición, tamaño), sin volver a generar",
+   "resumen": "retoque_resolve: nuevos_cues, comparar, preparar, aplicar (MCP: CODIGO_STUDIO · Puente: retocar de CineCaptions_Vista.lua), guardar; WordTagWindow._aplicar_correcciones",
+   "claves": [
+    "aplicar correcciones",
+    "corregir en davinci",
+    "sin generar",
+    "retocar",
+    "retoque",
+    "palabra mal escrita",
+    "corregir texto",
+    "transcripcion mal",
+    "StyledText",
+    "faltan",
+    "necesita generar"
+   ],
+   "archivos": [
+    "retoque_resolve.py",
+    "CineCaptions_Vista.lua",
+    "CineCaptions (script principal).py"
+   ],
+   "simbolos": [
+    "nuevos_cues",
+    "comparar",
+    "preparar",
+    "aplicar",
+    "guardar",
+    "CODIGO_STUDIO",
+    "MOTIVOS",
+    "VALORES",
+    "_puede_retocar",
+    "_aplicar_correcciones"
+   ]
+  },
+  {
    "id": "sonido-por-estilo",
    "grupo": "sonido",
    "tema": "Cada estilo con SUS sonidos (v5.95): un juego propio por estilo de fábrica (clave, acento, paso) hecho con Higgsfield, en 5_SFX/01_SFX/21_ESTILOS",

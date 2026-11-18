@@ -4012,7 +4012,7 @@ def premiere_mac_modo_depuracion_con_defaults():
     with parches((sys, 'platform', 'darwin'), (subprocess, 'run', run)):
         cambiado = premiere._modo_depuracion()
     escritos = [a for a in vistos if a[1] == 'write']
-    esperar(cambiado and [a[2] for a in escritos] == [f'com.adobe.CSXS.{n}' for n in range(9, 14)]
+    esperar(cambiado and [a[2] for a in escritos] == [f'com.adobe.CSXS.{n}' for n in premiere.CSXS]
             and all(a[3:] == ['PlayerDebugMode', '1'] for a in escritos), str(vistos))
 
 
@@ -4059,6 +4059,87 @@ def premiere_panel_viejo_se_avisa():
         _latido(tmp / 'cola', rev=premiere.rev_instalada())
         nuevo = premiere.panel_viejo()
     esperar(premiere.rev_instalada() >= 15 and viejo and not nuevo and txt[1] == 'aviso', f'{premiere.rev_instalada()} {viejo} {nuevo} {txt}')
+
+
+@caso('Resolve Windows')
+def correcciones_en_davinci_solo_tocan_lo_corregido():
+    # v5.95 («Aplicar correcciones en DaVinci»): solo los clips del bloque corregido; si cambia la forma, o un bloque sin tocar sale distinto
+    # (lo colocado se generó con otras opciones), no se manda nada. Y el código de Studio retoca el clip que tiene ESE texto en ESE fotograma.
+    import retoque_resolve as RR
+    viejos = [{'start': 0.0, 'end': 1.0, 'runs': [{'k': 'v', 't': 0.0, 'fin': 1.0, 'x': 0.4, 'y': 0.6, 'texto': 'hola', 'size': 0.1},
+                                                  {'k': 'v', 't': 0.5, 'fin': 1.0, 'x': 0.6, 'y': 0.6, 'texto': 'mundo', 'size': 0.1}]},
+              {'start': 1.0, 'end': 2.0, 'runs': [{'k': 'v', 't': 1.0, 'fin': 2.0, 'x': 0.5, 'y': 0.6, 'texto': 'adios', 'size': 0.1}]}]
+    nuevos = json.loads(json.dumps(viejos))
+    nuevos[0]['runs'][0].update(texto='holaaa', x=0.38)
+    nuevos[0]['runs'][1].update(x=0.63)
+    r = RR.comparar(viejos, nuevos)
+    otra_forma = json.loads(json.dumps(nuevos))
+    otra_forma[0]['runs'][1]['k'] = 'v clave'
+    otra_base = json.loads(json.dumps(nuevos))
+    otra_base[1]['runs'][0]['x'] = 0.55
+
+    class Tool:
+        ID = 'TextPlus'
+
+        def __init__(self, t):
+            self.e = {'StyledText': t}
+
+        def GetInput(self, k):
+            return self.e.get(k)
+
+        def SetInput(self, k, v):
+            self.e[k] = v
+
+    class Item:
+        def __init__(self, ini, texto, pan):
+            self.ini, self.tool, self.p = ini, Tool(texto), {'Pan': pan, 'Tilt': -192.0}
+
+        GetStart = lambda s: s.ini
+        GetFusionCompByIndex = lambda s, i: types.SimpleNamespace(FindTool=lambda n: s.tool if n == 'Template' else None, GetToolList=lambda: {1: s.tool})
+        GetProperty = lambda s, k: s.p.get(k, 0.0)
+
+        def SetProperty(self, k, v):
+            self.p[k] = v
+            return True
+
+    items = [Item(100, 'hola', -108.0), Item(115, 'mundo', 108.0), Item(130, 'adios', 0.0), Item(100, 'otro clip', 0.0)]
+    tl = types.SimpleNamespace(GetSetting=lambda k: {'timelineFrameRate': '30', 'timelineResolutionWidth': '1080', 'timelineResolutionHeight': '1920'}[k],
+                               GetStartFrame=lambda: 100, GetTrackCount=lambda t: 2, GetTrackName=lambda t, i: ('ES-K1', 'Video 1')[i - 1],
+                               GetItemListInTrack=lambda t, i: items if i == 1 else [])
+    g = {'resolve': None, 'project': types.SimpleNamespace(GetCurrentTimeline=lambda: tl)}
+    exec(RR.codigo_studio({'accion': 'retocar', 'L': 'ES', 'offset': 0, 'cambios': r.get('cambios') or []}), g)
+    res = g['result']
+    esperar(r['ok'] and len(r['cambios']) == 2 and r['bloques'] == 1 and r['palabras'] == 1
+            and RR.comparar(viejos, otra_forma) == {'ok': False, 'motivo': 'forma'} and RR.comparar(viejos, otra_base) == {'ok': False, 'motivo': 'base'}
+            and RR.comparar(viejos, viejos[:1])['motivo'] == 'bloques' and res['ok'] and res['hechos'] == 2 and not res['faltan']
+            and items[0].tool.e['StyledText'] == 'holaaa' and abs(items[0].p['Pan'] - (-129.6)) < 0.01 and abs(items[1].p['Pan'] - 140.4) < 0.01
+            and items[2].tool.e['StyledText'] == 'adios' and items[3].tool.e['StyledText'] == 'otro clip', f'{r} {res}')
+
+
+@caso('Premiere')
+def premiere_panel_se_pone_al_dia_al_abrir_cinecaptions():
+    # v5.95 (video de un cliente, 5.94 + Premiere 2027: «reinicio Premiere y CineCaptions y sigue "reinícialo para estrenar el panel nuevo"»):
+    # el panel de antes seguía en las extensiones de Adobe porque solo se copiaba en Ajustes o al colocar; ahora estado() lo pone al día
+    with _entorno_premiere() as tmp:
+        instalado = tmp / 'ext' / premiere.PANEL
+        __import__('shutil').copytree(premiere.origen_panel(), instalado)
+        jsx = instalado / 'jsx' / 'colocar.jsx'
+        jsx.write_text(re.sub(r'CC\.REV\s*=\s*\d+', 'CC.REV = 1', jsx.read_text(encoding='utf-8')), encoding='utf-8')
+        _latido(tmp / 'cola', rev=1, panel=2)
+        premiere._AL_DIA.clear()
+        try:
+            with parches((premiere, '_modo_depuracion', lambda: False), (premiere, 'ejecutable', lambda: None)):
+                antes = premiere._iguales(premiere.origen_panel(), instalado)
+                e1 = premiere.estado()
+                al_dia = premiere._iguales(premiere.origen_panel(), instalado)
+                marca = premiere._marca_panel().is_file()
+                _latido(tmp / 'cola', rev=premiere.rev_instalada(), panel=premiere.PANEL_SECUENCIA, secuencia='Mi secuencia')
+                e2 = premiere.estado()
+                linea = premiere.textos_estado(e2)
+        finally:
+            premiere._AL_DIA.clear()
+    esperar(not antes and al_dia and marca and e1['panel_viejo'] and not e1['trae_secuencia'] and not e2['panel_viejo']
+            and e2['secuencia'] == 'Mi secuencia' and 'Mi secuencia' in linea[0] and linea[1] == 'ok', f'{antes} {al_dia} {marca} {e1} {e2} {linea}')
 
 
 @caso('Premiere')

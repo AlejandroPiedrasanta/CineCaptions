@@ -12,6 +12,23 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-17 20:23  ·  v5.94  ·  cambio explicado
+    v5.95 (sin compilar): «Aplicar correcciones en DaVinci» (pedido de un cliente: que al corregir lo haga en DaVinci sin generar). El editor compara lo colocado con lo que saldría hoy y, si la forma de los bloques no cambia, retoca en Resolve solo los clips de las palabras corregidas (retoque_resolve + acción retocar de CineCaptions_Vista.lua). Estilos 2 al 9; sin probar en Resolve real.
+    nuevos (1):
+      + 1_codigo/retoque_resolve.py
+    modificados (3):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_Vista.lua
+
+2026-11-17 19:56  ·  v5.94  ·  cambio explicado
+    v5.95 (sin compilar): Premiere, video de un cliente (5.94 + Premiere 2027): Inicio pedía «reinícialo para estrenar el panel nuevo» sin fin y GO pedía arrastrar un video con la secuencia abierta. El panel solo se copiaba a Adobe en Ajustes o al colocar; ahora premiere.poner_al_dia() lo copia al abrir CineCaptions, Inicio dice la secuencia que usará GO y GO explica por qué no la usa.
+    modificados (4):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/guion_planificador.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/premiere.py
+
 2026-11-17 18:59  ·  v5.94  ·  cambio explicado
     v5.95 (sin compilar): cada estilo de fábrica con su propio juego de sonidos (clave, acento, paso) hecho con Higgsfield a pedido del usuario («los sonidos están fatales»), en 5_SFX/01_SFX/21_ESTILOS; sonido_skill.pools_de(pack) los usa solo con su estilo. Estilo 2: _juntar_cortos mide lo que el bloque se ve de verdad (antes sumaba el respiro entero y nunca contaba como corto un bloque de 0,6 s con voz rápida).
     nuevos (49):

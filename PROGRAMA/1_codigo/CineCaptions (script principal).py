@@ -3985,6 +3985,11 @@ class WordTagWindow(QWidget):
         cch.addSpacing(8)
         cch.addWidget(self.control_tamano)
         cch.addSpacing(4)
+        # v5.95 (un cliente: «que al corregir lo haga en DaVinci de una vez, sin generar nada»): lleva a Resolve SOLO las palabras corregidas
+        self.retocar_btn = Boton(tr('Aplicar correcciones en DaVinci'), self._aplicar_correcciones, tipo='fantasma', alto=36, tam=13)
+        self.retocar_btn.setVisible(self._puede_retocar())
+        cch.addWidget(self.retocar_btn)
+        cch.addSpacing(4)
         cch.addWidget(self.generar_btn)
         self.herr_barra = herr
         capa.addWidget(herr)
@@ -6241,6 +6246,91 @@ class WordTagWindow(QWidget):
         self._guardar_ahora()
         self.result = None
         self._terminar()
+    def _puede_retocar(self):
+        """¿Tiene sentido «Aplicar correcciones en DaVinci»? Con marcas, trabajando con Resolve y en un estilo que coloca palabra por palabra
+        (2 al 9; el Estilo 1 pone sus textos ya grabados). Barato: preferencias en memoria y nombres."""
+        try:
+            if self.modo != self.MODO_MARCAS or not self.project_name or self.master._motivo_mp4() is not None:
+                return False
+            import retoque_resolve
+            import vista_tema
+            tema = plantillas.tema_base(getattr(self.master, 'plantilla_sel', '') or '')
+            return (vista_tema.estilo_de_pack(tema, 'v') or {}).get('tipo') in ('guion', 'viral')
+        except Exception:
+            return False
+
+    def _aplicar_correcciones(self):
+        """v5.95, «Aplicar correcciones en DaVinci»: lleva a Resolve SOLO las palabras corregidas (texto y, si cambia el ancho, la posición de
+        las vecinas de su bloque), sin retirar ni volver a colocar nada (retoque_resolve). Si la corrección cambia la forma de un bloque, lo
+        dice y no toca nada: ese caso es de «Generar». Todo en un hilo; el resultado va a la línea del editor y al Registro."""
+        if getattr(self, '_retocando', False):
+            return
+        if getattr(self.master, '_go_corriendo', False):
+            registro.aviso(tr('GO está trabajando: espera a que termine para aplicar las correcciones.'), 'Correcciones en DaVinci')
+            return
+        self._guardar_ahora()
+        palabras, roles = [dict(w) for w in self.palabras], list(self.roles)
+        m = self.master
+        pack = getattr(m, 'plantilla_sel', 'Referencia')
+        ancho, alto = int(getattr(m, '_ancho_timeline', 0) or 0), int(getattr(m, '_alto_timeline', 0) or 0)
+        if not (ancho > 0 and alto > 0):
+            ancho, alto = 1080, 1920
+        try:
+            video = m.video_var.get().strip().strip('"') or None
+        except Exception:
+            video = None
+        fin_video = self._fin_video_guion()
+        idioma = self.idioma if self.idioma and self.idioma != 'auto' else 'es'
+        proyecto = self.project_name
+        self._retocando = True
+        self.retocar_btn.setText(tr('Aplicando en DaVinci…'))
+        self.retocar_btn.setEnabled(False)
+
+        def trabajo():
+            import retoque_resolve as RR
+            plan = RR.preparar(st.SHARED_FOLDER, proyecto, pack, palabras, roles, idioma, fin_video, ancho, alto, video)
+            if not plan.get('ok') or not plan.get('cambios'):
+                return plan, None
+            r = RR.aplicar(plan['orden'])
+            if r.get('ok') and r.get('hechos'):
+                RR.guardar(plan)
+            return plan, r
+
+        def fin(resultado, error):
+            self._retocando = False
+            try:
+                self.retocar_btn.setEnabled(True)
+            except Exception:
+                return
+            plan, r = resultado or ({}, None)
+            # el resultado va en el propio botón unos segundos (el editor no tiene línea de estado: sus notas van al Registro) y al Registro
+            if error is not None or not plan:
+                texto, corto, nivel = tr('No pude aplicar las correcciones en DaVinci: {m}', m=str(error or '—')[:160]), tr('No se pudo: mira el Registro'), 'aviso'
+            elif not plan.get('ok'):
+                texto, corto, nivel = tr(plan.get('texto') or ''), tr('Este cambio necesita «Generar»'), 'aviso'
+            elif not plan.get('cambios'):
+                texto, corto, nivel = tr('No hay correcciones que llevar a DaVinci: ya está igual.'), tr('DaVinci ya está igual'), 'info'
+            elif not (r or {}).get('ok'):
+                texto, corto, nivel = tr('No pude aplicar las correcciones en DaVinci: {m}', m=str((r or {}).get('error') or '—')[:160]), tr('No se pudo: mira el Registro'), 'aviso'
+            else:
+                faltan = len(r.get('faltan') or [])
+                texto = tr('Correcciones aplicadas en DaVinci sin volver a generar · palabras: {n} · clips retocados: {c}', n=plan.get('palabras') or 0, c=r.get('hechos') or 0)
+                corto, nivel = tr('✓ Corregido en DaVinci'), 'ok'
+                if faltan:
+                    texto += ' ' + tr('{k} clips no estaban como se colocaron (¿los cambiaste a mano?): para esos usa «Generar».', k=faltan)
+                    corto, nivel = tr('Corregido, menos {k} clips', k=faltan), 'aviso'
+            try:
+                getattr(registro, nivel)(texto, 'Correcciones en DaVinci')
+            except Exception:
+                pass
+            self._retoque_dicho = texto
+            try:
+                self.retocar_btn.setText(corto)
+                despues(4500, lambda: (not getattr(self, '_retocando', False)) and self.retocar_btn.setText(tr('Aplicar correcciones en DaVinci')), self)
+            except Exception:
+                pass
+        _correr_en_hilo(self, trabajo, fin)
+
     def _continuar(self):
         self.result = ([dict(w) for w in self.palabras], list(self.roles))
         self._guardar_ahora()
@@ -9009,6 +9099,16 @@ class SubtitleApp(QWidget):
         texto = self._texto_pide_video(motivo)
         if motivo == 'premiere':
             detalle = tr('Tienes elegido «Usar con Premiere Pro» (Ajustes > General). Suelta un video en CineCaptions y pulsa GO: lo coloco en Premiere Pro.')
+            try:                                           # v5.95: Premiere conectado pero GO no puede usar la secuencia: se dice POR QUÉ
+                import premiere                            # (un cliente veía «primero arrastra tu video» con su secuencia abierta)
+                if premiere.panel_vivo() and not premiere.puede_traer_secuencia():
+                    texto = tr('Cierra Premiere Pro y vuelve a abrirlo una vez: así GO trabaja con tu secuencia abierta (o arrastra un video aquí)')
+                    detalle = tr('Premiere Pro tiene cargado el panel de CineCaptions de antes y solo carga el nuevo al arrancar. Guarda tu proyecto, cierra Premiere Pro, ábrelo otra vez y pulsa GO.')
+                elif premiere.puede_traer_secuencia():
+                    texto = tr('Abre tu secuencia en Premiere Pro y pulsa GO (o arrastra un video aquí)')
+                    detalle = tr('Premiere Pro está conectado, pero no veo ninguna secuencia abierta en su línea de tiempo (o la que hay ya la subtituló CineCaptions).')
+            except Exception:
+                pass
         elif motivo == 'ajuste':
             detalle = tr('Tienes elegido «Video sin editores (DaVinci y Premiere)» (Ajustes > General). Suelta un video en CineCaptions y pulsa GO, o elige «Usar con DaVinci Resolve» para trabajar con el timeline de Resolve.')
         else:
