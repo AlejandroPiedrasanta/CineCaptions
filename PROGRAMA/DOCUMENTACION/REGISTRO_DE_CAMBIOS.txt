@@ -12,6 +12,39 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-18 05:45  ·  v5.96  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-11-18 05:42  ·  v5.95  ·  cambio explicado
+    v5.96: Mac, «me piden la licencia otra vez» tras actualizarse (captura: Permission denied en /Library/Application Support/CineCaptions/actualizar/casa/DaVinciSubtitles/licencia). El servicio de root (instalaciones 5.87-5.90) y el postinstall del paquete reabrían el programa con sudo -u SIN -H: macOS conserva el HOME del servicio. Arreglo: arranque_seguro.casa_del_usuario() al arrancar, -H en actualizar_fondo._abrir_como_usuario y en el postinstall, y licencia.id_equipo ya no cae a la tarjeta de red si hay una licencia guardada.
+    modificados (16):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/actualizar_fondo.py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/arranque_seguro.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/licencia.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      … y 4 más
+
 2026-11-18 00:01  ·  v5.95  ·  (automático)
     modificados (14):
       ~ 1_codigo/CineCaptions (script principal).py
