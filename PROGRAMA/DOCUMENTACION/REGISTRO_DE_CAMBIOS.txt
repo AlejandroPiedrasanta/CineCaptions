@@ -12,6 +12,33 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-17 23:11  ·  v5.95  ·  (automático)
+    modificados (2):
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/premiere.py
+
+2026-11-17 22:46  ·  v5.95  ·  cambio explicado
+    v5.95 (sin recompilar): informe del autor «No pude preparar los subtítulos para Premiere Pro (¿el video tiene voz?)» con los bloques ya hechos: el video soltado estaba en la Papelera desde el minuto del GO. El programa no borra videos; la sospecha es el arrastre aceptado como «mover» (Windows borra el original). Ahora soltar un video responde siempre «copiar» (qt_kit.ZonaSoltar y la ventana) y, si el archivo desaparece a mitad de GO, el error lo dice (_go_video_perdido) en vez de preguntar por la voz.
+    modificados (2):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/qt_kit.py
+
+2026-11-17 21:03  ·  v5.95  ·  (automático)
+    modificados (31):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/locales/ru.json
+      ~ 2_recursos/locales/zh.json
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      … y 19 más
+
 2026-11-17 20:23  ·  v5.94  ·  cambio explicado
     v5.95 (sin compilar): «Aplicar correcciones en DaVinci» (pedido de un cliente: que al corregir lo haga en DaVinci sin generar). El editor compara lo colocado con lo que saldría hoy y, si la forma de los bloques no cambia, retoca en Resolve solo los clips de las palabras corregidas (retoque_resolve + acción retocar de CineCaptions_Vista.lua). Estilos 2 al 9; sin probar en Resolve real.
     nuevos (1):

@@ -559,7 +559,9 @@ def textos_estado(est):
     if est.get('conectado'):
         detalle = ' · '.join(x for x in (n, est.get('version'), tr('proyecto «{p}»', p=est['proyecto']) if est.get('proyecto') else '') if x)
         if est.get('panel_viejo'):                  # v5.87: CineCaptions se actualizó con Premiere abierto
-            return (tr('{n} conectado · reinícialo una vez para estrenar el panel nuevo', n=n), 'aviso',
+            # v5.95 (el usuario: «si detectó Premiere y se comunica ya ponlo en verde, porque ya hay comunicación»): conectado = verde;
+            # el texto sigue diciendo que conviene reiniciarlo una vez
+            return (tr('{n} conectado · reinícialo una vez para estrenar el panel nuevo', n=n), 'ok',
                     (tr('Premiere Pro conectado'), tr('Reinícialo una vez: panel nuevo')))
         sec = est.get('secuencia') or ''
         if sec and not es_de_cinecaptions(sec):     # v5.95 (el cliente: «debería detectar en qué secuencia estoy»): se dice cuál usará GO
@@ -572,7 +574,9 @@ def textos_estado(est):
         return (tr('{n} abierto · conectando… (si no conecta, reinícialo una vez)', n=n), 'aviso',
                 (tr('Premiere Pro · conectando…'), tr('Si no conecta: reinícialo una vez')))
     if est.get('instalado'):
-        return tr('{n} detectado · cerrado: GO lo abre solo', n=n), 'aviso', (tr('Premiere Pro cerrado'), tr('GO lo abre solo'))
+        # v5.95 (el usuario: «no me gusta que esté amarillo: si ya se detectó debe estar en verde»): detectado y listo para GO = verde,
+        # aunque esté cerrado (GO lo abre solo). El ámbar queda para lo que pide algo: conectando o reiniciar por el panel nuevo.
+        return tr('{n} detectado · cerrado: GO lo abre solo', n=n), 'ok', (tr('Premiere Pro cerrado'), tr('GO lo abre solo'))
     return (tr('No encuentro Adobe Premiere Pro · instálalo o elige «Usar con DaVinci Resolve» en Ajustes'), 'error',
             (tr('Premiere Pro no encontrado'), tr('¿Está instalado?')))
 

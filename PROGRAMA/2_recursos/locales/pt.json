@@ -4848,6 +4848,21 @@
     "Cierra Premiere Pro y vuelve a abrirlo una vez (carga el panel nuevo de CineCaptions), o arrastra un video a CineCaptions.": "Feche o Premiere Pro e abra-o de novo uma vez (carrega o novo painel do CineCaptions), ou arraste um vídeo para o CineCaptions.",
     "Premiere Pro no terminó de exportar el audio de la secuencia.": "O Premiere Pro não terminou de exportar o áudio da sequência.",
     "Premiere Pro: GO trabaja con la secuencia que tienes abierta, sin arrastrar el video. Los subtítulos y los sonidos van a una copia de tu secuencia; la tuya queda intacta.": "Premiere Pro: o GO trabalha com a sequência que você tem aberta, sem arrastar o vídeo. As legendas e os sons vão para uma cópia da sua sequência; a sua fica intacta.",
-    "Premiere Pro: si hace falta cerrar y volver a abrir Premiere para conectar, GO te lo dice al momento en vez de esperar varios minutos.": "Premiere Pro: se for preciso fechar e reabrir o Premiere para conectar, o GO avisa na hora em vez de esperar vários minutos."
+    "Premiere Pro: si hace falta cerrar y volver a abrir Premiere para conectar, GO te lo dice al momento en vez de esperar varios minutos.": "Premiere Pro: se for preciso fechar e reabrir o Premiere para conectar, o GO avisa na hora em vez de esperar vários minutos.",
+    "Cada estilo tiene ahora sus propios sonidos: la palabra clave, el acento y el corte suenan distinto en cada estilo, con cualquier video.": "Cada estilo agora tem seus próprios sons: a palavra-chave, o acento e o corte soam diferentes em cada estilo, com qualquer vídeo.",
+    "Estilo 2: los bloques ya no pasan tan rápido cuando se habla deprisa, y no quedan dos bloques seguidos sin palabra grande.": "Estilo 2: os blocos já não passam tão rápido quando se fala depressa, e não ficam dois blocos seguidos sem palavra grande.",
+    "Editor: botón «Aplicar correcciones en DaVinci». Corrige una palabra y llévala a tu timeline sin volver a generar (estilos 2 al 9).": "Editor: botão «Aplicar correções no DaVinci». Corrija uma palavra e leve-a para a sua timeline sem gerar de novo (estilos 2 a 9).",
+    "Premiere Pro: el panel se pone al día solo al abrir CineCaptions (antes seguía pidiendo reiniciar Premiere) e Inicio dice con qué secuencia trabajará GO.": "Premiere Pro: o painel se atualiza sozinho ao abrir o CineCaptions (antes continuava pedindo para reiniciar o Premiere) e o Início diz com qual sequência o GO vai trabalhar.",
+    "«Video sin editores»: el video sale con los mismos sonidos que en DaVinci Resolve.": "«Vídeo sem editores»: o vídeo sai com os mesmos sons do DaVinci Resolve.",
+    "Aplicar correcciones en DaVinci": "Aplicar correções no DaVinci",
+    "Aplicando en DaVinci…": "Aplicando no DaVinci…",
+    "✓ Corregido en DaVinci": "✓ Corrigido no DaVinci",
+    "DaVinci ya está igual": "O DaVinci já está igual",
+    "Este cambio necesita «Generar»": "Esta mudança precisa de «Gerar»",
+    "No se pudo: mira el Registro": "Não foi possível: veja o Registro",
+    "{n} conectado · secuencia «{s}»: pulsa GO": "{n} conectado · sequência «{s}»: pressione GO",
+    "{n} conectado · abre tu secuencia y pulsa GO, o arrastra un video": "{n} conectado · abra sua sequência e pressione GO, ou arraste um vídeo",
+    "Cierra Premiere Pro y vuelve a abrirlo una vez: así GO trabaja con tu secuencia abierta (o arrastra un video aquí)": "Feche o Premiere Pro e abra-o de novo uma vez: assim o GO trabalha com a sua sequência aberta (ou arraste um vídeo aqui)",
+    "Abre tu secuencia en Premiere Pro y pulsa GO (o arrastra un video aquí)": "Abra sua sequência no Premiere Pro e pressione GO (ou arraste um vídeo aqui)"
   }
 }

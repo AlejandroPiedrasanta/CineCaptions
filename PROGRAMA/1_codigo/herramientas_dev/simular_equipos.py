@@ -4058,7 +4058,8 @@ def premiere_panel_viejo_se_avisa():
         txt = premiere.textos_estado({'conectado': True, 'nombre': 'Adobe Premiere Pro 2026', 'panel_viejo': True})
         _latido(tmp / 'cola', rev=premiere.rev_instalada())
         nuevo = premiere.panel_viejo()
-    esperar(premiere.rev_instalada() >= 15 and viejo and not nuevo and txt[1] == 'aviso', f'{premiere.rev_instalada()} {viejo} {nuevo} {txt}')
+    # (v5.95: conectado = verde aunque el panel sea el de antes; el aviso va en el texto)
+    esperar(premiere.rev_instalada() >= 15 and viejo and not nuevo and txt[1] == 'ok' and 'reinícialo' in txt[0], f'{premiere.rev_instalada()} {viejo} {nuevo} {txt}')
 
 
 @caso('Resolve Windows')

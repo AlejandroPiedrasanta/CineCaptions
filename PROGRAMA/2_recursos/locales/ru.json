@@ -4770,6 +4770,21 @@
     "secuencia «{s}»": "секвенция «{s}»",
     "No pude traer la secuencia de Premiere Pro: {e}": "Не удалось получить секвенцию Premiere Pro: {e}",
     "Premiere Pro: GO trabaja con la secuencia que tienes abierta, sin arrastrar el video. Los subtítulos y los sonidos van a una copia de tu secuencia; la tuya queda intacta.": "Premiere Pro: GO работает с открытой у вас секвенцией, перетаскивать видео не нужно. Субтитры и звуки помещаются в копию секвенции; ваша остаётся нетронутой.",
-    "Premiere Pro: si hace falta cerrar y volver a abrir Premiere para conectar, GO te lo dice al momento en vez de esperar varios minutos.": "Premiere Pro: если для подключения нужно закрыть и снова открыть Premiere, GO сообщает об этом сразу, а не ждёт несколько минут."
+    "Premiere Pro: si hace falta cerrar y volver a abrir Premiere para conectar, GO te lo dice al momento en vez de esperar varios minutos.": "Premiere Pro: если для подключения нужно закрыть и снова открыть Premiere, GO сообщает об этом сразу, а не ждёт несколько минут.",
+    "Cada estilo tiene ahora sus propios sonidos: la palabra clave, el acento y el corte suenan distinto en cada estilo, con cualquier video.": "У каждого стиля теперь свои звуки: ключевое слово, акцент и склейка звучат по-разному в каждом стиле, с любым видео.",
+    "Estilo 2: los bloques ya no pasan tan rápido cuando se habla deprisa, y no quedan dos bloques seguidos sin palabra grande.": "Стиль 2: при быстрой речи блоки больше не мелькают, и не бывает двух блоков подряд без крупного слова.",
+    "Editor: botón «Aplicar correcciones en DaVinci». Corrige una palabra y llévala a tu timeline sin volver a generar (estilos 2 al 9).": "Редактор: кнопка «Применить исправления в DaVinci». Исправьте слово и отправьте его на таймлайн без повторной генерации (стили 2–9).",
+    "Premiere Pro: el panel se pone al día solo al abrir CineCaptions (antes seguía pidiendo reiniciar Premiere) e Inicio dice con qué secuencia trabajará GO.": "Premiere Pro: панель обновляется сама при открытии CineCaptions (раньше она снова и снова просила перезапустить Premiere), а на главной видно, с какой секвенцией будет работать GO.",
+    "«Video sin editores»: el video sale con los mismos sonidos que en DaVinci Resolve.": "«Видео без редакторов»: видео получается с теми же звуками, что и в DaVinci Resolve.",
+    "Aplicar correcciones en DaVinci": "Применить исправления в DaVinci",
+    "Aplicando en DaVinci…": "Применяю в DaVinci…",
+    "✓ Corregido en DaVinci": "✓ Исправлено в DaVinci",
+    "DaVinci ya está igual": "В DaVinci уже так",
+    "Este cambio necesita «Generar»": "Для этого изменения нужно «Сгенерировать»",
+    "No se pudo: mira el Registro": "Не удалось: смотрите журнал",
+    "{n} conectado · secuencia «{s}»: pulsa GO": "{n} подключён · секвенция «{s}»: нажмите GO",
+    "{n} conectado · abre tu secuencia y pulsa GO, o arrastra un video": "{n} подключён · откройте секвенцию и нажмите GO или перетащите видео",
+    "Cierra Premiere Pro y vuelve a abrirlo una vez: así GO trabaja con tu secuencia abierta (o arrastra un video aquí)": "Закройте Premiere Pro и откройте его снова один раз: тогда GO будет работать с открытой секвенцией (или перетащите видео сюда)",
+    "Abre tu secuencia en Premiere Pro y pulsa GO (o arrastra un video aquí)": "Откройте секвенцию в Premiere Pro и нажмите GO (или перетащите видео сюда)"
   }
 }

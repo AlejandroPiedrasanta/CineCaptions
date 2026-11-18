@@ -7511,8 +7511,11 @@ class SubtitleApp(QWidget):
         return super().eventFilter(obj, ev)
     def dragEnterEvent(self, e):
         if e.mimeData().hasUrls() and self._entradas_activas:
-            e.acceptProposedAction()
+            e.setDropAction(Qt.DropAction.CopyAction)      # v5.95: SIEMPRE «copiar»: con «mover» Windows borra el original (qt_kit.ZonaSoltar.dropEvent)
+            e.accept()
     def dropEvent(self, e):
+        e.setDropAction(Qt.DropAction.CopyAction)
+        e.accept()
         for url in e.mimeData().urls():
             ruta = url.toLocalFile()
             if ruta:
@@ -9940,6 +9943,19 @@ class SubtitleApp(QWidget):
                 self._go_fin(False, tr('Generado. Falta un clic en Resolve: Scripts > CineCaptions_Subtitulos.'))
         except Exception:
             pass
+    def _go_video_perdido(self, video):
+        """v5.95 (informe del autor: «No pude preparar los subtítulos para Premiere Pro (¿el video tiene voz?)» con los 24 bloques ya hechos):
+        el video se había ido a la Papelera MIENTRAS GO trabajaba (transcrito a las 22:37:33, borrado a las 22:37). Los subtítulos estaban
+        listos; lo que faltaba era el archivo. Se dice eso, no «¿tiene voz?». True si falta (y GO ya quedó detenido con su aviso)."""
+        try:
+            if video and not Path(video).is_file():
+                self._go_fallo('resolve', tr('Ya no encuentro «{n}»: se movió, se renombró o se borró mientras GO trabajaba. Mira en la Papelera, devuélvelo a su sitio y pulsa GO otra vez.',
+                                             n=Path(video).name))
+                return True
+        except Exception:
+            pass
+        return False
+
     def _cues_con_sonido_de_biblioteca(self, cues):
         """v5.95, «Video sin editores»: el MP4 suena como en Resolve. El sonido de la biblioteca (sonido_skill: el juego propio del estilo, al
         cuadro y con el nivel de la voz) ya se diseña y hornea en cada GO, pero solo se colocaba en Resolve: el MP4 salía con los toques de
@@ -9971,6 +9987,8 @@ class SubtitleApp(QWidget):
         video = self.video_var.get().strip().strip('"')
         cues = getattr(self, '_go_cues_render', None)
         estilo = getattr(self, '_go_render_estilo', None)
+        if cues and self._go_video_perdido(video):
+            return
         if not cues or not video or not Path(video).is_file():
             self._go_fallo('resolve', tr('No pude preparar los subtítulos para grabarlos en el video (¿el video tiene voz?).'))
             return
@@ -10064,6 +10082,8 @@ class SubtitleApp(QWidget):
         cues = getattr(self, '_go_cues_render', None)
         estilo = getattr(self, '_go_render_estilo', None)
         sec = getattr(self, '_go_secuencia', None)         # v5.94: la secuencia abierta (video = el WAV de su audio): sus medidas y su copia
+        if cues and self._go_video_perdido(video):
+            return
         if not cues or not video or not Path(video).is_file():
             self._go_fallo('resolve', tr('No pude preparar los subtítulos para Premiere Pro (¿el video tiene voz?).'))
             return
