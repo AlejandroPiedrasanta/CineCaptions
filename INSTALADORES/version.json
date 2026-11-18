@@ -1,29 +1,29 @@
 {
   "estable": {
-    "version": "5.95.0",
-    "notas": "• Cada estilo tiene ahora sus propios sonidos: la palabra clave, el acento y el corte suenan distinto en cada estilo, con cualquier video.\r\n• Estilo 2: los bloques ya no pasan tan rápido cuando se habla deprisa, y no quedan dos bloques seguidos sin palabra grande.\r\n• Editor: botón «Aplicar correcciones en DaVinci». Corrige una palabra y llévala a tu timeline sin volver a generar (estilos 2 al 9).\r\n• Premiere Pro: el panel se pone al día solo al abrir CineCaptions (antes seguía pidiendo reiniciar Premiere) e Inicio dice con qué secuencia trabajará GO.\r\n• «Video sin editores»: el video sale con los mismos sonidos que en DaVinci Resolve.",
+    "version": "5.96.0",
+    "notas": "• Mac: después de actualizarse ya no pide la licencia otra vez. Si te pasó, cierra CineCaptions y vuelve a abrirlo: tu licencia sigue ahí.\r\n• Premiere Pro: se ve en verde en cuanto se detecta, y mientras coloca tus subtítulos dice «colocando…».",
     "fecha": "2026-11-18",
     "archivos": {
       "windows": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.95/Instalar_CineCaptions_5.95.exe",
-        "sha256": "bc41d6eda460f711b82bcc2c169d60f2e7b73312c7935869b0f883ddab75b27d",
-        "tam": 771394688
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.96/Instalar_CineCaptions_5.96.exe",
+        "sha256": "4b55ce87a1d0a4a3bf7ac9e4fe34486c9748cdfc73d8602b5ca7b84d8d3f0f27",
+        "tam": 771399286
       },
       "mac_arm64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.95/CineCaptions_Mac_AppleSilicon_5.95.dmg",
-        "sha256": "f476c9f2e4c9fe8742a813fc6100cbd21eaae70c47d1f2081ae41c19131c49b0",
-        "tam": 751097063
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.96/CineCaptions_Mac_AppleSilicon_5.96.dmg",
+        "sha256": "96ee07b9645a07bf4ebf668fd55a7d42623acb9a9d717462155ddf9c9a8f6951",
+        "tam": 751175123
       },
       "mac_x86_64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.95/CineCaptions_Mac_Intel_5.95.dmg",
-        "sha256": "07d23c1c2e25d249bc10e3d44e4c910308763d29057e13cb2ec7fa110f91ce5c",
-        "tam": 774738607
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.96/CineCaptions_Mac_Intel_5.96.dmg",
+        "sha256": "efac86d182de142903847485011c64c2776cb781ef1d332b37e2cbaea335d8e4",
+        "tam": 774784207
       }
     }
   },
   "firma": {
     "alg": "ed25519",
     "clave": "7a4e413e",
-    "valor": "Zj2PTWge1YLcLp1Vl8bPTGdd0kNGl2LFLrr3Ub34y6sHGr3azaTMB9ET5T/QCuPsX7QY7oL+zPA9SoiFFQaeBg=="
+    "valor": "kpDoYTddzWA9rI91XFgnRdUd7sBUe8Gs9TCKY5cu6VieCiSh4NrzNIS0bpeiudrM6z6D2/3Fsp2dG4PKUQG8DQ=="
   }
 }
