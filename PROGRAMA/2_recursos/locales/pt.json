@@ -4863,6 +4863,26 @@
     "{n} conectado · secuencia «{s}»: pulsa GO": "{n} conectado · sequência «{s}»: pressione GO",
     "{n} conectado · abre tu secuencia y pulsa GO, o arrastra un video": "{n} conectado · abra sua sequência e pressione GO, ou arraste um vídeo",
     "Cierra Premiere Pro y vuelve a abrirlo una vez: así GO trabaja con tu secuencia abierta (o arrastra un video aquí)": "Feche o Premiere Pro e abra-o de novo uma vez: assim o GO trabalha com a sua sequência aberta (ou arraste um vídeo aqui)",
-    "Abre tu secuencia en Premiere Pro y pulsa GO (o arrastra un video aquí)": "Abra sua sequência no Premiere Pro e pressione GO (ou arraste um vídeo aqui)"
+    "Abre tu secuencia en Premiere Pro y pulsa GO (o arrastra un video aquí)": "Abra sua sequência no Premiere Pro e pressione GO (ou arraste um vídeo aqui)",
+    "{n} conectado · colocando tus subtítulos…": "{n} conectado · colocando suas legendas…",
+    "Colocando tus subtítulos…": "Colocando suas legendas…",
+    "Ya no encuentro «{n}»: se movió, se renombró o se borró mientras GO trabajaba. Mira en la Papelera, devuélvelo a su sitio y pulsa GO otra vez.": "Não encontro mais «{n}»: foi movido, renomeado ou apagado enquanto o GO trabalhava. Veja na Lixeira, devolva-o ao lugar e pressione GO de novo.",
+    "Premiere Pro conectado · colocando…": "Premiere Pro conectado · colocando…",
+    "Colocando…": "Colocando…",
+    "Premiere Pro conectado · reinícialo una vez": "Premiere Pro conectado · reinicie-o uma vez",
+    "Reinícialo una vez": "Reinicie-o uma vez",
+    "Premiere Pro conectado · «{s}» · pulsa GO": "Premiere Pro conectado · «{s}» · pressione GO",
+    "Premiere Pro conectado · abre tu secuencia o arrastra un video": "Premiere Pro conectado · abra sua sequência ou arraste um vídeo",
+    "Premiere Pro abierto · conectando…": "Premiere Pro aberto · conectando…",
+    "Espera unos segundos": "Aguarde alguns segundos",
+    "Premiere Pro detectado · GO lo abre solo": "Premiere Pro detectado · o GO o abre sozinho",
+    "No encuentro Premiere Pro": "Não encontro o Premiere Pro",
+    "Cierra y abre Premiere Pro una vez, o arrastra un video": "Feche e abra o Premiere Pro uma vez, ou arraste um vídeo",
+    "Abre tu secuencia en Premiere Pro o arrastra un video": "Abra sua sequência no Premiere Pro ou arraste um vídeo",
+    "Ya no encuentro «{n}»: se movió o se borró. Mira en la Papelera.": "Não encontro mais «{n}»: foi movido ou apagado. Veja na Lixeira.",
+    "Premiere Pro detectado · abierto · pulsa GO": "Premiere Pro detectado · aberto · pressione GO",
+    "Premiere Pro abierto · reinícialo una vez": "Premiere Pro aberto · reinicie-o uma vez",
+    "Premiere Pro abierto": "Premiere Pro aberto",
+    "Listo para GO": "Pronto para o GO"
   }
 }

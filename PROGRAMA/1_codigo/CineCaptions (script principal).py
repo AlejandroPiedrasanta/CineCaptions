@@ -9105,10 +9105,10 @@ class SubtitleApp(QWidget):
             try:                                           # v5.95: Premiere conectado pero GO no puede usar la secuencia: se dice POR QUÉ
                 import premiere                            # (un cliente veía «primero arrastra tu video» con su secuencia abierta)
                 if premiere.panel_vivo() and not premiere.puede_traer_secuencia():
-                    texto = tr('Cierra Premiere Pro y vuelve a abrirlo una vez: así GO trabaja con tu secuencia abierta (o arrastra un video aquí)')
+                    texto = tr('Cierra y abre Premiere Pro una vez, o arrastra un video')
                     detalle = tr('Premiere Pro tiene cargado el panel de CineCaptions de antes y solo carga el nuevo al arrancar. Guarda tu proyecto, cierra Premiere Pro, ábrelo otra vez y pulsa GO.')
                 elif premiere.puede_traer_secuencia():
-                    texto = tr('Abre tu secuencia en Premiere Pro y pulsa GO (o arrastra un video aquí)')
+                    texto = tr('Abre tu secuencia en Premiere Pro o arrastra un video')
                     detalle = tr('Premiere Pro está conectado, pero no veo ninguna secuencia abierta en su línea de tiempo (o la que hay ya la subtituló CineCaptions).')
             except Exception:
                 pass
@@ -9949,7 +9949,7 @@ class SubtitleApp(QWidget):
         listos; lo que faltaba era el archivo. Se dice eso, no «¿tiene voz?». True si falta (y GO ya quedó detenido con su aviso)."""
         try:
             if video and not Path(video).is_file():
-                self._go_fallo('resolve', tr('Ya no encuentro «{n}»: se movió, se renombró o se borró mientras GO trabajaba. Mira en la Papelera, devuélvelo a su sitio y pulsa GO otra vez.',
+                self._go_fallo('resolve', tr('Ya no encuentro «{n}»: se movió o se borró. Mira en la Papelera.',
                                              n=Path(video).name))
                 return True
         except Exception:

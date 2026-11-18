@@ -4144,6 +4144,30 @@ def premiere_panel_se_pone_al_dia_al_abrir_cinecaptions():
 
 
 @caso('Premiere')
+def premiere_colocando_sigue_conectado_y_en_verde():
+    # v5.95 (captura del autor con GO en «70 de 211»: la tarjeta decía «conectando… si no conecta reinícialo»): mientras coloca, el panel no
+    # late; con progreso reciente el estado es conectado y verde. Sin avance ni pedido en curso queda «abierto» (verde: detectado), y ámbar
+    # solo si arrancó antes de instalarse el panel (hay que reiniciarlo).
+    with _entorno_premiere() as tmp:
+        cola = tmp / 'cola'
+        _latido(cola, t=(time.time() - 40) * 1000, rev=premiere.rev_instalada(), panel=3)       # el último latido, de hace 40 s
+        with parches((premiere, 'poner_al_dia', lambda: None), (premiere, 'ejecutable', lambda: pathlib.Path('C:/Premiere/Adobe Premiere Pro.exe')),
+                     (premiere, 'abierto', lambda: True), (premiere, 'falta_reiniciar', lambda: False)):
+            sin = premiere.estado()
+            with parches((premiere, 'falta_reiniciar', lambda: True)):
+                viejo = premiere.estado()
+            (cola / 'progreso.json').write_text(json.dumps({'id': 'x', 'hechos': 70, 'total': 211}), encoding='utf-8')
+            con = premiere.estado()
+            (cola / 'progreso.json').unlink()
+            (cola / 'pedido.en_curso.json').write_text('{}', encoding='utf-8')
+            tomado = premiere.estado()
+    t_sin, t_con = premiere.textos_estado(sin), premiere.textos_estado(con)
+    t_viejo = premiere.textos_estado(viejo)
+    esperar(not sin['conectado'] and sin['abierto'] and t_sin[1] == 'ok' and t_viejo[1] == 'aviso' and 'reinícialo' in t_viejo[0] and con['conectado'] and con['trabajando'] and t_con[1] == 'ok'
+            and 'colocando' in t_con[0] and tomado['conectado'] and tomado['trabajando'], f'{sin} {con} {tomado} {t_con}')
+
+
+@caso('Premiere')
 def premiere_falta_reiniciar_si_el_panel_llego_despues():
     # v5.94 (informe 5.93, causa sin_panel): el panel se instaló con Premiere ya abierto → GO pide reiniciarlo (no «Premiere no contestó»)
     with _entorno_premiere() as tmp:

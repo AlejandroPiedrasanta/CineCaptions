@@ -4785,6 +4785,26 @@
     "{n} conectado · secuencia «{s}»: pulsa GO": "{n} 연결됨 · 시퀀스 «{s}»: GO를 누르세요",
     "{n} conectado · abre tu secuencia y pulsa GO, o arrastra un video": "{n} 연결됨 · 시퀀스를 열고 GO를 누르거나 영상을 끌어다 놓으세요",
     "Cierra Premiere Pro y vuelve a abrirlo una vez: así GO trabaja con tu secuencia abierta (o arrastra un video aquí)": "Premiere Pro를 한 번 닫았다가 다시 여세요. 그러면 GO가 열린 시퀀스로 작업합니다(또는 영상을 여기에 끌어다 놓으세요)",
-    "Abre tu secuencia en Premiere Pro y pulsa GO (o arrastra un video aquí)": "Premiere Pro에서 시퀀스를 열고 GO를 누르세요(또는 영상을 여기에 끌어다 놓으세요)"
+    "Abre tu secuencia en Premiere Pro y pulsa GO (o arrastra un video aquí)": "Premiere Pro에서 시퀀스를 열고 GO를 누르세요(또는 영상을 여기에 끌어다 놓으세요)",
+    "{n} conectado · colocando tus subtítulos…": "{n} 연결됨 · 자막 배치 중…",
+    "Colocando tus subtítulos…": "자막 배치 중…",
+    "Ya no encuentro «{n}»: se movió, se renombró o se borró mientras GO trabajaba. Mira en la Papelera, devuélvelo a su sitio y pulsa GO otra vez.": "«{n}»을(를) 더 이상 찾을 수 없습니다. GO 작업 중에 이동, 이름 변경 또는 삭제되었습니다. 휴지통을 확인해 제자리에 되돌린 뒤 GO를 다시 누르세요.",
+    "Premiere Pro conectado · colocando…": "Premiere Pro 연결됨 · 배치 중…",
+    "Colocando…": "배치 중…",
+    "Premiere Pro conectado · reinícialo una vez": "Premiere Pro 연결됨 · 한 번 다시 시작하세요",
+    "Reinícialo una vez": "한 번 다시 시작하세요",
+    "Premiere Pro conectado · «{s}» · pulsa GO": "Premiere Pro 연결됨 · «{s}» · GO를 누르세요",
+    "Premiere Pro conectado · abre tu secuencia o arrastra un video": "Premiere Pro 연결됨 · 시퀀스를 열거나 영상을 끌어다 놓으세요",
+    "Premiere Pro abierto · conectando…": "Premiere Pro 열림 · 연결 중…",
+    "Espera unos segundos": "잠시 기다려 주세요",
+    "Premiere Pro detectado · GO lo abre solo": "Premiere Pro 감지됨 · GO가 알아서 엽니다",
+    "No encuentro Premiere Pro": "Premiere Pro를 찾을 수 없습니다",
+    "Cierra y abre Premiere Pro una vez, o arrastra un video": "Premiere Pro를 한 번 닫았다 열거나 영상을 끌어다 놓으세요",
+    "Abre tu secuencia en Premiere Pro o arrastra un video": "Premiere Pro에서 시퀀스를 열거나 영상을 끌어다 놓으세요",
+    "Ya no encuentro «{n}»: se movió o se borró. Mira en la Papelera.": "«{n}»을(를) 찾을 수 없습니다. 이동되었거나 삭제되었습니다. 휴지통을 확인하세요.",
+    "Premiere Pro detectado · abierto · pulsa GO": "Premiere Pro 감지됨 · 열림 · GO를 누르세요",
+    "Premiere Pro abierto · reinícialo una vez": "Premiere Pro 열림 · 한 번 다시 시작하세요",
+    "Premiere Pro abierto": "Premiere Pro 열림",
+    "Listo para GO": "GO 준비 완료"
   }
 }

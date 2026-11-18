@@ -4785,6 +4785,26 @@
     "{n} conectado · secuencia «{s}»: pulsa GO": "{n} 接続済み · シーケンス「{s}」：GOを押してください",
     "{n} conectado · abre tu secuencia y pulsa GO, o arrastra un video": "{n} 接続済み · シーケンスを開いてGOを押すか、動画をドラッグしてください",
     "Cierra Premiere Pro y vuelve a abrirlo una vez: así GO trabaja con tu secuencia abierta (o arrastra un video aquí)": "Premiere Proを一度閉じて開き直してください。GOが開いているシーケンスで動作します（または動画をここにドラッグ）",
-    "Abre tu secuencia en Premiere Pro y pulsa GO (o arrastra un video aquí)": "Premiere Proでシーケンスを開いてGOを押してください（または動画をここにドラッグ）"
+    "Abre tu secuencia en Premiere Pro y pulsa GO (o arrastra un video aquí)": "Premiere Proでシーケンスを開いてGOを押してください（または動画をここにドラッグ）",
+    "{n} conectado · colocando tus subtítulos…": "{n} 接続済み · 字幕を配置中…",
+    "Colocando tus subtítulos…": "字幕を配置中…",
+    "Ya no encuentro «{n}»: se movió, se renombró o se borró mientras GO trabajaba. Mira en la Papelera, devuélvelo a su sitio y pulsa GO otra vez.": "「{n}」が見つかりません。GOの作業中に移動、名前変更、または削除されました。ごみ箱を確認して元の場所に戻し、もう一度GOを押してください。",
+    "Premiere Pro conectado · colocando…": "Premiere Pro 接続済み · 配置中…",
+    "Colocando…": "配置中…",
+    "Premiere Pro conectado · reinícialo una vez": "Premiere Pro 接続済み · 一度再起動してください",
+    "Reinícialo una vez": "一度再起動してください",
+    "Premiere Pro conectado · «{s}» · pulsa GO": "Premiere Pro 接続済み · 「{s}」 · GOを押す",
+    "Premiere Pro conectado · abre tu secuencia o arrastra un video": "Premiere Pro 接続済み · シーケンスを開くか動画をドラッグ",
+    "Premiere Pro abierto · conectando…": "Premiere Pro 起動中 · 接続中…",
+    "Espera unos segundos": "数秒お待ちください",
+    "Premiere Pro detectado · GO lo abre solo": "Premiere Pro を検出 · GOが自動で開きます",
+    "No encuentro Premiere Pro": "Premiere Pro が見つかりません",
+    "Cierra y abre Premiere Pro una vez, o arrastra un video": "Premiere Pro を一度開き直すか、動画をドラッグしてください",
+    "Abre tu secuencia en Premiere Pro o arrastra un video": "Premiere Pro でシーケンスを開くか、動画をドラッグしてください",
+    "Ya no encuentro «{n}»: se movió o se borró. Mira en la Papelera.": "「{n}」が見つかりません。移動または削除されました。ごみ箱を確認してください。",
+    "Premiere Pro detectado · abierto · pulsa GO": "Premiere Pro を検出 · 起動中 · GOを押す",
+    "Premiere Pro abierto · reinícialo una vez": "Premiere Pro 起動中 · 一度再起動してください",
+    "Premiere Pro abierto": "Premiere Pro 起動中",
+    "Listo para GO": "GOの準備完了"
   }
 }

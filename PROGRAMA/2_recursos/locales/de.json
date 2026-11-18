@@ -4863,6 +4863,26 @@
     "{n} conectado · secuencia «{s}»: pulsa GO": "{n} verbunden · Sequenz „{s}“: drücke GO",
     "{n} conectado · abre tu secuencia y pulsa GO, o arrastra un video": "{n} verbunden · öffne deine Sequenz und drücke GO oder ziehe ein Video hinein",
     "Cierra Premiere Pro y vuelve a abrirlo una vez: así GO trabaja con tu secuencia abierta (o arrastra un video aquí)": "Schließe Premiere Pro und öffne es einmal neu: Dann arbeitet GO mit deiner geöffneten Sequenz (oder ziehe ein Video hierher)",
-    "Abre tu secuencia en Premiere Pro y pulsa GO (o arrastra un video aquí)": "Öffne deine Sequenz in Premiere Pro und drücke GO (oder ziehe ein Video hierher)"
+    "Abre tu secuencia en Premiere Pro y pulsa GO (o arrastra un video aquí)": "Öffne deine Sequenz in Premiere Pro und drücke GO (oder ziehe ein Video hierher)",
+    "{n} conectado · colocando tus subtítulos…": "{n} verbunden · Untertitel werden platziert…",
+    "Colocando tus subtítulos…": "Untertitel werden platziert…",
+    "Ya no encuentro «{n}»: se movió, se renombró o se borró mientras GO trabajaba. Mira en la Papelera, devuélvelo a su sitio y pulsa GO otra vez.": "„{n}“ ist nicht mehr auffindbar: Die Datei wurde verschoben, umbenannt oder gelöscht, während GO arbeitete. Sieh im Papierkorb nach, lege sie zurück und drücke erneut GO.",
+    "Premiere Pro conectado · colocando…": "Premiere Pro verbunden · platziert…",
+    "Colocando…": "Platziert…",
+    "Premiere Pro conectado · reinícialo una vez": "Premiere Pro verbunden · einmal neu starten",
+    "Reinícialo una vez": "Einmal neu starten",
+    "Premiere Pro conectado · «{s}» · pulsa GO": "Premiere Pro verbunden · „{s}“ · drücke GO",
+    "Premiere Pro conectado · abre tu secuencia o arrastra un video": "Premiere Pro verbunden · Sequenz öffnen oder Video hineinziehen",
+    "Premiere Pro abierto · conectando…": "Premiere Pro geöffnet · verbindet…",
+    "Espera unos segundos": "Einen Moment bitte",
+    "Premiere Pro detectado · GO lo abre solo": "Premiere Pro erkannt · GO öffnet es selbst",
+    "No encuentro Premiere Pro": "Premiere Pro nicht gefunden",
+    "Cierra y abre Premiere Pro una vez, o arrastra un video": "Premiere Pro einmal schließen und öffnen oder ein Video hineinziehen",
+    "Abre tu secuencia en Premiere Pro o arrastra un video": "Sequenz in Premiere Pro öffnen oder ein Video hineinziehen",
+    "Ya no encuentro «{n}»: se movió o se borró. Mira en la Papelera.": "„{n}“ nicht mehr gefunden: verschoben oder gelöscht. Sieh im Papierkorb nach.",
+    "Premiere Pro detectado · abierto · pulsa GO": "Premiere Pro erkannt · geöffnet · drücke GO",
+    "Premiere Pro abierto · reinícialo una vez": "Premiere Pro geöffnet · einmal neu starten",
+    "Premiere Pro abierto": "Premiere Pro geöffnet",
+    "Listo para GO": "Bereit für GO"
   }
 }

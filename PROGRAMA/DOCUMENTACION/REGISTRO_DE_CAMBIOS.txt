@@ -12,6 +12,22 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-18 00:01  ·  v5.95  ·  (automático)
+    modificados (14):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/herramientas_dev/verificar_mac.py
+      ~ 1_codigo/premiere.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/locales/ru.json
+      … y 2 más
+
 2026-11-17 23:11  ·  v5.95  ·  (automático)
     modificados (2):
       ~ 1_codigo/herramientas_dev/simular_equipos.py
