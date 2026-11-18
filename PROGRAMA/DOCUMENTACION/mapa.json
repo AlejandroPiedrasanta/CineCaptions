@@ -5756,6 +5756,38 @@
    ]
   },
   {
+   "id": "sonido-por-estilo",
+   "grupo": "sonido",
+   "tema": "Cada estilo con SUS sonidos (v5.95): un juego propio por estilo de fábrica (clave, acento, paso) hecho con Higgsfield, en 5_SFX/01_SFX/21_ESTILOS",
+   "resumen": "sonido_skill: ESTILO_DE_PACK, ROL_DE_POOL, numero_estilo, sonidos_de_estilo, pools_de(pack); empaquetar_sonidos los mete en el instalador",
+   "claves": [
+    "sonidos por estilo",
+    "juego de sonidos",
+    "higgsfield",
+    "mirelo",
+    "21_ESTILOS",
+    "clave",
+    "acento",
+    "paso",
+    "sfx de cada estilo",
+    "sonidos fatales",
+    "hecho con ia"
+   ],
+   "archivos": [
+    "sonido_skill.py",
+    "3_compilar/empaquetar_sonidos.py"
+   ],
+   "simbolos": [
+    "ESTILO_DE_PACK",
+    "ROL_DE_POOL",
+    "CARPETA_ESTILOS",
+    "GRAVES_ESTILO",
+    "numero_estilo",
+    "sonidos_de_estilo",
+    "pools_de"
+   ]
+  },
+  {
    "id": "ai-sound-director",
    "grupo": "sonido",
    "tema": "AI Sound Director: el sound designer de GO y la página SONIDO (análisis, voz, AI SFX, música/ambiente, mezcla/QC/Sound Score; edición local, Aplicar explícito al destino validado, línea e inspector juntos; menú y estética global intactos)",

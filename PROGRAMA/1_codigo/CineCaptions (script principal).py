@@ -9840,6 +9840,27 @@ class SubtitleApp(QWidget):
                 self._go_fin(False, tr('Generado. Falta un clic en Resolve: Scripts > CineCaptions_Subtitulos.'))
         except Exception:
             pass
+    def _cues_con_sonido_de_biblioteca(self, cues):
+        """v5.95, «Video sin editores»: el MP4 suena como en Resolve. El sonido de la biblioteca (sonido_skill: el juego propio del estilo, al
+        cuadro y con el nivel de la voz) ya se diseña y hornea en cada GO, pero solo se colocaba en Resolve: el MP4 salía con los toques de
+        «Modo simple». Aquí (en el hilo del render, nunca en el de la interfaz) se espera a ese diseño y sus sonidos SUSTITUYEN a los de los
+        bloques, igual que en Resolve. Sin diseño (biblioteca apagada o sin sonidos), los cues tal cual."""
+        try:
+            hilo, res = getattr(self, '_director_hilo', None), getattr(self, '_director_res', None)
+            if hilo is not None:
+                hilo.join(90)
+            eventos = [{'t': float(e['ini']), 'sfx_archivo': e['archivo']} for e in ((res or {}).get('sfx') or {}).get('eventos') or []
+                       if e.get('archivo') and e.get('ini') is not None and Path(e['archivo']).is_file()]
+            if not eventos or not cues:
+                return cues
+            nuevos = [dict(c, sfx_eventos=[]) for c in cues]
+            nuevos[0]['sfx_eventos'] = eventos                  # (render_sin_resolve.eventos_sfx los junta todos: el bloque no importa)
+            registro.info(f'Sonido del MP4: {len(eventos)} sonidos de la biblioteca en lugar de los de «Modo simple».', origen='GO · sin Resolve')
+            return nuevos
+        except Exception:
+            registro.excepcion(origen='GO sin Resolve · sonido de la biblioteca')
+            return cues
+
     def _go_grabar_video(self):
         """v5.4.47, GO sin DaVinci Resolve: graba los subtítulos (con sus sonidos y emojis) en una copia MP4 del video, junto al original.
         v5.5.8: con el tema elegido (render_temas.py dibuja los 6; antes solo el Tema 4).
@@ -9892,7 +9913,7 @@ class SubtitleApp(QWidget):
                         registro.excepcion(origen='GO sin Resolve · Tema 1 neón')
                         est['r'] = None
                 if est['r'] is None:
-                    est['r'] = render_sin_resolve.renderizar(video, cues, progreso=lambda f, t: est.update(f=f, texto=t),
+                    est['r'] = render_sin_resolve.renderizar(video, self._cues_con_sonido_de_biblioteca(cues), progreso=lambda f, t: est.update(f=f, texto=t),
                                                              cancelado=parar, emoji_arriba=emoji_arriba, estilo=estilo)
             except BaseException as e:
                 est['error'] = f'{type(e).__name__}: {e}'

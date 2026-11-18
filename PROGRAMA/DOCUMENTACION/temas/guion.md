@@ -99,3 +99,13 @@ pisaban la línea de al lado en el render real: llevan `AIRE_EDITORIAL` (0,012 d
 **Ojo al probar:** el script de Resolve solo buscaba 16 sets (`MAX_SETS`/`MAX_VARIANTES` en el .py y el .lua): la variante 17 caía en silencio al estilo 1. Ahora 20.
 
 **Amro Fire sin cortes (v5.53, pedido: «arréglalo»):** el 6 cortaba las palabras largas («PRINCIPAL» → «Principa», también a 1080): la comp de Amro dibuja las letras en un cuadro de 1080 y las encoge DESPUÉS (Transform1 al 0,66), y lo que no cabía antes de encoger se perdía. `pack_referencia.FUEGO_SIN_RECORTE`: la curva `Follower1Tamaño` (la que da el tamaño de cada letra; el Size del Text+ y el «tam» de la variante NO cambian nada, medido) × 0,66 y el Transform a 1; rejilla, ruido, difuminado y sombra ajustados a la misma escala. Comprobado en Resolve: «FUEGO» igual que antes y «Principal» entera (tinta de x 76 a 1002 en 1080). REVISION_BIN «Ref 19».
+
+## nota — v5.95 · bloques que se ven menos de 1 s (pedido: «el Estilo 2 va muy rápido y no es llamativo»)
+
+**Causa medida:** `_juntar_cortos` decidía si un bloque era corto con `dura` = lo hablado + `respiro` (0,55 s), pero con la voz seguida el bloque siguiente entra como mucho `espera_max` (0,35 s) después de su primera palabra. «de los tercios» contaba 1,27 s y se veía 0,60. En un video hablado rápido (155 palabras en 44 s): 11 de 34 bloques a menos de 1 s y ninguno contado como corto.
+
+**Arreglo:** `visible(n)` dentro de `_juntar_cortos` = lo que el bloque se ve de verdad (hasta que entra el siguiente). Mismo video: 34 → 31 bloques, a menos de 1 s 11 → 5, media 1,32 → 1,45 s. `evaluar()` contra la referencia: igual que antes (12/13 grandes, 15 bloques, 9 cortes).
+
+**Quedan cortos:** los que las reglas no dejan juntar (dos grandes en un bloque, más de 3 líneas, más de 8 palabras sin grande).
+
+**Nunca dos bloques seguidos sin grande (`_grande_en_seguidos`):** una frase larga recibía como mucho 3 grandes y la segunda con ≥ `puntaje_2` (una frase de 27 palabras = 6 bloques con una sola grande). En el segundo bloque seguido sin grande sube su mejor palabra (≥ `puntaje_seguidos`, 6) si el bloque queda bien armado (≤3 líneas; debajo de la grande nada o 2-4 palabras que no acaben en «de/la/y…»). Solo cuando elige el planificador (`forzados is None`). GO real del mismo video: 18 → 21 bloques con grande de 30; `evaluar()` igual que antes.

@@ -12,6 +12,28 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-17 18:59  ·  v5.94  ·  cambio explicado
+    v5.95 (sin compilar): cada estilo de fábrica con su propio juego de sonidos (clave, acento, paso) hecho con Higgsfield a pedido del usuario («los sonidos están fatales»), en 5_SFX/01_SFX/21_ESTILOS; sonido_skill.pools_de(pack) los usa solo con su estilo. Estilo 2: _juntar_cortos mide lo que el bloque se ve de verdad (antes sumaba el respiro entero y nunca contaba como corto un bloque de 0,6 s con voz rápida).
+    nuevos (49):
+      + 2_recursos/biblioteca_sonido/01_SFX/21_ESTILOS/ESTILO_1/ESTILO_1 - acento 1.wav
+      + 2_recursos/biblioteca_sonido/01_SFX/21_ESTILOS/ESTILO_1/ESTILO_1 - clave 1.wav
+      + 2_recursos/biblioteca_sonido/01_SFX/21_ESTILOS/ESTILO_1/ESTILO_1 - clave 2.wav
+      + 2_recursos/biblioteca_sonido/01_SFX/21_ESTILOS/ESTILO_1/ESTILO_1 - clave 3.wav
+      + 2_recursos/biblioteca_sonido/01_SFX/21_ESTILOS/ESTILO_1/ESTILO_1 - paso 1.wav
+      + 2_recursos/biblioteca_sonido/01_SFX/21_ESTILOS/ESTILO_2/ESTILO_2 - acento 1.wav
+      + 2_recursos/biblioteca_sonido/01_SFX/21_ESTILOS/ESTILO_2/ESTILO_2 - acento 2.wav
+      + 2_recursos/biblioteca_sonido/01_SFX/21_ESTILOS/ESTILO_2/ESTILO_2 - clave 1.wav
+      + 2_recursos/biblioteca_sonido/01_SFX/21_ESTILOS/ESTILO_2/ESTILO_2 - clave 2.wav
+      + 2_recursos/biblioteca_sonido/01_SFX/21_ESTILOS/ESTILO_2/ESTILO_2 - clave 3.wav
+      + 2_recursos/biblioteca_sonido/01_SFX/21_ESTILOS/ESTILO_2/ESTILO_2 - paso 1.wav
+      + 2_recursos/biblioteca_sonido/01_SFX/21_ESTILOS/ESTILO_3/ESTILO_3 - acento 1.wav
+      … y 37 más
+    modificados (4):
+      ~ 1_codigo/guion_planificador.py
+      ~ 1_codigo/sonido_skill.py
+      ~ 2_recursos/biblioteca_sonido/catalogo_sfx.json
+      ~ 3_compilar/empaquetar_sonidos.py
+
 2026-11-17 15:22  ·  v5.94  ·  (automático)
     modificados (32):
       ~ 1_codigo/ajustes_ui.py
