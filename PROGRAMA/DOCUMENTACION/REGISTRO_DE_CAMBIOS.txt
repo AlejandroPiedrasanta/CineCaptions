@@ -12,6 +12,29 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-20 13:30  ·  v6.01  ·  (automático)
+    modificados (31):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/locales/ru.json
+      ~ 2_recursos/locales/zh.json
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      … y 19 más
+
+2026-11-20 11:46  ·  v6.00  ·  cambio explicado
+    6.01 (Mac): el AppleScript que lanza el Puente por el menú usaba 'it' como variable (palabra reservada): osascript fallaba con syntax error 78:80 (-2741) y GO en Free de Mac nunca pudo lanzar el Puente solo desde la 7c4d800. Ahora 'elem'. Además Consolas → Menlo en Mac (aviso de Qt de 130 ms).
+    modificados (3):
+      ~ 1_codigo/registro_ui.py
+      ~ 1_codigo/resolve_bridge.py
+      ~ 1_codigo/ventana_licencia.py
+
 2026-11-20 09:07  ·  v6.00  ·  (automático)
     modificados (32):
       ~ 1_codigo/actualizaciones.py
