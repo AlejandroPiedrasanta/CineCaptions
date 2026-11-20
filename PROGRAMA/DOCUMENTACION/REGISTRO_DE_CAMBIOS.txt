@@ -12,6 +12,22 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-20 09:07  ·  v6.00  ·  (automático)
+    modificados (32):
+      ~ 1_codigo/actualizaciones.py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/locales/ru.json
+      ~ 2_recursos/locales/zh.json
+      … y 20 más
+
 2026-11-20 08:57  ·  v5.99  ·  cambio explicado
     v5.99 rendimiento (Mac y Windows): texturas de Inicio adelantadas en un hilo (el primer cuadro dejaba de pararse ~50 ms), cápsula de la isla de navegación en caché; medido a escala 1,5 y 2,0 con muestreo solo del hilo de la interfaz.
     modificados (2):
