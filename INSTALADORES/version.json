@@ -1,29 +1,29 @@
 {
   "estable": {
-    "version": "6.00.0",
-    "notas": "Más rápido en Mac y Windows, cambios de página sin destello y GO más legible en Inicio",
+    "version": "6.01.0",
+    "notas": "• Mac con DaVinci Resolve Free: arreglado el fallo que impedía a GO abrir el Puente y traer el audio de tu timeline.\r\n• Mac: el Registro ya no muestra el aviso de la letra «Consolas».",
     "fecha": "2026-11-20",
     "archivos": {
       "windows": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v6.00/Instalar_CineCaptions_6.00.exe",
-        "sha256": "f3ee2be6d42fbbeb4ba5f99a6e086a9e0bcd8634fbccc7ab82abc7a2dd1fa982",
-        "tam": 771486274
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v6.01/Instalar_CineCaptions_6.01.exe",
+        "sha256": "c97776f6190f9f9be5ccf7975a1783ce645d1662e86eb73d21996e476d4c5b34",
+        "tam": 771488193
       },
       "mac_arm64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v6.00/CineCaptions_Mac_AppleSilicon_6.00.dmg",
-        "sha256": "7b0a692438a03efaa2e0ef360905cabda79d2ba87b48a38f04e79bd5455aed49",
-        "tam": 751369751
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v6.01/CineCaptions_Mac_AppleSilicon_6.01.dmg",
+        "sha256": "7c67a362210e5062f14fb649dfa0351e310e1ea44947271d66d78a62f4661cec",
+        "tam": 751508409
       },
       "mac_x86_64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v6.00/CineCaptions_Mac_Intel_6.00.dmg",
-        "sha256": "f787ccd611bd1498fb8ece3816b0a33a6fa571708ea29a5ad1c45b0983c3daa6",
-        "tam": 774825431
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v6.01/CineCaptions_Mac_Intel_6.01.dmg",
+        "sha256": "da7120c11a05aa2d4ffe44e29bca4a8d0208291c62cf4a218cdce05b575215ec",
+        "tam": 774857130
       }
     }
   },
   "firma": {
     "alg": "ed25519",
     "clave": "7a4e413e",
-    "valor": "vxBOMC12iOMiz97aTa8JHmzui0A6aY6b9cuoU8+ue7bR15MdGLPJU6jD1zcd7R4SW0BiBtyP5Oi9iDoCdY6qAw=="
+    "valor": "SQR9SXSlrELnmtttAsx3aleBkb175d1uMzeC/KAy6wskAGPXWdyfyn9cQNaQYe6zgqrvYVsmCSiObaAdAD45Aw=="
   }
 }
