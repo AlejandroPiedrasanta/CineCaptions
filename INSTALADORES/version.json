@@ -1,29 +1,29 @@
 {
   "estable": {
-    "version": "5.98.0",
-    "notas": "• Nueva ventana de permisos: tras instalar o actualizar te dice qué necesita CineCaptions en tu Mac o tu PC y te lleva a activarlo. Si ya está todo, no vuelve a salir.\r\n• Arreglado: tras actualizar ya no sale «Falla al iniciar: Motor de IA» por las librerías nuevas; se ponen al día solas.",
-    "fecha": "2026-11-19",
+    "version": "5.99.0",
+    "notas": "Nueva página Efectos con la línea de tiempo de tu video, permisos obligatorios y la interfaz más pulida",
+    "fecha": "2026-11-20",
     "archivos": {
       "windows": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.98/Instalar_CineCaptions_5.98.exe",
-        "sha256": "bf1e7da1e5500f8a3e4f264ad9fbd3164232c492608b5b5d26fcad733959ad9b",
-        "tam": 771457804
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.99/Instalar_CineCaptions_5.99.exe",
+        "sha256": "27e09de50de8ffa87f3fdebce2cd958f1bcc10c4b6e94dc6c4380e47ea5896f8",
+        "tam": 771477769
       },
       "mac_arm64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.98/CineCaptions_Mac_AppleSilicon_5.98.dmg",
-        "sha256": "325cff53cfffb8d86d2a1f53fb00894499c77cf9989702d67a289978f1cdc853",
-        "tam": 751315564
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.99/CineCaptions_Mac_AppleSilicon_5.99.dmg",
+        "sha256": "8f8d679144e8187567562e8a578864e99b04840ed0490a0cca77ef258db9bd59",
+        "tam": 751208264
       },
       "mac_x86_64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.98/CineCaptions_Mac_Intel_5.98.dmg",
-        "sha256": "41a2f57d2f9332bd7169dd19dc2ad4b5c453ad95afbf3711fe30af00be422ec3",
-        "tam": 774387864
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.99/CineCaptions_Mac_Intel_5.99.dmg",
+        "sha256": "14c4925bffa0a51669f377742b8a8e38b1802370f38bc0cf0c5ef7789ec28c46",
+        "tam": 774755442
       }
     }
   },
   "firma": {
     "alg": "ed25519",
     "clave": "7a4e413e",
-    "valor": "kNmi70S1xrf5m4d9hWrXoJPhYHnFO2Faa5b1+yibLkJMqzBwSXHa30YEyVScXZW+vqkHo0H/QSogvI70+mPjDw=="
+    "valor": "ohVvo9LTd7BH1KB8l8JJvH+6cYy0o+bBvmIrbkR4OLK4/D7XI7b9NYYdNriV7HW3QvJvnA/CEnRq+gbgS7oJCQ=="
   }
 }
