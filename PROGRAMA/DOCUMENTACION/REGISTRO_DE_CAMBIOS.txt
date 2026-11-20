@@ -12,6 +12,46 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-19 20:31  ·  v5.98  ·  (automático)
+    modificados (31):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/locales/ru.json
+      ~ 2_recursos/locales/zh.json
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      … y 19 más
+
+2026-11-19 20:27  ·  v5.97  ·  cambio explicado
+    v5.98: ventana «Permisos de CineCaptions» (Mac y Windows) tras instalar o actualizar si falta alguno; no vuelve con todo listo (pedido del usuario).
+    nuevos (1):
+      + 1_codigo/permisos.py
+    modificados (11):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/locales/ru.json
+      ~ 2_recursos/locales/zh.json
+      ~ 3_compilar/traducciones_extra.json
+
+2026-11-19 20:11  ·  v5.97  ·  cambio explicado
+    Arreglo tras la 5.97: las librerías nuevas del motor de voz ya no salen como «Falla al iniciar» (se ponen al día solas) y, si fallan, se reparan sin reinstalar el motor entero; informe de un cliente de Mac.
+    modificados (3):
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/salud.py
+      ~ 1_codigo/vigilancia.py
+
 2026-11-19 19:18  ·  v5.97  ·  cambio explicado
     v5.97: la PRO es de cada estilo (go_edicion_pro_estilos) y la barra de Estilo lleva «Usar» + «Modo PRO» con interruptor; pedido «en cada estilo aparece activado, mejora el botón de usar».
     modificados (15):

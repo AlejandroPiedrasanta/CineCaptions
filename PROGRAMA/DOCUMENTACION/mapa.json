@@ -2592,6 +2592,40 @@
    "resumen": "cada «error» del Registro → pagos/errores.php en un hilo (sin la carpeta del usuario); la app de ventas lo muestra y avisa"
   },
   {
+   "id": "permisos",
+   "grupo": "datos",
+   "tema": "Ventana «Permisos de CineCaptions» tras instalar o actualizar (Mac y Windows)",
+   "claves": [
+    "permisos",
+    "accesibilidad",
+    "automatizacion",
+    "administrador",
+    "telemetria",
+    "notificaciones",
+    "disco",
+    "smart app control",
+    "popup",
+    "mac"
+   ],
+   "archivos": [
+    "permisos.py"
+   ],
+   "simbolos": [
+    "lista",
+    "hay_que_mostrar",
+    "revisar_al_abrir",
+    "marcar_visto",
+    "mostrar",
+    "mac_accesibilidad",
+    "mac_automatizacion",
+    "mac_disco_completo",
+    "win_admin_pendiente",
+    "win_notificaciones",
+    "win_smart_app_control"
+   ],
+   "resumen": "al abrir una versión nueva, si falta algún permiso: la lista con su estado y «Permitir»; todo listo → no vuelve; obligatorio que falta → una vez al día"
+  },
+  {
    "id": "ficha-equipo",
    "grupo": "datos",
    "tema": "Ficha técnica del equipo: hardware, driver de la GPU, Resolve, motores y qué le falta",

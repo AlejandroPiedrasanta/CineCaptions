@@ -35,7 +35,7 @@ Python con dependencias (`$PY`): `PROGRAMA/6_compilacion/venv315/Scripts/python.
 - **resolve** (Resolve (API, MCP, scripts, vistas reales)): resolve-api fluidez-resolve vista-real-previo resolve-mcp-mac free-sin-io resolve-colgado scripts-resolve-inventario conexion-auto correcciones-en-resolve
 - **compilar** (Compilar, versiones, instaladores (Windows y Mac)): instalador-cs version mac compilar-win actualizaciones mac-actualizar equipo-al-dia
 - **vigilancia** (Vigilancia, logs y respaldo de modelos): vigilancia arranque-seguro
-- **datos** (Datos del usuario, licencia y ajustes): licencia archivos-seguros carpetas-del-usuario proyectos-usuario telemetria-errores ficha-equipo
+- **datos** (Datos del usuario, licencia y ajustes): licencia archivos-seguros carpetas-del-usuario proyectos-usuario telemetria-errores permisos ficha-equipo
 - **pruebas** (Pruebas y MCP del programa): banco-mcp pruebas-sin-pantalla simular-equipos herramientas-dev
 - **efectos** (Efectos visuales (intro, transiciones en los cortes, iconos flotantes)): efectos-visuales efectos-movimiento efectos-extra quitar-pausas broll edicion-pro kit8 escenas-pantalla internet-broll motions-pro pro-lateral estilos-pro intros-gancho motions-completo vigilante-pro motions-editables video-rotado-monedas personajes-3d posiciones-pro emojis-pro motions-pila efectos-panel
 <!-- MAPA:FIN -->
