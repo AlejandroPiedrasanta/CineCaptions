@@ -2594,7 +2594,7 @@
   {
    "id": "permisos",
    "grupo": "datos",
-   "tema": "Ventana «Permisos de CineCaptions» tras instalar o actualizar (Mac y Windows)",
+   "tema": "Ventana «Permisos de CineCaptions» (Mac y Windows): obligatoria en cada arranque hasta tener TODOS los permisos; sin X, sin Más tarde ni Esc; solo Listo (todo permitido) o Salir de CineCaptions (v5.99)",
    "claves": [
     "permisos",
     "accesibilidad",

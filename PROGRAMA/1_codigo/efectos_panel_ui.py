@@ -304,11 +304,20 @@ class BarraPestanas(QWidget):
 class MarcaSeccion(PestanaSeccion):
     """Una sección en la tira de tu video (propuesta A «Línea de tiempo», elegida por el usuario): solo su icono en una cajita, en el
     punto del video donde va. La abierta: verde, más grande y animada; las que GO no pone, tenues. Lo demás, como PestanaSeccion."""
-    LADO = 44
+    LADO = 50
+    encima_de = Signal(str, bool)                      # (clave, dentro): la tira dice su nombre a la izquierda mientras el ratón está encima
 
     def __init__(self, clave, titulo, icono, icono_qt=None, padre=None):
         super().__init__(clave, titulo, icono, icono_qt, padre)
         self.fijo = False                              # True: va en un segundo marcado (o el gancho, en el primero)
+
+    def enterEvent(self, e):
+        super().enterEvent(e)
+        self.encima_de.emit(self.clave, True)
+
+    def leaveEvent(self, e):
+        super().leaveEvent(e)
+        self.encima_de.emit(self.clave, False)
 
     _CAJA = QRectF(8, 8, 28, 28)
 
@@ -319,18 +328,22 @@ class MarcaSeccion(PestanaSeccion):
         p = QPainter(self)
         p.setRenderHint(QPainter.RenderHint.Antialiasing)
         p.setRenderHint(QPainter.RenderHint.SmoothPixmapTransform)
-        r = QRectF(2.5, 2.5, self.width() - 5, self.height() - 5) if self.activa else QRectF(5.5, 5.5, self.width() - 11, self.height() - 11)
+        r = QRectF(3.5, 3.5, self.width() - 7, self.height() - 7) if self.activa else QRectF(6.5, 6.5, self.width() - 13, self.height() - 13)
         if self.activa:
             p.setPen(QPen(QColor(46, 211, 155, 55), 4))
             p.setBrush(Qt.BrushStyle.NoBrush)
-            p.drawRoundedRect(r.adjusted(-1, -1, 1, 1), 13, 13)
+            p.drawRoundedRect(r.adjusted(-1, -1, 1, 1), 14, 14)
             p.setBrush(QColor(46, 211, 155, 48))
             p.setPen(QPen(QColor(VERDE), 1.4))
         else:
-            p.setBrush(QColor(19, 32, 47, 235) if not self._hover else QColor(30, 46, 64, 245))
-            p.setPen(QPen(QColor(255, 255, 255, 40 if self._hover else 22), 1))
-        p.drawRoundedRect(r, 11, 11)
-        lado = 26 if self.activa else 22
+            p.setBrush(QColor(22, 36, 53, 240) if not self._hover else QColor(34, 52, 72, 250))
+            p.setPen(QPen(QColor(255, 255, 255, 55 if self._hover else 28), 1))
+        p.drawRoundedRect(r, 12, 12)
+        if self.on and not self.activa:                # (el punto verde: GO la pone, como en las pestañas de antes)
+            p.setPen(QPen(QColor('#0B1424'), 2))
+            p.setBrush(QColor(VERDE))
+            p.drawEllipse(QRectF(r.right() - 6, r.top() - 2, 8, 8))
+        lado = 28 if self.activa else 24
         x0, y0 = int(self.width() / 2 - lado / 2), int(self.height() / 2 - lado / 2)
         cuadros = (animacion_ui(self._icono, lado) if self._icono else []) if (self.activa or self._hover) else []
         if cuadros:
@@ -340,7 +353,7 @@ class MarcaSeccion(PestanaSeccion):
         else:
             pm = None
             if self._icono:
-                pm = icono_ui(self._icono, lado) if (self.on or self._hover) else icono_tenido(self._icono, lado, '#5D6B82')
+                pm = icono_ui(self._icono, lado) if (self.on or self._hover) else icono_tenido(self._icono, lado, '#6E7D95')
             if pm is not None and not pm.isNull():
                 p.drawPixmap(x0, y0, pm)
             elif self._icono_qt is not None:
@@ -348,7 +361,7 @@ class MarcaSeccion(PestanaSeccion):
         p.end()
 
     def _cuadros(self):
-        return animacion_ui(self._icono, 26 if self.activa else 22) if self._icono else []
+        return animacion_ui(self._icono, 28 if self.activa else 24) if self._icono else []
 
     def tic(self):
         k = self._cuadro()
@@ -363,10 +376,10 @@ class TiraTiempo(QWidget):
     marcada o, sin marcar, repartidos con la raya punteada: GO elige dónde). Clic en un icono = abre esa sección. Lo mismo que BarraPestanas
     hacia fuera (`elegida`, `agregar`, `filas`, `marcar`, `tic`). Los fotogramas los lee un hilo (posiciones_pro.fotogramas, en caché)."""
     elegida = Signal(str)
-    ALTO = 124
-    IZQ = 214                                          # el texto de la izquierda («Tu video», su nombre y la pista)
-    ARRIBA_TIRA = 52                                   # donde empieza la tira de fotogramas
-    ALTO_TIRA = 40
+    ALTO = 132
+    IZQ = 230                                          # el texto de la izquierda («Tu video», su nombre y la pista)
+    ARRIBA_TIRA = 62                                   # donde empieza la tira de fotogramas
+    ALTO_TIRA = 44
 
     def __init__(self, padre=None):
         super().__init__(padre)
@@ -375,12 +388,15 @@ class TiraTiempo(QWidget):
         self._lugares = {}                             # clave → (duración | None, [(ini, fin)])
         self._ruta, self._fotos, self._dur = None, [], None
         self._pedida = None
+        self._encima = None                            # el icono bajo el ratón: su nombre sale a la izquierda (sin globos)
         self.setFixedHeight(self.ALTO)
 
     # -- lo mismo que BarraPestanas
     def agregar(self, fila):
         fila.setParent(self)
         fila.clic.connect(self._tocar)
+        if hasattr(fila, 'encima_de'):
+            fila.encima_de.connect(self._al_encima)
         self.filas[fila.clave] = fila
         self._orden.append(fila.clave)
         fila.show()
@@ -391,17 +407,33 @@ class TiraTiempo(QWidget):
         self.marcar(clave)
         self.elegida.emit(clave)
 
+    def _al_encima(self, clave, dentro):
+        nuevo = clave if dentro else (None if self._encima == clave else self._encima)
+        if nuevo != self._encima:
+            self._encima = nuevo
+            self.update(0, 0, self.IZQ, self.height())
+
+    ENTRA_MS = 280                                     # el tramo de la sección abierta entra: se abre desde su centro y se enciende
+
     def marcar(self, clave):
+        anterior = next((k for k, f in self.filas.items() if f.activa), None)
         for k, f in self.filas.items():
             f.poner(activa=k == clave)
             if k == clave:
                 f.raise_()
+        if clave != anterior:
+            self._t_marca = _reloj_ms()
         self.update()
+
+    def _entrada(self):
+        return _suave((_reloj_ms() - getattr(self, '_t_marca', 0.0)) / self.ENTRA_MS)
 
     def tic(self):
         for f in self.filas.values():
             if f.activa or f._hover or f._k > 0:
                 f.tic()
+        if _reloj_ms() - getattr(self, '_t_marca', 0.0) < self.ENTRA_MS + 60:   # (solo mientras entra el tramo: después, quieta)
+            self.update(self._pista().adjusted(-4, -4, 4, 4).toAlignedRect())
 
     # -- el video y dónde va cada efecto
     def poner_video(self, ruta):
@@ -497,41 +529,68 @@ class TiraTiempo(QWidget):
         p = QPainter(self)
         p.setRenderHint(QPainter.RenderHint.Antialiasing)
         p.setRenderHint(QPainter.RenderHint.SmoothPixmapTransform)
-        # ---- a la izquierda: «Tu video», su nombre y qué es esto
+        # ---- a la izquierda: «Tu video», su nombre y qué es esto (con el ratón sobre un icono: el nombre de ese efecto y cómo está)
         x, ancho = 4, self.IZQ - 8
+        izq_txt = int(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop | Qt.TextFlag.TextWordWrap)
+        f_enc = self.filas.get(self._encima) if self._encima else None
         p.setFont(ui.fuente(10.5, peso='negrita'))
         p.setPen(QColor('#6F7E98'))
-        p.drawText(QRectF(x, 4, ancho, 16), int(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft), tr('Tu video').upper())
-        p.setFont(ui.fuente(14, peso='negrita'))
+        p.drawText(QRectF(x, 6, ancho, 16), int(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft),
+                   (tr('Efecto') if f_enc is not None else tr('Tu video')).upper())
+        p.setFont(ui.fuente(15, peso='negrita'))
         p.setPen(QColor('#FFFFFF'))
         fm = QFontMetricsF(p.font())
-        nombre = Path(self._ruta).name if self._ruta else tr('Sin video')
-        p.drawText(QRectF(x, 23, ancho, 22), int(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft),
-                   fm.elidedText(nombre, Qt.TextElideMode.ElideMiddle, ancho))
-        p.setFont(ui.fuente(11.5))
-        p.setPen(QColor(MUT))
-        pista_txt = (tr('Cada icono es un efecto, donde GO lo pondrá. Clic en uno para cambiarlo.') if self._ruta else
-                     tr('Suelta un video en Inicio para verlo aquí. Clic en un icono para cambiar ese efecto.'))
-        p.drawText(QRectF(x, 50, ancho, 66), int(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop | Qt.TextFlag.TextWordWrap), pista_txt)
-        # ---- la tira de fotogramas
+        nombre = f_enc.titulo if f_enc is not None else (Path(self._ruta).name if self._ruta else tr('Sin video'))
+        p.drawText(QRectF(x, 26, ancho, 24), int(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft),
+                   fm.elidedText(nombre, Qt.TextElideMode.ElideMiddle if f_enc is None else Qt.TextElideMode.ElideRight, ancho))
+        p.setFont(ui.fuente(12))
+        if f_enc is not None:
+            p.setPen(QColor('#5FD9AE') if f_enc.on else QColor('#8592AA'))
+            sub = (f_enc.estado or tr('Activado')) if f_enc.on else tr('Apagado: GO no lo pone.')
+            p.drawText(QRectF(x, 56, ancho, 66), izq_txt, sub + '\n' + tr('Clic para abrirlo.'))
+        else:
+            p.setPen(QColor(MUT))
+            pista_txt = (tr('Cada icono es un efecto, donde GO lo pondrá. Clic en uno para cambiarlo.') if self._ruta else
+                         tr('Suelta un video en Inicio para verlo aquí. Clic en un icono para cambiar ese efecto.'))
+            p.drawText(QRectF(x, 56, ancho, 66), izq_txt, pista_txt)
+        # ---- la tira de fotogramas (cuadros recortados, con una raya fina entre ellos)
         pista, dur = self._pista(), self._duracion()
+        abierta = next((k for k, f in self.filas.items() if f.activa), None)
+        tramos = []
+        e = self._entrada()                            # 0 → 1 al cambiar de sección (se abre desde su centro)
+        for ini, fin in (self._lugares.get(abierta) or (None, []))[1]:
+            x0 = pista.left() + pista.width() * max(0.0, ini) / dur
+            x1 = pista.left() + pista.width() * min(dur, fin) / dur
+            ancho = max(16.0, x1 - x0) * (0.55 + 0.45 * e)
+            tramos.append(QRectF((x0 + max(16.0, x1 - x0) / 2) - ancho / 2, pista.top(), ancho, pista.height()))
         camino = QPainterPath()
-        camino.addRoundedRect(pista, 9, 9)
+        camino.addRoundedRect(pista, 10, 10)
         p.save()
         p.setClipPath(camino)
-        p.fillRect(pista, QColor('#0B1424'))
+        p.fillRect(pista, QColor('#0A1220'))
         if self._fotos:
             n = len(self._fotos)
-            img0 = self._fotos[0]
-            ancho_f = pista.height() * img0.width() / max(1, img0.height())
-            cuantos = max(1, int(pista.width() / max(8.0, ancho_f)) + 1)
-            p.setOpacity(0.62)
-            for i in range(cuantos):                   # (los fotogramas a lo largo del video, tantos como quepan)
-                img = self._fotos[min(n - 1, int((i + 0.5) / cuantos * n))]
-                r = QRectF(pista.left() + i * ancho_f, pista.top(), ancho_f, pista.height())
-                esc = max(r.width() / img.width(), r.height() / img.height())
-                w, h = img.width() * esc, img.height() * esc
-                p.drawImage(QRectF(r.center().x() - w / 2, r.center().y() - h / 2, w, h), img)
+            ancho_f = pista.height() * 1.35            # (los fotogramas de un video vertical, recortados a lo ancho: menos y más legibles)
+            cuantos = max(1, int(round(pista.width() / ancho_f)))
+            ancho_f = pista.width() / cuantos
+            for capa in (0, 1):                        # 0: todos, apagados · 1: los del tramo de la sección abierta, a todo color
+                if capa == 1:
+                    if not tramos:
+                        break
+                    cam_t = QPainterPath()
+                    for r in tramos:
+                        cam_t.addRect(r)
+                    p.setClipPath(cam_t.intersected(camino))
+                p.setOpacity(0.5 if capa == 0 else 0.5 + 0.5 * e)
+                for i in range(cuantos):
+                    img = self._fotos[min(n - 1, int((i + 0.5) / cuantos * n))]
+                    r = QRectF(pista.left() + i * ancho_f, pista.top(), ancho_f - 2, pista.height())
+                    esc = max(r.width() / img.width(), r.height() / img.height())
+                    w, h = img.width() * esc, img.height() * esc
+                    p.save()
+                    p.setClipRect(r, Qt.ClipOperation.IntersectClip)
+                    p.drawImage(QRectF(r.center().x() - w / 2, r.center().y() - h * 0.42, w, h), img)
+                    p.restore()
             p.setOpacity(1.0)
         else:
             p.setPen(QPen(QColor(255, 255, 255, 14), 1))
@@ -543,15 +602,13 @@ class TiraTiempo(QWidget):
         p.restore()
         p.setBrush(Qt.BrushStyle.NoBrush)
         p.setPen(QPen(QColor(255, 255, 255, 26), 1))
-        p.drawRoundedRect(pista.adjusted(0.5, 0.5, -0.5, -0.5), 9, 9)
-        # ---- dónde va la sección abierta (verde) sobre la tira
-        abierta = next((k for k, f in self.filas.items() if f.activa), None)
-        for ini, fin in (self._lugares.get(abierta) or (None, []))[1]:
-            x0 = pista.left() + pista.width() * max(0.0, ini) / dur
-            x1 = pista.left() + pista.width() * min(dur, fin) / dur
-            r = QRectF(x0, pista.top(), max(14.0, x1 - x0), pista.height())
-            p.setBrush(QColor(46, 211, 155, 40))
-            p.setPen(QPen(QColor(VERDE), 2))
+        p.drawRoundedRect(pista.adjusted(0.5, 0.5, -0.5, -0.5), 10, 10)
+        # ---- dónde va la sección abierta: su marco verde sobre la tira
+        for r in tramos:
+            p.setBrush(QColor(46, 211, 155, int((28 if self._fotos else 50) * e)))
+            borde = QColor(VERDE)
+            borde.setAlpha(int(255 * e))
+            p.setPen(QPen(borde, 2))
             p.drawRoundedRect(r.adjusted(1, 1, -1, -1), 8, 8)
         # ---- la raya de cada icono hasta la tira (punteada: GO elige el sitio)
         xs = getattr(self, '_xs', {})
@@ -565,16 +622,27 @@ class TiraTiempo(QWidget):
                 pen.setStyle(Qt.PenStyle.DotLine)
             p.setPen(pen)
             p.drawLine(QRectF(xx, 2 + MarcaSeccion.LADO - 3, 0, 0).topLeft(), QRectF(xx, pista.top(), 0, 0).topLeft())
-        # ---- la regla
+        # ---- la regla: pasos redondos (1, 2, 5, 10, 15, 30 s…), una rayita en cada uno y el total al final
         p.setFont(ui.fuente(10.5))
-        p.setPen(QColor('#7F8CA4'))
-        marcas = 6
-        for i in range(marcas + 1):
-            frac = i / marcas
-            xx = pista.left() + pista.width() * frac
-            al = Qt.AlignmentFlag.AlignLeft if i == 0 else Qt.AlignmentFlag.AlignRight if i == marcas else Qt.AlignmentFlag.AlignHCenter
-            caja = QRectF(xx - (0 if i == 0 else 60 if i == marcas else 30), pista.bottom() + 5, 60, 16)
-            p.drawText(caja, int(al | Qt.AlignmentFlag.AlignVCenter), _mmss(dur * frac))
+        fm = QFontMetricsF(p.font())
+        paso = next((s for s in (1, 2, 5, 10, 15, 30, 60, 120, 300, 600) if dur / s <= 10), 1200)
+        y_r = pista.bottom() + 4
+        t = 0.0
+        ult_x = -1e9
+        fin_x = pista.right() - fm.horizontalAdvance(_mmss(dur)) - 10
+        while t < dur - paso * 0.35:
+            xx = pista.left() + pista.width() * t / dur
+            p.setPen(QPen(QColor(255, 255, 255, 40), 1))
+            p.drawLine(QRectF(xx, y_r, 0, 0).topLeft(), QRectF(xx, y_r + 4, 0, 0).topLeft())
+            texto = _mmss(t)
+            if xx - ult_x > 46 and xx < fin_x:
+                p.setPen(QColor('#7F8CA4'))
+                p.drawText(QRectF(xx + (0 if t == 0 else -30), y_r + 5, 60, 15),
+                           int((Qt.AlignmentFlag.AlignLeft if t == 0 else Qt.AlignmentFlag.AlignHCenter) | Qt.AlignmentFlag.AlignVCenter), texto)
+                ult_x = xx
+            t += paso
+        p.setPen(QColor('#9AA6BA'))
+        p.drawText(QRectF(pista.right() - 60, y_r + 5, 60, 15), int(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter), _mmss(dur))
         p.end()
 
 
@@ -749,8 +817,9 @@ class TarjetaVertical(QWidget):
 class RejillaOpciones(QWidget):
     """Las opciones de una sección en columnas: las justas para que quepan en DOS filas (5 para 9 opciones, 6 para 11-12), menos si la
     columna es estrecha; cada tarjeta entre ANCHO_MIN y ANCHO_MAX (alineadas a la izquierda)."""
-    ANCHO_MIN, ANCHO_MAX, HUECO = 132, 230, 12
+    ANCHO_MIN, ANCHO_MAX, HUECO = 132, 320, 14
     PROPORCION = 1.12                                  # alto / ancho de cada tarjeta
+    alto_max = None                                    # v5.99: el alto que hay (lo pone la página): las tarjetas crecen hasta llenarlo
 
     def __init__(self, cartas, padre=None):
         super().__init__(padre)
@@ -759,7 +828,7 @@ class RejillaOpciones(QWidget):
         self._capa.setContentsMargins(0, 0, 0, 0)
         self._capa.setHorizontalSpacing(self.HUECO)
         self._capa.setVerticalSpacing(self.HUECO)
-        self._capa.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
+        self._capa.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignTop)   # (v5.99: centrada, sin banda vacía a un lado)
         # (el mínimo NO lo pone la rejilla: con 6 columnas serían ~1100 px y nunca podría repartir menos; se reparte al cambiar de ancho)
         self._capa.setSizeConstraint(QGridLayout.SizeConstraint.SetNoConstraint)
         self._cols, self._ancho_c = 0, 0
@@ -800,10 +869,23 @@ class RejillaOpciones(QWidget):
 
     def resizeEvent(self, e):
         super().resizeEvent(e)
+        self._reajustar()
+
+    def poner_alto_max(self, alto):
+        alto = int(alto) if alto and alto > 0 else None
+        if alto != self.alto_max:
+            self.alto_max = alto
+            self._reajustar()
+
+    def _reajustar(self):
+        import math
         a = self.width()
         cols = self._cols_para(a)
-        ancho_c = int(max(self.ANCHO_MIN, min(self.ANCHO_MAX, (a - (cols - 1) * self.HUECO) / cols)))
-        self._repartir(cols, ancho_c)
+        ancho_c = (a - (cols - 1) * self.HUECO) / cols
+        if self.alto_max:                              # (que las filas quepan en el alto que hay, sin desplazar)
+            filas = math.ceil(len(self.cartas) / cols) if self.cartas else 1
+            ancho_c = min(ancho_c, (self.alto_max - (filas - 1) * self.HUECO) / filas / self.PROPORCION)
+        self._repartir(cols, int(max(self.ANCHO_MIN, min(self.ANCHO_MAX, ancho_c))))
 
     def mostrar(self, _carta):
         pass                                           # (la rejilla no se desliza: se ven todas)

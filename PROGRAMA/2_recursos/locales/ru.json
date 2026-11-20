@@ -4857,6 +4857,18 @@
     "Apagado: GO no lo pone.": "Выключено: GO его не добавит.",
     "Tu video": "Твоё видео",
     "Cada icono es un efecto, donde GO lo pondrá. Clic en uno para cambiarlo.": "Каждый значок — эффект там, где его поставит GO. Нажми, чтобы изменить.",
-    "Suelta un video en Inicio para verlo aquí. Clic en un icono para cambiar ese efecto.": "Перетащи видео на Главную, чтобы увидеть его здесь. Нажми на значок, чтобы изменить эффект."
+    "Suelta un video en Inicio para verlo aquí. Clic en un icono para cambiar ese efecto.": "Перетащи видео на Главную, чтобы увидеть его здесь. Нажми на значок, чтобы изменить эффект.",
+    "Salir de CineCaptions": "Выйти из CineCaptions",
+    "Para usar CineCaptions hace falta TODO esto en tu equipo. La ventana se cierra cuando esté todo permitido.": "Чтобы пользоваться CineCaptions, компьютеру нужно ВСЁ это. Окно закроется, когда всё будет разрешено.",
+    "Falta 1 permiso": "Не хватает 1 разрешения",
+    "Faltan {n} permisos": "Не хватает разрешений: {n}",
+    "Para abrir tus videos de cualquier carpeta sin que macOS pregunte cada vez. Si al activarlo no cambia, sal y vuelve a abrir CineCaptions.": "Чтобы открывать видео из любой папки без вопросов macOS. Если после включения ничего не изменилось, закрой и снова открой CineCaptions.",
+    "Mientras esté activado, Windows bloquea partes de CineCaptions. Hay que desactivarlo.": "Пока он включён, Windows блокирует части CineCaptions. Его нужно отключить.",
+    "Efecto": "Эффект",
+    "Clic para abrirlo.": "Нажми, чтобы открыть.",
+    "Nueva página Efectos: arriba ves tu video con el icono de cada efecto en el momento en que GO lo pone; clic en uno para cambiarlo.": "Новая страница «Эффекты»: сверху твоё видео со значком каждого эффекта там, где его ставит GO; нажми, чтобы изменить.",
+    "Las opciones de cada efecto, más grandes y con su nombre encima; caben todas sin desplazar.": "Варианты каждого эффекта стали крупнее и с названием сверху; все помещаются без прокрутки.",
+    "Permisos: la ventana ya no se cierra hasta que CineCaptions tenga todo lo que necesita en tu Mac o tu PC.": "Разрешения: окно не закроется, пока у CineCaptions не будет всего нужного на твоём Mac или ПК.",
+    "Interfaz más pulida en todas las páginas: menos avisos técnicos en Inicio, Ajustes mejor ordenado y transiciones más suaves.": "Интерфейс аккуратнее на всех страницах: меньше технических уведомлений на Главной, порядок в Настройках и более плавные переходы."
   }
 }

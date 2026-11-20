@@ -537,6 +537,7 @@ class PaginaEfectos(QWidget):
                                      ('normal', tr('Normal'), tr('Las pausas normales y largas.'), False), ('fuerte', tr('Todas'), tr('Todas las pausas, sin respirar.'), False)], op.get('fx_pausas'), 'fx_pausas')
         self._f_saltos = self._fila(t5.capa, 'saltos', tr('Zoom alterno en cada corte'), tr('Con las pausas quitadas, el cuadro se acerca en un tramo sí y en el siguiente no, para que el corte seco parezca intencionado.'),
                                     self._niveles(tr('Sin zoom'), tr('Todos los tramos igual.'), tr('Un acercamiento discreto.'), tr('Un acercamiento claro.'), tr('Un acercamiento grande.')), op.get('fx_zoom_saltos'), 'fx_zoom_saltos')
+        t5.capa.addStretch(1)                            # v5.99: lo que sobra de alto, abajo (antes se repartía entre los textos: huecos enormes)
         self._env_ritmo = self._envolver(self._cuerpo, t5)   # v5.93: «Ritmo» con su pestaña, a todo el ancho. Los clásicos no: lo que les
         self._clasicos.setParent(self)                   # quedaba (Cierre, Sonido extra) ya estaba quitado de la página (v5.20) y su hueco salía
         self._clasicos.hide()                            # vacío; siguen armados para que sus ajustes guardados se lean igual
@@ -641,6 +642,24 @@ class PaginaEfectos(QWidget):
             izq.setFixedWidth(ai)
         if centro.width() != ac:
             centro.setFixedWidth(ac)
+        QTimer.singleShot(0, self._ajustar_rejillas)   # (tras colocar las columnas: el alto que tienen las opciones)
+
+    def _ajustar_rejillas(self):
+        """v5.99: las tarjetas de opciones crecen hasta llenar el alto de su columna (sin banda vacía abajo ni desplazar)."""
+        der = getattr(self, '_der', None)
+        estilos = getattr(self, '_estilos_pro', None)
+        if der is None or estilos is None or not ui.vivo(der):
+            return
+        for sec in estilos.secciones:
+            rej = getattr(sec, 'slider', None)
+            if rej is None or not hasattr(rej, 'poner_alto_max'):
+                continue
+            try:
+                from PySide6.QtCore import QPoint
+                y = rej.mapTo(sec.opciones, QPoint(0, 0)).y()
+            except Exception:
+                y = 40
+            rej.poner_alto_max(der.height() - 18 * 2 - y - 6)   # (los márgenes de la columna: 18 arriba y abajo)
 
     def _envolver(self, pila, w, margenes=(0, 0, 0, 0)):
         """Una columna con su barra de desplazamiento (solo si no cabe: la página entera ya no se desplaza)."""
@@ -661,6 +680,7 @@ class PaginaEfectos(QWidget):
             self._pila_opc.setCurrentWidget(cols[1])
             cols[0].arriba()
             cols[1].arriba()
+            QTimer.singleShot(0, self._ajustar_rejillas)
             sec._ver(sec.elegida())                      # → self._ver
         else:
             self._cuerpo.setCurrentWidget(self._env_ritmo)

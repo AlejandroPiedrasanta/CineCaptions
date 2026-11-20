@@ -12,6 +12,56 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-20 01:47  ·  v5.99  ·  cambio explicado
+    v5.99 pulido de todas las páginas: la línea de avisos de Inicio ya no enseña tareas internas de fondo (registro_ui._SOLO_REGISTRO, 'emojis'); Ajustes › Interfaz con las escenas centradas y sin puntos si caben; fila Licencia alineada arriba (_Fila arriba=True); en Efectos el tramo de la sección abierta entra con un fundido de 280 ms (TiraTiempo.ENTRA_MS). Notas de la versión 5.99 traducidas.
+    modificados (33):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/efectos_panel_ui.py
+      ~ 1_codigo/registro_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/locales/ru.json
+      … y 21 más
+
+2026-11-20 01:40  ·  v5.98  ·  cambio explicado
+    v5.99 pulido de Efectos y Permisos («pule más la interfaz»), mirado con letras reales al tamaño del monitor: tira con fotogramas anchos y el tramo abierto a color, regla en pasos redondos, iconos más grandes con punto verde y su nombre a la izquierda al pasar el ratón, tarjetas que llenan el alto de su columna y centradas, Ritmo sin huecos, ventana de permisos con su alto justo.
+    modificados (13):
+      ~ 1_codigo/efectos_pagina.py
+      ~ 1_codigo/efectos_panel_ui.py
+      ~ 1_codigo/permisos.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/locales/ru.json
+      ~ 2_recursos/locales/zh.json
+      … y 1 más
+
+2026-11-20 01:22  ·  v5.98  ·  cambio explicado
+    v5.99 permisos obligatorios (el usuario: «la ventana no se cierra hasta que tengas todos los permisos… en Mac todo debe estar permitido, igual en Windows»): todos requeridos (también informes de errores encendidos y Control inteligente apagado, leído en vivo), sale en cada arranque mientras falte algo, sin X/Más tarde/Esc; Listo solo con todo permitido; salida: Salir de CineCaptions.
+    modificados (12):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/permisos.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/locales/ru.json
+      ~ 2_recursos/locales/zh.json
+      ~ 3_compilar/traducciones_extra.json
+
 2026-11-20 01:01  ·  v5.98  ·  cambio explicado
     v5.99 página Efectos «Línea de tiempo» (el usuario eligió la A de tres propuestas): las pestañas pasan a ser la tira del video de Inicio con el icono de cada efecto donde va (TiraTiempo/MarcaSeccion, misma interfaz que BarraPestanas); columnas más ceñidas; opciones todo póster con el nombre encima (5+4); «GO usará» y LineaDonde ocultas: lo dicen el check, la línea verde «GO lo pone en…» y la tira.
     modificados (13):

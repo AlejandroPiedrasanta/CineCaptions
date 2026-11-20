@@ -4935,6 +4935,18 @@
     "Apagado: GO no lo pone.": "Spento: GO non lo mette.",
     "Tu video": "Il tuo video",
     "Cada icono es un efecto, donde GO lo pondrá. Clic en uno para cambiarlo.": "Ogni icona è un effetto, dove GO lo metterà. Clicca su una per cambiarlo.",
-    "Suelta un video en Inicio para verlo aquí. Clic en un icono para cambiar ese efecto.": "Trascina un video in Home per vederlo qui. Clicca su un’icona per cambiare quell’effetto."
+    "Suelta un video en Inicio para verlo aquí. Clic en un icono para cambiar ese efecto.": "Trascina un video in Home per vederlo qui. Clicca su un’icona per cambiare quell’effetto.",
+    "Salir de CineCaptions": "Esci da CineCaptions",
+    "Para usar CineCaptions hace falta TODO esto en tu equipo. La ventana se cierra cuando esté todo permitido.": "Per usare CineCaptions il tuo computer ha bisogno di TUTTO questo. La finestra si chiude quando è tutto consentito.",
+    "Falta 1 permiso": "Manca 1 permesso",
+    "Faltan {n} permisos": "Mancano {n} permessi",
+    "Para abrir tus videos de cualquier carpeta sin que macOS pregunte cada vez. Si al activarlo no cambia, sal y vuelve a abrir CineCaptions.": "Per aprire i tuoi video da qualsiasi cartella senza che macOS chieda ogni volta. Se dopo averlo attivato non cambia, esci e riapri CineCaptions.",
+    "Mientras esté activado, Windows bloquea partes de CineCaptions. Hay que desactivarlo.": "Finché è attivo, Windows blocca parti di CineCaptions. Va disattivato.",
+    "Efecto": "Effetto",
+    "Clic para abrirlo.": "Clicca per aprirlo.",
+    "Nueva página Efectos: arriba ves tu video con el icono de cada efecto en el momento en que GO lo pone; clic en uno para cambiarlo.": "Nuova pagina Effetti: in alto vedi il tuo video con l’icona di ogni effetto nel momento in cui GO lo inserisce; clicca su uno per cambiarlo.",
+    "Las opciones de cada efecto, más grandes y con su nombre encima; caben todas sin desplazar.": "Le opzioni di ogni effetto sono più grandi e con il nome sopra; stanno tutte senza scorrere.",
+    "Permisos: la ventana ya no se cierra hasta que CineCaptions tenga todo lo que necesita en tu Mac o tu PC.": "Permessi: la finestra non si chiude finché CineCaptions non ha tutto ciò che serve sul tuo Mac o PC.",
+    "Interfaz más pulida en todas las páginas: menos avisos técnicos en Inicio, Ajustes mejor ordenado y transiciones más suaves.": "Interfaccia più curata in tutte le pagine: meno avvisi tecnici in Home, Impostazioni più ordinate e transizioni più fluide."
   }
 }
