@@ -12,6 +12,29 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-20 08:57  ·  v5.99  ·  cambio explicado
+    v5.99 rendimiento (Mac y Windows): texturas de Inicio adelantadas en un hilo (el primer cuadro dejaba de pararse ~50 ms), cápsula de la isla de navegación en caché; medido a escala 1,5 y 2,0 con muestreo solo del hilo de la interfaz.
+    modificados (2):
+      ~ 1_codigo/estilos_inicio.py
+      ~ 1_codigo/isla_ui.py
+
+2026-11-20 08:43  ·  v5.99  ·  cambio explicado
+    v5.99 rapidez: packs recordados 2 s (primera visita a Estilo ~190 → ~40 ms, sin parones), cristal de Tarjeta y tira de Efectos en caché, pósters ya escalados, y la entrada de las tarjetas al cambiar de página sin el destello de 10 ms (el ejemplo de Efectos entra con ellas).
+    modificados (7):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/efectos_pagina.py
+      ~ 1_codigo/efectos_panel_ui.py
+      ~ 1_codigo/efectos_ui.py
+      ~ 1_codigo/plantillas.py
+      ~ 1_codigo/qt_kit.py
+      ~ 1_codigo/vistas_reales.py
+
+2026-11-20 08:27  ·  v5.99  ·  cambio explicado
+    pulido de los 3 estilos de Inicio (v5.99, «pule más los estilos de interfaz»): penumbra común en GO detrás del título, el estado y la lista (Nebulosa y Astrolabio ensuciaban «detectado» y las filas), sprite escalado ~0,5 ms; Proceso: palabras de Voz/IA sin meterse bajo las tarjetas.
+    modificados (2):
+      ~ 1_codigo/escena_go.py
+      ~ 1_codigo/estilos_inicio.py
+
 2026-11-20 01:47  ·  v5.99  ·  cambio explicado
     v5.99 pulido de todas las páginas: la línea de avisos de Inicio ya no enseña tareas internas de fondo (registro_ui._SOLO_REGISTRO, 'emojis'); Ajustes › Interfaz con las escenas centradas y sin puntos si caben; fila Licencia alineada arriba (_Fila arriba=True); en Efectos el tramo de la sección abierta entra con un fundido de 280 ms (TiraTiempo.ENTRA_MS). Notas de la versión 5.99 traducidas.
     modificados (33):
