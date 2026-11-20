@@ -4852,6 +4852,11 @@
     "Recomendado": "권장",
     "Si algo falla, nos llega el informe (nunca tus videos, audio ni textos) para arreglarlo antes.": "문제가 생기면 보고서가 전달되어(동영상·오디오·텍스트는 제외) 더 빨리 고칠 수 있습니다.",
     "Nueva ventana de permisos: tras instalar o actualizar te dice qué necesita CineCaptions en tu Mac o tu PC y te lleva a activarlo. Si ya está todo, no vuelve a salir.": "새 권한 창: 설치나 업데이트 후 Mac 또는 PC에서 CineCaptions에 필요한 것을 알려 주고 켜는 곳으로 안내합니다. 모두 준비되면 다시 나오지 않습니다.",
-    "Arreglado: tras actualizar ya no sale «Falla al iniciar: Motor de IA» por las librerías nuevas; se ponen al día solas.": "수정: 업데이트 후 새 라이브러리 때문에 «시작 오류: AI 엔진»이 더 이상 나오지 않습니다. 자동으로 업데이트됩니다."
+    "Arreglado: tras actualizar ya no sale «Falla al iniciar: Motor de IA» por las librerías nuevas; se ponen al día solas.": "수정: 업데이트 후 새 라이브러리 때문에 «시작 오류: AI 엔진»이 더 이상 나오지 않습니다. 자동으로 업데이트됩니다.",
+    "GO lo pone en 0:00 – 0:01 (siempre el primer segundo).": "GO가 0:00 – 0:01에 넣습니다(항상 첫 1초).",
+    "Apagado: GO no lo pone.": "꺼짐: GO가 넣지 않습니다.",
+    "Tu video": "내 영상",
+    "Cada icono es un efecto, donde GO lo pondrá. Clic en uno para cambiarlo.": "각 아이콘은 효과이며 GO가 넣을 위치에 있습니다. 클릭해서 바꾸세요.",
+    "Suelta un video en Inicio para verlo aquí. Clic en un icono para cambiar ese efecto.": "홈에 영상을 놓으면 여기에 보입니다. 아이콘을 클릭해 그 효과를 바꾸세요."
   }
 }

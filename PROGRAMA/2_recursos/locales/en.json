@@ -5091,6 +5091,11 @@
     "Recomendado": "Recommended",
     "Si algo falla, nos llega el informe (nunca tus videos, audio ni textos) para arreglarlo antes.": "If something fails, we get the report (never your videos, audio or text) so we can fix it sooner.",
     "Nueva ventana de permisos: tras instalar o actualizar te dice qué necesita CineCaptions en tu Mac o tu PC y te lleva a activarlo. Si ya está todo, no vuelve a salir.": "New permissions window: after installing or updating, it tells you what CineCaptions needs on your Mac or PC and takes you to turn it on. If everything is ready, it won’t show again.",
-    "Arreglado: tras actualizar ya no sale «Falla al iniciar: Motor de IA» por las librerías nuevas; se ponen al día solas.": "Fixed: after updating, “Startup failure: AI engine” no longer appears because of the new libraries; they update by themselves."
+    "Arreglado: tras actualizar ya no sale «Falla al iniciar: Motor de IA» por las librerías nuevas; se ponen al día solas.": "Fixed: after updating, “Startup failure: AI engine” no longer appears because of the new libraries; they update by themselves.",
+    "GO lo pone en 0:00 – 0:01 (siempre el primer segundo).": "GO puts it at 0:00 – 0:01 (always the first second).",
+    "Apagado: GO no lo pone.": "Off: GO won’t add it.",
+    "Tu video": "Your video",
+    "Cada icono es un efecto, donde GO lo pondrá. Clic en uno para cambiarlo.": "Each icon is an effect, where GO will place it. Click one to change it.",
+    "Suelta un video en Inicio para verlo aquí. Clic en un icono para cambiar ese efecto.": "Drop a video on Home to see it here. Click an icon to change that effect."
   }
 }

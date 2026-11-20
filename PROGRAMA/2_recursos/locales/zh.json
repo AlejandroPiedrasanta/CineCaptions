@@ -4852,6 +4852,11 @@
     "Recomendado": "推荐",
     "Si algo falla, nos llega el informe (nunca tus videos, audio ni textos) para arreglarlo antes.": "出现问题时我们会收到报告（绝不包含你的视频、音频或文字），以便尽快修复。",
     "Nueva ventana de permisos: tras instalar o actualizar te dice qué necesita CineCaptions en tu Mac o tu PC y te lleva a activarlo. Si ya está todo, no vuelve a salir.": "全新权限窗口：安装或更新后，会告诉你 CineCaptions 在 Mac 或 PC 上需要什么并带你去开启。全部就绪后不再显示。",
-    "Arreglado: tras actualizar ya no sale «Falla al iniciar: Motor de IA» por las librerías nuevas; se ponen al día solas.": "已修复：更新后不会再因新库而出现“启动失败：AI 引擎”，它们会自动更新。"
+    "Arreglado: tras actualizar ya no sale «Falla al iniciar: Motor de IA» por las librerías nuevas; se ponen al día solas.": "已修复：更新后不会再因新库而出现“启动失败：AI 引擎”，它们会自动更新。",
+    "GO lo pone en 0:00 – 0:01 (siempre el primer segundo).": "GO 会放在 0:00 – 0:01（始终是第一秒）。",
+    "Apagado: GO no lo pone.": "已关闭：GO 不会添加。",
+    "Tu video": "你的视频",
+    "Cada icono es un efecto, donde GO lo pondrá. Clic en uno para cambiarlo.": "每个图标是一个效果，位于 GO 放置的位置。点击即可更改。",
+    "Suelta un video en Inicio para verlo aquí. Clic en un icono para cambiar ese efecto.": "将视频拖到首页即可在此查看。点击图标可更改该效果。"
   }
 }

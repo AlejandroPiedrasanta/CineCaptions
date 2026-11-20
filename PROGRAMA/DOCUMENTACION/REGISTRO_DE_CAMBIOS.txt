@@ -12,6 +12,23 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-20 01:01  ·  v5.98  ·  cambio explicado
+    v5.99 página Efectos «Línea de tiempo» (el usuario eligió la A de tres propuestas): las pestañas pasan a ser la tira del video de Inicio con el icono de cada efecto donde va (TiraTiempo/MarcaSeccion, misma interfaz que BarraPestanas); columnas más ceñidas; opciones todo póster con el nombre encima (5+4); «GO usará» y LineaDonde ocultas: lo dicen el check, la línea verde «GO lo pone en…» y la tira.
+    modificados (13):
+      ~ 1_codigo/efectos_pagina.py
+      ~ 1_codigo/efectos_panel_ui.py
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/locales/ru.json
+      ~ 2_recursos/locales/zh.json
+      … y 1 más
+
 2026-11-19 20:31  ·  v5.98  ·  (automático)
     modificados (31):
       ~ 1_codigo/ajustes_ui.py

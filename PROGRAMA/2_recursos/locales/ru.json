@@ -4852,6 +4852,11 @@
     "Recomendado": "Рекомендуется",
     "Si algo falla, nos llega el informe (nunca tus videos, audio ni textos) para arreglarlo antes.": "Если что-то сломается, мы получим отчёт (без ваших видео, звука и текстов), чтобы исправить быстрее.",
     "Nueva ventana de permisos: tras instalar o actualizar te dice qué necesita CineCaptions en tu Mac o tu PC y te lleva a activarlo. Si ya está todo, no vuelve a salir.": "Новое окно разрешений: после установки или обновления оно показывает, что нужно CineCaptions на вашем Mac или ПК, и ведёт к включению. Если всё готово, больше не появится.",
-    "Arreglado: tras actualizar ya no sale «Falla al iniciar: Motor de IA» por las librerías nuevas; se ponen al día solas.": "Исправлено: после обновления больше не появляется «Сбой при запуске: ИИ-движок» из-за новых библиотек — они обновляются сами."
+    "Arreglado: tras actualizar ya no sale «Falla al iniciar: Motor de IA» por las librerías nuevas; se ponen al día solas.": "Исправлено: после обновления больше не появляется «Сбой при запуске: ИИ-движок» из-за новых библиотек — они обновляются сами.",
+    "GO lo pone en 0:00 – 0:01 (siempre el primer segundo).": "GO ставит его на 0:00 – 0:01 (всегда первая секунда).",
+    "Apagado: GO no lo pone.": "Выключено: GO его не добавит.",
+    "Tu video": "Твоё видео",
+    "Cada icono es un efecto, donde GO lo pondrá. Clic en uno para cambiarlo.": "Каждый значок — эффект там, где его поставит GO. Нажми, чтобы изменить.",
+    "Suelta un video en Inicio para verlo aquí. Clic en un icono para cambiar ese efecto.": "Перетащи видео на Главную, чтобы увидеть его здесь. Нажми на значок, чтобы изменить эффект."
   }
 }

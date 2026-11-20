@@ -5575,9 +5575,13 @@
   {
    "id": "efectos-panel",
    "grupo": "efectos",
-   "tema": "La página Efectos «Escenario» (v5.93, propuesta A): pestañas con iconos animados de Higgsfield, «GO usará» y «Personaliza» a la izquierda, el ejemplo en grande en el centro con «Usar …» y las opciones en tarjetas verticales",
+   "tema": "La página Efectos «Línea de tiempo» (v5.99, propuesta A; antes «Escenario» v5.93): arriba tu video en fotogramas con el icono de cada efecto donde va (TiraTiempo/MarcaSeccion), «Personaliza» a la izquierda, el ejemplo en grande en el centro con «Usar …» y las opciones como pósters con su nombre (5 + 4)",
    "claves": [
     "página efectos",
+    "línea de tiempo",
+    "tira del video",
+    "TiraTiempo",
+    "MarcaSeccion",
     "efectos",
     "tres columnas",
     "vista previa",

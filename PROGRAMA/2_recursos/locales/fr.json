@@ -4930,6 +4930,11 @@
     "Recomendado": "Recommandé",
     "Si algo falla, nos llega el informe (nunca tus videos, audio ni textos) para arreglarlo antes.": "Si quelque chose échoue, nous recevons le rapport (jamais vos vidéos, audio ou textes) pour corriger plus vite.",
     "Nueva ventana de permisos: tras instalar o actualizar te dice qué necesita CineCaptions en tu Mac o tu PC y te lleva a activarlo. Si ya está todo, no vuelve a salir.": "Nouvelle fenêtre des autorisations : après l’installation ou la mise à jour, elle indique ce dont CineCaptions a besoin sur votre Mac ou PC et vous emmène l’activer. Si tout est prêt, elle ne réapparaît plus.",
-    "Arreglado: tras actualizar ya no sale «Falla al iniciar: Motor de IA» por las librerías nuevas; se ponen al día solas.": "Corrigé : après une mise à jour, « Échec au démarrage : moteur d’IA » n’apparaît plus à cause des nouvelles bibliothèques ; elles se mettent à jour seules."
+    "Arreglado: tras actualizar ya no sale «Falla al iniciar: Motor de IA» por las librerías nuevas; se ponen al día solas.": "Corrigé : après une mise à jour, « Échec au démarrage : moteur d’IA » n’apparaît plus à cause des nouvelles bibliothèques ; elles se mettent à jour seules.",
+    "GO lo pone en 0:00 – 0:01 (siempre el primer segundo).": "GO le place à 0:00 – 0:01 (toujours la première seconde).",
+    "Apagado: GO no lo pone.": "Désactivé : GO ne l’ajoute pas.",
+    "Tu video": "Ta vidéo",
+    "Cada icono es un efecto, donde GO lo pondrá. Clic en uno para cambiarlo.": "Chaque icône est un effet, là où GO le placera. Clique sur l’une pour le changer.",
+    "Suelta un video en Inicio para verlo aquí. Clic en un icono para cambiar ese efecto.": "Dépose une vidéo dans Accueil pour la voir ici. Clique sur une icône pour changer cet effet."
   }
 }

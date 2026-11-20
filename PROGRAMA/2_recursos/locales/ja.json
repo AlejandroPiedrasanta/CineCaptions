@@ -4852,6 +4852,11 @@
     "Recomendado": "おすすめ",
     "Si algo falla, nos llega el informe (nunca tus videos, audio ni textos) para arreglarlo antes.": "問題が起きるとレポートが届き（動画・音声・テキストは送られません）、早く直せます。",
     "Nueva ventana de permisos: tras instalar o actualizar te dice qué necesita CineCaptions en tu Mac o tu PC y te lleva a activarlo. Si ya está todo, no vuelve a salir.": "新しい権限ウィンドウ：インストールやアップデートの後、Mac や PC で CineCaptions に必要なものを示し、オンにする場所へ案内します。すべて揃っていれば再表示されません。",
-    "Arreglado: tras actualizar ya no sale «Falla al iniciar: Motor de IA» por las librerías nuevas; se ponen al día solas.": "修正：アップデート後に新しいライブラリが原因で「起動時のエラー：AI エンジン」が出なくなりました。自動で更新されます。"
+    "Arreglado: tras actualizar ya no sale «Falla al iniciar: Motor de IA» por las librerías nuevas; se ponen al día solas.": "修正：アップデート後に新しいライブラリが原因で「起動時のエラー：AI エンジン」が出なくなりました。自動で更新されます。",
+    "GO lo pone en 0:00 – 0:01 (siempre el primer segundo).": "GO は 0:00 – 0:01 に入れます（常に最初の1秒）。",
+    "Apagado: GO no lo pone.": "オフ：GO は入れません。",
+    "Tu video": "あなたの動画",
+    "Cada icono es un efecto, donde GO lo pondrá. Clic en uno para cambiarlo.": "各アイコンは効果で、GO が入れる位置にあります。クリックで変更できます。",
+    "Suelta un video en Inicio para verlo aquí. Clic en un icono para cambiar ese efecto.": "ホームに動画をドロップするとここに表示されます。アイコンをクリックしてその効果を変更。"
   }
 }

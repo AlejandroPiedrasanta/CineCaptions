@@ -5,9 +5,10 @@
     icono_ui(nombre, tam)     PNG de 2_recursos/efectos/iconos_ui (hechos con Higgsfield, ver DOCUMENTACION/temas/efectos.md) o None
     animacion_ui(nombre, tam) los cuadros de su animación (`<nombre>_anim.png`, tira con transparencia suave) o []
     icono_tenido(nombre, tam, color)  el icono en un solo color (las secciones apagadas)
-    PestanaSeccion / BarraPestanas  las pestañas de arriba: icono (animado en la abierta), nombre y un punto verde si GO la pone
-    TarjetaVertical / RejillaOpciones  una opción (póster grande + nombre + descripción) y la rejilla (en dos filas si caben)
-    TarjetaUsara / LineaDonde       «GO usará …» y «Dónde va en tu video»
+    MarcaSeccion / TiraTiempo       v5.99 «Línea de tiempo»: arriba, tu video en fotogramas y el icono de cada efecto donde va (clic = abrirlo)
+    PestanaSeccion / BarraPestanas  las pestañas de antes (v5.93-5.98; ya no se usan en la página)
+    TarjetaVertical / RejillaOpciones  una opción (todo póster, con su nombre encima) y la rejilla (5 + 4 si caben)
+    TarjetaUsara / LineaDonde       «GO usará …» y «Dónde va en tu video» (desde la v5.99, ocultas: lo dicen el check y la tira)
     PanelVista                      el escenario: el mp4 de la opción en bucle en un móvil, su nombre, «Ver otra vez» y «Usar …»
 Lo que se elige y se guarda sigue en efectos_pro_ui.SeccionEstilo (estilos_pro): aquí solo cómo se ve. Sin globos ni tooltips.
 """
@@ -299,6 +300,284 @@ class BarraPestanas(QWidget):
                 f.tic()
 
 
+# ====================================================================================== v5.99 «Línea de tiempo»: la tira de tu video
+class MarcaSeccion(PestanaSeccion):
+    """Una sección en la tira de tu video (propuesta A «Línea de tiempo», elegida por el usuario): solo su icono en una cajita, en el
+    punto del video donde va. La abierta: verde, más grande y animada; las que GO no pone, tenues. Lo demás, como PestanaSeccion."""
+    LADO = 44
+
+    def __init__(self, clave, titulo, icono, icono_qt=None, padre=None):
+        super().__init__(clave, titulo, icono, icono_qt, padre)
+        self.fijo = False                              # True: va en un segundo marcado (o el gancho, en el primero)
+
+    _CAJA = QRectF(8, 8, 28, 28)
+
+    def _ajustar(self):
+        self.setFixedSize(self.LADO, self.LADO)
+
+    def paintEvent(self, _e):
+        p = QPainter(self)
+        p.setRenderHint(QPainter.RenderHint.Antialiasing)
+        p.setRenderHint(QPainter.RenderHint.SmoothPixmapTransform)
+        r = QRectF(2.5, 2.5, self.width() - 5, self.height() - 5) if self.activa else QRectF(5.5, 5.5, self.width() - 11, self.height() - 11)
+        if self.activa:
+            p.setPen(QPen(QColor(46, 211, 155, 55), 4))
+            p.setBrush(Qt.BrushStyle.NoBrush)
+            p.drawRoundedRect(r.adjusted(-1, -1, 1, 1), 13, 13)
+            p.setBrush(QColor(46, 211, 155, 48))
+            p.setPen(QPen(QColor(VERDE), 1.4))
+        else:
+            p.setBrush(QColor(19, 32, 47, 235) if not self._hover else QColor(30, 46, 64, 245))
+            p.setPen(QPen(QColor(255, 255, 255, 40 if self._hover else 22), 1))
+        p.drawRoundedRect(r, 11, 11)
+        lado = 26 if self.activa else 22
+        x0, y0 = int(self.width() / 2 - lado / 2), int(self.height() / 2 - lado / 2)
+        cuadros = (animacion_ui(self._icono, lado) if self._icono else []) if (self.activa or self._hover) else []
+        if cuadros:
+            k = min(len(cuadros) - 1, self._cuadro())
+            self._k = k
+            p.drawPixmap(x0, y0, cuadros[k])
+        else:
+            pm = None
+            if self._icono:
+                pm = icono_ui(self._icono, lado) if (self.on or self._hover) else icono_tenido(self._icono, lado, '#5D6B82')
+            if pm is not None and not pm.isNull():
+                p.drawPixmap(x0, y0, pm)
+            elif self._icono_qt is not None:
+                p.drawPixmap(int(self.width() / 2 - 10), int(self.height() / 2 - 10), self._icono_qt.pixmap(20, 20))
+        p.end()
+
+    def _cuadros(self):
+        return animacion_ui(self._icono, 26 if self.activa else 22) if self._icono else []
+
+    def tic(self):
+        k = self._cuadro()
+        if k != self._k:
+            self._k = k
+            self.update()
+
+
+class TiraTiempo(QWidget):
+    """Arriba de la página Efectos (v5.99, propuesta A «Línea de tiempo»; antes, pestañas): tu video de Inicio en una tira de fotogramas
+    con su regla, y encima el icono de cada efecto en el punto donde va (el gancho, en el primer segundo; los demás, en su primera posición
+    marcada o, sin marcar, repartidos con la raya punteada: GO elige dónde). Clic en un icono = abre esa sección. Lo mismo que BarraPestanas
+    hacia fuera (`elegida`, `agregar`, `filas`, `marcar`, `tic`). Los fotogramas los lee un hilo (posiciones_pro.fotogramas, en caché)."""
+    elegida = Signal(str)
+    ALTO = 124
+    IZQ = 214                                          # el texto de la izquierda («Tu video», su nombre y la pista)
+    ARRIBA_TIRA = 52                                   # donde empieza la tira de fotogramas
+    ALTO_TIRA = 40
+
+    def __init__(self, padre=None):
+        super().__init__(padre)
+        self.filas = {}
+        self._orden = []
+        self._lugares = {}                             # clave → (duración | None, [(ini, fin)])
+        self._ruta, self._fotos, self._dur = None, [], None
+        self._pedida = None
+        self.setFixedHeight(self.ALTO)
+
+    # -- lo mismo que BarraPestanas
+    def agregar(self, fila):
+        fila.setParent(self)
+        fila.clic.connect(self._tocar)
+        self.filas[fila.clave] = fila
+        self._orden.append(fila.clave)
+        fila.show()
+        self._colocar()
+        return fila
+
+    def _tocar(self, clave):
+        self.marcar(clave)
+        self.elegida.emit(clave)
+
+    def marcar(self, clave):
+        for k, f in self.filas.items():
+            f.poner(activa=k == clave)
+            if k == clave:
+                f.raise_()
+        self.update()
+
+    def tic(self):
+        for f in self.filas.values():
+            if f.activa or f._hover or f._k > 0:
+                f.tic()
+
+    # -- el video y dónde va cada efecto
+    def poner_video(self, ruta):
+        """El video de Inicio (o None). Sus fotogramas se leen en un hilo, una vez por video."""
+        ruta = str(ruta) if ruta else None
+        if ruta == self._ruta:
+            return
+        self._ruta, self._fotos, self._dur = ruta, [], None
+        self.update()
+        if not ruta or self._pedida == ruta:
+            return
+        self._pedida = ruta
+
+        def leer():
+            import posiciones_pro as POS
+            d = POS.fotogramas(ruta)
+            if not d:
+                return None
+            from PySide6.QtGui import QImage
+            fotos = []
+            for _t, f in d.get('fotos') or []:
+                img = QImage(str(f))
+                if not img.isNull():
+                    fotos.append(img)
+            return float(d.get('dur') or 0.0), fotos
+
+        def fin(r, error):
+            self._pedida = None
+            if ruta != self._ruta or error is not None or not r:
+                return
+            self._dur, self._fotos = r[0] or None, r[1]
+            self._colocar()
+            self.update()
+        ui.correr_en_hilo(self, leer, fin)
+
+    def poner_lugar(self, clave, duracion, tramos):
+        """Dónde va la sección `clave`: tramos = [(ini_s, fin_s)] (vacío: GO elige)."""
+        nuevo = (float(duracion) if duracion else None, [(float(a), float(b)) for a, b, *_r in (tramos or [])])
+        if self._lugares.get(clave) != nuevo:
+            self._lugares[clave] = nuevo
+            if nuevo[0] and not self._dur:
+                self._dur = nuevo[0]
+            self._colocar()
+            self.update()
+
+    def _pista(self):
+        return QRectF(self.IZQ + 22, self.ARRIBA_TIRA, max(60.0, self.width() - self.IZQ - 22 - 20), self.ALTO_TIRA)
+
+    def _duracion(self):
+        if self._dur:
+            return self._dur
+        fines = [b for _d, ts in self._lugares.values() for _a, b in ts]
+        return max(fines + [30.0])                     # (sin la duración: una de referencia de 30 s, como «Dónde va»)
+
+    def _colocar(self):
+        """Pone cada icono sobre su punto de la tira; los que no tienen segundo, repartidos; sin pisarse."""
+        if not self._orden:
+            return
+        pista, dur = self._pista(), self._duracion()
+        lado = MarcaSeccion.LADO
+        xs = {}
+        libres = []
+        for k in self._orden:
+            ts = (self._lugares.get(k) or (None, []))[1]
+            if ts:
+                xs[k] = pista.left() + pista.width() * min(1.0, max(0.0, ts[0][0] / dur))
+                self.filas[k].fijo = True
+            else:
+                libres.append(k)
+                self.filas[k].fijo = False
+        n = len(libres)
+        for i, k in enumerate(libres):                 # (repartidos entre el 9 % y el final, en el orden de las secciones)
+            xs[k] = pista.left() + pista.width() * (0.09 + 0.91 * (i + 0.5) / max(1, n))
+        orden = sorted(self._orden, key=lambda k: (xs[k], self._orden.index(k)))
+        hueco = lado + 4
+        mins = pista.left() + lado / 2 - 4
+        for k in orden:                                # (que no se pisen: empujados a la derecha y, si se salen, de vuelta)
+            xs[k] = max(xs[k], mins)
+            mins = xs[k] + hueco
+        maxs = pista.right() - lado / 2 + 4
+        for k in reversed(orden):
+            xs[k] = min(xs[k], maxs)
+            maxs = xs[k] - hueco
+        self._xs = xs
+        for k in self._orden:
+            self.filas[k].move(int(round(xs[k] - lado / 2)), 2)
+
+    def resizeEvent(self, e):
+        super().resizeEvent(e)
+        self._colocar()
+
+    def paintEvent(self, _e):
+        p = QPainter(self)
+        p.setRenderHint(QPainter.RenderHint.Antialiasing)
+        p.setRenderHint(QPainter.RenderHint.SmoothPixmapTransform)
+        # ---- a la izquierda: «Tu video», su nombre y qué es esto
+        x, ancho = 4, self.IZQ - 8
+        p.setFont(ui.fuente(10.5, peso='negrita'))
+        p.setPen(QColor('#6F7E98'))
+        p.drawText(QRectF(x, 4, ancho, 16), int(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft), tr('Tu video').upper())
+        p.setFont(ui.fuente(14, peso='negrita'))
+        p.setPen(QColor('#FFFFFF'))
+        fm = QFontMetricsF(p.font())
+        nombre = Path(self._ruta).name if self._ruta else tr('Sin video')
+        p.drawText(QRectF(x, 23, ancho, 22), int(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft),
+                   fm.elidedText(nombre, Qt.TextElideMode.ElideMiddle, ancho))
+        p.setFont(ui.fuente(11.5))
+        p.setPen(QColor(MUT))
+        pista_txt = (tr('Cada icono es un efecto, donde GO lo pondrá. Clic en uno para cambiarlo.') if self._ruta else
+                     tr('Suelta un video en Inicio para verlo aquí. Clic en un icono para cambiar ese efecto.'))
+        p.drawText(QRectF(x, 50, ancho, 66), int(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop | Qt.TextFlag.TextWordWrap), pista_txt)
+        # ---- la tira de fotogramas
+        pista, dur = self._pista(), self._duracion()
+        camino = QPainterPath()
+        camino.addRoundedRect(pista, 9, 9)
+        p.save()
+        p.setClipPath(camino)
+        p.fillRect(pista, QColor('#0B1424'))
+        if self._fotos:
+            n = len(self._fotos)
+            img0 = self._fotos[0]
+            ancho_f = pista.height() * img0.width() / max(1, img0.height())
+            cuantos = max(1, int(pista.width() / max(8.0, ancho_f)) + 1)
+            p.setOpacity(0.62)
+            for i in range(cuantos):                   # (los fotogramas a lo largo del video, tantos como quepan)
+                img = self._fotos[min(n - 1, int((i + 0.5) / cuantos * n))]
+                r = QRectF(pista.left() + i * ancho_f, pista.top(), ancho_f, pista.height())
+                esc = max(r.width() / img.width(), r.height() / img.height())
+                w, h = img.width() * esc, img.height() * esc
+                p.drawImage(QRectF(r.center().x() - w / 2, r.center().y() - h / 2, w, h), img)
+            p.setOpacity(1.0)
+        else:
+            p.setPen(QPen(QColor(255, 255, 255, 14), 1))
+            paso = 14.0
+            xx = pista.left()
+            while xx < pista.right():                  # (sin video: la tira rayada)
+                p.drawLine(int(xx), int(pista.top()), int(xx + pista.height() * 0.6), int(pista.bottom()))
+                xx += paso
+        p.restore()
+        p.setBrush(Qt.BrushStyle.NoBrush)
+        p.setPen(QPen(QColor(255, 255, 255, 26), 1))
+        p.drawRoundedRect(pista.adjusted(0.5, 0.5, -0.5, -0.5), 9, 9)
+        # ---- dónde va la sección abierta (verde) sobre la tira
+        abierta = next((k for k, f in self.filas.items() if f.activa), None)
+        for ini, fin in (self._lugares.get(abierta) or (None, []))[1]:
+            x0 = pista.left() + pista.width() * max(0.0, ini) / dur
+            x1 = pista.left() + pista.width() * min(dur, fin) / dur
+            r = QRectF(x0, pista.top(), max(14.0, x1 - x0), pista.height())
+            p.setBrush(QColor(46, 211, 155, 40))
+            p.setPen(QPen(QColor(VERDE), 2))
+            p.drawRoundedRect(r.adjusted(1, 1, -1, -1), 8, 8)
+        # ---- la raya de cada icono hasta la tira (punteada: GO elige el sitio)
+        xs = getattr(self, '_xs', {})
+        for k, f in self.filas.items():
+            if k not in xs:
+                continue
+            xx = xs[k]
+            color = QColor(VERDE) if f.activa else QColor(255, 255, 255, 70 if f.on else 35)
+            pen = QPen(color, 1.4 if f.activa else 1)
+            if not f.fijo:
+                pen.setStyle(Qt.PenStyle.DotLine)
+            p.setPen(pen)
+            p.drawLine(QRectF(xx, 2 + MarcaSeccion.LADO - 3, 0, 0).topLeft(), QRectF(xx, pista.top(), 0, 0).topLeft())
+        # ---- la regla
+        p.setFont(ui.fuente(10.5))
+        p.setPen(QColor('#7F8CA4'))
+        marcas = 6
+        for i in range(marcas + 1):
+            frac = i / marcas
+            xx = pista.left() + pista.width() * frac
+            al = Qt.AlignmentFlag.AlignLeft if i == 0 else Qt.AlignmentFlag.AlignRight if i == marcas else Qt.AlignmentFlag.AlignHCenter
+            caja = QRectF(xx - (0 if i == 0 else 60 if i == marcas else 30), pista.bottom() + 5, 60, 16)
+            p.drawText(caja, int(al | Qt.AlignmentFlag.AlignVCenter), _mmss(dur * frac))
+        p.end()
+
+
 # ====================================================================================== las opciones de una sección
 class TarjetaVertical(QWidget):
     """Una opción en vertical: su póster grande (el de la app; quieto: el que se mueve es el del escenario), su nombre y su descripción.
@@ -306,7 +585,7 @@ class TarjetaVertical(QWidget):
     escenario. La elegida: borde verde y su check (aparece con un rebote); la que se ve en grande: borde blanco y «Viendo»."""
     clic = Signal(str)
     encima = Signal(str)
-    ALTO_MINI = 248
+    ALTO = 212
     ESPERA_MS = 260                                    # pasar de largo (camino de «Usar …») no cambia el escenario; quedarse encima, sí
     POP_MS = 320
 
@@ -322,8 +601,8 @@ class TarjetaVertical(QWidget):
                 self._poster = vistas_slider.imagen_de(poster)
             except Exception:
                 self._poster = None
-        self.setFixedHeight(self.ALTO_MINI + 92)
-        self.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.setFixedHeight(self.ALTO)                 # v5.99 «Línea de tiempo»: todo póster, con el nombre encima (sin descripción:
+        self.setCursor(Qt.CursorShape.PointingHandCursor)   # la dice el escenario al verla)
 
     # (lo mismo que TarjetaEfecto, para que la página y la sección las traten igual)
     def poner_seleccionada(self, v):
@@ -387,14 +666,15 @@ class TarjetaVertical(QWidget):
         else:
             p.setBrush(QColor(255, 255, 255, 6 + int(9 * h)))
             p.setPen(QPen(QColor(255, 255, 255, 16 + int(30 * h)), 1))
-        p.drawRoundedRect(r, 16, 16)
+        p.drawRoundedRect(r, 14, 14)
         if self._sel:                                  # el halo de la elegida
             p.setPen(QPen(QColor(46, 211, 155, 30), 3))
             p.setBrush(Qt.BrushStyle.NoBrush)
-            p.drawRoundedRect(r.adjusted(-1, -1, 1, 1), 17, 17)
-        mini = QRectF(8, 8, self.width() - 16, self.ALTO_MINI)
+            p.drawRoundedRect(r.adjusted(-1, -1, 1, 1), 15, 15)
+        borde = 2.0 if (self._sel or self._vista) else 1.0
+        mini = QRectF(borde, borde, self.width() - 2 * borde, self.height() - 2 * borde)
         camino = QPainterPath()
-        camino.addRoundedRect(mini, 11, 11)
+        camino.addRoundedRect(mini, 13, 13)
         p.save()
         p.setClipPath(camino)
         if self._poster is not None and not self._poster.isNull():
@@ -407,11 +687,11 @@ class TarjetaVertical(QWidget):
             p.setPen(QColor(MUT))
             p.setFont(ui.fuente(26))
             p.drawText(mini, int(Qt.AlignmentFlag.AlignCenter), 'A')
-        if self._vista:                                # la que se ve en el escenario
+        if self._vista and not self._sel:              # la que se ve en el escenario (la elegida ya lleva su check)
             p.setFont(ui.fuente(11.5, peso='negrita'))
             texto = tr('Viendo')
             ancho = QFontMetricsF(p.font()).horizontalAdvance(texto) + 34
-            b = QRectF(mini.left() + 8, mini.bottom() - 34, ancho, 26)
+            b = QRectF(mini.left() + 8, mini.top() + 8, ancho, 26)
             p.setPen(Qt.PenStyle.NoPen)
             p.setBrush(QColor(8, 14, 26, 195))
             p.drawRoundedRect(b, 13, 13)
@@ -424,6 +704,18 @@ class TarjetaVertical(QWidget):
             p.drawPath(tri)
             p.setPen(QColor('#FFFFFF'))
             p.drawText(QRectF(b.left() + 24, b.top(), ancho - 26, b.height()), int(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft), texto)
+        from PySide6.QtGui import QLinearGradient       # el nombre, sobre un degradado oscuro al pie del póster
+        pie = QRectF(mini.left(), mini.bottom() - 62, mini.width(), 62)
+        g = QLinearGradient(pie.topLeft(), pie.bottomLeft())
+        g.setColorAt(0.0, QColor(4, 9, 18, 0))
+        g.setColorAt(1.0, QColor(4, 9, 18, 235))
+        p.fillRect(pie, g)
+        x, ancho = mini.left() + 12, mini.width() - 24
+        p.setPen(QColor('#FFFFFF') if (self._sel or h > 0.5) else QColor('#EDF2FA'))
+        p.setFont(ui.fuente(13.5, peso='negrita'))
+        fm = QFontMetricsF(p.font())
+        p.drawText(QRectF(x, mini.bottom() - 32, ancho, 22), int(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft),
+                   fm.elidedText(self.nombre, Qt.TextElideMode.ElideRight, ancho))
         p.restore()
         if self._sel:                                  # la que usará GO (al elegirla, el check rebota: 0,55 → 1,08 → 1)
             t = min(1.0, (_reloj_ms() - self._t_sel) / self.POP_MS) if self._t_sel else 1.0
@@ -447,26 +739,18 @@ class TarjetaVertical(QWidget):
             ch.lineTo(ox + 10.2 * k, oy + 16 * k)
             ch.lineTo(ox + 17.5 * k, oy + 8 * k)
             p.drawPath(ch)
-        x, ancho = 12, self.width() - 24
-        y = mini.bottom() + 11
-        p.setPen(QColor('#FFFFFF'))
-        p.setFont(ui.fuente(14.5, peso='negrita'))
-        fm = QFontMetricsF(p.font())
-        p.drawText(QRectF(x, y, ancho, 22), int(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft),
-                   fm.elidedText(self.nombre, Qt.TextElideMode.ElideRight, ancho))
-        p.setPen(QColor('#8592AA') if h < 0.5 else QColor('#A3AFC4'))
-        p.setFont(ui.fuente(12))
-        p.save()
-        p.setClipRect(QRectF(x, y + 25, ancho, QFontMetricsF(p.font()).lineSpacing() * 2))   # (dos líneas justas: la 3.ª no asoma)
-        p.drawText(QRectF(x, y + 25, ancho, 60), int(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop | Qt.TextFlag.TextWordWrap), self.detalle)
-        p.restore()
+        if self._sel or self._vista:                   # (el borde, encima del póster)
+            p.setBrush(Qt.BrushStyle.NoBrush)
+            p.setPen(QPen(QColor(VERDE) if self._sel else QColor(255, 255, 255, 150), 2))
+            p.drawRoundedRect(QRectF(1, 1, self.width() - 2, self.height() - 2), 14, 14)
         p.end()
 
 
 class RejillaOpciones(QWidget):
     """Las opciones de una sección en columnas: las justas para que quepan en DOS filas (5 para 9 opciones, 6 para 11-12), menos si la
     columna es estrecha; cada tarjeta entre ANCHO_MIN y ANCHO_MAX (alineadas a la izquierda)."""
-    ANCHO_MIN, ANCHO_MAX, HUECO = 168, 250, 16
+    ANCHO_MIN, ANCHO_MAX, HUECO = 132, 230, 12
+    PROPORCION = 1.12                                  # alto / ancho de cada tarjeta
 
     def __init__(self, cartas, padre=None):
         super().__init__(padre)
@@ -498,8 +782,8 @@ class RejillaOpciones(QWidget):
                 self._capa.addWidget(c, i // cols, i % cols)
         if ancho_c != self._ancho_c:
             self._ancho_c = ancho_c
-            for c in self.cartas:
-                c.setFixedWidth(ancho_c)
+            for c in self.cartas:                      # (v5.99: casi cuadradas, todo póster: 5 + 4 caben sin desplazar)
+                c.setFixedSize(ancho_c, int(ancho_c * self.PROPORCION))
         self.updateGeometry()
 
     def _alto(self):

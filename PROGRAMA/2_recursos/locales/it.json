@@ -4930,6 +4930,11 @@
     "Recomendado": "Consigliato",
     "Si algo falla, nos llega el informe (nunca tus videos, audio ni textos) para arreglarlo antes.": "Se qualcosa non va, riceviamo la segnalazione (mai i tuoi video, audio o testi) per risolverlo prima.",
     "Nueva ventana de permisos: tras instalar o actualizar te dice qué necesita CineCaptions en tu Mac o tu PC y te lleva a activarlo. Si ya está todo, no vuelve a salir.": "Nuova finestra dei permessi: dopo l’installazione o l’aggiornamento ti dice cosa serve a CineCaptions sul tuo Mac o PC e ti porta ad attivarlo. Se è tutto pronto, non ricompare.",
-    "Arreglado: tras actualizar ya no sale «Falla al iniciar: Motor de IA» por las librerías nuevas; se ponen al día solas.": "Risolto: dopo l’aggiornamento non compare più «Errore all’avvio: motore IA» per le nuove librerie; si aggiornano da sole."
+    "Arreglado: tras actualizar ya no sale «Falla al iniciar: Motor de IA» por las librerías nuevas; se ponen al día solas.": "Risolto: dopo l’aggiornamento non compare più «Errore all’avvio: motore IA» per le nuove librerie; si aggiornano da sole.",
+    "GO lo pone en 0:00 – 0:01 (siempre el primer segundo).": "GO lo mette a 0:00 – 0:01 (sempre il primo secondo).",
+    "Apagado: GO no lo pone.": "Spento: GO non lo mette.",
+    "Tu video": "Il tuo video",
+    "Cada icono es un efecto, donde GO lo pondrá. Clic en uno para cambiarlo.": "Ogni icona è un effetto, dove GO lo metterà. Clicca su una per cambiarlo.",
+    "Suelta un video en Inicio para verlo aquí. Clic en un icono para cambiar ese efecto.": "Trascina un video in Home per vederlo qui. Clicca su un’icona per cambiare quell’effetto."
   }
 }
