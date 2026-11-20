@@ -18,6 +18,8 @@
 
 **Registro flotante (5.5.11):** el botón del Registro (`registro_flotante`, un `registro_ui.BotonRegistro`) va a la izquierda de los controles de la ventana en TODAS las páginas, Inicio incluida (`_reposicionar_isla` lo coloca, `ir_a` lo sube). Inicio ya no lleva su propio botón en la fila de `aviso_inicio`.
 
+**Sin página Sonido (v5.97, el usuario: «elimina la página de sonido»):** `SubtitleApp.PAGINAS` y `NUMERO_PAGINA` sin 'sfx' (Efectos = 03), `_build_ui` ya no llama a `_pagina_sfx`, el prearmado no la arma, la guía no tiene su paso e `ir_a('sfx')` no hace nada. GO sigue poniendo el sonido solo con los ajustes guardados; `_pagina_sfx`, `_asegurar_sfx` y `sonido_skill_ui` quedan sin usar (no se borraron).
+
 ## fondo-animado — Fondo animado y entrada de tarjetas
 
 **Qué:** Fondo animado, entrada de tarjetas
@@ -94,6 +96,8 @@
 - **Módulos con el `QColor` de Qt** (el traductor no los toca): `sonido_skill_ui` pasa al `QColor` del tema (sus azules eran tarjetas y tiras de Sonido); el fondo de su línea de tiempo pasa por `ui.traducir_hoja`. En `efectos_pro_ui` solo los chips «Personaliza» usan `ui.tc` (el color elegido por el usuario se pinta tal cual) y en `pro_lateral_ui` los verdes usan `ui.VERDE` / `ui.tc`.
 - **Cielos:** `estilos_inicio._negro()` / `_cielo_negro` ponen en negro neutro los degradados de las 3 escenas (Astrolabio: también velos y vía láctea; Nebulosa conserva sus nubes de color; Proceso: la rejilla en gris). `proyecto_ui._PALETAS_CIELO` / `_paleta_cielo` lo hacen con el cielo de Proyecto. Las piezas de cristal (`ChipGo`, `BarraTema`, el velo de Inicio) usan colores de la casa con el `QColor` del tema.
 - **Probado sin pantalla** con capturas de Inicio, Proyecto, Creativo, Sonido, Efectos, Ajustes y los controles, en Negro y en Azul. Queda verde a propósito la gema del astrolabio (dibujo del orbe).
+
+**Ajustes más cortos (v5.97, pedidos «elimina esto»):** sin la fila «Motor de voz» en General (se arma oculta: `_pintar_motor` la lee; GO usa Qwen3-ASR y cae solo a Whisper), sin la sección «Herramientas» de Ayuda (Diagnóstico y Reinstalar scripts: los scripts se reponen al abrir y con `_dialogo_scripts_no_instalados`) y sin la pestaña «Atajos» (`PESTANAS` = general, interfaz, tutoriales, ayuda; los atajos siguen). Los avisos que mandaban a «Reparar el motor» o «Reinstalar scripts» (salud.REPARAR_MOTOR, motor_voz, ia_texto, registro_ayuda, colocacion, resolve_bridge) dicen ahora «vuelve a ejecutar el instalador» o «cierra y abre CineCaptions»; textos nuevos traducidos. Tutoriales sin el de Sonido; los videos de Ajustes y Ayuda aún enseñan lo quitado (regrabar).
 
 ## isla-nav — Isla de navegación y controles de ventana
 

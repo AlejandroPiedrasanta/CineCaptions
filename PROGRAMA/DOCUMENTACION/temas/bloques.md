@@ -24,6 +24,8 @@
 
 **Dónde:** `dynamic_subtitles.py` · `COLGANTES`, `es_colgante`, `EVITAR_COLGANTES` (se recorta la cola del complemento en `grupos_estrictos`; esas palabras abren el bloque siguiente)
 
+**Agrupaciones armónicas (v5.97, el usuario: «pule más los estilos, que sean agrupaciones más armoniosas, excepto el Estilo 3»):** `tipo_planificador.trozos_armonicos` elige la partición de cada frase de menor coste (programación dinámica): cortar tras un colgante («de, la, en, es, que, no…») +6, antes de una letra o cifra pegada («veinte C») +8, en signo −2/−3, en pausa ≥ 0,30 s −2, antes de «que, y, pero…» −0,6; trozo de una palabra +3 y desparejo 0,3 × (tamaño − 3,5)². Lo usan los Estilos 5, 8, 9 y 4 (pila, ideal 4,5). `pegar_sueltas` une «veinte C» en una palabra (Estilos 2, 4, 5, 6, 8, 9). Estilos 2 y 6: `guion_planificador._sin_colgar` (antes de `_reglas_lineas`) y «no/ni/nunca» en `tema4_planificador.COLGANTES`. Estilo 7 (pedido «sí, púlelo»): `linea_planificador.ROJO['armonico']` → `_lineas_armonicas` (el mismo coste, ideal = 3 palabras, con el tope de ancho y de 1,6 s) + `pegar_sueltas`; colgando 18,4 % → 6,8 %; el Estilo 3 (LINEA) da los mismos cues byte a byte. NO tocados: el 3 (`viral_planificador`, `G._partir`/`frases` y el perfil LINEA) ni el 1 (`kinetic_planificador`: pegar la «C» corría el patrón de líneas de los bloques siguientes y salían peor). Medido con 4 videos reales (scratchpad `grupos/medir.py`): bloques que acaban colgando 5,1 % → 0,7 % (5, 8, 9); «veinte / C» y «caso no | está» desaparecen; `evaluar` del Estilo 2 igual (12/13 grandes, 9/15 cortes); el 3 y el 7 dan los mismos textos que antes.
+
 ## nota — ESTRUCTURA POR PAUSAS
 
 3b) ESTRUCTURA POR PAUSAS (v5.5)

@@ -292,6 +292,8 @@ el `estilo` de cada cue la del video (`acento_de_video`, en caché por ruta y fe
 
 **Pruebas:** banco (`probar_viral.colocar_y_render`) y GO real sin pantalla en un proyecto temporal NUEVO por GO: dos GO seguidos en el mismo temporal tumbaron Resolve 21.2 al cambiar de página (como en la 5.75).
 
+**Velocidad del dibujo (v5.97):** `tipo_vista.dibujar` calcula el bisel y la sombra solo en el recorte de la tinta (margen 4 × difuminado + 8 px + la bajada de la sombra) y lo pega en el cuadro: idéntico píxel a píxel (52 estados en vertical y horizontal) y de 4,5 a 10 veces más rápido; preparar Premiere con el Estilo 5 pasó de 28 s a 4 s (también la vista y «Video sin editores»).
+
 ## zona-segura — Zona segura del reel: ningún caption bajo la interfaz de TikTok / Reels / Shorts (v5.76)
 
 **Qué:** el usuario (con la captura de un reel): «APLICA ZONA SEGURA PARA TODOS LOS ESTILOS Y AL CREAR ESTILO, PARA QUE CUANDO SE CREE RESPETE ESAS ZONAS». En un 9:16 la interfaz tapa arriba la barra de estado y la de búsqueda, a la derecha la columna de iconos y abajo el nombre, la descripción, la música y los comentarios. Eligió la propuesta A (ejemplos con el video de autos y la interfaz encima): zona CENTRADA, 13 % libre arriba, 25 % abajo y 16 % a cada lado; los captions siguen centrados (como el Estilo 2, que va siempre en el centro) y los anchos se achican o se parten. «No tienes que mostrar la zona segura: es solo referencia para los estilos»: no se dibuja en ninguna pantalla (tampoco en la previa de «Crea tu estilo»). Solo en vertical; en horizontal todo sigue como antes.

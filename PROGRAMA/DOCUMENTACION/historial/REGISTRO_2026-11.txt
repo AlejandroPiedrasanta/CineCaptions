@@ -1,5 +1,223 @@
 REGISTRO DE CAMBIOS ARCHIVADO · 2026-11 (la entrada más nueva arriba)
 
+2026-11-13 18:34  ·  v5.88  ·  (automático)
+    modificados (22):
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/telemetria_errores.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      … y 10 más
+
+2026-11-13 17:09  ·  v5.87  ·  cambio explicado
+    v5.88: la versión Intel con Rosetta en una Mac con chip de Apple se actualiza a la de Apple Silicon (sysctl.proc_translated); prueba de telemetría con margen en equipos lentos (Windows 11 ARM emulado).
+    modificados (15):
+      ~ 1_codigo/actualizaciones.py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/resolve_bridge.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/locales/ru.json
+      … y 3 más
+
+2026-11-13 16:30  ·  v5.87  ·  cambio explicado
+    v5.88 (prueba de equipos): instalador de Windows avisa en equipos no compatibles (7/8, 32 bits, Windows 10 ARM); rutas de más de 260 sin LongPathsEnabled (nombre recortado o aviso claro); carpeta Videos real con OneDrive; Lua de Free lee rutas con tildes (bmd.readfile, medido en 21.2); Mac sin avisos de permisos de Escritorio/Descargas; verificación en GitHub con Windows 2022/2025/11 ARM y macOS 14/15/26 + formatos de video.
+    modificados (35):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/archivos_seguros.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/herramientas_dev/verificar_mac.py
+      ~ 1_codigo/kit_neon_mp4.py
+      ~ 1_codigo/premiere.py
+      ~ 1_codigo/premiere_textos.py
+      ~ 1_codigo/render_sin_resolve.py
+      ~ 1_codigo/sonido_skill.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      … y 23 más
+
+2026-11-13 15:34  ·  v5.87  ·  cambio explicado
+    v5.88: ejemplos de los estilos a 1080x1920 (GO real en Resolve con timeline 2160x3840; 4K en MEDIOS/06_Ejemplos_4K), deslizador con una tarjeta por gesto del trackpad, tipografías de los estilos incluidas y auto-instaladas al abrir (Poppins ExtraBold/Light faltaban: «Faltan 2 tipografías» en Mac).
+    nuevos (2):
+      + 2_recursos/fonts/Poppins-ExtraBold.ttf
+      + 2_recursos/fonts/Poppins-Light.ttf
+    modificados (53):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/estilos_slider.py
+      ~ 1_codigo/hacer_vista_slider.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/tareas_instalador.py
+      ~ 1_codigo/vigilancia.py
+      ~ 2_recursos/fonts/LICENCIAS.txt
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      … y 41 más
+
+2026-11-13 11:53  ·  v5.87  ·  (automático)
+    modificados (31):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/locales/ru.json
+      ~ 2_recursos/locales/zh.json
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      … y 19 más
+
+2026-11-13 11:31  ·  v5.86  ·  cambio explicado
+    Actualizaciones con el programa CERRADO (pedido: «que notifiquen si sale una versión nueva aunque esté cerrado, que auto lo descargue y se instalen tanto en Mac como en Windows»; Mac «sin contraseña»): actualizar_fondo.py (--tarea actualizar_fondo). Windows: tarea programada del usuario cada 4 h, sin administrador, instalador en silencio. Mac: servicio del sistema de root (LaunchDaemon del .pkg) que instala el .pkg sin contraseña, al encender, cada 4 h y al momento con un pedido del programa; carpetas de root y descarga en carpeta solo de root. Con el programa abierto: se descarga sola y se instala sin ventanas al cerrarlo. Notificación del sistema en los dos.
+    nuevos (1):
+      + 1_codigo/actualizar_fondo.py
+    modificados (16):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/actualizaciones.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/tareas_instalador.py
+      ~ 1_codigo/vigilancia.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      … y 4 más
+
+2026-11-13 11:14  ·  v5.86  ·  cambio explicado
+    Verificación en Macs de verdad (pedido: «verifica que no haya errores en Mac y que funcionen todas las opciones»): herramientas_dev/verificar_mac.py (simulador, todas las ventanas, cada opción encendida y apagada, GO sin editores y con Premiere simulado —premiere_falso.js— en los 9 estilos) y .github/workflows/verificar_mac.yml (compila como el instalador, corre lo anterior y prueba la actualización de Mac: .pkg del .dmg, instalar y que se vuelva a abrir), lanzado con una rama temporal del espejo. En Apple Silicon e Intel: compilación y autoprueba OK, 14 ventanas, opciones, 19 GO y la actualización bien. Arreglado el simulador: casos que simulan Windows se saltan en Mac y _casa_falsa dejaba Path.home = None en Python 3.13.
+    modificados (3):
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/herramientas_dev/verificar_mac.py
+      ~ 4_diseno/instalador_mac/fondo_dmg.html
+
+2026-11-13 10:16  ·  v5.86  ·  cambio explicado
+    Previsiones (pedido: «previene más errores o situaciones reales de futuros problemas y resuélvelos»): 1) quien actualiza desde la 5.86 en Mac (o instala el .pkg a mano) tenía la versión vieja abierta mientras se reemplazaba: el postinstall la cierra con SIGTERM y al terminar abre la nueva, y el programa con SIGTERM cierra la ventana como el botón (guarda). 2) El instalador descargado (hasta 1,2 GB) ya no se queda en la carpeta temporal: al abrir se quita lo de más de una hora. 3) La Mac no empieza a instalar sola el motor Qwen con menos de 12 GB libres (lo dice y lo reintenta mañana). 4) Con «Video sin editores» y Resolve conectado, la línea de Inicio dice cómo volver a usar el timeline (informe de un cliente).
+    nuevos (1):
+      + 1_codigo/herramientas_dev/verificar_mac.py
+    modificados (15):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/actualizaciones.py
+      ~ 1_codigo/herramientas_dev/premiere_falso.js
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/vigilancia.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      … y 3 más
+
+2026-11-13 10:08  ·  v5.86  ·  cambio explicado
+    Mac (pedidos del usuario: «al actualizar no se abre solo, tengo que cerrarlo y volverlo a abrir» y «el instalador hazlo más intuitivo, se verá mejor»): la actualización en la Mac ya no abre el .dmg para que se instale a mano con el programa abierto; saca el .pkg, el programa se cierra y un script aparte lo instala con la contraseña de macOS y vuelve a abrir CineCaptions (probado en una Mac de GitHub con el .dmg publicado de la 5.86: «The install was successful» y se volvió a abrir solo). Y el .dmg trae una ventana con fondo claro de la marca, los dos pasos (Instalar CineCaptions → Aplicaciones) y los consejos del antiguo LEEME, armada con dmgbuild.
+    nuevos (1):
+      + 1_codigo/herramientas_dev/premiere_falso.js
+
+2026-11-13 10:01  ·  v5.86  ·  cambio explicado
+    Premiere pulido (pedido: «hay problemas visuales, pule más la comunicación con Premiere y que funcione en Mac»): el interruptor de Ajustes pintaba un neón que salía recortado en una caja oscura y la pista caía en medio píxel a 150 %: ahora limpio y en píxeles enteros. En Premiere cada texto e imagen entra con la animación de su estilo (fotogramas clave sacados de la vista animada de Creativo) en vez de un fundido; el texto que importMGT dejaba en el segundo 0 se recoloca (era el «DE» que faltaba en el Estilo 3); Premiere en su pantalla de inicio recibe el proyecto en 9 s en vez de fallar a los 4 min; si Premiere se cierra a mitad GO lo dice en segundos; panel viejo avisado; una letra registrada pero no cargada en Windows (Instrument Serif, Estilo 6: Premiere la cambiaba en silencio y las palabras se montaban) se carga antes de abrir Premiere o, con Premiere abierto, va Arial del mismo ancho. Mac: la plantilla de texto la busca el propio panel (Folder.appPackage) y la recuerda el latido. Probado en el Premiere real con los 9 estilos y en simular_equipos (12 casos Premiere).
+    nuevos (1):
+      + 4_diseno/instalador_mac/fondo_dmg.html
+    modificados (17):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/actualizaciones.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/premiere.py
+      ~ 1_codigo/premiere_textos.py
+      ~ 1_codigo/qt_kit.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      … y 5 más
+    quitados (1):
+      - 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/chrome_debug.log
+
+2026-11-13 09:25  ·  v5.86  ·  cambio explicado
+    Mac sin estilos (cliente con la 5.86: «sigue sin verse los estilos… solo dice no hay plantilla de básicos»): unas preferencias sin «modo» abrían en el modo de subtítulos básicos, que no trae plantillas y cuyo selector está oculto, y al guardar quedaba así para siempre: la página Estilo no enseñaba ningún estilo. Ahora modo_al_abrir abre siempre en el dinámico (salvo «destacados»), y la autoprueba crítica «Estilos de fábrica» corta la compilación si el programa compilado no carga los 9 estilos.
+    modificados (4):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/tareas_instalador.py
+      ~ 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/chrome_debug.log
+    quitados (1):
+      - 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/debug.log
+
+2026-11-13 00:48  ·  v5.86  ·  (automático)
+    modificados (34):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/ia_texto.py
+      ~ 1_codigo/motor_voz.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      … y 22 más
+
+2026-11-12 23:58  ·  v5.85  ·  cambio explicado
+    Mac con todos los estilos y funciones (pedido: «en Mac aún no están todos los estilos y funciones»). El .app ya llevaba los mismos recursos y estilos; faltaban dos motores. 1) Recorte de persona («detrás de ti», persona delante de la PRO, cara de la placa del Kinetic, posiciones PRO): el Mac lo apagaba por no estar probado; ahora corre dentro del programa con CoreML solo si su primer alfa es igual al de la CPU (≤ 2/255; medido 0,04/255 en Apple Silicon y 0,01/255 en Intel en Macs de GitHub). 2) Motor de voz e IA Qwen3 en Mac con Apple Silicon: Python portátil de python-build-standalone (sha256 fijo), torch 2.15 de PyPI con «mps», modelos según la memoria unificada (Gemma entera pide 17 GB); lo instala el programa solo al abrir y en segundo plano (el .pkg no puede esperar los GB), con reintento a las 24 h si falla; Ajustes enseña el avance. En las Mac Intel no hay PyTorch nuevo: Whisper y reglas.
+    modificados (21):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/edicion_pro_persona.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/motor_compat.py
+      ~ 1_codigo/motor_voz.py
+      ~ 1_codigo/salud.py
+      ~ 1_codigo/tareas_instalador.py
+      ~ 1_codigo/vigilancia.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      … y 9 más
+
+2026-11-12 20:36  ·  v5.85  ·  (automático)
+    modificados (32):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/locales/ru.json
+      ~ 2_recursos/locales/zh.json
+      ~ 2_recursos/premiere/com.cinecaptions.premiere/jsx/colocar.jsx
+      … y 20 más
+
+
+(Lo anterior está archivado por mes en DOCUMENTACION/historial/REGISTRO_<aaaa-mm>.txt)
 2026-11-12 17:14  ·  v5.84  ·  cambio explicado
     GO con Premiere cerrado: Premiere 26 arranca en su pantalla de inicio y el panel CEP no carga sin proyecto (GO esperaba 240 s y fallaba). premiere.colocar escribe antes «<video> (CineCaptions).prproj» desde 2_recursos/premiere/proyecto_vacio.xml (generado: solo ajustes, GUID nuevo) y abre Premiere con él; el panel (CC.propio) lo guarda al terminar. Real: 12 s. Versión de proyecto 1 no sirve en 26: queda 45.
     modificados (11):
