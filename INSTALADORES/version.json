@@ -1,29 +1,29 @@
 {
   "estable": {
-    "version": "5.97.0",
-    "notas": "• Estilo: botones «Usar» y «Modo PRO» más claros. El Modo PRO es de cada estilo, se ve si está apagado y con un clic se enciende y te lleva a Efectos.\r\n• Subtítulos mejor agrupados en los estilos 2, 4, 5, 6, 7, 8 y 9: las frases se cortan donde suena natural, sin «de» o «en» colgando al final ni letras sueltas.\r\n• Premiere Pro: los estilos salen igual que en DaVinci Resolve: con su brillo y su halo, la palabra que se dice en rojo en el Estilo 7 y los colores sin aclararse.\r\n• Más rápido: el Estilo 5 se prepara hasta 7 veces más rápido para Premiere Pro y para «Video sin editores».\r\n• Interfaz más simple: sin la página Sonido (GO pone los sonidos solo), sin «Motor de voz», «Herramientas» ni «Atajos» en Ajustes.\r\n• El motor de voz se revisa y se repara solo si algo falla, sin que tengas que hacer nada.\r\n• Efectos solo aparece y se aplica cuando activas la Edición PRO.",
+    "version": "5.98.0",
+    "notas": "• Nueva ventana de permisos: tras instalar o actualizar te dice qué necesita CineCaptions en tu Mac o tu PC y te lleva a activarlo. Si ya está todo, no vuelve a salir.\r\n• Arreglado: tras actualizar ya no sale «Falla al iniciar: Motor de IA» por las librerías nuevas; se ponen al día solas.",
     "fecha": "2026-11-19",
     "archivos": {
       "windows": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.97/Instalar_CineCaptions_5.97.exe",
-        "sha256": "71957ffd8bf1d9102b64df69ff492d12cef3c5215f20e0f6674bc5227da95233",
-        "tam": 771430487
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.98/Instalar_CineCaptions_5.98.exe",
+        "sha256": "bf1e7da1e5500f8a3e4f264ad9fbd3164232c492608b5b5d26fcad733959ad9b",
+        "tam": 771457804
       },
       "mac_arm64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.97/CineCaptions_Mac_AppleSilicon_5.97.dmg",
-        "sha256": "7b623c9d7061d844d0ebc89e04a70f8ae8a805573f7bd686114bac2a51a4f8ab",
-        "tam": 751259284
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.98/CineCaptions_Mac_AppleSilicon_5.98.dmg",
+        "sha256": "325cff53cfffb8d86d2a1f53fb00894499c77cf9989702d67a289978f1cdc853",
+        "tam": 751315564
       },
       "mac_x86_64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.97/CineCaptions_Mac_Intel_5.97.dmg",
-        "sha256": "00280e2b47b012a842e52de0a0883e3230d69e89e4efdc0c431f5f75552b80c7",
-        "tam": 774467482
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.98/CineCaptions_Mac_Intel_5.98.dmg",
+        "sha256": "41a2f57d2f9332bd7169dd19dc2ad4b5c453ad95afbf3711fe30af00be422ec3",
+        "tam": 774387864
       }
     }
   },
   "firma": {
     "alg": "ed25519",
     "clave": "7a4e413e",
-    "valor": "kXURoztsrpE7KIDrm6DLSLf5rNd/DN/588UtRCWenbj69uAUysyoqOciacBhzK4efuK+PypjicvNc2SZ8hAwAA=="
+    "valor": "kNmi70S1xrf5m4d9hWrXoJPhYHnFO2Faa5b1+yibLkJMqzBwSXHa30YEyVScXZW+vqkHo0H/QSogvI70+mPjDw=="
   }
 }
