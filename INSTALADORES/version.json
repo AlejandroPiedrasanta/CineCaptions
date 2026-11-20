@@ -1,29 +1,29 @@
 {
   "estable": {
-    "version": "5.99.0",
-    "notas": "Nueva página Efectos con la línea de tiempo de tu video, permisos obligatorios y la interfaz más pulida",
+    "version": "6.00.0",
+    "notas": "Más rápido en Mac y Windows, cambios de página sin destello y GO más legible en Inicio",
     "fecha": "2026-11-20",
     "archivos": {
       "windows": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.99/Instalar_CineCaptions_5.99.exe",
-        "sha256": "27e09de50de8ffa87f3fdebce2cd958f1bcc10c4b6e94dc6c4380e47ea5896f8",
-        "tam": 771477769
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v6.00/Instalar_CineCaptions_6.00.exe",
+        "sha256": "f3ee2be6d42fbbeb4ba5f99a6e086a9e0bcd8634fbccc7ab82abc7a2dd1fa982",
+        "tam": 771486274
       },
       "mac_arm64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.99/CineCaptions_Mac_AppleSilicon_5.99.dmg",
-        "sha256": "8f8d679144e8187567562e8a578864e99b04840ed0490a0cca77ef258db9bd59",
-        "tam": 751208264
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v6.00/CineCaptions_Mac_AppleSilicon_6.00.dmg",
+        "sha256": "7b0a692438a03efaa2e0ef360905cabda79d2ba87b48a38f04e79bd5455aed49",
+        "tam": 751369751
       },
       "mac_x86_64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v5.99/CineCaptions_Mac_Intel_5.99.dmg",
-        "sha256": "14c4925bffa0a51669f377742b8a8e38b1802370f38bc0cf0c5ef7789ec28c46",
-        "tam": 774755442
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v6.00/CineCaptions_Mac_Intel_6.00.dmg",
+        "sha256": "f787ccd611bd1498fb8ece3816b0a33a6fa571708ea29a5ad1c45b0983c3daa6",
+        "tam": 774825431
       }
     }
   },
   "firma": {
     "alg": "ed25519",
     "clave": "7a4e413e",
-    "valor": "ohVvo9LTd7BH1KB8l8JJvH+6cYy0o+bBvmIrbkR4OLK4/D7XI7b9NYYdNriV7HW3QvJvnA/CEnRq+gbgS7oJCQ=="
+    "valor": "vxBOMC12iOMiz97aTa8JHmzui0A6aY6b9cuoU8+ue7bR15MdGLPJU6jD1zcd7R4SW0BiBtyP5Oi9iDoCdY6qAw=="
   }
 }
