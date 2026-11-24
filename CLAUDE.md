@@ -1,6 +1,6 @@
 # CineCaptions — leer SOLO esto; lo demás se consulta por demanda
 
-App PySide6 (v5.97, Python 3.15.2) que subtitula vídeos con IA local y los coloca en DaVinci Resolve (Free y Studio, Windows y Mac).
+App PySide6 (v6.01, Python 3.15.2) que subtitula vídeos con IA local y los coloca en DaVinci Resolve (Free y Studio, Windows y Mac).
 **La raíz solo enseña 2 carpetas (2026-11-19: borradas `5_SFX` y `MEDIOS`, pedido del usuario; los sonidos que usa el programa están en `2_recursos/biblioteca_sonido`) (2026-11-16, pedido del usuario): `PROGRAMA/` (todo el programa) e `INSTALADORES/{Windows,Mac}`.** Las rutas de este archivo son DENTRO de `PROGRAMA/` (los scripts y el MCP corren desde ahí). En la raíz quedan ocultos CLAUDE.md, .git, .github, .claude, .gitignore y .mcp.json.
 Carpetas (en `PROGRAMA/`): `1_codigo` programa · `2_recursos` lo que viaja en el .exe · `3_compilar` · `4_diseno` · `6_compilacion` (temporal, no tocar; su Python base vive dentro: si se mueve, corregir `venv315/pyvenv.cfg`) · `7_mac` · `DOCUMENTACION` · `WEB CINECAPTIONS` (la web, su propio Git) · `Actualizar_Windows.ps1`, `Actualizar_Mac.ps1`, `Publicar_Version.ps1`. Cada carpeta lleva su icono negro (`.cf/icono.ico` + `desktop.ini`).
 «Estilo N» de la interfaz (antes «Tema N»; en el código siguen siendo temas) → `id`: 1 `kinetic-planificador` · 2 `guion-planificador` · 3 `viral-planificador` · 4 `tema4` · 5 `tema5` · 6 `tema6` · 7 `tema7` · 8 `tema8` · 9 `tema9`.

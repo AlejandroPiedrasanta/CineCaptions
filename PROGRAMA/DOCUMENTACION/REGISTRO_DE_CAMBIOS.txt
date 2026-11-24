@@ -12,6 +12,29 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-24 01:44  ·  v6.02  ·  (automático)
+    modificados (30):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/edicion_pro/remotion/bundle/1845.bundle.js.map
+      ~ 2_recursos/edicion_pro/remotion/bundle/2063.bundle.js.map
+      ~ 2_recursos/edicion_pro/remotion/bundle/304.bundle.js.map
+      ~ 2_recursos/edicion_pro/remotion/bundle/4226.bundle.js.map
+      ~ 2_recursos/edicion_pro/remotion/bundle/4892.bundle.js.map
+      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js
+      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js.map
+      ~ 2_recursos/edicion_pro/remotion/bundle/index.html
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      … y 18 más
+
+2026-11-24 01:16  ·  v6.01  ·  cambio explicado
+    v6.02 armado más rápido: la detección de personas de la PRO (4-7 s de arranque del motor + ~50 ms c/u, en serie tras los captions) se precalienta en un hilo mientras Resolve coloca los captions (edicion_pro.precalentar; caché por fotograma, segura entre hilos): PRO tras captions 9,7-12,1 s -> 0,4-0,8 s. Puente: _encolar despierta por aviso de carpeta (144 -> 37 ms por trabajo).
+    modificados (3):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/resolve_bridge.py
+
 2026-11-20 13:30  ·  v6.01  ·  (automático)
     modificados (31):
       ~ 1_codigo/ajustes_ui.py
