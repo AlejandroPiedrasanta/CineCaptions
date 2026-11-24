@@ -12,6 +12,13 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-24 17:27  ·  v6.02  ·  cambio explicado
+    v6.02 GO de un clic medido (Resolve cerrado al pulsar): 4 min 17 s, de ellos 3 min 10 s la IA de titulares de la PRO, que volvía a correr Gemma 4 con las palabras ya corregidas mientras Resolve se abría en la misma GPU; ahora reutiliza los pesos de GO (marcar_todo -> planificar(pesos=...)).
+    modificados (3):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/ia_texto.py
+
 2026-11-24 06:53  ·  v6.02  ·  cambio explicado
     v6.02 GO real medido: la PRO llamaba a PE.personas sin caché en el centro de cada gráfico (54 s pese a precalentar): ahora _personas y esos centros se adelantan. simular_equipos ya no escribe en el cinecaptions.log real (casos 9.99 y panel de Premiere dejaban líneas falsas). Pruebas en Resolve paradas: otra sesión de Claude armaba eventos en el mismo Resolve.
     modificados (2):
