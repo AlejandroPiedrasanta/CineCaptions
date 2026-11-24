@@ -1,5 +1,262 @@
 REGISTRO DE CAMBIOS ARCHIVADO · 2026-11 (la entrada más nueva arriba)
 
+2026-11-17 02:03  ·  v5.93  ·  cambio explicado
+    5.93: página Efectos en tres columnas (barra «Lo que GO añade» con iconos y animaciones de Higgsfield, la sección abierta en rejilla 3×3 con «Personaliza» y la vista previa grande con «Usar …»): el usuario eligió esta propuesta real entre cinco («SOLO ESTA APLICA»). Secciones ocultas en un QVBoxLayout porque QStackedLayout.heightForWidth toma la más alta; «Más efectos» sin fila porque estaba vacío desde la 5.20.
+    nuevos (25):
+      + 1_codigo/efectos_panel_ui.py
+      + 2_recursos/efectos/iconos_ui/b_color_luz.png
+      + 2_recursos/efectos/iconos_ui/b_otra_vez.png
+      + 2_recursos/efectos/iconos_ui/b_segundo_color.png
+      + 2_recursos/efectos/iconos_ui/b_sonido.png
+      + 2_recursos/efectos/iconos_ui/b_usar.png
+      + 2_recursos/efectos/iconos_ui/b_zoom.png
+      + 2_recursos/efectos/iconos_ui/broll.gif
+      + 2_recursos/efectos/iconos_ui/broll.png
+      + 2_recursos/efectos/iconos_ui/detras.gif
+      + 2_recursos/efectos/iconos_ui/detras.png
+      + 2_recursos/efectos/iconos_ui/emoji.gif
+      … y 13 más
+    modificados (14):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/efectos_pagina.py
+      ~ 1_codigo/efectos_pro_ui.py
+      ~ 1_codigo/herramientas_dev/hacer_videos_tutorial.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/locales/ru.json
+      … y 2 más
+
+2026-11-17 00:20  ·  v5.93  ·  cambio explicado
+    Mac: la actualización bajaba lenta porque el servicio la descargaba como proceso de fondo cuando la encontraba solo (red y disco frenados por macOS) aunque enseñara la tarjeta con el porcentaje; ahora siempre quita el freno antes de bajar. GitHub da el .dmg a ~25 MB/s con una conexión (medido). verificar_mac.py gana la parte «oido» para comprobar en Macs reales el sonido nuevo y fotografiar la página.
+    modificados (2):
+      ~ 1_codigo/actualizar_fondo.py
+      ~ 1_codigo/herramientas_dev/verificar_mac.py
+
+2026-11-17 00:08  ·  v5.93  ·  (automático)
+    modificados (31):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/locales/ru.json
+      ~ 2_recursos/locales/zh.json
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      … y 19 más
+
+2026-11-17 00:05  ·  v5.92  ·  cambio explicado
+    Página Sonido con el «Oído» (v5.93): el usuario eligió la propuesta C entre 3 renderizadas sobre la página real. El inspector es el Oído: Para revisar (4 acciones, tocar = arreglar), Cuadro a cuadro (la onda real frente al primer cuadro de la animación) y un sello con volumen, pico y rango en frases simples. Tema 1 del Por qué pasa a Estilo 1 (regla: nunca tema en la UI).
+    modificados (12):
+      ~ 1_codigo/sonido_oido.py
+      ~ 1_codigo/sonido_skill_ui.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/locales/ru.json
+      ~ 2_recursos/locales/zh.json
+      ~ 3_compilar/traducciones_extra.json
+
+2026-11-16 23:47  ·  v5.92  ·  cambio explicado
+    Sonido «Oído» (v5.93, pedido del usuario: aplicar earshot a todos los estilos y a la página Sonido): solo las medidas de earshot, nunca sus sonidos sintetizados. Sincronía exacta por tipo (offsets medidos, sub-cuadro dentro del WAV), nivel de los SFX que sigue a la voz medida (resuelve el pendiente del nivel fijo; 0 dB en el video donde se afinó), ráfagas con acento en cinética/lista, música que baja 8 dB antes de los golpes, auditoría de la biblioteca y escuchar/arreglar la mezcla (veredicto y acciones). Página: 3 propuestas, falta que elija.
+    nuevos (1):
+      + 1_codigo/sonido_oido.py
+    modificados (2):
+      ~ 1_codigo/sonido_musica.py
+      ~ 1_codigo/sonido_skill.py
+
+2026-11-16 16:34  ·  v5.92  ·  (automático)
+    modificados (43):
+      ~ 1_codigo/actualizaciones.py
+      ~ 1_codigo/actualizar_fondo.py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/aviso_mac.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/edicion_pro/remotion/bundle/1845.bundle.js.map
+      ~ 2_recursos/edicion_pro/remotion/bundle/2063.bundle.js.map
+      ~ 2_recursos/edicion_pro/remotion/bundle/304.bundle.js.map
+      ~ 2_recursos/edicion_pro/remotion/bundle/4226.bundle.js.map
+      ~ 2_recursos/edicion_pro/remotion/bundle/4892.bundle.js.map
+      ~ 2_recursos/edicion_pro/remotion/bundle/bundle.js
+      … y 31 más
+
+2026-11-16 14:24  ·  v5.91  ·  cambio explicado
+    5.92 (2): ventana B del instalador de Mac (anillo = progreso, cuenta atrás sin saltos); paso 7 deja el motor de voz e IA bajándose aparte (--tarea motor_fondo; flock entre procesos en motor_voz); la app de root de 5.87-5.90 la cambia su servicio de root (sin contraseña no se puede ni apartar: medido); «Actualizar ahora» en la tarjeta reabre CineCaptions; el servicio del usuario ya no es de fondo (medido: copiar 1,2 GB con freno > 4 min) y _sin_freno lo quita a los plist viejos.
+    modificados (18):
+      ~ 1_codigo/actualizar_fondo.py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/aviso_mac.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/instalar_mac.py
+      ~ 1_codigo/motor_voz.py
+      ~ 1_codigo/tareas_instalador.py
+      ~ 1_codigo/vigilancia.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      … y 6 más
+
+2026-11-16 13:55  ·  v5.91  ·  cambio explicado
+    5.92: instalador de Mac como el de CineSlide (pedido del usuario). Instalar CineCaptions.app nativa (Swift, ventana al instante) + la app OCULTA en el disco (.CineCaptions.app, fuera del instalador para que macOS no verifique 1,4 GB antes de abrir la ventana; con App Translocation se busca en /Volumes). Pasos 3-6 en una sola pasada de la app (--tarea pasos_mac). La app de root de 5.87-5.90 se aparta sin contraseña y su servicio de root la borra. Las Mac con la 5.91 no encuentran la app visible: su tarjeta falla y hay que bajar el .dmg.
+    nuevos (1):
+      + 1_codigo/instalar_mac.py
+    modificados (16):
+      ~ 1_codigo/actualizaciones.py
+      ~ 1_codigo/actualizar_fondo.py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/tareas_instalador.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      … y 4 más
+
+2026-11-16 11:27  ·  v5.91  ·  cambio explicado
+    2026-11-16: la raíz de CineCaptions solo enseña PROGRAMA (todo el programa) e INSTALADORES, pedido del usuario. Las carpetas numeradas conservan su nombre dentro de PROGRAMA; scripts, .gitignore, .mcp.json, venv y mapa ajustados; acceso oculto 5_SFX en la raíz; iconos negros para PROGRAMA, MEDIOS y WEB.
+    modificados (2):
+      ~ 1_codigo/mapa_codigo.py
+      ~ 3_compilar/Construir_Instalador.ps1
+
+2026-11-16 08:49  ·  v5.91  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-11-14 02:01  ·  v5.90  ·  cambio explicado
+    v5.91: actualizar sin esperas. Windows mantiene la ventana de Actualizar hasta ver la del instalador (Windows lo revisa antes de abrirlo); en Mac la app se reemplaza a la vista y se reabre (sin esperar al servicio); el .dmg en LZFSE abre y copia 5-10 veces más rápido que lzma (medido en Macs de GitHub).
+    modificados (17):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/actualizaciones.py
+      ~ 1_codigo/actualizar_fondo.py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/aviso_mac.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/tareas_instalador.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      … y 5 más
+
+2026-11-14 00:34  ·  v5.90  ·  cambio explicado
+    v5.91 Mac: instalar con un .pkg en /Applications siempre pide contraseña; el usuario pidió quitarla y eligió arrastrar a Aplicaciones (propuesta C). El disco trae la app + Aplicaciones + un paquete oculto sin la app para los servicios de root de 5.87-5.90; el programa crea al abrirse su servicio de actualizaciones del usuario (LaunchAgent) y se actualiza reemplazando la app. Disco en APFS: HFS+ cambia los nombres con tildes y rompe la firma (medido).
+    nuevos (1):
+      + 2_recursos/edicion_pro/remotion/runtime/chrome/chrome-headless-shell-win64/chrome_debug.log
+    modificados (19):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/actualizaciones.py
+      ~ 1_codigo/actualizar_fondo.py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/aviso_mac.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/tareas_instalador.py
+      ~ 1_codigo/vigilancia.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      … y 7 más
+
+2026-11-13 22:45  ·  v5.90  ·  (automático)
+    modificados (24):
+      ~ 1_codigo/actualizaciones.py
+      ~ 1_codigo/actualizar_fondo.py
+      ~ 1_codigo/aviso_mac.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      … y 12 más
+
+2026-11-13 22:02  ·  v5.89  ·  cambio explicado
+    v5.90 Mac: la notificación de osascript no sale en pantalla (medido en Macs de GitHub con la 5.88 publicada; el servicio sí instalaba). El aviso con el programa cerrado es la tarjeta de CineCaptions (aviso_mac) que abre el servicio en la sesión del usuario: pregunta Más tarde / Actualizar ahora (sin respuesta se instala en 2 min), enseña la instalación y el final; el servicio mira cada hora; el Dock rebota con versión nueva.
+    nuevos (1):
+      + 1_codigo/aviso_mac.py
+    modificados (15):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/actualizar_fondo.py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/tareas_instalador.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      … y 3 más
+
+2026-11-13 20:00  ·  v5.89  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-11-13 19:45  ·  v5.88  ·  cambio explicado
+    v5.89: «Actualizar» enseña el avance de la descarga de fondo (antes 0 % hasta que acababa) y, en la Mac, cerrar con la descarga a medias la encarga al servicio del sistema.
+    modificados (13):
+      ~ 1_codigo/CineCaptions (script principal).py
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 2_recursos/locales/de.json
+      ~ 2_recursos/locales/en.json
+      ~ 2_recursos/locales/fr.json
+      ~ 2_recursos/locales/it.json
+      ~ 2_recursos/locales/ja.json
+      ~ 2_recursos/locales/ko.json
+      ~ 2_recursos/locales/pt.json
+      ~ 2_recursos/locales/ru.json
+      ~ 2_recursos/locales/zh.json
+      … y 1 más
+
+
+(Lo anterior está archivado por mes en DOCUMENTACION/historial/REGISTRO_<aaaa-mm>.txt)
 2026-11-13 18:34  ·  v5.88  ·  (automático)
     modificados (22):
       ~ 1_codigo/herramientas_dev/simular_equipos.py
