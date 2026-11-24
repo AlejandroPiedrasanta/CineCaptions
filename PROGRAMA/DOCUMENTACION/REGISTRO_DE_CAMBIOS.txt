@@ -12,6 +12,15 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-24 02:05  ·  v6.02  ·  cambio explicado
+    v6.02 instaladores: Windows 11 con esquinas/borde/sombra del sistema (DWM 33/20/34 + CS_DROPSHADOW; Win10 y Escritorio remoto con la Region), botones de título Fluent, lista de pasos que cabe (10 pasos salían cortados y tapaban la firma), estado y firma sin cortar, aviso del desinstalador en dos líneas; Mac con vidrio NSVisualEffectView. Revisión independiente aplicada: quitar pausas no precalienta, clave por fotograma con start_time, sin latido por tiempo.
+
+2026-11-24 01:46  ·  v6.02  ·  (automático)
+    modificados (3):
+      ~ 1_codigo/edicion_pro.py
+      ~ 1_codigo/resolve_bridge.py
+      ~ 3_compilar/Instalador.cs
+
 2026-11-24 01:44  ·  v6.02  ·  (automático)
     modificados (30):
       ~ 1_codigo/ajustes_ui.py
