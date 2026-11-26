@@ -6,24 +6,24 @@
     "archivos": {
       "windows": {
         "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v6.03/Instalar_CineCaptions_6.03.exe",
-        "sha256": "e65c9e1c92f34cc2938a93579580a96416633038495e54d85f16268989bb0e3f",
-        "tam": 771574769
+        "sha256": "05d3d3624a8ec846b84bc98a557a2355006b09748b7c9d22a591debaabb11973",
+        "tam": 771575831
       },
       "mac_arm64": {
         "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v6.03/CineCaptions_Mac_AppleSilicon_6.03.dmg",
-        "sha256": "884fd7a5ce6452517cefe5cc16c053892b580d36b408193f701b94e1b83fc49a",
-        "tam": 751146343
+        "sha256": "334edf2a0eca4c9fc10569b217d8bb4332015745ff544187ad91b5988f3e68fc",
+        "tam": 751541871
       },
       "mac_x86_64": {
         "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v6.03/CineCaptions_Mac_Intel_6.03.dmg",
-        "sha256": "cf501635cd32829e2f82f8516cb8de6f2b385ed1f77939c8ab882877c6c39b3f",
-        "tam": 774471994
+        "sha256": "6321b49ace06e81db6b916580c0c70d7c92b32cc976c0ba359cd1e649097b24e",
+        "tam": 774743953
       }
     }
   },
   "firma": {
     "alg": "ed25519",
     "clave": "984324e2",
-    "valor": "KI0jzjWTGUOWaKN0FLzof0d0NH5GpE8nj0jtd1b7d7s/dFSnvOamnrP/SaZ9UrT+6K8NsEEUtsY13D9wAofCBg=="
+    "valor": "lZOukv06X52vQR3Cr6Hsjw6EThYR4zjDKVEyh6eg7oDaIcajc7I5Bdhet7H3CAH+lCdP9uzJh9XhmcM9bmHOCA=="
   }
 }
