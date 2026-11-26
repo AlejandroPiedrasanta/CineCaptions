@@ -12,6 +12,11 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-25 22:11  ·  v6.03  ·  cambio explicado
+    6.03: claves de firma de actualizaciones NUEVAS (984324e2 principal, abcfab8f reserva). Las privadas anteriores se perdieron al reinstalar Windows el 2026-11-25 (vivian solo en ~/CineCaptions_claves, sin copia). Consecuencia: los programas hasta la 6.01 no aceptan el manifiesto nuevo y hay que instalar la 6.03 a mano una vez. Guardar la de reserva FUERA del PC (USB o nube).
+    modificados (1):
+      ~ 1_codigo/actualizaciones.py
+
 2026-11-25 18:18  ·  v6.03  ·  (automático)
     modificados (22):
       ~ 1_codigo/ajustes_ui.py

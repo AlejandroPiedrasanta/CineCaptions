@@ -1,29 +1,29 @@
 {
   "estable": {
-    "version": "6.01.0",
-    "notas": "• Mac con DaVinci Resolve Free: arreglado el fallo que impedía a GO abrir el Puente y traer el audio de tu timeline.\r\n• Mac: el Registro ya no muestra el aviso de la letra «Consolas».",
-    "fecha": "2026-11-20",
+    "version": "6.03.0",
+    "notas": "• Menos descarga: la instalación ya no baja la IA de texto Qwen3.5-4B (9 GB menos); Gemma 4 E4B sigue siendo la principal.\r\n• Instalar o actualizar borra del disco las IA que el programa ya no usa.\r\n• Al cerrar el programa, los motores de voz y de IA se apagan al instante y dejan libre la tarjeta gráfica.",
+    "fecha": "2026-11-25",
     "archivos": {
       "windows": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v6.01/Instalar_CineCaptions_6.01.exe",
-        "sha256": "c97776f6190f9f9be5ccf7975a1783ce645d1662e86eb73d21996e476d4c5b34",
-        "tam": 771488193
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v6.03/Instalar_CineCaptions_6.03.exe",
+        "sha256": "e65c9e1c92f34cc2938a93579580a96416633038495e54d85f16268989bb0e3f",
+        "tam": 771574769
       },
       "mac_arm64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v6.01/CineCaptions_Mac_AppleSilicon_6.01.dmg",
-        "sha256": "7c67a362210e5062f14fb649dfa0351e310e1ea44947271d66d78a62f4661cec",
-        "tam": 751508409
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v6.03/CineCaptions_Mac_AppleSilicon_6.03.dmg",
+        "sha256": "884fd7a5ce6452517cefe5cc16c053892b580d36b408193f701b94e1b83fc49a",
+        "tam": 751146343
       },
       "mac_x86_64": {
-        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v6.01/CineCaptions_Mac_Intel_6.01.dmg",
-        "sha256": "da7120c11a05aa2d4ffe44e29bca4a8d0208291c62cf4a218cdce05b575215ec",
-        "tam": 774857130
+        "url": "https://github.com/AlejandroPiedrasanta/CineCaptions-releases/releases/download/v6.03/CineCaptions_Mac_Intel_6.03.dmg",
+        "sha256": "cf501635cd32829e2f82f8516cb8de6f2b385ed1f77939c8ab882877c6c39b3f",
+        "tam": 774471994
       }
     }
   },
   "firma": {
     "alg": "ed25519",
-    "clave": "7a4e413e",
-    "valor": "SQR9SXSlrELnmtttAsx3aleBkb175d1uMzeC/KAy6wskAGPXWdyfyn9cQNaQYe6zgqrvYVsmCSiObaAdAD45Aw=="
+    "clave": "984324e2",
+    "valor": "KI0jzjWTGUOWaKN0FLzof0d0NH5GpE8nj0jtd1b7d7s/dFSnvOamnrP/SaZ9UrT+6K8NsEEUtsY13D9wAofCBg=="
   }
 }
