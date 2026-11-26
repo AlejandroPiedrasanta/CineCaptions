@@ -12,6 +12,68 @@ Aquí queda constancia de CADA cambio del programa. Lo más nuevo, arriba.
 
 === ENTRADAS (la más nueva arriba) ===
 
+2026-11-25 18:18  ·  v6.03  ·  (automático)
+    modificados (22):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      … y 10 más
+
+2026-11-25 18:14  ·  v6.3  ·  cambio explicado
+    Instalar o actualizar borra las IA viejas: motor_voz.limpiar_ia_viejas quita del disco Qwen3.5-4B, los modelos del motor 1.x y Qwen3-4B cuando ya están Gemma y la 1.7B. Corre al instalar el motor, en la tarea motor_ia del instalador y en el chequeo de cada arranque (las actualizaciones silenciosas van con /sinmodelo). Lo borrado se anota en el Registro.
+    modificados (3):
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/motor_voz.py
+      ~ 1_codigo/vigilancia.py
+
+2026-11-25 17:43  ·  v6.3  ·  (automático)
+    modificados (20):
+      ~ 1_codigo/version.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Detectar Video.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Importar Estilos.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Insertar SFX.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Marcadores.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - SFX Reemplazar.py
+      ~ 2_recursos/resolve_scripts/CineCaptions - Vista Real.py
+      ~ 2_recursos/resolve_scripts/CineCaptions.py
+      ~ 2_recursos/resolve_scripts/CineCaptions_ArmarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_DetectarVideo.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_EdicionPro.lua
+      ~ 2_recursos/resolve_scripts/CineCaptions_Efectos.lua
+      … y 8 más
+
+2026-11-25 17:37  ·  v6.02  ·  cambio explicado
+    Programa cerrado = ninguna IA en marcha: los motores de voz, texto y Whisper vigilan al programa (CINECAPTIONS_PADRE + vigilar_padre) y salen al instante si se cierra o se cae; antes seguían hasta terminar de cargar el modelo o de analizar. Qwen3.5-4B borrado también del equipo del usuario (9 GB).
+    modificados (7):
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/ia_texto.py
+      ~ 1_codigo/motor_compat.py
+      ~ 1_codigo/motor_voz.py
+      ~ 2_recursos/motor_compat/worker.py
+      ~ 2_recursos/motor_qwen/motor_qwen.py
+      ~ 2_recursos/motor_qwen/motor_texto.py
+
+2026-11-25 17:26  ·  v6.02  ·  cambio explicado
+    IA locales: fuera Qwen3.5-4B (9,4 GB). Era el respaldo de Gemma 4 E4B pero pedía más VRAM libre que ella, así que casi nunca entraba; el respaldo real es Qwen3-1.7B. Ya no se descarga y la tarea del instalador lo borra del disco (motor_voz.REPOS_VIEJOS). El instalador pasa de 4-40 GB a 4-30 GB. Quedan 4 modelos: Qwen3-ASR, ForcedAligner, Gemma 4 E4B y Qwen3-1.7B.
+    modificados (8):
+      ~ 1_codigo/ajustes_ui.py
+      ~ 1_codigo/herramientas_dev/simular_equipos.py
+      ~ 1_codigo/ia_texto.py
+      ~ 1_codigo/motor_voz.py
+      ~ 1_codigo/salud.py
+      ~ 1_codigo/tareas_instalador.py
+      ~ 2_recursos/motor_qwen/motor_texto.py
+      ~ 3_compilar/Instalador.cs
+
 2026-11-24 17:27  ·  v6.02  ·  cambio explicado
     v6.02 GO de un clic medido (Resolve cerrado al pulsar): 4 min 17 s, de ellos 3 min 10 s la IA de titulares de la PRO, que volvía a correr Gemma 4 con las palabras ya corregidas mientras Resolve se abría en la misma GPU; ahora reutiliza los pesos de GO (marcar_todo -> planificar(pesos=...)).
     modificados (3):
